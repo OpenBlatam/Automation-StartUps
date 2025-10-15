@@ -1,0 +1,31 @@
+product_id,product_name,competitor,price,currency,date_collected,source,additional_data
+product_001,Premium Software License,Competitor A,299.99,USD,2024-01-15,web_scraping,"{""scraped_from"": ""competitor_a_website""}"
+product_001,Premium Software License,Competitor B,349.99,USD,2024-01-15,web_scraping,"{""scraped_from"": ""competitor_b_website""}"
+product_001,Premium Software License,Competitor C,399.99,USD,2024-01-15,web_scraping,"{""scraped_from"": ""competitor_c_website""}"
+product_001,Premium Software License,Competitor D,449.99,USD,2024-01-15,web_scraping,"{""scraped_from"": ""competitor_d_website""}"
+product_002,Basic Software License,Competitor A,99.99,USD,2024-01-15,web_scraping,"{""scraped_from"": ""competitor_a_website""}"
+product_002,Basic Software License,Competitor B,129.99,USD,2024-01-15,web_scraping,"{""scraped_from"": ""competitor_b_website""}"
+product_002,Basic Software License,Competitor C,149.99,USD,2024-01-15,web_scraping,"{""scraped_from"": ""competitor_c_website""}"
+product_002,Basic Software License,Competitor D,119.99,USD,2024-01-15,web_scraping,"{""scraped_from"": ""competitor_d_website""}"
+product_003,Enterprise Software License,Competitor A,999.99,USD,2024-01-15,web_scraping,"{""scraped_from"": ""competitor_a_website""}"
+product_003,Enterprise Software License,Competitor B,1299.99,USD,2024-01-15,web_scraping,"{""scraped_from"": ""competitor_b_website""}"
+product_003,Enterprise Software License,Competitor C,1499.99,USD,2024-01-15,web_scraping,"{""scraped_from"": ""competitor_c_website""}"
+product_003,Enterprise Software License,Competitor D,1799.99,USD,2024-01-15,web_scraping,"{""scraped_from"": ""competitor_d_website""}"
+product_001,Premium Software License,Competitor A,289.99,USD,2024-01-14,web_scraping,"{""scraped_from"": ""competitor_a_website""}"
+product_001,Premium Software License,Competitor B,339.99,USD,2024-01-14,web_scraping,"{""scraped_from"": ""competitor_b_website""}"
+product_001,Premium Software License,Competitor C,389.99,USD,2024-01-14,web_scraping,"{""scraped_from"": ""competitor_c_website""}"
+product_001,Premium Software License,Competitor D,439.99,USD,2024-01-14,web_scraping,"{""scraped_from"": ""competitor_d_website""}"
+product_002,Basic Software License,Competitor A,94.99,USD,2024-01-14,web_scraping,"{""scraped_from"": ""competitor_a_website""}"
+product_002,Basic Software License,Competitor B,124.99,USD,2024-01-14,web_scraping,"{""scraped_from"": ""competitor_b_website""}"
+product_002,Basic Software License,Competitor C,144.99,USD,2024-01-14,web_scraping,"{""scraped_from"": ""competitor_c_website""}"
+product_002,Basic Software License,Competitor D,114.99,USD,2024-01-14,web_scraping,"{""scraped_from"": ""competitor_d_website""}"
+product_003,Enterprise Software License,Competitor A,989.99,USD,2024-01-14,web_scraping,"{""scraped_from"": ""competitor_a_website""}"
+product_003,Enterprise Software License,Competitor B,1289.99,USD,2024-01-14,web_scraping,"{""scraped_from"": ""competitor_b_website""}"
+product_003,Enterprise Software License,Competitor C,1489.99,USD,2024-01-14,web_scraping,"{""scraped_from"": ""competitor_c_website""}"
+product_003,Enterprise Software License,Competitor D,1789.99,USD,2024-01-14,web_scraping,"{""scraped_from"": ""competitor_d_website""}"
+
+
+
+
+
+

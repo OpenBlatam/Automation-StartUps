@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  launch-planning-api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=production
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/health', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  launch-planning-demo:
+    build: .
+    command: ["python", "ultimate_launch_demo.py"]
+    environment:
+      - ENVIRONMENT=demo
+      - LOG_LEVEL=DEBUG
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    depends_on:
+      - launch-planning-api
+    restart: "no"
+
+  launch-planning-dashboard:
+    build: .
+    command: ["python", "launch_planning_dashboard.py"]
+    ports:
+      - "8501:8501"
+    environment:
+      - ENVIRONMENT=production
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    depends_on:
+      - launch-planning-api
+    restart: unless-stopped
+
+volumes:
+  data:
+  logs:
+
+
+
+
+
+
+
