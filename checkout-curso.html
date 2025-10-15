@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎓 Checkout - Curso Completo de IA | Último Paso</title>
+    <meta name="description" content="🔥 Completa tu compra del curso de IA. Pago seguro, garantía 30 días, acceso inmediato. ¡Transforma tu carrera hoy!">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Tonos Emocionales Avanzados */
+        .excitement { background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; animation: excitement-pulse 2s infinite; text-align: center; }
+        @keyframes excitement-pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        
+        .trust { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .trust::before { content: "🛡️ "; font-size: 1.8em; }
+        
+        .urgency { background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; animation: urgency-shake 1s infinite; text-align: center; }
+        @keyframes urgency-shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-3px); } 75% { transform: translateX(3px); } }
+        
+        .success { background: linear-gradient(135deg, #28a745 0%, #198754 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .success::before { content: "🎉 "; font-size: 1.8em; }
+        
+        .premium { background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; position: relative; overflow: hidden; }
+        .premium::before { content: "👑 "; font-size: 1.8em; }
+        .premium::after { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent); animation: premium-shine 3s infinite; }
+        @keyframes premium-shine { 0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); } 100% { transform: translateX(100%) translateY(100%) rotate(45deg); } }
+        
+        .fear-missing { background: linear-gradient(135deg, #6c757d 0%, #495057 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; border-left: 8px solid #ffc107; }
+        .fear-missing::before { content: "⚠️ "; font-size: 1.8em; }
+        
+        .scarcity { background: linear-gradient(135deg, #fd7e14 0%, #dc3545 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; animation: scarcity-blink 1.5s infinite; text-align: center; }
+        @keyframes scarcity-blink { 0%, 50%, 100% { opacity: 1; } 25%, 75% { opacity: 0.7; } }
+        .scarcity::before { content: "⏰ "; font-size: 1.8em; }
+        
+        .authority { background: linear-gradient(135deg, #343a40 0%, #6c757d 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .authority::before { content: "🏆 "; font-size: 1.8em; }
+        
+        .empathy { background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .empathy::before { content: "💝 "; font-size: 1.8em; }
+        
+        .checkout-container { display: grid; grid-template-columns: 1fr 400px; gap: 40px; margin: 40px 0; }
+        .checkout-form { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+        .order-summary { background: #f8f9fa; padding: 30px; border-radius: 20px; height: fit-content; position: sticky; top: 20px; }
+        
+        .form-group { margin-bottom: 25px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: bold; color: #2c3e50; }
+        .form-group input, .form-group select { width: 100%; padding: 15px; border: 2px solid #eee; border-radius: 10px; font-size: 1em; transition: border-color 0.3s; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #667eea; }
+        
+        .cta-button { background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; padding: 20px 40px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.3em; display: inline-block; margin: 20px 10px; transition: all 0.3s; box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3); border: none; cursor: pointer; width: 100%; }
+        .cta-button:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4); }
+        
+        .product-card { background: white; padding: 30px; border-radius: 15px; margin-bottom: 20px; border: 2px solid #667eea; }
+        .product-title { font-size: 1.5em; font-weight: bold; color: #2c3e50; margin-bottom: 10px; }
+        .product-price { font-size: 2em; font-weight: bold; color: #ff6b6b; margin: 10px 0; }
+        .old-price { text-decoration: line-through; opacity: 0.7; font-size: 1.2em; margin-right: 15px; }
+        
+        .security-badges { display: flex; justify-content: space-around; margin: 20px 0; }
+        .security-badge { text-align: center; padding: 15px; background: white; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .security-badge img { width: 60px; height: 40px; object-fit: contain; }
+        
+        .guarantee { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 30px; border-radius: 20px; text-align: center; margin: 30px 0; }
+        
+        .progress-bar { background: #f8f9fa; height: 8px; border-radius: 4px; margin: 20px 0; overflow: hidden; }
+        .progress-fill { background: linear-gradient(90deg, #667eea, #764ba2); height: 100%; width: 75%; animation: progress-animation 2s ease-in-out; }
+        @keyframes progress-animation { 0% { width: 0%; } 100% { width: 75%; } }
+        
+        @media (max-width: 768px) {
+            .checkout-container { grid-template-columns: 1fr; }
+            .order-summary { position: static; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="excitement">
+            <h1 style="margin: 0; font-size: 2.5em;">🚀 ¡ÚLTIMO PASO PARA TRANSFORMAR TU CARRERA!</h1>
+            <p style="margin: 10px 0 0 0; font-size: 1.3em;">Estás a solo un clic de acceder al curso más completo de IA para marketing</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+        <p style="text-align: center; color: #666; margin-bottom: 30px;">Paso 3 de 4: Información de Pago</p>
+
+        <div class="scarcity">
+            <h3 style="margin: 0; font-size: 1.8em;">⏰ ¡OFERTA EXPIRA EN 15 MINUTOS!</h3>
+            <p style="margin: 10px 0 0 0; font-size: 1.2em;">Tu precio especial se mantiene solo por tiempo limitado</p>
+        </div>
+
+        <div class="checkout-container">
+            <div class="checkout-form">
+                <h2 style="color: #2c3e50; margin-bottom: 30px;">💳 Información de Pago</h2>
+                
+                <form id="checkoutForm">
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" required placeholder="tu@email.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Nombre Completo *</label>
+                        <input type="text" required placeholder="Tu nombre completo">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Número de Tarjeta *</label>
+                        <input type="text" required placeholder="1234 5678 9012 3456" maxlength="19">
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="form-group">
+                            <label>Fecha de Vencimiento *</label>
+                            <input type="text" required placeholder="MM/AA" maxlength="5">
+                        </div>
+                        <div class="form-group">
+                            <label>CVV *</label>
+                            <input type="text" required placeholder="123" maxlength="4">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>País *</label>
+                        <select required>
+                            <option value="">Selecciona tu país</option>
+                            <option value="ES">España</option>
+                            <option value="MX">México</option>
+                            <option value="AR">Argentina</option>
+                            <option value="CO">Colombia</option>
+                            <option value="PE">Perú</option>
+                            <option value="CL">Chile</option>
+                            <option value="US">Estados Unidos</option>
+                            <option value="other">Otro</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" required style="margin-right: 10px;">
+                            Acepto los <a href="#" style="color: #667eea;">términos y condiciones</a> y la <a href="#" style="color: #667eea;">política de privacidad</a>
+                        </label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" style="margin-right: 10px;">
+                            Quiero recibir emails con tips de IA y ofertas especiales
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="cta-button">🚀 Completar Compra - $497</button>
+                </form>
+                
+                <div class="security-badges">
+                    <div class="security-badge">
+                        <div style="font-size: 2em; margin-bottom: 10px;">🔒</div>
+                        <p style="margin: 0; font-size: 0.9em; font-weight: bold;">SSL Encriptado</p>
+                    </div>
+                    <div class="security-badge">
+                        <div style="font-size: 2em; margin-bottom: 10px;">💳</div>
+                        <p style="margin: 0; font-size: 0.9em; font-weight: bold;">Pago Seguro</p>
+                    </div>
+                    <div class="security-badge">
+                        <div style="font-size: 2em; margin-bottom: 10px;">🛡️</div>
+                        <p style="margin: 0; font-size: 0.9em; font-weight: bold;">Garantía 30 días</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="order-summary">
+                <h3 style="color: #2c3e50; margin-bottom: 20px;">📋 Resumen del Pedido</h3>
+                
+                <div class="product-card">
+                    <div class="product-title">🎓 Curso Completo de IA para Marketing</div>
+                    <div style="margin: 15px 0;">
+                        <span class="old-price">$1,997</span>
+                        <span class="product-price">$497</span>
+                    </div>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li>✅ 40+ horas de video</li>
+                        <li>✅ Webinars semanales (1 año)</li>
+                        <li>✅ Certificación oficial</li>
+                        <li>✅ Comunidad exclusiva</li>
+                        <li>✅ Acceso de por vida</li>
+                    </ul>
+                </div>
+                
+                <div class="success">
+                    <h4 style="margin: 0 0 15px 0;">🎁 Bonus Incluidos (Valor $297):</h4>
+                    <ul style="margin: 0; text-align: left;">
+                        <li>✅ SaaS gratis 30 días</li>
+                        <li>✅ Templates de IA</li>
+                        <li>✅ Checklist de implementación</li>
+                        <li>✅ Soporte prioritario</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 20px; border-radius: 15px; margin: 20px 0;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span>Subtotal:</span>
+                        <span>$1,997</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px; color: #28a745;">
+                        <span>Descuento:</span>
+                        <span>-$1,500</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span>Bonus:</span>
+                        <span style="color: #28a745;">GRATIS</span>
+                    </div>
+                    <hr style="margin: 15px 0;">
+                    <div style="display: flex; justify-content: space-between; font-size: 1.3em; font-weight: bold; color: #ff6b6b;">
+                        <span>Total:</span>
+                        <span>$497</span>
+                    </div>
+                </div>
+                
+                <div class="trust">
+                    <p style="margin: 0; font-size: 1.1em;">🛡️ Garantía de 30 días: Si no aumentas tus conocimientos, te devolvemos el 100%</p>
+                </div>
+                
+                <div class="authority">
+                    <p style="margin: 0; font-size: 1.1em;">🏆 Más de 15,000 profesionales ya transformaron su carrera con nosotros</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="fear-missing">
+            <h3 style="margin: 0 0 15px 0;">⚠️ NO PIERDAS ESTA OPORTUNIDAD</h3>
+            <p style="margin: 0; font-size: 1.2em;">Si cierras esta página, perderás el precio especial y tendrás que pagar $1,997</p>
+        </div>
+
+        <div class="empathy">
+            <h3 style="margin: 0 0 15px 0;">💝 Entendemos tus Preocupaciones</h3>
+            <p style="margin: 0; font-size: 1.2em;">Sabemos que invertir en educación puede generar dudas. Por eso ofrecemos garantía total y soporte personalizado</p>
+        </div>
+
+        <div class="guarantee">
+            <h3>🛡️ Garantía de 30 Días</h3>
+            <p style="font-size: 1.3em; margin: 0;">Si no aumentas tus conocimientos y oportunidades laborales, te devolvemos el 100% de tu dinero. Sin preguntas.</p>
+        </div>
+    </div>
+
+    <script>
+        // Form submission
+        document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simulate payment processing
+            const button = this.querySelector('.cta-button');
+            button.innerHTML = '⏳ Procesando...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                window.location.href = 'thank-you-curso.html';
+            }, 3000);
+            
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'purchase', {
+                    'transaction_id': 'CURSO_' + Date.now(),
+                    'value': 497,
+                    'currency': 'USD',
+                    'items': [{
+                        'item_id': 'curso_ia_marketing',
+                        'item_name': 'Curso Completo de IA para Marketing',
+                        'category': 'Education',
+                        'quantity': 1,
+                        'price': 497
+                    }]
+                });
+            }
+        });
+        
+        // Format card number
+        document.querySelector('input[placeholder="1234 5678 9012 3456"]').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s/g, '').replace(/[^0-9]/gi, '');
+            let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+            e.target.value = formattedValue;
+        });
+        
+        // Format expiry date
+        document.querySelector('input[placeholder="MM/AA"]').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+            e.target.value = value;
+        });
+        
+        // Track form interactions
+        document.querySelectorAll('input, select').forEach(field => {
+            field.addEventListener('focus', function() {
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'form_field_focus', {
+                        'event_category': 'Checkout',
+                        'event_label': this.name || this.placeholder,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track page exit intent
+        let exitIntentShown = false;
+        document.addEventListener('mouseleave', function(e) {
+            if (e.clientY <= 0 && !exitIntentShown) {
+                exitIntentShown = true;
+                alert('⏰ ¡Espera! Tu precio especial expira en 15 minutos.\n\nSi cierras esta página, perderás el descuento del 75% y tendrás que pagar $1,997.\n\n¿Estás seguro de que quieres salir?');
+                
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'exit_intent_checkout', {
+                        'event_category': 'Checkout',
+                        'event_label': 'Exit Intent',
+                        'value': 1
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+
+

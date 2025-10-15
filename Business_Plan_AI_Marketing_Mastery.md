@@ -361,3 +361,4 @@ Customer Success: $80K + 1% equity
 *Próxima revisión: [Fecha + 3 meses]*
 
 
+

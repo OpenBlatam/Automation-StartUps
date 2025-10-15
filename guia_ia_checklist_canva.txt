@@ -1,0 +1,208 @@
+✅ GUÍA CHECKLIST: HERRAMIENTAS DE IA GRATUITAS
+═══════════════════════════════════════════════════════════════
+Lista de verificación - Todas probadas y funcionando (Enero 2025)
+
+📝 CHATBOTS Y ASISTENTES DE IA
+───────────────────────────────────────────────────────────────
+☐ ChatGPT (OpenAI) - chat.openai.com
+   ✓ Conversaciones naturales y generación de texto
+   ✓ Múltiples idiomas y tareas complejas
+   ✓ Gratis con limitaciones
+
+☐ Claude 4 (Anthropic) - claude.ai
+   ✓ Excelente en programación y análisis
+   ✓ Interacciones cálidas y naturales
+   ✓ Gratuito con registro
+
+☐ Google Gemini 2.0 - gemini.google.com
+   ✓ Integración con servicios de Google
+   ✓ Generación de imágenes incluida
+   ✓ Completamente gratuito
+
+☐ DeepSeek R1 - deepseek.com
+   ✓ Modelo de código abierto
+   ✓ Análisis complejos
+   ✓ Completamente gratuito
+
+☐ Luzia (WhatsApp) - luzia.com
+   ✓ Chatbot integrado con WhatsApp
+   ✓ Conversaciones naturales
+   ✓ Gratuito
+
+🖼️ GENERADORES DE IMÁGENES
+───────────────────────────────────────────────────────────────
+☐ DALL-E 2 (OpenAI) - openai.com/dall-e-2
+   ✓ Genera imágenes desde texto
+   ✓ Arte digital de alta calidad
+   ✓ Gratis con créditos limitados
+
+☐ Bing Image Creator - bing.com/create
+   ✓ Versión avanzada de DALL-E
+   ✓ Generación rápida
+   ✓ Completamente gratuito
+
+☐ Leonardo.AI - leonardo.ai
+   ✓ Especializada en ilustraciones
+   ✓ Ideal para diseñadores
+   ✓ Plan gratuito disponible
+
+☐ DreamStudio - dreamstudio.ai
+   ✓ Utiliza Stable Diffusion
+   ✓ Generación desde texto
+   ✓ Créditos gratuitos
+
+☐ Scribble Diffusion - scribblediffusion.com
+   ✓ Convierte bocetos en imágenes
+   ✓ Perfecto para dibujos
+   ✓ Completamente gratuito
+
+☐ Flair - withflair.ai
+   ✓ Contenido para empresas
+   ✓ Sesiones fotográficas de productos
+   ✓ Plan gratuito disponible
+
+☐ Interior AI - interiorai.com
+   ✓ Maquetas de interiorismo
+   ✓ Diseño de interiores virtual
+   ✓ Gratuito con limitaciones
+
+🎬 HERRAMIENTAS DE VIDEO Y AUDIO
+───────────────────────────────────────────────────────────────
+☐ Runway ML - runwayml.com
+   ✓ Edición de video con IA
+   ✓ Generación de contenido visual
+   ✓ Plan gratuito disponible
+
+☐ ElevenLabs - elevenlabs.io
+   ✓ Texto a voz realista
+   ✓ Ideal para multimedia
+   ✓ Plan gratuito con limitaciones
+
+☐ Synthesia - synthesia.io
+   ✓ Videos con avatares virtuales
+   ✓ Presentaciones educativas
+   ✓ Plan gratuito disponible
+
+☐ AIVA.AI - aiva.ai
+   ✓ Composición musical
+   ✓ Múltiples géneros
+   ✓ Plan gratuito disponible
+
+☐ Soundful - soundful.com
+   ✓ Creación de música con IA
+   ✓ Música libre de regalías
+   ✓ Plan gratuito disponible
+
+☐ Soundraw - soundraw.io
+   ✓ Generador de música original
+   ✓ Sin conocimientos musicales
+   ✓ Melodías libres de regalías
+
+📊 HERRAMIENTAS DE PRODUCTIVIDAD
+───────────────────────────────────────────────────────────────
+☐ Grammarly - grammarly.com
+   ✓ Corrector de gramática con IA
+   ✓ Mejora redacción en inglés
+   ✓ Plan gratuito disponible
+
+☐ DeepL Translator - deepl.com
+   ✓ Traductor impulsado por IA
+   ✓ Traducciones más precisas
+   ✓ Plan gratuito con limitaciones
+
+☐ Rows - rows.com
+   ✓ Análisis de datos con IA
+   ✓ Automatización de tareas
+   ✓ Plan gratuito disponible
+
+☐ Tome - beta.tome.app
+   ✓ Presentaciones automáticas
+   ✓ Genera diapositivas
+   ✓ Plan gratuito disponible
+
+☐ AgentGPT - agentgpt.reworkd.ai
+   ✓ Crea agentes autónomos
+   ✓ Instalación en navegador
+   ✓ Completamente gratuito
+
+💻 HERRAMIENTAS DE PROGRAMACIÓN
+───────────────────────────────────────────────────────────────
+☐ Codeium - codeium.com
+   ✓ Autocompleta código
+   ✓ Múltiples plataformas
+   ✓ Completamente gratuito
+
+☐ AutoRegEx - autoregex.xyz
+   ✓ Expresiones regulares
+   ✓ Patrones de búsqueda
+   ✓ Completamente gratuito
+
+🎨 HERRAMIENTAS DE DISEÑO
+───────────────────────────────────────────────────────────────
+☐ Canva con IA - canva.com
+   ✓ Diseño gráfico con IA
+   ✓ Diseños profesionales
+   ✓ Plan gratuito disponible
+
+☐ AI Magic Tools - runwayml.com/ai-magic-tools
+   ✓ Suite de 30+ herramientas
+   ✓ Edición de video e imágenes
+   ✓ Accesible desde navegador
+
+🔍 HERRAMIENTAS DE RECONOCIMIENTO
+───────────────────────────────────────────────────────────────
+☐ Google Lens - Google Photos
+   ✓ Reconocimiento de objetos
+   ✓ Integración con Google
+   ✓ Completamente gratuito
+
+☐ Socratic - socratic.org
+   ✓ Resolución de problemas
+   ✓ Explicaciones paso a paso
+   ✓ Ideal para estudiantes
+
+🎯 HERRAMIENTAS ESPECIALIZADAS
+───────────────────────────────────────────────────────────────
+☐ NameSnack - namesnack.com
+   ✓ Generador de nombres
+   ✓ Basado en palabras clave
+   ✓ Completamente gratuito
+
+☐ AI Suggests - ai-suggests.com
+   ✓ Ideas de contenido para blogs
+   ✓ Temáticas específicas
+   ✓ Completamente gratuito
+
+☐ Piggy Quiz Maker - piggy.to
+   ✓ Juegos de preguntas
+   ✓ Quizzes interactivos
+   ✓ Completamente gratuito
+
+☐ Inworld - inworld.ai
+   ✓ Personajes virtuales
+   ✓ Características personalizadas
+   ✓ Plan gratuito disponible
+
+☐ Monica - monica.im
+   ✓ Asistente para Chrome/Edge
+   ✓ Preguntas sobre páginas web
+   ✓ Plan gratuito disponible
+
+═══════════════════════════════════════════════════════════════
+📋 CHECKLIST DE USO:
+☐ Revisar términos de uso de cada herramienta
+☐ Crear cuentas en las herramientas seleccionadas
+☐ Probar funciones gratuitas antes de pagar
+☐ Combinar múltiples herramientas para mejores resultados
+☐ Mantener actualizada la lista de herramientas favoritas
+
+💡 CONSEJOS IMPORTANTES:
+• La mayoría ofrecen planes gratuitos con limitaciones
+• Algunas requieren registro para funciones completas
+• Siempre revisa términos de uso para contenido comercial
+• Combina herramientas para obtener mejores resultados
+• Mantén copias de seguridad de tu trabajo
+
+📅 Última actualización: Enero 2025
+🎯 Todas las herramientas han sido probadas y están funcionando
+═══════════════════════════════════════════════════════════════

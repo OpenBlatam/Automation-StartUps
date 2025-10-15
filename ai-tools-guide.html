@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 Guía Completa de Herramientas de IA | IA Marketing Solutions</title>
+    <meta name="description" content="🔥 Guía definitiva de herramientas de IA para marketing. 50+ herramientas probadas que aumentan productividad 500% y reducen costos 60%.">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Tonos Emocionales Avanzados */
+        .excitement { background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; animation: excitement-pulse 2s infinite; text-align: center; }
+        @keyframes excitement-pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        
+        .trust { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .trust::before { content: "🛡️ "; font-size: 1.8em; }
+        
+        .success { background: linear-gradient(135deg, #28a745 0%, #198754 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .success::before { content: "🎉 "; font-size: 1.8em; }
+        
+        .premium { background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; position: relative; overflow: hidden; }
+        .premium::before { content: "👑 "; font-size: 1.8em; }
+        .premium::after { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent); animation: premium-shine 3s infinite; }
+        @keyframes premium-shine { 0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); } 100% { transform: translateX(100%) translateY(100%) rotate(45deg); } }
+        
+        .curiosity { background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .curiosity::before { content: "🔍 "; font-size: 1.8em; }
+        
+        .social-proof { background: linear-gradient(135deg, #007bff 0%, #6610f2 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .social-proof::before { content: "👥 "; font-size: 1.8em; }
+        
+        .authority { background: linear-gradient(135deg, #343a40 0%, #6c757d 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .authority::before { content: "🏆 "; font-size: 1.8em; }
+        
+        .empathy { background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .empathy::before { content: "💝 "; font-size: 1.8em; }
+        
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 0; text-align: center; }
+        .hero h1 { font-size: 3.5em; margin-bottom: 20px; font-weight: 700; }
+        .hero p { font-size: 1.3em; margin-bottom: 30px; opacity: 0.95; }
+        
+        .cta-button { background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; padding: 20px 40px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.3em; display: inline-block; margin: 20px 10px; transition: all 0.3s; box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3); }
+        .cta-button:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4); }
+        
+        .tools-section { background: white; padding: 60px 0; }
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 40px; }
+        .tool-card { background: #f8f9fa; padding: 30px; border-radius: 20px; border-left: 6px solid #667eea; transition: transform 0.3s; }
+        .tool-card:hover { transform: translateY(-5px); }
+        .tool-title { font-size: 1.4em; font-weight: bold; color: #2c3e50; margin-bottom: 15px; }
+        .tool-stats { background: white; padding: 15px; border-radius: 10px; margin: 15px 0; }
+        .stat-item { display: flex; justify-content: space-between; margin: 8px 0; }
+        
+        .tool-preview { background: white; border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin: 20px 0; }
+        .tool-header { border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px; }
+        .tool-features { list-style: none; padding: 0; }
+        .tool-features li { padding: 5px 0; color: #28a745; }
+        .tool-features li:before { content: "✅ "; }
+        
+        .categories-section { background: #f8f9fa; padding: 60px 0; }
+        .categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px; }
+        .category-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        .category-icon { font-size: 2.5em; margin-bottom: 15px; }
+        
+        .comparison-section { background: #2c3e50; color: white; padding: 60px 0; }
+        .comparison-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 40px; }
+        .comparison-card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; text-align: center; }
+        .comparison-number { font-size: 2.5em; font-weight: bold; color: #ff6b6b; margin-bottom: 10px; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5em; }
+            .hero p { font-size: 1.1em; }
+            .tools-grid { grid-template-columns: 1fr; }
+            .categories-grid { grid-template-columns: 1fr; }
+            .comparison-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>🤖 Guía Completa de Herramientas de IA</h1>
+            <p><strong>50+ herramientas probadas</strong> que aumentan productividad 500% y reducen costos 60% en marketing</p>
+            <a href="#tools" class="cta-button">🚀 Ver Herramientas</a>
+            <a href="#comparison" class="cta-button" style="background: transparent; border: 2px solid white;">📊 Comparación</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="excitement">
+            <h2 style="margin: 0; font-size: 2.2em;">🤖 ¡HERRAMIENTAS QUE REVOLUCIONAN!</h2>
+            <p style="margin: 10px 0 0 0; font-size: 1.2em;">50+ herramientas probadas que aumentan productividad 500% y reducen costos 60%</p>
+        </div>
+
+        <div class="success">
+            <h3 style="margin: 0 0 15px 0;">🎉 RESULTADOS COMPROBADOS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Nuestras herramientas han ahorrado $2M+ en costos y 10,000+ horas de trabajo</p>
+        </div>
+
+        <section class="tools-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">🤖 Herramientas de IA por Categoría</h2>
+            
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-title">✍️ ChatGPT (OpenAI)</div>
+                    <p>Generador de contenido de texto más potente del mercado</p>
+                    <div class="tool-stats">
+                        <div class="stat-item">
+                            <span>Precio:</span>
+                            <span style="color: #28a745; font-weight: bold;">$20/mes</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Productividad:</span>
+                            <span style="color: #28a745; font-weight: bold;">+400%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Calidad:</span>
+                            <span style="color: #28a745; font-weight: bold;">9.2/10</span>
+                        </div>
+                    </div>
+                    <div class="tool-preview">
+                        <div class="tool-header">
+                            <div class="tool-title">Casos de Uso Principales</div>
+                        </div>
+                        <ul class="tool-features">
+                            <li>Generación de copy para emails</li>
+                            <li>Creación de posts para redes sociales</li>
+                            <li>Escribir artículos de blog</li>
+                            <li>Respuestas a clientes</li>
+                            <li>Ideas de contenido</li>
+                        </ul>
+                        <p><strong>Ejemplo de uso:</strong> "Escribe un email de bienvenida para nuevos suscriptores de un curso de marketing digital"</p>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Probar ChatGPT</a>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-title">🎨 Midjourney</div>
+                    <p>Generador de imágenes con IA más avanzado del mercado</p>
+                    <div class="tool-stats">
+                        <div class="stat-item">
+                            <span>Precio:</span>
+                            <span style="color: #28a745; font-weight: bold;">$30/mes</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Calidad:</span>
+                            <span style="color: #28a745; font-weight: bold;">9.5/10</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Tiempo ahorrado:</span>
+                            <span style="color: #28a745; font-weight: bold;">8h/imagen</span>
+                        </div>
+                    </div>
+                    <div class="tool-preview">
+                        <div class="tool-header">
+                            <div class="tool-title">Casos de Uso Principales</div>
+                        </div>
+                        <ul class="tool-features">
+                            <li>Imágenes para redes sociales</li>
+                            <li>Banners para landing pages</li>
+                            <li>Ilustraciones para blogs</li>
+                            <li>Thumbnails para YouTube</li>
+                            <li>Presentaciones profesionales</li>
+                        </ul>
+                        <p><strong>Ejemplo de prompt:</strong> "Professional business woman presenting marketing strategy, modern office, high quality, 4K"</p>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Probar Midjourney</a>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-title">📊 Jasper AI</div>
+                    <p>Plataforma completa de IA para marketing y ventas</p>
+                    <div class="tool-stats">
+                        <div class="stat-item">
+                            <span>Precio:</span>
+                            <span style="color: #28a745; font-weight: bold;">$49/mes</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Funciones:</span>
+                            <span style="color: #28a745; font-weight: bold;">50+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>ROI:</span>
+                            <span style="color: #28a745; font-weight: bold;">350%</span>
+                        </div>
+                    </div>
+                    <div class="tool-preview">
+                        <div class="tool-header">
+                            <div class="tool-title">Funciones Principales</div>
+                        </div>
+                        <ul class="tool-features">
+                            <li>Generación de contenido</li>
+                            <li>Optimización SEO</li>
+                            <li>Copywriting para ventas</li>
+                            <li>Emails automatizados</li>
+                            <li>Análisis de audiencia</li>
+                        </ul>
+                        <p><strong>Ventaja:</strong> Especializado en marketing con templates específicos</p>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Probar Jasper</a>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-title">📈 Surfer SEO</div>
+                    <p>Optimización SEO con IA para posicionar #1 en Google</p>
+                    <div class="tool-stats">
+                        <div class="stat-item">
+                            <span>Precio:</span>
+                            <span style="color: #28a745; font-weight: bold;">$89/mes</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Rankings:</span>
+                            <span style="color: #28a745; font-weight: bold;">+250%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Tráfico:</span>
+                            <span style="color: #28a745; font-weight: bold;">+400%</span>
+                        </div>
+                    </div>
+                    <div class="tool-preview">
+                        <div class="tool-header">
+                            <div class="tool-title">Funciones Principales</div>
+                        </div>
+                        <ul class="tool-features">
+                            <li>Análisis de keywords</li>
+                            <li>Optimización de contenido</li>
+                            <li>Análisis de competencia</li>
+                            <li>Auditoría SEO</li>
+                            <li>Reportes automáticos</li>
+                        </ul>
+                        <p><strong>Resultado:</strong> Contenido optimizado que posiciona en primera página</p>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Probar Surfer</a>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-title">💬 Drift</div>
+                    <p>Chatbot inteligente que convierte visitantes en leads</p>
+                    <div class="tool-stats">
+                        <div class="stat-item">
+                            <span>Precio:</span>
+                            <span style="color: #28a745; font-weight: bold;">$0-500/mes</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Conversión:</span>
+                            <span style="color: #28a745; font-weight: bold;">+180%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Disponibilidad:</span>
+                            <span style="color: #28a745; font-weight: bold;">24/7</span>
+                        </div>
+                    </div>
+                    <div class="tool-preview">
+                        <div class="tool-header">
+                            <div class="tool-title">Funciones Principales</div>
+                        </div>
+                        <ul class="tool-features">
+                            <li>Chatbot conversacional</li>
+                            <li>Calificación de leads</li>
+                            <li>Integración con CRM</li>
+                            <li>Análisis de conversaciones</li>
+                            <li>Personalización avanzada</li>
+                        </ul>
+                        <p><strong>Resultado:</strong> Atiende clientes 24/7 y califica leads automáticamente</p>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Probar Drift</a>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-title">📧 Mailchimp</div>
+                    <p>Plataforma de email marketing con IA integrada</p>
+                    <div class="tool-stats">
+                        <div class="stat-item">
+                            <span>Precio:</span>
+                            <span style="color: #28a745; font-weight: bold;">$10/mes</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Open Rate:</span>
+                            <span style="color: #28a745; font-weight: bold;">+47%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Usuarios:</span>
+                            <span style="color: #28a745; font-weight: bold;">15M+</span>
+                        </div>
+                    </div>
+                    <div class="tool-preview">
+                        <div class="tool-header">
+                            <div class="tool-title">Funciones de IA</div>
+                        </div>
+                        <ul class="tool-features">
+                            <li>Optimización de horarios</li>
+                            <li>Segmentación automática</li>
+                            <li>Predicción de comportamiento</li>
+                            <li>Optimización de subject lines</li>
+                            <li>Análisis de sentimientos</li>
+                        </ul>
+                        <p><strong>Ventaja:</strong> IA que optimiza automáticamente tus campañas</p>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Probar Mailchimp</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="authority">
+            <h3 style="margin: 0 0 15px 0;">🏆 LIDERAMOS EN HERRAMIENTAS DE IA</h3>
+            <p style="margin: 0; font-size: 1.2em;">Hemos probado y optimizado más de 200 herramientas de IA para marketing</p>
+        </div>
+
+        <section class="categories-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">📂 Categorías de Herramientas</h2>
+            
+            <div class="categories-grid">
+                <div class="category-card">
+                    <div class="category-icon">✍️</div>
+                    <h3>Generación de Contenido</h3>
+                    <p>15 herramientas para crear contenido de texto</p>
+                    <ul style="text-align: left;">
+                        <li>✅ ChatGPT</li>
+                        <li>✅ Jasper AI</li>
+                        <li>✅ Copy.ai</li>
+                        <li>✅ Writesonic</li>
+                        <li>✅ Rytr</li>
+                    </ul>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">🎨</div>
+                    <h3>Generación de Imágenes</h3>
+                    <p>12 herramientas para crear imágenes con IA</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Midjourney</li>
+                        <li>✅ DALL-E 3</li>
+                        <li>✅ Stable Diffusion</li>
+                        <li>✅ Canva AI</li>
+                        <li>✅ Adobe Firefly</li>
+                    </ul>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">📊</div>
+                    <h3>Analytics y SEO</h3>
+                    <p>10 herramientas para análisis y optimización</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Surfer SEO</li>
+                        <li>✅ Clearscope</li>
+                        <li>✅ MarketMuse</li>
+                        <li>✅ Frase</li>
+                        <li>✅ NeuronWriter</li>
+                    </ul>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">💬</div>
+                    <h3>Chatbots y Conversación</h3>
+                    <p>8 herramientas para automatizar atención</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Drift</li>
+                        <li>✅ Intercom</li>
+                        <li>✅ Zendesk Chat</li>
+                        <li>✅ Chatfuel</li>
+                        <li>✅ ManyChat</li>
+                    </ul>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">📧</div>
+                    <h3>Email Marketing</h3>
+                    <p>6 herramientas con IA integrada</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Mailchimp</li>
+                        <li>✅ ConvertKit</li>
+                        <li>✅ ActiveCampaign</li>
+                        <li>✅ Klaviyo</li>
+                        <li>✅ Sendinblue</li>
+                    </ul>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">📱</div>
+                    <h3>Redes Sociales</h3>
+                    <p>7 herramientas para automatizar social media</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Buffer</li>
+                        <li>✅ Hootsuite</li>
+                        <li>✅ Later</li>
+                        <li>✅ Sprout Social</li>
+                        <li>✅ Loomly</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="social-proof">
+            <h3 style="margin: 0 0 15px 0;">👥 MÁS DE 1,000 EMPRESAS USAN NUESTRAS HERRAMIENTAS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Desde startups hasta Fortune 500, todas han optimizado su marketing con nuestras recomendaciones</p>
+        </div>
+
+        <section class="comparison-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">📊 Comparación de Resultados</h2>
+            
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <div class="comparison-number">500%</div>
+                    <h3>Aumento de Productividad</h3>
+                    <p>Con herramientas de IA vs métodos tradicionales</p>
+                </div>
+                
+                <div class="comparison-card">
+                    <div class="comparison-number">60%</div>
+                    <h3>Reducción de Costos</h3>
+                    <p>En producción de contenido y marketing</p>
+                </div>
+                
+                <div class="comparison-card">
+                    <div class="comparison-number">300%</div>
+                    <h3>Más Conversiones</h3>
+                    <p>Con automatización inteligente</p>
+                </div>
+                
+                <div class="comparison-card">
+                    <div class="comparison-number">40h</div>
+                    <h3>Horas Ahorradas</h3>
+                    <p>Por semana en tareas repetitivas</p>
+                </div>
+                
+                <div class="comparison-card">
+                    <div class="comparison-number">$2M</div>
+                    <h3>Costos Ahorrados</h3>
+                    <p>En total por nuestros clientes</p>
+                </div>
+                
+                <div class="comparison-card">
+                    <div class="comparison-number">10K+</div>
+                    <h3>Horas Ahorradas</h3>
+                    <p>En total por nuestros clientes</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="premium">
+            <h3 style="margin: 0 0 15px 0;">👑 GUÍA COMPLETA DE HERRAMIENTAS DE IA</h3>
+            <p style="margin: 0; font-size: 1.2em;">Obtén acceso a todas las 50+ herramientas + tutoriales + configuraciones + soporte por solo $197</p>
+        </div>
+
+        <div class="curiosity">
+            <h3 style="margin: 0 0 15px 0;">🔍 ¿CÓMO ELEGIR LAS MEJORES HERRAMIENTAS?</h3>
+            <p style="margin: 0; font-size: 1.2em;">Descubre nuestro método probado para seleccionar y optimizar herramientas de IA</p>
+        </div>
+
+        <div class="empathy">
+            <h3 style="margin: 0 0 15px 0;">💝 Entendemos tus Necesidades</h3>
+            <p style="margin: 0; font-size: 1.2em;">Sabemos que elegir herramientas puede ser abrumador. Por eso hemos probado y filtrado las mejores para ti</p>
+        </div>
+    </div>
+
+    <footer style="background: #2c3e50; color: white; padding: 40px 0; text-align: center;">
+        <div class="container">
+            <p>&copy; 2024 IA Marketing Solutions. Todos los derechos reservados.</p>
+            <p>Optimizando marketing con herramientas de IA desde 2020</p>
+        </div>
+    </footer>
+
+    <script>
+        // Track tool interactions
+        document.querySelectorAll('.tool-card .cta-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const tool = this.closest('.tool-card').querySelector('.tool-title').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'tool_click', {
+                        'event_category': 'AI Tools Guide',
+                        'event_label': tool,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track category clicks
+        document.querySelectorAll('.category-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const category = this.querySelector('h3').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'category_click', {
+                        'event_category': 'AI Tools Guide',
+                        'event_label': category,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track tool preview interactions
+        document.querySelectorAll('.tool-preview').forEach(preview => {
+            preview.addEventListener('click', function() {
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'tool_preview_click', {
+                        'event_category': 'AI Tools Guide',
+                        'event_label': 'Tool Preview',
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Animate tool cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.tool-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+        
+        // Animate comparison numbers
+        const comparisonObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const comparisonNumber = entry.target.querySelector('.comparison-number');
+                    const finalValue = comparisonNumber.textContent;
+                    const isPercentage = finalValue.includes('%');
+                    const isHours = finalValue.includes('h');
+                    const isMillion = finalValue.includes('M');
+                    const isK = finalValue.includes('K');
+                    const numericValue = parseFloat(finalValue.replace(/[^0-9.]/g, ''));
+                    
+                    let currentValue = 0;
+                    const increment = numericValue / 30;
+                    
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= numericValue) {
+                            currentValue = numericValue;
+                            clearInterval(timer);
+                        }
+                        
+                        if (isPercentage) {
+                            comparisonNumber.textContent = Math.round(currentValue) + '%';
+                        } else if (isHours) {
+                            comparisonNumber.textContent = Math.round(currentValue) + 'h';
+                        } else if (isMillion) {
+                            comparisonNumber.textContent = '$' + (currentValue / 1000000).toFixed(1) + 'M';
+                        } else if (isK) {
+                            comparisonNumber.textContent = Math.round(currentValue / 1000) + 'K+';
+                        } else {
+                            comparisonNumber.textContent = Math.round(currentValue).toLocaleString();
+                        }
+                    }, 30);
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.comparison-card').forEach(card => {
+            comparisonObserver.observe(card);
+        });
+    </script>
+</body>
+</html>
+
+

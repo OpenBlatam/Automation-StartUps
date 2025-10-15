@@ -526,3 +526,4 @@ function validateTemplate(template) {
 *This template library is part of the SaaS Marketing Automation System. For updates and support, contact the development team.*
 
 
+

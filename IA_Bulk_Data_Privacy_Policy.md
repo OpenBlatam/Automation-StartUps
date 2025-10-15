@@ -1,18 +1,21 @@
-# 🔒 IA BULK - POLÍTICA DE PRIVACIDAD Y PROTECCIÓN DE DATOS
+# 🔒 AI SPREADSHEET MASTERY - POLÍTICA DE PRIVACIDAD Y PROTECCIÓN DE DATOS
 ## *Marco Integral de Privacidad y Protección de Datos*
 
 ---
 
 ## 🎯 **RESUMEN EJECUTIVO**
 
-**IA Bulk** se compromete a proteger la privacidad y seguridad de todos los datos personales que procesamos. Esta política establece nuestro marco integral de privacidad y protección de datos, cumpliendo con las regulaciones globales más estrictas incluyendo GDPR, CCPA, y otras leyes de privacidad aplicables.
+**AI Spreadsheet Mastery** se compromete a proteger la privacidad y seguridad de todos los datos personales y empresariales que procesamos. Esta política establece nuestro marco integral de privacidad y protección de datos, cumpliendo con las regulaciones globales más estrictas incluyendo GDPR, CCPA, y otras leyes de privacidad aplicables.
 
 ### **🔒 COMPROMISOS DE PRIVACIDAD**
 - **Transparencia Total**: Transparencia completa en el procesamiento de datos
-- **Protección Máxima**: Protección máxima de datos personales
+- **Protección Máxima**: Protección máxima de datos personales y empresariales
 - **Cumplimiento Total**: Cumplimiento con todas las regulaciones aplicables
 - **Control del Usuario**: Control total del usuario sobre sus datos
 - **Seguridad Avanzada**: Seguridad avanzada y medidas de protección
+- **Protección de Datos Empresariales**: Protección especial de datos de hojas de cálculo
+- **Confidencialidad Académica**: Protección de datos del curso y progreso
+- **Integridad de Datos**: Garantía de integridad de datos financieros y empresariales
 
 ---
 
@@ -21,23 +24,23 @@
 ### **🏢 INFORMACIÓN DE LA EMPRESA**
 
 #### **CONTROLADOR DE DATOS**
-**IA Bulk Inc.**
+**AI Spreadsheet Mastery Inc.**
 - **Dirección**: [Dirección de la empresa]
 - **Teléfono**: [Número de teléfono]
-- **Email**: privacy@iabulk.com
-- **Website**: www.iabulk.com
-- **Data Protection Officer**: dpo@iabulk.com
+- **Email**: privacy@aispreadsheetmastery.com
+- **Website**: www.aispreadsheetmastery.com
+- **Data Protection Officer**: dpo@aispreadsheetmastery.com
 
 #### **REPRESENTANTES**
 **EU Representative:**
 - **Nombre**: [Nombre del representante]
 - **Dirección**: [Dirección en EU]
-- **Email**: eu-representative@iabulk.com
+- **Email**: eu-representative@aispreadsheetmastery.com
 
 **UK Representative:**
 - **Nombre**: [Nombre del representante]
 - **Dirección**: [Dirección en UK]
-- **Email**: uk-representative@iabulk.com
+- **Email**: uk-representative@aispreadsheetmastery.com
 
 ---
 
@@ -45,10 +48,13 @@
 
 #### **APLICACIÓN**
 Esta política se aplica a:
-- **Todos los usuarios** de IA Bulk
-- **Todos los empleados** de IA Bulk
+- **Todos los usuarios** de AI Spreadsheet Mastery (estudiantes, clientes SaaS, empresas)
+- **Todos los empleados** de AI Spreadsheet Mastery
 - **Todos los partners** y proveedores
-- **Todos los datos** procesados por IA Bulk
+- **Todos los datos** procesados por AI Spreadsheet Mastery
+- **Datos del curso**: Progreso, evaluaciones, certificaciones
+- **Datos empresariales**: Hojas de cálculo, datos financieros, análisis
+- **Datos de webinars**: Participación, interacciones, grabaciones
 - **Todas las jurisdicciones** donde operamos
 
 #### **VIGENCIA**
@@ -56,6 +62,175 @@ Esta política se aplica a:
 - **Última actualización**: [Fecha]
 - **Próxima revisión**: [Fecha]
 - **Versión**: 1.0
+
+---
+
+## 📊 **DATOS QUE RECOPILAMOS**
+
+### **🎓 DATOS DEL CURSO EDUCATIVO**
+
+#### **DATOS DE INSCRIPCIÓN**
+- **Información Personal**: Nombre, email, teléfono, dirección
+- **Información Académica**: Nivel de educación, experiencia previa
+- **Información Profesional**: Ocupación, empresa, años de experiencia
+- **Objetivos de Aprendizaje**: Metas y expectativas del curso
+- **Preferencias de Aprendizaje**: Estilo de aprendizaje, horarios preferidos
+
+#### **DATOS DE PROGRESO**
+- **Progreso del Curso**: Completación de módulos, tiempo invertido
+- **Evaluaciones**: Resultados de quizzes, proyectos, exámenes
+- **Participación**: Asistencia a webinars, participación en foros
+- **Interacciones**: Preguntas, comentarios, feedback
+- **Certificaciones**: Logros, badges, certificados obtenidos
+
+#### **DATOS DE WEBINARS**
+- **Asistencia**: Registro de asistencia a webinars
+- **Participación**: Preguntas, comentarios, interacciones
+- **Grabaciones**: Grabaciones de webinars (con consentimiento)
+- **Transcripciones**: Transcripciones automáticas de webinars
+- **Engagement**: Métricas de engagement y participación
+
+### **💼 DATOS DEL SAAS PLATFORM**
+
+#### **DATOS DE HOJAS DE CÁLCULO**
+- **Archivos**: Hojas de cálculo subidas por usuarios
+- **Metadatos**: Información sobre archivos (tamaño, fecha, tipo)
+- **Contenido**: Datos contenidos en las hojas de cálculo
+- **Análisis**: Resultados de análisis de IA
+- **Insights**: Insights generados automáticamente
+- **Reportes**: Reportes generados por el sistema
+
+#### **DATOS FINANCIEROS Y EMPRESARIALES**
+- **Datos Financieros**: Información financiera de empresas
+- **Datos de Ventas**: Información de ventas y transacciones
+- **Datos de Inventario**: Información de inventario y productos
+- **Datos de Clientes**: Información de clientes y CRM
+- **Datos de Precios**: Información de precios y competencia
+- **Datos de Análisis**: Resultados de análisis empresariales
+
+#### **DATOS DE INTEGRACIÓN**
+- **APIs**: Datos obtenidos a través de APIs externas
+- **Conexiones**: Información de conexiones con sistemas externos
+- **Sincronización**: Datos sincronizados con sistemas externos
+- **Webhooks**: Datos recibidos a través de webhooks
+- **Autenticación**: Tokens y credenciales de autenticación
+
+---
+
+## 🔄 **PROCESAMIENTO DE DATOS EMPRESARIALES**
+
+### **📊 PROCESAMIENTO DE HOJAS DE CÁLCULO**
+
+#### **ANÁLISIS AUTOMÁTICO**
+- **Procesamiento de IA**: Análisis automático de datos con IA
+- **Generación de Insights**: Creación automática de insights
+- **Análisis Predictivo**: Predicciones basadas en datos históricos
+- **Optimización**: Optimización automática de procesos
+- **Reportes**: Generación automática de reportes
+
+#### **INTEGRACIÓN DE DATOS**
+- **Sincronización**: Sincronización con sistemas externos
+- **APIs**: Procesamiento de datos a través de APIs
+- **Webhooks**: Procesamiento de datos en tiempo real
+- **ETL**: Extracción, transformación y carga de datos
+- **Validación**: Validación automática de datos
+
+#### **ALMACENAMIENTO Y RETENCIÓN**
+- **Almacenamiento Seguro**: Almacenamiento encriptado
+- **Retención**: Políticas de retención de datos
+- **Backup**: Respaldos automáticos y seguros
+- **Archivado**: Archivado de datos históricos
+- **Eliminación**: Eliminación segura de datos
+
+### **🎓 PROCESAMIENTO DE DATOS EDUCATIVOS**
+
+#### **GESTIÓN DE PROGRESO**
+- **Tracking**: Seguimiento del progreso del curso
+- **Evaluación**: Evaluación automática y manual
+- **Certificación**: Proceso de certificación
+- **Feedback**: Generación de feedback personalizado
+- **Recomendaciones**: Recomendaciones de aprendizaje
+
+#### **ANÁLISIS DE ENGAGEMENT**
+- **Métricas**: Métricas de engagement y participación
+- **Análisis de Comportamiento**: Análisis del comportamiento de aprendizaje
+- **Optimización**: Optimización de contenido educativo
+- **Personalización**: Personalización de la experiencia de aprendizaje
+- **Mejora Continua**: Mejora continua del curso
+
+### **🔒 MEDIDAS DE SEGURIDAD ESPECÍFICAS**
+
+#### **PROTECCIÓN DE DATOS EMPRESARIALES**
+- **Encriptación**: Encriptación de datos empresariales
+- **Acceso Restringido**: Acceso restringido a datos sensibles
+- **Auditoría**: Auditoría de acceso a datos
+- **Monitoreo**: Monitoreo continuo de seguridad
+- **Respuesta a Incidentes**: Plan de respuesta a incidentes
+
+#### **PROTECCIÓN DE DATOS EDUCATIVOS**
+- **Confidencialidad**: Confidencialidad de datos académicos
+- **Integridad**: Integridad de evaluaciones y certificaciones
+- **Disponibilidad**: Disponibilidad de contenido educativo
+- **Privacidad**: Privacidad de progreso y calificaciones
+- **Transparencia**: Transparencia en el procesamiento
+
+---
+
+## 👤 **DERECHOS DE LOS USUARIOS**
+
+### **🎓 DERECHOS ESPECÍFICOS PARA ESTUDIANTES**
+
+#### **DERECHOS ACADÉMICOS**
+- **Acceso a Datos**: Acceso a todos los datos del curso y progreso
+- **Portabilidad**: Portabilidad de certificaciones y logros
+- **Rectificación**: Rectificación de datos académicos incorrectos
+- **Eliminación**: Eliminación de datos del curso (con limitaciones)
+- **Objeción**: Objeción al procesamiento de datos académicos
+- **Restricción**: Restricción del procesamiento de datos sensibles
+
+#### **DERECHOS DE PRIVACIDAD ACADÉMICA**
+- **Confidencialidad**: Confidencialidad de calificaciones y evaluaciones
+- **Anonimización**: Anonimización de datos para análisis
+- **Consentimiento**: Consentimiento específico para grabaciones
+- **Transparencia**: Transparencia en el uso de datos académicos
+- **Control**: Control sobre el uso de datos para investigación
+- **Protección**: Protección especial de datos de menores
+
+### **💼 DERECHOS ESPECÍFICOS PARA CLIENTES SAAS**
+
+#### **DERECHOS EMPRESARIALES**
+- **Acceso a Datos**: Acceso a todos los datos empresariales
+- **Portabilidad**: Portabilidad de datos de hojas de cálculo
+- **Rectificación**: Rectificación de datos empresariales incorrectos
+- **Eliminación**: Eliminación de datos empresariales
+- **Objeción**: Objeción al procesamiento de datos sensibles
+- **Restricción**: Restricción del procesamiento de datos críticos
+
+#### **DERECHOS DE SEGURIDAD EMPRESARIAL**
+- **Confidencialidad**: Confidencialidad de datos empresariales
+- **Integridad**: Integridad de datos financieros y empresariales
+- **Disponibilidad**: Disponibilidad de datos críticos
+- **Auditoría**: Auditoría de acceso a datos empresariales
+- **Notificación**: Notificación de incidentes de seguridad
+- **Compensación**: Compensación por violaciones de datos
+
+### **🔒 DERECHOS GENERALES DE PRIVACIDAD**
+
+#### **DERECHOS FUNDAMENTALES**
+- **Derecho de Acceso**: Acceso a datos personales
+- **Derecho de Rectificación**: Rectificación de datos incorrectos
+- **Derecho de Eliminación**: Eliminación de datos personales
+- **Derecho de Portabilidad**: Portabilidad de datos
+- **Derecho de Objeción**: Objeción al procesamiento
+- **Derecho de Restricción**: Restricción del procesamiento
+
+#### **DERECHOS DE CONTROL**
+- **Control de Consentimiento**: Control sobre el consentimiento
+- **Control de Preferencias**: Control sobre preferencias de privacidad
+- **Control de Comunicaciones**: Control sobre comunicaciones
+- **Control de Marketing**: Control sobre marketing y publicidad
+- **Control de Cookies**: Control sobre cookies y tracking
+- **Control de Datos**: Control sobre el uso de datos
 
 ---
 
@@ -853,5 +1028,127 @@ Esta política se aplica a:
 - [ ] Privacidad por diseño implementada
 - [ ] Maturity en privacidad alcanzada
 
+---
+
+## 🎯 **CONCLUSIONES Y PRÓXIMOS PASOS**
+
+### **🏆 COMPROMISOS DE PRIVACIDAD CONSOLIDADOS**
+
+#### **1. PROTECCIÓN INTEGRAL DE DATOS**
+- **Datos Personales**: Protección completa de datos personales
+- **Datos Empresariales**: Protección especial de datos de hojas de cálculo
+- **Datos Educativos**: Protección de datos del curso y progreso
+- **Datos de Webinars**: Protección de grabaciones y participaciones
+- **Datos de Integración**: Protección de datos de sistemas externos
+
+#### **2. CUMPLIMIENTO REGULATORIO**
+- **GDPR**: Cumplimiento completo con GDPR
+- **CCPA**: Cumplimiento con CCPA
+- **SOC 2**: Certificación SOC 2
+- **ISO 27001**: Certificación ISO 27001
+- **HIPAA**: Cumplimiento con HIPAA
+- **PCI DSS**: Cumplimiento con PCI DSS
+
+#### **3. DERECHOS DE USUARIOS**
+- **Estudiantes**: Derechos específicos para estudiantes
+- **Clientes SaaS**: Derechos específicos para clientes empresariales
+- **Control Total**: Control total sobre datos personales
+- **Transparencia**: Transparencia completa en el procesamiento
+- **Acceso**: Acceso fácil a datos y configuraciones
+
+#### **4. SEGURIDAD AVANZADA**
+- **Encriptación**: Encriptación de extremo a extremo
+- **Acceso Restringido**: Acceso restringido a datos sensibles
+- **Auditoría**: Auditoría completa de acceso
+- **Monitoreo**: Monitoreo continuo de seguridad
+- **Respuesta a Incidentes**: Plan de respuesta a incidentes
+
+### **🚀 PRÓXIMOS PASOS DE PRIVACIDAD**
+
+#### **IMPLEMENTACIÓN INMEDIATA**
+1. **Políticas de Privacidad**: Implementación de políticas
+2. **Consentimiento**: Sistema de consentimiento granular
+3. **Derechos de Usuarios**: Sistema de ejercicio de derechos
+4. **Seguridad**: Implementación de medidas de seguridad
+5. **Auditoría**: Auditoría de cumplimiento
+
+#### **OPTIMIZACIÓN CONTINUA**
+1. **Revisión Regular**: Revisión regular de políticas
+2. **Mejoras de Seguridad**: Mejoras continuas de seguridad
+3. **Capacitación**: Capacitación del equipo en privacidad
+4. **Monitoreo**: Monitoreo continuo de cumplimiento
+5. **Actualizaciones**: Actualizaciones de regulaciones
+
+### **📊 MÉTRICAS DE PRIVACIDAD**
+
+#### **CUMPLIMIENTO**
+- **GDPR Compliance**: 100% cumplimiento
+- **CCPA Compliance**: 100% cumplimiento
+- **SOC 2 Compliance**: 100% cumplimiento
+- **ISO 27001 Compliance**: 100% cumplimiento
+- **Incidentes de Seguridad**: 0% incidentes
+
+#### **SATISFACCIÓN DEL USUARIO**
+- **Transparencia**: 95%+ satisfacción con transparencia
+- **Control**: 90%+ satisfacción con control de datos
+- **Seguridad**: 98%+ confianza en seguridad
+- **Acceso**: 85%+ satisfacción con acceso a datos
+- **Respuesta**: 90%+ satisfacción con respuesta a solicitudes
+
+### **🔮 ROADMAP DE PRIVACIDAD**
+
+#### **Q1 2024: IMPLEMENTACIÓN**
+- **Políticas**: Implementación de políticas de privacidad
+- **Consentimiento**: Sistema de consentimiento granular
+- **Derechos**: Sistema de ejercicio de derechos
+- **Seguridad**: Medidas de seguridad básicas
+- **Auditoría**: Auditoría inicial de cumplimiento
+
+#### **Q2 2024: OPTIMIZACIÓN**
+- **Mejoras**: Mejoras en políticas y procesos
+- **Seguridad**: Medidas de seguridad avanzadas
+- **Capacitación**: Capacitación del equipo
+- **Monitoreo**: Sistema de monitoreo continuo
+- **Certificaciones**: Obtención de certificaciones
+
+#### **Q3 2024: EXPANSIÓN**
+- **Internacional**: Expansión a mercados internacionales
+- **Nuevas Regulaciones**: Cumplimiento con nuevas regulaciones
+- **Mejoras**: Mejoras continuas en privacidad
+- **Innovación**: Innovación en protección de datos
+- **Partnerships**: Partnerships de privacidad
+
+#### **Q4 2024: LIDERAZGO**
+- **Liderazgo**: Liderazgo en privacidad de datos
+- **Innovación**: Innovación en protección de datos
+- **Certificaciones**: Certificaciones adicionales
+- **Reconocimiento**: Reconocimiento en privacidad
+- **Mejores Prácticas**: Establecimiento de mejores prácticas
+
+---
+
+## 📞 **CONTACTO DE PRIVACIDAD**
+
+### **🔒 EQUIPO DE PRIVACIDAD**
+- **Data Protection Officer**: [dpo@aispreadsheetmastery.com]
+- **Privacy Team**: [privacy@aispreadsheetmastery.com]
+- **Security Team**: [security@aispreadsheetmastery.com]
+- **Legal Team**: [legal@aispreadsheetmastery.com]
+- **Compliance Team**: [compliance@aispreadsheetmastery.com]
+
+### **📚 RECURSOS DE PRIVACIDAD**
+- **Privacy Policy**: [privacy.aispreadsheetmastery.com]
+- **Data Protection**: [dataprotection.aispreadsheetmastery.com]
+- **Security Center**: [security.aispreadsheetmastery.com]
+- **Compliance Hub**: [compliance.aispreadsheetmastery.com]
+- **Privacy Blog**: [privacy-blog.aispreadsheetmastery.com]
+
+---
+
+*© 2024 AI Spreadsheet Mastery. Política de Privacidad Confidencial.*
+*Protección máxima de datos personales y empresariales.*
+*Documento actualizado: [Fecha] - Versión 2.0*
+
 **¡Protegiendo la privacidad con transparencia y seguridad!** 🔒
+
 

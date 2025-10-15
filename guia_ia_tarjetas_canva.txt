@@ -1,0 +1,135 @@
+🎯 GUÍA DE HERRAMIENTAS DE IA GRATUITAS
+═══════════════════════════════════════════════════════════════
+Formato de tarjetas para Canva - Enero 2025
+
+TARJETA 1: CHATBOTS PRINCIPALES
+───────────────────────────────────────────────────────────────
+🤖 ChatGPT
+• OpenAI
+• chat.openai.com
+• Texto y conversaciones
+
+🧠 Claude 4
+• Anthropic
+• claude.ai
+• Programación y análisis
+
+⭐ Gemini 2.0
+• Google
+• gemini.google.com
+• Integración Google
+
+TARJETA 2: GENERADORES DE IMÁGENES
+───────────────────────────────────────────────────────────────
+🎨 DALL-E 2
+• OpenAI
+• openai.com/dall-e-2
+• Arte digital
+
+🖌️ Bing Creator
+• Microsoft
+• bing.com/create
+• Imágenes rápidas
+
+🎭 Leonardo.AI
+• Stability AI
+• leonardo.ai
+• Ilustraciones
+
+TARJETA 3: VIDEO Y AUDIO
+───────────────────────────────────────────────────────────────
+🎥 Runway ML
+• Runway
+• runwayml.com
+• Edición de video
+
+🎤 ElevenLabs
+• ElevenLabs
+• elevenlabs.io
+• Texto a voz
+
+🎵 AIVA.AI
+• AIVA
+• aiva.ai
+• Composición musical
+
+TARJETA 4: PRODUCTIVIDAD
+───────────────────────────────────────────────────────────────
+📝 Grammarly
+• Grammarly Inc.
+• grammarly.com
+• Corrección de texto
+
+🌐 DeepL
+• DeepL
+• deepl.com
+• Traducción IA
+
+📋 Tome
+• Tome
+• beta.tome.app
+• Presentaciones
+
+TARJETA 5: PROGRAMACIÓN
+───────────────────────────────────────────────────────────────
+⚡ Codeium
+• Codeium
+• codeium.com
+• Autocompletado
+
+🔧 AutoRegEx
+• AutoRegEx
+• autoregex.xyz
+• Expresiones regulares
+
+TARJETA 6: DISEÑO
+───────────────────────────────────────────────────────────────
+🎨 Canva IA
+• Canva
+• canva.com
+• Diseño gráfico
+
+🛠️ AI Magic Tools
+• Runway
+• runwayml.com/ai-magic-tools
+• Suite de herramientas
+
+TARJETA 7: ESPECIALIZADAS
+───────────────────────────────────────────────────────────────
+🏷️ NameSnack
+• NameSnack
+• namesnack.com
+• Nombres de negocios
+
+📝 AI Suggests
+• AI Suggests
+• ai-suggests.com
+• Ideas de contenido
+
+🎮 Piggy Quiz
+• Piggy
+• piggy.to
+• Quizzes interactivos
+
+TARJETA 8: RECONOCIMIENTO
+───────────────────────────────────────────────────────────────
+👁️ Google Lens
+• Google
+• Google Photos
+• Reconocimiento visual
+
+📚 Socratic
+• Google
+• socratic.org
+• Resolución de problemas
+
+═══════════════════════════════════════════════════════════════
+💡 CONSEJOS RÁPIDOS:
+• Todas tienen versión gratuita
+• Algunas requieren registro
+• Revisa términos de uso
+• Combina para mejores resultados
+
+📅 Actualizado: Enero 2025
+✅ Todas probadas y funcionando
+═══════════════════════════════════════════════════════════════

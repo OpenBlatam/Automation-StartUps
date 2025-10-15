@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔗 Integraciones IA Marketing | IA Marketing Solutions</title>
+    <meta name="description" content="🔥 Integraciones con 50+ herramientas populares. HubSpot, Salesforce, Mailchimp, Google Ads, Facebook Ads, Zapier y más. Conecta tu IA con todas tus herramientas.">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Tonos Emocionales Avanzados */
+        .excitement { background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; animation: excitement-pulse 2s infinite; text-align: center; }
+        @keyframes excitement-pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        
+        .trust { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .trust::before { content: "🛡️ "; font-size: 1.8em; }
+        
+        .success { background: linear-gradient(135deg, #28a745 0%, #198754 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .success::before { content: "🎉 "; font-size: 1.8em; }
+        
+        .premium { background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; position: relative; overflow: hidden; }
+        .premium::before { content: "👑 "; font-size: 1.8em; }
+        .premium::after { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent); animation: premium-shine 3s infinite; }
+        @keyframes premium-shine { 0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); } 100% { transform: translateX(100%) translateY(100%) rotate(45deg); } }
+        
+        .curiosity { background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .curiosity::before { content: "🔍 "; font-size: 1.8em; }
+        
+        .social-proof { background: linear-gradient(135deg, #007bff 0%, #6610f2 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .social-proof::before { content: "👥 "; font-size: 1.8em; }
+        
+        .authority { background: linear-gradient(135deg, #343a40 0%, #6c757d 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .authority::before { content: "🏆 "; font-size: 1.8em; }
+        
+        .empathy { background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .empathy::before { content: "💝 "; font-size: 1.8em; }
+        
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 0; text-align: center; }
+        .hero h1 { font-size: 3.5em; margin-bottom: 20px; font-weight: 700; }
+        .hero p { font-size: 1.3em; margin-bottom: 30px; opacity: 0.95; }
+        
+        .cta-button { background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; padding: 20px 40px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.3em; display: inline-block; margin: 20px 10px; transition: all 0.3s; box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3); }
+        .cta-button:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4); }
+        
+        .integrations-section { background: white; padding: 60px 0; }
+        .integrations-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
+        .integration-card { background: #f8f9fa; padding: 30px; border-radius: 20px; border-left: 6px solid #667eea; transition: transform 0.3s; }
+        .integration-card:hover { transform: translateY(-5px); }
+        .integration-card.featured { border-left: 6px solid #ff6b6b; background: linear-gradient(135deg, #fff5f5 0%, #f8f9fa 100%); }
+        .integration-card.featured::before { content: "⭐ DESTACADO"; position: absolute; top: -10px; right: 20px; background: #ff6b6b; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8em; font-weight: bold; }
+        .integration-category { color: #667eea; font-weight: bold; font-size: 0.9em; margin-bottom: 10px; }
+        .integration-title { font-size: 1.4em; font-weight: bold; color: #2c3e50; margin-bottom: 15px; }
+        .integration-description { color: #666; margin-bottom: 20px; line-height: 1.6; }
+        .integration-features { background: white; padding: 15px; border-radius: 10px; margin: 15px 0; }
+        .feature-item { display: flex; align-items: center; margin: 8px 0; font-size: 0.9em; }
+        .feature-item::before { content: "✅ "; color: #28a745; font-weight: bold; margin-right: 8px; }
+        
+        .categories-section { background: #f8f9fa; padding: 60px 0; }
+        .categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px; }
+        .category-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        .category-icon { font-size: 2.5em; margin-bottom: 15px; }
+        
+        .setup-section { background: #2c3e50; color: white; padding: 60px 0; }
+        .setup-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px; }
+        .setup-step { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; text-align: center; }
+        .step-number { font-size: 2em; font-weight: bold; color: #ff6b6b; margin-bottom: 15px; }
+        
+        .stats-section { background: #2c3e50; color: white; padding: 60px 0; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 40px; }
+        .stat-card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; text-align: center; }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #ff6b6b; margin-bottom: 10px; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5em; }
+            .hero p { font-size: 1.1em; }
+            .integrations-grid { grid-template-columns: 1fr; }
+            .categories-grid { grid-template-columns: 1fr; }
+            .setup-steps { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>🔗 Integraciones IA Marketing</h1>
+            <p><strong>Integraciones con 50+ herramientas</strong> populares. HubSpot, Salesforce, Mailchimp, Google Ads, Facebook Ads, Zapier y más. Conecta tu IA con todas tus herramientas</p>
+            <a href="#integrations" class="cta-button">🔗 Ver Integraciones</a>
+            <a href="#setup" class="cta-button" style="background: transparent; border: 2px solid white;">⚙️ Setup</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="excitement">
+            <h2 style="margin: 0; font-size: 2.2em;">🔗 ¡50+ INTEGRACIONES DISPONIBLES!</h2>
+            <p style="margin: 10px 0 0 0; font-size: 1.2em;">Conecta tu IA con todas las herramientas que ya usas</p>
+        </div>
+
+        <div class="success">
+            <h3 style="margin: 0 0 15px 0;">🎉 INTEGRACIÓN PERFECTA</h3>
+            <p style="margin: 0; font-size: 1.2em;">Setup en menos de 5 minutos con sincronización automática y sin pérdida de datos</p>
+        </div>
+
+        <section class="integrations-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">🔗 Integraciones Destacadas</h2>
+            
+            <div class="integrations-grid">
+                <div class="integration-card featured">
+                    <div class="integration-category">📊 CRM & Sales</div>
+                    <div class="integration-title">HubSpot</div>
+                    <div class="integration-description">
+                        Integración completa con HubSpot para automatizar marketing, generar leads y optimizar conversiones con IA.
+                    </div>
+                    <div class="integration-features">
+                        <div class="feature-item">Sincronización automática de leads</div>
+                        <div class="feature-item">Generación de contenido personalizado</div>
+                        <div class="feature-item">Automatización de workflows</div>
+                        <div class="feature-item">Análisis de comportamiento</div>
+                        <div class="feature-item">Scoring automático de leads</div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">🔗 Conectar HubSpot</a>
+                </div>
+                
+                <div class="integration-card">
+                    <div class="integration-category">📧 Email Marketing</div>
+                    <div class="integration-title">Mailchimp</div>
+                    <div class="integration-description">
+                        Integración con Mailchimp para generar emails personalizados, optimizar campañas y automatizar secuencias.
+                    </div>
+                    <div class="integration-features">
+                        <div class="feature-item">Generación de emails con IA</div>
+                        <div class="feature-item">Optimización de subject lines</div>
+                        <div class="feature-item">Segmentación automática</div>
+                        <div class="feature-item">A/B testing inteligente</div>
+                        <div class="feature-item">Análisis de rendimiento</div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">🔗 Conectar Mailchimp</a>
+                </div>
+                
+                <div class="integration-card">
+                    <div class="integration-category">📱 Social Media</div>
+                    <div class="integration-title">Facebook Ads</div>
+                    <div class="integration-description">
+                        Integración con Facebook Ads para crear anuncios optimizados, generar creativos y automatizar campañas.
+                    </div>
+                    <div class="integration-features">
+                        <div class="feature-item">Generación de creativos</div>
+                        <div class="feature-item">Optimización de audiencias</div>
+                        <div class="feature-item">Automatización de campañas</div>
+                        <div class="feature-item">Análisis de rendimiento</div>
+                        <div class="feature-item">ROI tracking</div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">🔗 Conectar Facebook Ads</a>
+                </div>
+                
+                <div class="integration-card">
+                    <div class="integration-category">🔍 Advertising</div>
+                    <div class="integration-title">Google Ads</div>
+                    <div class="integration-description">
+                        Integración con Google Ads para crear anuncios optimizados, generar keywords y automatizar campañas.
+                    </div>
+                    <div class="integration-features">
+                        <div class="feature-item">Generación de keywords</div>
+                        <div class="feature-item">Creación de anuncios</div>
+                        <div class="feature-item">Optimización de pujas</div>
+                        <div class="feature-item">Análisis de competencia</div>
+                        <div class="feature-item">ROI optimization</div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">🔗 Conectar Google Ads</a>
+                </div>
+                
+                <div class="integration-card">
+                    <div class="integration-category">🔄 Automation</div>
+                    <div class="integration-title">Zapier</div>
+                    <div class="integration-description">
+                        Integración con Zapier para conectar con 5000+ aplicaciones y automatizar workflows complejos.
+                    </div>
+                    <div class="integration-features">
+                        <div class="feature-item">5000+ aplicaciones</div>
+                        <div class="feature-item">Workflows automatizados</div>
+                        <div class="feature-item">Triggers inteligentes</div>
+                        <div class="feature-item">Sincronización en tiempo real</div>
+                        <div class="feature-item">Error handling</div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">🔗 Conectar Zapier</a>
+                </div>
+                
+                <div class="integration-card">
+                    <div class="integration-category">📊 Analytics</div>
+                    <div class="integration-title">Google Analytics</div>
+                    <div class="integration-description">
+                        Integración con Google Analytics para análisis avanzado, reportes automáticos y optimización de conversiones.
+                    </div>
+                    <div class="integration-features">
+                        <div class="feature-item">Análisis de comportamiento</div>
+                        <div class="feature-item">Reportes automáticos</div>
+                        <div class="feature-item">Optimización de conversiones</div>
+                        <div class="feature-item">Segmentación avanzada</div>
+                        <div class="feature-item">Predicciones de IA</div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">🔗 Conectar Google Analytics</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="authority">
+            <h3 style="margin: 0 0 15px 0;">🏆 LIDERAMOS EN INTEGRACIONES</h3>
+            <p style="margin: 0; font-size: 1.2em;">Más de 50 integraciones nativas con las herramientas más populares del mercado</p>
+        </div>
+
+        <section class="categories-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">📂 Categorías de Integraciones</h2>
+            
+            <div class="categories-grid">
+                <div class="category-card">
+                    <div class="category-icon">📊</div>
+                    <h3>CRM & Sales</h3>
+                    <p>Integraciones con sistemas CRM</p>
+                    <ul style="text-align: left;">
+                        <li>✅ HubSpot</li>
+                        <li>✅ Salesforce</li>
+                        <li>✅ Pipedrive</li>
+                        <li>✅ Zoho CRM</li>
+                        <li>✅ Monday.com</li>
+                    </ul>
+                    <p><strong>15+ integraciones</strong></p>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">📧</div>
+                    <h3>Email Marketing</h3>
+                    <p>Plataformas de email marketing</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Mailchimp</li>
+                        <li>✅ Constant Contact</li>
+                        <li>✅ AWeber</li>
+                        <li>✅ GetResponse</li>
+                        <li>✅ ConvertKit</li>
+                    </ul>
+                    <p><strong>12+ integraciones</strong></p>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">📱</div>
+                    <h3>Social Media</h3>
+                    <p>Redes sociales y advertising</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Facebook Ads</li>
+                        <li>✅ Instagram</li>
+                        <li>✅ LinkedIn</li>
+                        <li>✅ Twitter</li>
+                        <li>✅ TikTok</li>
+                    </ul>
+                    <p><strong>10+ integraciones</strong></p>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">🔍</div>
+                    <h3>Advertising</h3>
+                    <p>Plataformas de publicidad</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Google Ads</li>
+                        <li>✅ Bing Ads</li>
+                        <li>✅ YouTube Ads</li>
+                        <li>✅ Amazon Ads</li>
+                        <li>✅ LinkedIn Ads</li>
+                    </ul>
+                    <p><strong>8+ integraciones</strong></p>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">🔄</div>
+                    <h3>Automation</h3>
+                    <p>Herramientas de automatización</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Zapier</li>
+                        <li>✅ Make (Integromat)</li>
+                        <li>✅ Microsoft Power Automate</li>
+                        <li>✅ IFTTT</li>
+                        <li>✅ Automate.io</li>
+                    </ul>
+                    <p><strong>6+ integraciones</strong></p>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">📊</div>
+                    <h3>Analytics</h3>
+                    <p>Herramientas de análisis</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Google Analytics</li>
+                        <li>✅ Adobe Analytics</li>
+                        <li>✅ Mixpanel</li>
+                        <li>✅ Hotjar</li>
+                        <li>✅ Crazy Egg</li>
+                    </ul>
+                    <p><strong>8+ integraciones</strong></p>
+                </div>
+            </div>
+        </section>
+
+        <div class="social-proof">
+            <h3 style="margin: 0 0 15px 0;">👥 MÁS DE 10,000 INTEGRACIONES ACTIVAS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Desde startups hasta Fortune 500, todos conectan sus herramientas con nuestra IA</p>
+        </div>
+
+        <section class="setup-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">⚙️ Setup en 3 Pasos</h2>
+            
+            <div class="setup-steps">
+                <div class="setup-step">
+                    <div class="step-number">1</div>
+                    <h3>Selecciona tu Herramienta</h3>
+                    <p>Elige de entre 50+ integraciones disponibles</p>
+                </div>
+                
+                <div class="setup-step">
+                    <div class="step-number">2</div>
+                    <h3>Autoriza la Conexión</h3>
+                    <p>Conecta de forma segura con tu cuenta</p>
+                </div>
+                
+                <div class="setup-step">
+                    <div class="step-number">3</div>
+                    <h3>Configura y Automatiza</h3>
+                    <p>Personaliza la integración y activa la automatización</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="stats-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">📊 Estadísticas de Integraciones</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">50+</div>
+                    <h3>Integraciones</h3>
+                    <p>Disponibles</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">5</div>
+                    <h3>Minutos</h3>
+                    <p>Setup promedio</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">99.9%</div>
+                    <h3>Uptime</h3>
+                    <p>Disponibilidad</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">10,000+</div>
+                    <h3>Integraciones</h3>
+                    <p>Activas</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">6</div>
+                    <h3>Categorías</h3>
+                    <p>Especializadas</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">24/7</div>
+                    <h3>Soporte</h3>
+                    <p>Para integraciones</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="premium">
+            <h3 style="margin: 0 0 15px 0;">👑 INTEGRACIONES PERSONALIZADAS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Integraciones personalizadas para herramientas específicas de tu empresa por solo $297/mes</p>
+        </div>
+
+        <div class="curiosity">
+            <h3 style="margin: 0 0 15px 0;">🔍 ¿QUÉ HACE NUESTRAS INTEGRACIONES DIFERENTES?</h3>
+            <p style="margin: 0; font-size: 1.2em;">Descubre por qué más de 10,000 empresas confían en nuestras integraciones para conectar su IA</p>
+        </div>
+
+        <div class="empathy">
+            <h3 style="margin: 0 0 15px 0;">💝 Entendemos tus Necesidades</h3>
+            <p style="margin: 0; font-size: 1.2em;">Sabemos que cada empresa usa herramientas diferentes. Por eso ofrecemos 50+ integraciones y personalizadas</p>
+        </div>
+    </div>
+
+    <footer style="background: #2c3e50; color: white; padding: 40px 0; text-align: center;">
+        <div class="container">
+            <p>&copy; 2024 IA Marketing Solutions. Todos los derechos reservados.</p>
+            <p>Integraciones exitosas desde 2020</p>
+        </div>
+    </footer>
+
+    <script>
+        // Track integration interactions
+        document.querySelectorAll('.integration-card .cta-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const integration = this.closest('.integration-card').querySelector('.integration-title').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'integration_click', {
+                        'event_category': 'AI Integrations',
+                        'event_label': integration,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track category card clicks
+        document.querySelectorAll('.category-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const category = this.querySelector('h3').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'integration_category_click', {
+                        'event_category': 'AI Integrations',
+                        'event_label': category,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track setup step interactions
+        document.querySelectorAll('.setup-step').forEach(step => {
+            step.addEventListener('click', function() {
+                const stepNumber = this.querySelector('.step-number').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'setup_step_click', {
+                        'event_category': 'AI Integrations',
+                        'event_label': 'Step ' + stepNumber,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Animate integration cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.integration-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+        
+        // Animate stat numbers
+        const statObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumber = entry.target.querySelector('.stat-number');
+                    const finalValue = statNumber.textContent;
+                    const isPlus = finalValue.includes('+');
+                    const isPercentage = finalValue.includes('%');
+                    const isSlash = finalValue.includes('/');
+                    const numericValue = parseFloat(finalValue.replace(/[^0-9.]/g, ''));
+                    
+                    let currentValue = 0;
+                    const increment = numericValue / 30;
+                    
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= numericValue) {
+                            currentValue = numericValue;
+                            clearInterval(timer);
+                        }
+                        
+                        if (isPlus) {
+                            statNumber.textContent = Math.round(currentValue).toLocaleString() + '+';
+                        } else if (isPercentage) {
+                            statNumber.textContent = Math.round(currentValue) + '%';
+                        } else if (isSlash) {
+                            statNumber.textContent = Math.round(currentValue) + '/7';
+                        } else {
+                            statNumber.textContent = Math.round(currentValue).toLocaleString();
+                        }
+                    }, 30);
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.stat-card').forEach(card => {
+            statObserver.observe(card);
+        });
+    </script>
+</body>
+</html>
+

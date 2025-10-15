@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optimización Móvil | IA Marketing Solutions</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Mobile-First Design */
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 60px 0; text-align: center; }
+        .hero h1 { font-size: 2.2em; margin-bottom: 20px; font-weight: 700; }
+        .hero p { font-size: 1.1em; margin-bottom: 30px; opacity: 0.9; }
+        
+        .cta-button { background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; padding: 15px 25px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1em; display: inline-block; margin: 10px 5px; transition: all 0.3s; box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3); }
+        .cta-button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4); }
+        
+        .features { padding: 60px 0; background: #f8f9fa; }
+        .feature-grid { display: grid; grid-template-columns: 1fr; gap: 30px; margin-top: 40px; }
+        .feature-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); text-align: center; }
+        .feature-icon { font-size: 2.5em; margin-bottom: 15px; }
+        
+        .stats { background: #2c3e50; color: white; padding: 50px 0; text-align: center; }
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin-top: 30px; }
+        .stat-item h3 { font-size: 2em; margin-bottom: 10px; color: #ff6b6b; }
+        
+        .webinar { background: #e8f4fd; padding: 60px 0; text-align: center; }
+        .webinar-content { background: white; padding: 30px; border-radius: 15px; max-width: 500px; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        
+        .testimonials { padding: 60px 0; background: white; }
+        .testimonial { background: #f8f9fa; padding: 25px; border-radius: 10px; border-left: 4px solid #667eea; margin: 20px 0; }
+        
+        /* Mobile Navigation */
+        .mobile-nav { display: none; position: fixed; top: 0; left: 0; right: 0; background: white; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .nav-toggle { display: block; background: none; border: none; font-size: 1.5em; padding: 15px; }
+        .nav-menu { display: none; background: white; border-top: 1px solid #eee; }
+        .nav-menu.active { display: block; }
+        .nav-menu a { display: block; padding: 15px 20px; text-decoration: none; color: #333; border-bottom: 1px solid #f0f0f0; }
+        
+        /* Floating Elements */
+        .floating-whatsapp { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
+        .whatsapp-btn { background: #25d366; color: white; padding: 12px; border-radius: 50px; text-decoration: none; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); }
+        
+        .floating-phone { position: fixed; bottom: 20px; left: 20px; z-index: 1000; }
+        .phone-btn { background: #667eea; color: white; padding: 12px; border-radius: 50px; text-decoration: none; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); }
+        
+        /* Touch-friendly elements */
+        .touch-target { min-height: 44px; min-width: 44px; }
+        
+        /* Optimized for mobile performance */
+        .lazy-load { opacity: 0; transition: opacity 0.3s; }
+        .lazy-load.loaded { opacity: 1; }
+        
+        /* Tablet styles */
+        @media (min-width: 768px) {
+            .hero { padding: 80px 0; }
+            .hero h1 { font-size: 3em; }
+            .hero p { font-size: 1.3em; }
+            .feature-grid { grid-template-columns: repeat(2, 1fr); }
+            .stats-grid { grid-template-columns: repeat(4, 1fr); }
+            .cta-button { padding: 18px 35px; font-size: 1.1em; }
+        }
+        
+        /* Desktop styles */
+        @media (min-width: 1024px) {
+            .hero { padding: 100px 0; }
+            .hero h1 { font-size: 4em; }
+            .hero p { font-size: 1.4em; }
+            .feature-grid { grid-template-columns: repeat(3, 1fr); }
+            .mobile-nav { display: none; }
+        }
+        
+        /* Mobile-specific optimizations */
+        @media (max-width: 767px) {
+            .mobile-nav { display: block; }
+            .container { padding: 0 15px; }
+            .hero { padding: 40px 0; }
+            .hero h1 { font-size: 1.8em; line-height: 1.2; }
+            .hero p { font-size: 1em; }
+            .cta-button { display: block; width: 100%; margin: 10px 0; text-align: center; }
+            .feature-card { padding: 20px; }
+            .stats-grid { grid-template-columns: 1fr; gap: 20px; }
+            .webinar-content { margin: 0 15px; padding: 20px; }
+            .floating-whatsapp, .floating-phone { bottom: 10px; }
+            .floating-whatsapp { right: 10px; }
+            .floating-phone { left: 10px; }
+        }
+        
+        /* Performance optimizations */
+        .optimized-image { max-width: 100%; height: auto; }
+        .critical-css { display: block; }
+        .non-critical { display: none; }
+        
+        @media (min-width: 768px) {
+            .non-critical { display: block; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav">
+        <button class="nav-toggle" onclick="toggleNav()">☰</button>
+        <div class="nav-menu" id="navMenu">
+            <a href="#curso">Curso IA</a>
+            <a href="#saas">SaaS</a>
+            <a href="#documentos">Documentos</a>
+            <a href="#webinar">Webinar</a>
+            <a href="#contacto">Contacto</a>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <div class="container">
+            <h1>🚀 IA para Marketing Móvil</h1>
+            <p><strong>Optimizado para dispositivos móviles</strong> - Aprende IA aplicada al marketing desde cualquier lugar, en cualquier momento.</p>
+            <a href="#curso" class="cta-button">🎯 Comenzar Ahora</a>
+            <a href="#webinar" class="cta-button">📺 Webinar Gratis</a>
+        </div>
+    </div>
+
+    <section class="features">
+        <div class="container">
+            <h2 style="text-align: center; font-size: 2em; margin-bottom: 20px; color: #2c3e50;">📱 Experiencia Móvil Optimizada</h2>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Diseño Responsive</h3>
+                    <p>Interfaz adaptada perfectamente a móviles, tablets y desktop. Navegación intuitiva con botones táctiles optimizados.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Carga Ultra Rápida</h3>
+                    <p>Optimizado para velocidad móvil. Carga en menos de 3 segundos en cualquier dispositivo y conexión.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">👆</div>
+                    <h3>Touch-Friendly</h3>
+                    <p>Botones y elementos diseñados para dedos. Áreas de toque de 44px mínimo para máxima usabilidad.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Analytics Móvil</h3>
+                    <p>Tracking específico para comportamiento móvil. Métricas de conversión optimizadas para cada dispositivo.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔔</div>
+                    <h3>Notificaciones Push</h3>
+                    <p>Mantente actualizado con notificaciones sobre nuevos contenidos, webinars y ofertas especiales.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">💾</div>
+                    <h3>Modo Offline</h3>
+                    <p>Accede a contenido clave sin conexión. Descarga lecciones para estudiar en cualquier momento.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="container">
+            <h2 style="font-size: 2em; margin-bottom: 20px;">📈 Métricas Móviles</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>78%</h3>
+                    <p>Tráfico Móvil</p>
+                </div>
+                <div class="stat-item">
+                    <h3>2.3s</h3>
+                    <p>Tiempo de Carga</p>
+                </div>
+                <div class="stat-item">
+                    <h3>94%</h3>
+                    <p>Satisfacción Móvil</p>
+                </div>
+                <div class="stat-item">
+                    <h3>45%</h3>
+                    <p>Conversiones Móviles</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="webinar">
+        <div class="container">
+            <h2 style="color: #2c3e50; margin-bottom: 20px;">📱 Webinar Móvil Optimizado</h2>
+            <div class="webinar-content">
+                <h3 style="color: #667eea; margin-bottom: 15px;">"IA en Marketing: Desde tu Móvil"</h3>
+                <p style="margin-bottom: 20px;">Únete desde cualquier dispositivo. Optimizado para móviles con chat en vivo y interacción táctil.</p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 1.5em; margin-bottom: 5px;">📅</div>
+                        <p><strong>Miércoles</strong><br>7:00 PM</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 1.5em; margin-bottom: 5px;">⏱️</div>
+                        <p><strong>90 min</strong><br>+ Q&A</p>
+                    </div>
+                </div>
+                <a href="#registro" class="cta-button" style="width: 100%; margin: 20px 0;">📱 Registrarse Móvil</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <div class="container">
+            <h2 style="text-align: center; font-size: 2em; margin-bottom: 30px; color: #2c3e50;">💬 Testimonios Móviles</h2>
+            
+            <div class="testimonial">
+                <p>"Perfecto para estudiar en el metro. La app móvil es increíble, puedo aprender IA mientras viajo al trabajo."</p>
+                <strong>- Laura M., Marketing Manager</strong>
+            </div>
+            
+            <div class="testimonial">
+                <p>"La interfaz móvil es tan intuitiva que prefiero usar el curso desde mi teléfono que desde la computadora."</p>
+                <strong>- Carlos R., Emprendedor</strong>
+            </div>
+            
+            <div class="testimonial">
+                <p>"Las notificaciones push me mantienen motivado. Nunca pierdo una lección importante."</p>
+                <strong>- Ana S., Consultora</strong>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating Elements -->
+    <div class="floating-whatsapp">
+        <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20curso%20móvil%20de%20IA" class="whatsapp-btn">
+            <span style="font-size: 1.2em;">💬</span>
+            <span style="display: none;" class="non-critical">WhatsApp</span>
+        </a>
+    </div>
+    
+    <div class="floating-phone">
+        <a href="tel:+1234567890" class="phone-btn">
+            <span style="font-size: 1.2em;">📞</span>
+            <span style="display: none;" class="non-critical">Llamar</span>
+        </a>
+    </div>
+
+    <footer style="background: #2c3e50; color: white; padding: 40px 0; text-align: center;">
+        <div class="container">
+            <p>&copy; 2024 IA Marketing Solutions. Optimizado para móviles.</p>
+            <div style="margin-top: 20px;">
+                <a href="#" style="color: white; margin: 0 10px; text-decoration: none; font-size: 0.9em;">App Store</a>
+                <a href="#" style="color: white; margin: 0 10px; text-decoration: none; font-size: 0.9em;">Google Play</a>
+                <a href="#" style="color: white; margin: 0 10px; text-decoration: none; font-size: 0.9em;">PWA</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile navigation toggle
+        function toggleNav() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+        }
+        
+        // Touch-friendly interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add touch class for better mobile interactions
+            document.body.classList.add('touch-device');
+            
+            // Optimize images for mobile
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                img.classList.add('optimized-image');
+            });
+            
+            // Lazy loading for non-critical content
+            const lazyElements = document.querySelectorAll('.lazy-load');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('loaded');
+                    }
+                });
+            });
+            
+            lazyElements.forEach(el => observer.observe(el));
+        });
+        
+        // Mobile-specific analytics
+        function trackMobileEvent(eventName, eventData) {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', eventName, {
+                    'event_category': 'Mobile',
+                    'event_label': eventData,
+                    'custom_parameter_1': 'mobile_optimized'
+                });
+            }
+        }
+        
+        // Track mobile interactions
+        document.querySelectorAll('.cta-button').forEach(button => {
+            button.addEventListener('click', function() {
+                trackMobileEvent('mobile_cta_click', this.textContent.trim());
+            });
+        });
+        
+        // Performance monitoring
+        window.addEventListener('load', function() {
+            const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'page_load_time', {
+                    'event_category': 'Performance',
+                    'value': loadTime,
+                    'custom_parameter_1': 'mobile_optimized'
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+
+

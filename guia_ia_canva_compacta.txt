@@ -1,0 +1,71 @@
+🎯 GUÍA RÁPIDA: HERRAMIENTAS DE IA GRATUITAS
+═══════════════════════════════════════════════════════════════
+¡Probadas y funcionando! Lista actualizada Enero 2025
+
+🤖 CHATBOTS Y ASISTENTES
+───────────────────────────────────────────────────────────────
+• ChatGPT (OpenAI) - chat.openai.com
+• Claude 4 (Anthropic) - claude.ai  
+• Google Gemini 2.0 - gemini.google.com
+• DeepSeek R1 - deepseek.com
+• Luzia (WhatsApp) - luzia.com
+
+🖼️ GENERADORES DE IMÁGENES
+───────────────────────────────────────────────────────────────
+• DALL-E 2 (OpenAI) - openai.com/dall-e-2
+• Bing Image Creator - bing.com/create
+• Leonardo.AI - leonardo.ai
+• DreamStudio - dreamstudio.ai
+• Scribble Diffusion - scribblediffusion.com
+• Flair - withflair.ai
+• Interior AI - interiorai.com
+
+🎬 VIDEO Y AUDIO
+───────────────────────────────────────────────────────────────
+• Runway ML - runwayml.com
+• ElevenLabs - elevenlabs.io
+• Synthesia - synthesia.io
+• AIVA.AI - aiva.ai
+• Soundful - soundful.com
+• Soundraw - soundraw.io
+
+📊 PRODUCTIVIDAD
+───────────────────────────────────────────────────────────────
+• Grammarly - grammarly.com
+• DeepL Translator - deepl.com
+• Rows - rows.com
+• Tome - beta.tome.app
+• AgentGPT - agentgpt.reworkd.ai
+
+💻 PROGRAMACIÓN
+───────────────────────────────────────────────────────────────
+• Codeium - codeium.com
+• AutoRegEx - autoregex.xyz
+
+🎨 DISEÑO
+───────────────────────────────────────────────────────────────
+• Canva con IA - canva.com
+• AI Magic Tools - runwayml.com/ai-magic-tools
+
+🔍 RECONOCIMIENTO
+───────────────────────────────────────────────────────────────
+• Google Lens - Google Photos
+• Socratic - socratic.org
+
+🎯 ESPECIALIZADAS
+───────────────────────────────────────────────────────────────
+• NameSnack - namesnack.com
+• AI Suggests - ai-suggests.com
+• Piggy Quiz Maker - piggy.to
+• Inworld - inworld.ai
+• Monica - monica.im
+
+═══════════════════════════════════════════════════════════════
+💡 TIPS:
+• La mayoría son gratuitas con limitaciones
+• Algunas requieren registro
+• Revisa términos de uso para contenido comercial
+• Combina herramientas para mejores resultados
+
+📅 Actualizado: Enero 2025 | ✅ Todas funcionando
+═══════════════════════════════════════════════════════════════

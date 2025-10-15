@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📚 Biblioteca de Recursos IA | IA Marketing Solutions</title>
+    <meta name="description" content="🔥 Biblioteca completa de recursos de IA para marketing. 500+ recursos gratuitos: guías, templates, herramientas, casos de estudio y más.">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Tonos Emocionales Avanzados */
+        .excitement { background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; animation: excitement-pulse 2s infinite; text-align: center; }
+        @keyframes excitement-pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        
+        .trust { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .trust::before { content: "🛡️ "; font-size: 1.8em; }
+        
+        .success { background: linear-gradient(135deg, #28a745 0%, #198754 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .success::before { content: "🎉 "; font-size: 1.8em; }
+        
+        .premium { background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; position: relative; overflow: hidden; }
+        .premium::before { content: "👑 "; font-size: 1.8em; }
+        .premium::after { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent); animation: premium-shine 3s infinite; }
+        @keyframes premium-shine { 0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); } 100% { transform: translateX(100%) translateY(100%) rotate(45deg); } }
+        
+        .curiosity { background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .curiosity::before { content: "🔍 "; font-size: 1.8em; }
+        
+        .social-proof { background: linear-gradient(135deg, #007bff 0%, #6610f2 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .social-proof::before { content: "👥 "; font-size: 1.8em; }
+        
+        .authority { background: linear-gradient(135deg, #343a40 0%, #6c757d 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .authority::before { content: "🏆 "; font-size: 1.8em; }
+        
+        .empathy { background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .empathy::before { content: "💝 "; font-size: 1.8em; }
+        
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 0; text-align: center; }
+        .hero h1 { font-size: 3.5em; margin-bottom: 20px; font-weight: 700; }
+        .hero p { font-size: 1.3em; margin-bottom: 30px; opacity: 0.95; }
+        
+        .cta-button { background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; padding: 20px 40px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.3em; display: inline-block; margin: 20px 10px; transition: all 0.3s; box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3); }
+        .cta-button:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4); }
+        
+        .resources-section { background: white; padding: 60px 0; }
+        .resources-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 40px; }
+        .resource-card { background: #f8f9fa; padding: 30px; border-radius: 20px; border-left: 6px solid #667eea; transition: transform 0.3s; }
+        .resource-card:hover { transform: translateY(-5px); }
+        .resource-title { font-size: 1.4em; font-weight: bold; color: #2c3e50; margin-bottom: 15px; }
+        .resource-stats { background: white; padding: 15px; border-radius: 10px; margin: 15px 0; }
+        .stat-item { display: flex; justify-content: space-between; margin: 8px 0; }
+        
+        .resource-preview { background: white; border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin: 20px 0; }
+        .resource-header { border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px; }
+        .resource-item { background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #667eea; }
+        .item-number { background: #667eea; color: white; width: 25px; height: 25px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 10px; }
+        
+        .categories-section { background: #f8f9fa; padding: 60px 0; }
+        .categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px; }
+        .category-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        .category-icon { font-size: 2.5em; margin-bottom: 15px; }
+        
+        .stats-section { background: #2c3e50; color: white; padding: 60px 0; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 40px; }
+        .stat-card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; text-align: center; }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #ff6b6b; margin-bottom: 10px; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5em; }
+            .hero p { font-size: 1.1em; }
+            .resources-grid { grid-template-columns: 1fr; }
+            .categories-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>📚 Biblioteca de Recursos IA</h1>
+            <p><strong>500+ recursos gratuitos</strong> para dominar la IA en marketing. Guías, templates, herramientas, casos de estudio y más</p>
+            <a href="#resources" class="cta-button">🚀 Explorar Recursos</a>
+            <a href="#categories" class="cta-button" style="background: transparent; border: 2px solid white;">📂 Categorías</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="excitement">
+            <h2 style="margin: 0; font-size: 2.2em;">📚 ¡500+ RECURSOS GRATUITOS!</h2>
+            <p style="margin: 10px 0 0 0; font-size: 1.2em;">La biblioteca más completa de recursos de IA para marketing</p>
+        </div>
+
+        <div class="success">
+            <h3 style="margin: 0 0 15px 0;">🎉 RECURSOS COMPROBADOS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Más de 10,000 profesionales han usado nuestros recursos para dominar la IA</p>
+        </div>
+
+        <section class="resources-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">📚 Recursos por Categoría</h2>
+            
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <div class="resource-title">📖 Guías Completas</div>
+                    <p>Guías paso a paso para implementar IA en marketing</p>
+                    <div class="resource-stats">
+                        <div class="stat-item">
+                            <span>Recursos:</span>
+                            <span style="color: #28a745; font-weight: bold;">50+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Páginas:</span>
+                            <span style="color: #28a745; font-weight: bold;">2,000+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Descargas:</span>
+                            <span style="color: #28a745; font-weight: bold;">25,000+</span>
+                        </div>
+                    </div>
+                    <div class="resource-preview">
+                        <div class="resource-header">
+                            <div class="resource-title">Guías Disponibles</div>
+                        </div>
+                        <div class="resource-item">
+                            <span class="item-number">1</span>
+                            <strong>Guía de Implementación IA:</strong> 90 días para automatizar tu marketing
+                        </div>
+                        <div class="resource-item">
+                            <span class="item-number">2</span>
+                            <strong>Guía de Herramientas IA:</strong> 50+ herramientas probadas
+                        </div>
+                        <div class="resource-item">
+                            <span class="item-number">3</span>
+                            <strong>Guía de Optimización:</strong> 25+ estrategias de conversión
+                        </div>
+                        <div class="resource-item">
+                            <span class="item-number">4</span>
+                            <strong>Guía de Automatización:</strong> 30+ workflows listos
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Descargar Guías</a>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-title">📋 Templates Listos</div>
+                    <p>Templates editables para emails, landing pages y más</p>
+                    <div class="resource-stats">
+                        <div class="stat-item">
+                            <span>Recursos:</span>
+                            <span style="color: #28a745; font-weight: bold;">100+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Formatos:</span>
+                            <span style="color: #28a745; font-weight: bold;">15+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Descargas:</span>
+                            <span style="color: #28a745; font-weight: bold;">50,000+</span>
+                        </div>
+                    </div>
+                    <div class="resource-preview">
+                        <div class="resource-header">
+                            <div class="resource-title">Templates Disponibles</div>
+                        </div>
+                        <div class="resource-item">
+                            <span class="item-number">1</span>
+                            <strong>Email Templates:</strong> 25+ templates de email marketing
+                        </div>
+                        <div class="resource-item">
+                            <span class="item-number">2</span>
+                            <strong>Landing Pages:</strong> 20+ templates de conversión
+                        </div>
+                        <div class="resource-item">
+                            <span class="item-number">3</span>
+                            <strong>Social Media:</strong> 30+ templates para redes sociales
+                        </div>
+                        <div class="resource-item">
+                            <span class="item-number">4</span>
+                            <strong>Presentaciones:</strong> 25+ templates profesionales
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Descargar Templates</a>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-title">🛠️ Herramientas Gratuitas</div>
+                    <p>Herramientas y calculadoras para optimizar tu marketing</p>
+                    <div class="resource-stats">
+                        <div class="stat-item">
+                            <span>Recursos:</span>
+                            <span style="color: #28a745; font-weight: bold;">25+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Usuarios:</span>
+                            <span style="color: #28a745; font-weight: bold;">100,000+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Uso mensual:</span>
+                            <span style="color: #28a745; font-weight: bold;">500,000+</span>
+                        </div>
+                    </div>
+                    <div class="resource-preview">
+                        <div class="resource-header">
+                            <div class="resource-title">Herramientas Disponibles</div>
+                        </div>
+                        <div class="resource-item">
+                            <span class="item-number">1</span>
+                            <strong>Calculadora ROI:</strong> Calcula el retorno de inversión
+                        </div>
+                        <div class="resource-item">
+                            <span class="item-number">2</span>
+                            <strong>Generador de Contenido:</strong> Crea contenido con IA
+                        </div>
+                        <div class="resource-item">
+                            <span class="item-number">3</span>
+                            <strong>Analizador SEO:</strong> Optimiza tu contenido
+                        </div>
+                        <div class="resource-item">
+                            <span class="item-number">4</span>
+                            <strong>Planificador de Contenido:</strong> Organiza tu estrategia
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Usar Herramientas</a>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-title">📊 Casos de Estudio</div>
+                    <p>Casos reales de implementación de IA en marketing</p>
+                    <div class="resource-stats">
+                        <div class="stat-item">
+                            <span>Recursos:</span>
+                            <span style="color: #28a745; font-weight: bold;">75+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Industrias:</span>
+                            <span style="color: #28a745; font-weight: bold;">15+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Descargas:</span>
+                            <span style="color: #28a745; font-weight: bold;">15,000+</span>
+                        </div>
+                    </div>
+                    <div class="resource-preview">
+                        <div class="resource-header">
+                            <div class="resource-title">Casos Disponibles</div>
+                        </div>
+                        <div class="resource-item">
+                            <span class="item-number">1</span>
+                            <strong>SaaS B2B:</strong> 15+ casos de empresas de software
+                        </div>
+                        <div class="resource-item">
+                            <span class="item-number">2</span>
+                            <strong>E-commerce:</strong> 20+ casos de tiendas online
+                        </div>
+                        <div class="resource-item">
+                            <span class="item-number">3</span>
+                            <strong>Servicios:</strong> 25+ casos de empresas de servicios
+                        </div>
+                        <div class="resource-item">
+                            <span class="item-number">4</span>
+                            <strong>Startups:</strong> 15+ casos de startups exitosas
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Ver Casos</a>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-title">🎥 Videos y Tutoriales</div>
+                    <p>Videos educativos y tutoriales paso a paso</p>
+                    <div class="resource-stats">
+                        <div class="stat-item">
+                            <span>Recursos:</span>
+                            <span style="color: #28a745; font-weight: bold;">200+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Horas:</span>
+                            <span style="color: #28a745; font-weight: bold;">500+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Visualizaciones:</span>
+                            <span style="color: #28a745; font-weight: bold;">1M+</span>
+                        </div>
+                    </div>
+                    <div class="resource-preview">
+                        <div class="resource-header">
+                            <div class="resource-title">Contenido Disponible</div>
+                        </div>
+                        <div class="resource-item">
+                            <span class="item-number">1</span>
+                            <strong>Tutoriales Básicos:</strong> 50+ videos introductorios
+                        </div>
+                        <div class="resource-item">
+                            <span class="item-number">2</span>
+                            <strong>Tutoriales Avanzados:</strong> 75+ videos especializados
+                        </div>
+                        <div class="resource-item">
+                            <span class="item-number">3</span>
+                            <strong>Webinars:</strong> 50+ sesiones grabadas
+                        </div>
+                        <div class="resource-item">
+                            <span class="item-number">4</span>
+                            <strong>Casos Prácticos:</strong> 25+ implementaciones reales
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Ver Videos</a>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-title">📱 Apps y Extensiones</div>
+                    <p>Aplicaciones y extensiones para optimizar tu trabajo</p>
+                    <div class="resource-stats">
+                        <div class="stat-item">
+                            <span>Recursos:</span>
+                            <span style="color: #28a745; font-weight: bold;">50+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Plataformas:</span>
+                            <span style="color: #28a745; font-weight: bold;">10+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Descargas:</span>
+                            <span style="color: #28a745; font-weight: bold;">75,000+</span>
+                        </div>
+                    </div>
+                    <div class="resource-preview">
+                        <div class="resource-header">
+                            <div class="resource-title">Apps Disponibles</div>
+                        </div>
+                        <div class="resource-item">
+                            <span class="item-number">1</span>
+                            <strong>Chrome Extensions:</strong> 15+ extensiones para navegador
+                        </div>
+                        <div class="resource-item">
+                            <span class="item-number">2</span>
+                            <strong>Mobile Apps:</strong> 10+ apps para móvil
+                        </div>
+                        <div class="resource-item">
+                            <span class="item-number">3</span>
+                            <strong>Desktop Apps:</strong> 15+ aplicaciones de escritorio
+                        </div>
+                        <div class="resource-item">
+                            <span class="item-number">4</span>
+                            <strong>Integraciones:</strong> 10+ integraciones con herramientas
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Descargar Apps</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="authority">
+            <h3 style="margin: 0 0 15px 0;">🏆 LIDERAMOS EN RECURSOS IA</h3>
+            <p style="margin: 0; font-size: 1.2em;">La biblioteca más completa de recursos de IA para marketing con 500+ recursos gratuitos</p>
+        </div>
+
+        <section class="categories-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">📂 Categorías de Recursos</h2>
+            
+            <div class="categories-grid">
+                <div class="category-card">
+                    <div class="category-icon">📖</div>
+                    <h3>Guías y Manuales</h3>
+                    <p>50+ guías completas</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Implementación IA</li>
+                        <li>✅ Herramientas IA</li>
+                        <li>✅ Optimización</li>
+                        <li>✅ Automatización</li>
+                    </ul>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">📋</div>
+                    <h3>Templates y Plantillas</h3>
+                    <p>100+ templates editables</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Email marketing</li>
+                        <li>✅ Landing pages</li>
+                        <li>✅ Social media</li>
+                        <li>✅ Presentaciones</li>
+                    </ul>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">🛠️</div>
+                    <h3>Herramientas Gratuitas</h3>
+                    <p>25+ herramientas online</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Calculadora ROI</li>
+                        <li>✅ Generador contenido</li>
+                        <li>✅ Analizador SEO</li>
+                        <li>✅ Planificador</li>
+                    </ul>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">📊</div>
+                    <h3>Casos de Estudio</h3>
+                    <p>75+ casos reales</p>
+                    <ul style="text-align: left;">
+                        <li>✅ SaaS B2B</li>
+                        <li>✅ E-commerce</li>
+                        <li>✅ Servicios</li>
+                        <li>✅ Startups</li>
+                    </ul>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">🎥</div>
+                    <h3>Videos y Tutoriales</h3>
+                    <p>200+ videos educativos</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Tutoriales básicos</li>
+                        <li>✅ Tutoriales avanzados</li>
+                        <li>✅ Webinars</li>
+                        <li>✅ Casos prácticos</li>
+                    </ul>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">📱</div>
+                    <h3>Apps y Extensiones</h3>
+                    <p>50+ aplicaciones</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Chrome extensions</li>
+                        <li>✅ Mobile apps</li>
+                        <li>✅ Desktop apps</li>
+                        <li>✅ Integraciones</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="social-proof">
+            <h3 style="margin: 0 0 15px 0;">👥 MÁS DE 10,000 PROFESIONALES USAN NUESTROS RECURSOS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Desde marketers hasta CEOs, todos encuentran valor en nuestra biblioteca de recursos</p>
+        </div>
+
+        <section class="stats-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">📊 Estadísticas de la Biblioteca</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">500+</div>
+                    <h3>Recursos Totales</h3>
+                    <p>Disponibles gratuitamente</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">10,000+</div>
+                    <h3>Usuarios Activos</h3>
+                    <p>Profesionales registrados</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">1M+</div>
+                    <h3>Descargas Totales</h3>
+                    <p>De recursos y herramientas</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">500+</div>
+                    <h3>Horas de Contenido</h3>
+                    <p>En videos y tutoriales</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">15+</div>
+                    <h3>Idiomas</h3>
+                    <p>Recursos disponibles</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">95%</div>
+                    <h3>Satisfacción</h3>
+                    <p>De usuarios con recursos</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="premium">
+            <h3 style="margin: 0 0 15px 0;">👑 ACCESO PREMIUM A RECURSOS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Obtén acceso completo a todos los recursos + actualizaciones + soporte por solo $47/mes</p>
+        </div>
+
+        <div class="curiosity">
+            <h3 style="margin: 0 0 15px 0;">🔍 ¿CÓMO ORGANIZAMOS NUESTROS RECURSOS?</h3>
+            <p style="margin: 0; font-size: 1.2em;">Descubre nuestro sistema de categorización y cómo encontrar exactamente lo que necesitas</p>
+        </div>
+
+        <div class="empathy">
+            <h3 style="margin: 0 0 15px 0;">💝 Entendemos tus Necesidades</h3>
+            <p style="margin: 0; font-size: 1.2em;">Sabemos que encontrar recursos de calidad puede ser difícil. Por eso organizamos todo para que sea fácil de encontrar y usar</p>
+        </div>
+    </div>
+
+    <footer style="background: #2c3e50; color: white; padding: 40px 0; text-align: center;">
+        <div class="container">
+            <p>&copy; 2024 IA Marketing Solutions. Todos los derechos reservados.</p>
+            <p>Compartiendo recursos de IA desde 2020</p>
+        </div>
+    </footer>
+
+    <script>
+        // Track resource interactions
+        document.querySelectorAll('.resource-card .cta-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const resource = this.closest('.resource-card').querySelector('.resource-title').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'resource_click', {
+                        'event_category': 'AI Resources Library',
+                        'event_label': resource,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track category card clicks
+        document.querySelectorAll('.category-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const category = this.querySelector('h3').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'category_click', {
+                        'event_category': 'AI Resources Library',
+                        'event_label': category,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track resource preview interactions
+        document.querySelectorAll('.resource-preview').forEach(preview => {
+            preview.addEventListener('click', function() {
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'resource_preview_click', {
+                        'event_category': 'AI Resources Library',
+                        'event_label': 'Resource Preview',
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Animate resource cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.resource-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+        
+        // Animate stat numbers
+        const statObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumber = entry.target.querySelector('.stat-number');
+                    const finalValue = statNumber.textContent;
+                    const isPlus = finalValue.includes('+');
+                    const isMillion = finalValue.includes('M');
+                    const isPercentage = finalValue.includes('%');
+                    const numericValue = parseFloat(finalValue.replace(/[^0-9.]/g, ''));
+                    
+                    let currentValue = 0;
+                    const increment = numericValue / 30;
+                    
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= numericValue) {
+                            currentValue = numericValue;
+                            clearInterval(timer);
+                        }
+                        
+                        if (isPlus) {
+                            statNumber.textContent = Math.round(currentValue).toLocaleString() + '+';
+                        } else if (isMillion) {
+                            statNumber.textContent = (currentValue / 1000000).toFixed(1) + 'M+';
+                        } else if (isPercentage) {
+                            statNumber.textContent = Math.round(currentValue) + '%';
+                        } else {
+                            statNumber.textContent = Math.round(currentValue).toLocaleString();
+                        }
+                    }, 30);
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.stat-card').forEach(card => {
+            statObserver.observe(card);
+        });
+    </script>
+</body>
+</html>
+
+
+

@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📧 Newsletter IA Marketing | IA Marketing Solutions</title>
+    <meta name="description" content="🔥 Newsletter semanal con las últimas tendencias de IA en marketing. 50,000+ suscriptores, contenido exclusivo, casos de estudio y herramientas gratuitas.">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Tonos Emocionales Avanzados */
+        .excitement { background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; animation: excitement-pulse 2s infinite; text-align: center; }
+        @keyframes excitement-pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        
+        .trust { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .trust::before { content: "🛡️ "; font-size: 1.8em; }
+        
+        .success { background: linear-gradient(135deg, #28a745 0%, #198754 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .success::before { content: "🎉 "; font-size: 1.8em; }
+        
+        .premium { background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; position: relative; overflow: hidden; }
+        .premium::before { content: "👑 "; font-size: 1.8em; }
+        .premium::after { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent); animation: premium-shine 3s infinite; }
+        @keyframes premium-shine { 0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); } 100% { transform: translateX(100%) translateY(100%) rotate(45deg); } }
+        
+        .curiosity { background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .curiosity::before { content: "🔍 "; font-size: 1.8em; }
+        
+        .social-proof { background: linear-gradient(135deg, #007bff 0%, #6610f2 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .social-proof::before { content: "👥 "; font-size: 1.8em; }
+        
+        .authority { background: linear-gradient(135deg, #343a40 0%, #6c757d 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .authority::before { content: "🏆 "; font-size: 1.8em; }
+        
+        .empathy { background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .empathy::before { content: "💝 "; font-size: 1.8em; }
+        
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 0; text-align: center; }
+        .hero h1 { font-size: 3.5em; margin-bottom: 20px; font-weight: 700; }
+        .hero p { font-size: 1.3em; margin-bottom: 30px; opacity: 0.95; }
+        
+        .cta-button { background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; padding: 20px 40px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.3em; display: inline-block; margin: 20px 10px; transition: all 0.3s; box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3); }
+        .cta-button:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4); }
+        
+        .newsletter-section { background: white; padding: 60px 0; }
+        .newsletter-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 40px; }
+        .newsletter-card { background: #f8f9fa; padding: 30px; border-radius: 20px; border-left: 6px solid #667eea; transition: transform 0.3s; }
+        .newsletter-card:hover { transform: translateY(-5px); }
+        .newsletter-title { font-size: 1.4em; font-weight: bold; color: #2c3e50; margin-bottom: 15px; }
+        .newsletter-stats { background: white; padding: 15px; border-radius: 10px; margin: 15px 0; }
+        .stat-item { display: flex; justify-content: space-between; margin: 8px 0; }
+        
+        .newsletter-preview { background: white; border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin: 20px 0; }
+        .newsletter-header { border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px; }
+        .newsletter-content { background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #667eea; }
+        .content-number { background: #667eea; color: white; width: 25px; height: 25px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 10px; }
+        
+        .benefits-section { background: #f8f9fa; padding: 60px 0; }
+        .benefits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px; }
+        .benefit-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        .benefit-icon { font-size: 2.5em; margin-bottom: 15px; }
+        
+        .stats-section { background: #2c3e50; color: white; padding: 60px 0; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 40px; }
+        .stat-card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; text-align: center; }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #ff6b6b; margin-bottom: 10px; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5em; }
+            .hero p { font-size: 1.1em; }
+            .newsletter-grid { grid-template-columns: 1fr; }
+            .benefits-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>📧 Newsletter IA Marketing</h1>
+            <p><strong>50,000+ suscriptores</strong> reciben contenido exclusivo semanal. Tendencias, casos de estudio, herramientas gratuitas y más</p>
+            <a href="#newsletter" class="cta-button">🚀 Suscribirse Gratis</a>
+            <a href="#benefits" class="cta-button" style="background: transparent; border: 2px solid white;">💡 Beneficios</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="excitement">
+            <h2 style="margin: 0; font-size: 2.2em;">📧 ¡NEWSLETTER SEMANAL GRATUITO!</h2>
+            <p style="margin: 10px 0 0 0; font-size: 1.2em;">50,000+ profesionales reciben contenido exclusivo cada semana</p>
+        </div>
+
+        <div class="success">
+            <h3 style="margin: 0 0 15px 0;">🎉 CONTENIDO COMPROBADO</h3>
+            <p style="margin: 0; font-size: 1.2em;">Nuestro newsletter tiene 45% de open rate y 12% de click rate, superando la industria</p>
+        </div>
+
+        <section class="newsletter-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">📧 Contenido del Newsletter</h2>
+            
+            <div class="newsletter-grid">
+                <div class="newsletter-card">
+                    <div class="newsletter-title">🚀 Tendencias de IA</div>
+                    <p>Las últimas tendencias y novedades en IA para marketing</p>
+                    <div class="newsletter-stats">
+                        <div class="stat-item">
+                            <span>Frecuencia:</span>
+                            <span style="color: #28a745; font-weight: bold;">Semanal</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Artículos:</span>
+                            <span style="color: #28a745; font-weight: bold;">3-5</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Open Rate:</span>
+                            <span style="color: #28a745; font-weight: bold;">45%</span>
+                        </div>
+                    </div>
+                    <div class="newsletter-preview">
+                        <div class="newsletter-header">
+                            <div class="newsletter-title">Contenido Incluido</div>
+                        </div>
+                        <div class="newsletter-content">
+                            <span class="content-number">1</span>
+                            <strong>Novedades de IA:</strong> Últimas actualizaciones de herramientas
+                        </div>
+                        <div class="newsletter-content">
+                            <span class="content-number">2</span>
+                            <strong>Tendencias del mercado:</strong> Qué está funcionando ahora
+                        </div>
+                        <div class="newsletter-content">
+                            <span class="content-number">3</span>
+                            <strong>Predicciones:</strong> Qué esperar en los próximos meses
+                        </div>
+                        <div class="newsletter-content">
+                            <span class="content-number">4</span>
+                            <strong>Análisis de competencia:</strong> Qué hacen los líderes
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Suscribirse</a>
+                </div>
+                
+                <div class="newsletter-card">
+                    <div class="newsletter-title">📊 Casos de Estudio</div>
+                    <p>Casos reales de implementación de IA en marketing</p>
+                    <div class="newsletter-stats">
+                        <div class="stat-item">
+                            <span>Frecuencia:</span>
+                            <span style="color: #28a745; font-weight: bold;">Semanal</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Casos:</span>
+                            <span style="color: #28a745; font-weight: bold;">1-2</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Click Rate:</span>
+                            <span style="color: #28a745; font-weight: bold;">12%</span>
+                        </div>
+                    </div>
+                    <div class="newsletter-preview">
+                        <div class="newsletter-header">
+                            <div class="newsletter-title">Contenido Incluido</div>
+                        </div>
+                        <div class="newsletter-content">
+                            <span class="content-number">1</span>
+                            <strong>Casos de éxito:</strong> Empresas que aumentaron ventas 300%+
+                        </div>
+                        <div class="newsletter-content">
+                            <span class="content-number">2</span>
+                            <strong>Estrategias detalladas:</strong> Cómo implementaron IA
+                        </div>
+                        <div class="newsletter-content">
+                            <span class="content-number">3</span>
+                            <strong>Métricas específicas:</strong> Resultados cuantificados
+                        </div>
+                        <div class="newsletter-content">
+                            <span class="content-number">4</span>
+                            <strong>Lecciones aprendidas:</strong> Qué funcionó y qué no
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Suscribirse</a>
+                </div>
+                
+                <div class="newsletter-card">
+                    <div class="newsletter-title">🛠️ Herramientas Gratuitas</div>
+                    <p>Herramientas y recursos gratuitos para implementar IA</p>
+                    <div class="newsletter-stats">
+                        <div class="stat-item">
+                            <span>Frecuencia:</span>
+                            <span style="color: #28a745; font-weight: bold;">Semanal</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Herramientas:</span>
+                            <span style="color: #28a745; font-weight: bold;">2-3</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Descargas:</span>
+                            <span style="color: #28a745; font-weight: bold;">5,000+</span>
+                        </div>
+                    </div>
+                    <div class="newsletter-preview">
+                        <div class="newsletter-header">
+                            <div class="newsletter-title">Contenido Incluido</div>
+                        </div>
+                        <div class="newsletter-content">
+                            <span class="content-number">1</span>
+                            <strong>Herramientas nuevas:</strong> Últimas herramientas de IA
+                        </div>
+                        <div class="newsletter-content">
+                            <span class="content-number">2</span>
+                            <strong>Tutoriales:</strong> Cómo usar cada herramienta
+                        </div>
+                        <div class="newsletter-content">
+                            <span class="content-number">3</span>
+                            <strong>Templates:</strong> Plantillas listas para usar
+                        </div>
+                        <div class="newsletter-content">
+                            <span class="content-number">4</span>
+                            <strong>Promociones:</strong> Descuentos exclusivos
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Suscribirse</a>
+                </div>
+                
+                <div class="newsletter-card">
+                    <div class="newsletter-title">🎓 Tips y Tutoriales</div>
+                    <p>Consejos prácticos y tutoriales paso a paso</p>
+                    <div class="newsletter-stats">
+                        <div class="stat-item">
+                            <span>Frecuencia:</span>
+                            <span style="color: #28a745; font-weight: bold;">Semanal</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Tips:</span>
+                            <span style="color: #28a745; font-weight: bold;">5-7</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Engagement:</span>
+                            <span style="color: #28a745; font-weight: bold;">8%</span>
+                        </div>
+                    </div>
+                    <div class="newsletter-preview">
+                        <div class="newsletter-header">
+                            <div class="newsletter-title">Contenido Incluido</div>
+                        </div>
+                        <div class="newsletter-content">
+                            <span class="content-number">1</span>
+                            <strong>Tips rápidos:</strong> Consejos que puedes aplicar hoy
+                        </div>
+                        <div class="newsletter-content">
+                            <span class="content-number">2</span>
+                            <strong>Tutoriales paso a paso:</strong> Guías detalladas
+                        </div>
+                        <div class="newsletter-content">
+                            <span class="content-number">3</span>
+                            <strong>Mejores prácticas:</strong> Qué hacer y qué evitar
+                        </div>
+                        <div class="newsletter-content">
+                            <span class="content-number">4</span>
+                            <strong>Errores comunes:</strong> Cómo evitarlos
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Suscribirse</a>
+                </div>
+                
+                <div class="newsletter-card">
+                    <div class="newsletter-title">📈 Análisis de Mercado</div>
+                    <p>Análisis profundo del mercado de IA en marketing</p>
+                    <div class="newsletter-stats">
+                        <div class="stat-item">
+                            <span>Frecuencia:</span>
+                            <span style="color: #28a745; font-weight: bold;">Mensual</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Análisis:</span>
+                            <span style="color: #28a745; font-weight: bold;">1</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Páginas:</span>
+                            <span style="color: #28a745; font-weight: bold;">10+</span>
+                        </div>
+                    </div>
+                    <div class="newsletter-preview">
+                        <div class="newsletter-header">
+                            <div class="newsletter-title">Contenido Incluido</div>
+                        </div>
+                        <div class="newsletter-content">
+                            <span class="content-number">1</span>
+                            <strong>Métricas del mercado:</strong> Tamaño y crecimiento
+                        </div>
+                        <div class="newsletter-content">
+                            <span class="content-number">2</span>
+                            <strong>Análisis de competencia:</strong> Qué hacen los líderes
+                        </div>
+                        <div class="newsletter-content">
+                            <span class="content-number">3</span>
+                            <strong>Predicciones:</strong> Qué esperar en el futuro
+                        </div>
+                        <div class="newsletter-content">
+                            <span class="content-number">4</span>
+                            <strong>Oportunidades:</strong> Dónde encontrar ventajas
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Suscribirse</a>
+                </div>
+                
+                <div class="newsletter-card">
+                    <div class="newsletter-title">🎁 Ofertas Exclusivas</div>
+                    <p>Descuentos y ofertas exclusivas para suscriptores</p>
+                    <div class="newsletter-stats">
+                        <div class="stat-item">
+                            <span>Frecuencia:</span>
+                            <span style="color: #28a745; font-weight: bold;">Quincenal</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Ofertas:</span>
+                            <span style="color: #28a745; font-weight: bold;">3-5</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Descuento:</span>
+                            <span style="color: #28a745; font-weight: bold;">20-50%</span>
+                        </div>
+                    </div>
+                    <div class="newsletter-preview">
+                        <div class="newsletter-header">
+                            <div class="newsletter-title">Contenido Incluido</div>
+                        </div>
+                        <div class="newsletter-content">
+                            <span class="content-number">1</span>
+                            <strong>Descuentos en herramientas:</strong> Ofertas exclusivas
+                        </div>
+                        <div class="newsletter-content">
+                            <span class="content-number">2</span>
+                            <strong>Acceso temprano:</strong> Nuevas funcionalidades
+                        </div>
+                        <div class="newsletter-content">
+                            <span class="content-number">3</span>
+                            <strong>Contenido premium:</strong> Recursos exclusivos
+                        </div>
+                        <div class="newsletter-content">
+                            <span class="content-number">4</span>
+                            <strong>Eventos gratuitos:</strong> Webinars exclusivos
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Suscribirse</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="authority">
+            <h3 style="margin: 0 0 15px 0;">🏆 LIDERAMOS EN NEWSLETTERS IA</h3>
+            <p style="margin: 0; font-size: 1.2em;">El newsletter más leído sobre IA en marketing con 50,000+ suscriptores y 45% de open rate</p>
+        </div>
+
+        <section class="benefits-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">💡 Beneficios del Newsletter</h2>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">📈</div>
+                    <h3>Mantente Actualizado</h3>
+                    <p>Recibe las últimas tendencias y novedades en IA</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Tendencias semanales</li>
+                        <li>✅ Novedades de herramientas</li>
+                        <li>✅ Análisis de mercado</li>
+                        <li>✅ Predicciones futuras</li>
+                    </ul>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎯</div>
+                    <h3>Aplica Estrategias Reales</h3>
+                    <p>Casos de estudio con implementación práctica</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Casos de éxito</li>
+                        <li>✅ Estrategias detalladas</li>
+                        <li>✅ Métricas específicas</li>
+                        <li>✅ Lecciones aprendidas</li>
+                    </ul>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🛠️</div>
+                    <h3>Accede a Herramientas</h3>
+                    <p>Herramientas gratuitas y recursos exclusivos</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Herramientas nuevas</li>
+                        <li>✅ Tutoriales paso a paso</li>
+                        <li>✅ Templates listos</li>
+                        <li>✅ Promociones exclusivas</li>
+                    </ul>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎓</div>
+                    <h3>Aprende Continuamente</h3>
+                    <p>Tips prácticos y tutoriales para mejorar</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Tips rápidos</li>
+                        <li>✅ Tutoriales detallados</li>
+                        <li>✅ Mejores prácticas</li>
+                        <li>✅ Errores comunes</li>
+                    </ul>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">💰</div>
+                    <h3>Ahorra Dinero</h3>
+                    <p>Descuentos y ofertas exclusivas para suscriptores</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Descuentos en herramientas</li>
+                        <li>✅ Acceso temprano</li>
+                        <li>✅ Contenido premium</li>
+                        <li>✅ Eventos gratuitos</li>
+                    </ul>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">👥</div>
+                    <h3>Únete a la Comunidad</h3>
+                    <p>Conecta con otros profesionales de IA</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Networking</li>
+                        <li>✅ Colaboraciones</li>
+                        <li>✅ Oportunidades</li>
+                        <li>✅ Soporte mutuo</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="social-proof">
+            <h3 style="margin: 0 0 15px 0;">👥 MÁS DE 50,000 PROFESIONALES SUSCRITOS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Desde marketers hasta CEOs, todos reciben valor de nuestro newsletter semanal</p>
+        </div>
+
+        <section class="stats-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">📊 Estadísticas del Newsletter</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">50,000+</div>
+                    <h3>Suscriptores</h3>
+                    <p>Profesionales activos</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">45%</div>
+                    <h3>Open Rate</h3>
+                    <p>Supera la industria (20%)</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">12%</div>
+                    <h3>Click Rate</h3>
+                    <p>Supera la industria (3%)</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">8%</div>
+                    <h3>Engagement</h3>
+                    <p>Interacciones por email</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">200+</div>
+                    <h3>Emails Enviados</h3>
+                    <p>Desde el inicio</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">95%</div>
+                    <h3>Satisfacción</h3>
+                    <p>De suscriptores activos</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="premium">
+            <h3 style="margin: 0 0 15px 0;">👑 NEWSLETTER PREMIUM</h3>
+            <p style="margin: 0; font-size: 1.2em;">Acceso a contenido premium + recursos exclusivos + eventos privados por solo $27/mes</p>
+        </div>
+
+        <div class="curiosity">
+            <h3 style="margin: 0 0 15px 0;">🔍 ¿QUÉ HACE ESPECIAL A NUESTRO NEWSLETTER?</h3>
+            <p style="margin: 0; font-size: 1.2em;">Descubre por qué nuestro newsletter tiene el open rate más alto de la industria</p>
+        </div>
+
+        <div class="empathy">
+            <h3 style="margin: 0 0 15px 0;">💝 Entendemos tus Necesidades</h3>
+            <p style="margin: 0; font-size: 1.2em;">Sabemos que el tiempo es valioso. Por eso nuestro newsletter es conciso, práctico y lleno de valor</p>
+        </div>
+    </div>
+
+    <footer style="background: #2c3e50; color: white; padding: 40px 0; text-align: center;">
+        <div class="container">
+            <p>&copy; 2024 IA Marketing Solutions. Todos los derechos reservados.</p>
+            <p>Informando sobre IA desde 2020</p>
+        </div>
+    </footer>
+
+    <script>
+        // Track newsletter interactions
+        document.querySelectorAll('.newsletter-card .cta-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const newsletter = this.closest('.newsletter-card').querySelector('.newsletter-title').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'newsletter_click', {
+                        'event_category': 'AI Newsletter',
+                        'event_label': newsletter,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track benefit card clicks
+        document.querySelectorAll('.benefit-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const benefit = this.querySelector('h3').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'benefit_click', {
+                        'event_category': 'AI Newsletter',
+                        'event_label': benefit,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track newsletter preview interactions
+        document.querySelectorAll('.newsletter-preview').forEach(preview => {
+            preview.addEventListener('click', function() {
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'newsletter_preview_click', {
+                        'event_category': 'AI Newsletter',
+                        'event_label': 'Newsletter Preview',
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Animate newsletter cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.newsletter-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+        
+        // Animate stat numbers
+        const statObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumber = entry.target.querySelector('.stat-number');
+                    const finalValue = statNumber.textContent;
+                    const isPlus = finalValue.includes('+');
+                    const isPercentage = finalValue.includes('%');
+                    const numericValue = parseFloat(finalValue.replace(/[^0-9.]/g, ''));
+                    
+                    let currentValue = 0;
+                    const increment = numericValue / 30;
+                    
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= numericValue) {
+                            currentValue = numericValue;
+                            clearInterval(timer);
+                        }
+                        
+                        if (isPlus) {
+                            statNumber.textContent = Math.round(currentValue).toLocaleString() + '+';
+                        } else if (isPercentage) {
+                            statNumber.textContent = Math.round(currentValue) + '%';
+                        } else {
+                            statNumber.textContent = Math.round(currentValue).toLocaleString();
+                        }
+                    }, 30);
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.stat-card').forEach(card => {
+            statObserver.observe(card);
+        });
+    </script>
+</body>
+</html>
+
+
+

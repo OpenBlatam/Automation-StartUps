@@ -2,503 +2,302 @@
 
 ## 🎯 Biblioteca de Prompts Especializados para TikTok
 
-Esta biblioteca contiene prompts optimizados para generar contenido viral en TikTok usando IA. Cada prompt está diseñado para maximizar engagement, viralidad y resultados.
+### 📋 Categorías de Contenido
 
 ---
 
-## 🚀 **CATEGORÍA 1: GENERACIÓN DE IDEAS VIRALES**
+## 🚀 **TREND LEVERAGE PROMPTS**
 
-### 📝 **Template 1: Trend Leverage Assistant**
+### 🎯 Identificación de Tendencias
 ```
-Actúa como un experto en TikTok marketing. Analiza la tendencia emergente "{TREND_KEYWORD}" y genera 10 ideas de contenido que puedan aprovechar esta tendencia para {OBJETIVO_ESPECÍFICO}.
+Prompt Base: "Analiza las tendencias emergentes en TikTok para [NICHO/INDUSTRIA] y proporciona 10 oportunidades de contenido que puedo aprovechar en los próximos 7 días. Incluye hashtags relevantes, timing óptimo y potencial viral estimado."
 
-Contexto:
-- Nicho: {TU_NICHO}
-- Audiencia objetivo: {AUDIENCIA}
-- Objetivo: {OBJETIVO}
+Variables:
+- NICHO: [fitness, cocina, tecnología, moda, etc.]
+- INDUSTRIA: [salud, finanzas, educación, entretenimiento, etc.]
 
-Para cada idea, incluye:
-1. Concepto del video (1-2 oraciones)
-2. Hook inicial (primeros 3 segundos)
-3. Estructura del contenido
-4. Hashtags sugeridos (5-8)
-5. Probabilidad viral (1-10)
-6. Tiempo estimado de producción
-
-Formato de respuesta: Lista numerada con detalles específicos.
+Ejemplo:
+"Analiza las tendencias emergentes en TikTok para fitness y proporciona 10 oportunidades de contenido que puedo aprovechar en los próximos 7 días. Incluye hashtags relevantes, timing óptimo y potencial viral estimado."
 ```
 
-### 📝 **Template 2: Content Elevation Tool**
+### 🎯 Leverage de Tendencias Existentes
 ```
-Eres un consultor de TikTok con 10+ años de experiencia. Mi idea actual es: "{IDEA_ACTUAL}"
+Prompt Base: "Cómo puedo identificar y aprovechar tendencias emergentes en TikTok para [OBJETIVO ESPECÍFICO]? Proporciona una estrategia paso a paso con ejemplos concretos y métricas de éxito."
 
-Eleva esta idea a un nivel superior considerando:
-- Tendencias actuales de TikTok
-- Elementos que generan engagement
-- Formatos que funcionan mejor
-- Timing y frecuencia óptima
+Variables:
+- OBJETIVO ESPECÍFICO: [aumentar ventas, generar leads, construir marca personal, etc.]
 
-Genera 5 variaciones mejoradas que incluyan:
-1. Versión original mejorada
-2. Variación educativa
-3. Variación entretenida
-4. Variación emocional
-5. Variación trending
-
-Para cada variación, especifica:
-- Hook mejorado
-- Estructura del video
-- Elementos visuales clave
-- Call-to-action
-- Hashtags optimizados
-```
-
-### 📝 **Template 3: Viral Potential Analyzer**
-```
-Analiza el potencial viral de mi {TIPO_VIDEO/DESAFÍO} sobre {TEMA}.
-
-Parámetros de análisis:
-- Tema: {TEMA}
-- Tipo de contenido: {TIPO_VIDEO}
-- Audiencia objetivo: {AUDIENCIA}
-- Competencia: {ANÁLISIS_COMPETENCIA}
-
-Proporciona:
-1. **Score de Viralidad** (1-100) con justificación
-2. **Factores de Éxito** (top 5)
-3. **Riesgos Potenciales** (top 3)
-4. **Optimizaciones Sugeridas** (5 mejoras específicas)
-5. **Timeline de Implementación** (cuándo publicar)
-6. **Métricas de Seguimiento** (KPIs a monitorear)
-
-Incluye también:
-- 3 variaciones del concepto
-- Estrategia de hashtags
-- Mejores horarios de publicación
-- Estrategia de engagement
+Ejemplo:
+"Cómo puedo identificar y aprovechar tendencias emergentes en TikTok para aumentar ventas de mi curso online? Proporciona una estrategia paso a paso con ejemplos concretos y métricas de éxito."
 ```
 
 ---
 
-## 🎨 **CATEGORÍA 2: CREACIÓN DE SCRIPTS**
+## 🎨 **CONTENT ELEVATION PROMPTS**
 
-### 📝 **Template 4: Script Generator**
+### 🎯 Elevación de Ideas
 ```
-Crea un script completo para un video de TikTok de {DURACIÓN} segundos sobre {TEMA}.
+Prompt Base: "Proporciona 10 consejos para elevar mi idea de [IDEA] en TikTok a un nivel superior. Incluye elementos visuales, storytelling, engagement hooks y optimizaciones técnicas."
 
-Especificaciones:
-- Duración: {DURACIÓN} (15s, 30s, 60s)
-- Tema: {TEMA}
-- Estilo: {ESTILO} (educativo, entretenido, inspiracional, trending)
-- Audiencia: {AUDIENCIA}
-- Objetivo: {OBJETIVO}
+Variables:
+- IDEA: [tutorial de cocina, rutina de ejercicio, consejo financiero, etc.]
 
-Estructura requerida:
-1. **Hook** (0-3 segundos): Captura atención inmediata
-2. **Setup** (3-8 segundos): Establece contexto
-3. **Content** (8-25 segundos): Valor principal
-4. **Payoff** (25-28 segundos): Resolución/clímax
-5. **CTA** (28-30 segundos): Llamada a la acción
-
-Incluye también:
-- Elementos visuales sugeridos
-- Música/audio recomendado
-- Texto para overlay
-- Hashtags estratégicos
-- Timing específico para cada elemento
+Ejemplo:
+"Proporciona 10 consejos para elevar mi idea de tutorial de cocina en TikTok a un nivel superior. Incluye elementos visuales, storytelling, engagement hooks y optimizaciones técnicas."
 ```
 
-### 📝 **Template 5: Storytelling Script**
+### 🎯 Mejora de Contenido Existente
 ```
-Desarrolla una narrativa {ADJETIVO} y cautivadora para TikTok centrada en {TEMA}.
+Prompt Base: "Analiza mi video de [TIPO DE CONTENIDO] y proporciona 5 mejoras específicas para aumentar el engagement y viralidad. Incluye sugerencias de edición, timing y elementos visuales."
 
-Elementos de la historia:
-- Tema central: {TEMA}
-- Tono: {ADJETIVO} (emocionante, misterioso, inspiracional, etc.)
-- Duración: {DURACIÓN}
-- Estructura narrativa: {ESTRUCTURA} (problema-solución, viaje del héroe, etc.)
+Variables:
+- TIPO DE CONTENIDO: [challenge, tutorial, comedia, educativo, etc.]
 
-Crea:
-1. **Personaje Principal**: Descripción y motivación
-2. **Conflicto/Desafío**: El problema central
-3. **Desarrollo**: Cómo se desarrolla la historia
-4. **Clímax**: Momento de mayor tensión/emoción
-5. **Resolución**: Cómo se resuelve
-6. **Mensaje Final**: Lección o takeaway
-
-Incluye:
-- Diálogo específico
-- Acciones visuales
-- Transiciones entre escenas
-- Elementos de engagement
-- Hashtags temáticos
+Ejemplo:
+"Analiza mi video de challenge de fitness y proporciona 5 mejoras específicas para aumentar el engagement y viralidad. Incluye sugerencias de edición, timing y elementos visuales."
 ```
 
 ---
 
-## 🎯 **CATEGORÍA 3: OPTIMIZACIÓN DE CONTENIDO**
+## 📈 **VIRAL POTENTIAL PROMPTS**
 
-### 📝 **Template 6: Hashtag Strategy**
+### 🎯 Análisis de Potencial Viral
 ```
-Desarrolla una estrategia de hashtags para mi video de TikTok sobre {TEMA}.
+Prompt Base: "Cómo puedo mejorar el éxito y aumentar la diseminación de mi [TIPO DE VIDEO/CHALLENGE] en TikTok? Proporciona estrategias específicas, timing óptimo y elementos que aumenten la viralidad."
 
-Contexto:
-- Tema: {TEMA}
-- Nicho: {NICHO}
-- Audiencia: {AUDIENCIA}
-- Objetivo: {OBJETIVO} (viralidad, engagement, conversión)
+Variables:
+- TIPO DE VIDEO/CHALLENGE: [dance challenge, life hack, transformation, etc.]
 
-Genera:
-1. **Hashtags Trending** (5): Tendencias actuales relevantes
-2. **Hashtags Nicho** (5): Específicos de tu industria
-3. **Hashtags Branded** (3): Relacionados con tu marca
-4. **Hashtags Long-tail** (3): Más específicos y menos competitivos
-5. **Hashtags Emocionales** (4): Que generen engagement emocional
-
-Para cada hashtag, incluye:
-- Volumen de búsqueda estimado
-- Nivel de competencia
-- Probabilidad de trending
-- Mejor momento para usarlo
-
-Total: 20 hashtags optimizados
+Ejemplo:
+"Cómo puedo mejorar el éxito y aumentar la diseminación de mi dance challenge en TikTok? Proporciona estrategias específicas, timing óptimo y elementos que aumenten la viralidad."
 ```
 
-### 📝 **Template 7: Engagement Optimizer**
+### 🎯 Optimización para Viralidad
 ```
-Optimiza mi contenido de TikTok para maximizar engagement.
+Prompt Base: "Evalúa el potencial viral de mi concepto de video sobre [TEMA] y proporciona 5 optimizaciones específicas para maximizar el reach y engagement."
 
-Contenido actual:
-- Tema: {TEMA}
-- Formato: {FORMATO}
-- Duración: {DURACIÓN}
-- Audiencia objetivo: {AUDIENCIA}
+Variables:
+- TEMA: [productividad, salud mental, finanzas personales, etc.]
 
-Optimizaciones requeridas:
-1. **Hook Mejorado**: 3 variaciones del primer segundo
-2. **Elementos Visuales**: 5 elementos que aumenten retención
-3. **Timing Optimizado**: Mejores momentos para publicar
-4. **Call-to-Action**: 3 CTAs diferentes para probar
-5. **Estrategia de Comentarios**: Cómo generar más comentarios
-
-Incluye también:
-- Elementos que generan shares
-- Técnicas para aumentar saves
-- Estrategias para más follows
-- Métricas específicas a monitorear
-- A/B testing suggestions
+Ejemplo:
+"Evalúa el potencial viral de mi concepto de video sobre productividad y proporciona 5 optimizaciones específicas para maximizar el reach y engagement."
 ```
 
 ---
 
-## 🎪 **CATEGORÍA 4: FORMATOS ESPECÍFICOS**
+## 🎬 **RAPID SPREAD GENERATION PROMPTS**
 
-### 📝 **Template 8: Challenge Creator**
+### 🎯 Generación de Contenido Viral
 ```
-Crea un desafío viral de TikTok para {NICHO/INDUSTRIA}.
+Prompt Base: "Desarrolla un concepto de video de TikTok con potencial de diseminación rápida sobre [TEMA]. Crea una idea excepcional y [ADJETIVO] que sea única, engaging y optimizada para el algoritmo."
 
-Especificaciones:
-- Nicho: {NICHO}
-- Audiencia: {AUDIENCIA}
-- Duración: {DURACIÓN}
-- Dificultad: {NIVEL} (fácil, medio, difícil)
+Variables:
+- TEMA: [sostenibilidad, tecnología, bienestar, etc.]
+- ADJETIVO: [innovadora, divertida, educativa, inspiradora, etc.]
 
-Desarrolla:
-1. **Concepto del Desafío**: Idea central y reglas
-2. **Nombre Catchy**: Nombre memorable y trending
-3. **Instrucciones Paso a Paso**: Cómo participar
-4. **Elementos Visuales**: Qué mostrar en el video
-5. **Música/Audio**: Sugerencias de sonido
-6. **Hashtag Principal**: Hashtag del desafío
-7. **Variaciones**: 3 versiones diferentes del desafío
-
-Incluye también:
-- Ejemplo de video
-- Script para participantes
-- Estrategia de lanzamiento
-- Métricas de éxito
-- Timeline de viralidad esperada
+Ejemplo:
+"Desarrolla un concepto de video de TikTok con potencial de diseminación rápida sobre sostenibilidad. Crea una idea excepcional y educativa que sea única, engaging y optimizada para el algoritmo."
 ```
 
-### 📝 **Template 9: Educational Content**
+### 🎯 Conceptos Únicos
 ```
-Crea contenido educativo para TikTok sobre {TEMA}.
+Prompt Base: "Genera 5 conceptos únicos de TikTok sobre [TEMA] que tengan alto potencial viral. Cada concepto debe incluir hook inicial, desarrollo, call-to-action y hashtags sugeridos."
 
-Parámetros:
-- Tema: {TEMA}
-- Nivel: {NIVEL} (principiante, intermedio, avanzado)
-- Duración: {DURACIÓN}
-- Formato: {FORMATO} (tutorial, tips, explicación)
+Variables:
+- TEMA: [minimalismo, emprendimiento, salud, etc.]
 
-Estructura:
-1. **Problema/Necesidad**: Qué problema resuelve
-2. **Solución**: La información/acción principal
-3. **Pasos**: Instrucciones claras y concisas
-4. **Ejemplo**: Demostración práctica
-5. **Takeaway**: Resumen clave
-
-Incluye:
-- Visuales educativos sugeridos
-- Texto para overlay
-- Elementos interactivos
-- Recursos adicionales
-- Seguimiento/continuación
+Ejemplo:
+"Genera 5 conceptos únicos de TikTok sobre minimalismo que tengan alto potencial viral. Cada concepto debe incluir hook inicial, desarrollo, call-to-action y hashtags sugeridos."
 ```
 
 ---
 
-## 🎭 **CATEGORÍA 5: ANÁLISIS Y OPTIMIZACIÓN**
+## 📝 **SCRIPT & VISUAL CONCEPT PROMPTS**
 
-### 📝 **Template 10: Performance Analyzer**
+### 🎯 Desarrollo de Scripts
 ```
-Analiza el rendimiento de mi video de TikTok y sugiere mejoras.
+Prompt Base: "Desarrolla un script completo y concepto visual para un video de TikTok que narre una historia [ADJETIVO] y cautivadora centrada en [TEMA]. Incluye timing, elementos visuales, música sugerida y transiciones."
 
-Datos del video:
-- Tema: {TEMA}
-- Views: {VIEWS}
-- Likes: {LIKES}
-- Comments: {COMMENTS}
-- Shares: {SHARES}
-- Saves: {SAVES}
-- Completion Rate: {COMPLETION_RATE}
+Variables:
+- ADJETIVO: [emocionante, inspiradora, divertida, educativa, etc.]
+- TEMA: [superación personal, innovación, comunidad, etc.]
 
-Análisis requerido:
-1. **Performance Score** (1-100) con justificación
-2. **Fortalezas**: Qué funcionó bien
-3. **Debilidades**: Qué se puede mejorar
-4. **Comparación**: vs videos similares en tu nicho
-5. **Optimizaciones**: 5 mejoras específicas
-6. **Próximos Pasos**: Qué hacer con esta información
-
-Incluye también:
-- Análisis de audiencia
-- Mejores momentos de engagement
-- Hashtags que funcionaron
-- Elementos que generaron más interacción
-- Recomendaciones para contenido futuro
+Ejemplo:
+"Desarrolla un script completo y concepto visual para un video de TikTok que narre una historia inspiradora y cautivadora centrada en superación personal. Incluye timing, elementos visuales, música sugerida y transiciones."
 ```
 
-### 📝 **Template 11: Competitor Analysis**
+### 🎯 Storytelling Avanzado
 ```
-Analiza la estrategia de TikTok de mi competidor {COMPETIDOR}.
+Prompt Base: "Crea una narrativa de 60 segundos para TikTok sobre [TEMA] usando la estructura de storytelling de 3 actos. Incluye hook, desarrollo, climax y resolución con elementos visuales específicos."
 
-Información del competidor:
-- Cuenta: {COMPETIDOR}
-- Nicho: {NICHO}
-- Seguidores: {SEGUIDORES}
-- Engagement rate: {ENGAGEMENT_RATE}
+Variables:
+- TEMA: [transformación, descubrimiento, desafío, etc.]
 
-Análisis requerido:
-1. **Estrategia de Contenido**: Tipos de videos que publica
-2. **Tendencias**: Qué temas/formatos usa
-3. **Timing**: Cuándo publica más
-4. **Hashtags**: Estrategia de hashtags
-5. **Engagement**: Qué genera más interacción
-6. **Oportunidades**: Gaps que puedes explotar
-
-Incluye también:
-- Top 5 videos más exitosos
-- Análisis de audiencia
-- Tono y personalidad de marca
-- Elementos únicos/diferenciales
-- Recomendaciones para tu estrategia
+Ejemplo:
+"Crea una narrativa de 60 segundos para TikTok sobre transformación personal usando la estructura de storytelling de 3 actos. Incluye hook, desarrollo, climax y resolución con elementos visuales específicos."
 ```
 
 ---
 
-## 🎯 **CATEGORÍA 6: CONTENIDO ESPECÍFICO POR NICHO**
+## 🎭 **CONTENT TYPE TEMPLATES**
 
-### 📝 **Template 12: Fitness/Health Content**
+### 🎬 **Tutorial/Educational**
 ```
-Crea contenido de TikTok para {NICHO_FITNESS} que sea educativo y motivador.
+Template: "Crea un tutorial de TikTok de [DURACIÓN] segundos sobre [TEMA]. El video debe ser educativo, fácil de seguir y incluir elementos visuales claros. Estructura: Hook (3s) + Explicación (X s) + Demostración (X s) + Resumen (3s)."
 
-Especificaciones:
-- Nicho: {NICHO_FITNESS} (fitness, nutrición, wellness, etc.)
-- Audiencia: {AUDIENCIA}
-- Objetivo: {OBJETIVO} (educar, motivar, vender, etc.)
-
-Genera 5 ideas de contenido que incluyan:
-1. **Quick Tip**: Consejo rápido y aplicable
-2. **Myth Buster**: Desmentir mitos comunes
-3. **Transformation**: Mostrar progreso/cambio
-4. **Tutorial**: Instrucción paso a paso
-5. **Motivation**: Contenido inspiracional
-
-Para cada idea, especifica:
-- Concepto del video
-- Elementos visuales
-- Música sugerida
-- Hashtags específicos
-- Call-to-action
-- Duración recomendada
+Variables:
+- DURACIÓN: [15, 30, 60]
+- TEMA: [técnica específica, proceso, skill, etc.]
 ```
 
-### 📝 **Template 13: Business/Entrepreneurship**
+### 🎪 **Entertainment/Comedy**
 ```
-Desarrolla contenido de TikTok para emprendedores sobre {TEMA_NEGOCIO}.
+Template: "Desarrolla un concepto de comedia para TikTok sobre [SITUACIÓN] que sea relatable y divertido. Incluye setup, punchline, timing cómico y elementos visuales que aumenten el humor."
 
-Contexto:
-- Tema: {TEMA_NEGOCIO}
-- Audiencia: {AUDIENCIA} (startups, emprendedores, etc.)
-- Objetivo: {OBJETIVO} (educar, inspirar, generar leads)
+Variables:
+- SITUACIÓN: [trabajo remoto, vida adulta, relaciones, etc.]
+```
 
-Crea 5 formatos diferentes:
-1. **Business Tip**: Consejo práctico de negocio
-2. **Behind the Scenes**: Mostrar el proceso
-3. **Success Story**: Historia de éxito
-4. **Common Mistake**: Error común a evitar
-5. **Trend Analysis**: Análisis de tendencia de negocio
+### 🏆 **Challenge/Trend**
+```
+Template: "Crea un challenge original de TikTok basado en [CONCEPTO] que sea fácil de replicar pero único. Incluye instrucciones claras, música sugerida, hashtags y variaciones para diferentes audiencias."
 
-Para cada formato:
-- Hook específico
-- Estructura del contenido
-- Elementos visuales
-- Datos/estadísticas relevantes
-- Hashtags de negocio
-- CTA para generar leads
+Variables:
+- CONCEPTO: [fitness, creatividad, conocimiento, etc.]
+```
+
+### 💡 **Life Hack/Tip**
+```
+Template: "Desarrolla un life hack de TikTok sobre [ÁREA] que sea útil, sorprendente y fácil de implementar. Estructura: Problema (5s) + Solución (X s) + Demostración (X s) + Beneficio (5s)."
+
+Variables:
+- ÁREA: [productividad, hogar, salud, finanzas, etc.]
 ```
 
 ---
 
-## 🎨 **CATEGORÍA 7: CONTENIDO VISUAL Y CREATIVO**
+## 🎯 **AUDIENCE-SPECIFIC PROMPTS**
 
-### 📝 **Template 14: Visual Content Planner**
+### 👥 **Gen Z (16-24 años)**
 ```
-Planifica el contenido visual para mi video de TikTok sobre {TEMA}.
+Prompt Base: "Crea contenido de TikTok para Gen Z sobre [TEMA] que sea auténtico, visualmente atractivo y use el lenguaje y referencias culturales apropiadas. Incluye elementos de humor, relatabilidad y valores sociales."
 
-Especificaciones:
-- Tema: {TEMA}
-- Duración: {DURACIÓN}
-- Estilo: {ESTILO} (minimalista, colorido, profesional, etc.)
-- Audiencia: {AUDIENCIA}
-
-Elementos visuales requeridos:
-1. **Opening Shot**: Primer frame impactante
-2. **Key Visuals**: 3-5 elementos visuales principales
-3. **Text Overlays**: Texto que aparezca en pantalla
-4. **Transitions**: Cómo cambiar entre escenas
-5. **Closing Shot**: Frame final memorable
-
-Incluye también:
-- Colores sugeridos
-- Tipografía recomendada
-- Elementos gráficos
-- Animaciones/efectos
-- Props o elementos físicos
-- Iluminación sugerida
+Variables:
+- TEMA: [sostenibilidad, activismo, creatividad, etc.]
 ```
 
-### 📝 **Template 15: Creative Concept Generator**
+### 👨‍💼 **Millennials (25-40 años)**
 ```
-Genera conceptos creativos únicos para TikTok sobre {TEMA}.
+Prompt Base: "Desarrolla contenido de TikTok para Millennials sobre [TEMA] que aborde sus preocupaciones y aspiraciones. Enfócate en valor práctico, autenticidad y elementos que resuenen con su experiencia de vida."
 
-Parámetros:
-- Tema: {TEMA}
-- Audiencia: {AUDIENCIA}
-- Objetivo: {OBJETIVO}
-- Restricciones: {RESTRICCIONES} (presupuesto, tiempo, etc.)
+Variables:
+- TEMA: [carrera profesional, finanzas, bienestar, etc.]
+```
 
-Crea 5 conceptos creativos que incluyan:
-1. **Concepto Visual**: Idea visual principal
-2. **Narrativa**: Historia o mensaje
-3. **Elementos Únicos**: Qué lo hace diferente
-4. **Implementación**: Cómo ejecutarlo
-5. **Viral Potential**: Por qué podría ser viral
+### 👩‍💼 **Profesionales**
+```
+Prompt Base: "Crea contenido de TikTok para profesionales sobre [TEMA] que sea informativo, respetuoso y valioso. Mantén un tono profesional pero accesible, con enfoque en insights prácticos."
 
-Para cada concepto:
-- Descripción detallada
-- Elementos técnicos necesarios
-- Tiempo de producción estimado
-- Presupuesto aproximado
-- Probabilidad de éxito
-- Métricas de seguimiento
+Variables:
+- TEMA: [liderazgo, productividad, networking, etc.]
 ```
 
 ---
 
-## 📊 **CATEGORÍA 8: ANÁLISIS DE DATOS Y MÉTRICAS**
+## 🎨 **VISUAL & CREATIVE PROMPTS**
 
-### 📝 **Template 16: Data-Driven Content**
+### 🎬 **Visual Storytelling**
 ```
-Crea contenido basado en datos para TikTok sobre {TEMA}.
+Prompt Base: "Diseña un concepto visual para TikTok sobre [TEMA] que use elementos visuales impactantes, transiciones suaves y composición cinematográfica. Incluye sugerencias de colores, iluminación y efectos."
 
-Datos disponibles:
-- Tema: {TEMA}
-- Datos: {DATOS_ESPECÍFICOS}
-- Fuente: {FUENTE_DATOS}
-- Audiencia: {AUDIENCIA}
-
-Desarrolla:
-1. **Data Story**: Narrativa basada en los datos
-2. **Visualization**: Cómo mostrar los datos visualmente
-3. **Key Insights**: 3 insights principales
-4. **Action Items**: Qué hacer con esta información
-5. **Follow-up Content**: Ideas para contenido relacionado
-
-Incluye:
-- Gráficos sugeridos
-- Estadísticas impactantes
-- Comparaciones relevantes
-- Tendencias identificadas
-- Predicciones basadas en datos
-- Hashtags de datos/estadísticas
+Variables:
+- TEMA: [transformación, comparación, proceso, etc.]
 ```
 
-### 📝 **Template 17: Trend Prediction**
+### 🎵 **Music & Sound**
 ```
-Predice tendencias futuras para {NICHO} en TikTok.
+Prompt Base: "Selecciona y justifica la música perfecta para un video de TikTok sobre [TEMA]. Incluye sugerencias de timing, drops musicales y cómo sincronizar el contenido con el audio para máximo impacto."
 
-Contexto:
-- Nicho: {NICHO}
-- Período: {PERÍODO} (próximos 30, 60, 90 días)
-- Audiencia: {AUDIENCIA}
-- Datos históricos: {DATOS_HISTÓRICOS}
-
-Predicciones requeridas:
-1. **Tendencias Emergentes**: 5 tendencias que surgirán
-2. **Tendencias en Declive**: 3 que perderán relevancia
-3. **Oportunidades**: 5 gaps de contenido
-4. **Timeline**: Cuándo esperar cada tendencia
-5. **Estrategia**: Cómo prepararse para cada una
-
-Incluye también:
-- Factores que influyen en las tendencias
-- Competidores a monitorear
-- Contenido a crear anticipadamente
-- Métricas para validar predicciones
-- Plan de contingencia
+Variables:
+- TEMA: [motivación, comedia, tutorial, etc.]
 ```
 
 ---
 
-## 🎯 **GUÍA DE USO DE TEMPLATES**
+## 📊 **ANALYTICS & OPTIMIZATION PROMPTS**
 
-### 📋 **Cómo Usar Esta Biblioteca:**
+### 📈 **Performance Analysis**
+```
+Prompt Base: "Analiza el rendimiento de mi video de TikTok sobre [TEMA] y proporciona insights específicos sobre qué funcionó, qué no, y 5 optimizaciones concretas para mejorar el próximo video."
 
-1. **Identifica tu Necesidad**: ¿Qué tipo de contenido quieres crear?
-2. **Selecciona el Template**: Elige el más relevante para tu objetivo
-3. **Personaliza las Variables**: Reemplaza {VARIABLES} con tu información
-4. **Ejecuta el Prompt**: Usa el prompt completo en tu herramienta de IA
-5. **Refina los Resultados**: Ajusta según tus necesidades específicas
-6. **Implementa**: Crea el contenido siguiendo las sugerencias
+Variables:
+- TEMA: [tipo de contenido específico]
+```
 
-### 🎨 **Variables Comunes:**
-- `{TEMA}`: Tu tema principal
-- `{AUDIENCIA}`: Tu audiencia objetivo
-- `{NICHO}`: Tu industria o nicho
-- `{OBJETIVO}`: Lo que quieres lograr
-- `{DURACIÓN}`: Duración del video
-- `{ESTILO}`: Estilo de contenido
-- `{COMPETIDOR}`: Competidor a analizar
+### 🎯 **A/B Testing**
+```
+Prompt Base: "Diseña un experimento A/B para mi contenido de TikTok sobre [TEMA]. Incluye variables a testear, métricas a medir, y cómo interpretar los resultados para optimización futura."
 
-### 📊 **Optimización Continua:**
-- Prueba diferentes templates
-- A/B testa variaciones
-- Monitorea resultados
-- Actualiza según performance
-- Crea tus propios templates
+Variables:
+- TEMA: [tipo de contenido específico]
+```
 
 ---
 
-*Biblioteca de Templates actualizada: [Fecha actual]*  
+## 🚀 **ADVANCED PROMPTS**
+
+### 🧠 **Multi-Platform Strategy**
+```
+Prompt Base: "Adapta mi concepto de TikTok sobre [TEMA] para Instagram Reels, YouTube Shorts y LinkedIn. Incluye modificaciones específicas para cada plataforma, timing óptimo y hashtags relevantes."
+
+Variables:
+- TEMA: [concepto original de TikTok]
+```
+
+### 🎯 **Campaign Integration**
+```
+Prompt Base: "Integra mi video de TikTok sobre [TEMA] en una campaña de marketing más amplia. Incluye estrategia de distribución, contenido complementario, y métricas de éxito para toda la campaña."
+
+Variables:
+- TEMA: [concepto de video específico]
+```
+
+---
+
+## 📚 **PROMPT OPTIMIZATION TIPS**
+
+### ✅ **Mejores Prácticas:**
+1. **Especificidad**: Sé específico en tus variables
+2. **Contexto**: Proporciona contexto relevante
+3. **Objetivos**: Define claramente tus objetivos
+4. **Audiencia**: Especifica tu audiencia objetivo
+5. **Formato**: Indica el formato deseado de respuesta
+
+### ❌ **Evita:**
+- Prompts demasiado vagos
+- Múltiples objetivos en un prompt
+- Falta de contexto
+- Variables no definidas
+- Prompts demasiado largos
+
+---
+
+## 🎯 **TEMPLATE CUSTOMIZATION**
+
+### 🔧 **Personalización por Industria:**
+- **Fitness**: Enfoque en transformación, motivación, resultados
+- **Cocina**: Enfoque en simplicidad, sabor, presentación
+- **Tecnología**: Enfoque en innovación, utilidad, futuro
+- **Moda**: Enfoque en estilo, tendencias, personalidad
+- **Educación**: Enfoque en claridad, valor, aplicación
+
+### 🎨 **Personalización por Estilo:**
+- **Minimalista**: Enfoque en simplicidad, elegancia, claridad
+- **Dinámico**: Enfoque en energía, movimiento, impacto
+- **Educativo**: Enfoque en información, estructura, valor
+- **Entretenido**: Enfoque en humor, relatabilidad, engagement
+
+---
+
+*TikTok AI Prompts Library actualizada: [Fecha actual]*  
 *Próxima revisión: [Fecha + 1 mes]*

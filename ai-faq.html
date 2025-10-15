@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>❓ FAQ IA Marketing | IA Marketing Solutions</title>
+    <meta name="description" content="🔥 Preguntas frecuentes sobre IA en marketing. Respuestas a las dudas más comunes sobre implementación, precios, soporte y resultados.">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Tonos Emocionales Avanzados */
+        .excitement { background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; animation: excitement-pulse 2s infinite; text-align: center; }
+        @keyframes excitement-pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        
+        .trust { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .trust::before { content: "🛡️ "; font-size: 1.8em; }
+        
+        .success { background: linear-gradient(135deg, #28a745 0%, #198754 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .success::before { content: "🎉 "; font-size: 1.8em; }
+        
+        .premium { background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; position: relative; overflow: hidden; }
+        .premium::before { content: "👑 "; font-size: 1.8em; }
+        .premium::after { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent); animation: premium-shine 3s infinite; }
+        @keyframes premium-shine { 0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); } 100% { transform: translateX(100%) translateY(100%) rotate(45deg); } }
+        
+        .curiosity { background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .curiosity::before { content: "🔍 "; font-size: 1.8em; }
+        
+        .social-proof { background: linear-gradient(135deg, #007bff 0%, #6610f2 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .social-proof::before { content: "👥 "; font-size: 1.8em; }
+        
+        .authority { background: linear-gradient(135deg, #343a40 0%, #6c757d 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .authority::before { content: "🏆 "; font-size: 1.8em; }
+        
+        .empathy { background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .empathy::before { content: "💝 "; font-size: 1.8em; }
+        
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 0; text-align: center; }
+        .hero h1 { font-size: 3.5em; margin-bottom: 20px; font-weight: 700; }
+        .hero p { font-size: 1.3em; margin-bottom: 30px; opacity: 0.95; }
+        
+        .cta-button { background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; padding: 20px 40px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.3em; display: inline-block; margin: 20px 10px; transition: all 0.3s; box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3); }
+        .cta-button:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4); }
+        
+        .faq-section { background: white; padding: 60px 0; }
+        .faq-categories { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
+        .faq-category { background: #f8f9fa; padding: 30px; border-radius: 20px; border-left: 6px solid #667eea; }
+        .faq-category-title { font-size: 1.4em; font-weight: bold; color: #2c3e50; margin-bottom: 20px; }
+        .faq-item { margin-bottom: 20px; }
+        .faq-question { font-weight: bold; color: #2c3e50; margin-bottom: 10px; cursor: pointer; padding: 15px; background: white; border-radius: 10px; transition: all 0.3s; }
+        .faq-question:hover { background: #e9ecef; }
+        .faq-question.active { background: #667eea; color: white; }
+        .faq-answer { padding: 15px; background: white; border-radius: 10px; margin-top: 10px; display: none; }
+        .faq-answer.active { display: block; }
+        
+        .search-section { background: #f8f9fa; padding: 60px 0; }
+        .search-box { max-width: 600px; margin: 0 auto; position: relative; }
+        .search-input { width: 100%; padding: 20px 60px 20px 20px; border: 2px solid #ddd; border-radius: 50px; font-size: 1.2em; }
+        .search-button { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: #667eea; color: white; border: none; padding: 15px 20px; border-radius: 50%; cursor: pointer; }
+        
+        .stats-section { background: #2c3e50; color: white; padding: 60px 0; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 40px; }
+        .stat-card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; text-align: center; }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #ff6b6b; margin-bottom: 10px; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5em; }
+            .hero p { font-size: 1.1em; }
+            .faq-categories { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>❓ FAQ IA Marketing</h1>
+            <p><strong>Preguntas frecuentes</strong> sobre IA en marketing. Respuestas a las dudas más comunes sobre implementación, precios, soporte y resultados</p>
+            <a href="#faq" class="cta-button">❓ Ver FAQ</a>
+            <a href="#search" class="cta-button" style="background: transparent; border: 2px solid white;">🔍 Buscar</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="excitement">
+            <h2 style="margin: 0; font-size: 2.2em;">❓ ¡PREGUNTAS FRECUENTES!</h2>
+            <p style="margin: 10px 0 0 0; font-size: 1.2em;">Más de 500 preguntas respondidas por nuestros expertos</p>
+        </div>
+
+        <div class="success">
+            <h3 style="margin: 0 0 15px 0;">🎉 RESPUESTAS COMPLETAS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Nuestro equipo de expertos ha respondido más de 500 preguntas frecuentes con respuestas detalladas</p>
+        </div>
+
+        <section class="faq-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">❓ Preguntas Frecuentes</h2>
+            
+            <div class="faq-categories">
+                <div class="faq-category">
+                    <div class="faq-category-title">🚀 Implementación y Setup</div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            ¿Cuánto tiempo toma implementar la IA en mi marketing?
+                        </div>
+                        <div class="faq-answer">
+                            La implementación básica toma entre 1-2 semanas, mientras que una implementación completa puede tomar 4-6 semanas. Esto incluye setup inicial, integración con tus herramientas existentes, training del equipo y optimización. Nuestro equipo de soporte te guía paso a paso durante todo el proceso.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            ¿Necesito conocimientos técnicos para usar la plataforma?
+                        </div>
+                        <div class="faq-answer">
+                            No, nuestra plataforma está diseñada para ser intuitiva y fácil de usar. Incluimos tutoriales paso a paso, videos de capacitación y soporte 24/7. Sin embargo, si prefieres, podemos manejar toda la implementación por ti.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            ¿Se integra con mis herramientas actuales?
+                        </div>
+                        <div class="faq-answer">
+                            Sí, nos integramos con más de 50 herramientas populares incluyendo HubSpot, Salesforce, Mailchimp, Google Ads, Facebook Ads, Zapier y muchas más. También ofrecemos integraciones personalizadas para herramientas específicas.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            ¿Qué pasa con mis datos existentes?
+                        </div>
+                        <div class="faq-answer">
+                            Tus datos están completamente seguros. Ofrecemos migración gratuita de datos y mantenemos copias de seguridad automáticas. Cumplimos con GDPR, CCPA y otros estándares de seguridad internacionales.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-category">
+                    <div class="faq-category-title">💰 Precios y Planes</div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            ¿Hay una prueba gratuita disponible?
+                        </div>
+                        <div class="faq-answer">
+                            Sí, ofrecemos una prueba gratuita de 14 días sin compromiso. No necesitas tarjeta de crédito para empezar. Puedes probar todas las funcionalidades y ver los resultados antes de decidir.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            ¿Puedo cambiar de plan en cualquier momento?
+                        </div>
+                        <div class="faq-answer">
+                            Sí, puedes cambiar de plan en cualquier momento. Si subes de plan, el cambio es inmediato. Si bajas de plan, el cambio se aplica en tu próximo ciclo de facturación.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            ¿Hay descuentos por pago anual?
+                        </div>
+                        <div class="faq-answer">
+                            Sí, ofrecemos 20% de descuento en todos los planes cuando pagas anualmente. También tenemos descuentos especiales para organizaciones sin fines de lucro y estudiantes.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            ¿Qué incluye la garantía de 30 días?
+                        </div>
+                        <div class="faq-answer">
+                            Si no estás 100% satisfecho en los primeros 30 días, te devolvemos tu dinero completo. Sin preguntas, sin condiciones. Queremos que estés completamente satisfecho con tu inversión.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-category">
+                    <div class="faq-category-title">🛠️ Funcionalidades y Herramientas</div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            ¿Qué tipos de contenido puede generar la IA?
+                        </div>
+                        <div class="faq-answer">
+                            Nuestra IA puede generar emails, posts para redes sociales, artículos de blog, descripciones de productos, anuncios, landing pages, scripts de video y mucho más. También puede crear imágenes, videos y audio para tus campañas.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            ¿Puedo personalizar el tono y estilo de la IA?
+                        </div>
+                        <div class="faq-answer">
+                            Sí, puedes entrenar la IA con tu voz de marca, tono de comunicación y estilo específico. También puedes crear plantillas personalizadas y guardar configuraciones para diferentes tipos de contenido.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            ¿La IA puede analizar mis competidores?
+                        </div>
+                        <div class="faq-answer">
+                            Sí, nuestra IA puede analizar automáticamente a tus competidores, identificar sus estrategias, analizar su contenido y sugerir oportunidades de mejora para tu marca.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            ¿Hay límites en el uso de la IA?
+                        </div>
+                        <div class="faq-answer">
+                            Los límites dependen de tu plan. El plan básico incluye 5,000 consultas/mes, mientras que el plan enterprise incluye consultas ilimitadas. Siempre puedes ver tu uso actual en el dashboard.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-category">
+                    <div class="faq-category-title">📊 Resultados y Métricas</div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            ¿Cuánto tiempo toma ver resultados?
+                        </div>
+                        <div class="faq-answer">
+                            Muchos clientes ven mejoras inmediatas en productividad. Los resultados de marketing (aumento de ventas, conversiones) suelen verse en 2-4 semanas. Nuestros clientes reportan un ROI promedio del 300% en el primer trimestre.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            ¿Cómo mido el ROI de la IA?
+                        </div>
+                        <div class="faq-answer">
+                            Incluimos dashboards detallados que muestran tiempo ahorrado, aumento de conversiones, mejora en engagement y ROI calculado automáticamente. También puedes integrar con Google Analytics y otras herramientas de medición.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            ¿Qué tipo de resultados puedo esperar?
+                        </div>
+                        <div class="faq-answer">
+                            Nuestros clientes reportan: 40 horas ahorradas por semana, 300% aumento en ventas, 200% mejora en engagement, 60% reducción en costos de marketing y 95% satisfacción del equipo.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            ¿La IA mejora con el tiempo?
+                        </div>
+                        <div class="faq-answer">
+                            Sí, nuestra IA aprende continuamente de tus datos y preferencias. Cuanto más la uses, mejor se adapta a tu marca y audiencia. También recibimos actualizaciones regulares con nuevas capacidades.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-category">
+                    <div class="faq-category-title">🛡️ Seguridad y Privacidad</div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            ¿Mis datos están seguros?
+                        </div>
+                        <div class="faq-answer">
+                            Sí, utilizamos encriptación de grado militar, cumplimos con GDPR, CCPA y otros estándares internacionales. Tus datos nunca se comparten con terceros y mantenemos copias de seguridad automáticas.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            ¿Dónde se almacenan mis datos?
+                        </div>
+                        <div class="faq-answer">
+                            Utilizamos servidores seguros en múltiples ubicaciones geográficas. Puedes elegir la región de almacenamiento que prefieras. Todos los datos están encriptados tanto en tránsito como en reposo.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            ¿Puedo exportar mis datos?
+                        </div>
+                        <div class="faq-answer">
+                            Sí, puedes exportar todos tus datos en cualquier momento en formatos estándar (CSV, JSON, etc.). No hay restricciones y el proceso es completamente gratuito.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            ¿Cumplen con estándares de compliance?
+                        </div>
+                        <div class="faq-answer">
+                            Sí, cumplimos con GDPR, CCPA, SOC 2, ISO 27001 y otros estándares de seguridad. También ofrecemos acuerdos de procesamiento de datos (DPA) para empresas que lo requieran.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-category">
+                    <div class="faq-category-title">🛠️ Soporte y Capacitación</div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            ¿Qué tipo de soporte ofrecen?
+                        </div>
+                        <div class="faq-answer">
+                            Ofrecemos soporte 24/7 por chat, email y teléfono. Incluimos training personalizado, documentación completa, videos tutoriales y webinars regulares. Los planes premium incluyen account manager dedicado.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            ¿Hay capacitación para mi equipo?
+                        </div>
+                        <div class="faq-answer">
+                            Sí, incluimos training personalizado para tu equipo, webinars regulares, certificaciones y acceso a nuestra comunidad de usuarios. También ofrecemos consultoría estratégica para optimizar el uso de la IA.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            ¿Puedo cancelar en cualquier momento?
+                        </div>
+                        <div class="faq-answer">
+                            Sí, puedes cancelar en cualquier momento sin penalizaciones. Tu acceso continúa hasta el final de tu período de facturación actual. También puedes pausar tu suscripción si necesitas un descanso.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            ¿Hay una comunidad de usuarios?
+                        </div>
+                        <div class="faq-answer">
+                            Sí, tenemos una comunidad activa de más de 10,000 usuarios donde puedes compartir experiencias, hacer preguntas, acceder a recursos exclusivos y participar en eventos especiales.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="authority">
+            <h3 style="margin: 0 0 15px 0;">🏆 LIDERAMOS EN TRANSPARENCIA</h3>
+            <p style="margin: 0; font-size: 1.2em;">Respondemos todas las preguntas de manera honesta y transparente para que tomes la mejor decisión</p>
+        </div>
+
+        <section class="search-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">🔍 Buscar en FAQ</h2>
+            
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="Buscar preguntas frecuentes..." id="faqSearch">
+                <button class="search-button" onclick="searchFAQ()">🔍</button>
+            </div>
+        </section>
+
+        <div class="social-proof">
+            <h3 style="margin: 0 0 15px 0;">👥 MÁS DE 500 PREGUNTAS RESPONDIDAS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Nuestro equipo de expertos ha respondido más de 500 preguntas frecuentes con respuestas detalladas</p>
+        </div>
+
+        <section class="stats-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">📊 Estadísticas de FAQ</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">500+</div>
+                    <h3>Preguntas</h3>
+                    <p>Respondidas por expertos</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">6</div>
+                    <h3>Categorías</h3>
+                    <p>De preguntas organizadas</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">95%</div>
+                    <h3>Satisfacción</h3>
+                    <p>Con las respuestas</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">24/7</div>
+                    <h3>Disponibilidad</h3>
+                    <p>Para nuevas preguntas</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">15+</div>
+                    <h3>Idiomas</h3>
+                    <p>FAQ disponibles</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">98%</div>
+                    <h3>Resolución</h3>
+                    <p>De dudas comunes</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="premium">
+            <h3 style="margin: 0 0 15px 0;">👑 SOPORTE PERSONALIZADO</h3>
+            <p style="margin: 0; font-size: 1.2em;">¿No encuentras la respuesta que buscas? Nuestro equipo de expertos está disponible 24/7 para responder cualquier pregunta</p>
+        </div>
+
+        <div class="curiosity">
+            <h3 style="margin: 0 0 15px 0;">🔍 ¿TIENES MÁS PREGUNTAS?</h3>
+            <p style="margin: 0; font-size: 1.2em;">Nuestro equipo de expertos está disponible para responder cualquier pregunta específica sobre tu caso</p>
+        </div>
+
+        <div class="empathy">
+            <h3 style="margin: 0 0 15px 0;">💝 Entendemos tus Dudas</h3>
+            <p style="margin: 0; font-size: 1.2em;">Sabemos que implementar IA puede generar muchas preguntas. Por eso hemos creado esta FAQ completa y nuestro equipo está siempre disponible</p>
+        </div>
+    </div>
+
+    <footer style="background: #2c3e50; color: white; padding: 40px 0; text-align: center;">
+        <div class="container">
+            <p>&copy; 2024 IA Marketing Solutions. Todos los derechos reservados.</p>
+            <p>Respondiendo preguntas desde 2020</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleFAQ(element) {
+            const answer = element.nextElementSibling;
+            const isActive = element.classList.contains('active');
+            
+            // Close all other FAQs
+            document.querySelectorAll('.faq-question').forEach(q => {
+                q.classList.remove('active');
+                q.nextElementSibling.classList.remove('active');
+            });
+            
+            // Toggle current FAQ
+            if (!isActive) {
+                element.classList.add('active');
+                answer.classList.add('active');
+            }
+        }
+        
+        function searchFAQ() {
+            const searchTerm = document.getElementById('faqSearch').value.toLowerCase();
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question').textContent.toLowerCase();
+                const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+                
+                if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                    item.style.display = 'block';
+                    item.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+        
+        // Track FAQ interactions
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', function() {
+                const questionText = this.textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'faq_click', {
+                        'event_category': 'AI FAQ',
+                        'event_label': questionText,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track search interactions
+        document.getElementById('faqSearch').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchFAQ();
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'faq_search', {
+                        'event_category': 'AI FAQ',
+                        'event_label': 'FAQ Search',
+                        'value': 1
+                    });
+                }
+            }
+        });
+        
+        // Animate stat numbers
+        const statObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumber = entry.target.querySelector('.stat-number');
+                    const finalValue = statNumber.textContent;
+                    const isPlus = finalValue.includes('+');
+                    const isPercentage = finalValue.includes('%');
+                    const isSlash = finalValue.includes('/');
+                    const numericValue = parseFloat(finalValue.replace(/[^0-9.]/g, ''));
+                    
+                    let currentValue = 0;
+                    const increment = numericValue / 30;
+                    
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= numericValue) {
+                            currentValue = numericValue;
+                            clearInterval(timer);
+                        }
+                        
+                        if (isPlus) {
+                            statNumber.textContent = Math.round(currentValue).toLocaleString() + '+';
+                        } else if (isPercentage) {
+                            statNumber.textContent = Math.round(currentValue) + '%';
+                        } else if (isSlash) {
+                            statNumber.textContent = Math.round(currentValue) + '/7';
+                        } else {
+                            statNumber.textContent = Math.round(currentValue).toLocaleString();
+                        }
+                    }, 30);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        document.querySelectorAll('.stat-card').forEach(card => {
+            statObserver.observe(card);
+        });
+    </script>
+</body>
+</html>
+

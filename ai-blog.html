@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📝 Blog IA Marketing | IA Marketing Solutions</title>
+    <meta name="description" content="🔥 Blog especializado en IA para marketing. Artículos, casos de estudio, tutoriales, tendencias y estrategias avanzadas de marketing con inteligencia artificial.">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Tonos Emocionales Avanzados */
+        .excitement { background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; animation: excitement-pulse 2s infinite; text-align: center; }
+        @keyframes excitement-pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        
+        .trust { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .trust::before { content: "🛡️ "; font-size: 1.8em; }
+        
+        .success { background: linear-gradient(135deg, #28a745 0%, #198754 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .success::before { content: "🎉 "; font-size: 1.8em; }
+        
+        .premium { background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; position: relative; overflow: hidden; }
+        .premium::before { content: "👑 "; font-size: 1.8em; }
+        .premium::after { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent); animation: premium-shine 3s infinite; }
+        @keyframes premium-shine { 0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); } 100% { transform: translateX(100%) translateY(100%) rotate(45deg); } }
+        
+        .curiosity { background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .curiosity::before { content: "🔍 "; font-size: 1.8em; }
+        
+        .social-proof { background: linear-gradient(135deg, #007bff 0%, #6610f2 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .social-proof::before { content: "👥 "; font-size: 1.8em; }
+        
+        .authority { background: linear-gradient(135deg, #343a40 0%, #6c757d 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .authority::before { content: "🏆 "; font-size: 1.8em; }
+        
+        .empathy { background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .empathy::before { content: "💝 "; font-size: 1.8em; }
+        
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 0; text-align: center; }
+        .hero h1 { font-size: 3.5em; margin-bottom: 20px; font-weight: 700; }
+        .hero p { font-size: 1.3em; margin-bottom: 30px; opacity: 0.95; }
+        
+        .cta-button { background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; padding: 20px 40px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.3em; display: inline-block; margin: 20px 10px; transition: all 0.3s; box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3); }
+        .cta-button:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4); }
+        
+        .blog-section { background: white; padding: 60px 0; }
+        .blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 40px; }
+        .blog-card { background: #f8f9fa; padding: 30px; border-radius: 20px; border-left: 6px solid #667eea; transition: transform 0.3s; }
+        .blog-card:hover { transform: translateY(-5px); }
+        .blog-card.featured { border-left: 6px solid #ff6b6b; background: linear-gradient(135deg, #fff5f5 0%, #f8f9fa 100%); }
+        .blog-card.featured::before { content: "⭐ DESTACADO"; position: absolute; top: -10px; right: 20px; background: #ff6b6b; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8em; font-weight: bold; }
+        .blog-category { color: #667eea; font-weight: bold; font-size: 0.9em; margin-bottom: 10px; }
+        .blog-title { font-size: 1.4em; font-weight: bold; color: #2c3e50; margin-bottom: 15px; }
+        .blog-excerpt { color: #666; margin-bottom: 20px; line-height: 1.6; }
+        .blog-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .blog-date { color: #999; font-size: 0.9em; }
+        .blog-read-time { color: #28a745; font-size: 0.9em; font-weight: bold; }
+        .blog-stats { background: white; padding: 15px; border-radius: 10px; margin-top: 15px; }
+        .stat-item { display: flex; justify-content: space-between; margin: 5px 0; font-size: 0.9em; }
+        .stat-value { color: #28a745; font-weight: bold; }
+        
+        .categories-section { background: #f8f9fa; padding: 60px 0; }
+        .categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px; }
+        .category-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        .category-icon { font-size: 2.5em; margin-bottom: 15px; }
+        
+        .newsletter-section { background: #2c3e50; color: white; padding: 60px 0; }
+        .newsletter-form { max-width: 600px; margin: 0 auto; text-align: center; }
+        .newsletter-input { width: 100%; padding: 20px; border: none; border-radius: 50px; font-size: 1.2em; margin-bottom: 20px; }
+        
+        .stats-section { background: #2c3e50; color: white; padding: 60px 0; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 40px; }
+        .stat-card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; text-align: center; }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #ff6b6b; margin-bottom: 10px; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5em; }
+            .hero p { font-size: 1.1em; }
+            .blog-grid { grid-template-columns: 1fr; }
+            .categories-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>📝 Blog IA Marketing</h1>
+            <p><strong>Blog especializado</strong> en IA para marketing. Artículos, casos de estudio, tutoriales, tendencias y estrategias avanzadas de marketing con inteligencia artificial</p>
+            <a href="#blog" class="cta-button">📝 Ver Artículos</a>
+            <a href="#newsletter" class="cta-button" style="background: transparent; border: 2px solid white;">📧 Newsletter</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="excitement">
+            <h2 style="margin: 0; font-size: 2.2em;">📝 ¡BLOG ESPECIALIZADO EN IA!</h2>
+            <p style="margin: 10px 0 0 0; font-size: 1.2em;">Más de 500 artículos especializados en IA para marketing</p>
+        </div>
+
+        <div class="success">
+            <h3 style="margin: 0 0 15px 0;">🎉 CONTENIDO PREMIUM</h3>
+            <p style="margin: 0; font-size: 1.2em;">Artículos exclusivos, casos de estudio reales y estrategias probadas que han generado millones en ventas</p>
+        </div>
+
+        <section class="blog-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">📝 Artículos Destacados</h2>
+            
+            <div class="blog-grid">
+                <div class="blog-card featured">
+                    <div class="blog-category">🚀 Estrategia IA</div>
+                    <div class="blog-title">Cómo Aumentar Ventas 300% con IA en 90 Días</div>
+                    <div class="blog-excerpt">
+                        Descubre la estrategia completa que usamos para ayudar a nuestros clientes a aumentar sus ventas 300% en solo 90 días usando IA. Casos reales, métricas específicas y pasos detallados.
+                    </div>
+                    <div class="blog-meta">
+                        <span class="blog-date">15 Nov 2024</span>
+                        <span class="blog-read-time">8 min lectura</span>
+                    </div>
+                    <div class="blog-stats">
+                        <div class="stat-item">
+                            <span>Vistas:</span>
+                            <span class="stat-value">25,000+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Compartidos:</span>
+                            <span class="stat-value">1,200+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Comentarios:</span>
+                            <span class="stat-value">89</span>
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">📖 Leer Artículo</a>
+                </div>
+                
+                <div class="blog-card">
+                    <div class="blog-category">🎯 Automatización</div>
+                    <div class="blog-title">Automatiza tu Marketing con IA: Guía Completa 2024</div>
+                    <div class="blog-excerpt">
+                        Guía paso a paso para automatizar completamente tu marketing usando IA. Incluye herramientas, estrategias y casos de estudio de empresas que han automatizado el 80% de sus procesos.
+                    </div>
+                    <div class="blog-meta">
+                        <span class="blog-date">12 Nov 2024</span>
+                        <span class="blog-read-time">12 min lectura</span>
+                    </div>
+                    <div class="blog-stats">
+                        <div class="stat-item">
+                            <span>Vistas:</span>
+                            <span class="stat-value">18,500+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Compartidos:</span>
+                            <span class="stat-value">950+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Comentarios:</span>
+                            <span class="stat-value">67</span>
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">📖 Leer Artículo</a>
+                </div>
+                
+                <div class="blog-card">
+                    <div class="blog-category">📊 Análisis</div>
+                    <div class="blog-title">ROI de IA en Marketing: Análisis de 100+ Empresas</div>
+                    <div class="blog-excerpt">
+                        Análisis detallado del ROI de IA en marketing basado en datos de 100+ empresas. Descubre qué estrategias generan mayor retorno y cómo calcular el ROI de tu implementación de IA.
+                    </div>
+                    <div class="blog-meta">
+                        <span class="blog-date">10 Nov 2024</span>
+                        <span class="blog-read-time">10 min lectura</span>
+                    </div>
+                    <div class="blog-stats">
+                        <div class="stat-item">
+                            <span>Vistas:</span>
+                            <span class="stat-value">22,000+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Compartidos:</span>
+                            <span class="stat-value">1,100+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Comentarios:</span>
+                            <span class="stat-value">78</span>
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">📖 Leer Artículo</a>
+                </div>
+                
+                <div class="blog-card">
+                    <div class="blog-category">🎨 Contenido</div>
+                    <div class="blog-title">Genera 10x Más Contenido con IA: Casos Reales</div>
+                    <div class="blog-excerpt">
+                        Cómo empresas están generando 10x más contenido de calidad usando IA. Incluye herramientas, procesos y casos de estudio de empresas que han escalado su producción de contenido.
+                    </div>
+                    <div class="blog-meta">
+                        <span class="blog-date">8 Nov 2024</span>
+                        <span class="blog-read-time">7 min lectura</span>
+                    </div>
+                    <div class="blog-stats">
+                        <div class="stat-item">
+                            <span>Vistas:</span>
+                            <span class="stat-value">16,800+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Compartidos:</span>
+                            <span class="stat-value">820+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Comentarios:</span>
+                            <span class="stat-value">54</span>
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">📖 Leer Artículo</a>
+                </div>
+                
+                <div class="blog-card">
+                    <div class="blog-category">🔮 Tendencias</div>
+                    <div class="blog-title">Tendencias IA Marketing 2025: Qué Esperar</div>
+                    <div class="blog-excerpt">
+                        Predicciones y tendencias de IA en marketing para 2025. Basado en análisis de datos, entrevistas con expertos y tendencias emergentes en la industria.
+                    </div>
+                    <div class="blog-meta">
+                        <span class="blog-date">5 Nov 2024</span>
+                        <span class="blog-read-time">9 min lectura</span>
+                    </div>
+                    <div class="blog-stats">
+                        <div class="stat-item">
+                            <span>Vistas:</span>
+                            <span class="stat-value">20,500+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Compartidos:</span>
+                            <span class="stat-value">1,050+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Comentarios:</span>
+                            <span class="stat-value">72</span>
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">📖 Leer Artículo</a>
+                </div>
+                
+                <div class="blog-card">
+                    <div class="blog-category">🛠️ Herramientas</div>
+                    <div class="blog-title">Top 50 Herramientas IA para Marketing 2024</div>
+                    <div class="blog-excerpt">
+                        Lista completa de las 50 mejores herramientas de IA para marketing. Incluye precios, características, pros/contras y casos de uso específicos para cada herramienta.
+                    </div>
+                    <div class="blog-meta">
+                        <span class="blog-date">3 Nov 2024</span>
+                        <span class="blog-read-time">15 min lectura</span>
+                    </div>
+                    <div class="blog-stats">
+                        <div class="stat-item">
+                            <span>Vistas:</span>
+                            <span class="stat-value">28,000+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Compartidos:</span>
+                            <span class="stat-value">1,400+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Comentarios:</span>
+                            <span class="stat-value">95</span>
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">📖 Leer Artículo</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="authority">
+            <h3 style="margin: 0 0 15px 0;">🏆 LIDERAMOS EN CONTENIDO IA</h3>
+            <p style="margin: 0; font-size: 1.2em;">El blog más completo y actualizado sobre IA en marketing con más de 500 artículos especializados</p>
+        </div>
+
+        <section class="categories-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">📂 Categorías del Blog</h2>
+            
+            <div class="categories-grid">
+                <div class="category-card">
+                    <div class="category-icon">🚀</div>
+                    <h3>Estrategia IA</h3>
+                    <p>Estrategias avanzadas de IA para marketing</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 85 artículos</li>
+                        <li>✅ Casos de estudio</li>
+                        <li>✅ Métricas reales</li>
+                        <li>✅ Estrategias probadas</li>
+                    </ul>
+                    <p><strong>Actualizado semanalmente</strong></p>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">🎯</div>
+                    <h3>Automatización</h3>
+                    <p>Automatización completa con IA</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 120 artículos</li>
+                        <li>✅ Tutoriales paso a paso</li>
+                        <li>✅ Herramientas recomendadas</li>
+                        <li>✅ Workflows completos</li>
+                    </ul>
+                    <p><strong>Actualizado semanalmente</strong></p>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">📊</div>
+                    <h3>Análisis</h3>
+                    <p>Análisis y métricas de IA</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 95 artículos</li>
+                        <li>✅ ROI detallado</li>
+                        <li>✅ Métricas avanzadas</li>
+                        <li>✅ Comparativas</li>
+                    </ul>
+                    <p><strong>Actualizado semanalmente</strong></p>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">🎨</div>
+                    <h3>Contenido</h3>
+                    <p>Generación de contenido con IA</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 110 artículos</li>
+                        <li>✅ Templates gratuitos</li>
+                        <li>✅ Casos de éxito</li>
+                        <li>✅ Mejores prácticas</li>
+                    </ul>
+                    <p><strong>Actualizado semanalmente</strong></p>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">🔮</div>
+                    <h3>Tendencias</h3>
+                    <p>Tendencias y futuro de IA</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 75 artículos</li>
+                        <li>✅ Predicciones</li>
+                        <li>✅ Análisis de mercado</li>
+                        <li>✅ Futuro de la industria</li>
+                    </ul>
+                    <p><strong>Actualizado semanalmente</strong></p>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">🛠️</div>
+                    <h3>Herramientas</h3>
+                    <p>Reviews y comparativas de herramientas</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 150 artículos</li>
+                        <li>✅ Reviews detallados</li>
+                        <li>✅ Comparativas</li>
+                        <li>✅ Recomendaciones</li>
+                    </ul>
+                    <p><strong>Actualizado semanalmente</strong></p>
+                </div>
+            </div>
+        </section>
+
+        <div class="social-proof">
+            <h3 style="margin: 0 0 15px 0;">👥 MÁS DE 100,000 LECTORES MENSUALES</h3>
+            <p style="margin: 0; font-size: 1.2em;">Desde marketers hasta CEOs, todos encuentran valor en nuestro contenido especializado en IA</p>
+        </div>
+
+        <section class="newsletter-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">📧 Newsletter Exclusivo</h2>
+            <p style="text-align: center; font-size: 1.2em; margin-bottom: 30px;">Recibe contenido exclusivo, casos de estudio y estrategias avanzadas directamente en tu email</p>
+            
+            <div class="newsletter-form">
+                <input type="email" class="newsletter-input" placeholder="Tu email para contenido exclusivo..." id="newsletterEmail">
+                <a href="#" class="cta-button" onclick="subscribeNewsletter()">📧 Suscribirse Gratis</a>
+                <p style="margin-top: 15px; opacity: 0.8;">50,000+ suscriptores • Sin spam • Cancela cuando quieras</p>
+            </div>
+        </section>
+
+        <section class="stats-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">📊 Estadísticas del Blog</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">500+</div>
+                    <h3>Artículos</h3>
+                    <p>Especializados en IA</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">100K+</div>
+                    <h3>Lectores</h3>
+                    <p>Mensuales únicos</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">50K+</div>
+                    <h3>Suscriptores</h3>
+                    <p>Newsletter</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">6</div>
+                    <h3>Categorías</h3>
+                    <p>Especializadas</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">15+</div>
+                    <h3>Idiomas</h3>
+                    <p>Disponibles</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">95%</div>
+                    <h3>Satisfacción</h3>
+                    <p>De lectores</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="premium">
+            <h3 style="margin: 0 0 15px 0;">👑 CONTENIDO PREMIUM</h3>
+            <p style="margin: 0; font-size: 1.2em;">Accede a contenido exclusivo, casos de estudio detallados y estrategias avanzadas por solo $97/mes</p>
+        </div>
+
+        <div class="curiosity">
+            <h3 style="margin: 0 0 15px 0;">🔍 ¿QUÉ HACE NUESTRO BLOG DIFERENTE?</h3>
+            <p style="margin: 0; font-size: 1.2em;">Descubre por qué más de 100,000 marketers confían en nuestro contenido especializado en IA</p>
+        </div>
+
+        <div class="empathy">
+            <h3 style="margin: 0 0 15px 0;">💝 Entendemos tus Necesidades</h3>
+            <p style="margin: 0; font-size: 1.2em;">Sabemos que necesitas contenido práctico y aplicable. Por eso cada artículo incluye casos reales, métricas específicas y pasos detallados</p>
+        </div>
+    </div>
+
+    <footer style="background: #2c3e50; color: white; padding: 40px 0; text-align: center;">
+        <div class="container">
+            <p>&copy; 2024 IA Marketing Solutions. Todos los derechos reservados.</p>
+            <p>Contenido especializado desde 2020</p>
+        </div>
+    </footer>
+
+    <script>
+        function subscribeNewsletter() {
+            const email = document.getElementById('newsletterEmail').value;
+            if (email) {
+                alert('¡Gracias por suscribirte! Recibirás contenido exclusivo cada semana.');
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'newsletter_subscribe', {
+                        'event_category': 'AI Blog',
+                        'event_label': 'Newsletter Subscription',
+                        'value': 1
+                    });
+                }
+            } else {
+                alert('Por favor, ingresa tu email.');
+            }
+        }
+        
+        // Track blog interactions
+        document.querySelectorAll('.blog-card .cta-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const article = this.closest('.blog-card').querySelector('.blog-title').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'blog_article_click', {
+                        'event_category': 'AI Blog',
+                        'event_label': article,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track category clicks
+        document.querySelectorAll('.category-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const category = this.querySelector('h3').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'blog_category_click', {
+                        'event_category': 'AI Blog',
+                        'event_label': category,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track newsletter interactions
+        document.getElementById('newsletterEmail').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                subscribeNewsletter();
+            }
+        });
+        
+        // Animate blog cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.blog-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+        
+        // Animate stat numbers
+        const statObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumber = entry.target.querySelector('.stat-number');
+                    const finalValue = statNumber.textContent;
+                    const isPlus = finalValue.includes('+');
+                    const isPercentage = finalValue.includes('%');
+                    const isK = finalValue.includes('K');
+                    const numericValue = parseFloat(finalValue.replace(/[^0-9.]/g, ''));
+                    
+                    let currentValue = 0;
+                    const increment = numericValue / 30;
+                    
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= numericValue) {
+                            currentValue = numericValue;
+                            clearInterval(timer);
+                        }
+                        
+                        if (isPlus) {
+                            statNumber.textContent = Math.round(currentValue).toLocaleString() + '+';
+                        } else if (isPercentage) {
+                            statNumber.textContent = Math.round(currentValue) + '%';
+                        } else if (isK) {
+                            statNumber.textContent = Math.round(currentValue).toLocaleString() + 'K+';
+                        } else {
+                            statNumber.textContent = Math.round(currentValue).toLocaleString();
+                        }
+                    }, 30);
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.stat-card').forEach(card => {
+            statObserver.observe(card);
+        });
+    </script>
+</body>
+</html>
+

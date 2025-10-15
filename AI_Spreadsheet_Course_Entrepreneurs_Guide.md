@@ -266,3 +266,4 @@ TOTAL LOSS: $296,000+ per year
 **Don't let another day pass without AI spreadsheet mastery. Your business growth depends on it.**
 
 
+

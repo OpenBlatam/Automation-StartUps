@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚙️ Workflows de Automatización | IA Marketing Solutions</title>
+    <meta name="description" content="🔥 Workflows de automatización avanzados para marketing. 25+ flujos listos para usar que ahorran 40 horas semanales y aumentan conversiones 300%.">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Tonos Emocionales Avanzados */
+        .excitement { background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; animation: excitement-pulse 2s infinite; text-align: center; }
+        @keyframes excitement-pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        
+        .trust { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .trust::before { content: "🛡️ "; font-size: 1.8em; }
+        
+        .success { background: linear-gradient(135deg, #28a745 0%, #198754 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .success::before { content: "🎉 "; font-size: 1.8em; }
+        
+        .premium { background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; position: relative; overflow: hidden; }
+        .premium::before { content: "👑 "; font-size: 1.8em; }
+        .premium::after { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent); animation: premium-shine 3s infinite; }
+        @keyframes premium-shine { 0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); } 100% { transform: translateX(100%) translateY(100%) rotate(45deg); } }
+        
+        .curiosity { background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .curiosity::before { content: "🔍 "; font-size: 1.8em; }
+        
+        .social-proof { background: linear-gradient(135deg, #007bff 0%, #6610f2 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .social-proof::before { content: "👥 "; font-size: 1.8em; }
+        
+        .authority { background: linear-gradient(135deg, #343a40 0%, #6c757d 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .authority::before { content: "🏆 "; font-size: 1.8em; }
+        
+        .empathy { background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .empathy::before { content: "💝 "; font-size: 1.8em; }
+        
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 0; text-align: center; }
+        .hero h1 { font-size: 3.5em; margin-bottom: 20px; font-weight: 700; }
+        .hero p { font-size: 1.3em; margin-bottom: 30px; opacity: 0.95; }
+        
+        .cta-button { background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; padding: 20px 40px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.3em; display: inline-block; margin: 20px 10px; transition: all 0.3s; box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3); }
+        .cta-button:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4); }
+        
+        .workflows-section { background: white; padding: 60px 0; }
+        .workflows-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 40px; }
+        .workflow-card { background: #f8f9fa; padding: 30px; border-radius: 20px; border-left: 6px solid #667eea; transition: transform 0.3s; }
+        .workflow-card:hover { transform: translateY(-5px); }
+        .workflow-title { font-size: 1.4em; font-weight: bold; color: #2c3e50; margin-bottom: 15px; }
+        .workflow-stats { background: white; padding: 15px; border-radius: 10px; margin: 15px 0; }
+        .stat-item { display: flex; justify-content: space-between; margin: 8px 0; }
+        
+        .workflow-preview { background: white; border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin: 20px 0; }
+        .workflow-header { border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px; }
+        .workflow-step { background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #667eea; }
+        .step-number { background: #667eea; color: white; width: 25px; height: 25px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 10px; }
+        
+        .categories-section { background: #f8f9fa; padding: 60px 0; }
+        .categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px; }
+        .category-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        .category-icon { font-size: 2.5em; margin-bottom: 15px; }
+        
+        .benefits-section { background: #2c3e50; color: white; padding: 60px 0; }
+        .benefits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 40px; }
+        .benefit-card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; text-align: center; }
+        .benefit-number { font-size: 2.5em; font-weight: bold; color: #ff6b6b; margin-bottom: 10px; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5em; }
+            .hero p { font-size: 1.1em; }
+            .workflows-grid { grid-template-columns: 1fr; }
+            .categories-grid { grid-template-columns: 1fr; }
+            .benefits-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>⚙️ Workflows de Automatización</h1>
+            <p><strong>Automatiza tu marketing</strong> con 25+ workflows listos para usar que ahorran 40 horas semanales y aumentan conversiones 300%</p>
+            <a href="#workflows" class="cta-button">🚀 Ver Workflows</a>
+            <a href="#benefits" class="cta-button" style="background: transparent; border: 2px solid white;">💡 Beneficios</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="excitement">
+            <h2 style="margin: 0; font-size: 2.2em;">⚙️ ¡AUTOMATIZA TODO TU MARKETING!</h2>
+            <p style="margin: 10px 0 0 0; font-size: 1.2em;">Workflows que ahorran 40 horas semanales y aumentan conversiones 300%</p>
+        </div>
+
+        <div class="success">
+            <h3 style="margin: 0 0 15px 0;">🎉 RESULTADOS COMPROBADOS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Nuestros workflows han automatizado más de 1M de tareas y generado $5M+ en ventas</p>
+        </div>
+
+        <section class="workflows-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">⚙️ Workflows Listos para Usar</h2>
+            
+            <div class="workflows-grid">
+                <div class="workflow-card">
+                    <div class="workflow-title">📧 Welcome Series Automática</div>
+                    <p>Secuencia de bienvenida que nutre nuevos suscriptores automáticamente</p>
+                    <div class="workflow-stats">
+                        <div class="stat-item">
+                            <span>Emails:</span>
+                            <span style="color: #28a745; font-weight: bold;">7</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Conversión:</span>
+                            <span style="color: #28a745; font-weight: bold;">12.5%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Tiempo ahorrado:</span>
+                            <span style="color: #28a745; font-weight: bold;">5 horas/semana</span>
+                        </div>
+                    </div>
+                    <div class="workflow-preview">
+                        <div class="workflow-header">
+                            <div class="workflow-title">Flujo de Automatización</div>
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">1</span>
+                            <strong>Trigger:</strong> Nuevo suscriptor se registra
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">2</span>
+                            <strong>Acción:</strong> Enviar email de bienvenida inmediatamente
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">3</span>
+                            <strong>Espera:</strong> 24 horas
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">4</span>
+                            <strong>Acción:</strong> Enviar guía gratuita
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">5</span>
+                            <strong>Espera:</strong> 3 días
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">6</span>
+                            <strong>Acción:</strong> Enviar caso de estudio
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Usar Este Workflow</a>
+                </div>
+                
+                <div class="workflow-card">
+                    <div class="workflow-title">🎯 Lead Scoring Automático</div>
+                    <p>Sistema que califica y segmenta leads automáticamente según su comportamiento</p>
+                    <div class="workflow-stats">
+                        <div class="stat-item">
+                            <span>Puntos máximos:</span>
+                            <span style="color: #28a745; font-weight: bold;">100</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Precisión:</span>
+                            <span style="color: #28a745; font-weight: bold;">87%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Tiempo ahorrado:</span>
+                            <span style="color: #28a745; font-weight: bold;">8 horas/semana</span>
+                        </div>
+                    </div>
+                    <div class="workflow-preview">
+                        <div class="workflow-header">
+                            <div class="workflow-title">Sistema de Scoring</div>
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">1</span>
+                            <strong>Trigger:</strong> Lead visita página web
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">2</span>
+                            <strong>Acción:</strong> +5 puntos por visita
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">3</span>
+                            <strong>Condición:</strong> Si descarga recurso +15 puntos
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">4</span>
+                            <strong>Condición:</strong> Si abre email +3 puntos
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">5</span>
+                            <strong>Acción:</strong> Si score > 50, notificar ventas
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Usar Este Workflow</a>
+                </div>
+                
+                <div class="workflow-card">
+                    <div class="workflow-title">🔄 Reactivación de Clientes</div>
+                    <p>Workflow que reactiva clientes inactivos con ofertas personalizadas</p>
+                    <div class="workflow-stats">
+                        <div class="stat-item">
+                            <span>Emails:</span>
+                            <span style="color: #28a745; font-weight: bold;">5</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Reactivación:</span>
+                            <span style="color: #28a745; font-weight: bold;">23%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Tiempo ahorrado:</span>
+                            <span style="color: #28a745; font-weight: bold;">6 horas/semana</span>
+                        </div>
+                    </div>
+                    <div class="workflow-preview">
+                        <div class="workflow-header">
+                            <div class="workflow-title">Proceso de Reactivación</div>
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">1</span>
+                            <strong>Trigger:</strong> Cliente inactivo 30 días
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">2</span>
+                            <strong>Acción:</strong> Enviar email "Te extrañamos"
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">3</span>
+                            <strong>Espera:</strong> 7 días
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">4</span>
+                            <strong>Acción:</strong> Enviar oferta especial 20% descuento
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">5</span>
+                            <strong>Espera:</strong> 14 días
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">6</span>
+                            <strong>Acción:</strong> Enviar encuesta de satisfacción
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Usar Este Workflow</a>
+                </div>
+                
+                <div class="workflow-card">
+                    <div class="workflow-title">📊 Reportes Automáticos</div>
+                    <p>Generación y envío automático de reportes de rendimiento</p>
+                    <div class="workflow-stats">
+                        <div class="stat-item">
+                            <span>Reportes:</span>
+                            <span style="color: #28a745; font-weight: bold;">3 tipos</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Frecuencia:</span>
+                            <span style="color: #28a745; font-weight: bold;">Diario/Semanal/Mensual</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Tiempo ahorrado:</span>
+                            <span style="color: #28a745; font-weight: bold;">10 horas/semana</span>
+                        </div>
+                    </div>
+                    <div class="workflow-preview">
+                        <div class="workflow-header">
+                            <div class="workflow-title">Automatización de Reportes</div>
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">1</span>
+                            <strong>Trigger:</strong> Cada lunes a las 9:00 AM
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">2</span>
+                            <strong>Acción:</strong> Extraer datos de Google Analytics
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">3</span>
+                            <strong>Acción:</strong> Generar reporte en PDF
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">4</span>
+                            <strong>Acción:</strong> Enviar por email al equipo
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">5</span>
+                            <strong>Acción:</strong> Subir a Google Drive
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Usar Este Workflow</a>
+                </div>
+                
+                <div class="workflow-card">
+                    <div class="workflow-title">🎨 Generación de Contenido</div>
+                    <p>Automatización de creación y publicación de contenido en redes sociales</p>
+                    <div class="workflow-stats">
+                        <div class="stat-item">
+                            <span>Plataformas:</span>
+                            <span style="color: #28a745; font-weight: bold;">6</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Posts/día:</span>
+                            <span style="color: #28a745; font-weight: bold;">15</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Tiempo ahorrado:</span>
+                            <span style="color: #28a745; font-weight: bold;">12 horas/semana</span>
+                        </div>
+                    </div>
+                    <div class="workflow-preview">
+                        <div class="workflow-header">
+                            <div class="workflow-title">Automatización de Contenido</div>
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">1</span>
+                            <strong>Trigger:</strong> Cada día a las 8:00 AM
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">2</span>
+                            <strong>Acción:</strong> Generar contenido con IA
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">3</span>
+                            <strong>Acción:</strong> Adaptar para cada plataforma
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">4</span>
+                            <strong>Acción:</strong> Programar publicación
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">5</span>
+                            <strong>Acción:</strong> Enviar resumen al equipo
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Usar Este Workflow</a>
+                </div>
+                
+                <div class="workflow-card">
+                    <div class="workflow-title">💬 Chatbot Inteligente</div>
+                    <p>Bot que atiende consultas y califica leads automáticamente</p>
+                    <div class="workflow-stats">
+                        <div class="stat-item">
+                            <span>Respuestas:</span>
+                            <span style="color: #28a745; font-weight: bold;">24/7</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Satisfacción:</span>
+                            <span style="color: #28a745; font-weight: bold;">94%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Tiempo ahorrado:</span>
+                            <span style="color: #28a745; font-weight: bold;">20 horas/semana</span>
+                        </div>
+                    </div>
+                    <div class="workflow-preview">
+                        <div class="workflow-header">
+                            <div class="workflow-title">Flujo del Chatbot</div>
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">1</span>
+                            <strong>Trigger:</strong> Usuario inicia conversación
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">2</span>
+                            <strong>Acción:</strong> Saludar y preguntar necesidad
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">3</span>
+                            <strong>Condición:</strong> Si pregunta sobre precios
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">4</span>
+                            <strong>Acción:</strong> Enviar información y agendar demo
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">5</span>
+                            <strong>Acción:</strong> Notificar a ventas si es lead calificado
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Usar Este Workflow</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="authority">
+            <h3 style="margin: 0 0 15px 0;">🏆 LIDERAMOS EN AUTOMATIZACIÓN</h3>
+            <p style="margin: 0; font-size: 1.2em;">Nuestros workflows han automatizado más de 1M de tareas para 500+ empresas</p>
+        </div>
+
+        <section class="categories-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">📂 Categorías de Workflows</h2>
+            
+            <div class="categories-grid">
+                <div class="category-card">
+                    <div class="category-icon">📧</div>
+                    <h3>Email Marketing</h3>
+                    <p>8 workflows para automatizar campañas de email</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Welcome series</li>
+                        <li>✅ Nurture campaigns</li>
+                        <li>✅ Reactivation</li>
+                        <li>✅ Post-purchase</li>
+                    </ul>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">🎯</div>
+                    <h3>Lead Management</h3>
+                    <p>6 workflows para gestión automática de leads</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Lead scoring</li>
+                        <li>✅ Qualification</li>
+                        <li>✅ Assignment</li>
+                        <li>✅ Follow-up</li>
+                    </ul>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">📊</div>
+                    <h3>Analytics & Reporting</h3>
+                    <p>5 workflows para reportes automáticos</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Daily reports</li>
+                        <li>✅ Weekly summaries</li>
+                        <li>✅ Monthly insights</li>
+                        <li>✅ Alerts</li>
+                    </ul>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">📱</div>
+                    <h3>Social Media</h3>
+                    <p>4 workflows para automatizar redes sociales</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Content generation</li>
+                        <li>✅ Publishing</li>
+                        <li>✅ Engagement</li>
+                        <li>✅ Monitoring</li>
+                    </ul>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">💬</div>
+                    <h3>Customer Service</h3>
+                    <p>3 workflows para atención al cliente</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Chatbot responses</li>
+                        <li>✅ Ticket routing</li>
+                        <li>✅ Satisfaction surveys</li>
+                    </ul>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">🛒</div>
+                    <h3>E-commerce</h3>
+                    <p>4 workflows para tiendas online</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Abandoned cart</li>
+                        <li>✅ Order confirmation</li>
+                        <li>✅ Shipping updates</li>
+                        <li>✅ Review requests</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="social-proof">
+            <h3 style="margin: 0 0 15px 0;">👥 MÁS DE 500 EMPRESAS AUTOMATIZARON CON NOSOTROS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Desde startups hasta Fortune 500, todas han visto resultados increíbles con nuestros workflows</p>
+        </div>
+
+        <section class="benefits-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">💡 Beneficios de la Automatización</h2>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-number">40h</div>
+                    <h3>Horas Ahorradas</h3>
+                    <p>Por semana en tareas repetitivas</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-number">300%</div>
+                    <h3>Más Conversiones</h3>
+                    <p>Aumento promedio en conversiones</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-number">87%</div>
+                    <h3>Precisión</h3>
+                    <p>En lead scoring y segmentación</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-number">24/7</div>
+                    <h3>Disponibilidad</h3>
+                    <p>Automatización que nunca duerme</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-number">$5M</div>
+                    <h3>Ventas Generadas</h3>
+                    <p>Por nuestros workflows</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-number">1M+</div>
+                    <h3>Tareas Automatizadas</h3>
+                    <p>En total por nuestros clientes</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="premium">
+            <h3 style="margin: 0 0 15px 0;">👑 PAQUETE COMPLETO DE WORKFLOWS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Obtén todos los 30 workflows + configuración personalizada + soporte 24/7 por solo $497</p>
+        </div>
+
+        <div class="curiosity">
+            <h3 style="margin: 0 0 15px 0;">🔍 ¿CÓMO FUNCIONAN NUESTROS WORKFLOWS?</h3>
+            <p style="margin: 0; font-size: 1.2em;">Descubre la tecnología que está revolucionando la automatización de marketing</p>
+        </div>
+
+        <div class="empathy">
+            <h3 style="margin: 0 0 15px 0;">💝 Entendemos tus Necesidades</h3>
+            <p style="margin: 0; font-size: 1.2em;">Sabemos que configurar automatizaciones puede ser complejo. Por eso incluimos setup personalizado y soporte 24/7</p>
+        </div>
+    </div>
+
+    <footer style="background: #2c3e50; color: white; padding: 40px 0; text-align: center;">
+        <div class="container">
+            <p>&copy; 2024 IA Marketing Solutions. Todos los derechos reservados.</p>
+            <p>Automatizando marketing con inteligencia artificial desde 2020</p>
+        </div>
+    </footer>
+
+    <script>
+        // Track workflow interactions
+        document.querySelectorAll('.workflow-card .cta-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const workflow = this.closest('.workflow-card').querySelector('.workflow-title').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'workflow_click', {
+                        'event_category': 'Automation Workflows',
+                        'event_label': workflow,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track category clicks
+        document.querySelectorAll('.category-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const category = this.querySelector('h3').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'category_click', {
+                        'event_category': 'Automation Workflows',
+                        'event_label': category,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track workflow preview interactions
+        document.querySelectorAll('.workflow-preview').forEach(preview => {
+            preview.addEventListener('click', function() {
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'workflow_preview_click', {
+                        'event_category': 'Automation Workflows',
+                        'event_label': 'Workflow Preview',
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Animate workflow cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.workflow-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+        
+        // Animate benefit numbers
+        const benefitObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const benefitNumber = entry.target.querySelector('.benefit-number');
+                    const finalValue = benefitNumber.textContent;
+                    const isPercentage = finalValue.includes('%');
+                    const isHours = finalValue.includes('h');
+                    const isMillion = finalValue.includes('M');
+                    const is24 = finalValue.includes('24/7');
+                    const numericValue = parseFloat(finalValue.replace(/[^0-9.]/g, ''));
+                    
+                    let currentValue = 0;
+                    const increment = numericValue / 30;
+                    
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= numericValue) {
+                            currentValue = numericValue;
+                            clearInterval(timer);
+                        }
+                        
+                        if (isPercentage) {
+                            benefitNumber.textContent = Math.round(currentValue) + '%';
+                        } else if (isHours) {
+                            benefitNumber.textContent = Math.round(currentValue) + 'h';
+                        } else if (isMillion) {
+                            benefitNumber.textContent = '$' + (currentValue / 1000000).toFixed(1) + 'M';
+                        } else if (is24) {
+                            benefitNumber.textContent = '24/7';
+                        } else {
+                            benefitNumber.textContent = Math.round(currentValue).toLocaleString();
+                        }
+                    }, 30);
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.benefit-card').forEach(card => {
+            benefitObserver.observe(card);
+        });
+    </script>
+</body>
+</html>
+
+

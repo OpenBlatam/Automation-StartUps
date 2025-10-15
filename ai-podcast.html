@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎙️ Podcast IA Marketing | IA Marketing Solutions</title>
+    <meta name="description" content="🔥 Podcast semanal sobre IA en marketing. 100+ episodios, 500,000+ descargas, entrevistas con expertos, casos de estudio y tendencias del mercado.">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Tonos Emocionales Avanzados */
+        .excitement { background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; animation: excitement-pulse 2s infinite; text-align: center; }
+        @keyframes excitement-pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        
+        .trust { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .trust::before { content: "🛡️ "; font-size: 1.8em; }
+        
+        .success { background: linear-gradient(135deg, #28a745 0%, #198754 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .success::before { content: "🎉 "; font-size: 1.8em; }
+        
+        .premium { background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; position: relative; overflow: hidden; }
+        .premium::before { content: "👑 "; font-size: 1.8em; }
+        .premium::after { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent); animation: premium-shine 3s infinite; }
+        @keyframes premium-shine { 0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); } 100% { transform: translateX(100%) translateY(100%) rotate(45deg); } }
+        
+        .curiosity { background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .curiosity::before { content: "🔍 "; font-size: 1.8em; }
+        
+        .social-proof { background: linear-gradient(135deg, #007bff 0%, #6610f2 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .social-proof::before { content: "👥 "; font-size: 1.8em; }
+        
+        .authority { background: linear-gradient(135deg, #343a40 0%, #6c757d 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .authority::before { content: "🏆 "; font-size: 1.8em; }
+        
+        .empathy { background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .empathy::before { content: "💝 "; font-size: 1.8em; }
+        
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 0; text-align: center; }
+        .hero h1 { font-size: 3.5em; margin-bottom: 20px; font-weight: 700; }
+        .hero p { font-size: 1.3em; margin-bottom: 30px; opacity: 0.95; }
+        
+        .cta-button { background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; padding: 20px 40px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.3em; display: inline-block; margin: 20px 10px; transition: all 0.3s; box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3); }
+        .cta-button:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4); }
+        
+        .podcast-section { background: white; padding: 60px 0; }
+        .podcast-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 40px; }
+        .podcast-card { background: #f8f9fa; padding: 30px; border-radius: 20px; border-left: 6px solid #667eea; transition: transform 0.3s; }
+        .podcast-card:hover { transform: translateY(-5px); }
+        .podcast-title { font-size: 1.4em; font-weight: bold; color: #2c3e50; margin-bottom: 15px; }
+        .podcast-stats { background: white; padding: 15px; border-radius: 10px; margin: 15px 0; }
+        .stat-item { display: flex; justify-content: space-between; margin: 8px 0; }
+        
+        .podcast-preview { background: white; border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin: 20px 0; }
+        .podcast-header { border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px; }
+        .podcast-content { background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #667eea; }
+        .content-number { background: #667eea; color: white; width: 25px; height: 25px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 10px; }
+        
+        .episodes-section { background: #f8f9fa; padding: 60px 0; }
+        .episodes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px; }
+        .episode-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        .episode-icon { font-size: 2.5em; margin-bottom: 15px; }
+        
+        .stats-section { background: #2c3e50; color: white; padding: 60px 0; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 40px; }
+        .stat-card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; text-align: center; }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #ff6b6b; margin-bottom: 10px; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5em; }
+            .hero p { font-size: 1.1em; }
+            .podcast-grid { grid-template-columns: 1fr; }
+            .episodes-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>🎙️ Podcast IA Marketing</h1>
+            <p><strong>100+ episodios</strong> con expertos en IA y marketing. 500,000+ descargas, entrevistas exclusivas y casos de estudio reales</p>
+            <a href="#podcast" class="cta-button">🎧 Escuchar Ahora</a>
+            <a href="#episodes" class="cta-button" style="background: transparent; border: 2px solid white;">📻 Episodios</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="excitement">
+            <h2 style="margin: 0; font-size: 2.2em;">🎙️ ¡PODCAST SEMANAL SOBRE IA!</h2>
+            <p style="margin: 10px 0 0 0; font-size: 1.2em;">100+ episodios con expertos y 500,000+ descargas</p>
+        </div>
+
+        <div class="success">
+            <h3 style="margin: 0 0 15px 0;">🎉 CONTENIDO COMPROBADO</h3>
+            <p style="margin: 0; font-size: 1.2em;">Nuestro podcast está en el top 10 de podcasts de marketing y tecnología</p>
+        </div>
+
+        <section class="podcast-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">🎙️ Contenido del Podcast</h2>
+            
+            <div class="podcast-grid">
+                <div class="podcast-card">
+                    <div class="podcast-title">🎯 Entrevistas con Expertos</div>
+                    <p>Conversaciones con líderes de IA y marketing de empresas top</p>
+                    <div class="podcast-stats">
+                        <div class="stat-item">
+                            <span>Episodios:</span>
+                            <span style="color: #28a745; font-weight: bold;">40+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">45-60 min</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Descargas:</span>
+                            <span style="color: #28a745; font-weight: bold;">200,000+</span>
+                        </div>
+                    </div>
+                    <div class="podcast-preview">
+                        <div class="podcast-header">
+                            <div class="podcast-title">Invitados Destacados</div>
+                        </div>
+                        <div class="podcast-content">
+                            <span class="content-number">1</span>
+                            <strong>CEO de OpenAI:</strong> El futuro de ChatGPT en marketing
+                        </div>
+                        <div class="podcast-content">
+                            <span class="content-number">2</span>
+                            <strong>VP Marketing de Google:</strong> IA en Google Ads
+                        </div>
+                        <div class="podcast-content">
+                            <span class="content-number">3</span>
+                            <strong>CTO de Salesforce:</strong> Automatización con IA
+                        </div>
+                        <div class="podcast-content">
+                            <span class="content-number">4</span>
+                            <strong>Fundador de HubSpot:</strong> Inbound marketing con IA
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Escuchar</a>
+                </div>
+                
+                <div class="podcast-card">
+                    <div class="podcast-title">📊 Casos de Estudio</div>
+                    <p>Análisis profundo de implementaciones reales de IA en marketing</p>
+                    <div class="podcast-stats">
+                        <div class="stat-item">
+                            <span>Episodios:</span>
+                            <span style="color: #28a745; font-weight: bold;">30+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">30-45 min</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Descargas:</span>
+                            <span style="color: #28a745; font-weight: bold;">150,000+</span>
+                        </div>
+                    </div>
+                    <div class="podcast-preview">
+                        <div class="podcast-header">
+                            <div class="podcast-title">Casos Analizados</div>
+                        </div>
+                        <div class="podcast-content">
+                            <span class="content-number">1</span>
+                            <strong>Netflix:</strong> Cómo usan IA para recomendaciones
+                        </div>
+                        <div class="podcast-content">
+                            <span class="content-number">2</span>
+                            <strong>Amazon:</strong> Personalización con machine learning
+                        </div>
+                        <div class="podcast-content">
+                            <span class="content-number">3</span>
+                            <strong>Spotify:</strong> IA para descubrimiento de música
+                        </div>
+                        <div class="podcast-content">
+                            <span class="content-number">4</span>
+                            <strong>Airbnb:</strong> Optimización de precios con IA
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Escuchar</a>
+                </div>
+                
+                <div class="podcast-card">
+                    <div class="podcast-title">🛠️ Reviews de Herramientas</div>
+                    <p>Análisis detallado de herramientas de IA para marketing</p>
+                    <div class="podcast-stats">
+                        <div class="stat-item">
+                            <span>Episodios:</span>
+                            <span style="color: #28a745; font-weight: bold;">25+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">20-30 min</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Descargas:</span>
+                            <span style="color: #28a745; font-weight: bold;">100,000+</span>
+                        </div>
+                    </div>
+                    <div class="podcast-preview">
+                        <div class="podcast-header">
+                            <div class="podcast-title">Herramientas Revisadas</div>
+                        </div>
+                        <div class="podcast-content">
+                            <span class="content-number">1</span>
+                            <strong>ChatGPT:</strong> Guía completa para marketers
+                        </div>
+                        <div class="podcast-content">
+                            <span class="content-number">2</span>
+                            <strong>Midjourney:</strong> Creación de imágenes con IA
+                        </div>
+                        <div class="podcast-content">
+                            <span class="content-number">3</span>
+                            <strong>Jasper AI:</strong> Copywriting automatizado
+                        </div>
+                        <div class="podcast-content">
+                            <span class="content-number">4</span>
+                            <strong>Surfer SEO:</strong> Optimización con IA
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Escuchar</a>
+                </div>
+                
+                <div class="podcast-card">
+                    <div class="podcast-title">📈 Tendencias del Mercado</div>
+                    <p>Análisis de tendencias y predicciones del mercado de IA</p>
+                    <div class="podcast-stats">
+                        <div class="stat-item">
+                            <span>Episodios:</span>
+                            <span style="color: #28a745; font-weight: bold;">20+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">25-35 min</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Descargas:</span>
+                            <span style="color: #28a745; font-weight: bold;">75,000+</span>
+                        </div>
+                    </div>
+                    <div class="podcast-preview">
+                        <div class="podcast-header">
+                            <div class="podcast-title">Temas Analizados</div>
+                        </div>
+                        <div class="podcast-content">
+                            <span class="content-number">1</span>
+                            <strong>IA Generativa:</strong> Impacto en marketing
+                        </div>
+                        <div class="podcast-content">
+                            <span class="content-number">2</span>
+                            <strong>Personalización:</strong> Tendencias futuras
+                        </div>
+                        <div class="podcast-content">
+                            <span class="content-number">3</span>
+                            <strong>Automatización:</strong> Qué automatizar primero
+                        </div>
+                        <div class="podcast-content">
+                            <span class="content-number">4</span>
+                            <strong>ROI de IA:</strong> Cómo medir el retorno
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Escuchar</a>
+                </div>
+                
+                <div class="podcast-card">
+                    <div class="podcast-title">🎓 Tutoriales Prácticos</div>
+                    <p>Guías paso a paso para implementar IA en tu marketing</p>
+                    <div class="podcast-stats">
+                        <div class="stat-item">
+                            <span>Episodios:</span>
+                            <span style="color: #28a745; font-weight: bold;">15+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">35-50 min</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Descargas:</span>
+                            <span style="color: #28a745; font-weight: bold;">50,000+</span>
+                        </div>
+                    </div>
+                    <div class="podcast-preview">
+                        <div class="podcast-header">
+                            <div class="podcast-title">Tutoriales Disponibles</div>
+                        </div>
+                        <div class="podcast-content">
+                            <span class="content-number">1</span>
+                            <strong>Setup inicial:</strong> Cómo empezar con IA
+                        </div>
+                        <div class="podcast-content">
+                            <span class="content-number">2</span>
+                            <strong>Automatización:</strong> Workflows básicos
+                        </div>
+                        <div class="podcast-content">
+                            <span class="content-number">3</span>
+                            <strong>Optimización:</strong> Mejorar conversiones
+                        </div>
+                        <div class="podcast-content">
+                            <span class="content-number">4</span>
+                            <strong>Análisis:</strong> Métricas importantes
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Escuchar</a>
+                </div>
+                
+                <div class="podcast-card">
+                    <div class="podcast-title">🎁 Episodios Especiales</div>
+                    <p>Contenido exclusivo y episodios especiales con invitados VIP</p>
+                    <div class="podcast-stats">
+                        <div class="stat-item">
+                            <span>Episodios:</span>
+                            <span style="color: #28a745; font-weight: bold;">10+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">60+ min</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Descargas:</span>
+                            <span style="color: #28a745; font-weight: bold;">25,000+</span>
+                        </div>
+                    </div>
+                    <div class="podcast-preview">
+                        <div class="podcast-header">
+                            <div class="podcast-title">Episodios Especiales</div>
+                        </div>
+                        <div class="podcast-content">
+                            <span class="content-number">1</span>
+                            <strong>Conferencias:</strong> Cobertura de eventos
+                        </div>
+                        <div class="podcast-content">
+                            <span class="content-number">2</span>
+                            <strong>Paneles:</strong> Discusiones grupales
+                        </div>
+                        <div class="podcast-content">
+                            <span class="content-number">3</span>
+                            <strong>Q&A:</strong> Preguntas de la audiencia
+                        </div>
+                        <div class="podcast-content">
+                            <span class="content-number">4</span>
+                            <strong>Aniversarios:</strong> Episodios especiales
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Escuchar</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="authority">
+            <h3 style="margin: 0 0 15px 0;">🏆 LIDERAMOS EN PODCASTS IA</h3>
+            <p style="margin: 0; font-size: 1.2em;">El podcast más escuchado sobre IA en marketing con 500,000+ descargas y top 10 en rankings</p>
+        </div>
+
+        <section class="episodes-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">📻 Episodios Destacados</h2>
+            
+            <div class="episodes-grid">
+                <div class="episode-card">
+                    <div class="episode-icon">🎯</div>
+                    <h3>Episodio #1</h3>
+                    <p>El Futuro de ChatGPT en Marketing</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Entrevista con CEO de OpenAI</li>
+                        <li>✅ 60 minutos de contenido</li>
+                        <li>✅ 50,000+ descargas</li>
+                        <li>✅ Rating 5/5 estrellas</li>
+                    </ul>
+                </div>
+                
+                <div class="episode-card">
+                    <div class="episode-icon">📊</div>
+                    <h3>Episodio #15</h3>
+                    <p>Cómo Netflix Usa IA para Recomendaciones</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Caso de estudio detallado</li>
+                        <li>✅ 45 minutos de análisis</li>
+                        <li>✅ 35,000+ descargas</li>
+                        <li>✅ Rating 4.9/5 estrellas</li>
+                    </ul>
+                </div>
+                
+                <div class="episode-card">
+                    <div class="episode-icon">🛠️</div>
+                    <h3>Episodio #30</h3>
+                    <p>Review Completo de Midjourney</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Tutorial paso a paso</li>
+                        <li>✅ 30 minutos de contenido</li>
+                        <li>✅ 25,000+ descargas</li>
+                        <li>✅ Rating 4.8/5 estrellas</li>
+                    </ul>
+                </div>
+                
+                <div class="episode-card">
+                    <div class="episode-icon">📈</div>
+                    <h3>Episodio #50</h3>
+                    <p>Tendencias de IA en 2024</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Predicciones del mercado</li>
+                        <li>✅ 40 minutos de análisis</li>
+                        <li>✅ 40,000+ descargas</li>
+                        <li>✅ Rating 4.9/5 estrellas</li>
+                    </ul>
+                </div>
+                
+                <div class="episode-card">
+                    <div class="episode-icon">🎓</div>
+                    <h3>Episodio #75</h3>
+                    <p>Tutorial: Automatización con IA</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Guía práctica completa</li>
+                        <li>✅ 50 minutos de tutorial</li>
+                        <li>✅ 30,000+ descargas</li>
+                        <li>✅ Rating 4.7/5 estrellas</li>
+                    </ul>
+                </div>
+                
+                <div class="episode-card">
+                    <div class="episode-icon">🎁</div>
+                    <h3>Episodio #100</h3>
+                    <p>Especial: 100 Episodios de IA</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Episodio especial</li>
+                        <li>✅ 90 minutos de contenido</li>
+                        <li>✅ 60,000+ descargas</li>
+                        <li>✅ Rating 5/5 estrellas</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="social-proof">
+            <h3 style="margin: 0 0 15px 0;">👥 MÁS DE 500,000 DESCARGAS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Desde marketers hasta CEOs, todos escuchan nuestro podcast para mantenerse actualizados</p>
+        </div>
+
+        <section class="stats-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">📊 Estadísticas del Podcast</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">100+</div>
+                    <h3>Episodios</h3>
+                    <p>Contenido disponible</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">500,000+</div>
+                    <h3>Descargas</h3>
+                    <p>Total acumulado</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">4.9/5</div>
+                    <h3>Rating</h3>
+                    <p>Promedio en plataformas</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">Top 10</div>
+                    <h3>Ranking</h3>
+                    <p>En podcasts de marketing</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">50+</div>
+                    <h3>Países</h3>
+                    <p>Audiencia global</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">95%</div>
+                    <h3>Satisfacción</h3>
+                    <p>De oyentes activos</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="premium">
+            <h3 style="margin: 0 0 15px 0;">👑 PODCAST PREMIUM</h3>
+            <p style="margin: 0; font-size: 1.2em;">Acceso a episodios exclusivos + transcripciones + recursos adicionales por solo $17/mes</p>
+        </div>
+
+        <div class="curiosity">
+            <h3 style="margin: 0 0 15px 0;">🔍 ¿QUÉ HACE ESPECIAL A NUESTRO PODCAST?</h3>
+            <p style="margin: 0; font-size: 1.2em;">Descubre por qué nuestro podcast está en el top 10 y tiene 4.9/5 estrellas</p>
+        </div>
+
+        <div class="empathy">
+            <h3 style="margin: 0 0 15px 0;">💝 Entendemos tus Necesidades</h3>
+            <p style="margin: 0; font-size: 1.2em;">Sabemos que el tiempo es valioso. Por eso nuestro podcast es conciso, práctico y lleno de valor</p>
+        </div>
+    </div>
+
+    <footer style="background: #2c3e50; color: white; padding: 40px 0; text-align: center;">
+        <div class="container">
+            <p>&copy; 2024 IA Marketing Solutions. Todos los derechos reservados.</p>
+            <p>Informando sobre IA desde 2020</p>
+        </div>
+    </footer>
+
+    <script>
+        // Track podcast interactions
+        document.querySelectorAll('.podcast-card .cta-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const podcast = this.closest('.podcast-card').querySelector('.podcast-title').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'podcast_click', {
+                        'event_category': 'AI Podcast',
+                        'event_label': podcast,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track episode card clicks
+        document.querySelectorAll('.episode-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const episode = this.querySelector('h3').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'episode_click', {
+                        'event_category': 'AI Podcast',
+                        'event_label': episode,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track podcast preview interactions
+        document.querySelectorAll('.podcast-preview').forEach(preview => {
+            preview.addEventListener('click', function() {
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'podcast_preview_click', {
+                        'event_category': 'AI Podcast',
+                        'event_label': 'Podcast Preview',
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Animate podcast cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.podcast-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+        
+        // Animate stat numbers
+        const statObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumber = entry.target.querySelector('.stat-number');
+                    const finalValue = statNumber.textContent;
+                    const isPlus = finalValue.includes('+');
+                    const isTop = finalValue.includes('Top');
+                    const isRating = finalValue.includes('/');
+                    const isPercentage = finalValue.includes('%');
+                    const numericValue = parseFloat(finalValue.replace(/[^0-9.]/g, ''));
+                    
+                    let currentValue = 0;
+                    const increment = numericValue / 30;
+                    
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= numericValue) {
+                            currentValue = numericValue;
+                            clearInterval(timer);
+                        }
+                        
+                        if (isPlus) {
+                            statNumber.textContent = Math.round(currentValue).toLocaleString() + '+';
+                        } else if (isTop) {
+                            statNumber.textContent = 'Top ' + Math.round(currentValue);
+                        } else if (isRating) {
+                            statNumber.textContent = (currentValue / 10).toFixed(1) + '/5';
+                        } else if (isPercentage) {
+                            statNumber.textContent = Math.round(currentValue) + '%';
+                        } else {
+                            statNumber.textContent = Math.round(currentValue).toLocaleString();
+                        }
+                    }, 30);
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.stat-card').forEach(card => {
+            statObserver.observe(card);
+        });
+    </script>
+</body>
+</html>
+
+
+

@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📱 App Móvil IA Marketing | IA Marketing Solutions</title>
+    <meta name="description" content="🔥 App móvil completa para IA en marketing. Gestiona tu marketing desde cualquier lugar, notificaciones push, acceso offline y sincronización en tiempo real.">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Tonos Emocionales Avanzados */
+        .excitement { background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; animation: excitement-pulse 2s infinite; text-align: center; }
+        @keyframes excitement-pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        
+        .trust { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .trust::before { content: "🛡️ "; font-size: 1.8em; }
+        
+        .success { background: linear-gradient(135deg, #28a745 0%, #198754 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .success::before { content: "🎉 "; font-size: 1.8em; }
+        
+        .premium { background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; position: relative; overflow: hidden; }
+        .premium::before { content: "👑 "; font-size: 1.8em; }
+        .premium::after { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent); animation: premium-shine 3s infinite; }
+        @keyframes premium-shine { 0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); } 100% { transform: translateX(100%) translateY(100%) rotate(45deg); } }
+        
+        .curiosity { background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .curiosity::before { content: "🔍 "; font-size: 1.8em; }
+        
+        .social-proof { background: linear-gradient(135deg, #007bff 0%, #6610f2 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .social-proof::before { content: "👥 "; font-size: 1.8em; }
+        
+        .authority { background: linear-gradient(135deg, #343a40 0%, #6c757d 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .authority::before { content: "🏆 "; font-size: 1.8em; }
+        
+        .empathy { background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .empathy::before { content: "💝 "; font-size: 1.8em; }
+        
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 0; text-align: center; }
+        .hero h1 { font-size: 3.5em; margin-bottom: 20px; font-weight: 700; }
+        .hero p { font-size: 1.3em; margin-bottom: 30px; opacity: 0.95; }
+        
+        .cta-button { background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; padding: 20px 40px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.3em; display: inline-block; margin: 20px 10px; transition: all 0.3s; box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3); }
+        .cta-button:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4); }
+        
+        .mobile-section { background: white; padding: 60px 0; }
+        .mobile-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 40px; }
+        .mobile-card { background: #f8f9fa; padding: 30px; border-radius: 20px; border-left: 6px solid #667eea; transition: transform 0.3s; }
+        .mobile-card:hover { transform: translateY(-5px); }
+        .mobile-card.featured { border-left: 6px solid #ff6b6b; background: linear-gradient(135deg, #fff5f5 0%, #f8f9fa 100%); }
+        .mobile-card.featured::before { content: "⭐ DESTACADO"; position: absolute; top: -10px; right: 20px; background: #ff6b6b; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8em; font-weight: bold; }
+        .mobile-category { color: #667eea; font-weight: bold; font-size: 0.9em; margin-bottom: 10px; }
+        .mobile-title { font-size: 1.4em; font-weight: bold; color: #2c3e50; margin-bottom: 15px; }
+        .mobile-description { color: #666; margin-bottom: 20px; line-height: 1.6; }
+        .mobile-features { background: white; padding: 15px; border-radius: 10px; margin: 15px 0; }
+        .feature-item { display: flex; align-items: center; margin: 8px 0; font-size: 0.9em; }
+        .feature-item::before { content: "✅ "; color: #28a745; font-weight: bold; margin-right: 8px; }
+        
+        .platforms-section { background: #f8f9fa; padding: 60px 0; }
+        .platforms-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px; }
+        .platform-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        .platform-icon { font-size: 2.5em; margin-bottom: 15px; }
+        
+        .features-section { background: #2c3e50; color: white; padding: 60px 0; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
+        .feature-card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; }
+        
+        .stats-section { background: #2c3e50; color: white; padding: 60px 0; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 40px; }
+        .stat-card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; text-align: center; }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #ff6b6b; margin-bottom: 10px; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5em; }
+            .hero p { font-size: 1.1em; }
+            .mobile-grid { grid-template-columns: 1fr; }
+            .platforms-grid { grid-template-columns: 1fr; }
+            .features-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>📱 App Móvil IA Marketing</h1>
+            <p><strong>App móvil completa</strong> para IA en marketing. Gestiona tu marketing desde cualquier lugar, notificaciones push, acceso offline y sincronización en tiempo real</p>
+            <a href="#mobile" class="cta-button">📱 Descargar App</a>
+            <a href="#features" class="cta-button" style="background: transparent; border: 2px solid white;">✨ Características</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="excitement">
+            <h2 style="margin: 0; font-size: 2.2em;">📱 ¡APP MÓVIL COMPLETA!</h2>
+            <p style="margin: 10px 0 0 0; font-size: 1.2em;">Gestiona tu marketing con IA desde cualquier lugar del mundo</p>
+        </div>
+
+        <div class="success">
+            <h3 style="margin: 0 0 15px 0;">🎉 MARKETING EN MOVIMIENTO</h3>
+            <p style="margin: 0; font-size: 1.2em;">Acceso completo a todas las funciones de IA desde tu smartphone con sincronización en tiempo real</p>
+        </div>
+
+        <section class="mobile-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">📱 Características de la App</h2>
+            
+            <div class="mobile-grid">
+                <div class="mobile-card featured">
+                    <div class="mobile-category">🚀 Funcionalidades Principales</div>
+                    <div class="mobile-title">IA Completa en tu Móvil</div>
+                    <div class="mobile-description">
+                        Acceso completo a todas las funciones de IA desde tu smartphone. Genera contenido, optimiza campañas y analiza resultados desde cualquier lugar.
+                    </div>
+                    <div class="mobile-features">
+                        <div class="feature-item">Generación de contenido con IA</div>
+                        <div class="feature-item">Optimización de campañas</div>
+                        <div class="feature-item">Análisis en tiempo real</div>
+                        <div class="feature-item">Gestión de leads</div>
+                        <div class="feature-item">Reportes automáticos</div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">📱 Descargar Ahora</a>
+                </div>
+                
+                <div class="mobile-card">
+                    <div class="mobile-category">🔔 Notificaciones</div>
+                    <div class="mobile-title">Notificaciones Push Inteligentes</div>
+                    <div class="mobile-description">
+                        Notificaciones push personalizadas que te mantienen informado sobre el rendimiento de tus campañas, nuevos leads y oportunidades importantes.
+                    </div>
+                    <div class="mobile-features">
+                        <div class="feature-item">Alertas de rendimiento</div>
+                        <div class="feature-item">Notificaciones de leads</div>
+                        <div class="feature-item">Recordatorios de tareas</div>
+                        <div class="feature-item">Actualizaciones de campañas</div>
+                        <div class="feature-item">Personalización completa</div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">🔔 Configurar</a>
+                </div>
+                
+                <div class="mobile-card">
+                    <div class="mobile-category">📱 Interfaz Táctil</div>
+                    <div class="mobile-title">Diseño Optimizado para Móvil</div>
+                    <div class="mobile-description">
+                        Interfaz diseñada específicamente para dispositivos móviles con gestos intuitivos, navegación fácil y experiencia táctil optimizada.
+                    </div>
+                    <div class="mobile-features">
+                        <div class="feature-item">Gestos intuitivos</div>
+                        <div class="feature-item">Navegación fácil</div>
+                        <div class="feature-item">Botones táctiles</div>
+                        <div class="feature-item">Zoom inteligente</div>
+                        <div class="feature-item">Accesibilidad completa</div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">📱 Ver Diseño</a>
+                </div>
+                
+                <div class="mobile-card">
+                    <div class="mobile-category">🔄 Sincronización</div>
+                    <div class="mobile-title">Sincronización en Tiempo Real</div>
+                    <div class="mobile-description">
+                        Sincronización automática entre todos tus dispositivos. Los cambios se reflejan instantáneamente en web, móvil y tablet.
+                    </div>
+                    <div class="mobile-features">
+                        <div class="feature-item">Sincronización automática</div>
+                        <div class="feature-item">Tiempo real</div>
+                        <div class="feature-item">Multi-dispositivo</div>
+                        <div class="feature-item">Resolución de conflictos</div>
+                        <div class="feature-item">Historial de cambios</div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">🔄 Ver Sincronización</a>
+                </div>
+                
+                <div class="mobile-card">
+                    <div class="mobile-category">📶 Acceso Offline</div>
+                    <div class="mobile-title">Funciona Sin Internet</div>
+                    <div class="mobile-description">
+                        Acceso offline a funciones esenciales. Puedes ver reportes, generar contenido y gestionar tareas incluso sin conexión a internet.
+                    </div>
+                    <div class="mobile-features">
+                        <div class="feature-item">Reportes offline</div>
+                        <div class="feature-item">Generación de contenido</div>
+                        <div class="feature-item">Gestión de tareas</div>
+                        <div class="feature-item">Sincronización automática</div>
+                        <div class="feature-item">Cache inteligente</div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">📶 Ver Offline</a>
+                </div>
+                
+                <div class="mobile-card">
+                    <div class="mobile-category">🔐 Seguridad</div>
+                    <div class="mobile-title">Seguridad Móvil Avanzada</div>
+                    <div class="mobile-description">
+                        Seguridad de grado militar en tu móvil. Autenticación biométrica, encriptación local y protección contra amenazas móviles.
+                    </div>
+                    <div class="mobile-features">
+                        <div class="feature-item">Autenticación biométrica</div>
+                        <div class="feature-item">Encriptación local</div>
+                        <div class="feature-item">Protección de datos</div>
+                        <div class="feature-item">Detección de amenazas</div>
+                        <div class="feature-item">Cierre automático</div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">🔐 Ver Seguridad</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="authority">
+            <h3 style="margin: 0 0 15px 0;">🏆 LIDERAMOS EN APPS MÓVILES</h3>
+            <p style="margin: 0; font-size: 1.2em;">La app móvil más completa y avanzada para IA en marketing con 4.9/5 estrellas en las tiendas</p>
+        </div>
+
+        <section class="platforms-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">📱 Plataformas Disponibles</h2>
+            
+            <div class="platforms-grid">
+                <div class="platform-card">
+                    <div class="platform-icon">🍎</div>
+                    <h3>iOS</h3>
+                    <p>App Store</p>
+                    <ul style="text-align: left;">
+                        <li>✅ iPhone</li>
+                        <li>✅ iPad</li>
+                        <li>✅ Apple Watch</li>
+                        <li>✅ macOS</li>
+                        <li>✅ CarPlay</li>
+                    </ul>
+                    <p><strong>4.9/5 estrellas</strong></p>
+                </div>
+                
+                <div class="platform-card">
+                    <div class="platform-icon">🤖</div>
+                    <h3>Android</h3>
+                    <p>Google Play</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Smartphones</li>
+                        <li>✅ Tablets</li>
+                        <li>✅ Android TV</li>
+                        <li>✅ Wear OS</li>
+                        <li>✅ Android Auto</li>
+                    </ul>
+                    <p><strong>4.8/5 estrellas</strong></p>
+                </div>
+                
+                <div class="platform-card">
+                    <div class="platform-icon">💻</div>
+                    <h3>Web App</h3>
+                    <p>Progressive Web App</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Chrome</li>
+                        <li>✅ Safari</li>
+                        <li>✅ Firefox</li>
+                        <li>✅ Edge</li>
+                        <li>✅ Opera</li>
+                    </ul>
+                    <p><strong>Instalación directa</strong></p>
+                </div>
+                
+                <div class="platform-card">
+                    <div class="platform-icon">⌚</div>
+                    <h3>Wearables</h3>
+                    <p>Dispositivos portátiles</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Apple Watch</li>
+                        <li>✅ Samsung Galaxy Watch</li>
+                        <li>✅ Fitbit</li>
+                        <li>✅ Garmin</li>
+                        <li>✅ Wear OS</li>
+                    </ul>
+                    <p><strong>Notificaciones</strong></p>
+                </div>
+            </div>
+        </section>
+
+        <div class="social-proof">
+            <h3 style="margin: 0 0 15px 0;">👥 MÁS DE 100,000 DESCARGAS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Desde marketers hasta CEOs, todos usan nuestra app móvil para gestionar su marketing con IA</p>
+        </div>
+
+        <section class="features-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">✨ Características Avanzadas</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>🎯 Personalización</h3>
+                    <ul>
+                        <li>✅ Dashboard personalizable</li>
+                        <li>✅ Widgets configurables</li>
+                        <li>✅ Temas oscuro/claro</li>
+                        <li>✅ Atajos personalizados</li>
+                        <li>✅ Preferencias de usuario</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>📊 Analytics</h3>
+                    <ul>
+                        <li>✅ Métricas en tiempo real</li>
+                        <li>✅ Gráficos interactivos</li>
+                        <li>✅ Reportes automáticos</li>
+                        <li>✅ Comparativas históricas</li>
+                        <li>✅ Exportación de datos</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>🤖 IA Avanzada</h3>
+                    <ul>
+                        <li>✅ Generación de contenido</li>
+                        <li>✅ Optimización automática</li>
+                        <li>✅ Predicciones inteligentes</li>
+                        <li>✅ Recomendaciones personalizadas</li>
+                        <li>✅ Aprendizaje continuo</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>🔔 Notificaciones</h3>
+                    <ul>
+                        <li>✅ Push notifications</li>
+                        <li>✅ Email alerts</li>
+                        <li>✅ SMS notifications</li>
+                        <li>✅ In-app messages</li>
+                        <li>✅ Calendar reminders</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>🔄 Integraciones</h3>
+                    <ul>
+                        <li>✅ 50+ herramientas</li>
+                        <li>✅ APIs nativas</li>
+                        <li>✅ Webhooks</li>
+                        <li>✅ Zapier integration</li>
+                        <li>✅ Custom integrations</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>🛡️ Seguridad</h3>
+                    <ul>
+                        <li>✅ Autenticación biométrica</li>
+                        <li>✅ Encriptación local</li>
+                        <li>✅ VPN support</li>
+                        <li>✅ Remote wipe</li>
+                        <li>✅ Audit logs</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="stats-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">📊 Estadísticas de la App</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">100K+</div>
+                    <h3>Descargas</h3>
+                    <p>En todas las plataformas</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">4.9/5</div>
+                    <h3>Rating</h3>
+                    <p>Promedio en tiendas</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">24/7</div>
+                    <h3>Disponibilidad</h3>
+                    <p>Acceso continuo</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">99.9%</div>
+                    <h3>Uptime</h3>
+                    <p>Disponibilidad garantizada</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">4</div>
+                    <h3>Plataformas</h3>
+                    <p>Disponibles</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">50+</div>
+                    <h3>Integraciones</h3>
+                    <p>Herramientas conectadas</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="premium">
+            <h3 style="margin: 0 0 15px 0;">👑 APP PREMIUM</h3>
+            <p style="margin: 0; font-size: 1.2em;">Funciones premium + sincronización ilimitada + soporte prioritario por solo $97/mes</p>
+        </div>
+
+        <div class="curiosity">
+            <h3 style="margin: 0 0 15px 0;">🔍 ¿QUÉ HACE NUESTRA APP DIFERENTE?</h3>
+            <p style="margin: 0; font-size: 1.2em;">Descubre por qué más de 100,000 usuarios confían en nuestra app móvil para gestionar su marketing</p>
+        </div>
+
+        <div class="empathy">
+            <h3 style="margin: 0 0 15px 0;">💝 Entendemos tu Movilidad</h3>
+            <p style="margin: 0; font-size: 1.2em;">Sabemos que necesitas gestionar tu marketing desde cualquier lugar. Por eso nuestra app te da acceso completo a la IA en tu móvil</p>
+        </div>
+    </div>
+
+    <footer style="background: #2c3e50; color: white; padding: 40px 0; text-align: center;">
+        <div class="container">
+            <p>&copy; 2024 IA Marketing Solutions. Todos los derechos reservados.</p>
+            <p>App móvil disponible desde 2020</p>
+        </div>
+    </footer>
+
+    <script>
+        // Track mobile interactions
+        document.querySelectorAll('.mobile-card .cta-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const feature = this.closest('.mobile-card').querySelector('.mobile-title').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'mobile_feature_click', {
+                        'event_category': 'AI Mobile',
+                        'event_label': feature,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track platform card clicks
+        document.querySelectorAll('.platform-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const platform = this.querySelector('h3').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'platform_click', {
+                        'event_category': 'AI Mobile',
+                        'event_label': platform,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track feature interactions
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const feature = this.querySelector('h3').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'mobile_feature_detail_click', {
+                        'event_category': 'AI Mobile',
+                        'event_label': feature,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Animate mobile cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.mobile-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+        
+        // Animate stat numbers
+        const statObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumber = entry.target.querySelector('.stat-number');
+                    const finalValue = statNumber.textContent;
+                    const isPlus = finalValue.includes('+');
+                    const isPercentage = finalValue.includes('%');
+                    const isSlash = finalValue.includes('/');
+                    const isK = finalValue.includes('K');
+                    const numericValue = parseFloat(finalValue.replace(/[^0-9.]/g, ''));
+                    
+                    let currentValue = 0;
+                    const increment = numericValue / 30;
+                    
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= numericValue) {
+                            currentValue = numericValue;
+                            clearInterval(timer);
+                        }
+                        
+                        if (isPlus) {
+                            statNumber.textContent = Math.round(currentValue).toLocaleString() + '+';
+                        } else if (isPercentage) {
+                            statNumber.textContent = Math.round(currentValue) + '%';
+                        } else if (isSlash) {
+                            statNumber.textContent = Math.round(currentValue) + '/7';
+                        } else if (isK) {
+                            statNumber.textContent = Math.round(currentValue).toLocaleString() + 'K+';
+                        } else {
+                            statNumber.textContent = Math.round(currentValue).toLocaleString();
+                        }
+                    }, 30);
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.stat-card').forEach(card => {
+            statObserver.observe(card);
+        });
+    </script>
+</body>
+</html>
