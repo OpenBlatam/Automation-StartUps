@@ -1,583 +1,373 @@
-# Employee Handbook
-## Welcome to Our AI-Focused Family of Companies
+# 📋 EMPLOYEE HANDBOOK - MANUAL DEL EMPLEADO
+
+## 🎯 BIENVENIDA
+
+Bienvenido a nuestra empresa. Este manual del empleado contiene información importante sobre nuestras políticas, procedimientos, beneficios y expectativas. Es tu guía para entender cómo operamos y qué esperamos de ti como miembro de nuestro equipo.
 
 ---
 
-## 🎯 Welcome Message
+## 📖 TABLA DE CONTENIDOS
 
-Welcome to our innovative family of AI-focused companies! Whether you're joining our AI Course Academy, AI SaaS Solutions, or AI Bulk Documents team, you're becoming part of a community that's shaping the future of artificial intelligence.
-
-This handbook is your comprehensive guide to understanding our culture, policies, benefits, and expectations. It's designed to help you succeed and thrive in your role while contributing to our shared mission of advancing AI technology responsibly and ethically.
-
----
-
-## 🏢 About Our Companies
-
-### **AI Course Academy**
-**Mission**: Empowering professionals with cutting-edge AI knowledge and practical skills through comprehensive education and training programs.
-
-**What We Do**:
-- Interactive AI courses and webinars
-- Industry-recognized certifications
-- Corporate training programs
-- AI research and development
-- Community building and networking
-
-**Key Products**:
-- AI Fundamentals Course
-- Specialized AI training programs
-- Webinar series and workshops
-- Certification programs
-- Corporate training solutions
-
-### **AI SaaS Solutions**
-**Mission**: Revolutionizing marketing automation through intelligent AI-powered solutions that drive growth and innovation.
-
-**What We Do**:
-- AI-powered marketing automation
-- Customer segmentation and targeting
-- Predictive analytics and insights
-- Campaign optimization
-- Performance tracking and reporting
-
-**Key Products**:
-- Marketing automation platform
-- AI-driven analytics tools
-- Customer engagement solutions
-- Campaign management systems
-- Performance optimization tools
-
-### **AI Bulk Documents**
-**Mission**: Transforming document creation through AI-powered bulk document generation that makes complex document creation as simple as asking a question.
-
-**What We Do**:
-- AI-powered document generation
-- Bulk document processing
-- Custom template creation
-- Document automation
-- Quality assurance and validation
-
-**Key Products**:
-- Document generation platform
-- Bulk processing tools
-- Custom template library
-- API integration services
-- Enterprise document solutions
+1. [Información de la Empresa](#información-de-la-empresa)
+2. [Políticas de Empleo](#políticas-de-empleo)
+3. [Código de Conducta](#código-de-conducta)
+4. [Horarios y Asistencia](#horarios-y-asistencia)
+5. [Compensación y Beneficios](#compensación-y-beneficios)
+6. [Desarrollo Profesional](#desarrollo-profesional)
+7. [Políticas de Seguridad](#políticas-de-seguridad)
+8. [Tecnología y Recursos](#tecnología-y-recursos)
+9. [Procedimientos de Emergencia](#procedimientos-de-emergencia)
+10. [Contactos Importantes](#contactos-importantes)
 
 ---
 
-## 🌟 Our Shared Values
+## 🏢 INFORMACIÓN DE LA EMPRESA
 
-### **1. Innovation Through Simplicity**
-*"Complex problems deserve elegant solutions"*
+### **Misión**
+Transformar el marketing empresarial mediante tecnología de vanguardia, combinando inteligencia artificial, computación cuántica y realidad extendida para crear experiencias excepcionales.
 
-We believe that the most powerful innovations are those that make complex tasks simple and accessible. Whether we're teaching AI concepts, building marketing tools, or generating documents, we strive to create solutions that are both powerful and easy to use.
+### **Visión**
+Ser la plataforma líder mundial en marketing inteligente, democratizando el acceso a tecnologías avanzadas para empresas de todos los tamaños.
 
-**How We Live This Value**:
-- Design intuitive user experiences
-- Simplify complex AI concepts
-- Create elegant solutions to challenging problems
-- Focus on user-friendly interfaces
-- Continuously improve and streamline processes
+### **Valores Fundamentales**
+- **Innovación**: Buscamos constantemente nuevas formas de resolver problemas
+- **Excelencia**: Nos esforzamos por la calidad en todo lo que hacemos
+- **Integridad**: Actuamos con honestidad y transparencia
+- **Colaboración**: Trabajamos juntos para lograr objetivos comunes
+- **Sostenibilidad**: Consideramos el impacto ambiental en nuestras decisiones
 
-### **2. Intelligence with Integrity**
-*"AI should enhance human capability, not replace human judgment"*
-
-We develop AI that amplifies human intelligence while maintaining the highest ethical standards. Our AI solutions are designed to be transparent, fair, and beneficial to all users.
-
-**How We Live This Value**:
-- Develop transparent and explainable AI
-- Ensure fairness and eliminate bias
-- Protect user privacy and data
-- Maintain human oversight in AI systems
-- Follow ethical AI development practices
-
-### **3. Efficiency Through Excellence**
-*"Speed without compromise on quality"*
-
-We deliver fast results without sacrificing the quality and accuracy that our users depend on. Our commitment to excellence drives everything we do.
-
-**How We Live This Value**:
-- Maintain high quality standards
-- Optimize for performance and speed
-- Continuously improve our products
-- Provide excellent customer service
-- Deliver reliable and consistent results
-
-### **4. Collaboration Over Competition**
-*"We succeed when our users succeed"*
-
-Our success is measured by the success of our users, customers, and partners. We believe in building strong relationships and collaborative partnerships.
-
-**How We Live This Value**:
-- Put customer success first
-- Build strong partnerships
-- Support our community
-- Share knowledge and resources
-- Celebrate collective achievements
-
-### **5. Adaptability with Agility**
-*"Change is the only constant in technology"*
-
-We embrace change and continuously adapt to meet evolving user needs and technological advances. Our agility allows us to stay ahead of the curve.
-
-**How We Live This Value**:
-- Embrace new technologies and trends
-- Adapt quickly to market changes
-- Learn from feedback and iterate
-- Stay flexible and responsive
-- Continuously evolve and improve
+### **Estructura Organizacional**
+- **CEO**: Liderazgo estratégico y visión empresarial
+- **CTO**: Tecnología e innovación
+- **CMO**: Marketing y crecimiento
+- **CFO**: Finanzas y operaciones
+- **VP de Recursos Humanos**: Talento y cultura
+- **VP de Operaciones**: Eficiencia operacional
 
 ---
 
-## 👥 Our Culture
+## 👥 POLÍTICAS DE EMPLEO
 
-### **Work Environment**
-We foster a collaborative, inclusive, and innovative work environment where every team member can thrive and contribute to our success.
+### **Igualdad de Oportunidades**
+- Prohibimos la discriminación por raza, color, religión, sexo, edad, origen nacional, discapacidad, orientación sexual o identidad de género
+- Promovemos un ambiente inclusivo y diverso
+- Evaluamos candidatos basándonos únicamente en calificaciones y méritos
 
-#### **Remote-First Approach**
-- **Flexibility**: Work from anywhere with flexible hours
-- **Collaboration**: Digital-first collaboration tools and processes
-- **Communication**: Regular team meetings and check-ins
-- **Support**: Comprehensive remote work support and resources
-- **Balance**: Emphasis on work-life balance and well-being
+### **Proceso de Contratación**
+1. **Aplicación**: Envío de CV y carta de presentación
+2. **Screening**: Revisión inicial de candidatos
+3. **Entrevistas**: Múltiples rondas con diferentes equipos
+4. **Evaluación Técnica**: Pruebas específicas del rol
+5. **Verificación de Referencias**: Contacto con referencias profesionales
+6. **Oferta**: Propuesta formal de empleo
+7. **Onboarding**: Proceso de integración de 30 días
 
-#### **Inclusive Culture**
-- **Diversity**: Celebrating diverse backgrounds and perspectives
-- **Equity**: Ensuring equal opportunities for all employees
-- **Inclusion**: Creating an environment where everyone belongs
-- **Respect**: Treating all individuals with dignity and respect
-- **Growth**: Supporting personal and professional development
+### **Período de Prueba**
+- **Duración**: 90 días para todos los empleados nuevos
+- **Evaluación**: Revisión formal a los 30, 60 y 90 días
+- **Objetivos**: Establecimiento de metas claras y medibles
+- **Soporte**: Mentor asignado y recursos de capacitación
 
-### **Team Dynamics**
-- **Collaboration**: Cross-functional teamwork and cooperation
-- **Communication**: Open, honest, and transparent communication
-- **Innovation**: Encouraging creative thinking and new ideas
-- **Support**: Mutual support and mentorship
-- **Celebration**: Recognizing achievements and milestones
-
-### **Learning Culture**
-- **Continuous Learning**: Encouraging ongoing skill development
-- **Knowledge Sharing**: Regular knowledge sharing sessions
-- **Mentorship**: Formal and informal mentorship programs
-- **Training**: Comprehensive training and development programs
-- **Growth**: Supporting career advancement and growth
+### **Tipos de Contrato**
+- **Tiempo Completo**: 40 horas semanales, beneficios completos
+- **Medio Tiempo**: 20-30 horas semanales, beneficios proporcionales
+- **Contratista**: Proyectos específicos, sin beneficios
+- **Prácticas**: Estudiantes, experiencia práctica
 
 ---
 
-## 💼 Employment Information
+## 🤝 CÓDIGO DE CONDUCTA
 
-### **Employment Classifications**
+### **Comportamiento Profesional**
+- Mantén un ambiente de trabajo respetuoso y colaborativo
+- Comunica de manera clara, honesta y constructiva
+- Respeta las diferencias de opinión y perspectivas diversas
+- Mantén la confidencialidad de información sensible
 
-#### **Full-Time Employees**
-- Work 40+ hours per week
-- Eligible for all benefits
-- Subject to all company policies
-- Entitled to paid time off
-- Eligible for equity participation
+### **Ética en el Trabajo**
+- Actúa con integridad en todas las situaciones
+- Evita conflictos de interés
+- Reporta comportamientos inapropiados
+- Cumple con todas las leyes y regulaciones aplicables
 
-#### **Part-Time Employees**
-- Work less than 40 hours per week
-- Eligible for prorated benefits
-- Subject to all company policies
-- Entitled to prorated paid time off
-- May be eligible for equity participation
+### **Uso de Recursos de la Empresa**
+- Utiliza equipos y recursos solo para propósitos empresariales
+- Mantén la seguridad de todos los activos de la empresa
+- Reporta inmediatamente cualquier pérdida o daño
+- No uses recursos de la empresa para actividades personales
 
-#### **Contractors & Consultants**
-- Independent contractors or consultants
-- Not eligible for employee benefits
-- Subject to specific contract terms
-- Must comply with relevant policies
-- May work on specific projects
+### **Redes Sociales**
+- Representa a la empresa de manera profesional
+- No compartas información confidencial
+- Respeta las políticas de la empresa en tus publicaciones
+- Usa el sentido común en todas las interacciones
 
-#### **Interns**
-- Temporary positions for learning and development
-- May be paid or unpaid based on program requirements
-- Subject to specific intern policies
-- Opportunity for potential full-time employment
-- Mentorship and guidance provided
-
-### **Probationary Period**
-- New employees serve a 90-day probationary period
-- Performance is evaluated during this time
-- Employment may be terminated at any time during probation
-- Successful completion leads to regular employment status
-- Regular feedback and support provided
+### **Confidencialidad**
+- Protege toda información confidencial de la empresa
+- No discutas asuntos internos con personas externas
+- Mantén la confidencialidad incluso después de dejar la empresa
+- Reporta cualquier violación de confidencialidad
 
 ---
 
-## 💰 Compensation & Benefits
+## ⏰ HORARIOS Y ASISTENCIA
 
-### **Compensation Philosophy**
-We offer competitive compensation packages that reflect market rates, individual performance, and company success. Our compensation is designed to attract, retain, and motivate top talent.
+### **Horarios de Trabajo**
+- **Oficina**: Lunes a Viernes, 9:00 AM - 6:00 PM
+- **Trabajo Remoto**: Horarios flexibles con disponibilidad core 10:00 AM - 4:00 PM
+- **Tiempo de Almuerzo**: 1 hora (12:00 PM - 1:00 PM)
+- **Descansos**: 15 minutos por la mañana y tarde
 
-#### **Base Salary**
-- Market-competitive base salaries
-- Annual salary reviews and adjustments
-- Performance-based increases
-- Pay equity and transparency
-- Clear salary bands and progression
+### **Política de Trabajo Remoto**
+- **Híbrido**: 3 días en oficina, 2 días remotos
+- **Completamente Remoto**: Para roles específicos
+- **Equipamiento**: Laptop, monitor, teclado, mouse proporcionados
+- **Espacio de Trabajo**: Ambiente profesional y sin distracciones
 
-#### **Performance Bonuses**
-- Individual performance bonuses
-- Team and company performance bonuses
-- Project completion bonuses
-- Recognition and achievement bonuses
-- Annual bonus programs
+### **Asistencia y Puntualidad**
+- Llega a tiempo a todas las reuniones y compromisos
+- Notifica con anticipación si vas a llegar tarde
+- Usa el sistema de registro de asistencia
+- Mantén un registro preciso de horas trabajadas
 
-#### **Equity Participation**
-- Stock options for eligible employees
-- Equity vesting schedules
-- Employee stock purchase plans
-- Long-term incentive programs
-- Ownership and participation in company success
+### **Ausencias**
+- **Vacaciones**: 15 días anuales (aumentan con antigüedad)
+- **Enfermedad**: 10 días anuales
+- **Días Personales**: 5 días anuales
+- **Días Festivos**: 12 días oficiales
+- **Licencia de Maternidad/Paternidad**: 12 semanas pagadas
 
-### **Comprehensive Benefits Package**
-
-#### **Health & Wellness**
-- **Medical Insurance**: Comprehensive medical coverage
-- **Dental Insurance**: Dental care and orthodontics
-- **Vision Insurance**: Vision care and eyewear
-- **Mental Health**: Mental health and counseling services
-- **Wellness Programs**: Gym memberships and wellness initiatives
-- **Preventive Care**: Annual checkups and preventive services
-
-#### **Financial Benefits**
-- **401(k) Plan**: Retirement savings with company matching
-- **Life Insurance**: Basic and optional life insurance coverage
-- **Disability Insurance**: Short-term and long-term disability
-- **Flexible Spending**: Health and dependent care FSAs
-- **Commuter Benefits**: Pre-tax commuter benefits
-- **Financial Planning**: Financial planning and advisory services
-
-#### **Work-Life Balance**
-- **Paid Time Off**: Generous PTO accrual and usage
-- **Sick Leave**: Paid sick leave and medical appointments
-- **Family Leave**: Maternity, paternity, and family leave
-- **Bereavement Leave**: Paid bereavement leave
-- **Flexible Hours**: Flexible work schedules
-- **Remote Work**: Work from anywhere options
-
-#### **Professional Development**
-- **Training Budget**: Annual budget for professional development
-- **Conference Attendance**: Support for relevant conferences
-- **Certification**: Reimbursement for professional certifications
-- **Tuition Reimbursement**: Support for continuing education
-- **Mentorship**: Formal and informal mentorship programs
-- **Career Development**: Support for career advancement
+### **Proceso de Solicitud de Ausencias**
+1. Solicita con al menos 2 semanas de anticipación
+2. Usa el sistema de gestión de ausencias
+3. Obtén aprobación de tu supervisor
+4. Actualiza tu calendario y notifica al equipo
 
 ---
 
-## 📅 Work Schedule & Time Off
+## 💰 COMPENSACIÓN Y BENEFICIOS
 
-### **Work Schedule**
-- **Standard Hours**: Monday-Friday, 9 AM - 5 PM (flexible)
-- **Core Hours**: 10 AM - 3 PM for team collaboration
-- **Flexible Start/End**: Flexible start and end times
-- **Remote Work**: Work from anywhere options
-- **Overtime**: Compensated overtime for eligible employees
+### **Estructura Salarial**
+- **Salario Base**: Competitivo según mercado y experiencia
+- **Bonos de Rendimiento**: Hasta 20% del salario anual
+- **Acciones**: Programa de participación en ganancias
+- **Revisión Salarial**: Anual, basada en rendimiento
 
-### **Paid Time Off (PTO)**
-- **Accrual**: PTO accrues based on years of service
-- **Usage**: Can be used for vacation, sick leave, or personal time
-- **Approval**: Requires supervisor approval
-- **Carryover**: Limited carryover to next year
-- **Payout**: Unused PTO paid upon termination
+### **Beneficios de Salud**
+- **Seguro Médico**: Cobertura completa para empleado y familia
+- **Seguro Dental**: Cobertura preventiva y correctiva
+- **Seguro de Visión**: Exámenes y lentes
+- **Bienestar**: Programa de fitness y salud mental
 
-#### **PTO Accrual Schedule**
-- **0-2 years**: 15 days per year
-- **3-5 years**: 20 days per year
-- **6-10 years**: 25 days per year
-- **10+ years**: 30 days per year
+### **Beneficios Financieros**
+- **401(k)**: Contribución de empresa del 6%
+- **Seguro de Vida**: 2x el salario anual
+- **Seguro de Discapacidad**: Cobertura a corto y largo plazo
+- **FSA/HSA**: Cuentas de gastos médicos flexibles
 
-### **Sick Leave**
-- **Purpose**: For illness, injury, or medical appointments
-- **Notification**: Notify supervisor as soon as possible
-- **Documentation**: May require medical documentation for extended absences
-- **Job Protection**: Protected leave for qualifying conditions
-- **Support**: Employee assistance program available
+### **Beneficios Adicionales**
+- **Desarrollo Profesional**: $2,000 anuales para capacitación
+- **Equipamiento**: Laptop, teléfono, software necesarios
+- **Transporte**: Subsidio de transporte público
+- **Comidas**: Snacks y bebidas en oficina
+- **Eventos**: Actividades de team building y celebraciones
 
-### **Family & Medical Leave**
-- **FMLA**: Up to 12 weeks of unpaid, job-protected leave
-- **Eligibility**: 12 months of service and 1,250 hours worked
-- **Coverage**: Birth, adoption, serious health condition, military service
-- **Benefits**: Health benefits continue during leave
-- **Support**: Comprehensive support and resources
-
-### **Bereavement Leave**
-- **Immediate Family**: Up to 5 days paid leave
-- **Extended Family**: Up to 3 days paid leave
-- **Additional Time**: Unpaid leave may be available
-- **Support**: Employee assistance program available
-- **Flexibility**: Additional time as needed
+### **Política de Reembolsos**
+- **Gastos de Viaje**: Vuelos, hoteles, comidas
+- **Capacitación**: Cursos, certificaciones, conferencias
+- **Equipamiento**: Herramientas necesarias para el trabajo
+- **Comunicaciones**: Teléfono e internet para trabajo remoto
 
 ---
 
-## 📈 Performance & Development
+## 🚀 DESARROLLO PROFESIONAL
 
-### **Performance Management**
-We believe in continuous performance management that supports employee growth and development while achieving company objectives.
+### **Plan de Desarrollo Individual**
+- **Objetivos Anuales**: Establecidos en colaboración con supervisor
+- **Revisión Trimestral**: Evaluación de progreso y ajustes
+- **Feedback Continuo**: Comunicación regular sobre rendimiento
+- **Plan de Carrera**: Trayectoria profesional a largo plazo
 
-#### **Goal Setting**
-- **Annual Goals**: Set at the beginning of each year
-- **Quarterly Reviews**: Regular check-ins and adjustments
-- **SMART Goals**: Specific, Measurable, Achievable, Relevant, Time-bound
-- **Alignment**: Goals aligned with company objectives
-- **Support**: Resources and support to achieve goals
+### **Oportunidades de Capacitación**
+- **Cursos Online**: Acceso a plataformas de aprendizaje
+- **Conferencias**: Asistencia a eventos de la industria
+- **Certificaciones**: Reembolso de costos de certificación
+- **Mentoría**: Programa de mentores internos y externos
 
-#### **Performance Reviews**
-- **Quarterly Reviews**: Regular performance discussions
-- **Annual Review**: Comprehensive annual evaluation
-- **360 Feedback**: Feedback from peers, managers, and direct reports
-- **Self-Assessment**: Employee self-evaluation and reflection
-- **Development Planning**: Individual development plans
+### **Programas de Liderazgo**
+- **Leadership Academy**: Programa de desarrollo de líderes
+- **Rotación de Roles**: Experiencia en diferentes departamentos
+- **Proyectos Especiales**: Liderazgo de iniciativas estratégicas
+- **Coaching Ejecutivo**: Sesiones individuales con coaches
 
-#### **Feedback Culture**
-- **Continuous Feedback**: Regular, ongoing feedback
-- **Constructive Feedback**: Helpful, actionable feedback
-- **Recognition**: Regular recognition of achievements
-- **Coaching**: Manager coaching and support
-- **Peer Feedback**: Peer-to-peer feedback and support
-
-### **Professional Development**
-We invest heavily in our employees' professional development and career growth.
-
-#### **Learning Opportunities**
-- **Training Budget**: Annual budget for professional development
-- **Internal Training**: Company-specific training programs
-- **External Training**: External courses and certifications
-- **Conference Attendance**: Support for relevant conferences
-- **Online Learning**: Access to online learning platforms
-
-#### **Career Development**
-- **Career Planning**: Support for career development planning
-- **Mentorship**: Formal and informal mentorship programs
-- **Cross-Training**: Opportunities to learn new skills
-- **Job Rotation**: Opportunities to work in different areas
-- **Promotion Opportunities**: Internal promotion and advancement
-
-#### **Leadership Development**
-- **Leadership Programs**: Formal leadership development programs
-- **Management Training**: Training for current and future managers
-- **Executive Coaching**: Coaching for senior leaders
-- **Leadership Opportunities**: Opportunities to lead projects and teams
-- **Succession Planning**: Development for future leadership roles
+### **Evaluación de Rendimiento**
+- **Revisión Anual**: Evaluación formal de desempeño
+- **360 Feedback**: Evaluación de pares, subordinados y superiores
+- **Objetivos SMART**: Metas específicas, medibles, alcanzables
+- **Plan de Mejora**: Acciones para desarrollo continuo
 
 ---
 
-## 🏥 Health & Safety
+## 🔒 POLÍTICAS DE SEGURIDAD
 
-### **Workplace Safety**
-We are committed to providing a safe and healthy work environment for all employees.
+### **Seguridad Física**
+- **Acceso a Oficina**: Tarjeta de acceso personal
+- **Visitantes**: Registro obligatorio en recepción
+- **Áreas Restringidas**: Acceso solo con autorización
+- **Cámaras de Seguridad**: Monitoreo 24/7 en áreas comunes
 
-#### **Safety Responsibilities**
-- **Management**: Provide safe working conditions and equipment
-- **Employees**: Follow safety procedures and report hazards
-- **Safety Committee**: Regular safety inspections and improvements
-- **Emergency Procedures**: Clear procedures for emergencies
-- **Training**: Regular safety training and updates
+### **Seguridad de la Información**
+- **Contraseñas**: Mínimo 12 caracteres, cambio cada 90 días
+- **Autenticación de Dos Factores**: Obligatoria para todos los sistemas
+- **Cifrado**: Todos los datos sensibles deben estar cifrados
+- **Backup**: Copias de seguridad automáticas diarias
 
-#### **Safety Procedures**
-- **Incident Reporting**: Report all accidents and near-misses
-- **Safety Training**: Regular safety training and updates
-- **Equipment Safety**: Proper use and maintenance of equipment
-- **Emergency Preparedness**: Know emergency procedures and exits
-- **Health Monitoring**: Regular health checks and monitoring
+### **Política de Dispositivos**
+- **BYOD**: Política de traer tu propio dispositivo
+- **MDM**: Gestión móvil de dispositivos
+- **Antivirus**: Software de seguridad obligatorio
+- **Actualizaciones**: Mantén todos los sistemas actualizados
 
-### **Health & Wellness Programs**
-- **Health Insurance**: Comprehensive health coverage
-- **Wellness Programs**: Mental and physical wellness initiatives
-- **Ergonomic Support**: Proper workstation setup and equipment
-- **Mental Health**: Support for mental health and stress management
-- **Work-Life Balance**: Policies supporting work-life balance
-
-#### **Wellness Initiatives**
-- **Gym Memberships**: Company-sponsored gym memberships
-- **Wellness Challenges**: Team wellness challenges and competitions
-- **Mental Health Support**: Counseling and mental health services
-- **Stress Management**: Stress management programs and resources
-- **Healthy Living**: Nutrition and healthy living programs
+### **Incidentes de Seguridad**
+- **Reporte Inmediato**: Notifica cualquier incidente de seguridad
+- **Procedimiento de Respuesta**: Sigue el protocolo establecido
+- **Documentación**: Registra todos los detalles del incidente
+- **Lecciones Aprendidas**: Análisis post-incidente
 
 ---
 
-## 💻 Technology & Security
+## 💻 TECNOLOGÍA Y RECURSOS
 
-### **Technology Resources**
-We provide employees with the technology tools and resources needed to be successful in their roles.
+### **Equipamiento Estándar**
+- **Laptop**: MacBook Pro o Dell XPS
+- **Monitor**: Pantalla de 27" 4K
+- **Periféricos**: Teclado, mouse, webcam, auriculares
+- **Software**: Licencias de herramientas necesarias
 
-#### **Equipment & Software**
-- **Laptops/Computers**: Company-provided laptops and computers
-- **Software**: Access to necessary software and tools
-- **Mobile Devices**: Company phones and mobile devices
-- **Internet**: High-speed internet and connectivity
-- **Cloud Services**: Access to cloud-based services and tools
+### **Herramientas de Trabajo**
+- **Comunicación**: Slack, Microsoft Teams
+- **Gestión de Proyectos**: ClickUp, Jira
+- **Documentación**: Confluence, Notion
+- **Desarrollo**: GitHub, GitLab
 
-#### **IT Support**
-- **Help Desk**: 24/7 IT support and assistance
-- **Technical Support**: Technical support for all systems
-- **Training**: Technology training and support
-- **Updates**: Regular software and system updates
-- **Security**: IT security support and monitoring
+### **Política de Uso de Internet**
+- **Uso Profesional**: Internet para actividades laborales
+- **Redes Sociales**: Uso limitado durante horas de trabajo
+- **Streaming**: Prohibido durante horas laborales
+- **Descargas**: Solo software autorizado
 
-### **Security Policies**
-- **Password Requirements**: Strong, unique passwords
-- **Multi-Factor Authentication**: Required for all systems
-- **Data Encryption**: All sensitive data must be encrypted
-- **Secure Networks**: Use only approved networks
-- **Regular Updates**: Keep software and systems updated
-
-### **AI Technology Usage**
-- **Ethical AI**: Use AI tools responsibly and ethically
-- **Bias Awareness**: Be aware of potential AI biases
-- **Transparency**: Disclose AI-generated content when appropriate
-- **Quality Control**: Review and validate AI outputs
-- **Compliance**: Follow all AI-related regulations and guidelines
+### **Soporte Técnico**
+- **Help Desk**: Soporte 24/7 para problemas técnicos
+- **Tickets**: Sistema de tickets para solicitudes
+- **Tiempo de Respuesta**: 4 horas para problemas críticos
+- **Escalación**: Procedimiento para problemas complejos
 
 ---
 
-## 🤝 Code of Conduct & Ethics
+## 🚨 PROCEDIMIENTOS DE EMERGENCIA
 
-### **Our Commitment to Ethics**
-We are committed to maintaining the highest standards of ethical conduct in all our business activities. Our reputation and success depend on the integrity of our employees and our commitment to ethical business practices.
+### **Evacuación de Emergencia**
+- **Alarma**: Sigue las instrucciones de la alarma de evacuación
+- **Rutas de Salida**: Conoce las rutas de evacuación designadas
+- **Punto de Encuentro**: Área segura fuera del edificio
+- **Conteo**: Verificación de que todos estén seguros
 
-### **Core Ethical Principles**
+### **Primeros Auxilios**
+- **Botiquín**: Ubicación de botiquines de primeros auxilios
+- **Personal Capacitado**: Empleados certificados en primeros auxilios
+- **Números de Emergencia**: 911, servicios médicos locales
+- **Procedimiento**: Pasos a seguir en caso de emergencia médica
 
-#### **1. Integrity**
-- Act honestly and truthfully in all business dealings
-- Maintain confidentiality of sensitive information
-- Avoid conflicts of interest
-- Report unethical behavior promptly
+### **Cortes de Energía**
+- **Backup de Energía**: Generadores para sistemas críticos
+- **Comunicación**: Procedimiento de comunicación durante cortes
+- **Trabajo Remoto**: Continuidad del trabajo desde casa
+- **Recuperación**: Procedimiento de recuperación post-corte
 
-#### **2. Respect**
-- Treat all individuals with dignity and respect
-- Value diversity and inclusion
-- Maintain professional relationships
-- Respect privacy and personal boundaries
-
-#### **3. Responsibility**
-- Take ownership of actions and decisions
-- Fulfill commitments and obligations
-- Act in the best interests of the company
-- Contribute to a positive work environment
-
-#### **4. Fairness**
-- Make decisions based on merit and qualifications
-- Provide equal opportunities for all employees
-- Treat customers and partners fairly
-- Maintain transparent and honest communication
-
-### **Prohibited Conduct**
-The following behaviors are strictly prohibited:
-- Discrimination or harassment of any kind
-- Fraud, theft, or misappropriation of company resources
-- Violation of laws or regulations
-- Conflicts of interest
-- Inappropriate use of company technology
-- Disclosure of confidential information
-- Retaliation against whistleblowers
-
-### **Reporting Violations**
-Employees who witness or suspect violations of this code should:
-1. Report to their immediate supervisor
-2. Contact HR if the supervisor is involved
-3. Use the anonymous ethics hotline
-4. Contact the legal department for serious violations
+### **Incidentes de Seguridad**
+- **Reporte**: Notifica inmediatamente a seguridad
+- **Contención**: Sigue las instrucciones de seguridad
+- **Documentación**: Registra todos los detalles
+- **Investigación**: Colabora con la investigación
 
 ---
 
-## 🚨 Emergency Procedures
+## 📞 CONTACTOS IMPORTANTES
 
-### **Emergency Contacts**
-- **Emergency Services**: 911
-- **Company Security**: [Phone Number]
-- **HR Emergency**: [Phone Number]
-- **IT Emergency**: [Phone Number]
-- **Facilities Emergency**: [Phone Number]
+### **Recursos Humanos**
+- **Director de RRHH**: [Nombre] - [Email] - [Teléfono]
+- **Especialista en Beneficios**: [Nombre] - [Email] - [Teléfono]
+- **Especialista en Nómina**: [Nombre] - [Email] - [Teléfono]
 
-### **Emergency Procedures**
-- **Fire**: Evacuation procedures and assembly points
-- **Medical**: First aid procedures and medical emergencies
-- **Security**: Security threats and lockdown procedures
-- **Natural Disasters**: Procedures for various natural disasters
-- **Technology**: IT security incidents and data breaches
+### **Soporte Técnico**
+- **Help Desk**: helpdesk@empresa.com - [Teléfono]
+- **Soporte de Red**: network@empresa.com - [Teléfono]
+- **Soporte de Aplicaciones**: apps@empresa.com - [Teléfono]
 
-### **Communication**
-- **Emergency Notifications**: How to receive emergency alerts
-- **Communication Chain**: Who to contact in emergencies
-- **Media Relations**: Who speaks to media in emergencies
-- **Family Notification**: How families are notified
-- **Recovery**: Business continuity and recovery procedures
+### **Seguridad**
+- **Jefe de Seguridad**: [Nombre] - [Email] - [Teléfono]
+- **Seguridad Física**: [Teléfono de emergencia]
+- **Seguridad de la Información**: security@empresa.com
 
----
-
-## 📞 Contact Information
-
-### **Human Resources**
-- **General HR**: hr@company.com
-- **Benefits**: benefits@company.com
-- **Payroll**: payroll@company.com
-- **Recruiting**: recruiting@company.com
-- **Employee Relations**: employee-relations@company.com
-
-### **Legal & Compliance**
-- **Legal Department**: legal@company.com
-- **Compliance**: compliance@company.com
-- **Ethics Hotline**: ethics@company.com
-- **Privacy**: privacy@company.com
-
-### **IT & Security**
-- **IT Support**: it-support@company.com
-- **Security**: security@company.com
-- **Help Desk**: helpdesk@company.com
-
-### **Emergency Contacts**
-- **After Hours**: [Phone Number]
-- **Emergency Line**: [Phone Number]
-- **Crisis Management**: [Phone Number]
+### **Emergencias**
+- **Emergencias Médicas**: 911
+- **Emergencias de Seguridad**: [Teléfono interno]
+- **Línea de Emergencia 24/7**: [Teléfono]
 
 ---
 
-## 🎉 Welcome to the Team!
+## 📋 POLÍTICAS ADICIONALES
 
-We're excited to have you join our AI-focused family! This handbook is just the beginning of your journey with us. We encourage you to:
+### **Política de Drogas y Alcohol**
+- Prohibido el uso de drogas ilegales en el lugar de trabajo
+- Prohibido el consumo de alcohol durante horas laborales
+- Política de tolerancia cero para el uso de sustancias
+- Programa de asistencia para empleados disponible
 
-- **Ask Questions**: Don't hesitate to ask questions about anything in this handbook
-- **Get Involved**: Participate in company events, ERGs, and initiatives
-- **Share Ideas**: We value your input and ideas for improvement
-- **Build Relationships**: Connect with your colleagues and build lasting relationships
-- **Grow**: Take advantage of all the learning and development opportunities
+### **Política de Acoso**
+- Prohibido cualquier forma de acoso o discriminación
+- Procedimiento de quejas confidencial
+- Investigación imparcial de todas las denuncias
+- Protección contra represalias
 
-### **Your Success is Our Success**
-We're committed to your success and growth. If you have any questions, concerns, or suggestions, please don't hesitate to reach out to your manager, HR, or any member of the leadership team.
+### **Política de Conflicto de Intereses**
+- Divulgación obligatoria de conflictos potenciales
+- Evaluación de conflictos por parte de RRHH
+- Medidas para mitigar conflictos
+- Revisión anual de conflictos
 
-**Welcome aboard! 🚀**
-
----
-
-## 📝 Acknowledgment
-
-By signing below, I acknowledge that I have received, read, and understand the Employee Handbook. I agree to comply with all policies, procedures, and guidelines contained in this handbook.
-
-**Employee Name**: _________________________
-
-**Signature**: _________________________
-
-**Date**: _________________________
-
-**Manager Signature**: _________________________
-
-**Date**: _________________________
+### **Política de Regalos y Entretenimiento**
+- Límites en el valor de regalos aceptables
+- Aprobación requerida para regalos de alto valor
+- Registro de regalos recibidos
+- Política de entretenimiento de clientes
 
 ---
 
-## 🔄 Handbook Updates
+## 📝 ACKNOWLEDGMENT
 
-This handbook is reviewed annually and updated as needed. Employees will be notified of any significant changes. The most current version is always available on the company intranet.
+Al firmar este manual, confirmo que:
 
-**Last Updated**: [Date]
-**Next Review**: [Date]
-**Version**: 1.0
+- He leído y entendido todas las políticas contenidas en este manual
+- Entiendo que este manual no constituye un contrato de empleo
+- Me comprometo a seguir todas las políticas y procedimientos
+- Entiendo que las políticas pueden cambiar y seré notificado de cualquier cambio
+
+**Firma del Empleado**: _________________ **Fecha**: _________
+
+**Firma del Supervisor**: _________________ **Fecha**: _________
 
 ---
 
-*"Together, we're building the future of AI with integrity, innovation, and excellence."*
+## 🔄 ACTUALIZACIONES
+
+Este manual se actualiza regularmente para reflejar cambios en políticas y procedimientos. La versión más reciente siempre estará disponible en el portal del empleado.
+
+**Última Actualización**: [Fecha]
+**Versión**: 1.0
+**Próxima Revisión**: [Fecha]
+
+---
+
+*Este manual del empleado es confidencial y está destinado únicamente para empleados de la empresa. No debe ser compartido con personas externas sin autorización expresa.*
+
