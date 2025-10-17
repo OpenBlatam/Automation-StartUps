@@ -1,0 +1,283 @@
+# Pricing Alert System Configuration
+# ==================================
+
+# Database configuration
+database_path: "pricing_analysis.db"
+
+# Email configuration
+email:
+  smtp_server: "smtp.gmail.com"
+  smtp_port: 587
+  username: "your_email@gmail.com"
+  password: "your_app_password"
+  from_email: "pricing-alerts@yourcompany.com"
+  recipients:
+    - "manager@yourcompany.com"
+    - "pricing-team@yourcompany.com"
+
+# SMS configuration (Twilio)
+sms:
+  provider: "twilio"
+  account_sid: "your_twilio_account_sid"
+  auth_token: "your_twilio_auth_token"
+  from_number: "+1234567890"
+  recipients:
+    - "+1234567890"
+    - "+0987654321"
+
+# Webhook configuration
+webhook:
+  url: "https://your-webhook-endpoint.com/pricing-alerts"
+  headers:
+    Authorization: "Bearer your_api_token"
+    Content-Type: "application/json"
+
+# Slack configuration
+slack:
+  webhook_url: "https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK"
+  channel: "#pricing-alerts"
+  username: "Pricing Alert Bot"
+  icon_emoji: ":chart_with_upwards_trend:"
+
+# Microsoft Teams configuration
+teams:
+  webhook_url: "https://your-org.webhook.office.com/webhookb2/YOUR/TEAMS/WEBHOOK"
+
+# Alert rules configuration
+alert_rules:
+  - rule_id: "price_change_monitor"
+    name: "Price Change Monitor"
+    alert_type: "price_increase"
+    severity: "medium"
+    enabled: true
+    conditions:
+      price_change_threshold: 0.10  # 10% change
+      time_window_hours: 24
+    thresholds:
+      price_increase_alert: 0.10    # 10% increase
+      price_decrease_alert: 0.15    # 15% decrease
+    notification_channels:
+      - "email"
+      - "slack"
+    recipients:
+      - "pricing-team@yourcompany.com"
+    cooldown_minutes: 60
+
+  - rule_id: "price_gap_monitor"
+    name: "Price Gap Monitor"
+    alert_type: "price_gap"
+    severity: "high"
+    enabled: true
+    conditions:
+      price_gap_threshold: 0.30  # 30% gap
+      min_competitors: 2
+    thresholds:
+      significant_gap: 0.30
+      critical_gap: 0.50
+    notification_channels:
+      - "email"
+      - "slack"
+      - "teams"
+    recipients:
+      - "executive-team@yourcompany.com"
+      - "pricing-team@yourcompany.com"
+    cooldown_minutes: 120
+
+  - rule_id: "market_opportunity_monitor"
+    name: "Market Opportunity Monitor"
+    alert_type: "market_opportunity"
+    severity: "medium"
+    enabled: true
+    conditions:
+      median_price_variance: 0.20  # 20% variance
+      min_competitors: 3
+    thresholds:
+      opportunity_threshold: 0.20
+    notification_channels:
+      - "email"
+      - "slack"
+    recipients:
+      - "strategy-team@yourcompany.com"
+      - "pricing-team@yourcompany.com"
+    cooldown_minutes: 180
+
+  - rule_id: "data_quality_monitor"
+    name: "Data Quality Monitor"
+    alert_type: "data_quality"
+    severity: "high"
+    enabled: true
+    conditions:
+      min_data_points: 3
+      max_data_age_hours: 24
+    thresholds:
+      insufficient_data: 3
+      stale_data: 24
+    notification_channels:
+      - "email"
+      - "slack"
+    recipients:
+      - "data-team@yourcompany.com"
+      - "pricing-team@yourcompany.com"
+    cooldown_minutes: 240
+
+  - rule_id: "competitive_threat_monitor"
+    name: "Competitive Threat Monitor"
+    alert_type: "competitive_threat"
+    severity: "high"
+    enabled: true
+    conditions:
+      price_advantage_threshold: 0.20  # 20% advantage
+      market_share_threat: 0.15        # 15% market share threat
+    thresholds:
+      threat_level_high: 0.20
+      threat_level_critical: 0.30
+    notification_channels:
+      - "email"
+      - "slack"
+      - "teams"
+      - "sms"
+    recipients:
+      - "executive-team@yourcompany.com"
+      - "competitive-intelligence@yourcompany.com"
+    cooldown_minutes: 30
+
+  - rule_id: "new_competitor_monitor"
+    name: "New Competitor Monitor"
+    alert_type: "new_competitor"
+    severity: "medium"
+    enabled: true
+    conditions:
+      new_competitor_threshold: 0.20  # 20% below market average
+      min_price_difference: 0.15      # 15% price difference
+    thresholds:
+      new_competitor_alert: 0.20
+    notification_channels:
+      - "email"
+      - "slack"
+    recipients:
+      - "competitive-intelligence@yourcompany.com"
+      - "pricing-team@yourcompany.com"
+    cooldown_minutes: 360
+
+# Monitoring settings
+monitoring:
+  check_interval_minutes: 15
+  max_alerts_per_hour: 50
+  alert_retention_days: 90
+  
+# Alert escalation rules
+escalation:
+  enabled: true
+  rules:
+    - condition: "severity = 'critical' AND not acknowledged within 30 minutes"
+      action: "escalate_to_management"
+      channels:
+        - "sms"
+        - "teams"
+    
+    - condition: "severity = 'high' AND not acknowledged within 2 hours"
+      action: "escalate_to_team_lead"
+      channels:
+        - "email"
+        - "slack"
+
+# Alert templates
+templates:
+  price_increase:
+    title: "🚨 Price Increase Alert"
+    message: "{{competitor}} increased price for {{product_name}} by {{price_change_pct}}%"
+  
+  price_decrease:
+    title: "📉 Price Decrease Alert"
+    message: "{{competitor}} decreased price for {{product_name}} by {{price_change_pct}}%"
+  
+  price_gap:
+    title: "💰 Significant Price Gap Detected"
+    message: "Large price gap for {{product_name}}: {{min_competitor}} at ${{min_price}} vs {{max_competitor}} at ${{max_price}}"
+  
+  market_opportunity:
+    title: "🎯 Market Opportunity Identified"
+    message: "Pricing opportunity for {{product_name}}: Market median (${{median_price}}) is significantly higher than average (${{avg_price}})"
+  
+  competitive_threat:
+    title: "⚠️ Competitive Threat Detected"
+    message: "{{competitor}} poses competitive threat with {{price_advantage}}% price advantage"
+  
+  data_quality:
+    title: "🔍 Data Quality Issue"
+    message: "{{issue_description}} for {{product_id}}"
+
+# Notification preferences
+notification_preferences:
+  quiet_hours:
+    enabled: true
+    start_time: "22:00"
+    end_time: "08:00"
+    timezone: "UTC"
+    exceptions:
+      - "critical"
+      - "system_error"
+  
+  weekend_notifications:
+    enabled: false
+    exceptions:
+      - "critical"
+      - "system_error"
+  
+  holiday_notifications:
+    enabled: false
+    exceptions:
+      - "critical"
+      - "system_error"
+
+# Alert analytics
+analytics:
+  enabled: true
+  track_metrics:
+    - "alert_volume"
+    - "response_times"
+    - "acknowledgment_rates"
+    - "false_positive_rate"
+  
+  reporting:
+    daily_summary: true
+    weekly_report: true
+    monthly_analysis: true
+
+# Integration settings
+integrations:
+  crm:
+    enabled: false
+    api_endpoint: ""
+    api_key: ""
+  
+  ticketing_system:
+    enabled: false
+    api_endpoint: ""
+    api_key: ""
+  
+  business_intelligence:
+    enabled: false
+    api_endpoint: ""
+    api_key: ""
+
+# Security settings
+security:
+  encrypt_sensitive_data: true
+  require_authentication: true
+  rate_limit_notifications: true
+  max_notifications_per_minute: 10
+
+# Logging configuration
+logging:
+  level: "INFO"
+  file: "pricing_alerts.log"
+  max_size: "10MB"
+  backup_count: 5
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+
+
+
+
+

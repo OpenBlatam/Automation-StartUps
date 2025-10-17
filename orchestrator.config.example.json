@@ -1,0 +1,27 @@
+{
+  "discover": true,
+  "include": [
+    "clickup_brain_workflow_automation",
+    "clickup_brain_ultimate_ai"
+  ],
+  "exclude": [
+  ],
+  "func": "main",
+  "parallel": true,
+  "timeout": 120,
+  "retries": 1,
+  "fail_fast": false,
+  "require_all": false
+}
+
+
+
+
+
+
+
+
+
+
+
+
