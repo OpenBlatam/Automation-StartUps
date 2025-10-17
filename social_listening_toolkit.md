@@ -398,3 +398,4 @@ WORKFLOW 3 - OPORTUNIDAD IDENTIFICADA:
 - [ ] Optimizar estrategia (más optimización = más dinero)
 - [ ] Reportar resultados (más reportes = más dinero)
 
+

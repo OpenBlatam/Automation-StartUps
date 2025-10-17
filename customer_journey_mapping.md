@@ -295,3 +295,4 @@ FASE 6 - ADVOCACY:
 - [ ] Ajustar estrategias (más ajuste = más dinero)
 - [ ] Reportar resultados (más reportes = más dinero)
 
+

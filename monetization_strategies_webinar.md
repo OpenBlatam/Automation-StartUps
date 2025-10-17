@@ -268,3 +268,4 @@
 - [ ] Implementar mejoras continuas (más mejoras = más dinero)
 - [ ] Reportar resultados (más reportes = más dinero)
 
+

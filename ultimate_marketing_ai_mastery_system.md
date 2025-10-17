@@ -543,3 +543,4 @@ ROI: 60x en 90 días (más ROI = más dinero)
 - [ ] Mejorar IA maestra (más mejora = más dinero)
 - [ ] Escalar exitosos maestros (más escalamiento = más dinero)
 - [ ] Reportar resultados maestros (más reportes = más dinero)
+

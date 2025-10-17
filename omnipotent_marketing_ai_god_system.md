@@ -693,3 +693,4 @@ ROI: Infinito en 0 días (más ROI = más dinero)
 - [ ] Mejorar creación (más mejora = más dinero)
 - [ ] Escalar exitosos divinos (más escalamiento = más dinero)
 - [ ] Reportar resultados divinos (más reportes = más dinero)
+

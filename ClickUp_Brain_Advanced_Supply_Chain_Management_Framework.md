@@ -1197,3 +1197,4 @@ class SupplyChainManagementRoadmap:
 
 *Este framework forma parte del paquete completo de ClickUp Brain para AI SaaS Marketing y Cursos de IA, proporcionando capacidades avanzadas de gestión de cadena de suministro para asegurar una cadena de suministro eficiente, resiliente y sostenible que impulse la competitividad y el crecimiento del negocio.*
 
+

@@ -792,3 +792,4 @@ class ChangeManagementRoadmap:
 
 *Este framework forma parte del paquete completo de ClickUp Brain para AI SaaS Marketing y Cursos de IA, proporcionando capacidades avanzadas de gestión del cambio para asegurar transiciones exitosas y adopción efectiva de nuevas tecnologías y procesos.*
 
+

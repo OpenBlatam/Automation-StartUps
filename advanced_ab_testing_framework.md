@@ -661,3 +661,4 @@ SECCIÓN 3: ANÁLISIS
 - [ ] Planificar próximos tests (más planificación = más dinero)
 - [ ] Reportar resultados (más reportes = más dinero)
 
+

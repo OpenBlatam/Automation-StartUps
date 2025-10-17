@@ -693,3 +693,4 @@ ROI: Infinito en 0 días (más ROI = más dinero)
 - [ ] Mejorar control absoluto (más mejora = más dinero)
 - [ ] Escalar exitosos de supremacía (más escalamiento = más dinero)
 - [ ] Reportar resultados de supremacía (más reportes = más dinero)
+

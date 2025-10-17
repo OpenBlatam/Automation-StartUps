@@ -429,3 +429,4 @@ ROI: 5x en 90 días (más ROI = más dinero)
 - [ ] Mejorar precisión (más mejora = más dinero)
 - [ ] Escalar exitosos (más escalamiento = más dinero)
 - [ ] Reportar resultados (más reportes = más dinero)
+

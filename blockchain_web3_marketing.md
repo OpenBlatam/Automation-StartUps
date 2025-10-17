@@ -386,3 +386,4 @@ ROI: 3x en 90 días (más ROI = más dinero)
 - [ ] Crear nuevos productos (más productos = más dinero)
 - [ ] Reportar resultados (más reportes = más dinero)
 
+

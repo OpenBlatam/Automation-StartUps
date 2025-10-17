@@ -419,3 +419,4 @@ TRIMESTRE ANTERIOR:
 - [ ] Reportar resultados (más reportes = más dinero)
 - [ ] Planificar próximo ciclo (más planificación = más dinero)
 
+

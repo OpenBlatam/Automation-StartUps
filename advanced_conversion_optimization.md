@@ -276,3 +276,4 @@ VARIANTE E: Imagen de equipo profesional
 - [ ] Implementar mejoras continuas (más continuidad = más conversiones)
 - [ ] Reportar resultados (más reportes = más conversiones)
 
+

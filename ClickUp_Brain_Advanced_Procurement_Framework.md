@@ -1192,3 +1192,4 @@ class ProcurementRoadmap:
 
 *Este framework forma parte del paquete completo de ClickUp Brain para AI SaaS Marketing y Cursos de IA, proporcionando capacidades avanzadas de procura para asegurar una procura estratégica, eficiente y sostenible que impulse el valor del negocio y la competitividad.*
 
+

@@ -1193,3 +1193,4 @@ class LearningDevelopmentRoadmap:
 
 *Este framework forma parte del paquete completo de ClickUp Brain para AI SaaS Marketing y Cursos de IA, proporcionando capacidades avanzadas de aprendizaje y desarrollo para asegurar el desarrollo continuo de talento, la mejora de competencias y la creación de una cultura de aprendizaje que impulse la innovación y el crecimiento organizacional.*
 
+

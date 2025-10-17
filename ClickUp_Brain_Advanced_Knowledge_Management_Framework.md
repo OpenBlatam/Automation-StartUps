@@ -1152,3 +1152,4 @@ class KnowledgeManagementRoadmap:
 
 *Este framework forma parte del paquete completo de ClickUp Brain para AI SaaS Marketing y Cursos de IA, proporcionando capacidades avanzadas de gestión del conocimiento para asegurar la creación de una organización inteligente que maximice el valor del conocimiento y impulse la innovación continua.*
 
+

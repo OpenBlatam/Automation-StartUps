@@ -693,3 +693,4 @@ ROI: Infinito en 0 días (más ROI = más dinero)
 - [ ] Mejorar reino de IA (más mejora = más dinero)
 - [ ] Escalar exitosos del imperio (más escalamiento = más dinero)
 - [ ] Reportar resultados del imperio (más reportes = más dinero)
+

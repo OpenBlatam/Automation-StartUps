@@ -1406,3 +1406,4 @@ if __name__ == "__main__":
     
     print("✅ Sistema de análisis de AI Sustainability de marketing completado!")
 
+

@@ -435,3 +435,4 @@ TIKTOK:
 - [ ] Escalar exitosos (más escalamiento = más dinero)
 - [ ] Reportar resultados (más reportes = más dinero)
 
+

@@ -871,3 +871,4 @@ class IndustrySpecificKPIs:
 
 *Este documento forma parte del paquete completo de ClickUp Brain para AI SaaS Marketing y Cursos de IA, proporcionando casos de uso específicos y adaptados a las necesidades únicas de cada industria.*
 
+

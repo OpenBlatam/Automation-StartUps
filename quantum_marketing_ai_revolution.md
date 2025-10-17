@@ -543,3 +543,4 @@ ROI: 600x en 90 días (más ROI = más dinero)
 - [ ] Mejorar algoritmos cuánticos (más mejora = más dinero)
 - [ ] Escalar exitosos cuánticos (más escalamiento = más dinero)
 - [ ] Reportar resultados cuánticos (más reportes = más dinero)
+
