@@ -1,0 +1,43 @@
+Categoría,Documento,Ubicación Física,Ubicación Digital,Fecha,Importante,Notas
+DOCUMENTOS DE IDENTIDAD,,,,,,
+Pasaporte,Carpeta Segura,Cloud,2024-01-01,Crítico,Vigente hasta 2029
+INE,Carpeta Segura,Cloud,2024-01-01,Crítico,Vigente hasta 2028
+CURP,Carpeta Segura,Cloud,2024-01-01,Crítico,Documento permanente
+Acta de Nacimiento,Carpeta Segura,Cloud,2024-01-01,Crítico,Documento permanente
+,,,,,,
+DOCUMENTOS BANCARIOS,,,,,,
+Estados de Cuenta,Carpeta Bancos,Cloud,2024-01-31,Alto,Últimos 7 años
+Contratos Bancarios,Carpeta Bancos,Cloud,2024-01-01,Alto,Tarjetas y cuentas
+Chequeras,Carpeta Bancos,Físico,2024-01-01,Medio,Cheques en blanco
+,,,,,,
+DOCUMENTOS DE INVERSIONES,,,,,,
+Estados de Portafolio,Carpeta Inversiones,Cloud,2024-01-31,Alto,Portafolio completo
+Contratos de Inversión,Carpeta Inversiones,Cloud,2024-01-01,Alto,AFORE y fondos
+Certificados de Depósito,Carpeta Inversiones,Físico,2024-01-01,Alto,Inversiones a plazo
+,,,,,,
+DOCUMENTOS INMOBILIARIOS,,,,,,
+Escrituras,Carpeta Inmuebles,Físico,2024-01-01,Crítico,Propiedades
+Contratos de Arrendamiento,Carpeta Inmuebles,Físico,2024-01-01,Alto,Inmuebles rentados
+Avalúos,Carpeta Inmuebles,Cloud,2024-01-01,Medio,Valoraciones recientes
+,,,,,,
+DOCUMENTOS FISCALES,,,,,,
+Declaraciones Anuales,Carpeta Fiscal,Cloud,2024-01-01,Crítico,Últimos 5 años
+Comprobantes de Ingresos,Carpeta Fiscal,Cloud,2024-01-31,Alto,Últimos 3 años
+Comprobantes de Gastos,Carpeta Fiscal,Cloud,2024-01-31,Alto,Últimos 3 años
+,,,,,,
+DOCUMENTOS DE SEGUROS,,,,,,
+Pólizas de Vida,Carpeta Seguros,Físico,2024-01-01,Crítico,Beneficiarios actualizados
+Pólizas de Salud,Carpeta Seguros,Físico,2024-01-01,Crítico,Cobertura familiar
+Pólizas de Auto,Carpeta Seguros,Físico,2024-01-01,Alto,Vehículos asegurados
+Pólizas de Hogar,Carpeta Seguros,Físico,2024-01-01,Alto,Propiedades aseguradas
+,,,,,,
+DOCUMENTOS DE EMPLEO,,,,,,
+Contratos de Trabajo,Carpeta Empleo,Cloud,2024-01-01,Alto,Empleos actuales y anteriores
+Nóminas,Carpeta Empleo,Cloud,2024-01-31,Medio,Últimos 2 años
+Certificados de Trabajo,Carpeta Empleo,Físico,2024-01-01,Medio,Experiencia laboral
+,,,,,,
+DOCUMENTOS FAMILIARES,,,,,,
+Actas de Matrimonio,Carpeta Familia,Físico,2024-01-01,Crítico,Estado civil
+Actas de Nacimiento Hijos,Carpeta Familia,Físico,2024-01-01,Crítico,Hijos menores
+Testamentos,Carpeta Familia,Físico,2024-01-01,Crítico,Última voluntad
+Poderes Notariales,Carpeta Familia,Físico,2024-01-01,Alto,Representación legal

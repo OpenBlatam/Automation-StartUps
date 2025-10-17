@@ -1,0 +1,119 @@
+{
+  "timestamp": "2025-10-02T19:01:19.946462",
+  "configuracion": {
+    "startup": {
+      "nombre": "CopyCar.ai",
+      "sector": "AI Marketing",
+      "pais": "Mexico",
+      "valuacion_actual": 2000000,
+      "equity_fundador_actual": 60,
+      "mrr_actual": 50000,
+      "usuarios_actuales": 1000
+    },
+    "objetivos": {
+      "equity_fundador_objetivo": 45,
+      "dilucion_maxima_por_ronda": 15,
+      "valuacion_objetivo_12_meses": 50000000,
+      "usuarios_objetivo_12_meses": 50000,
+      "mrr_objetivo_12_meses": 2000000
+    },
+    "alertas": {
+      "dilucion_critica": 20,
+      "equity_critico": 40,
+      "valuacion_baja": 15000000,
+      "crecimiento_lento": 0.15,
+      "churn_alto": 0.08
+    },
+    "notificaciones": {
+      "email": {
+        "habilitado": true,
+        "smtp_server": "smtp.gmail.com",
+        "smtp_port": 587,
+        "email_from": "alerts@copycar.ai",
+        "email_to": "founder@copycar.ai",
+        "password": "your_password"
+      },
+      "slack": {
+        "habilitado": true,
+        "webhook_url": "https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK",
+        "channel": "#alerts"
+      },
+      "sms": {
+        "habilitado": false,
+        "api_key": "your_twilio_api_key",
+        "phone_from": "+1234567890",
+        "phone_to": "+1234567890"
+      }
+    },
+    "reportes": {
+      "frecuencia": "diaria",
+      "formato": "markdown",
+      "incluir_graficos": true,
+      "enviar_email": true,
+      "guardar_archivo": true
+    }
+  },
+  "metricas": {
+    "financieras": {
+      "valuacion": 2014844.3743215885,
+      "equity_fundador": 60,
+      "dilucion_por_ronda": 0,
+      "valor_fundador": 1208906.6245929531,
+      "roi_inversionistas": 0.007422187160794236
+    },
+    "operativas": {
+      "mrr": 50534.01084435175,
+      "usuarios": 1012,
+      "crecimiento_mrr_mensual": 0.2,
+      "crecimiento_usuarios_mensual": 0.3,
+      "churn_rate": 0.05,
+      "cac": 100,
+      "ltv": 2000
+    },
+    "implementacion": {
+      "estrategias_implementadas": 0,
+      "partnerships_activos": 0,
+      "herramientas_configuradas": 0,
+      "alertas_configuradas": 0,
+      "reportes_generados": 0
+    },
+    "mercado": {
+      "market_share_latam": 0.001,
+      "posicionamiento_precio": 0.6,
+      "diferenciacion_producto": 0.7,
+      "satisfaccion_cliente": 0.8,
+      "retencion_cliente": 0.95
+    }
+  },
+  "alertas": {
+    "alertas_criticas": {
+      "dilucion_excesiva": {
+        "mensaje": "🚨 DILUCIÓN EXCESIVA: Dilución por ronda supera el 20%",
+        "accion": "Activar estrategias anti-dilución inmediatamente",
+        "prioridad": "Crítica"
+      },
+      "perdida_control": {
+        "mensaje": "🚨 PÉRDIDA DE CONTROL: Equity del fundador menor al 40%",
+        "accion": "Implementar estrategias de recuperación de control",
+        "prioridad": "Crítica"
+      },
+      "valuacion_baja": {
+        "mensaje": "📉 VALUACIÓN BAJA: Valuación menor a $15M",
+        "accion": "Revisar estrategia de valuación y crecimiento",
+        "prioridad": "Alta"
+      }
+    },
+    "alertas_importantes": {
+      "crecimiento_lento": {
+        "mensaje": "🐌 CRECIMIENTO LENTO: Crecimiento MRR menor al 15%",
+        "accion": "Acelerar estrategias de crecimiento",
+        "prioridad": "Media"
+      },
+      "churn_alto": {
+        "mensaje": "👥 CHURN ALTO: Churn rate mayor al 8%",
+        "accion": "Mejorar retención de clientes",
+        "prioridad": "Media"
+      }
+    }
+  }
+}

@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Advanced Analytics Dashboard - Exit Strategy</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/date-fns@2.29.3/index.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            padding: 30px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid #e0e6ed;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f8f9fa;
+        }
+        
+        .card-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .card-icon {
+            font-size: 2em;
+            opacity: 0.7;
+        }
+        
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .metric {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .metric-value {
+            font-size: 2em;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .metric-label {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .metric-change {
+            font-size: 0.8em;
+            margin-top: 5px;
+        }
+        
+        .positive { color: #27ae60; }
+        .negative { color: #e74c3c; }
+        .neutral { color: #f39c12; }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-top: 20px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #ecf0f1;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-excellent { background: #2ecc71; }
+        .status-good { background: #f39c12; }
+        .status-warning { background: #e67e22; }
+        .status-critical { background: #e74c3c; }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        
+        .comparison-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid;
+        }
+        
+        .alert-success {
+            background: #d5f4e6;
+            border-color: #2ecc71;
+            color: #27ae60;
+        }
+        
+        .alert-warning {
+            background: #fef9e7;
+            border-color: #f39c12;
+            color: #e67e22;
+        }
+        
+        .alert-danger {
+            background: #fadbd8;
+            border-color: #e74c3c;
+            color: #c0392b;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+        
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .filter-group label {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 0.9em;
+        }
+        
+        .filter-group select,
+        .filter-group input {
+            padding: 8px 12px;
+            border: 2px solid #ecf0f1;
+            border-radius: 6px;
+            font-size: 0.9em;
+        }
+        
+        .filter-group select:focus,
+        .filter-group input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .metric-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Advanced Analytics Dashboard</h1>
+            <p>Exit Strategy - Comprehensive Analysis & Benchmarking</p>
+        </div>
+        
+        <div class="dashboard-grid">
+            <!-- Financial Performance Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">💰 Financial Performance</h2>
+                    <span class="card-icon">📊</span>
+                </div>
+                
+                <div class="metric-grid">
+                    <div class="metric">
+                        <div class="metric-value">$55.5M</div>
+                        <div class="metric-label">Revenue</div>
+                        <div class="metric-change positive">+45% YoY</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">$13.9M</div>
+                        <div class="metric-label">EBITDA</div>
+                        <div class="metric-change positive">+74% YoY</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">25%</div>
+                        <div class="metric-label">EBITDA Margin</div>
+                        <div class="metric-change positive">+25% vs Benchmark</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">$58.5M</div>
+                        <div class="metric-label">Valuation</div>
+                        <div class="metric-change positive">+17% vs Benchmark</div>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Market Position Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">🌐 Market Position</h2>
+                    <span class="card-icon">🎯</span>
+                </div>
+                
+                <div class="metric-grid">
+                    <div class="metric">
+                        <div class="metric-value">1.5%</div>
+                        <div class="metric-label">Market Share</div>
+                        <div class="metric-change positive">+0.5% YoY</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">97%</div>
+                        <div class="metric-label">Customer Retention</div>
+                        <div class="metric-change positive">+7% vs Benchmark</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">4.5/5</div>
+                        <div class="metric-label">Customer Satisfaction</div>
+                        <div class="metric-change positive">+0.7 vs Benchmark</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">66</div>
+                        <div class="metric-label">NPS Score</div>
+                        <div class="metric-change positive">+16 vs Benchmark</div>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <canvas id="marketChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Operational Excellence Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">⚙️ Operational Excellence</h2>
+                    <span class="card-icon">🔧</span>
+                </div>
+                
+                <div class="metric-grid">
+                    <div class="metric">
+                        <div class="metric-value">99.95%</div>
+                        <div class="metric-label">Uptime</div>
+                        <div class="metric-change positive">+0.45% vs Benchmark</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">85ms</div>
+                        <div class="metric-label">Response Time</div>
+                        <div class="metric-change positive">-115ms vs Benchmark</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">$515K</div>
+                        <div class="metric-label">Revenue per Employee</div>
+                        <div class="metric-change positive">+47% vs Benchmark</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">0.01%</div>
+                        <div class="metric-label">Error Rate</div>
+                        <div class="metric-change positive">-0.49% vs Benchmark</div>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <canvas id="operationalChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Exit Readiness Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">🎯 Exit Readiness</h2>
+                    <span class="card-icon">✅</span>
+                </div>
+                
+                <div class="metric-grid">
+                    <div class="metric">
+                        <div class="metric-value">84%</div>
+                        <div class="metric-label">Overall Score</div>
+                        <div class="metric-change positive">+4% vs Target</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">85%</div>
+                        <div class="metric-label">Financial</div>
+                        <div class="metric-change positive">+5% vs Target</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">90%</div>
+                        <div class="metric-label">Legal</div>
+                        <div class="metric-change positive">+5% vs Target</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">80%</div>
+                        <div class="metric-label">Operational</div>
+                        <div class="metric-change positive">+5% vs Target</div>
+                    </div>
+                </div>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 84%"></div>
+                </div>
+                
+                <div class="chart-container">
+                    <canvas id="readinessChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Competitive Benchmarking Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">🏆 Competitive Benchmarking</h2>
+                    <span class="card-icon">📈</span>
+                </div>
+                
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Our Company</th>
+                            <th>Industry Avg</th>
+                            <th>Top Quartile</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Revenue Growth</td>
+                            <td>45%</td>
+                            <td>35%</td>
+                            <td>40%</td>
+                            <td><span class="status-indicator status-excellent"></span>Excellent</td>
+                        </tr>
+                        <tr>
+                            <td>EBITDA Margin</td>
+                            <td>25%</td>
+                            <td>20%</td>
+                            <td>22%</td>
+                            <td><span class="status-indicator status-excellent"></span>Excellent</td>
+                        </tr>
+                        <tr>
+                            <td>Customer Retention</td>
+                            <td>97%</td>
+                            <td>90%</td>
+                            <td>95%</td>
+                            <td><span class="status-indicator status-excellent"></span>Excellent</td>
+                        </tr>
+                        <tr>
+                            <td>Employee Satisfaction</td>
+                            <td>4.2/5</td>
+                            <td>3.8/5</td>
+                            <td>4.0/5</td>
+                            <td><span class="status-indicator status-excellent"></span>Excellent</td>
+                        </tr>
+                        <tr>
+                            <td>Market Position</td>
+                            <td>Top 15%</td>
+                            <td>Top 25%</td>
+                            <td>Top 10%</td>
+                            <td><span class="status-indicator status-good"></span>Good</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Risk Assessment Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">⚠️ Risk Assessment</h2>
+                    <span class="card-icon">🛡️</span>
+                </div>
+                
+                <div class="metric-grid">
+                    <div class="metric">
+                        <div class="metric-value">Low</div>
+                        <div class="metric-label">Financial Risk</div>
+                        <div class="metric-change neutral">Stable</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">Medium</div>
+                        <div class="metric-label">Market Risk</div>
+                        <div class="metric-change neutral">Monitored</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">Low</div>
+                        <div class="metric-label">Operational Risk</div>
+                        <div class="metric-change neutral">Controlled</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">Low</div>
+                        <div class="metric-label">Talent Risk</div>
+                        <div class="metric-change neutral">Managed</div>
+                    </div>
+                </div>
+                
+                <div class="alert alert-success">
+                    <strong>✅ Risk Status:</strong> All major risks are well-managed with appropriate mitigation strategies in place.
+                </div>
+                
+                <div class="chart-container">
+                    <canvas id="riskChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Valuation Scenarios Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">💎 Valuation Scenarios</h2>
+                    <span class="card-icon">💰</span>
+                </div>
+                
+                <div class="metric-grid">
+                    <div class="metric">
+                        <div class="metric-value">$60M</div>
+                        <div class="metric-label">Conservative</div>
+                        <div class="metric-change neutral">8x Revenue</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">$80M</div>
+                        <div class="metric-label">Base Case</div>
+                        <div class="metric-change positive">11x Revenue</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">$100M</div>
+                        <div class="metric-label">Optimistic</div>
+                        <div class="metric-change positive">14x Revenue</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">$120M</div>
+                        <div class="metric-label">Bull Case</div>
+                        <div class="metric-change positive">17x Revenue</div>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <canvas id="valuationChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Action Items Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">📋 Action Items</h2>
+                    <span class="card-icon">✅</span>
+                </div>
+                
+                <div class="filters">
+                    <div class="filter-group">
+                        <label>Priority</label>
+                        <select id="priorityFilter">
+                            <option value="all">All</option>
+                            <option value="high">High</option>
+                            <option value="medium">Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Status</label>
+                        <select id="statusFilter">
+                            <option value="all">All</option>
+                            <option value="pending">Pending</option>
+                            <option value="in-progress">In Progress</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Category</label>
+                        <select id="categoryFilter">
+                            <option value="all">All</option>
+                            <option value="financial">Financial</option>
+                            <option value="legal">Legal</option>
+                            <option value="operational">Operational</option>
+                            <option value="market">Market</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div id="actionItems">
+                    <div class="alert alert-warning">
+                        <strong>🔧 High Priority:</strong> Complete operational documentation (20% remaining)
+                    </div>
+                    <div class="alert alert-warning">
+                        <strong>📈 Medium Priority:</strong> Improve market positioning from Top 15% to Top 10%
+                    </div>
+                    <div class="alert alert-success">
+                        <strong>✅ Completed:</strong> Financial audit and legal compliance
+                    </div>
+                    <div class="alert alert-success">
+                        <strong>✅ Completed:</strong> Talent retention plans and succession planning
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px;">
+                    <button class="btn btn-success">Add Action Item</button>
+                    <button class="btn">Export Report</button>
+                    <button class="btn">Schedule Review</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Chart configurations
+        const chartConfigs = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                }
+            },
+            scales: {
+                x: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: 'Time Period'
+                    }
+                },
+                y: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: 'Value'
+                    }
+                }
+            }
+        };
+
+        // Revenue Chart
+        const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+        new Chart(revenueCtx, {
+            type: 'line',
+            data: {
+                labels: ['Q1 2023', 'Q2 2023', 'Q3 2023', 'Q4 2023', 'Q1 2024', 'Q2 2024', 'Q3 2024', 'Q4 2024'],
+                datasets: [{
+                    label: 'Revenue ($M)',
+                    data: [8, 10, 12, 15, 18, 22, 27, 33],
+                    borderColor: '#3498db',
+                    backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }, {
+                    label: 'EBITDA ($M)',
+                    data: [2, 2.5, 3, 3.8, 4.5, 5.5, 6.8, 8.3],
+                    borderColor: '#2ecc71',
+                    backgroundColor: 'rgba(46, 204, 113, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: chartConfigs
+        });
+
+        // Market Chart
+        const marketCtx = document.getElementById('marketChart').getContext('2d');
+        new Chart(marketCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Customer Retention', 'NPS Score', 'Market Share', 'Brand Recognition'],
+                datasets: [{
+                    label: 'Our Company',
+                    data: [97, 66, 1.5, 70],
+                    backgroundColor: '#3498db'
+                }, {
+                    label: 'Industry Average',
+                    data: [90, 50, 1.0, 60],
+                    backgroundColor: '#95a5a6'
+                }]
+            },
+            options: chartConfigs
+        });
+
+        // Operational Chart
+        const operationalCtx = document.getElementById('operationalChart').getContext('2d');
+        new Chart(operationalCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Uptime', 'Performance', 'Security', 'Efficiency'],
+                datasets: [{
+                    data: [99.95, 95, 98, 92],
+                    backgroundColor: ['#2ecc71', '#3498db', '#f39c12', '#9b59b6']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    }
+                }
+            }
+        });
+
+        // Readiness Chart
+        const readinessCtx = document.getElementById('readinessChart').getContext('2d');
+        new Chart(readinessCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Financial', 'Legal', 'Operational', 'Market', 'Talent', 'Technology'],
+                datasets: [{
+                    label: 'Current Score',
+                    data: [85, 90, 80, 75, 85, 90],
+                    borderColor: '#3498db',
+                    backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                    pointBackgroundColor: '#3498db'
+                }, {
+                    label: 'Target Score',
+                    data: [80, 85, 75, 70, 80, 85],
+                    borderColor: '#2ecc71',
+                    backgroundColor: 'rgba(46, 204, 113, 0.2)',
+                    pointBackgroundColor: '#2ecc71'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            }
+        });
+
+        // Risk Chart
+        const riskCtx = document.getElementById('riskChart').getContext('2d');
+        new Chart(riskCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Financial', 'Market', 'Operational', 'Talent', 'Technology', 'Legal'],
+                datasets: [{
+                    label: 'Risk Level',
+                    data: [2, 4, 2, 2, 1, 1],
+                    backgroundColor: ['#2ecc71', '#f39c12', '#2ecc71', '#2ecc71', '#2ecc71', '#2ecc71']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 5,
+                        ticks: {
+                            callback: function(value) {
+                                const labels = ['', 'Very Low', 'Low', 'Medium', 'High', 'Very High'];
+                                return labels[value];
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Valuation Chart
+        const valuationCtx = document.getElementById('valuationChart').getContext('2d');
+        new Chart(valuationCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Conservative', 'Base Case', 'Optimistic', 'Bull Case'],
+                datasets: [{
+                    label: 'Valuation ($M)',
+                    data: [60, 80, 100, 120],
+                    backgroundColor: ['#e74c3c', '#f39c12', '#2ecc71', '#27ae60']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Valuation ($M)'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Filter functionality
+        document.getElementById('priorityFilter').addEventListener('change', filterActionItems);
+        document.getElementById('statusFilter').addEventListener('change', filterActionItems);
+        document.getElementById('categoryFilter').addEventListener('change', filterActionItems);
+
+        function filterActionItems() {
+            // This would implement the filtering logic
+            console.log('Filtering action items...');
+        }
+
+        // Auto-refresh functionality
+        setInterval(() => {
+            // This would refresh the data from the backend
+            console.log('Refreshing data...');
+        }, 30000); // Refresh every 30 seconds
+
+        // Export functionality
+        function exportReport() {
+            // This would implement the export functionality
+            console.log('Exporting report...');
+        }
+    </script>
+</body>
+</html>
+
+

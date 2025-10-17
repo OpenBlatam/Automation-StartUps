@@ -1,227 +1,425 @@
-# 🧠 Neural Marketing Consciousness System - Developer Guide
+# 💻 Developer Guide - Neural Marketing Consciousness System
 
-## 📖 Table of Contents
+## 🎯 Developer Overview
+
+Welcome to the **Developer Guide** for the Neural Marketing Consciousness System. This comprehensive guide provides developers with everything needed to integrate, extend, and customize the platform using our APIs, SDKs, and development tools.
+
+---
+
+## 📚 Table of Contents
 
 1. [Getting Started](#getting-started)
-2. [SDK Installation](#sdk-installation)
-3. [Authentication Setup](#authentication-setup)
-4. [Basic Integration](#basic-integration)
-5. [Advanced Features](#advanced-features)
-6. [Custom Neural Networks](#custom-neural-networks)
-7. [Webhook Integration](#webhook-integration)
-8. [Testing and Debugging](#testing-and-debugging)
-9. [Best Practices](#best-practices)
-10. [Troubleshooting](#troubleshooting)
+2. [API Documentation](#api-documentation)
+3. [SDKs & Libraries](#sdks--libraries)
+4. [Authentication](#authentication)
+5. [Core APIs](#core-apis)
+6. [Advanced Features](#advanced-features)
+7. [Webhooks](#webhooks)
+8. [Testing](#testing)
+9. [Deployment](#deployment)
+10. [Best Practices](#best-practices)
 
 ---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-
-Before integrating with the Neural Marketing Consciousness System, ensure you have:
-
-- **API Access**: Valid API key with appropriate permissions
-- **Development Environment**: Node.js 14+, Python 3.8+, or PHP 7.4+
-- **Understanding**: Basic knowledge of REST APIs and JSON
-- **Account**: Active Neural Marketing platform account
+- **Programming Knowledge**: Basic understanding of REST APIs
+- **HTTP/HTTPS**: Familiarity with HTTP methods and status codes
+- **JSON**: Understanding of JSON data format
+- **Authentication**: Basic knowledge of API authentication
+- **Development Environment**: Code editor, API testing tool
 
 ### Quick Start
+1. **Get API Credentials**
+   - Sign up for developer account
+   - Generate API key and secret
+   - Configure authentication settings
 
-1. **Get API Key**: Generate your API key from the dashboard
-2. **Install SDK**: Choose your preferred language SDK
-3. **Test Connection**: Verify your API key works
-4. **Create First Integration**: Build your first neural marketing integration
+2. **Make Your First API Call**
+   ```bash
+   curl -X GET "https://api.neuralmarketing.com/v1/health" \
+        -H "Authorization: Bearer YOUR_API_KEY"
+   ```
+
+3. **Explore the API**
+   - Use our interactive API documentation
+   - Test endpoints with Postman collection
+   - Review code examples and samples
+
+### Development Environment Setup
+
+#### Required Tools
+- **API Testing**: Postman, Insomnia, or curl
+- **Code Editor**: VS Code, IntelliJ, or your preferred editor
+- **Version Control**: Git for code management
+- **Package Manager**: npm, pip, or composer (depending on language)
+
+#### Environment Configuration
+```bash
+# Set environment variables
+export NEURAL_API_KEY="your_api_key"
+export NEURAL_API_SECRET="your_api_secret"
+export NEURAL_BASE_URL="https://api.neuralmarketing.com/v1"
+```
 
 ---
 
-## 📦 SDK Installation
+## 📖 API Documentation
 
-### JavaScript/Node.js
+### Base URL
+```
+https://api.neuralmarketing.com/v1
+```
 
+### API Versioning
+- **Current Version**: v1
+- **Version Header**: `API-Version: v1`
+- **Backward Compatibility**: Maintained for 12 months
+- **Deprecation Notice**: 6 months advance notice
+
+### Response Format
+All API responses follow a consistent JSON format:
+
+```json
+{
+  "success": true,
+  "data": {
+    // Response data
+  },
+  "meta": {
+    "timestamp": "2024-01-15T10:30:00Z",
+    "request_id": "req_123456789",
+    "version": "v1"
+  },
+  "errors": []
+}
+```
+
+### Error Handling
+```json
+{
+  "success": false,
+  "data": null,
+  "meta": {
+    "timestamp": "2024-01-15T10:30:00Z",
+    "request_id": "req_123456789",
+    "version": "v1"
+  },
+  "errors": [
+    {
+      "code": "INVALID_REQUEST",
+      "message": "The request is invalid",
+      "details": "Missing required field: campaign_name"
+    }
+  ]
+}
+```
+
+### HTTP Status Codes
+- **200**: Success
+- **201**: Created
+- **400**: Bad Request
+- **401**: Unauthorized
+- **403**: Forbidden
+- **404**: Not Found
+- **429**: Rate Limited
+- **500**: Internal Server Error
+
+---
+
+## 🔧 SDKs & Libraries
+
+### Official SDKs
+
+#### JavaScript/Node.js
 ```bash
-# Install via npm
 npm install @neuralmarketing/sdk
-
-# Or via yarn
-yarn add @neuralmarketing/sdk
 ```
-
-### Python
-
-```bash
-# Install via pip
-pip install neural-marketing-sdk
-
-# Or via conda
-conda install -c neuralmarketing neural-marketing-sdk
-```
-
-### PHP
-
-```bash
-# Install via Composer
-composer require neural-marketing/sdk
-```
-
-### Java
-
-```xml
-<!-- Add to pom.xml -->
-<dependency>
-    <groupId>ai.neuralmarketing</groupId>
-    <artifactId>neural-marketing-sdk</artifactId>
-    <version>1.0.0</version>
-</dependency>
-```
-
----
-
-## 🔐 Authentication Setup
-
-### API Key Configuration
 
 ```javascript
-// JavaScript/Node.js
 const NeuralMarketing = require('@neuralmarketing/sdk');
 
 const client = new NeuralMarketing({
-  apiKey: process.env.NEURAL_MARKETING_API_KEY,
-  environment: 'production', // or 'sandbox'
-  timeout: 30000, // 30 seconds
-  retries: 3
+  apiKey: 'your_api_key',
+  apiSecret: 'your_api_secret'
+});
+
+// Create a campaign
+const campaign = await client.campaigns.create({
+  name: 'My Campaign',
+  type: 'awareness',
+  budget: 1000
 });
 ```
 
-```python
-# Python
-from neural_marketing import NeuralMarketingClient
+#### Python
+```bash
+pip install neural-marketing-sdk
+```
 
-client = NeuralMarketingClient(
-    api_key=os.getenv('NEURAL_MARKETING_API_KEY'),
-    environment='production',
-    timeout=30,
-    retries=3
+```python
+from neural_marketing import NeuralMarketing
+
+client = NeuralMarketing(
+    api_key='your_api_key',
+    api_secret='your_api_secret'
+)
+
+# Create a campaign
+campaign = client.campaigns.create({
+    'name': 'My Campaign',
+    'type': 'awareness',
+    'budget': 1000
+})
+```
+
+#### PHP
+```bash
+composer require neural-marketing/sdk
+```
+
+```php
+use NeuralMarketing\NeuralMarketing;
+
+$client = new NeuralMarketing([
+    'api_key' => 'your_api_key',
+    'api_secret' => 'your_api_secret'
+]);
+
+// Create a campaign
+$campaign = $client->campaigns->create([
+    'name' => 'My Campaign',
+    'type' => 'awareness',
+    'budget' => 1000
+]);
+```
+
+#### Ruby
+```bash
+gem install neural-marketing-sdk
+```
+
+```ruby
+require 'neural-marketing'
+
+client = NeuralMarketing::Client.new(
+  api_key: 'your_api_key',
+  api_secret: 'your_api_secret'
+)
+
+# Create a campaign
+campaign = client.campaigns.create(
+  name: 'My Campaign',
+  type: 'awareness',
+  budget: 1000
 )
 ```
 
-### Environment Variables
-
-Create a `.env` file:
-
-```bash
-# .env
-NEURAL_MARKETING_API_KEY=your_api_key_here
-NEURAL_MARKETING_ENVIRONMENT=production
-NEURAL_MARKETING_TIMEOUT=30000
-```
-
-### API Key Scopes
-
-Ensure your API key has the required scopes:
-
-- `neural_states:read` - Read neural states
-- `neural_states:write` - Modify neural states
-- `campaigns:read` - Read campaigns
-- `campaigns:write` - Create/modify campaigns
-- `analytics:read` - Read analytics data
+### Community SDKs
+- **Go**: `github.com/neural-marketing/go-sdk`
+- **Java**: `com.neuralmarketing:java-sdk`
+- **C#**: `NeuralMarketing.SDK`
+- **Swift**: `NeuralMarketingSDK`
 
 ---
 
-## 🔧 Basic Integration
+## 🔐 Authentication
 
-### Initialize Client
+### API Key Authentication
+```bash
+curl -X GET "https://api.neuralmarketing.com/v1/campaigns" \
+     -H "Authorization: Bearer YOUR_API_KEY"
+```
 
+### OAuth 2.0
+```bash
+# Get access token
+curl -X POST "https://api.neuralmarketing.com/oauth/token" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "grant_type": "client_credentials",
+       "client_id": "your_client_id",
+       "client_secret": "your_client_secret"
+     }'
+
+# Use access token
+curl -X GET "https://api.neuralmarketing.com/v1/campaigns" \
+     -H "Authorization: Bearer ACCESS_TOKEN"
+```
+
+### JWT Authentication
 ```javascript
-// JavaScript/Node.js
-const NeuralMarketing = require('@neuralmarketing/sdk');
+// Generate JWT token
+const jwt = require('jsonwebtoken');
 
-class MarketingIntegration {
-  constructor() {
-    this.client = new NeuralMarketing({
-      apiKey: process.env.NEURAL_MARKETING_API_KEY,
-      environment: 'production'
-    });
+const token = jwt.sign(
+  { 
+    sub: 'user_id',
+    iat: Math.floor(Date.now() / 1000),
+    exp: Math.floor(Date.now() / 1000) + (60 * 60) // 1 hour
+  },
+  'your_secret_key'
+);
+```
+
+### Rate Limiting
+- **Free Tier**: 100 requests/hour
+- **Pro Tier**: 1,000 requests/hour
+- **Enterprise**: 10,000 requests/hour
+- **Headers**: `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset`
+
+---
+
+## 🔌 Core APIs
+
+### Campaigns API
+
+#### Create Campaign
+```bash
+POST /campaigns
+```
+
+```json
+{
+  "name": "Summer Sale Campaign",
+  "type": "conversion",
+  "budget": 5000,
+  "start_date": "2024-06-01",
+  "end_date": "2024-08-31",
+  "target_audience": {
+    "age_range": [25, 45],
+    "interests": ["technology", "lifestyle"],
+    "location": "United States"
+  },
+  "channels": ["facebook", "google", "email"]
+}
+```
+
+#### Get Campaign
+```bash
+GET /campaigns/{campaign_id}
+```
+
+#### Update Campaign
+```bash
+PUT /campaigns/{campaign_id}
+```
+
+#### Delete Campaign
+```bash
+DELETE /campaigns/{campaign_id}
+```
+
+#### List Campaigns
+```bash
+GET /campaigns?page=1&limit=20&status=active
+```
+
+### Neural Networks API
+
+#### Create Neural Network
+```bash
+POST /neural-networks
+```
+
+```json
+{
+  "name": "Customer Prediction Model",
+  "type": "classification",
+  "purpose": "predict_customer_behavior",
+  "training_data": {
+    "source": "customer_data",
+    "features": ["age", "income", "purchase_history"],
+    "target": "churn_probability"
+  },
+  "parameters": {
+    "learning_rate": 0.01,
+    "epochs": 100,
+    "batch_size": 32
   }
+}
+```
 
-  async initialize() {
-    try {
-      // Test connection
-      const states = await this.client.neuralStates.get();
-      console.log('Connected to Neural Marketing API');
-      return true;
-    } catch (error) {
-      console.error('Failed to connect:', error);
-      return false;
+#### Train Neural Network
+```bash
+POST /neural-networks/{network_id}/train
+```
+
+#### Get Predictions
+```bash
+POST /neural-networks/{network_id}/predict
+```
+
+```json
+{
+  "input_data": {
+    "age": 30,
+    "income": 50000,
+    "purchase_history": [1, 0, 1, 1, 0]
+  }
+}
+```
+
+### Analytics API
+
+#### Get Campaign Analytics
+```bash
+GET /analytics/campaigns/{campaign_id}?start_date=2024-01-01&end_date=2024-01-31
+```
+
+#### Get User Analytics
+```bash
+GET /analytics/users?period=30d&metrics=engagement,conversion
+```
+
+#### Get Custom Reports
+```bash
+POST /analytics/reports
+```
+
+```json
+{
+  "name": "Monthly Performance Report",
+  "metrics": ["impressions", "clicks", "conversions", "revenue"],
+  "dimensions": ["campaign", "channel", "audience"],
+  "filters": {
+    "date_range": {
+      "start": "2024-01-01",
+      "end": "2024-01-31"
     }
   }
 }
 ```
 
-### Get Neural States
+### Content API
 
-```javascript
-async getNeuralStates() {
-  try {
-    const states = await this.client.neuralStates.get();
-    return {
-      consciousness: states.consciousness,
-      awareness: states.awareness,
-      intelligence: states.intelligence,
-      creativity: states.creativity,
-      empathy: states.empathy,
-      intuition: states.intuition,
-      wisdom: states.wisdom,
-      transcendence: states.transcendence
-    };
-  } catch (error) {
-    console.error('Error getting neural states:', error);
-    throw error;
-  }
+#### Generate Content
+```bash
+POST /content/generate
+```
+
+```json
+{
+  "type": "social_media_post",
+  "topic": "AI marketing trends",
+  "tone": "professional",
+  "length": "short",
+  "platform": "linkedin",
+  "target_audience": "marketing professionals"
 }
 ```
 
-### Update Neural States
-
-```javascript
-async updateNeuralStates(newStates) {
-  try {
-    const updated = await this.client.neuralStates.update(newStates);
-    console.log('Neural states updated successfully');
-    return updated;
-  } catch (error) {
-    console.error('Error updating neural states:', error);
-    throw error;
-  }
-}
+#### Analyze Content
+```bash
+POST /content/analyze
 ```
 
-### Create Campaign
-
-```javascript
-async createCampaign(campaignData) {
-  try {
-    const campaign = await this.client.campaigns.create({
-      name: campaignData.name,
-      type: campaignData.type,
-      objective: campaignData.objective,
-      neural_configuration: {
-        consciousness: campaignData.consciousness || 85.0,
-        awareness: campaignData.awareness || 90.0,
-        empathy: campaignData.empathy || 95.0,
-        creativity: campaignData.creativity || 80.0
-      },
-      target_audience: campaignData.audience,
-      budget: campaignData.budget,
-      timeline: campaignData.timeline,
-      channels: campaignData.channels
-    });
-    
-    return campaign;
-  } catch (error) {
-    console.error('Error creating campaign:', error);
-    throw error;
-  }
+```json
+{
+  "content": "Your content text here",
+  "analysis_type": "sentiment",
+  "language": "en"
 }
 ```
 
@@ -229,864 +427,634 @@ async createCampaign(campaignData) {
 
 ## ⚡ Advanced Features
 
-### Real-time Neural State Monitoring
+### Real-time Streaming
 
+#### WebSocket Connection
 ```javascript
-class NeuralStateMonitor {
-  constructor(client) {
-    this.client = client;
-    this.isMonitoring = false;
-    this.callbacks = [];
-  }
+const ws = new WebSocket('wss://api.neuralmarketing.com/v1/stream');
 
-  startMonitoring(interval = 5000) {
-    this.isMonitoring = true;
-    this.monitorInterval = setInterval(async () => {
-      try {
-        const states = await this.client.neuralStates.get();
-        this.notifyCallbacks(states);
-      } catch (error) {
-        console.error('Monitoring error:', error);
-      }
-    }, interval);
-  }
+ws.onopen = function() {
+  // Subscribe to campaign updates
+  ws.send(JSON.stringify({
+    type: 'subscribe',
+    channel: 'campaign_updates',
+    campaign_id: 'camp_123'
+  }));
+};
 
-  stopMonitoring() {
-    this.isMonitoring = false;
-    if (this.monitorInterval) {
-      clearInterval(this.monitorInterval);
-    }
-  }
-
-  onStateChange(callback) {
-    this.callbacks.push(callback);
-  }
-
-  notifyCallbacks(states) {
-    this.callbacks.forEach(callback => callback(states));
-  }
-}
-
-// Usage
-const monitor = new NeuralStateMonitor(client);
-monitor.onStateChange((states) => {
-  console.log('Neural states updated:', states);
-  // Update your UI or trigger actions
-});
-monitor.startMonitoring();
+ws.onmessage = function(event) {
+  const data = JSON.parse(event.data);
+  console.log('Real-time update:', data);
+};
 ```
 
-### Dynamic Neural State Adjustment
-
+#### Server-Sent Events
 ```javascript
-class DynamicNeuralController {
-  constructor(client) {
-    this.client = client;
-    this.adjustmentRules = [];
-  }
+const eventSource = new EventSource('/v1/events/campaigns/camp_123');
 
-  addAdjustmentRule(rule) {
-    this.adjustmentRules.push(rule);
-  }
-
-  async evaluateAndAdjust(campaignPerformance) {
-    for (const rule of this.adjustmentRules) {
-      if (rule.condition(campaignPerformance)) {
-        const adjustment = rule.action(campaignPerformance);
-        await this.applyAdjustment(adjustment);
-      }
-    }
-  }
-
-  async applyAdjustment(adjustment) {
-    try {
-      const currentStates = await this.client.neuralStates.get();
-      const newStates = { ...currentStates, ...adjustment };
-      await this.client.neuralStates.update(newStates);
-      console.log('Applied neural state adjustment:', adjustment);
-    } catch (error) {
-      console.error('Error applying adjustment:', error);
-    }
-  }
-}
-
-// Example adjustment rules
-const controller = new DynamicNeuralController(client);
-
-// Rule: Increase creativity if CTR is low
-controller.addAdjustmentRule({
-  condition: (performance) => performance.ctr < 2.0,
-  action: (performance) => ({ creativity: Math.min(95, performance.creativity + 5) })
-});
-
-// Rule: Increase empathy if conversion rate is low
-controller.addAdjustmentRule({
-  condition: (performance) => performance.conversion_rate < 3.0,
-  action: (performance) => ({ empathy: Math.min(98, performance.empathy + 3) })
-});
+eventSource.onmessage = function(event) {
+  const data = JSON.parse(event.data);
+  console.log('Campaign update:', data);
+};
 ```
 
-### Campaign Performance Analytics
+### Batch Operations
 
-```javascript
-class CampaignAnalytics {
-  constructor(client) {
-    this.client = client;
-  }
+#### Bulk Campaign Creation
+```bash
+POST /campaigns/bulk
+```
 
-  async getCampaignPerformance(campaignId, startDate, endDate) {
-    try {
-      const performance = await this.client.campaigns.getPerformance(campaignId, {
-        start_date: startDate,
-        end_date: endDate,
-        granularity: 'day'
-      });
-
-      return {
-        summary: performance.summary,
-        neural_metrics: performance.neural_metrics,
-        trends: this.analyzeTrends(performance.time_series),
-        recommendations: this.generateRecommendations(performance)
-      };
-    } catch (error) {
-      console.error('Error getting campaign performance:', error);
-      throw error;
+```json
+{
+  "campaigns": [
+    {
+      "name": "Campaign 1",
+      "type": "awareness",
+      "budget": 1000
+    },
+    {
+      "name": "Campaign 2",
+      "type": "conversion",
+      "budget": 2000
     }
-  }
+  ]
+}
+```
 
-  analyzeTrends(timeSeries) {
-    // Analyze performance trends
-    const trends = {
-      impressions: this.calculateTrend(timeSeries, 'impressions'),
-      clicks: this.calculateTrend(timeSeries, 'clicks'),
-      conversions: this.calculateTrend(timeSeries, 'conversions'),
-      consciousness: this.calculateTrend(timeSeries, 'consciousness_level')
-    };
-    
-    return trends;
-  }
+#### Bulk Data Import
+```bash
+POST /data/import
+Content-Type: multipart/form-data
 
-  generateRecommendations(performance) {
-    const recommendations = [];
-    
-    if (performance.neural_metrics.consciousness_impact < 80) {
-      recommendations.push({
-        type: 'neural_state',
-        action: 'increase_consciousness',
-        value: 85,
-        reason: 'Low consciousness impact on campaign performance'
-      });
+file: [CSV file with campaign data]
+```
+
+### Advanced Analytics
+
+#### Custom Metrics
+```bash
+POST /analytics/metrics/custom
+```
+
+```json
+{
+  "name": "engagement_score",
+  "formula": "(likes + shares + comments) / impressions * 100",
+  "description": "Custom engagement metric"
+}
+```
+
+#### Cohort Analysis
+```bash
+GET /analytics/cohorts?cohort_type=monthly&metric=retention
+```
+
+### Machine Learning Features
+
+#### Model Training
+```bash
+POST /ml/models/train
+```
+
+```json
+{
+  "model_type": "recommendation",
+  "training_data": "customer_interactions",
+  "parameters": {
+    "algorithm": "collaborative_filtering",
+    "similarity_metric": "cosine"
+  }
+}
+```
+
+#### A/B Testing
+```bash
+POST /experiments
+```
+
+```json
+{
+  "name": "Email Subject Line Test",
+  "hypothesis": "Personalized subject lines increase open rates",
+  "variants": [
+    {
+      "name": "Control",
+      "subject": "Weekly Newsletter"
+    },
+    {
+      "name": "Treatment",
+      "subject": "Hi {first_name}, your weekly update"
     }
-    
-    if (performance.summary.ctr < 2.0) {
-      recommendations.push({
-        type: 'neural_state',
-        action: 'increase_creativity',
-        value: 90,
-        reason: 'Low click-through rate suggests need for more creative content'
-      });
-    }
-    
-    return recommendations;
-  }
-
-  calculateTrend(data, field) {
-    if (data.length < 2) return 'stable';
-    
-    const first = data[0][field];
-    const last = data[data.length - 1][field];
-    const change = ((last - first) / first) * 100;
-    
-    if (change > 10) return 'increasing';
-    if (change < -10) return 'decreasing';
-    return 'stable';
-  }
+  ],
+  "traffic_split": 50,
+  "success_metric": "open_rate"
 }
 ```
 
 ---
 
-## 🧠 Custom Neural Networks
+## 🪝 Webhooks
 
-### Creating Custom Neural Configurations
+### Webhook Configuration
 
+#### Create Webhook
+```bash
+POST /webhooks
+```
+
+```json
+{
+  "url": "https://your-app.com/webhooks/neural",
+  "events": ["campaign.created", "campaign.updated", "campaign.completed"],
+  "secret": "your_webhook_secret",
+  "active": true
+}
+```
+
+#### Webhook Events
+- **campaign.created**: New campaign created
+- **campaign.updated**: Campaign updated
+- **campaign.completed**: Campaign finished
+- **user.registered**: New user registered
+- **payment.processed**: Payment completed
+- **neural_network.trained**: Model training completed
+
+### Webhook Security
+
+#### Signature Verification
 ```javascript
-class CustomNeuralConfig {
-  constructor(client) {
-    this.client = client;
-  }
+const crypto = require('crypto');
 
-  async createCustomConfiguration(config) {
-    try {
-      const customConfig = await this.client.neuralNetworks.createCustom({
-        name: config.name,
-        description: config.description,
-        layers: config.layers,
-        consciousness_level: config.consciousness_level,
-        training_data: config.training_data,
-        parameters: {
-          learning_rate: config.learning_rate || 0.001,
-          batch_size: config.batch_size || 32,
-          epochs: config.epochs || 100,
-          activation_function: config.activation_function || 'relu'
-        }
-      });
-      
-      return customConfig;
-    } catch (error) {
-      console.error('Error creating custom configuration:', error);
-      throw error;
-    }
-  }
+function verifyWebhookSignature(payload, signature, secret) {
+  const expectedSignature = crypto
+    .createHmac('sha256', secret)
+    .update(payload)
+    .digest('hex');
+  
+  return crypto.timingSafeEqual(
+    Buffer.from(signature),
+    Buffer.from(expectedSignature)
+  );
+}
+```
 
-  async trainCustomNetwork(networkId, trainingData) {
-    try {
-      const training = await this.client.neuralNetworks.train(networkId, {
-        data: trainingData,
-        validation_split: 0.2,
-        callbacks: {
-          early_stopping: true,
-          model_checkpoint: true
-        }
-      });
-      
-      return training;
-    } catch (error) {
-      console.error('Error training custom network:', error);
-      throw error;
+#### Webhook Payload
+```json
+{
+  "id": "evt_123456789",
+  "type": "campaign.created",
+  "created": "2024-01-15T10:30:00Z",
+  "data": {
+    "object": {
+      "id": "camp_123",
+      "name": "Summer Campaign",
+      "status": "active"
     }
   }
 }
 ```
 
-### Industry-Specific Neural Presets
+### Webhook Testing
 
-```javascript
-class IndustryNeuralPresets {
-  constructor(client) {
-    this.client = client;
-    this.presets = {
-      ecommerce: {
-        consciousness: 85,
-        awareness: 90,
-        intelligence: 88,
-        creativity: 80,
-        empathy: 95,
-        intuition: 82,
-        wisdom: 85,
-        transcendence: 75
-      },
-      b2b: {
-        consciousness: 90,
-        awareness: 95,
-        intelligence: 95,
-        creativity: 70,
-        empathy: 85,
-        intuition: 80,
-        wisdom: 92,
-        transcendence: 80
-      },
-      healthcare: {
-        consciousness: 88,
-        awareness: 92,
-        intelligence: 94,
-        creativity: 75,
-        empathy: 98,
-        intuition: 85,
-        wisdom: 96,
-        transcendence: 85
-      },
-      technology: {
-        consciousness: 87,
-        awareness: 90,
-        intelligence: 92,
-        creativity: 90,
-        empathy: 80,
-        intuition: 88,
-        wisdom: 88,
-        transcendence: 90
-      }
-    };
-  }
+#### Test Webhook
+```bash
+POST /webhooks/{webhook_id}/test
+```
 
-  async applyIndustryPreset(industry) {
-    const preset = this.presets[industry];
-    if (!preset) {
-      throw new Error(`Unknown industry preset: ${industry}`);
-    }
-
-    try {
-      await this.client.neuralStates.update(preset);
-      console.log(`Applied ${industry} neural preset`);
-      return preset;
-    } catch (error) {
-      console.error('Error applying industry preset:', error);
-      throw error;
-    }
-  }
-
-  getAvailablePresets() {
-    return Object.keys(this.presets);
-  }
-}
+#### Webhook Logs
+```bash
+GET /webhooks/{webhook_id}/logs
 ```
 
 ---
 
-## 🔔 Webhook Integration
-
-### Webhook Setup
-
-```javascript
-class WebhookManager {
-  constructor(client) {
-    this.client = client;
-    this.webhooks = new Map();
-  }
-
-  async createWebhook(config) {
-    try {
-      const webhook = await this.client.webhooks.create({
-        url: config.url,
-        events: config.events,
-        secret: config.secret,
-        active: true
-      });
-      
-      this.webhooks.set(webhook.id, webhook);
-      return webhook;
-    } catch (error) {
-      console.error('Error creating webhook:', error);
-      throw error;
-    }
-  }
-
-  async handleWebhook(req, res) {
-    try {
-      const signature = req.headers['x-neural-signature'];
-      const payload = JSON.stringify(req.body);
-      
-      if (!this.verifySignature(payload, signature, process.env.WEBHOOK_SECRET)) {
-        return res.status(401).json({ error: 'Invalid signature' });
-      }
-      
-      const event = req.body;
-      await this.processEvent(event);
-      
-      res.status(200).json({ success: true });
-    } catch (error) {
-      console.error('Webhook processing error:', error);
-      res.status(500).json({ error: 'Webhook processing failed' });
-    }
-  }
-
-  verifySignature(payload, signature, secret) {
-    const crypto = require('crypto');
-    const expectedSignature = crypto
-      .createHmac('sha256', secret)
-      .update(payload)
-      .digest('hex');
-    
-    return signature === `sha256=${expectedSignature}`;
-  }
-
-  async processEvent(event) {
-    switch (event.event) {
-      case 'neural_state.updated':
-        await this.handleNeuralStateUpdate(event.data);
-        break;
-      case 'campaign.launched':
-        await this.handleCampaignLaunched(event.data);
-        break;
-      case 'campaign.paused':
-        await this.handleCampaignPaused(event.data);
-        break;
-      default:
-        console.log('Unhandled event:', event.event);
-    }
-  }
-
-  async handleNeuralStateUpdate(data) {
-    console.log('Neural states updated:', data);
-    // Implement your custom logic here
-  }
-
-  async handleCampaignLaunched(data) {
-    console.log('Campaign launched:', data);
-    // Implement your custom logic here
-  }
-
-  async handleCampaignPaused(data) {
-    console.log('Campaign paused:', data);
-    // Implement your custom logic here
-  }
-}
-```
-
-### Express.js Webhook Server
-
-```javascript
-const express = require('express');
-const NeuralMarketing = require('@neuralmarketing/sdk');
-
-const app = express();
-app.use(express.json());
-
-const client = new NeuralMarketing({
-  apiKey: process.env.NEURAL_MARKETING_API_KEY
-});
-
-const webhookManager = new WebhookManager(client);
-
-// Webhook endpoint
-app.post('/webhooks/neural-marketing', (req, res) => {
-  webhookManager.handleWebhook(req, res);
-});
-
-// Health check
-app.get('/health', (req, res) => {
-  res.json({ status: 'healthy', timestamp: new Date().toISOString() });
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Webhook server running on port ${PORT}`);
-});
-```
-
----
-
-## 🧪 Testing and Debugging
+## 🧪 Testing
 
 ### Unit Testing
 
+#### JavaScript Example
 ```javascript
-// test/neural-marketing.test.js
 const NeuralMarketing = require('@neuralmarketing/sdk');
-const { mockClient } = require('@neuralmarketing/sdk/test-utils');
 
-describe('Neural Marketing Integration', () => {
+describe('Campaign API', () => {
   let client;
-  let mockApi;
-
+  
   beforeEach(() => {
-    mockApi = mockClient();
     client = new NeuralMarketing({
-      apiKey: 'test-api-key',
-      environment: 'sandbox'
+      apiKey: 'test_api_key',
+      apiSecret: 'test_api_secret'
     });
-    client.setMockClient(mockApi);
   });
-
-  test('should get neural states', async () => {
-    const mockStates = {
-      consciousness: 85.0,
-      awareness: 90.0,
-      intelligence: 88.0
-    };
-
-    mockApi.neuralStates.get.mockResolvedValue(mockStates);
-
-    const states = await client.neuralStates.get();
-    
-    expect(states).toEqual(mockStates);
-    expect(mockApi.neuralStates.get).toHaveBeenCalledTimes(1);
-  });
-
+  
   test('should create campaign', async () => {
-    const campaignData = {
+    const campaign = await client.campaigns.create({
       name: 'Test Campaign',
       type: 'awareness',
-      neural_configuration: {
-        consciousness: 85.0,
-        empathy: 95.0
-      }
-    };
-
-    const mockCampaign = {
-      id: 'camp_123',
-      name: 'Test Campaign',
-      status: 'draft'
-    };
-
-    mockApi.campaigns.create.mockResolvedValue(mockCampaign);
-
-    const campaign = await client.campaigns.create(campaignData);
+      budget: 1000
+    });
     
-    expect(campaign).toEqual(mockCampaign);
-    expect(mockApi.campaigns.create).toHaveBeenCalledWith(campaignData);
+    expect(campaign.name).toBe('Test Campaign');
+    expect(campaign.status).toBe('draft');
   });
 });
+```
+
+#### Python Example
+```python
+import unittest
+from neural_marketing import NeuralMarketing
+
+class TestCampaignAPI(unittest.TestCase):
+    def setUp(self):
+        self.client = NeuralMarketing(
+            api_key='test_api_key',
+            api_secret='test_api_secret'
+        )
+    
+    def test_create_campaign(self):
+        campaign = self.client.campaigns.create({
+            'name': 'Test Campaign',
+            'type': 'awareness',
+            'budget': 1000
+        })
+        
+        self.assertEqual(campaign.name, 'Test Campaign')
+        self.assertEqual(campaign.status, 'draft')
 ```
 
 ### Integration Testing
 
+#### Test Environment
+```bash
+# Use sandbox environment
+export NEURAL_BASE_URL="https://sandbox-api.neuralmarketing.com/v1"
+export NEURAL_API_KEY="sandbox_api_key"
+```
+
+#### Mock Server
 ```javascript
-// test/integration.test.js
-const NeuralMarketing = require('@neuralmarketing/sdk');
+const nock = require('nock');
 
-describe('Neural Marketing Integration Tests', () => {
-  let client;
-
-  beforeAll(() => {
-    client = new NeuralMarketing({
-      apiKey: process.env.TEST_API_KEY,
-      environment: 'sandbox'
-    });
+nock('https://api.neuralmarketing.com')
+  .post('/v1/campaigns')
+  .reply(201, {
+    success: true,
+    data: {
+      id: 'camp_123',
+      name: 'Test Campaign',
+      status: 'draft'
+    }
   });
+```
 
-  test('should connect to API', async () => {
-    const states = await client.neuralStates.get();
-    expect(states).toBeDefined();
-    expect(typeof states.consciousness).toBe('number');
-  });
+### Load Testing
 
-  test('should create and manage campaign', async () => {
-    // Create campaign
-    const campaign = await client.campaigns.create({
-      name: 'Integration Test Campaign',
-      type: 'awareness',
-      neural_configuration: {
-        consciousness: 85.0,
-        empathy: 95.0
+#### Using Artillery
+```yaml
+# artillery-config.yml
+config:
+  target: 'https://api.neuralmarketing.com'
+  phases:
+    - duration: 60
+      arrivalRate: 10
+scenarios:
+  - name: "Create Campaign"
+    requests:
+      - post:
+          url: "/v1/campaigns"
+          headers:
+            Authorization: "Bearer {{ apiKey }}"
+          json:
+            name: "Load Test Campaign"
+            type: "awareness"
+            budget: 1000
+```
+
+---
+
+## 🚀 Deployment
+
+### Environment Configuration
+
+#### Development
+```bash
+export NEURAL_ENV="development"
+export NEURAL_BASE_URL="https://dev-api.neuralmarketing.com/v1"
+export NEURAL_API_KEY="dev_api_key"
+```
+
+#### Staging
+```bash
+export NEURAL_ENV="staging"
+export NEURAL_BASE_URL="https://staging-api.neuralmarketing.com/v1"
+export NEURAL_API_KEY="staging_api_key"
+```
+
+#### Production
+```bash
+export NEURAL_ENV="production"
+export NEURAL_BASE_URL="https://api.neuralmarketing.com/v1"
+export NEURAL_API_KEY="prod_api_key"
+```
+
+### CI/CD Integration
+
+#### GitHub Actions
+```yaml
+name: Deploy to Neural Marketing
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      
+      - name: Install dependencies
+        run: npm install
+      
+      - name: Run tests
+        run: npm test
+        env:
+          NEURAL_API_KEY: ${{ secrets.NEURAL_API_KEY }}
+      
+      - name: Deploy
+        run: npm run deploy
+        env:
+          NEURAL_API_KEY: ${{ secrets.NEURAL_API_KEY }}
+```
+
+### Docker Deployment
+
+#### Dockerfile
+```dockerfile
+FROM node:16-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+
+EXPOSE 3000
+
+CMD ["npm", "start"]
+```
+
+#### Docker Compose
+```yaml
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NEURAL_API_KEY=${NEURAL_API_KEY}
+      - NEURAL_BASE_URL=${NEURAL_BASE_URL}
+    depends_on:
+      - redis
+      - postgres
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  postgres:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=neural_marketing
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5432:5432"
+```
+
+---
+
+## 📋 Best Practices
+
+### API Usage
+
+#### Rate Limiting
+```javascript
+// Implement exponential backoff
+async function apiCallWithRetry(url, options, maxRetries = 3) {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      const response = await fetch(url, options);
+      
+      if (response.status === 429) {
+        const retryAfter = response.headers.get('Retry-After');
+        await new Promise(resolve => 
+          setTimeout(resolve, retryAfter * 1000)
+        );
+        continue;
       }
-    });
+      
+      return response;
+    } catch (error) {
+      if (i === maxRetries - 1) throw error;
+      await new Promise(resolve => 
+        setTimeout(resolve, Math.pow(2, i) * 1000)
+      );
+    }
+  }
+}
+```
 
-    expect(campaign.id).toBeDefined();
-    expect(campaign.name).toBe('Integration Test Campaign');
+#### Error Handling
+```javascript
+async function handleApiResponse(response) {
+  if (!response.ok) {
+    const error = await response.json();
+    
+    switch (response.status) {
+      case 400:
+        throw new ValidationError(error.message);
+      case 401:
+        throw new AuthenticationError('Invalid API key');
+      case 403:
+        throw new AuthorizationError('Insufficient permissions');
+      case 429:
+        throw new RateLimitError('Rate limit exceeded');
+      default:
+        throw new ApiError(error.message);
+    }
+  }
+  
+  return response.json();
+}
+```
 
-    // Get campaign
-    const retrievedCampaign = await client.campaigns.get(campaign.id);
-    expect(retrievedCampaign.id).toBe(campaign.id);
+#### Caching
+```javascript
+const cache = new Map();
 
-    // Update campaign
-    const updatedCampaign = await client.campaigns.update(campaign.id, {
-      name: 'Updated Integration Test Campaign'
-    });
-    expect(updatedCampaign.name).toBe('Updated Integration Test Campaign');
-
-    // Clean up
-    await client.campaigns.delete(campaign.id);
+async function getCachedData(key, fetchFunction, ttl = 300000) {
+  const cached = cache.get(key);
+  
+  if (cached && Date.now() - cached.timestamp < ttl) {
+    return cached.data;
+  }
+  
+  const data = await fetchFunction();
+  cache.set(key, {
+    data,
+    timestamp: Date.now()
   });
+  
+  return data;
+}
+```
+
+### Security
+
+#### API Key Management
+```javascript
+// Never expose API keys in client-side code
+// Use environment variables
+const apiKey = process.env.NEURAL_API_KEY;
+
+// Rotate API keys regularly
+// Use different keys for different environments
+```
+
+#### Input Validation
+```javascript
+function validateCampaignData(data) {
+  const schema = {
+    name: { type: 'string', required: true, maxLength: 100 },
+    type: { type: 'string', required: true, enum: ['awareness', 'conversion'] },
+    budget: { type: 'number', required: true, min: 0, max: 1000000 }
+  };
+  
+  return validateSchema(data, schema);
+}
+```
+
+### Performance
+
+#### Connection Pooling
+```javascript
+const { Pool } = require('pg');
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  max: 20,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
 });
 ```
 
-### Debugging Tools
-
+#### Async Processing
 ```javascript
-class DebugLogger {
-  constructor(level = 'info') {
-    this.level = level;
-    this.levels = {
-      error: 0,
-      warn: 1,
-      info: 2,
-      debug: 3
-    };
-  }
-
-  log(level, message, data = null) {
-    if (this.levels[level] <= this.levels[this.level]) {
-      const timestamp = new Date().toISOString();
-      const logEntry = {
-        timestamp,
-        level,
-        message,
-        data
-      };
-      
-      console.log(JSON.stringify(logEntry, null, 2));
-    }
-  }
-
-  error(message, data) {
-    this.log('error', message, data);
-  }
-
-  warn(message, data) {
-    this.log('warn', message, data);
-  }
-
-  info(message, data) {
-    this.log('info', message, data);
-  }
-
-  debug(message, data) {
-    this.log('debug', message, data);
-  }
+// Use async/await for better error handling
+async function processCampaigns(campaigns) {
+  const results = await Promise.allSettled(
+    campaigns.map(campaign => processCampaign(campaign))
+  );
+  
+  return results.map((result, index) => ({
+    campaign: campaigns[index],
+    success: result.status === 'fulfilled',
+    data: result.status === 'fulfilled' ? result.value : null,
+    error: result.status === 'rejected' ? result.reason : null
+  }));
 }
+```
 
-// Usage
-const logger = new DebugLogger('debug');
+### Monitoring
 
-class MarketingIntegration {
-  constructor(client) {
-    this.client = client;
-    this.logger = new DebugLogger('debug');
-  }
+#### Logging
+```javascript
+const winston = require('winston');
 
-  async createCampaign(data) {
-    this.logger.debug('Creating campaign', { campaignData: data });
-    
-    try {
-      const campaign = await this.client.campaigns.create(data);
-      this.logger.info('Campaign created successfully', { campaignId: campaign.id });
-      return campaign;
-    } catch (error) {
-      this.logger.error('Failed to create campaign', { error: error.message });
-      throw error;
-    }
-  }
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.errors({ stack: true }),
+    winston.format.json()
+  ),
+  transports: [
+    new winston.transports.File({ filename: 'error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'combined.log' })
+  ]
+});
+
+// Log API calls
+logger.info('API call made', {
+  endpoint: '/campaigns',
+  method: 'POST',
+  statusCode: 201,
+  responseTime: 150
+});
+```
+
+#### Metrics
+```javascript
+const prometheus = require('prom-client');
+
+const apiCallCounter = new prometheus.Counter({
+  name: 'neural_api_calls_total',
+  help: 'Total number of API calls',
+  labelNames: ['method', 'endpoint', 'status']
+});
+
+const apiCallDuration = new prometheus.Histogram({
+  name: 'neural_api_call_duration_seconds',
+  help: 'Duration of API calls',
+  labelNames: ['method', 'endpoint']
+});
+
+// Record metrics
+const timer = apiCallDuration.startTimer();
+try {
+  const response = await apiCall();
+  apiCallCounter.inc({ method: 'POST', endpoint: '/campaigns', status: 'success' });
+} catch (error) {
+  apiCallCounter.inc({ method: 'POST', endpoint: '/campaigns', status: 'error' });
+} finally {
+  timer();
 }
 ```
 
 ---
 
-## 🎯 Best Practices
+## 📞 Support & Resources
 
-### Error Handling
+### Developer Support
+- **Documentation**: https://docs.neuralmarketing.com
+- **API Reference**: https://api.neuralmarketing.com/docs
+- **GitHub**: https://github.com/neural-marketing
+- **Stack Overflow**: Tag: `neural-marketing`
 
-```javascript
-class RobustMarketingIntegration {
-  constructor(client) {
-    this.client = client;
-    this.retryConfig = {
-      maxRetries: 3,
-      baseDelay: 1000,
-      maxDelay: 10000
-    };
-  }
+### Community
+- **Discord**: Join our developer community
+- **Slack**: Enterprise developer support
+- **Forums**: Community discussions
+- **Blog**: Technical articles and updates
 
-  async withRetry(operation, context = '') {
-    let lastError;
-    
-    for (let attempt = 1; attempt <= this.retryConfig.maxRetries; attempt++) {
-      try {
-        return await operation();
-      } catch (error) {
-        lastError = error;
-        
-        if (this.isRetryableError(error) && attempt < this.retryConfig.maxRetries) {
-          const delay = this.calculateDelay(attempt);
-          console.log(`Retry ${attempt}/${this.retryConfig.maxRetries} for ${context} in ${delay}ms`);
-          await this.sleep(delay);
-        } else {
-          throw error;
-        }
-      }
-    }
-    
-    throw lastError;
-  }
-
-  isRetryableError(error) {
-    const retryableStatusCodes = [429, 500, 502, 503, 504];
-    return retryableStatusCodes.includes(error.status) || 
-           error.code === 'ECONNRESET' ||
-           error.code === 'ETIMEDOUT';
-  }
-
-  calculateDelay(attempt) {
-    const delay = this.retryConfig.baseDelay * Math.pow(2, attempt - 1);
-    return Math.min(delay, this.retryConfig.maxDelay);
-  }
-
-  sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
-  async createCampaign(data) {
-    return this.withRetry(
-      () => this.client.campaigns.create(data),
-      'createCampaign'
-    );
-  }
-}
-```
-
-### Performance Optimization
-
-```javascript
-class OptimizedMarketingIntegration {
-  constructor(client) {
-    this.client = client;
-    this.cache = new Map();
-    this.cacheTimeout = 5 * 60 * 1000; // 5 minutes
-  }
-
-  async getCachedNeuralStates() {
-    const cacheKey = 'neural_states';
-    const cached = this.cache.get(cacheKey);
-    
-    if (cached && Date.now() - cached.timestamp < this.cacheTimeout) {
-      return cached.data;
-    }
-    
-    const states = await this.client.neuralStates.get();
-    this.cache.set(cacheKey, {
-      data: states,
-      timestamp: Date.now()
-    });
-    
-    return states;
-  }
-
-  async batchUpdateNeuralStates(updates) {
-    // Batch multiple updates into a single API call
-    const currentStates = await this.getCachedNeuralStates();
-    const newStates = { ...currentStates, ...updates };
-    
-    const updatedStates = await this.client.neuralStates.update(newStates);
-    
-    // Update cache
-    this.cache.set('neural_states', {
-      data: updatedStates,
-      timestamp: Date.now()
-    });
-    
-    return updatedStates;
-  }
-
-  clearCache() {
-    this.cache.clear();
-  }
-}
-```
-
-### Security Best Practices
-
-```javascript
-class SecureMarketingIntegration {
-  constructor(client) {
-    this.client = client;
-    this.encryptionKey = process.env.ENCRYPTION_KEY;
-  }
-
-  encryptSensitiveData(data) {
-    const crypto = require('crypto');
-    const cipher = crypto.createCipher('aes-256-cbc', this.encryptionKey);
-    let encrypted = cipher.update(JSON.stringify(data), 'utf8', 'hex');
-    encrypted += cipher.final('hex');
-    return encrypted;
-  }
-
-  decryptSensitiveData(encryptedData) {
-    const crypto = require('crypto');
-    const decipher = crypto.createDecipher('aes-256-cbc', this.encryptionKey);
-    let decrypted = decipher.update(encryptedData, 'hex', 'utf8');
-    decrypted += decipher.final('utf8');
-    return JSON.parse(decrypted);
-  }
-
-  validateApiKey(apiKey) {
-    // Validate API key format
-    const apiKeyRegex = /^nm_[a-zA-Z0-9]{32}$/;
-    return apiKeyRegex.test(apiKey);
-  }
-
-  sanitizeInput(input) {
-    // Remove potentially dangerous characters
-    return input.replace(/[<>\"'&]/g, '');
-  }
-}
-```
+### Contact
+- **Developer Support**: developers@neuralmarketing.com
+- **Technical Issues**: support@neuralmarketing.com
+- **Partnership**: partnerships@neuralmarketing.com
 
 ---
 
-## 🔧 Troubleshooting
+*This developer guide is regularly updated to reflect the latest API changes and features. Last updated: January 2024*
 
-### Common Issues
-
-#### 1. Authentication Errors
-
-```javascript
-// Check API key validity
-async function validateApiKey(apiKey) {
-  try {
-    const client = new NeuralMarketing({ apiKey, environment: 'sandbox' });
-    await client.neuralStates.get();
-    return true;
-  } catch (error) {
-    if (error.status === 401) {
-      console.error('Invalid API key');
-      return false;
-    }
-    throw error;
-  }
-}
-```
-
-#### 2. Rate Limiting
-
-```javascript
-// Handle rate limiting with exponential backoff
-async function handleRateLimit(operation) {
-  try {
-    return await operation();
-  } catch (error) {
-    if (error.status === 429) {
-      const retryAfter = error.retryAfter || 60;
-      console.log(`Rate limited. Retrying after ${retryAfter} seconds`);
-      await sleep(retryAfter * 1000);
-      return handleRateLimit(operation);
-    }
-    throw error;
-  }
-}
-```
-
-#### 3. Network Issues
-
-```javascript
-// Robust network error handling
-class NetworkResilientClient {
-  constructor(baseClient) {
-    this.client = baseClient;
-  }
-
-  async executeWithFallback(operation, fallbackOperation) {
-    try {
-      return await operation();
-    } catch (error) {
-      if (this.isNetworkError(error)) {
-        console.log('Network error, trying fallback');
-        return await fallbackOperation();
-      }
-      throw error;
-    }
-  }
-
-  isNetworkError(error) {
-    return error.code === 'ECONNRESET' ||
-           error.code === 'ETIMEDOUT' ||
-           error.code === 'ENOTFOUND';
-  }
-}
-```
-
-### Debugging Checklist
-
-1. **Verify API Key**: Check if your API key is valid and has correct permissions
-2. **Check Network**: Ensure stable internet connection
-3. **Validate Data**: Verify request data format and required fields
-4. **Monitor Rate Limits**: Check if you're hitting rate limits
-5. **Review Logs**: Check application logs for detailed error information
-6. **Test in Sandbox**: Use sandbox environment for testing
-7. **Check Status Page**: Verify API service status
-
-### Getting Help
-
-- **Documentation**: [https://docs.neuralmarketing.ai](https://docs.neuralmarketing.ai)
-- **API Reference**: [https://api.neuralmarketing.ai/docs](https://api.neuralmarketing.ai/docs)
-- **Community Forum**: [https://community.neuralmarketing.ai](https://community.neuralmarketing.ai)
-- **Support Email**: dev-support@neuralmarketing.ai
-- **GitHub Issues**: [https://github.com/neuralmarketing/sdk/issues](https://github.com/neuralmarketing/sdk/issues)
-
----
-
-*This developer guide provides comprehensive information for integrating with the Neural Marketing Consciousness System. For additional support, contact our developer support team at dev-support@neuralmarketing.ai* 🧠✨
-
----
-
-**Ready to build amazing integrations?** [Get started with our SDK!](https://neuralmarketing.ai/developers) 🚀
-
+**© 2024 Neural Marketing Consciousness System. All rights reserved.**

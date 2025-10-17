@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Due Diligence Dashboard - Frontier AI Marketing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+        }
+        
+        .header h1 {
+            font-size: 3.5em;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+        
+        .header p {
+            font-size: 1.3em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .ai-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .metric-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+        }
+        
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+        
+        .metric-card h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            font-weight: 700;
+        }
+        
+        .score-display {
+            font-size: 4em;
+            font-weight: 900;
+            margin: 15px 0;
+            text-align: center;
+        }
+        
+        .score-excellent { color: #28a745; }
+        .score-good { color: #20c997; }
+        .score-fair { color: #ffc107; }
+        .score-poor { color: #dc3545; }
+        
+        .progress-container {
+            margin: 20px 0;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 15px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #20c997, #17a2b8);
+            transition: width 0.8s ease;
+            border-radius: 10px;
+            position: relative;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .risk-indicator {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 0.9em;
+            margin: 10px 0;
+        }
+        
+        .risk-low { background: #d4edda; color: #155724; }
+        .risk-medium { background: #fff3cd; color: #856404; }
+        .risk-high { background: #f8d7da; color: #721c24; }
+        .risk-critical { background: #f5c6cb; color: #721c24; }
+        
+        .ai-insights {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        
+        .ai-insights h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            font-weight: 700;
+        }
+        
+        .insight-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .insight-item.warning {
+            border-left-color: #ffc107;
+            background: #fff3cd;
+        }
+        
+        .insight-item.danger {
+            border-left-color: #dc3545;
+            background: #f8d7da;
+        }
+        
+        .insight-item.success {
+            border-left-color: #28a745;
+            background: #d4edda;
+        }
+        
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .category-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+        
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .category-title {
+            font-size: 1.6em;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .category-score {
+            font-size: 2.2em;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .item-list {
+            list-style: none;
+        }
+        
+        .item-list li {
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+        
+        .item-list li:hover {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        
+        .item-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .item-name {
+            flex: 1;
+            margin-left: 15px;
+            font-weight: 500;
+        }
+        
+        .item-points {
+            font-weight: bold;
+            color: #667eea;
+            background: #f0f0f0;
+            padding: 5px 12px;
+            border-radius: 15px;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .status-not-started { background: #6c757d; }
+        .status-in-progress { background: #007bff; }
+        .status-completed { background: #28a745; }
+        .status-validated { background: #20c997; }
+        
+        .timeline {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        
+        .timeline h3 {
+            color: #667eea;
+            margin-bottom: 25px;
+            font-size: 1.6em;
+            font-weight: 700;
+        }
+        
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .timeline-week {
+            font-weight: bold;
+            color: #667eea;
+            margin-right: 20px;
+            min-width: 100px;
+            font-size: 1.1em;
+        }
+        
+        .timeline-content {
+            flex: 1;
+        }
+        
+        .timeline-progress {
+            width: 120px;
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .timeline-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #20c997);
+            transition: width 0.5s ease;
+        }
+        
+        .controls {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 30px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .export-btn {
+            background: linear-gradient(135deg, #28a745, #20c997);
+        }
+        
+        .refresh-btn {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+        }
+        
+        .ai-btn {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+        }
+        
+        .success-probability {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .success-probability h4 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        
+        .success-probability .probability {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2.5em;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn {
+                margin: 5px;
+                padding: 12px 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Advanced Due Diligence Dashboard</h1>
+            <p>Frontier AI Marketing Platform - AI-Powered Investment Readiness Assessment</p>
+            <div class="ai-badge">🤖 AI-Powered Analysis</div>
+        </div>
+        
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <h3>📊 Overall Score</h3>
+                <div class="score-display score-poor" id="overall-score">0</div>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="overall-progress" style="width: 0%"></div>
+                    </div>
+                    <p style="text-align: center; margin-top: 10px;">Target: 900+ points</p>
+                </div>
+            </div>
+            
+            <div class="metric-card">
+                <h3>⚠️ Risk Level</h3>
+                <div class="risk-indicator risk-critical" id="risk-level">Critical</div>
+                <div style="margin-top: 15px;">
+                    <p><strong>Critical Issues:</strong> <span id="critical-issues">0</span></p>
+                    <p><strong>High Priority:</strong> <span id="high-priority">0</span></p>
+                    <p><strong>AI Alerts:</strong> <span id="ai-alerts">0</span></p>
+                </div>
+            </div>
+            
+            <div class="metric-card">
+                <h3>📈 Completion Status</h3>
+                <div class="score-display score-poor" id="completion-percentage">0%</div>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="completion-progress" style="width: 0%"></div>
+                    </div>
+                    <p style="text-align: center; margin-top: 10px;">
+                        <span id="completed-items">0</span> / <span id="total-items">200+</span> items
+                    </p>
+                </div>
+            </div>
+            
+            <div class="metric-card">
+                <h3>🎯 Investment Grade</h3>
+                <div class="score-display score-poor" id="investment-grade">F</div>
+                <div class="success-probability">
+                    <h4>Success Probability</h4>
+                    <div class="probability" id="success-probability">0%</div>
+                </div>
+                <p><strong>Recommendation:</strong> <span id="recommendation">Not Ready</span></p>
+            </div>
+        </div>
+        
+        <div class="ai-insights">
+            <h3>🤖 AI-Powered Insights</h3>
+            <div id="ai-insights-list">
+                <div class="insight-item warning">
+                    <strong>⚠️ Risk Alert:</strong> Financial projections need validation with 3+ data sources
+                </div>
+                <div class="insight-item danger">
+                    <strong>🚨 Critical:</strong> No legal compliance documentation found
+                </div>
+                <div class="insight-item">
+                    <strong>💡 Optimization:</strong> Consider implementing automated financial reporting
+                </div>
+            </div>
+        </div>
+        
+        <div class="category-grid">
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-title">💰 Financial Model</div>
+                    <div class="category-score" id="financial-score">0/250</div>
+                </div>
+                <ul class="item-list">
+                    <li>
+                        <span class="status-indicator status-not-started"></span>
+                        <span class="item-name">Revenue Projections (3-Year)</span>
+                        <span class="item-points">0/100</span>
+                    </li>
+                    <li>
+                        <span class="status-indicator status-not-started"></span>
+                        <span class="item-name">Unit Economics Validation</span>
+                        <span class="item-points">0/50</span>
+                    </li>
+                    <li>
+                        <span class="status-indicator status-not-started"></span>
+                        <span class="item-name">Financial Controls</span>
+                        <span class="item-points">0/50</span>
+                    </li>
+                    <li>
+                        <span class="status-indicator status-not-started"></span>
+                        <span class="item-name">Funding Structure</span>
+                        <span class="item-points">0/50</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-title">🏗️ Technology & Product</div>
+                    <div class="category-score" id="technology-score">0/200</div>
+                </div>
+                <ul class="item-list">
+                    <li>
+                        <span class="status-indicator status-not-started"></span>
+                        <span class="item-name">System Architecture</span>
+                        <span class="item-points">0/50</span>
+                    </li>
+                    <li>
+                        <span class="status-indicator status-not-started"></span>
+                        <span class="item-name">AI/ML Capabilities</span>
+                        <span class="item-points">0/50</span>
+                    </li>
+                    <li>
+                        <span class="status-indicator status-not-started"></span>
+                        <span class="item-name">Security & Compliance</span>
+                        <span class="item-points">0/50</span>
+                    </li>
+                    <li>
+                        <span class="status-indicator status-not-started"></span>
+                        <span class="item-name">Performance & Scalability</span>
+                        <span class="item-points">0/50</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-title">📊 Market & Competition</div>
+                    <div class="category-score" id="market-score">0/200</div>
+                </div>
+                <ul class="item-list">
+                    <li>
+                        <span class="status-indicator status-not-started"></span>
+                        <span class="item-name">TAM/SAM/SOM Analysis</span>
+                        <span class="item-points">0/75</span>
+                    </li>
+                    <li>
+                        <span class="status-indicator status-not-started"></span>
+                        <span class="item-name">Competitive Analysis</span>
+                        <span class="item-points">0/75</span>
+                    </li>
+                    <li>
+                        <span class="status-indicator status-not-started"></span>
+                        <span class="item-name">Customer Validation</span>
+                        <span class="item-points">0/30</span>
+                    </li>
+                    <li>
+                        <span class="status-indicator status-not-started"></span>
+                        <span class="item-name">Go-to-Market Strategy</span>
+                        <span class="item-points">0/20</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-title">👥 Team & Leadership</div>
+                    <div class="category-score" id="team-score">0/150</div>
+                </div>
+                <ul class="item-list">
+                    <li>
+                        <span class="status-indicator status-not-started"></span>
+                        <span class="item-name">Leadership Team</span>
+                        <span class="item-points">0/75</span>
+                    </li>
+                    <li>
+                        <span class="status-indicator status-not-started"></span>
+                        <span class="item-name">Team Structure</span>
+                        <span class="item-points">0/60</span>
+                    </li>
+                    <li>
+                        <span class="status-indicator status-not-started"></span>
+                        <span class="item-name">Culture & Operations</span>
+                        <span class="item-points">0/15</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-title">⚖️ Legal & Compliance</div>
+                    <div class="category-score" id="legal-score">0/100</div>
+                </div>
+                <ul class="item-list">
+                    <li>
+                        <span class="status-indicator status-not-started"></span>
+                        <span class="item-name">Corporate Structure</span>
+                        <span class="item-points">0/50</span>
+                    </li>
+                    <li>
+                        <span class="status-indicator status-not-started"></span>
+                        <span class="item-name">Regulatory Compliance</span>
+                        <span class="item-points">0/50</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-title">🚀 Operations & Risk</div>
+                    <div class="category-score" id="operations-score">0/100</div>
+                </div>
+                <ul class="item-list">
+                    <li>
+                        <span class="status-indicator status-not-started"></span>
+                        <span class="item-name">Business Operations</span>
+                        <span class="item-points">0/50</span>
+                    </li>
+                    <li>
+                        <span class="status-indicator status-not-started"></span>
+                        <span class="item-name">Risk Management</span>
+                        <span class="item-points">0/50</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="timeline">
+            <h3>📅 AI-Powered Execution Timeline</h3>
+            <div class="timeline-item">
+                <div class="timeline-week">Week 1-2</div>
+                <div class="timeline-content">
+                    <strong>Phase 1: Foundation & AI Analysis</strong><br>
+                    Financial validation, legal compliance, technical review, AI risk assessment
+                </div>
+                <div class="timeline-progress">
+                    <div class="timeline-fill" id="phase1-progress" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-week">Week 3-4</div>
+                <div class="timeline-content">
+                    <strong>Phase 2: Deep Dive & AI Optimization</strong><br>
+                    Operational assessment, team evaluation, customer analysis, AI insights
+                </div>
+                <div class="timeline-progress">
+                    <div class="timeline-fill" id="phase2-progress" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-week">Week 5-6</div>
+                <div class="timeline-content">
+                    <strong>Phase 3: AI Validation & Prediction</strong><br>
+                    Final review, reference checks, AI-powered recommendation, success prediction
+                </div>
+                <div class="timeline-progress">
+                    <div class="timeline-fill" id="phase3-progress" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn refresh-btn" onclick="refreshData()">🔄 Refresh Data</button>
+            <button class="btn export-btn" onclick="exportReport()">📊 Export Report</button>
+            <button class="btn ai-btn" onclick="runAIAnalysis()">🤖 Run AI Analysis</button>
+            <button class="btn" onclick="simulateProgress()">▶️ Simulate Progress</button>
+        </div>
+    </div>
+    
+    <script>
+        // Enhanced data structure with AI insights
+        const dueDiligenceData = {
+            categories: {
+                financial: { score: 0, maxScore: 250, weight: 0.25, aiWeight: 0.3 },
+                technology: { score: 0, maxScore: 200, weight: 0.20, aiWeight: 0.4 },
+                market: { score: 0, maxScore: 200, weight: 0.20, aiWeight: 0.2 },
+                team: { score: 0, maxScore: 150, weight: 0.15, aiWeight: 0.3 },
+                legal: { score: 0, maxScore: 100, weight: 0.10, aiWeight: 0.1 },
+                operations: { score: 0, maxScore: 100, weight: 0.10, aiWeight: 0.2 }
+            },
+            items: {
+                completed: 0,
+                total: 200
+            },
+            risk: {
+                level: 'critical',
+                criticalIssues: 0,
+                highPriority: 0,
+                aiAlerts: 0
+            },
+            aiInsights: []
+        };
+        
+        function calculateAdvancedScore() {
+            let totalScore = 0;
+            let weightedScore = 0;
+            let aiAdjustedScore = 0;
+            
+            Object.keys(dueDiligenceData.categories).forEach(category => {
+                const categoryData = dueDiligenceData.categories[category];
+                totalScore += categoryData.score;
+                weightedScore += categoryData.score * categoryData.weight;
+                aiAdjustedScore += categoryData.score * categoryData.weight * (1 + categoryData.aiWeight * 0.1);
+            });
+            
+            return {
+                totalScore: totalScore,
+                weightedScore: weightedScore,
+                aiAdjustedScore: aiAdjustedScore,
+                percentage: (totalScore / 1000) * 100
+            };
+        }
+        
+        function getScoreClass(score, maxScore) {
+            const percentage = (score / maxScore) * 100;
+            if (percentage >= 90) return 'score-excellent';
+            if (percentage >= 75) return 'score-good';
+            if (percentage >= 50) return 'score-fair';
+            return 'score-poor';
+        }
+        
+        function getRiskLevel(score) {
+            if (score >= 900) return { level: 'low', class: 'risk-low' };
+            if (score >= 750) return { level: 'medium', class: 'risk-medium' };
+            if (score >= 500) return { level: 'high', class: 'risk-high' };
+            return { level: 'critical', class: 'risk-critical' };
+        }
+        
+        function getInvestmentGrade(score) {
+            if (score >= 950) return 'A+';
+            if (score >= 900) return 'A';
+            if (score >= 850) return 'B+';
+            if (score >= 800) return 'B';
+            if (score >= 750) return 'C+';
+            if (score >= 700) return 'C';
+            return 'F';
+        }
+        
+        function getRecommendation(score) {
+            if (score >= 950) return 'Strong Buy';
+            if (score >= 900) return 'Buy';
+            if (score >= 850) return 'Hold';
+            if (score >= 800) return 'Caution';
+            if (score >= 750) return 'Avoid';
+            return 'Not Ready';
+        }
+        
+        function calculateSuccessProbability(score, aiInsights) {
+            let baseProbability = (score / 1000) * 100;
+            
+            // AI insights adjustment
+            aiInsights.forEach(insight => {
+                if (insight.type === 'positive') baseProbability += 5;
+                if (insight.type === 'negative') baseProbability -= 10;
+                if (insight.type === 'critical') baseProbability -= 20;
+            });
+            
+            return Math.max(0, Math.min(100, baseProbability));
+        }
+        
+        function generateAIInsights() {
+            const insights = [
+                { type: 'warning', text: 'Financial projections need validation with 3+ data sources' },
+                { type: 'danger', text: 'No legal compliance documentation found' },
+                { type: 'info', text: 'Consider implementing automated financial reporting' },
+                { type: 'success', text: 'Strong market opportunity identified' },
+                { type: 'warning', text: 'Team scaling plan needs refinement' },
+                { type: 'info', text: 'AI integration shows promising results' }
+            ];
+            
+            return insights[Math.floor(Math.random() * insights.length)];
+        }
+        
+        function updateDashboard() {
+            const overall = calculateAdvancedScore();
+            
+            // Update overall score
+            document.getElementById('overall-score').textContent = overall.totalScore;
+            document.getElementById('overall-score').className = `score-display ${getScoreClass(overall.totalScore, 1000)}`;
+            document.getElementById('overall-progress').style.width = overall.percentage + '%';
+            
+            // Update risk level
+            const risk = getRiskLevel(overall.totalScore);
+            const riskElement = document.getElementById('risk-level');
+            riskElement.textContent = risk.level.charAt(0).toUpperCase() + risk.level.slice(1);
+            riskElement.className = `risk-indicator ${risk.class}`;
+            
+            // Update completion status
+            const completionPercentage = (dueDiligenceData.items.completed / dueDiligenceData.items.total) * 100;
+            document.getElementById('completion-percentage').textContent = Math.round(completionPercentage) + '%';
+            document.getElementById('completion-percentage').className = `score-display ${getScoreClass(dueDiligenceData.items.completed, dueDiligenceData.items.total)}`;
+            document.getElementById('completion-progress').style.width = completionPercentage + '%';
+            document.getElementById('completed-items').textContent = dueDiligenceData.items.completed;
+            document.getElementById('total-items').textContent = dueDiligenceData.items.total;
+            
+            // Update investment grade and success probability
+            const grade = getInvestmentGrade(overall.totalScore);
+            const recommendation = getRecommendation(overall.totalScore);
+            const successProbability = calculateSuccessProbability(overall.totalScore, dueDiligenceData.aiInsights);
+            
+            document.getElementById('investment-grade').textContent = grade;
+            document.getElementById('investment-grade').className = `score-display ${getScoreClass(overall.totalScore, 1000)}`;
+            document.getElementById('recommendation').textContent = recommendation;
+            document.getElementById('success-probability').textContent = Math.round(successProbability) + '%';
+            
+            // Update category scores
+            Object.keys(dueDiligenceData.categories).forEach(category => {
+                const categoryData = dueDiligenceData.categories[category];
+                const element = document.getElementById(category + '-score');
+                element.textContent = `${categoryData.score}/${categoryData.maxScore}`;
+            });
+            
+            // Update risk metrics
+            document.getElementById('critical-issues').textContent = dueDiligenceData.risk.criticalIssues;
+            document.getElementById('high-priority').textContent = dueDiligenceData.risk.highPriority;
+            document.getElementById('ai-alerts').textContent = dueDiligenceData.risk.aiAlerts;
+            
+            // Update last updated time
+            document.getElementById('last-updated').textContent = new Date().toLocaleString();
+        }
+        
+        function refreshData() {
+            console.log('Refreshing data with AI analysis...');
+            updateDashboard();
+        }
+        
+        function runAIAnalysis() {
+            console.log('Running AI analysis...');
+            
+            // Simulate AI analysis
+            const newInsight = generateAIInsights();
+            dueDiligenceData.aiInsights.push(newInsight);
+            
+            // Update AI insights display
+            const insightsList = document.getElementById('ai-insights-list');
+            const insightElement = document.createElement('div');
+            insightElement.className = `insight-item ${newInsight.type}`;
+            insightElement.innerHTML = `<strong>🤖 AI Insight:</strong> ${newInsight.text}`;
+            insightsList.appendChild(insightElement);
+            
+            // Update AI alerts count
+            dueDiligenceData.risk.aiAlerts++;
+            
+            updateDashboard();
+        }
+        
+        function exportReport() {
+            const overall = calculateAdvancedScore();
+            const report = {
+                timestamp: new Date().toISOString(),
+                overallScore: overall.totalScore,
+                weightedScore: overall.weightedScore,
+                aiAdjustedScore: overall.aiAdjustedScore,
+                percentage: overall.percentage,
+                investmentGrade: getInvestmentGrade(overall.totalScore),
+                recommendation: getRecommendation(overall.totalScore),
+                successProbability: calculateSuccessProbability(overall.totalScore, dueDiligenceData.aiInsights),
+                categories: dueDiligenceData.categories,
+                risk: dueDiligenceData.risk,
+                aiInsights: dueDiligenceData.aiInsights
+            };
+            
+            const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'advanced-due-diligence-report.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        function simulateProgress() {
+            const interval = setInterval(() => {
+                let hasProgress = false;
+                
+                Object.keys(dueDiligenceData.categories).forEach(category => {
+                    const categoryData = dueDiligenceData.categories[category];
+                    if (categoryData.score < categoryData.maxScore) {
+                        const increment = Math.floor(Math.random() * 25) + 5;
+                        categoryData.score += increment;
+                        if (categoryData.score > categoryData.maxScore) {
+                            categoryData.score = categoryData.maxScore;
+                        }
+                        hasProgress = true;
+                    }
+                });
+                
+                if (dueDiligenceData.items.completed < dueDiligenceData.items.total) {
+                    dueDiligenceData.items.completed += Math.floor(Math.random() * 8) + 2;
+                    if (dueDiligenceData.items.completed > dueDiligenceData.items.total) {
+                        dueDiligenceData.items.completed = dueDiligenceData.items.total;
+                    }
+                    hasProgress = true;
+                }
+                
+                // Simulate AI insights
+                if (Math.random() < 0.3) {
+                    runAIAnalysis();
+                }
+                
+                updateDashboard();
+                
+                if (!hasProgress) {
+                    clearInterval(interval);
+                }
+            }, 800);
+        }
+        
+        // Initialize dashboard
+        updateDashboard();
+        
+        // Auto-refresh every 30 seconds
+        setInterval(refreshData, 30000);
+        
+        // Auto AI analysis every 2 minutes
+        setInterval(runAIAnalysis, 120000);
+    </script>
+</body>
+</html>

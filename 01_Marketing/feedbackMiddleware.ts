@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-import { customerFeedbackService } from '../services/customerFeedbackService';
 
 export interface FeedbackRequest extends Request {
   feedback?: any;

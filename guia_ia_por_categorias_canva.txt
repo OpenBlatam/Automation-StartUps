@@ -1,0 +1,108 @@
+🎯 GUÍA POR CATEGORÍAS: HERRAMIENTAS DE IA GRATUITAS
+═══════════════════════════════════════════════════════════════
+Organizada por tipo de uso - Enero 2025
+
+📝 PARA ESCRITORES Y CONTENIDO
+───────────────────────────────────────────────────────────────
+• ChatGPT - Escritura y edición de texto
+• Claude 4 - Análisis de documentos largos
+• Grammarly - Corrección de gramática
+• DeepL - Traducción precisa
+• AI Suggests - Ideas de contenido
+• Tome - Presentaciones automáticas
+
+🎨 PARA DISEÑADORES Y ARTISTAS
+───────────────────────────────────────────────────────────────
+• DALL-E 2 - Generación de arte digital
+• Leonardo.AI - Ilustraciones profesionales
+• Canva IA - Diseño gráfico
+• Scribble Diffusion - Bocetos a imágenes
+• Flair - Contenido empresarial
+• Interior AI - Diseño de interiores
+
+🎬 PARA CREADORES DE VIDEO
+───────────────────────────────────────────────────────────────
+• Runway ML - Edición de video
+• Synthesia - Avatares virtuales
+• ElevenLabs - Texto a voz
+• AIVA.AI - Música de fondo
+• Soundful - Música libre de regalías
+• AI Magic Tools - Suite completa
+
+💻 PARA PROGRAMADORES
+───────────────────────────────────────────────────────────────
+• Claude 4 - Análisis de código
+• Codeium - Autocompletado
+• AutoRegEx - Expresiones regulares
+• AgentGPT - Automatización
+• DeepSeek R1 - Análisis técnico
+
+📊 PARA ANÁLISIS DE DATOS
+───────────────────────────────────────────────────────────────
+• Rows - Hojas de cálculo con IA
+• Claude 4 - Análisis de documentos
+• Google Gemini - Integración con Google
+• AgentGPT - Automatización de tareas
+
+🎓 PARA ESTUDIANTES
+───────────────────────────────────────────────────────────────
+• Socratic - Resolución de problemas
+• ChatGPT - Explicaciones y tutoría
+• Google Lens - Reconocimiento visual
+• DeepL - Traducción de textos
+• Tome - Presentaciones de estudio
+
+🏢 PARA EMPRESAS
+───────────────────────────────────────────────────────────────
+• NameSnack - Nombres de productos
+• Flair - Marketing visual
+• Synthesia - Presentaciones corporativas
+• Grammarly - Comunicación profesional
+• DeepL - Traducción de documentos
+
+📱 PARA USO MÓVIL
+───────────────────────────────────────────────────────────────
+• Luzia - WhatsApp
+• Google Lens - Reconocimiento
+• ChatGPT - App móvil
+• Google Gemini - App móvil
+
+🎮 PARA GAMING Y ENTRETENIMIENTO
+───────────────────────────────────────────────────────────────
+• Inworld - Personajes virtuales
+• Piggy Quiz Maker - Juegos interactivos
+• AIVA.AI - Música para juegos
+• Soundraw - Efectos de sonido
+
+🔍 PARA INVESTIGACIÓN
+───────────────────────────────────────────────────────────────
+• Google Gemini - Búsquedas avanzadas
+• Claude 4 - Análisis de documentos
+• Monica - Asistente web
+• DeepSeek R1 - Análisis complejos
+
+═══════════════════════════════════════════════════════════════
+💡 RECOMENDACIONES POR PERFIL:
+
+👨‍💼 EMPRENDEDOR:
+• NameSnack + Flair + Synthesia + Grammarly
+
+👩‍🎨 DISEÑADOR:
+• Leonardo.AI + Canva IA + DALL-E 2 + Scribble Diffusion
+
+👨‍💻 PROGRAMADOR:
+• Claude 4 + Codeium + AutoRegEx + AgentGPT
+
+📚 ESTUDIANTE:
+• Socratic + ChatGPT + DeepL + Tome
+
+🎬 CREADOR DE CONTENIDO:
+• Runway ML + ElevenLabs + AIVA.AI + Soundful
+
+📊 ANALISTA:
+• Rows + Claude 4 + Google Gemini + AgentGPT
+
+═══════════════════════════════════════════════════════════════
+📅 Actualizado: Enero 2025
+✅ Todas probadas y funcionando
+═══════════════════════════════════════════════════════════════

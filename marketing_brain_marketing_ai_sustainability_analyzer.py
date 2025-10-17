@@ -1405,3 +1405,4 @@ if __name__ == "__main__":
     export_data = ais_analyzer.export_ais_analysis()
     
     print("✅ Sistema de análisis de AI Sustainability de marketing completado!")
+

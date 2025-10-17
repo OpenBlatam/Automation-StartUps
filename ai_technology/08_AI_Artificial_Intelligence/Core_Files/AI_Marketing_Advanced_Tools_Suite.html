@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suite Avanzada de Herramientas de Marketing con IA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .tool-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            border-color: #667eea;
+        }
+
+        .tool-card h3 {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .tool-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .tool-description {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .tool-features {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        .tool-features li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tool-features li:before {
+            content: "✓";
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .tool-button {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .tool-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .advanced-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .advanced-section h2 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .metric-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            font-weight: 600;
+        }
+
+        .comparison-table tr:hover {
+            background: #f8f9ff;
+        }
+
+        .roi-calculator {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin: 30px 0;
+        }
+
+        .roi-calculator h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .roi-inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .roi-input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .roi-input-group label {
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .roi-input-group input {
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        .roi-results {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .roi-result {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            font-size: 1.1rem;
+        }
+
+        .roi-result strong {
+            font-size: 1.3rem;
+        }
+
+        .footer {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer h3 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .footer p {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .roi-inputs {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Suite Avanzada de Herramientas de Marketing con IA</h1>
+            <p>Herramientas profesionales para maximizar el ROI de tu marketing con Inteligencia Artificial</p>
+        </div>
+
+        <div class="tools-grid">
+            <div class="tool-card">
+                <h3>
+                    <div class="tool-icon">📊</div>
+                    Analizador de ROI Avanzado
+                </h3>
+                <p class="tool-description">
+                    Calcula el retorno de inversión de tus campañas de marketing con IA con precisión milimétrica.
+                </p>
+                <ul class="tool-features">
+                    <li>Análisis predictivo de ROI</li>
+                    <li>Comparación de canales</li>
+                    <li>Proyecciones a 12 meses</li>
+                    <li>Alertas de optimización</li>
+                    <li>Reportes automatizados</li>
+                </ul>
+                <button class="tool-button" onclick="openROICalculator()">Abrir Calculadora</button>
+            </div>
+
+            <div class="tool-card">
+                <h3>
+                    <div class="tool-icon">🎯</div>
+                    Generador de Contenido Ultra-Inteligente
+                </h3>
+                <p class="tool-description">
+                    Crea contenido de marketing que convierte usando algoritmos de IA de última generación.
+                </p>
+                <ul class="tool-features">
+                    <li>Generación de copy persuasivo</li>
+                    <li>Optimización para SEO</li>
+                    <li>Personalización por audiencia</li>
+                    <li>A/B testing automático</li>
+                    <li>Análisis de sentimientos</li>
+                </ul>
+                <button class="tool-button" onclick="openContentGenerator()">Generar Contenido</button>
+            </div>
+
+            <div class="tool-card">
+                <h3>
+                    <div class="tool-icon">📈</div>
+                    Optimizador de Campañas
+                </h3>
+                <p class="tool-description">
+                    Optimiza automáticamente tus campañas de marketing para maximizar conversiones.
+                </p>
+                <ul class="tool-features">
+                    <li>Optimización en tiempo real</li>
+                    <li>Segmentación inteligente</li>
+                    <li>Bid management automático</li>
+                    <li>Análisis de competencia</li>
+                    <li>Recomendaciones de mejora</li>
+                </ul>
+                <button class="tool-button" onclick="openCampaignOptimizer()">Optimizar Campañas</button>
+            </div>
+
+            <div class="tool-card">
+                <h3>
+                    <div class="tool-icon">🎨</div>
+                    Diseñador Visual con IA
+                </h3>
+                <p class="tool-description">
+                    Crea diseños visuales impactantes para tus campañas de marketing.
+                </p>
+                <ul class="tool-features">
+                    <li>Generación de imágenes</li>
+                    <li>Diseño de banners</li>
+                    <li>Creación de infografías</li>
+                    <li>Optimización de colores</li>
+                    <li>Plantillas personalizables</li>
+                </ul>
+                <button class="tool-button" onclick="openVisualDesigner()">Crear Diseños</button>
+            </div>
+
+            <div class="tool-card">
+                <h3>
+                    <div class="tool-icon">📱</div>
+                    Analizador de Redes Sociales
+                </h3>
+                <p class="tool-description">
+                    Analiza y optimiza tu presencia en redes sociales con inteligencia artificial.
+                </p>
+                <ul class="tool-features">
+                    <li>Análisis de engagement</li>
+                    <li>Optimización de horarios</li>
+                    <li>Detección de tendencias</li>
+                    <li>Análisis de competencia</li>
+                    <li>Recomendaciones de contenido</li>
+                </ul>
+                <button class="tool-button" onclick="openSocialAnalyzer()">Analizar Redes</button>
+            </div>
+
+            <div class="tool-card">
+                <h3>
+                    <div class="tool-icon">🔍</div>
+                    Investigador de Mercado
+                </h3>
+                <p class="tool-description">
+                    Investiga tu mercado objetivo con herramientas de IA avanzadas.
+                </p>
+                <ul class="tool-features">
+                    <li>Análisis de audiencia</li>
+                    <li>Detección de oportunidades</li>
+                    <li>Análisis de competencia</li>
+                    <li>Predicción de tendencias</li>
+                    <li>Reportes de mercado</li>
+                </ul>
+                <button class="tool-button" onclick="openMarketResearcher()">Investigar Mercado</button>
+            </div>
+        </div>
+
+        <div class="advanced-section">
+            <h2>📊 Métricas de Rendimiento Avanzadas</h2>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">347%</div>
+                    <div class="metric-label">ROI Promedio</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">89%</div>
+                    <div class="metric-label">Precisión Predictiva</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">156%</div>
+                    <div class="metric-label">Aumento en Conversiones</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">73%</div>
+                    <div class="metric-label">Reducción de Costos</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="roi-calculator">
+            <h3>💰 Calculadora de ROI Avanzada</h3>
+            <div class="roi-inputs">
+                <div class="roi-input-group">
+                    <label>Inversión Inicial ($)</label>
+                    <input type="number" id="initialInvestment" placeholder="10000" value="10000">
+                </div>
+                <div class="roi-input-group">
+                    <label>Ingresos Generados ($)</label>
+                    <input type="number" id="revenueGenerated" placeholder="50000" value="50000">
+                </div>
+                <div class="roi-input-group">
+                    <label>Costos Operativos ($)</label>
+                    <input type="number" id="operatingCosts" placeholder="15000" value="15000">
+                </div>
+                <div class="roi-input-group">
+                    <label>Período (meses)</label>
+                    <input type="number" id="period" placeholder="12" value="12">
+                </div>
+            </div>
+            <button class="tool-button" onclick="calculateROI()">Calcular ROI</button>
+            <div class="roi-results" id="roiResults" style="display: none;">
+                <div class="roi-result">
+                    <span>ROI Total:</span>
+                    <strong id="totalROI">0%</strong>
+                </div>
+                <div class="roi-result">
+                    <span>ROI Mensual:</span>
+                    <strong id="monthlyROI">0%</strong>
+                </div>
+                <div class="roi-result">
+                    <span>Beneficio Neto:</span>
+                    <strong id="netProfit">$0</strong>
+                </div>
+                <div class="roi-result">
+                    <span>Tiempo de Recuperación:</span>
+                    <strong id="paybackPeriod">0 meses</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="advanced-section">
+            <h2>🛠️ Comparación de Herramientas de IA</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Herramienta</th>
+                        <th>Precio/Mes</th>
+                        <th>ROI Promedio</th>
+                        <th>Facilidad de Uso</th>
+                        <th>Características</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Copy.ai</strong></td>
+                        <td>$35</td>
+                        <td>280%</td>
+                        <td>⭐⭐⭐⭐⭐</td>
+                        <td>Generación de copy, plantillas, integraciones</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Jasper</strong></td>
+                        <td>$49</td>
+                        <td>320%</td>
+                        <td>⭐⭐⭐⭐</td>
+                        <td>IA avanzada, múltiples idiomas, colaboración</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Writesonic</strong></td>
+                        <td>$29</td>
+                        <td>250%</td>
+                        <td>⭐⭐⭐⭐⭐</td>
+                        <td>Generación rápida, SEO, redes sociales</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Grammarly</strong></td>
+                        <td>$12</td>
+                        <td>180%</td>
+                        <td>⭐⭐⭐⭐⭐</td>
+                        <td>Corrección gramatical, tono, claridad</td>
+                    </tr>
+                    <tr>
+                        <td><strong>HubSpot AI</strong></td>
+                        <td>$45</td>
+                        <td>400%</td>
+                        <td>⭐⭐⭐⭐</td>
+                        <td>Automatización, CRM, análisis avanzado</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="footer">
+            <h3>🚀 ¿Listo para Revolucionar tu Marketing?</h3>
+            <p>Únete a miles de empresas que ya están usando IA para maximizar su ROI y acelerar su crecimiento.</p>
+            <a href="#" class="cta-button">Comenzar Ahora - Gratis</a>
+        </div>
+    </div>
+
+    <script>
+        function calculateROI() {
+            const initialInvestment = parseFloat(document.getElementById('initialInvestment').value) || 0;
+            const revenueGenerated = parseFloat(document.getElementById('revenueGenerated').value) || 0;
+            const operatingCosts = parseFloat(document.getElementById('operatingCosts').value) || 0;
+            const period = parseFloat(document.getElementById('period').value) || 1;
+
+            const netProfit = revenueGenerated - operatingCosts - initialInvestment;
+            const totalROI = ((netProfit / initialInvestment) * 100).toFixed(1);
+            const monthlyROI = (totalROI / period).toFixed(1);
+            const paybackPeriod = initialInvestment / ((revenueGenerated - operatingCosts) / period);
+
+            document.getElementById('totalROI').textContent = totalROI + '%';
+            document.getElementById('monthlyROI').textContent = monthlyROI + '%';
+            document.getElementById('netProfit').textContent = '$' + netProfit.toLocaleString();
+            document.getElementById('paybackPeriod').textContent = paybackPeriod.toFixed(1) + ' meses';
+
+            document.getElementById('roiResults').style.display = 'block';
+        }
+
+        function openROICalculator() {
+            alert('Calculadora de ROI abierta. Usa la calculadora integrada arriba.');
+        }
+
+        function openContentGenerator() {
+            alert('Generador de Contenido abierto. Esta herramienta te ayudará a crear copy persuasivo.');
+        }
+
+        function openCampaignOptimizer() {
+            alert('Optimizador de Campañas abierto. Analizando tus campañas actuales...');
+        }
+
+        function openVisualDesigner() {
+            alert('Diseñador Visual abierto. Creando diseños impactantes con IA...');
+        }
+
+        function openSocialAnalyzer() {
+            alert('Analizador de Redes Sociales abierto. Analizando tu presencia online...');
+        }
+
+        function openMarketResearcher() {
+            alert('Investigador de Mercado abierto. Investigando oportunidades en tu sector...');
+        }
+
+        // Auto-calculate ROI when inputs change
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('#initialInvestment, #revenueGenerated, #operatingCosts, #period');
+            inputs.forEach(input => {
+                input.addEventListener('input', calculateROI);
+            });
+        });
+    </script>
+</body>
+</html>
+

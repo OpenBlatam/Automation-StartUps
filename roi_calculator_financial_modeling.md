@@ -346,3 +346,4 @@ NPV = $12,143 + $11,957 + $11,743 - $6,000 = $29,843 MXN (más NPV = más dinero
 - [ ] Identificar oportunidades (más oportunidades = más dinero)
 - [ ] Optimizar métricas (más optimización = más dinero)
 - [ ] Monitorear continuamente (más monitoreo = más dinero)
+

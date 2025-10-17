@@ -1,0 +1,19 @@
+Tipo de Seguro,Compañía,Beneficiario,Cobertura Total,Prima Mensual,Prima Anual,Fecha Renovación,Estado,Notas
+Vida,Seguros ABC,Esposa,2000000,500,6000,2024-12-31,Activo,Poliza principal
+Vida,Seguros XYZ,Hijos,500000,100,1200,2024-06-30,Activo,Poliza adicional
+Salud,Seguro Social,Personal,1000000,800,9600,2024-03-31,Activo,Cobertura familiar
+Auto,Seguros 123,Personal,500000,300,3600,2024-08-15,Activo,Vehículo principal
+Auto,Seguros 123,Personal,300000,200,2400,2024-08-15,Activo,Vehículo secundario
+Hogar,Seguros 456,Personal,1500000,400,4800,2024-11-20,Activo,Casa principal
+Disability,Seguros DEF,Personal,500000,150,1800,2024-09-30,Activo,Incapacidad temporal
+Dental,Vision Plus,Personal,50000,50,600,2024-12-31,Activo,Cobertura dental
+,,,,,,
+TOTALES,,,=SUM(D2:D9),=SUM(E2:E9),=SUM(F2:F9),,,
+,,,,,,
+ANÁLISIS DE COBERTURA,,,,,
+Métrica,Valor,Recomendación,Estado
+Cobertura Total Vida,=D2+D3,10x ingresos anuales,=IF(B12>5000000,"✅ Adecuada","❌ Insuficiente")
+Cobertura Total Salud,=D4,100% gastos médicos,=IF(B13>1000000,"✅ Adecuada","❌ Insuficiente")
+Cobertura Total Auto,=D5+D6,Valor de vehículos,=IF(B14>800000,"✅ Adecuada","❌ Insuficiente")
+Cobertura Total Hogar,=D7,Valor de reconstrucción,=IF(B15>2000000,"✅ Adecuada","❌ Insuficiente")
+Prima Total Anual,=F10,<10% ingresos,=IF(B16<60000,"✅ Adecuada","❌ Alta")

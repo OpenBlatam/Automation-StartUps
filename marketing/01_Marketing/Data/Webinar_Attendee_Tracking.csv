@@ -1,0 +1,30 @@
+Attendee ID,Name,Email,Company,Job Title,Department,Registration Date,Attendance Status,Completion Rate,Feedback Score,Follow-up Required,Notes
+001,John Smith,john.smith@company.com,TechCorp,Marketing Manager,Marketing,2024-01-15,Attended,100%,5,No,Excellent engagement
+002,Sarah Johnson,sarah.j@agency.com,Creative Agency,Content Creator,Marketing,2024-01-15,Attended,95%,4,Yes,Interested in Copy.ai
+003,Mike Davis,mike.davis@startup.com,StartupXYZ,CEO,Executive,2024-01-15,Attended,100%,5,No,Ready to implement
+004,Lisa Brown,lisa.brown@corp.com,Global Corp,HR Manager,Human Resources,2024-01-15,Attended,90%,4,Yes,Needs performance review templates
+005,Tom Wilson,tom.wilson@tech.com,TechStart,Software Developer,Engineering,2024-01-15,Partial,60%,3,Yes,Left early - technical issues
+006,Emily Rodriguez,emily.r@marketing.com,Marketing Pro,Digital Marketer,Marketing,2024-01-15,Attended,100%,5,No,Very interested in AI tools
+007,David Kim,david.kim@consulting.com,Consulting Firm,Business Analyst,Consulting,2024-01-15,Attended,85%,4,Yes,Wants ROI analysis
+008,Anna Martinez,anna.m@retail.com,Retail Corp,Operations Manager,Operations,2024-01-15,Attended,95%,4,No,Interested in automation
+009,James Taylor,james.t@finance.com,Finance Inc,Finance Manager,Finance,2024-01-15,Attended,100%,5,No,Excellent questions
+010,Amanda White,amanda.w@healthcare.com,HealthCare Plus,Project Manager,Operations,2024-01-15,Attended,90%,4,Yes,Healthcare industry focus
+011,Chris Thompson,chris.t@education.com,EduTech,Training Manager,Education,2024-01-15,Attended,100%,5,No,Perfect fit for needs
+012,Maria Garcia,maria.g@nonprofit.com,NonProfit Org,Communications Director,Communications,2024-01-15,Attended,95%,4,Yes,Budget constraints
+013,Robert Lee,robert.lee@manufacturing.com,Manufacturing Co,Operations Director,Operations,2024-01-15,Attended,85%,3,Yes,Needs ROI proof
+014,Jennifer Liu,jennifer.l@ecommerce.com,E-commerce Store,Marketing Director,Marketing,2024-01-15,Attended,100%,5,No,Ready to scale
+015,Kevin Park,kevin.p@saas.com,SaaS Company,Product Manager,Product,2024-01-15,Attended,90%,4,Yes,Product integration questions
+016,Rachel Green,rachel.g@agency.com,Digital Agency,Account Manager,Client Services,2024-01-15,Attended,95%,4,No,Client implementation
+017,Mark Johnson,mark.j@enterprise.com,Enterprise Corp,IT Director,Technology,2024-01-15,Attended,80%,3,Yes,Security concerns
+018,Sophie Chen,sophie.c@startup.com,StartupABC,Founder,Executive,2024-01-15,Attended,100%,5,No,Perfect timing
+019,Alex Rodriguez,alex.r@consulting.com,Strategy Consulting,Senior Consultant,Consulting,2024-01-15,Attended,90%,4,Yes,Client recommendations
+020,Taylor Swift,taylor.s@entertainment.com,Entertainment Co,Marketing Coordinator,Marketing,2024-01-15,Attended,95%,4,No,Creative applications
+
+
+
+
+
+
+
+
+

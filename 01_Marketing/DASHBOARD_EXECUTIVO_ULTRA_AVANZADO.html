@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Ejecutivo Ultra Avanzado - CopyCar.ai</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/date-fns@2.29.3/index.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .metric-title {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .metric-change {
+            font-size: 0.9rem;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .positive {
+            color: #27ae60;
+            background: rgba(39, 174, 96, 0.1);
+        }
+
+        .negative {
+            color: #e74c3c;
+            background: rgba(231, 76, 60, 0.1);
+        }
+
+        .neutral {
+            color: #f39c12;
+            background: rgba(243, 156, 18, 0.1);
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .chart-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-title {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .alerts-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .alert-critical {
+            background: rgba(231, 76, 60, 0.1);
+            border-left: 4px solid #e74c3c;
+            color: #e74c3c;
+        }
+
+        .alert-important {
+            background: rgba(243, 156, 18, 0.1);
+            border-left: 4px solid #f39c12;
+            color: #f39c12;
+        }
+
+        .alert-info {
+            background: rgba(52, 152, 219, 0.1);
+            border-left: 4px solid #3498db;
+            color: #3498db;
+        }
+
+        .recommendations-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .recommendation {
+            background: rgba(39, 174, 96, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-left: 4px solid #27ae60;
+        }
+
+        .recommendation h4 {
+            color: #27ae60;
+            margin-bottom: 5px;
+        }
+
+        .recommendation p {
+            color: #2c3e50;
+            font-size: 0.9rem;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .status-online {
+            background: #27ae60;
+            box-shadow: 0 0 10px rgba(39, 174, 96, 0.5);
+        }
+
+        .status-warning {
+            background: #f39c12;
+            box-shadow: 0 0 10px rgba(243, 156, 18, 0.5);
+        }
+
+        .status-offline {
+            background: #e74c3c;
+            box-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
+        }
+
+        .refresh-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+            margin: 20px 0;
+        }
+
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .last-updated {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Dashboard Ejecutivo Ultra Avanzado</h1>
+            <p>CopyCar.ai - Neural Marketing AI LATAM</p>
+            <button class="refresh-btn" onclick="refreshData()">🔄 Actualizar Datos</button>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-title">Valuación Actual</div>
+                <div class="metric-value" id="valuation">$2.0M</div>
+                <div class="metric-change positive" id="valuation-change">+25.0%</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-title">Equity Fundador</div>
+                <div class="metric-value" id="equity">60.0%</div>
+                <div class="metric-change neutral" id="equity-change">Estable</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-title">MRR</div>
+                <div class="metric-value" id="mrr">$50K</div>
+                <div class="metric-change positive" id="mrr-change">+20.0%</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-title">Usuarios</div>
+                <div class="metric-value" id="users">1,000</div>
+                <div class="metric-change positive" id="users-change">+30.0%</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-title">Valor Fundador</div>
+                <div class="metric-value" id="founder-value">$1.2M</div>
+                <div class="metric-change positive" id="founder-value-change">+25.0%</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-title">ROI Inversionistas</div>
+                <div class="metric-value" id="roi">0.0x</div>
+                <div class="metric-change neutral" id="roi-change">Pre-Seed</div>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-card">
+                <div class="chart-title">📈 Evolución de Valuación</div>
+                <canvas id="valuationChart"></canvas>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-title">👥 Crecimiento de Usuarios</div>
+                <canvas id="usersChart"></canvas>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-title">💰 Evolución de MRR</div>
+                <canvas id="mrrChart"></canvas>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-title">🎯 Equity Fundador vs Objetivo</div>
+                <canvas id="equityChart"></canvas>
+            </div>
+        </div>
+
+        <div class="alerts-section">
+            <h2 class="chart-title">🚨 Alertas Activas</h2>
+            <div id="alerts-container">
+                <div class="alert alert-critical">
+                    <span class="status-indicator status-warning"></span>
+                    <strong>DILUCIÓN EXCESIVA:</strong> Probabilidad del 40% - Implementar estrategias anti-dilución inmediatamente
+                </div>
+                <div class="alert alert-important">
+                    <span class="status-indicator status-warning"></span>
+                    <strong>PARTNERSHIPS PENDIENTES:</strong> Menos de 3 partnerships activos - Acelerar desarrollo
+                </div>
+                <div class="alert alert-info">
+                    <span class="status-indicator status-online"></span>
+                    <strong>OPORTUNIDAD:</strong> Alto apetito de inversión en LATAM - Acelerar ronda de financiamiento
+                </div>
+            </div>
+        </div>
+
+        <div class="recommendations-section">
+            <h2 class="chart-title">🎯 Recomendaciones Inteligentes</h2>
+            <div class="recommendation">
+                <h4>🚀 Implementación Inmediata</h4>
+                <p>Implementar estrategias anti-dilución antes de próxima ronda de financiamiento</p>
+            </div>
+            <div class="recommendation">
+                <h4>🤝 Partnerships Estratégicos</h4>
+                <p>Desarrollar partnerships con concesionarios y agencias de marketing automotriz</p>
+            </div>
+            <div class="recommendation">
+                <h4>💰 Optimización de Precios</h4>
+                <p>Mantener precios 50% menores que competencia global para penetración de mercado</p>
+            </div>
+            <div class="recommendation">
+                <h4>📊 Monitoreo Continuo</h4>
+                <p>Configurar alertas automáticas y reportes en tiempo real</p>
+            </div>
+        </div>
+
+        <div class="last-updated">
+            Última actualización: <span id="last-updated"></span>
+        </div>
+    </div>
+
+    <script>
+        // Datos de ejemplo
+        let currentData = {
+            valuation: 2000000,
+            equity: 60,
+            mrr: 50000,
+            users: 1000,
+            founderValue: 1200000,
+            roi: 0
+        };
+
+        // Inicializar gráficos
+        function initCharts() {
+            // Gráfico de valuación
+            const valuationCtx = document.getElementById('valuationChart').getContext('2d');
+            new Chart(valuationCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct'],
+                    datasets: [{
+                        label: 'Valuación (M)',
+                        data: [1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4],
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value + 'M';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Gráfico de usuarios
+            const usersCtx = document.getElementById('usersChart').getContext('2d');
+            new Chart(usersCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct'],
+                    datasets: [{
+                        label: 'Usuarios',
+                        data: [200, 300, 400, 500, 600, 700, 800, 900, 950, 1000],
+                        backgroundColor: 'rgba(39, 174, 96, 0.8)',
+                        borderColor: '#27ae60',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Gráfico de MRR
+            const mrrCtx = document.getElementById('mrrChart').getContext('2d');
+            new Chart(mrrCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct'],
+                    datasets: [{
+                        label: 'MRR (K)',
+                        data: [20, 25, 30, 35, 40, 45, 48, 49, 49.5, 50],
+                        borderColor: '#f39c12',
+                        backgroundColor: 'rgba(243, 156, 18, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value + 'K';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Gráfico de equity
+            const equityCtx = document.getElementById('equityChart').getContext('2d');
+            new Chart(equityCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Equity Fundador', 'Equity Inversionistas', 'Equity Empleados', 'Equity Reserva'],
+                    datasets: [{
+                        data: [60, 25, 10, 5],
+                        backgroundColor: [
+                            '#667eea',
+                            '#764ba2',
+                            '#f39c12',
+                            '#e74c3c'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Actualizar datos
+        function refreshData() {
+            // Simular actualización de datos
+            currentData.valuation *= (1 + Math.random() * 0.02);
+            currentData.mrr *= (1 + Math.random() * 0.05);
+            currentData.users += Math.floor(Math.random() * 10);
+            currentData.founderValue = currentData.valuation * currentData.equity / 100;
+
+            // Actualizar UI
+            document.getElementById('valuation').textContent = '$' + (currentData.valuation / 1000000).toFixed(1) + 'M';
+            document.getElementById('mrr').textContent = '$' + (currentData.mrr / 1000).toFixed(0) + 'K';
+            document.getElementById('users').textContent = currentData.users.toLocaleString();
+            document.getElementById('founder-value').textContent = '$' + (currentData.founderValue / 1000000).toFixed(1) + 'M';
+
+            // Actualizar timestamp
+            document.getElementById('last-updated').textContent = new Date().toLocaleString();
+
+            // Mostrar animación de actualización
+            const refreshBtn = document.querySelector('.refresh-btn');
+            refreshBtn.textContent = '✅ Actualizado';
+            setTimeout(() => {
+                refreshBtn.textContent = '🔄 Actualizar Datos';
+            }, 2000);
+        }
+
+        // Inicializar dashboard
+        function initDashboard() {
+            initCharts();
+            document.getElementById('last-updated').textContent = new Date().toLocaleString();
+            
+            // Actualizar datos cada 30 segundos
+            setInterval(refreshData, 30000);
+        }
+
+        // Inicializar cuando se carga la página
+        window.addEventListener('load', initDashboard);
+    </script>
+</body>
+</html>
+
+
+
+
+
+

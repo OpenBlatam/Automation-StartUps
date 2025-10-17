@@ -453,3 +453,4 @@ Esta suite completa de gestión de cadena de suministro proporciona una solució
 *Para preguntas sobre la suite de gestión de cadena de suministro, implementación o soporte, contacta a nuestro equipo de SCM en scm@hrhandbook.com.*
 
 **Sistema Version**: 1.0 | **Última Actualización**: 2024 | **Integrado con**: Ecosistema de Playbooks + Suite de RRHH + Advanced Automation + Marketing & Support + Implementation & Quality + AI Marketplace + Legal Compliance Suite + Metaverse Training + Global Training Network + Predictive Learning Engine + Adaptive Learning Suite + Digital Transformation Suite + Innovation Management Suite + Sustainability ESG Suite + Cybersecurity Suite + Business Intelligence Suite + Advanced Project Management Suite + Organizational Change Management Suite + Advanced Talent Management Suite + Customer Experience Management Suite + Advanced Sales Management Suite + Advanced Marketing Management Suite + Advanced Financial Management Suite
+

@@ -1,0 +1,464 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: neural-marketing
+  labels:
+    name: neural-marketing
+    app: neural-marketing-conscience
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: neural-marketing-config
+  namespace: neural-marketing
+data:
+  NODE_ENV: "production"
+  PORT: "3001"
+  CLIENT_URL: "https://app.neuralmarketing.ai"
+  CORS_ORIGIN: "https://app.neuralmarketing.ai"
+  RATE_LIMIT_WINDOW_MS: "900000"
+  RATE_LIMIT_MAX_REQUESTS: "1000"
+  LOG_LEVEL: "info"
+  PROMETHEUS_ENABLED: "true"
+  GRAFANA_ENABLED: "true"
+  METRICS_PORT: "9090"
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: neural-marketing-secrets
+  namespace: neural-marketing
+type: Opaque
+data:
+  DATABASE_URL: "cG9zdGdyZXNxbDovL3VzZXI6cGFzc3dvcmRAcG9zdGdyZXM6NTQzMi9haV9tYXJrZXRpbmdfc2FhcyM="
+  REDIS_URL: "cmVkaXM6Ly9yZWRpczozMjc2Nw=="
+  JWT_SECRET: "eW91ci1zdXBlci1zZWNyZXQtand0LWtleS1jaGFuZ2UtaW4tcHJvZHVjdGlvbg=="
+  OPENAI_API_KEY: "eW91ci1vcGVuYWktYXBpLWtleS1oZXJl"
+  SMTP_HOST: "c210cC5nbWFpbC5jb20="
+  SMTP_PORT: "NTg3"
+  SMTP_USER: "eW91ci1lbWFpbEBnbWFpbC5jb20="
+  SMTP_PASS: "eW91ci1hcHAtcGFzc3dvcmQ="
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: neural-marketing-backend
+  namespace: neural-marketing
+  labels:
+    app: neural-marketing-backend
+    version: v1
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: neural-marketing-backend
+  template:
+    metadata:
+      labels:
+        app: neural-marketing-backend
+        version: v1
+    spec:
+      containers:
+      - name: backend
+        image: neural-marketing/backend:latest
+        ports:
+        - containerPort: 3001
+        - containerPort: 9090
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: neural-marketing-secrets
+              key: DATABASE_URL
+        - name: REDIS_URL
+          valueFrom:
+            secretKeyRef:
+              name: neural-marketing-secrets
+              key: REDIS_URL
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: neural-marketing-secrets
+              key: JWT_SECRET
+        - name: OPENAI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: neural-marketing-secrets
+              key: OPENAI_API_KEY
+        - name: SMTP_HOST
+          valueFrom:
+            secretKeyRef:
+              name: neural-marketing-secrets
+              key: SMTP_HOST
+        - name: SMTP_PORT
+          valueFrom:
+            secretKeyRef:
+              name: neural-marketing-secrets
+              key: SMTP_PORT
+        - name: SMTP_USER
+          valueFrom:
+            secretKeyRef:
+              name: neural-marketing-secrets
+              key: SMTP_USER
+        - name: SMTP_PASS
+          valueFrom:
+            secretKeyRef:
+              name: neural-marketing-secrets
+              key: SMTP_PASS
+        envFrom:
+        - configMapRef:
+            name: neural-marketing-config
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3001
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3001
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        volumeMounts:
+        - name: logs
+          mountPath: /app/logs
+      volumes:
+      - name: logs
+        emptyDir: {}
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: neural-marketing-frontend
+  namespace: neural-marketing
+  labels:
+    app: neural-marketing-frontend
+    version: v1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: neural-marketing-frontend
+  template:
+    metadata:
+      labels:
+        app: neural-marketing-frontend
+        version: v1
+    spec:
+      containers:
+      - name: frontend
+        image: neural-marketing/frontend:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: VITE_API_URL
+          value: "https://api.neuralmarketing.ai/api"
+        - name: VITE_APP_NAME
+          value: "Neural Marketing Consciousness"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "200m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: neural-marketing-backend-service
+  namespace: neural-marketing
+  labels:
+    app: neural-marketing-backend
+spec:
+  selector:
+    app: neural-marketing-backend
+  ports:
+  - name: http
+    port: 80
+    targetPort: 3001
+  - name: metrics
+    port: 9090
+    targetPort: 9090
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: neural-marketing-frontend-service
+  namespace: neural-marketing
+  labels:
+    app: neural-marketing-frontend
+spec:
+  selector:
+    app: neural-marketing-frontend
+  ports:
+  - name: http
+    port: 80
+    targetPort: 3000
+  type: ClusterIP
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: neural-marketing-ingress
+  namespace: neural-marketing
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/rate-limit: "100"
+    nginx.ingress.kubernetes.io/rate-limit-window: "1m"
+spec:
+  tls:
+  - hosts:
+    - app.neuralmarketing.ai
+    - api.neuralmarketing.ai
+    secretName: neural-marketing-tls
+  rules:
+  - host: app.neuralmarketing.ai
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: neural-marketing-frontend-service
+            port:
+              number: 80
+  - host: api.neuralmarketing.ai
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: neural-marketing-backend-service
+            port:
+              number: 80
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: neural-marketing-backend-hpa
+  namespace: neural-marketing
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: neural-marketing-backend
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: neural-marketing-frontend-hpa
+  namespace: neural-marketing
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: neural-marketing-frontend
+  minReplicas: 2
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: neural-marketing-backend-pdb
+  namespace: neural-marketing
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: neural-marketing-backend
+
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: neural-marketing-frontend-pdb
+  namespace: neural-marketing
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: neural-marketing-frontend
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: neural-marketing-postgres-pvc
+  namespace: neural-marketing
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  storageClassName: fast-ssd
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: neural-marketing-postgres
+  namespace: neural-marketing
+spec:
+  serviceName: neural-marketing-postgres
+  replicas: 1
+  selector:
+    matchLabels:
+      app: neural-marketing-postgres
+  template:
+    metadata:
+      labels:
+        app: neural-marketing-postgres
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_DB
+          value: "ai_marketing_saas"
+        - name: POSTGRES_USER
+          value: "postgres"
+        - name: POSTGRES_PASSWORD
+          value: "postgres"
+        volumeMounts:
+        - name: postgres-storage
+          mountPath: /var/lib/postgresql/data
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+  volumeClaimTemplates:
+  - metadata:
+      name: postgres-storage
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 20Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: neural-marketing-postgres
+  namespace: neural-marketing
+spec:
+  selector:
+    app: neural-marketing-postgres
+  ports:
+  - port: 5432
+    targetPort: 5432
+  type: ClusterIP
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: neural-marketing-redis
+  namespace: neural-marketing
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: neural-marketing-redis
+  template:
+    metadata:
+      labels:
+        app: neural-marketing-redis
+    spec:
+      containers:
+      - name: redis
+        image: redis:7-alpine
+        ports:
+        - containerPort: 6379
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "200m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: neural-marketing-redis
+  namespace: neural-marketing
+spec:
+  selector:
+    app: neural-marketing-redis
+  ports:
+  - port: 6379
+    targetPort: 6379
+  type: ClusterIP
+

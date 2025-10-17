@@ -1,0 +1,434 @@
+{
+  "timestamp": "2025-10-06T13:06:57.585939",
+  "user_profile": {
+    "preferred_categories": {
+      "vc": 238,
+      "general": 83,
+      "marketing": 1234,
+      "ai_technology": 470,
+      "research": 3,
+      "sales": 10,
+      "business_strategy": 108,
+      "legal": 2,
+      "operations": 10,
+      "finance": 60
+    },
+    "preferred_file_types": {
+      "strategy": 87,
+      "document": 1827,
+      "template": 43,
+      "tool": 32,
+      "analysis": 14,
+      "checklist": 22,
+      "guide": 158,
+      "report": 35
+    },
+    "working_patterns": {},
+    "expertise_areas": [
+      "marketing",
+      "ai_technology",
+      "vc"
+    ]
+  },
+  "content_recommendations": [
+    {
+      "type": "content_organization",
+      "priority": "medium",
+      "title": "Organizar categoría marketing",
+      "description": "La categoría marketing tiene 1234 archivos",
+      "action": "Considerar crear subcarpetas en marketing",
+      "category": "marketing",
+      "score": 0.7
+    },
+    {
+      "type": "content_organization",
+      "priority": "medium",
+      "title": "Organizar categoría ai_technology",
+      "description": "La categoría ai_technology tiene 470 archivos",
+      "action": "Considerar crear subcarpetas en ai_technology",
+      "category": "ai_technology",
+      "score": 0.7
+    },
+    {
+      "type": "content_organization",
+      "priority": "medium",
+      "title": "Organizar categoría vc",
+      "description": "La categoría vc tiene 238 archivos",
+      "action": "Considerar crear subcarpetas en vc",
+      "category": "vc",
+      "score": 0.7
+    },
+    {
+      "type": "content_creation",
+      "priority": "high",
+      "title": "Crear más strategys",
+      "description": "Tienes 87 archivos de tipo strategy",
+      "action": "Considerar crear templates para strategy",
+      "file_type": "strategy",
+      "score": 0.8
+    },
+    {
+      "type": "content_creation",
+      "priority": "high",
+      "title": "Crear más documents",
+      "description": "Tienes 1827 archivos de tipo document",
+      "action": "Considerar crear templates para document",
+      "file_type": "document",
+      "score": 0.8
+    },
+    {
+      "type": "content_creation",
+      "priority": "high",
+      "title": "Crear más templates",
+      "description": "Tienes 43 archivos de tipo template",
+      "action": "Considerar crear templates para template",
+      "file_type": "template",
+      "score": 0.8
+    },
+    {
+      "type": "content_creation",
+      "priority": "high",
+      "title": "Crear más tools",
+      "description": "Tienes 32 archivos de tipo tool",
+      "action": "Considerar crear templates para tool",
+      "file_type": "tool",
+      "score": 0.8
+    },
+    {
+      "type": "content_creation",
+      "priority": "high",
+      "title": "Crear más analysiss",
+      "description": "Tienes 14 archivos de tipo analysis",
+      "action": "Considerar crear templates para analysis",
+      "file_type": "analysis",
+      "score": 0.8
+    },
+    {
+      "type": "content_creation",
+      "priority": "high",
+      "title": "Crear más checklists",
+      "description": "Tienes 22 archivos de tipo checklist",
+      "action": "Considerar crear templates para checklist",
+      "file_type": "checklist",
+      "score": 0.8
+    },
+    {
+      "type": "content_creation",
+      "priority": "high",
+      "title": "Crear más guides",
+      "description": "Tienes 158 archivos de tipo guide",
+      "action": "Considerar crear templates para guide",
+      "file_type": "guide",
+      "score": 0.8
+    },
+    {
+      "type": "content_creation",
+      "priority": "high",
+      "title": "Crear más reports",
+      "description": "Tienes 35 archivos de tipo report",
+      "action": "Considerar crear templates para report",
+      "file_type": "report",
+      "score": 0.8
+    }
+  ],
+  "optimization_recommendations": [
+    {
+      "type": "optimization",
+      "priority": "high",
+      "title": "Optimizar archivos grandes",
+      "description": "Se encontraron 1538 archivos grandes",
+      "action": "Considerar dividir archivos grandes en secciones",
+      "files": [
+        {
+          "path": "./marketing/01_Marketing/Documents/behavioral-psychology-marketing-analysis.md",
+          "size": 1597598,
+          "lines": 25120,
+          "words": 198984
+        },
+        {
+          "path": "./business_strategy/06_Strategy/MD_Files/reddit-quora-strategy-ultimate-enhanced.md",
+          "size": 1013330,
+          "lines": 22378,
+          "words": 126223
+        },
+        {
+          "path": "./MARKETING_CANVA_IA.md",
+          "size": 731546,
+          "lines": 21908,
+          "words": 97938
+        },
+        {
+          "path": "./ai_technology/08_AI_Artificial_Intelligence/Core_Files/ai-marketing-webinar-blog-post-refactored.md",
+          "size": 645259,
+          "lines": 14681,
+          "words": 86507
+        },
+        {
+          "path": "./05_Technology/AI_Marketing_Webinar_Documentation.md",
+          "size": 606769,
+          "lines": 14528,
+          "words": 46872
+        }
+      ],
+      "score": 0.9
+    },
+    {
+      "type": "metadata",
+      "priority": "medium",
+      "title": "Agregar metadatos",
+      "description": "Se encontraron 2216 archivos sin metadatos",
+      "action": "Agregar metadatos YAML a archivos principales",
+      "files": [
+        {
+          "path": "./VC_International_Expansion_Strategy_2024.md",
+          "category": "vc",
+          "file_type": "strategy"
+        },
+        {
+          "path": "./VC_Advanced_Term_Sheet_Mastery_2024.md",
+          "category": "vc",
+          "file_type": "strategy"
+        },
+        {
+          "path": "./VC_Advanced_Communication_Mastery_2024.md",
+          "category": "vc",
+          "file_type": "strategy"
+        },
+        {
+          "path": "./VC_Templates_Scripts_2024.md",
+          "category": "vc",
+          "file_type": "strategy"
+        },
+        {
+          "path": "./UGC_SCRIPTS_EXCEL_TEMPLATES.md",
+          "category": "marketing",
+          "file_type": "template"
+        },
+        {
+          "path": "./VC_Business_Model_Innovation_2024.md",
+          "category": "vc",
+          "file_type": "strategy"
+        },
+        {
+          "path": "./VC_Complete_System_Overview_2024.md",
+          "category": "vc",
+          "file_type": "strategy"
+        },
+        {
+          "path": "./VC_Advanced_Closing_Techniques_2024.md",
+          "category": "vc",
+          "file_type": "strategy"
+        },
+        {
+          "path": "./DEMO_SCRIPT_INVERSIONISTAS.md",
+          "category": "marketing",
+          "file_type": "template"
+        },
+        {
+          "path": "./Ciberseguridad_Proteccion_Datos_TikTok_IA.md",
+          "category": "marketing",
+          "file_type": "report"
+        }
+      ],
+      "score": 0.6
+    },
+    {
+      "type": "cleanup",
+      "priority": "high",
+      "title": "Eliminar duplicados",
+      "description": "Se encontraron 35 grupos de duplicados",
+      "action": "Revisar y eliminar archivos duplicados",
+      "duplicates": [
+        {
+          "hash": "4ff177056746b6d0bc211eebe56ef090",
+          "files": [
+            "./VC_Templates_Scripts_2024.md",
+            "./05_Technology/VC_Templates_Scripts_2024.md"
+          ],
+          "count": 2
+        },
+        {
+          "hash": "de10d9fb5572ed3dc9c69a57c64f450e",
+          "files": [
+            "./VC_Advanced_Closing_Techniques_2024.md",
+            "./05_Technology/VC_Advanced_Closing_Techniques_2024.md"
+          ],
+          "count": 2
+        },
+        {
+          "hash": "4b23692d883f37a2a51c605e5997e69b",
+          "files": [
+            "./VC_Market_Intelligence_2024.md",
+            "./05_Technology/VC_Market_Intelligence_2024.md"
+          ],
+          "count": 2
+        },
+        {
+          "hash": "602f8f4b1bf4cdd0c8833a1a2edffa40",
+          "files": [
+            "./Neural_Dashboard_Documentation.md",
+            "./marketing/01_Marketing/Neural_Marketing/Neural_Sales_Dashboard_Documentation.md"
+          ],
+          "count": 2
+        },
+        {
+          "hash": "113e22a235923be140031d3c721cb519",
+          "files": [
+            "./VC_Advanced_Psychology_Mastery_2024.md",
+            "./05_Technology/VC_Advanced_Psychology_Mastery_2024.md",
+            "./vc/advanced_techniques/VC_Advanced_Psychology_Mastery_2024.md"
+          ],
+          "count": 3
+        }
+      ],
+      "score": 0.8
+    }
+  ],
+  "organization_recommendations": [
+    {
+      "type": "organization",
+      "priority": "medium",
+      "title": "Categoría marketing muy grande",
+      "description": "marketing representa el 72.1% de todos los archivos",
+      "action": "Considerar dividir marketing en subcategorías",
+      "category": "marketing",
+      "percentage": 72.09197475202885,
+      "score": 0.6
+    },
+    {
+      "type": "organization",
+      "priority": "low",
+      "title": "Categoría general pequeña",
+      "description": "general solo tiene 16 archivos",
+      "action": "Considerar consolidar general con otra categoría",
+      "category": "general",
+      "count": 16,
+      "score": 0.3
+    },
+    {
+      "type": "organization",
+      "priority": "low",
+      "title": "Categoría business pequeña",
+      "description": "business solo tiene 43 archivos",
+      "action": "Considerar consolidar business con otra categoría",
+      "category": "business",
+      "count": 43,
+      "score": 0.3
+    },
+    {
+      "type": "organization",
+      "priority": "low",
+      "title": "Categoría legal pequeña",
+      "description": "legal solo tiene 2 archivos",
+      "action": "Considerar consolidar legal con otra categoría",
+      "category": "legal",
+      "count": 2,
+      "score": 0.3
+    },
+    {
+      "type": "organization",
+      "priority": "low",
+      "title": "Categoría sales pequeña",
+      "description": "sales solo tiene 7 archivos",
+      "action": "Considerar consolidar sales con otra categoría",
+      "category": "sales",
+      "count": 7,
+      "score": 0.3
+    },
+    {
+      "type": "organization",
+      "priority": "low",
+      "title": "Categoría research pequeña",
+      "description": "research solo tiene 2 archivos",
+      "action": "Considerar consolidar research con otra categoría",
+      "category": "research",
+      "count": 2,
+      "score": 0.3
+    },
+    {
+      "type": "organization",
+      "priority": "low",
+      "title": "Categoría operations pequeña",
+      "description": "operations solo tiene 9 archivos",
+      "action": "Considerar consolidar operations con otra categoría",
+      "category": "operations",
+      "count": 9,
+      "score": 0.3
+    },
+    {
+      "type": "organization",
+      "priority": "low",
+      "title": "Categoría finance pequeña",
+      "description": "finance solo tiene 10 archivos",
+      "action": "Considerar consolidar finance con otra categoría",
+      "category": "finance",
+      "count": 10,
+      "score": 0.3
+    }
+  ],
+  "collaboration_recommendations": [
+    {
+      "type": "collaboration",
+      "priority": "medium",
+      "title": "Compartir expertise en marketing",
+      "description": "Tienes experiencia en marketing",
+      "action": "Considerar crear guías o mentorías en marketing",
+      "area": "marketing",
+      "score": 0.7
+    },
+    {
+      "type": "collaboration",
+      "priority": "medium",
+      "title": "Compartir expertise en ai_technology",
+      "description": "Tienes experiencia en ai_technology",
+      "action": "Considerar crear guías o mentorías en ai_technology",
+      "area": "ai_technology",
+      "score": 0.7
+    },
+    {
+      "type": "collaboration",
+      "priority": "medium",
+      "title": "Compartir expertise en vc",
+      "description": "Tienes experiencia en vc",
+      "action": "Considerar crear guías o mentorías en vc",
+      "area": "vc",
+      "score": 0.7
+    },
+    {
+      "type": "documentation",
+      "priority": "high",
+      "title": "Mejorar documentación",
+      "description": "Muchos archivos carecen de documentación adecuada",
+      "action": "Crear templates de documentación estándar",
+      "score": 0.8
+    }
+  ],
+  "priority_scores": {
+    "Organizar categoría marketing": 0.7,
+    "Organizar categoría ai_technology": 0.7,
+    "Organizar categoría vc": 0.7,
+    "Crear más strategys": 0.8,
+    "Crear más documents": 0.8,
+    "Crear más templates": 0.8,
+    "Crear más tools": 0.8,
+    "Crear más analysiss": 0.8,
+    "Crear más checklists": 0.8,
+    "Crear más guides": 0.8,
+    "Crear más reports": 0.8,
+    "Optimizar archivos grandes": 1.08,
+    "Agregar metadatos": 0.54,
+    "Eliminar duplicados": 0.8800000000000001,
+    "Categoría marketing muy grande": 0.48,
+    "Categoría general pequeña": 0.24,
+    "Categoría business pequeña": 0.24,
+    "Categoría legal pequeña": 0.24,
+    "Categoría sales pequeña": 0.24,
+    "Categoría research pequeña": 0.24,
+    "Categoría operations pequeña": 0.24,
+    "Categoría finance pequeña": 0.24,
+    "Compartir expertise en marketing": 0.48999999999999994,
+    "Compartir expertise en ai_technology": 0.48999999999999994,
+    "Compartir expertise en vc": 0.48999999999999994,
+    "Mejorar documentación": 0.8
+  }
+}

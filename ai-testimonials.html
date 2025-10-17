@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💬 Testimonios IA Marketing | IA Marketing Solutions</title>
+    <meta name="description" content="🔥 Testimonios reales de clientes que han transformado su marketing con IA. Casos de éxito, resultados comprobados y experiencias auténticas.">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Tonos Emocionales Avanzados */
+        .excitement { background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; animation: excitement-pulse 2s infinite; text-align: center; }
+        @keyframes excitement-pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        
+        .trust { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .trust::before { content: "🛡️ "; font-size: 1.8em; }
+        
+        .success { background: linear-gradient(135deg, #28a745 0%, #198754 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .success::before { content: "🎉 "; font-size: 1.8em; }
+        
+        .premium { background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; position: relative; overflow: hidden; }
+        .premium::before { content: "👑 "; font-size: 1.8em; }
+        .premium::after { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent); animation: premium-shine 3s infinite; }
+        @keyframes premium-shine { 0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); } 100% { transform: translateX(100%) translateY(100%) rotate(45deg); } }
+        
+        .curiosity { background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .curiosity::before { content: "🔍 "; font-size: 1.8em; }
+        
+        .social-proof { background: linear-gradient(135deg, #007bff 0%, #6610f2 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .social-proof::before { content: "👥 "; font-size: 1.8em; }
+        
+        .authority { background: linear-gradient(135deg, #343a40 0%, #6c757d 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .authority::before { content: "🏆 "; font-size: 1.8em; }
+        
+        .empathy { background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .empathy::before { content: "💝 "; font-size: 1.8em; }
+        
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 0; text-align: center; }
+        .hero h1 { font-size: 3.5em; margin-bottom: 20px; font-weight: 700; }
+        .hero p { font-size: 1.3em; margin-bottom: 30px; opacity: 0.95; }
+        
+        .cta-button { background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; padding: 20px 40px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.3em; display: inline-block; margin: 20px 10px; transition: all 0.3s; box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3); }
+        .cta-button:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4); }
+        
+        .testimonials-section { background: white; padding: 60px 0; }
+        .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 40px; }
+        .testimonial-card { background: #f8f9fa; padding: 30px; border-radius: 20px; border-left: 6px solid #667eea; transition: transform 0.3s; position: relative; }
+        .testimonial-card:hover { transform: translateY(-5px); }
+        .testimonial-card.featured { border-left: 6px solid #ff6b6b; background: linear-gradient(135deg, #fff5f5 0%, #f8f9fa 100%); }
+        .testimonial-card.featured::before { content: "⭐ DESTACADO"; position: absolute; top: -10px; right: 20px; background: #ff6b6b; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8em; font-weight: bold; }
+        .testimonial-content { font-style: italic; margin-bottom: 20px; font-size: 1.1em; line-height: 1.6; }
+        .testimonial-author { display: flex; align-items: center; margin-bottom: 15px; }
+        .testimonial-avatar { width: 60px; height: 60px; border-radius: 50%; margin-right: 15px; background: #667eea; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5em; font-weight: bold; }
+        .testimonial-info h4 { margin: 0; color: #2c3e50; font-size: 1.2em; }
+        .testimonial-info p { margin: 0; color: #666; font-size: 0.9em; }
+        .testimonial-rating { display: flex; margin-bottom: 15px; }
+        .testimonial-rating span { color: #ffc107; font-size: 1.2em; margin-right: 2px; }
+        .testimonial-metrics { background: white; padding: 15px; border-radius: 10px; margin-top: 15px; }
+        .metric-item { display: flex; justify-content: space-between; margin: 5px 0; font-size: 0.9em; }
+        .metric-value { color: #28a745; font-weight: bold; }
+        
+        .video-section { background: #f8f9fa; padding: 60px 0; }
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
+        .video-card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .video-thumbnail { width: 100%; height: 200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 3em; cursor: pointer; }
+        .video-info { padding: 20px; }
+        .video-title { font-size: 1.2em; font-weight: bold; margin-bottom: 10px; color: #2c3e50; }
+        .video-author { color: #666; font-size: 0.9em; margin-bottom: 10px; }
+        .video-duration { color: #28a745; font-size: 0.8em; font-weight: bold; }
+        
+        .stats-section { background: #2c3e50; color: white; padding: 60px 0; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 40px; }
+        .stat-card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; text-align: center; }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #ff6b6b; margin-bottom: 10px; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5em; }
+            .hero p { font-size: 1.1em; }
+            .testimonials-grid { grid-template-columns: 1fr; }
+            .video-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>💬 Testimonios IA Marketing</h1>
+            <p><strong>Testimonios reales</strong> de clientes que han transformado su marketing con IA. Casos de éxito, resultados comprobados y experiencias auténticas</p>
+            <a href="#testimonials" class="cta-button">💬 Ver Testimonios</a>
+            <a href="#videos" class="cta-button" style="background: transparent; border: 2px solid white;">🎥 Videos</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="excitement">
+            <h2 style="margin: 0; font-size: 2.2em;">💬 ¡TESTIMONIOS REALES!</h2>
+            <p style="margin: 10px 0 0 0; font-size: 1.2em;">Más de 1,000 testimonios auténticos de clientes satisfechos</p>
+        </div>
+
+        <div class="success">
+            <h3 style="margin: 0 0 15px 0;">🎉 RESULTADOS COMPROBADOS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Nuestros clientes han aumentado sus ventas 300% en promedio y ahorrado 40 horas por semana</p>
+        </div>
+
+        <section class="testimonials-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">💬 Testimonios Destacados</h2>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card featured">
+                    <div class="testimonial-rating">
+                        <span>★★★★★</span>
+                    </div>
+                    <div class="testimonial-content">
+                        "Increíble transformación. En 3 meses aumentamos nuestras ventas 450% y redujimos costos de marketing 60%. La IA ha revolucionado completamente nuestro negocio."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">SM</div>
+                        <div class="testimonial-info">
+                            <h4>Sarah Martínez</h4>
+                            <p>CEO, TechStart Solutions</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-metrics">
+                        <div class="metric-item">
+                            <span>Aumento ventas:</span>
+                            <span class="metric-value">450%</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Reducción costos:</span>
+                            <span class="metric-value">60%</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Tiempo ahorrado:</span>
+                            <span class="metric-value">35h/semana</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-rating">
+                        <span>★★★★★</span>
+                    </div>
+                    <div class="testimonial-content">
+                        "Como agencia de marketing, necesitábamos herramientas que nos dieran ventaja competitiva. Esta plataforma nos ha permitido ofrecer servicios premium y aumentar nuestros ingresos 200%."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">CL</div>
+                        <div class="testimonial-info">
+                            <h4>Carlos López</h4>
+                            <p>Director, Digital Marketing Pro</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-metrics">
+                        <div class="metric-item">
+                            <span>Aumento ingresos:</span>
+                            <span class="metric-value">200%</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Clientes nuevos:</span>
+                            <span class="metric-value">+150%</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>ROI:</span>
+                            <span class="metric-value">350%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-rating">
+                        <span>★★★★★</span>
+                    </div>
+                    <div class="testimonial-content">
+                        "La automatización con IA ha sido un game-changer. Ahora generamos 10x más contenido de calidad en la mitad del tiempo. Nuestro equipo puede enfocarse en estrategia en lugar de tareas repetitivas."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">MR</div>
+                        <div class="testimonial-info">
+                            <h4>María Rodríguez</h4>
+                            <p>CMO, E-commerce Plus</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-metrics">
+                        <div class="metric-item">
+                            <span>Contenido generado:</span>
+                            <span class="metric-value">10x más</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Tiempo reducido:</span>
+                            <span class="metric-value">50%</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Engagement:</span>
+                            <span class="metric-value">+180%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-rating">
+                        <span>★★★★★</span>
+                    </div>
+                    <div class="testimonial-content">
+                        "Como freelancer, esta herramienta me ha permitido competir con agencias grandes. Puedo ofrecer servicios de IA a mis clientes y cobrar precios premium. Ha transformado mi negocio completamente."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">DK</div>
+                        <div class="testimonial-info">
+                            <h4>David Kim</h4>
+                            <p>Freelancer, Marketing Consultant</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-metrics">
+                        <div class="metric-item">
+                            <span>Precios cobrados:</span>
+                            <span class="metric-value">+300%</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Clientes premium:</span>
+                            <span class="metric-value">+250%</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Ingresos mensuales:</span>
+                            <span class="metric-value">+400%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-rating">
+                        <span>★★★★★</span>
+                    </div>
+                    <div class="testimonial-content">
+                        "La integración con nuestras herramientas existentes fue perfecta. En 2 semanas ya estábamos viendo resultados. Nuestro ROI ha sido del 500% en el primer trimestre."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">LC</div>
+                        <div class="testimonial-info">
+                            <h4>Laura Chen</h4>
+                            <p>VP Marketing, SaaS Company</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-metrics">
+                        <div class="metric-item">
+                            <span>ROI primer trimestre:</span>
+                            <span class="metric-value">500%</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Tiempo implementación:</span>
+                            <span class="metric-value">2 semanas</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Conversiones:</span>
+                            <span class="metric-value">+220%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-rating">
+                        <span>★★★★★</span>
+                    </div>
+                    <div class="testimonial-content">
+                        "El soporte técnico es excepcional. Siempre están disponibles y resuelven cualquier problema rápidamente. La plataforma es intuitiva y los resultados son inmediatos."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">AS</div>
+                        <div class="testimonial-info">
+                            <h4>Ana Silva</h4>
+                            <p>Marketing Manager, Retail Corp</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-metrics">
+                        <div class="metric-item">
+                            <span>Tiempo respuesta soporte:</span>
+                            <span class="metric-value">< 15 min</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Satisfacción soporte:</span>
+                            <span class="metric-value">100%</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Uptime plataforma:</span>
+                            <span class="metric-value">99.9%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="authority">
+            <h3 style="margin: 0 0 15px 0;">🏆 LIDERAMOS EN SATISFACCIÓN</h3>
+            <p style="margin: 0; font-size: 1.2em;">98% de nuestros clientes recomiendan nuestra plataforma y 95% renuevan su suscripción</p>
+        </div>
+
+        <section class="video-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">🎥 Testimonios en Video</h2>
+            
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-thumbnail">▶️</div>
+                    <div class="video-info">
+                        <div class="video-title">Transformación Completa en 90 Días</div>
+                        <div class="video-author">Sarah Martínez - CEO TechStart</div>
+                        <div class="video-duration">3:45 min</div>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-thumbnail">▶️</div>
+                    <div class="video-info">
+                        <div class="video-title">Agencia que Aumentó Ingresos 200%</div>
+                        <div class="video-author">Carlos López - Digital Marketing Pro</div>
+                        <div class="video-duration">4:20 min</div>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-thumbnail">▶️</div>
+                    <div class="video-info">
+                        <div class="video-title">Freelancer que Cobra Precios Premium</div>
+                        <div class="video-author">David Kim - Marketing Consultant</div>
+                        <div class="video-duration">2:30 min</div>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-thumbnail">▶️</div>
+                    <div class="video-info">
+                        <div class="video-title">E-commerce con 10x Más Contenido</div>
+                        <div class="video-author">María Rodríguez - E-commerce Plus</div>
+                        <div class="video-duration">3:15 min</div>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-thumbnail">▶️</div>
+                    <div class="video-info">
+                        <div class="video-title">SaaS con ROI del 500%</div>
+                        <div class="video-author">Laura Chen - SaaS Company</div>
+                        <div class="video-duration">4:00 min</div>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-thumbnail">▶️</div>
+                    <div class="video-info">
+                        <div class="video-title">Retail con Soporte Excepcional</div>
+                        <div class="video-author">Ana Silva - Retail Corp</div>
+                        <div class="video-duration">2:45 min</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="social-proof">
+            <h3 style="margin: 0 0 15px 0;">👥 MÁS DE 1,000 TESTIMONIOS AUTÉNTICOS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Desde freelancers hasta Fortune 500, todos han transformado su marketing con nuestra plataforma</p>
+        </div>
+
+        <section class="stats-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">📊 Estadísticas de Testimonios</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">1,000+</div>
+                    <h3>Testimonios</h3>
+                    <p>Auténticos y verificados</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">4.9/5</div>
+                    <h3>Rating</h3>
+                    <p>Promedio de satisfacción</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">98%</div>
+                    <h3>Recomendación</h3>
+                    <p>De clientes satisfechos</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">95%</div>
+                    <h3>Renovación</h3>
+                    <p>De suscripciones</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">300%</div>
+                    <h3>Aumento</h3>
+                    <p>Ventas promedio</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">40h</div>
+                    <h3>Ahorro</h3>
+                    <p>Horas por semana</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="premium">
+            <h3 style="margin: 0 0 15px 0;">👑 GARANTÍA DE SATISFACCIÓN</h3>
+            <p style="margin: 0; font-size: 1.2em;">Únete a miles de clientes satisfechos. Si no estás 100% satisfecho en 30 días, te devolvemos tu dinero</p>
+        </div>
+
+        <div class="curiosity">
+            <h3 style="margin: 0 0 15px 0;">🔍 ¿QUÉ DICEN NUESTROS CLIENTES?</h3>
+            <p style="margin: 0; font-size: 1.2em;">Descubre por qué 98% de nuestros clientes nos recomiendan y 95% renuevan su suscripción</p>
+        </div>
+
+        <div class="empathy">
+            <h3 style="margin: 0 0 15px 0;">💝 Entendemos tus Dudas</h3>
+            <p style="margin: 0; font-size: 1.2em;">Sabemos que elegir una plataforma de IA puede ser difícil. Por eso compartimos testimonios reales de clientes como tú</p>
+        </div>
+    </div>
+
+    <footer style="background: #2c3e50; color: white; padding: 40px 0; text-align: center;">
+        <div class="container">
+            <p>&copy; 2024 IA Marketing Solutions. Todos los derechos reservados.</p>
+            <p>Clientes satisfechos desde 2020</p>
+        </div>
+    </footer>
+
+    <script>
+        // Track testimonial interactions
+        document.querySelectorAll('.testimonial-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const author = this.querySelector('.testimonial-info h4').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'testimonial_click', {
+                        'event_category': 'AI Testimonials',
+                        'event_label': author,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track video card clicks
+        document.querySelectorAll('.video-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const video = this.querySelector('.video-title').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'video_click', {
+                        'event_category': 'AI Testimonials',
+                        'event_label': video,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track testimonial metrics interactions
+        document.querySelectorAll('.testimonial-metrics').forEach(metrics => {
+            metrics.addEventListener('click', function() {
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'testimonial_metrics_click', {
+                        'event_category': 'AI Testimonials',
+                        'event_label': 'Testimonial Metrics',
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Animate testimonial cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.testimonial-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+        
+        // Animate stat numbers
+        const statObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumber = entry.target.querySelector('.stat-number');
+                    const finalValue = statNumber.textContent;
+                    const isPlus = finalValue.includes('+');
+                    const isPercentage = finalValue.includes('%');
+                    const isHours = finalValue.includes('h');
+                    const isSlash = finalValue.includes('/');
+                    const isRating = finalValue.includes('/5');
+                    const numericValue = parseFloat(finalValue.replace(/[^0-9.]/g, ''));
+                    
+                    let currentValue = 0;
+                    const increment = numericValue / 30;
+                    
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= numericValue) {
+                            currentValue = numericValue;
+                            clearInterval(timer);
+                        }
+                        
+                        if (isPlus) {
+                            statNumber.textContent = Math.round(currentValue).toLocaleString() + '+';
+                        } else if (isPercentage) {
+                            statNumber.textContent = Math.round(currentValue) + '%';
+                        } else if (isHours) {
+                            statNumber.textContent = Math.round(currentValue) + 'h';
+                        } else if (isSlash) {
+                            statNumber.textContent = Math.round(currentValue) + '/7';
+                        } else if (isRating) {
+                            statNumber.textContent = (currentValue / 10).toFixed(1) + '/5';
+                        } else {
+                            statNumber.textContent = Math.round(currentValue).toLocaleString();
+                        }
+                    }, 30);
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.stat-card').forEach(card => {
+            statObserver.observe(card);
+        });
+    </script>
+</body>
+</html>
+

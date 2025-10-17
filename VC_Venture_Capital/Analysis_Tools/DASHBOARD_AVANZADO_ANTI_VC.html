@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Avanzado Anti-VC Dependencia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 30px;
+        }
+
+        .widget {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .widget:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .widget-title {
+            font-size: 1.3em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .metric-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .chart-container {
+            height: 300px;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #ecf0f1;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-success { background: #2ecc71; }
+        .status-warning { background: #f39c12; }
+        .status-danger { background: #e74c3c; }
+        .status-info { background: #3498db; }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .data-table th {
+            background: #3498db;
+            color: white;
+        }
+
+        .data-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            border-color: #ffc107;
+            color: #856404;
+        }
+
+        .alert-danger {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            border-color: #17a2b8;
+            color: #0c5460;
+        }
+
+        .tabs {
+            display: flex;
+            background: #ecf0f1;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            background: #bdc3c7;
+            color: #7f8c8d;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            background: #3498db;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .insights {
+            background: #e8f5e8;
+            border: 1px solid #27ae60;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .insights h4 {
+            color: #27ae60;
+            margin-bottom: 10px;
+        }
+
+        .insights ul {
+            margin-left: 20px;
+        }
+
+        .insights li {
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .comparison-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+
+        .comparison-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .comparison-label {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+
+        .trend-indicator {
+            display: inline-block;
+            margin-left: 10px;
+            font-size: 0.8em;
+        }
+
+        .trend-up { color: #27ae60; }
+        .trend-down { color: #e74c3c; }
+        .trend-stable { color: #f39c12; }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Dashboard Avanzado Anti-VC Dependencia</h1>
+            <p>Monitoreo en tiempo real de estrategias de independencia financiera</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- Widget de Métricas Clave -->
+            <div class="widget">
+                <h2 class="widget-title">📊 Métricas Clave</h2>
+                
+                <div class="metric-card">
+                    <div class="metric-value" id="cash-flow">$125,000</div>
+                    <div class="metric-label">Flujo de Caja Mensual</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-value" id="growth-rate">+47%</div>
+                    <div class="metric-label">Crecimiento Anual</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-value" id="independence-score">87%</div>
+                    <div class="metric-label">Score de Independencia</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-value" id="roi">312%</div>
+                    <div class="metric-label">ROI Acumulado</div>
+                </div>
+            </div>
+
+            <!-- Widget de Progreso de Objetivos -->
+            <div class="widget">
+                <h2 class="widget-title">🎯 Progreso de Objetivos</h2>
+                
+                <div class="progress-item">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span>Autofinanciamiento</span>
+                        <span>87%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 87%;"></div>
+                    </div>
+                </div>
+
+                <div class="progress-item">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span>Crecimiento Orgánico</span>
+                        <span>73%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 73%;"></div>
+                    </div>
+                </div>
+
+                <div class="progress-item">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span>Reducción de Dependencia VC</span>
+                        <span>92%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 92%;"></div>
+                    </div>
+                </div>
+
+                <div class="progress-item">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span>Sostenibilidad Financiera</span>
+                        <span>95%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 95%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Widget de Análisis Financiero -->
+            <div class="widget">
+                <h2 class="widget-title">💰 Análisis Financiero</h2>
+                
+                <div class="tabs">
+                    <div class="tab active" onclick="switchTab('financial', 'revenue')">Ingresos</div>
+                    <div class="tab" onclick="switchTab('financial', 'expenses')">Gastos</div>
+                    <div class="tab" onclick="switchTab('financial', 'profit')">Beneficios</div>
+                </div>
+
+                <div id="financial-revenue" class="tab-content active">
+                    <div class="chart-container">
+                        <canvas id="revenue-chart"></canvas>
+                    </div>
+                    <div class="insights">
+                        <h4>Insights de Ingresos</h4>
+                        <ul>
+                            <li>Crecimiento mensual consistente del 8%</li>
+                            <li>Diversificación exitosa en 5 fuentes</li>
+                            <li>Retención de clientes del 94%</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="financial-expenses" class="tab-content">
+                    <div class="chart-container">
+                        <canvas id="expenses-chart"></canvas>
+                    </div>
+                    <div class="insights">
+                        <h4>Insights de Gastos</h4>
+                        <ul>
+                            <li>Reducción del 15% en costos operativos</li>
+                            <li>Optimización de proveedores exitosa</li>
+                            <li>Eficiencia mejorada en 23%</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="financial-profit" class="tab-content">
+                    <div class="chart-container">
+                        <canvas id="profit-chart"></canvas>
+                    </div>
+                    <div class="insights">
+                        <h4>Insights de Beneficios</h4>
+                        <ul>
+                            <li>Margen bruto del 68%</li>
+                            <li>Margen neto del 34%</li>
+                            <li>Crecimiento de beneficios del 52%</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Widget de Estrategias Anti-VC -->
+            <div class="widget">
+                <h2 class="widget-title">🛡️ Estrategias Anti-VC</h2>
+                
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <div class="comparison-value">$2.1M</div>
+                        <div class="comparison-label">Capital Propio</div>
+                    </div>
+                    <div class="comparison-item">
+                        <div class="comparison-value">$180K</div>
+                        <div class="comparison-label">Deuda Externa</div>
+                    </div>
+                    <div class="comparison-item">
+                        <div class="comparison-value">92%</div>
+                        <div class="comparison-label">Independencia</div>
+                    </div>
+                    <div class="comparison-item">
+                        <div class="comparison-value">8%</div>
+                        <div class="comparison-label">Dependencia VC</div>
+                    </div>
+                </div>
+
+                <div class="alert alert-success">
+                    <strong>✅ Excelente Progreso:</strong> Has reducido la dependencia de VC en un 92% en los últimos 18 meses.
+                </div>
+
+                <div class="alert alert-info">
+                    <strong>💡 Recomendación:</strong> Considera eliminar completamente la dependencia de VC en los próximos 6 meses.
+                </div>
+            </div>
+
+            <!-- Widget de Análisis de Mercado -->
+            <div class="widget">
+                <h2 class="widget-title">📈 Análisis de Mercado</h2>
+                
+                <div class="chart-container">
+                    <canvas id="market-chart"></canvas>
+                </div>
+
+                <div class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Métrica</th>
+                            <th>Actual</th>
+                            <th>Objetivo</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Market Share</td>
+                            <td>12.3%</td>
+                            <td>15%</td>
+                            <td><span class="status-indicator status-warning"></span>En Progreso</td>
+                        </tr>
+                        <tr>
+                            <td>Customer Acquisition</td>
+                            <td>1,247</td>
+                            <td>1,500</td>
+                            <td><span class="status-indicator status-info"></span>En Progreso</td>
+                        </tr>
+                        <tr>
+                            <td>Revenue Growth</td>
+                            <td>47%</td>
+                            <td>50%</td>
+                            <td><span class="status-indicator status-success"></span>Cumplido</td>
+                        </tr>
+                        <tr>
+                            <td>Profit Margin</td>
+                            <td>34%</td>
+                            <td>30%</td>
+                            <td><span class="status-indicator status-success"></span>Superado</td>
+                        </tr>
+                    </tbody>
+                </div>
+            </div>
+
+            <!-- Widget de Gestión de Riesgos -->
+            <div class="widget">
+                <h2 class="widget-title">⚠️ Gestión de Riesgos</h2>
+                
+                <div class="risk-metrics">
+                    <div class="metric-card">
+                        <div class="metric-value">LOW</div>
+                        <div class="metric-label">Riesgo Financiero</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">MEDIUM</div>
+                        <div class="metric-label">Riesgo Operativo</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">LOW</div>
+                        <div class="metric-label">Riesgo de Mercado</div>
+                    </div>
+                </div>
+
+                <div class="alert alert-warning">
+                    <strong>⚠️ Atención:</strong> Monitorea el riesgo operativo relacionado con la expansión del equipo.
+                </div>
+
+                <div class="insights">
+                    <h4>Recomendaciones de Riesgo</h4>
+                    <ul>
+                        <li>Diversificar fuentes de ingresos</li>
+                        <li>Mantener reservas de emergencia</li>
+                        <li>Monitorear competencia</li>
+                        <li>Actualizar planes de contingencia</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Widget de Predicciones -->
+            <div class="widget">
+                <h2 class="widget-title">🔮 Predicciones IA</h2>
+                
+                <div class="chart-container">
+                    <canvas id="predictions-chart"></canvas>
+                </div>
+
+                <div class="prediction-cards">
+                    <div class="metric-card">
+                        <div class="metric-value">$1.8M</div>
+                        <div class="metric-label">Ingresos Proyectados (12 meses)</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">95%</div>
+                        <div class="metric-label">Probabilidad de Éxito</div>
+                    </div>
+                </div>
+
+                <div class="insights">
+                    <h4>Predicciones Clave</h4>
+                    <ul>
+                        <li>Crecimiento sostenido del 45% anual</li>
+                        <li>Independencia total en 8 meses</li>
+                        <li>Expansión a 3 nuevos mercados</li>
+                        <li>ROI del 400% en 24 meses</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Widget de Alertas y Notificaciones -->
+            <div class="widget">
+                <h2 class="widget-title">🔔 Alertas y Notificaciones</h2>
+                
+                <div class="alert alert-success">
+                    <strong>✅ Logro:</strong> Meta de autofinanciamiento del 80% alcanzada
+                </div>
+
+                <div class="alert alert-info">
+                    <strong>ℹ️ Información:</strong> Nuevo cliente enterprise adquirido
+                </div>
+
+                <div class="alert alert-warning">
+                    <strong>⚠️ Advertencia:</strong> Costos de marketing aumentaron 12%
+                </div>
+
+                <div class="alert alert-danger">
+                    <strong>🚨 Crítico:</strong> Competidor lanzó producto similar
+                </div>
+
+                <div class="insights">
+                    <h4>Acciones Recomendadas</h4>
+                    <ul>
+                        <li>Revisar estrategia de marketing</li>
+                        <li>Acelerar desarrollo de producto</li>
+                        <li>Fortalecer diferenciación</li>
+                        <li>Monitorear competencia</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Widget de Comparación Competitiva -->
+            <div class="widget">
+                <h2 class="widget-title">🏆 Comparación Competitiva</h2>
+                
+                <div class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Métrica</th>
+                            <th>Tu Empresa</th>
+                            <th>Competidor A</th>
+                            <th>Competidor B</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Revenue Growth</td>
+                            <td>47% <span class="trend-indicator trend-up">↗</span></td>
+                            <td>32%</td>
+                            <td>28%</td>
+                        </tr>
+                        <tr>
+                            <td>Profit Margin</td>
+                            <td>34% <span class="trend-indicator trend-up">↗</span></td>
+                            <td>28%</td>
+                            <td>31%</td>
+                        </tr>
+                        <tr>
+                            <td>Market Share</td>
+                            <td>12.3% <span class="trend-indicator trend-up">↗</span></td>
+                            <td>18.5%</td>
+                            <td>15.2%</td>
+                        </tr>
+                        <tr>
+                            <td>Customer Satisfaction</td>
+                            <td>4.7/5 <span class="trend-indicator trend-up">↗</span></td>
+                            <td>4.2/5</td>
+                            <td>4.5/5</td>
+                        </tr>
+                    </tbody>
+                </div>
+
+                <div class="insights">
+                    <h4>Ventajas Competitivas</h4>
+                    <ul>
+                        <li>Mayor crecimiento de ingresos</li>
+                        <li>Mejor margen de beneficio</li>
+                        <li>Mayor satisfacción del cliente</li>
+                        <li>Estrategia anti-VC exitosa</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Funciones de navegación por pestañas
+        function switchTab(widget, tab) {
+            // Ocultar todas las pestañas del widget
+            const tabs = document.querySelectorAll(`#${widget} .tab`);
+            const contents = document.querySelectorAll(`#${widget} .tab-content`);
+            
+            tabs.forEach(t => t.classList.remove('active'));
+            contents.forEach(c => c.classList.remove('active'));
+            
+            // Mostrar la pestaña seleccionada
+            event.target.classList.add('active');
+            document.getElementById(`${widget}-${tab}`).classList.add('active');
+        }
+
+        // Inicializar gráficos
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCharts();
+            startRealTimeUpdates();
+        });
+
+        function initializeCharts() {
+            // Gráfico de Ingresos
+            const revenueCtx = document.getElementById('revenue-chart').getContext('2d');
+            new Chart(revenueCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                    datasets: [{
+                        label: 'Ingresos Mensuales',
+                        data: [85000, 92000, 88000, 105000, 112000, 108000, 125000, 132000, 128000, 145000, 152000, 148000],
+                        borderColor: '#27ae60',
+                        backgroundColor: 'rgba(39, 174, 96, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value.toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return 'Ingresos: $' + context.parsed.y.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Gráfico de Gastos
+            const expensesCtx = document.getElementById('expenses-chart').getContext('2d');
+            new Chart(expensesCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                    datasets: [{
+                        label: 'Gastos Mensuales',
+                        data: [52000, 48000, 51000, 49000, 47000, 45000, 43000, 41000, 39000, 37000, 35000, 33000],
+                        backgroundColor: '#e74c3c',
+                        borderColor: '#c0392b',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value.toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return 'Gastos: $' + context.parsed.y.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Gráfico de Beneficios
+            const profitCtx = document.getElementById('profit-chart').getContext('2d');
+            new Chart(profitCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Beneficios', 'Gastos'],
+                    datasets: [{
+                        data: [68, 32],
+                        backgroundColor: ['#27ae60', '#e74c3c'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.label + ': ' + context.parsed + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Gráfico de Mercado
+            const marketCtx = document.getElementById('market-chart').getContext('2d');
+            new Chart(marketCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['Crecimiento', 'Rentabilidad', 'Innovación', 'Satisfacción', 'Eficiencia', 'Sostenibilidad'],
+                    datasets: [{
+                        label: 'Tu Empresa',
+                        data: [85, 90, 75, 95, 88, 92],
+                        borderColor: '#3498db',
+                        backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                        pointBackgroundColor: '#3498db'
+                    }, {
+                        label: 'Promedio del Mercado',
+                        data: [65, 70, 60, 75, 68, 72],
+                        borderColor: '#95a5a6',
+                        backgroundColor: 'rgba(149, 165, 166, 0.2)',
+                        pointBackgroundColor: '#95a5a6'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+
+            // Gráfico de Predicciones
+            const predictionsCtx = document.getElementById('predictions-chart').getContext('2d');
+            new Chart(predictionsCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                    datasets: [{
+                        label: 'Ingresos Reales',
+                        data: [85000, 92000, 88000, 105000, 112000, 108000, 125000, 132000, 128000, 145000, 152000, 148000],
+                        borderColor: '#3498db',
+                        backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                        tension: 0.4
+                    }, {
+                        label: 'Predicción IA',
+                        data: [85000, 92000, 88000, 105000, 112000, 108000, 125000, 132000, 128000, 145000, 152000, 148000, 165000, 172000, 168000, 185000, 192000, 188000],
+                        borderColor: '#e74c3c',
+                        backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                        tension: 0.4,
+                        borderDash: [5, 5]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value.toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': $' + context.parsed.y.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Actualizaciones en tiempo real
+        function startRealTimeUpdates() {
+            setInterval(updateMetrics, 5000); // Actualizar cada 5 segundos
+        }
+
+        function updateMetrics() {
+            // Simular actualizaciones de métricas
+            const cashFlow = document.getElementById('cash-flow');
+            const growthRate = document.getElementById('growth-rate');
+            const independenceScore = document.getElementById('independence-score');
+            const roi = document.getElementById('roi');
+
+            // Actualizar valores con animación
+            animateValue(cashFlow, 125000, 127000, 1000);
+            animateValue(growthRate, 47, 48, 1000);
+            animateValue(independenceScore, 87, 88, 1000);
+            animateValue(roi, 312, 315, 1000);
+        }
+
+        function animateValue(element, start, end, duration) {
+            const startTime = performance.now();
+            const startValue = parseInt(element.textContent.replace(/[^0-9]/g, ''));
+            
+            function updateValue(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const currentValue = Math.round(startValue + (end - startValue) * progress);
+                
+                if (element.id === 'cash-flow') {
+                    element.textContent = '$' + currentValue.toLocaleString();
+                } else if (element.id === 'growth-rate') {
+                    element.textContent = '+' + currentValue + '%';
+                } else if (element.id === 'independence-score') {
+                    element.textContent = currentValue + '%';
+                } else if (element.id === 'roi') {
+                    element.textContent = currentValue + '%';
+                }
+                
+                if (progress < 1) {
+                    requestAnimationFrame(updateValue);
+                }
+            }
+            
+            requestAnimationFrame(updateValue);
+        }
+
+        // Funciones de utilidad
+        function formatCurrency(value) {
+            return '$' + value.toLocaleString();
+        }
+
+        function formatPercentage(value) {
+            return value + '%';
+        }
+
+        function getStatusColor(status) {
+            switch(status) {
+                case 'success': return '#27ae60';
+                case 'warning': return '#f39c12';
+                case 'danger': return '#e74c3c';
+                case 'info': return '#3498db';
+                default: return '#95a5a6';
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+

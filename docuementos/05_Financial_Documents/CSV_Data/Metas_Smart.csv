@@ -1,0 +1,13 @@
+Meta,Objetivo,Actual,Progreso %,IA Score,Probabilidad,Acción IA,Timeline
+Fondo Emergencia,100000,25000,=D2/C2,=IF(D2>0.8,95,IF(D2>0.6,80,60)),=IF(D2>0.8,90,IF(D2>0.6,75,50)),Ahorrar $6250/mes,6 meses
+Compra Auto,300000,50000,=D3/C3,=IF(D3>0.2,85,65),=IF(D3>0.2,80,60),Ahorrar $25000/mes,10 meses
+Enganche Casa,500000,100000,=D4/C4,=IF(D4>0.2,90,70),=IF(D4>0.2,85,65),Ahorrar $20833/mes,19 meses
+Jubilación,10000000,500000,=D5/C5,=IF(D5>0.05,75,55),=IF(D5>0.05,70,50),Ahorrar $20833/mes,30 años
+Negocio,800000,200000,=D6/C6,=IF(D6>0.25,80,60),=IF(D6>0.25,75,55),Ahorrar $25000/mes,24 meses
+Máster,200000,0,=D7/C7,=IF(D7>0,70,40),=IF(D7>0,65,35),Ahorrar $8333/mes,24 meses
+,,,,,,
+ANÁLISIS DE VIABILIDAD IA,,,,,,
+Capacidad de Ahorro,=SUM(D2:D7)/6,85%,Ajustar metas según capacidad,
+Riesgo de Incumplimiento,=IF(AVERAGE(F2:F7)>80,"Bajo","Alto"),90%,Revisar metas poco realistas,
+Optimización IA,Priorizar por ROI,95%,Enfocar en metas de mayor impacto,
+Timeline Realista,=AVERAGE(H2:H7),80%,Ajustar fechas según recursos,

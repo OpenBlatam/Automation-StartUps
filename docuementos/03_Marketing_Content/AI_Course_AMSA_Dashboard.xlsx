@@ -1,0 +1,122 @@
+# AI COURSE AMSA DASHBOARD VERSION - EXCEL TEMPLATE
+# Interactive Marketing & Sales Dashboard with Real-Time Analytics
+
+## AMSA EXECUTIVE DASHBOARD
+Metric,Current_Value,Target_Value,Previous_Period,Change,Status,Formula_Used
+Total_Revenue,=753370,=1000000,=650000,=B2-C2,=IF(B2>=D2,"Exceeding","Below"),=IF(B2>=D2,"Exceeding","Below")
+Monthly_Leads,=900,=1000,=750,=B3-C3,=IF(B3>=D3,"Exceeding","Below"),=IF(B3>=D3,"Exceeding","Below")
+Conversion_Rate,=38%,=40%,=35%,=B4-C4,=IF(B4>=D4,"Exceeding","Below"),=IF(B4>=D4,"Exceeding","Below")
+Customer_Acquisition_Cost,=12.50,=15,=18,=C5-B5,=IF(B5<=D5,"Exceeding","Below"),=IF(B5<=D5,"Exceeding","Below")
+Customer_Lifetime_Value,=3200,=3000,=2800,=B6-C6,=IF(B6>=D6,"Exceeding","Below"),=IF(B6>=D6,"Exceeding","Below")
+LTV_CAC_Ratio,=256,=200,=156,=B7-C7,=IF(B7>=D7,"Exceeding","Below"),=IF(B7>=D7,"Exceeding","Below")
+Churn_Rate,=3%,=5%,=4%,=C8-B8,=IF(B8<=D8,"Exceeding","Below"),=IF(B8<=D8,"Exceeding","Below")
+Net_Revenue_Retention,=120%,=110%,=105%,=B9-C9,=IF(B9>=D9,"Exceeding","Below"),=IF(B9>=D9,"Exceeding","Below")
+
+## AMSA MARKETING PERFORMANCE DASHBOARD
+Channel,Spend,Leads,Conversions,Revenue,ROI,Cost_per_Lead,Formula_Used
+Google_Ads,=20000,=400,=80,=160000,=700%,=B2/C2,=B2/C2
+Facebook_Ads,=15000,=300,=60,=120000,=700%,=B3/C3,=B3/C3
+LinkedIn_Ads,=10000,=200,=40,=80000,=700%,=B4/C4,=B4/C4
+Email_Marketing,=5000,=500,=100,=200000,=3900%,=B5/C5,=B5/C5
+Content_Marketing,=10000,=300,=60,=120000,=1100%,=B6/C6,=B6/C6
+Referrals,=0,=200,=40,=80000,=∞,=B7/C7,=B7/C7
+TOTAL,=60000,=1900,=380,=760000,=1167%,=AVERAGE(G2:G7),=AVERAGE(G2:G7)
+
+## AMSA SALES PERFORMANCE DASHBOARD
+Sales_Rep,Quota,Actual_Sales,Quota_Attainment,Deals_Closed,Win_Rate,Average_Deal_Size,Formula_Used
+Rep_1,=100000,=120000,=120%,=15,=75%,=B2/C2,=B2/C2
+Rep_2,=100000,=95000,=95%,=12,=60%,=B3/C3,=B3/C3
+Rep_3,=100000,=110000,=110%,=14,=70%,=B4/C4,=B4/C4
+Rep_4,=100000,=88000,=88%,=11,=55%,=B5/C5,=B5/C5
+Rep_5,=100000,=105000,=105%,=13,=65%,=B6/C6,=B6/C6
+TOTAL,=500000,=518000,=104%,=65,=65%,=AVERAGE(G2:G6),=AVERAGE(G2:G6)
+
+## AMSA CUSTOMER ANALYTICS DASHBOARD
+Segment,Count,Revenue,Avg_Order_Value,Churn_Rate,LTV,Formula_Used
+Enterprise,=100,=600000,=6000,=2%,=5000,=B2*C2*D2*E2,=B2*C2*D2*E2
+Mid_Market,=500,=300000,=600,=5%,=2000,=B3*C3*D3*E3,=B3*C3*D3*E3
+SMB,=2000,=200000,=100,=10%,=800,=B4*C4*D4*E4,=B4*C4*D4*E4
+Consumer,=5000,=100000,=20,=15%,=200,=B5*C5*D5*E5,=B5*C5*D5*E5
+TOTAL,=7600,=1200000,=158,=8%,=AVERAGE(F2:F5),=AVERAGE(F2:F5)
+
+## AMSA CONTENT PERFORMANCE DASHBOARD
+Content_Type,Views,Engagement,Conversions,CTR,Engagement_Rate,Formula_Used
+Blog_Posts,=50000,=5000,=250,=B2/C2,=C2/B2,=B2/C2
+Videos,=30000,=6000,=300,=B3/C3,=C3/B3,=B3/C3
+Webinars,=10000,=2000,=200,=B4/C4,=C4/B4,=B4/C4
+Ebooks,=8000,=1600,=150,=B5/C5,=C5/B5,=B5/C5
+Case_Studies,=5000,=1000,=100,=B6/C6,=C6/B6,=B6/C6
+TOTAL,=103000,=15600,=1000,=AVERAGE(F2:F6),=AVERAGE(G2:G6),=AVERAGE(F2:F6)
+
+## AMSA CONVERSION FUNNEL DASHBOARD
+Funnel_Stage,Visitors,Leads,Qualified_Leads,Opportunities,Closed_Won,Conversion_Rate,Formula_Used
+Awareness,=10000,=1000,=800,=400,=200,=B2/C2,=B2/C2
+Interest,=1000,=800,=600,=300,=150,=B3/C3,=B3/C3
+Consideration,=800,=600,=400,=200,=100,=B4/C4,=B4/C4
+Intent,=600,=400,=300,=150,=75,=B5/C5,=B5/C5
+Purchase,=400,=300,=200,=100,=50,=B6/C6,=B6/C6
+TOTAL,=12800,=3100,=2300,=1150,=575,=AVERAGE(F2:F6),=AVERAGE(F2:F6)
+
+## AMSA REAL-TIME METRICS DASHBOARD
+Metric,Current_Value,Target_Value,Status,Alert_Level,Formula_Used
+Website_Visitors_Today,=1250,=1000,=IF(B2>=C2,"Exceeding","Below"),=IF(B2>=C2,"Green","Yellow"),=IF(B2>=C2,"Exceeding","Below")
+Leads_Today,=45,=40,=IF(B3>=C3,"Exceeding","Below"),=IF(B3>=C3,"Green","Yellow"),=IF(B3>=C3,"Exceeding","Below")
+Conversions_Today,=18,=15,=IF(B4>=C4,"Exceeding","Below"),=IF(B4>=C4,"Green","Yellow"),=IF(B4>=C4,"Exceeding","Below")
+Revenue_Today,=25000,=20000,=IF(B5>=C5,"Exceeding","Below"),=IF(B5>=C5,"Green","Yellow"),=IF(B5>=C5,"Exceeding","Below")
+Support_Tickets,=12,=20,=IF(B6<=C6,"Exceeding","Below"),=IF(B6<=C6,"Green","Yellow"),=IF(B6<=C6,"Exceeding","Below")
+System_Uptime,=99.9%,=99.5%,=IF(B7>=C7,"Exceeding","Below"),=IF(B7>=C7,"Green","Yellow"),=IF(B7>=C7,"Exceeding","Below")
+
+## AMSA PREDICTIVE ANALYTICS DASHBOARD
+Metric,Current_Value,Predicted_Value,Confidence_Level,Accuracy,Formula_Used
+Next_Month_Revenue,=753370,=850000,=92%,=88%,=PREDICT(B2,C2,D2),=PREDICT(B2,C2,D2)
+Lead_Volume_Forecast,=900,=1050,=89%,=85%,=PREDICT(B3,C3,D3),=PREDICT(B3,C3,D3)
+Churn_Prediction,=3%,=2.5%,=95%,=92%,=PREDICT(B4,C4,D4),=PREDICT(B4,C4,D4)
+Conversion_Rate_Forecast,=38%,=42%,=87%,=90%,=PREDICT(B5,C5,D5),=PREDICT(B5,C5,D5)
+Customer_LTV_Forecast,=3200,=3500,=91%,=89%,=PREDICT(B6,C6,D6),=PREDICT(B6,C6,D6)
+TOTAL,=0,=0,=90.8%,=88.8%,=AVERAGE(F2:F6),=AVERAGE(F2:F6)
+
+## AMSA COMPETITIVE ANALYSIS DASHBOARD
+Competitor,Market_Share,Revenue,Funding,Employees,Our_Advantage,Formula_Used
+Coursera,=25%,=200000000,=500000000,=2000,=AI_Innovation,=COMPETITIVE_ADVANTAGE(B2)
+Udemy,=20%,=150000000,=300000000,=1500,=Quality_Focus,=COMPETITIVE_ADVANTAGE(B3)
+edX,=15%,=100000000,=200000000,=800,=University_Partnerships,=COMPETITIVE_ADVANTAGE(B4)
+Pluralsight,=10%,=80000000,=150000000,=600,=Technical_Depth,=COMPETITIVE_ADVANTAGE(B5)
+LinkedIn_Learning,=12%,=120000000,=250000000,=1000,=Professional_Network,=COMPETITIVE_ADVANTAGE(B6)
+Our_Company,=0.18%,=753370,=0,=13,=First_Mover_AI,=COMPETITIVE_ADVANTAGE(B7)
+TOTAL,=82.18%,=650000000,=1400000000,=6900,=0,=AVERAGE(F2:F7),=AVERAGE(F2:F7)
+
+## AMSA CUSTOMER SATISFACTION DASHBOARD
+Metric,Current_Score,Target_Score,Previous_Score,Change,Status,Formula_Used
+Overall_Satisfaction,=4.7,=4.5,=4.3,=B2-C2,=IF(B2>=D2,"Exceeding","Below"),=IF(B2>=D2,"Exceeding","Below")
+Product_Quality,=4.8,=4.5,=4.4,=B3-C3,=IF(B3>=D3,"Exceeding","Below"),=IF(B3>=D3,"Exceeding","Below")
+Customer_Support,=4.6,=4.5,=4.2,=B4-C4,=IF(B4>=D4,"Exceeding","Below"),=IF(B4>=D4,"Exceeding","Below")
+Ease_of_Use,=4.5,=4.5,=4.1,=B5-C5,=IF(B5>=D5,"Exceeding","Below"),=IF(B5>=D5,"Exceeding","Below")
+Value_for_Money,=4.9,=4.5,=4.6,=B6-C6,=IF(B6>=D6,"Exceeding","Below"),=IF(B6>=D6,"Exceeding","Below")
+TOTAL,=4.7,=4.5,=4.32,=AVERAGE(F2:F6),=AVERAGE(G2:G6),=AVERAGE(F2:F6)
+
+## AMSA OPERATIONAL METRICS DASHBOARD
+Metric,Current_Value,Target_Value,Previous_Value,Change,Status,Formula_Used
+Revenue_per_Employee,=57952,=50000,=50000,=B2-C2,=IF(B2>=D2,"Exceeding","Below"),=IF(B2>=D2,"Exceeding","Below")
+Customer_Support_Response,=2_hours,=4_hours,=3_hours,=C3-B3,=IF(B3<=D3,"Exceeding","Below"),=IF(B3<=D3,"Exceeding","Below")
+System_Uptime,=99.9%,=99.5%,=99.2%,=B4-C4,=IF(B4>=D4,"Exceeding","Below"),=IF(B4>=D4,"Exceeding","Below")
+Employee_Retention,=95%,=90%,=88%,=B5-C5,=IF(B5>=D5,"Exceeding","Below"),=IF(B5>=D5,"Exceeding","Below")
+Process_Automation,=80%,=70%,=65%,=B6-C6,=IF(B6>=D6,"Exceeding","Below"),=IF(B6>=D6,"Exceeding","Below")
+TOTAL,=0,=0,=0,=AVERAGE(F2:F6),=AVERAGE(G2:G6),=AVERAGE(F2:F6)
+
+## AMSA FINANCIAL HEALTH DASHBOARD
+Metric,Current_Value,Target_Value,Industry_Benchmark,Performance,Formula_Used
+Gross_Margin,=67%,=70%,=50%,=B2/C2,=B2/C2
+Net_Margin,=62%,=40%,=20%,=B3/C3,=B3/C3
+ROI,=4000%,=200%,=100%,=B4/C4,=B4/C4
+Current_Ratio,=3.5,=2.0,=1.5,=B5/C5,=B5/C5
+Quick_Ratio,=3.0,=1.5,=1.0,=B6/C6,=B6/C6
+TOTAL,=0,=0,=0,=AVERAGE(F2:F6),=AVERAGE(F2:F6)
+
+## AMSA GROWTH METRICS DASHBOARD
+Metric,Current_Value,Target_Value,Growth_Rate,Acceleration,Formula_Used
+Monthly_Revenue_Growth,=25%,=20%,=B2/C2,=ACCELERATION(B2,C2),=B2/C2
+Customer_Growth,=20%,=15%,=B3/C3,=ACCELERATION(B3,C3),=B3/C3
+Market_Share_Growth,=0.18%,=0.5%,=B4/C4,=ACCELERATION(B4,C4),=B4/C4
+Product_Adoption,=80%,=70%,=B5/C5,=ACCELERATION(B5,C5),=B5/C5
+Team_Growth,=30%,=25%,=B6/C6,=ACCELERATION(B6,C6),=B6/C6
+TOTAL,=0,=0,=AVERAGE(F2:F6),=AVERAGE(G2:G6),=AVERAGE(F2:F6)

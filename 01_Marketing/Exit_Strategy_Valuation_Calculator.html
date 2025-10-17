@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Valoración - Estrategia de Salida</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .input-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid #e9ecef;
+        }
+
+        .input-section h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #34495e;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .form-group .input-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .form-group .input-group input {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .form-group .input-group .unit {
+            background: #3498db;
+            color: white;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .results-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+        }
+
+        .results-section h3 {
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            text-align: center;
+        }
+
+        .result-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .result-card h4 {
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .result-value {
+            font-size: 2em;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .result-details {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        .scenarios {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+
+        .scenarios h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            text-align: center;
+        }
+
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .scenario-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .scenario-card.optimistic {
+            border-left-color: #27ae60;
+        }
+
+        .scenario-card.base {
+            border-left-color: #3498db;
+        }
+
+        .scenario-card.conservative {
+            border-left-color: #e74c3c;
+        }
+
+        .scenario-card h4 {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .scenario-value {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .scenario-probability {
+            font-size: 0.9em;
+            opacity: 0.7;
+        }
+
+        .recommendations {
+            background: #e8f5e8;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+            border-left: 5px solid #27ae60;
+        }
+
+        .recommendations h3 {
+            color: #27ae60;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .recommendation-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 3px solid #27ae60;
+        }
+
+        .recommendation-item h4 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .recommendation-item p {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+
+        .calculate-btn {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(39, 174, 96, 0.3);
+        }
+
+        .chart-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .chart-container h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .chart {
+            height: 300px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: flex;
+            align-items: end;
+            justify-content: space-around;
+            padding: 20px;
+        }
+
+        .chart-bar {
+            background: linear-gradient(135deg, #3498db, #2ecc71);
+            border-radius: 5px 5px 0 0;
+            min-width: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: end;
+            padding: 10px;
+            color: white;
+            font-weight: 600;
+        }
+
+        .chart-bar .value {
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+
+        .chart-bar .label {
+            font-size: 0.8em;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .calculator-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .scenario-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Calculadora de Valoración</h1>
+            <p>Estrategia de Salida para Empresas SaaS de IA</p>
+        </div>
+
+        <div class="content">
+            <div class="calculator-grid">
+                <div class="input-section">
+                    <h3>📊 Datos Financieros</h3>
+                    
+                    <div class="form-group">
+                        <label for="revenue">Revenue Anual (ARR)</label>
+                        <div class="input-group">
+                            <input type="number" id="revenue" value="5000000" step="100000">
+                            <span class="unit">$</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="growth">Crecimiento Anual (%)</label>
+                        <div class="input-group">
+                            <input type="number" id="growth" value="45" step="1">
+                            <span class="unit">%</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ebitda">EBITDA Margin (%)</label>
+                        <div class="input-group">
+                            <input type="number" id="ebitda" value="25" step="1">
+                            <span class="unit">%</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customers">Número de Clientes</label>
+                        <div class="input-group">
+                            <input type="number" id="customers" value="1000" step="10">
+                            <span class="unit">#</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ltv">Customer LTV</label>
+                        <div class="input-group">
+                            <input type="number" id="ltv" value="5000" step="100">
+                            <span class="unit">$</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="churn">Churn Rate (%)</label>
+                        <div class="input-group">
+                            <input type="number" id="churn" value="3" step="0.1">
+                            <span class="unit">%</span>
+                        </div>
+                    </div>
+
+                    <button class="calculate-btn" onclick="calculateValuation()">
+                        🧮 Calcular Valoración
+                    </button>
+                </div>
+
+                <div class="results-section">
+                    <h3>💰 Resultados de Valoración</h3>
+                    
+                    <div class="result-card">
+                        <h4>Valoración Base</h4>
+                        <div class="result-value" id="baseValuation">$50M</div>
+                        <div class="result-details">Múltiplo: 10x Revenue</div>
+                    </div>
+
+                    <div class="result-card">
+                        <h4>Valoración por EBITDA</h4>
+                        <div class="result-value" id="ebitdaValuation">$31.25M</div>
+                        <div class="result-details">Múltiplo: 15x EBITDA</div>
+                    </div>
+
+                    <div class="result-card">
+                        <h4>Valor por Cliente</h4>
+                        <div class="result-value" id="customerValuation">$50K</div>
+                        <div class="result-details">LTV/CAC Ratio: 4.2x</div>
+                    </div>
+
+                    <div class="result-card">
+                        <h4>Valoración Promedio</h4>
+                        <div class="result-value" id="averageValuation">$44M</div>
+                        <div class="result-details">Múltiplo Promedio: 8.8x</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scenarios">
+                <h3>📈 Escenarios de Valoración</h3>
+                <div class="scenario-grid">
+                    <div class="scenario-card optimistic">
+                        <h4>🎯 Escenario Optimista</h4>
+                        <div class="scenario-value" id="optimisticValue">$65M</div>
+                        <div class="scenario-probability">Probabilidad: 25%</div>
+                    </div>
+                    <div class="scenario-card base">
+                        <h4>📊 Escenario Base</h4>
+                        <div class="scenario-value" id="baseValue">$50M</div>
+                        <div class="scenario-probability">Probabilidad: 60%</div>
+                    </div>
+                    <div class="scenario-card conservative">
+                        <h4>⚠️ Escenario Conservador</h4>
+                        <div class="scenario-value" id="conservativeValue">$40M</div>
+                        <div class="scenario-probability">Probabilidad: 15%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h3>📊 Comparación de Métodos de Valoración</h3>
+                <div class="chart" id="valuationChart">
+                    <div class="chart-bar" style="height: 60%;">
+                        <div class="value">$50M</div>
+                        <div class="label">Revenue</div>
+                    </div>
+                    <div class="chart-bar" style="height: 40%;">
+                        <div class="value">$31M</div>
+                        <div class="label">EBITDA</div>
+                    </div>
+                    <div class="chart-bar" style="height: 50%;">
+                        <div class="value">$50M</div>
+                        <div class="label">DCF</div>
+                    </div>
+                    <div class="chart-bar" style="height: 70%;">
+                        <div class="value">$55M</div>
+                        <div class="label">Comparables</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recommendations">
+                <h3>🎯 Recomendaciones Estratégicas</h3>
+                
+                <div class="recommendation-item">
+                    <h4>🚀 Optimización de Crecimiento</h4>
+                    <p>Aumentar el crecimiento del 45% al 60% para alcanzar valoración de $65M</p>
+                </div>
+
+                <div class="recommendation-item">
+                    <h4>💰 Mejora de Rentabilidad</h4>
+                    <p>Mejorar EBITDA margin del 25% al 30% para aumentar valoración en $5M</p>
+                </div>
+
+                <div class="recommendation-item">
+                    <h4>👥 Reducción de Churn</h4>
+                    <p>Reducir churn rate del 3% al 2% para aumentar LTV y valoración</p>
+                </div>
+
+                <div class="recommendation-item">
+                    <h4>🌐 Expansión de Mercado</h4>
+                    <p>Expandir a nuevos mercados para aumentar base de clientes</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculateValuation() {
+            // Obtener valores de entrada
+            const revenue = parseFloat(document.getElementById('revenue').value);
+            const growth = parseFloat(document.getElementById('growth').value);
+            const ebitdaMargin = parseFloat(document.getElementById('ebitda').value);
+            const customers = parseFloat(document.getElementById('customers').value);
+            const ltv = parseFloat(document.getElementById('ltv').value);
+            const churn = parseFloat(document.getElementById('churn').value);
+
+            // Calcular métricas derivadas
+            const ebitda = revenue * (ebitdaMargin / 100);
+            const customerValue = ltv * customers;
+
+            // Calcular valoraciones
+            const revenueMultiple = 10; // Múltiplo base
+            const ebitdaMultiple = 15; // Múltiplo base
+            
+            const baseValuation = revenue * revenueMultiple;
+            const ebitdaValuation = ebitda * ebitdaMultiple;
+            const customerValuation = customerValue;
+            const averageValuation = (baseValuation + ebitdaValuation + customerValuation) / 3;
+
+            // Escenarios
+            const optimisticValue = revenue * 13; // Múltiplo optimista
+            const conservativeValue = revenue * 8; // Múltiplo conservador
+
+            // Actualizar resultados
+            document.getElementById('baseValuation').textContent = formatCurrency(baseValuation);
+            document.getElementById('ebitdaValuation').textContent = formatCurrency(ebitdaValuation);
+            document.getElementById('customerValuation').textContent = formatCurrency(customerValuation / 1000) + 'K';
+            document.getElementById('averageValuation').textContent = formatCurrency(averageValuation);
+
+            // Actualizar escenarios
+            document.getElementById('optimisticValue').textContent = formatCurrency(optimisticValue);
+            document.getElementById('baseValue').textContent = formatCurrency(baseValuation);
+            document.getElementById('conservativeValue').textContent = formatCurrency(conservativeValue);
+
+            // Actualizar gráfico
+            updateChart(baseValuation, ebitdaValuation, averageValuation, optimisticValue);
+        }
+
+        function formatCurrency(value) {
+            if (value >= 1000000) {
+                return '$' + (value / 1000000).toFixed(0) + 'M';
+            } else if (value >= 1000) {
+                return '$' + (value / 1000).toFixed(0) + 'K';
+            } else {
+                return '$' + value.toFixed(0);
+            }
+        }
+
+        function updateChart(base, ebitda, average, optimistic) {
+            const chart = document.getElementById('valuationChart');
+            const maxValue = Math.max(base, ebitda, average, optimistic);
+            
+            const bars = chart.querySelectorAll('.chart-bar');
+            const values = [base, ebitda, average, optimistic];
+            const labels = ['Revenue', 'EBITDA', 'DCF', 'Comparables'];
+            
+            bars.forEach((bar, index) => {
+                const height = (values[index] / maxValue) * 100;
+                bar.style.height = height + '%';
+                bar.querySelector('.value').textContent = formatCurrency(values[index]);
+                bar.querySelector('.label').textContent = labels[index];
+            });
+        }
+
+        // Calcular valoración inicial
+        calculateValuation();
+    </script>
+</body>
+</html>
+
+
+
+

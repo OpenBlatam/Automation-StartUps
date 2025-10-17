@@ -1,0 +1,205 @@
+{
+  "01_Marketing": {
+    "keywords": [
+      "marketing",
+      "ventas",
+      "promoción",
+      "publicidad",
+      "cliente",
+      "audiencia",
+      "campaña",
+      "branding"
+    ],
+    "file_patterns": [
+      "*marketing*",
+      "*ventas*",
+      "*promo*",
+      "*brand*"
+    ],
+    "content_indicators": [
+      "estrategia de marketing",
+      "plan de ventas",
+      "campaña publicitaria"
+    ]
+  },
+  "02_Finance": {
+    "keywords": [
+      "financiero",
+      "dinero",
+      "inversión",
+      "presupuesto",
+      "costos",
+      "ingresos",
+      "gastos",
+      "flujo"
+    ],
+    "file_patterns": [
+      "*financiero*",
+      "*presupuesto*",
+      "*inversión*",
+      "*costos*"
+    ],
+    "content_indicators": [
+      "modelo financiero",
+      "análisis de costos",
+      "proyección de ingresos"
+    ]
+  },
+  "03_Human_Resources": {
+    "keywords": [
+      "recursos humanos",
+      "empleado",
+      "contratación",
+      "capacitación",
+      "personal",
+      "equipo"
+    ],
+    "file_patterns": [
+      "*hr*",
+      "*personal*",
+      "*empleado*",
+      "*contratación*"
+    ],
+    "content_indicators": [
+      "política de recursos humanos",
+      "proceso de contratación"
+    ]
+  },
+  "04_Operations": {
+    "keywords": [
+      "operaciones",
+      "proceso",
+      "eficiencia",
+      "productividad",
+      "logística",
+      "cadena"
+    ],
+    "file_patterns": [
+      "*operaciones*",
+      "*proceso*",
+      "*eficiencia*",
+      "*productividad*"
+    ],
+    "content_indicators": [
+      "proceso operativo",
+      "optimización de procesos"
+    ]
+  },
+  "05_Technology": {
+    "keywords": [
+      "tecnología",
+      "software",
+      "sistema",
+      "digital",
+      "automatización",
+      "plataforma"
+    ],
+    "file_patterns": [
+      "*tech*",
+      "*software*",
+      "*sistema*",
+      "*digital*"
+    ],
+    "content_indicators": [
+      "arquitectura de software",
+      "sistema tecnológico"
+    ]
+  },
+  "06_Strategy": {
+    "keywords": [
+      "estrategia",
+      "planificación",
+      "objetivo",
+      "visión",
+      "misión",
+      "plan"
+    ],
+    "file_patterns": [
+      "*estrategia*",
+      "*plan*",
+      "*objetivo*",
+      "*visión*"
+    ],
+    "content_indicators": [
+      "plan estratégico",
+      "objetivos corporativos"
+    ]
+  },
+  "07_Risk_Management": {
+    "keywords": [
+      "riesgo",
+      "seguridad",
+      "protección",
+      "prevención",
+      "compliance"
+    ],
+    "file_patterns": [
+      "*riesgo*",
+      "*seguridad*",
+      "*protección*",
+      "*compliance*"
+    ],
+    "content_indicators": [
+      "gestión de riesgos",
+      "plan de seguridad"
+    ]
+  },
+  "08_AI_Artificial_Intelligence": {
+    "keywords": [
+      "inteligencia artificial",
+      "ia",
+      "machine learning",
+      "algoritmo",
+      "datos"
+    ],
+    "file_patterns": [
+      "*ai*",
+      "*ia*",
+      "*ml*",
+      "*algoritmo*",
+      "*datos*"
+    ],
+    "content_indicators": [
+      "modelo de IA",
+      "algoritmo de machine learning"
+    ]
+  },
+  "09_Sales": {
+    "keywords": [
+      "ventas",
+      "cliente",
+      "prospecto",
+      "negociación",
+      "funnel"
+    ],
+    "file_patterns": [
+      "*ventas*",
+      "*cliente*",
+      "*prospecto*",
+      "*funnel*"
+    ],
+    "content_indicators": [
+      "proceso de ventas",
+      "funnel de conversión"
+    ]
+  },
+  "10_Customer_Service": {
+    "keywords": [
+      "servicio al cliente",
+      "soporte",
+      "atención",
+      "satisfacción",
+      "experiencia"
+    ],
+    "file_patterns": [
+      "*soporte*",
+      "*atención*",
+      "*servicio*",
+      "*experiencia*"
+    ],
+    "content_indicators": [
+      "servicio al cliente",
+      "experiencia del usuario"
+    ]
+  }
+}

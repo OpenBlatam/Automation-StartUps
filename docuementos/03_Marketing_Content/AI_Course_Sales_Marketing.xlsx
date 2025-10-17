@@ -1,0 +1,54 @@
+# AI COURSE SALES & MARKETING VERSION - EXCEL TEMPLATE
+# Ultra-Advanced Sales & Marketing with CRM and Digital Marketing
+
+## SALES & MARKETING METRICS
+S&M_Metric,Current_Value,Target_Value,S&M_Score,Formula_Used
+Lead_Generation,=1500,=1200,=B2*C2*D2,=B2*C2*D2
+Conversion_Rate,=12%,=10%,=B3*C3*D3,=B3*C3*D3
+Customer_Acquisition_Cost,=25,=30,=C4/B4,=C4/B4
+Customer_Lifetime_Value,=2500,=2000,=B5*C5*D5,=B5*C5*D5
+TOTAL,=0,=0,=AVERAGE(F2:F5),=AVERAGE(F2:F5)
+
+## DIGITAL MARKETING
+Marketing_Channel,ROI,Conversion_Rate,Formula_Used
+Google_Ads,=B2*C2*D2,=Google_Ads,=DIGITAL_MARKETING_METRICS(B2,C2,D2),=DIGITAL_MARKETING_METRICS(B2,C2,D2)
+Facebook_Ads,=B3*C3*D3,=Facebook_Ads,=DIGITAL_MARKETING_METRICS(B3,C3,D3),=DIGITAL_MARKETING_METRICS(B3,C3,D3)
+Email_Marketing,=B4*C4*D4,=Email_Marketing,=DIGITAL_MARKETING_METRICS(B4,C4,D4),=DIGITAL_MARKETING_METRICS(B4,C4,D4)
+Content_Marketing,=B5*C5*D5,=Content_Marketing,=DIGITAL_MARKETING_METRICS(B5,C5,D5),=DIGITAL_MARKETING_METRICS(B5,C5,D5)
+TOTAL,=0,=AVERAGE(F2:F5),=AVERAGE(G2:G5),=AVERAGE(F2:F5)
+
+## CUSTOMER RELATIONSHIP MANAGEMENT CRM
+CRM_Component,Implementation_Level,User_Adoption,Formula_Used
+Lead_Management,=B2*C2*D2,=Lead_Management,=CRM_METRICS(B2,C2,D2),=CRM_METRICS(B2,C2,D2)
+Contact_Management,=B3*C3*D3,=Contact_Management,=CRM_METRICS(B3,C3,D3),=CRM_METRICS(B3,C3,D3)
+Sales_Pipeline,=B4*C4*D4,=Sales_Pipeline,=CRM_METRICS(B4,C4,D4),=CRM_METRICS(B4,C4,D4)
+TOTAL,=0,=AVERAGE(F2:F4),=AVERAGE(G2:G4),=AVERAGE(F2:F4)
+
+## SALES PERFORMANCE
+Sales_Metric,Current_Value,Target_Value,Performance_Score,Formula_Used
+Sales_Revenue,=B2*C2*D2,=Sales_Revenue,=SALES_METRICS(B2,C2,D2),=SALES_METRICS(B2,C2,D2)
+Sales_Quota_Achievement,=B3*C3*D3,=Sales_Quota_Achievement,=SALES_METRICS(B3,C3,D3),=SALES_METRICS(B3,C3,D3)
+Average_Deal_Size,=B4*C4*D4,=Average_Deal_Size,=SALES_METRICS(B4,C4,D4),=SALES_METRICS(B4,C4,D4)
+TOTAL,=0,=AVERAGE(F2:F4),=AVERAGE(G2:G4),=AVERAGE(F2:F4)
+
+## MARKETING AUTOMATION
+Automation_Tool,Automation_Level,Effectiveness_Score,Formula_Used
+Email_Automation,=B2*C2*D2,=Email_Automation,=AUTOMATION_METRICS(B2,C2,D2),=AUTOMATION_METRICS(B2,C2,D2)
+Lead_Nurturing,=B3*C3*D3,=Lead_Nurturing,=AUTOMATION_METRICS(B3,C3,D3),=AUTOMATION_METRICS(B3,C3,D3)
+Social_Media_Automation,=B4*C4*D4,=Social_Media_Automation,=AUTOMATION_METRICS(B4,C4,D4),=AUTOMATION_METRICS(B4,C4,D4)
+TOTAL,=0,=AVERAGE(F2:F4),=AVERAGE(G2:G4),=AVERAGE(F2:F4)
+
+## CUSTOMER ANALYTICS
+Analytics_Metric,Current_Value,Insight_Quality,Formula_Used
+Customer_Segmentation,=B2*C2*D2,=Customer_Segmentation,=ANALYTICS_METRICS(B2,C2,D2),=ANALYTICS_METRICS(B2,C2,D2)
+Behavior_Analytics,=B3*C3*D3,=Behavior_Analytics,=ANALYTICS_METRICS(B3,C3,D3),=ANALYTICS_METRICS(B3,C3,D3)
+Predictive_Analytics,=B4*C4*D4,=Predictive_Analytics,=ANALYTICS_METRICS(B4,C4,D4),=ANALYTICS_METRICS(B4,C4,D4)
+TOTAL,=0,=AVERAGE(F2:F4),=AVERAGE(G2:G4),=AVERAGE(F2:F4)
+
+## SALES & MARKETING DASHBOARD
+KPI,Current_Value,Target_Value,Status,Formula_Used
+Lead_Generation,=1500,=1200,=IF(B2>=C2,"Exceeding","Below"),=IF(B2>=C2,"Exceeding","Below")
+Conversion_Rate,=12%,=10%,=IF(B3>=C3,"Exceeding","Below"),=IF(B3>=C3,"Exceeding","Below")
+CAC,=25,=30,=IF(B4<=C4,"Exceeding","Below"),=IF(B4<=C4,"Exceeding","Below")
+CLV,=2500,=2000,=IF(B5>=C5,"Exceeding","Below"),=IF(B5>=C5,"Exceeding","Below")
+TOTAL,=0,=0,=AVERAGE(E2:E5),=AVERAGE(E2:E5)

@@ -369,3 +369,4 @@ TOTAL: $21,500 USD en recursos profesionales
 **¡Tu campaña de webinar IA está completamente lista para el éxito! 🚀**
 
 Tienes todos los recursos, herramientas, estrategias y planes necesarios para ejecutar una campaña profesional que llene tu webinar y genere los resultados esperados. ¡Es hora de lanzar y hacer dinero!
+

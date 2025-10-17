@@ -1,0 +1,36 @@
+{
+  "tasa_interes_fed": 5.25,
+  "inflacion_latam": 3.2,
+  "crecimiento_pib_latam": 2.8,
+  "indice_riesgo_pais": 450,
+  "flujo_vc_latam": 2.5,
+  "valuaciones_medianas": {
+    "pre_seed": 2.5,
+    "seed": 8.0,
+    "series_a": 25.0,
+    "series_b": 80.0
+  },
+  "dilucion_promedio": {
+    "pre_seed": 0.15,
+    "seed": 0.2,
+    "series_a": 0.25,
+    "series_b": 0.2
+  },
+  "sectores_calientes": [
+    "AI",
+    "Fintech",
+    "E-commerce",
+    "SaaS"
+  ],
+  "paises_favorables": [
+    "Mexico",
+    "Brasil",
+    "Colombia",
+    "Chile"
+  ],
+  "tendencias_inversion": {
+    "ai_startups": 0.35,
+    "saas_growth": 0.28,
+    "latam_expansion": 0.22
+  }
+}

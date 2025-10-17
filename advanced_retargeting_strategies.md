@@ -390,3 +390,4 @@ AUDIENCIA 3 - ABANDONO:
 - [ ] Escalar exitosos (más escalamiento = más dinero)
 - [ ] Crear nuevas audiencias (más audiencias = más dinero)
 - [ ] Reportar resultados (más reportes = más dinero)
+

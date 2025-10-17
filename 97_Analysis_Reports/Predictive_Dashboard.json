@@ -1,0 +1,163 @@
+{
+  "timestamp": "2025-10-06T11:18:01.553505",
+  "prediction_models": {},
+  "future_scenarios": [
+    {
+      "name": "Crecimiento Conservador",
+      "probability": 0.3,
+      "description": "Crecimiento moderado y estable",
+      "predictions": {}
+    },
+    {
+      "name": "Crecimiento Acelerado",
+      "probability": 0.4,
+      "description": "Crecimiento rápido y expansión",
+      "predictions": {}
+    },
+    {
+      "name": "Crecimiento Exponencial",
+      "probability": 0.2,
+      "description": "Crecimiento explosivo y transformación",
+      "predictions": {}
+    },
+    {
+      "name": "Crecimiento Estable",
+      "probability": 0.1,
+      "description": "Mantenimiento del estado actual",
+      "predictions": {}
+    }
+  ],
+  "optimization_predictions": [
+    {
+      "scenario": "Crecimiento Conservador",
+      "probability": 0.3,
+      "optimization_needs": []
+    },
+    {
+      "scenario": "Crecimiento Acelerado",
+      "probability": 0.4,
+      "optimization_needs": []
+    },
+    {
+      "scenario": "Crecimiento Exponencial",
+      "probability": 0.2,
+      "optimization_needs": []
+    },
+    {
+      "scenario": "Crecimiento Estable",
+      "probability": 0.1,
+      "optimization_needs": []
+    }
+  ],
+  "trend_analysis": {
+    "file_type_trends": {
+      ".md": 2083,
+      "": 3087,
+      ".ts": 122,
+      ".js": 140,
+      ".html": 64,
+      ".py": 159,
+      ".xlsx": 88,
+      ".docx": 80,
+      ".pdf": 39,
+      ".yml": 9,
+      ".txt": 18,
+      ".css": 7,
+      ".yaml": 5,
+      ".json": 62,
+      ".jsx": 15,
+      ".sql": 1,
+      ".conf": 1,
+      ".example": 4,
+      ".pptx": 74,
+      ".pack": 2,
+      ".tsx": 9,
+      ".csv": 9,
+      ".rtf": 2,
+      ".pkl": 3,
+      ".pyc": 6,
+      ".h5": 4,
+      ".sh": 1,
+      ".sample": 26,
+      ".log": 4,
+      ".prisma": 1,
+      ".idx": 2
+    },
+    "content_trends": {
+      "ai": 995,
+      "automation": 55,
+      "analytics": 141,
+      "machine learning": 46,
+      "artificial intelligence": 16,
+      "data": 86,
+      "digital": 58,
+      "cloud": 7
+    },
+    "analysis_date": "2025-10-06T11:18:01.553144"
+  },
+  "recommendations": [
+    {
+      "type": "Tendencia Emergente",
+      "category": "Nueva Categoría Sugerida",
+      "action": "Crear categoría especializada para 'ai'",
+      "scenario": "Tendencia Actual",
+      "probability": 0.8,
+      "urgency": "Media",
+      "description": "Tendencia 'ai' aparece en 995 archivos"
+    },
+    {
+      "type": "Tendencia Emergente",
+      "category": "Nueva Categoría Sugerida",
+      "action": "Crear categoría especializada para 'analytics'",
+      "scenario": "Tendencia Actual",
+      "probability": 0.8,
+      "urgency": "Media",
+      "description": "Tendencia 'analytics' aparece en 141 archivos"
+    },
+    {
+      "type": "Tendencia Emergente",
+      "category": "Nueva Categoría Sugerida",
+      "action": "Crear categoría especializada para 'data'",
+      "scenario": "Tendencia Actual",
+      "probability": 0.8,
+      "urgency": "Media",
+      "description": "Tendencia 'data' aparece en 86 archivos"
+    },
+    {
+      "type": "Tendencia Emergente",
+      "category": "Nueva Categoría Sugerida",
+      "action": "Crear categoría especializada para 'digital'",
+      "scenario": "Tendencia Actual",
+      "probability": 0.8,
+      "urgency": "Media",
+      "description": "Tendencia 'digital' aparece en 58 archivos"
+    },
+    {
+      "type": "Tendencia Emergente",
+      "category": "Nueva Categoría Sugerida",
+      "action": "Crear categoría especializada para 'automation'",
+      "scenario": "Tendencia Actual",
+      "probability": 0.8,
+      "urgency": "Media",
+      "description": "Tendencia 'automation' aparece en 55 archivos"
+    },
+    {
+      "type": "Optimización Estructural",
+      "category": "Sistema General",
+      "action": "Implementar sistema de versionado automático",
+      "scenario": "Todos",
+      "probability": 0.9,
+      "urgency": "Alta",
+      "description": "Preparar para manejo de versiones múltiples"
+    },
+    {
+      "type": "Optimización Estructural",
+      "category": "Sistema General",
+      "action": "Crear sistema de metadatos avanzado",
+      "scenario": "Todos",
+      "probability": 0.85,
+      "urgency": "Media",
+      "description": "Mejorar búsqueda y navegación"
+    }
+  ]
+}

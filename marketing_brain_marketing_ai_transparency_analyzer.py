@@ -1393,3 +1393,4 @@ if __name__ == "__main__":
     export_data = ait_analyzer.export_ait_analysis()
     
     print("✅ Sistema de análisis de AI Transparency de marketing completado!")
+

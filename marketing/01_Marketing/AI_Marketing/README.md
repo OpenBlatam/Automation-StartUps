@@ -1,0 +1,63 @@
+# Ai Marketing
+
+Subcategoría de 01_Marketing
+
+## Archivos:
+
+- 02_AI_Marketing_SaaS_Executive_Summary.pdf
+- 04_AI_Marketing_SaaS_Business_Plan.docx
+- 06_AI_Marketing_SaaS_Financial_Model.xlsx
+- 08-advanced-ai-features.md
+- 11_Marketing_Campaign_Tracker.xlsx
+- ABM_AI_CUSTOMER_CASE_STUDIES.md
+- ABM_AI_LIVE_DEMONSTRATIONS.md
+- ABM_AI_PRICING_PROPOSAL.md
+- ABM_Course_Modules_CopyAI_Integration.md
+- ADVANCED_AI_PITCH_GENERATOR.md
+- AI_Marketing_SaaS_Gamification_Strategy_Blueprint.md
+- AI_Marketing_Tools_Comparison.csv
+- AI_PITCH_COACHING_SYSTEM.md
+- AI_PITCH_OPTIMIZATION_PLATFORM.md
+- Artificial_General_Intelligence_Academy.md
+- BlockchainMarketing.js
+- COPYCAR_AI_ADVANCED_CASE_STUDIES.md
+- COPYCAR_AI_CASE_STUDIES.md
+- COPYCAR_AI_COMPETITIVE_ANALYSIS.md
+- COPYCAR_AI_CUSTOMER_CASE_STUDIES.md
+- COPYCAR_AI_CUSTOMER_CASE_STUDIES_DETAILED.md
+- COPYCAR_AI_ELEVATOR_PITCH_DOCUMENTATION.md
+- COPYCAR_AI_ELEVATOR_PITCH_MASTER.md
+- COPYCAR_AI_EXECUTIVE_SUMMARY.md
+- COPYCAR_AI_EXECUTIVE_SUMMARY_FINAL.md
+- COPYCAR_AI_FUNDRAISING_MASTERCLASS.md
+- COPYCAR_AI_GO_TO_MARKET_STRATEGY.md
+- COPYCAR_AI_LIVE_DEMOS.md
+- COPYCAR_AI_MARKET_ANALYSIS.md
+- COPYCAR_AI_ONE_PAGER.md
+- COPYCAR_AI_PITCH_DECK_MASTER.md
+- COPYCAR_AI_PITCH_DECK_SLIDES.md
+- COPYCAR_AI_PITCH_DECK_VISUAL.md
+- COPYCAR_AI_PITCH_OPTIMIZATION.md
+- COPYCAR_AI_PRESENTATION_TIPS.md
+- COPYCAR_AI_PRICING_PROPOSAL.md
+- COPYCAR_AI_ULTIMATE_CASE_STUDIES.md
+- COPYCAR_AI_ULTIMATE_FUNDRAISING_PLAYBOOK.md
+- COPYCAR_AI_ULTIMATE_MARKETING_STRATEGY.md
+- Comments.DIVINE_MARKETING_INTELLIGENCE.md
+- Comments.QUANTUM_MARKETING_INTELLIGENCE.md
+- Copy_AI_Implementation_Guide.md
+- EMAIL_TEMPLATES_MEJORADOS.md
+- ESTRATEGIA_LEVANTAMIENTO_CAPITAL_COPYCAR_AI.md
+- Enhanced_CopyAI_Prompt_Due_Diligence.md
+- Follow_Up_Call_Script_AI_Marketing_Course.md
+- Intergalactic_AI_Marketing_Academy.md
+- Omniversal_AI_Marketing_Academy.md
+- Quantum_Marketing_AI_Guide.md
+- README.md
+- Spiritual_Transcendence_AI_Marketing.md
+- Universal_Marketing_Intelligence_System.md
+- VIP_Tier_Incentive_Program_AI_Marketing.md
+- brand_train.py
+- copy-ai-integration.md
+- curso-inteligencia-artificial-empresas.pdf
+- webinar-advanced-ai-integration.md

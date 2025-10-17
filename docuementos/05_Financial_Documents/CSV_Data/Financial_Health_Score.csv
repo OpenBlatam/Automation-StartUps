@@ -1,0 +1,34 @@
+Categoría,Métrica,Valor Actual,Valor Ideal,Peso,Score,Contribución,Estado
+LIQUIDEZ,,,,,,,
+Ratio de Liquidez,Activos Corrientes / Pasivos Corrientes,2.5,2.0,20%,=IF(C2>=D2,100,IF(C2>=D2*0.8,80,60)),=E2*F2/100,=IF(F2>=80,"✅","❌")
+Efectivo Disponible,Meses de gastos cubiertos,6,6,15%,=IF(C3>=D3,100,IF(C3>=D3*0.8,80,60)),=E3*F3/100,=IF(F3>=80,"✅","❌")
+Flujo de Caja,Ingresos - Gastos,12000,10000,15%,=IF(C4>=D4,100,IF(C4>=D4*0.8,80,60)),=E4*F4/100,=IF(F4>=80,"✅","❌")
+,,,,,,
+ENDEUDAMIENTO,,,,,,,
+Ratio Deuda/Ingresos,Deuda Total / Ingresos Anuales,0.30,0.40,20%,=IF(C6<=D6,100,IF(C6<=D6*1.2,80,60)),=E6*F6/100,=IF(F6>=80,"✅","❌")
+Ratio Deuda/Patrimonio,Deuda Total / Patrimonio Neto,0.50,0.60,15%,=IF(C7<=D7,100,IF(C7<=D7*1.2,80,60)),=E7*F7/100,=IF(F7>=80,"✅","❌")
+Cobertura de Intereses,Ingresos / Intereses Anuales,4.0,2.5,10%,=IF(C8>=D8,100,IF(C8>=D8*0.8,80,60)),=E8*F8/100,=IF(F8>=80,"✅","❌")
+,,,,,,
+AHORRO,,,,,,,
+Tasa de Ahorro,Ahorros / Ingresos,0.25,0.20,15%,=IF(C10>=D10,100,IF(C10>=D10*0.8,80,60)),=E10*F10/100,=IF(F10>=80,"✅","❌")
+Fondo de Emergencia,Meses de gastos,6,6,10%,=IF(C11>=D11,100,IF(C11>=D11*0.8,80,60)),=E11*F11/100,=IF(F11>=80,"✅","❌")
+Ahorro para Jubilación,% del ingreso,15,15,10%,=IF(C12>=D12,100,IF(C12>=D12*0.8,80,60)),=E12*F12/100,=IF(F12>=80,"✅","❌")
+,,,,,,
+INVERSIONES,,,,,,,
+ROI Portafolio,Retorno anual,15,12,15%,=IF(C14>=D14,100,IF(C14>=D14*0.8,80,60)),=E14*F14/100,=IF(F14>=80,"✅","❌")
+Diversificación,Número de activos,8,5,10%,=IF(C15>=D15,100,IF(C15>=D15*0.8,80,60)),=E15*F15/100,=IF(F15>=80,"✅","❌")
+Ratio de Gastos,Comisiones / Valor Portafolio,0.02,0.05,5%,=IF(C16<=D16,100,IF(C16<=D16*1.2,80,60)),=E16*F16/100,=IF(F16>=80,"✅","❌")
+,,,,,,
+SEGUROS,,,,,,,
+Cobertura de Vida,Veces el ingreso anual,10,10,10%,=IF(C18>=D18,100,IF(C18>=D18*0.8,80,60)),=E18*F18/100,=IF(F18>=80,"✅","❌")
+Cobertura de Salud,% de gastos médicos,80,80,5%,=IF(C19>=D19,100,IF(C19>=D19*0.8,80,60)),=E19*F19/100,=IF(F19>=80,"✅","❌")
+Cobertura de Auto,Valor de vehículos,100,100,5%,=IF(C20>=D20,100,IF(C20>=D20*0.8,80,60)),=E20*F20/100,=IF(F20>=80,"✅","❌")
+,,,,,,
+SCORE TOTAL,,,,,,,
+Score General,=SUM(G2:G20),,=SUM(G2:G20),,=IF(B21>=80,"✅ Excelente",IF(B21>=70,"✅ Bueno",IF(B21>=60,"⚠️ Regular","❌ Necesita Mejora")))
+Score por Categoría,,,,,,
+Liquidez,=SUM(G2:G4),,=SUM(G2:G4),,=IF(B23>=80,"✅","❌")
+Endeudamiento,=SUM(G6:G8),,=SUM(G6:G8),,=IF(B24>=80,"✅","❌")
+Ahorro,=SUM(G10:G12),,=SUM(G10:G12),,=IF(B25>=80,"✅","❌")
+Inversiones,=SUM(G14:G16),,=SUM(G14:G16),,=IF(B26>=80,"✅","❌")
+Seguros,=SUM(G18:G20),,=SUM(G18:G20),,=IF(B27>=80,"✅","❌")

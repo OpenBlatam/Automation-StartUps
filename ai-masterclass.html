@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎓 Masterclass IA Marketing | IA Marketing Solutions</title>
+    <meta name="description" content="🔥 Masterclass exclusiva de IA en marketing. 8 horas de contenido premium, expertos invitados, casos de estudio reales y certificación incluida.">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Tonos Emocionales Avanzados */
+        .excitement { background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; animation: excitement-pulse 2s infinite; text-align: center; }
+        @keyframes excitement-pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        
+        .trust { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .trust::before { content: "🛡️ "; font-size: 1.8em; }
+        
+        .success { background: linear-gradient(135deg, #28a745 0%, #198754 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .success::before { content: "🎉 "; font-size: 1.8em; }
+        
+        .premium { background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; position: relative; overflow: hidden; }
+        .premium::before { content: "👑 "; font-size: 1.8em; }
+        .premium::after { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent); animation: premium-shine 3s infinite; }
+        @keyframes premium-shine { 0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); } 100% { transform: translateX(100%) translateY(100%) rotate(45deg); } }
+        
+        .curiosity { background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .curiosity::before { content: "🔍 "; font-size: 1.8em; }
+        
+        .social-proof { background: linear-gradient(135deg, #007bff 0%, #6610f2 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .social-proof::before { content: "👥 "; font-size: 1.8em; }
+        
+        .authority { background: linear-gradient(135deg, #343a40 0%, #6c757d 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .authority::before { content: "🏆 "; font-size: 1.8em; }
+        
+        .empathy { background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .empathy::before { content: "💝 "; font-size: 1.8em; }
+        
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 0; text-align: center; }
+        .hero h1 { font-size: 3.5em; margin-bottom: 20px; font-weight: 700; }
+        .hero p { font-size: 1.3em; margin-bottom: 30px; opacity: 0.95; }
+        
+        .cta-button { background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; padding: 20px 40px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.3em; display: inline-block; margin: 20px 10px; transition: all 0.3s; box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3); }
+        .cta-button:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4); }
+        
+        .masterclass-section { background: white; padding: 60px 0; }
+        .masterclass-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 40px; }
+        .masterclass-card { background: #f8f9fa; padding: 30px; border-radius: 20px; border-left: 6px solid #667eea; transition: transform 0.3s; }
+        .masterclass-card:hover { transform: translateY(-5px); }
+        .masterclass-title { font-size: 1.4em; font-weight: bold; color: #2c3e50; margin-bottom: 15px; }
+        .masterclass-stats { background: white; padding: 15px; border-radius: 10px; margin: 15px 0; }
+        .stat-item { display: flex; justify-content: space-between; margin: 8px 0; }
+        
+        .masterclass-preview { background: white; border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin: 20px 0; }
+        .masterclass-header { border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px; }
+        .masterclass-content { background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #667eea; }
+        .content-number { background: #667eea; color: white; width: 25px; height: 25px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 10px; }
+        
+        .agenda-section { background: #f8f9fa; padding: 60px 0; }
+        .agenda-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px; }
+        .agenda-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        .agenda-icon { font-size: 2.5em; margin-bottom: 15px; }
+        
+        .stats-section { background: #2c3e50; color: white; padding: 60px 0; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 40px; }
+        .stat-card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; text-align: center; }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #ff6b6b; margin-bottom: 10px; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5em; }
+            .hero p { font-size: 1.1em; }
+            .masterclass-grid { grid-template-columns: 1fr; }
+            .agenda-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>🎓 Masterclass IA Marketing</h1>
+            <p><strong>8 horas de contenido premium</strong> con expertos invitados, casos de estudio reales y certificación incluida</p>
+            <a href="#masterclass" class="cta-button">🎓 Inscribirse</a>
+            <a href="#agenda" class="cta-button" style="background: transparent; border: 2px solid white;">📋 Agenda</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="excitement">
+            <h2 style="margin: 0; font-size: 2.2em;">🎓 ¡MASTERCLASS EXCLUSIVA!</h2>
+            <p style="margin: 10px 0 0 0; font-size: 1.2em;">8 horas de contenido premium con expertos y casos de estudio reales</p>
+        </div>
+
+        <div class="success">
+            <h3 style="margin: 0 0 15px 0;">🎉 RESULTADOS COMPROBADOS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Nuestra masterclass ha ayudado a 500+ profesionales a implementar IA y aumentar sus resultados 300%</p>
+        </div>
+
+        <section class="masterclass-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">🎓 Contenido de la Masterclass</h2>
+            
+            <div class="masterclass-grid">
+                <div class="masterclass-card">
+                    <div class="masterclass-title">🚀 Módulo 1: Fundamentos de IA</div>
+                    <p>Introducción completa a la IA en marketing y sus aplicaciones</p>
+                    <div class="masterclass-stats">
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">90 min</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Instructor:</span>
+                            <span style="color: #28a745; font-weight: bold;">Dr. Ana García</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Nivel:</span>
+                            <span style="color: #28a745; font-weight: bold;">Básico</span>
+                        </div>
+                    </div>
+                    <div class="masterclass-preview">
+                        <div class="masterclass-header">
+                            <div class="masterclass-title">Contenido del Módulo</div>
+                        </div>
+                        <div class="masterclass-content">
+                            <span class="content-number">1</span>
+                            <strong>Introducción a la IA:</strong> Conceptos básicos y aplicaciones
+                        </div>
+                        <div class="masterclass-content">
+                            <span class="content-number">2</span>
+                            <strong>Herramientas principales:</strong> ChatGPT, Midjourney, Jasper
+                        </div>
+                        <div class="masterclass-content">
+                            <span class="content-number">3</span>
+                            <strong>Casos de uso:</strong> Ejemplos reales de implementación
+                        </div>
+                        <div class="masterclass-content">
+                            <span class="content-number">4</span>
+                            <strong>Q&A en vivo:</strong> Preguntas y respuestas
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Ver Módulo</a>
+                </div>
+                
+                <div class="masterclass-card">
+                    <div class="masterclass-title">⚙️ Módulo 2: Automatización</div>
+                    <p>Automatización avanzada de procesos de marketing con IA</p>
+                    <div class="masterclass-stats">
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">120 min</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Instructor:</span>
+                            <span style="color: #28a745; font-weight: bold;">Carlos López</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Nivel:</span>
+                            <span style="color: #28a745; font-weight: bold;">Intermedio</span>
+                        </div>
+                    </div>
+                    <div class="masterclass-preview">
+                        <div class="masterclass-header">
+                            <div class="masterclass-title">Contenido del Módulo</div>
+                        </div>
+                        <div class="masterclass-content">
+                            <span class="content-number">1</span>
+                            <strong>Workflows básicos:</strong> Cómo crear automatizaciones
+                        </div>
+                        <div class="masterclass-content">
+                            <span class="content-number">2</span>
+                            <strong>Integración de herramientas:</strong> Conectar sistemas
+                        </div>
+                        <div class="masterclass-content">
+                            <span class="content-number">3</span>
+                            <strong>Optimización:</strong> Mejorar procesos existentes
+                        </div>
+                        <div class="masterclass-content">
+                            <span class="content-number">4</span>
+                            <strong>Demo en vivo:</strong> Implementación práctica
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Ver Módulo</a>
+                </div>
+                
+                <div class="masterclass-card">
+                    <div class="masterclass-title">📊 Módulo 3: Análisis de Datos</div>
+                    <p>Análisis avanzado de datos de marketing con IA</p>
+                    <div class="masterclass-stats">
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">105 min</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Instructor:</span>
+                            <span style="color: #28a745; font-weight: bold;">María Rodríguez</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Nivel:</span>
+                            <span style="color: #28a745; font-weight: bold;">Avanzado</span>
+                        </div>
+                    </div>
+                    <div class="masterclass-preview">
+                        <div class="masterclass-header">
+                            <div class="masterclass-title">Contenido del Módulo</div>
+                        </div>
+                        <div class="masterclass-content">
+                            <span class="content-number">1</span>
+                            <strong>Recolección de datos:</strong> APIs y fuentes de datos
+                        </div>
+                        <div class="masterclass-content">
+                            <span class="content-number">2</span>
+                            <strong>Procesamiento:</strong> Limpieza y preparación
+                        </div>
+                        <div class="masterclass-content">
+                            <span class="content-number">3</span>
+                            <strong>Análisis predictivo:</strong> Modelos de machine learning
+                        </div>
+                        <div class="masterclass-content">
+                            <span class="content-number">4</span>
+                            <strong>Visualización:</strong> Dashboards y reportes
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Ver Módulo</a>
+                </div>
+                
+                <div class="masterclass-card">
+                    <div class="masterclass-title">🎯 Módulo 4: Optimización</div>
+                    <p>Optimización de conversiones y ROI con IA</p>
+                    <div class="masterclass-stats">
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">110 min</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Instructor:</span>
+                            <span style="color: #28a745; font-weight: bold;">David Kim</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Nivel:</span>
+                            <span style="color: #28a745; font-weight: bold;">Avanzado</span>
+                        </div>
+                    </div>
+                    <div class="masterclass-preview">
+                        <div class="masterclass-header">
+                            <div class="masterclass-title">Contenido del Módulo</div>
+                        </div>
+                        <div class="masterclass-content">
+                            <span class="content-number">1</span>
+                            <strong>Psicología del consumidor:</strong> Comportamiento y decisiones
+                        </div>
+                        <div class="masterclass-content">
+                            <span class="content-number">2</span>
+                            <strong>A/B testing:</strong> Pruebas automatizadas
+                        </div>
+                        <div class="masterclass-content">
+                            <span class="content-number">3</span>
+                            <strong>Personalización:</strong> Experiencias personalizadas
+                        </div>
+                        <div class="masterclass-content">
+                            <span class="content-number">4</span>
+                            <strong>Casos de éxito:</strong> Ejemplos reales
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Ver Módulo</a>
+                </div>
+                
+                <div class="masterclass-card">
+                    <div class="masterclass-title">🤖 Módulo 5: Chatbots</div>
+                    <p>Creación de chatbots inteligentes para marketing</p>
+                    <div class="masterclass-stats">
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">95 min</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Instructor:</span>
+                            <span style="color: #28a745; font-weight: bold;">Laura Chen</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Nivel:</span>
+                            <span style="color: #28a745; font-weight: bold;">Intermedio</span>
+                        </div>
+                    </div>
+                    <div class="masterclass-preview">
+                        <div class="masterclass-header">
+                            <div class="masterclass-title">Contenido del Módulo</div>
+                        </div>
+                        <div class="masterclass-content">
+                            <span class="content-number">1</span>
+                            <strong>NLP básico:</strong> Procesamiento de lenguaje natural
+                        </div>
+                        <div class="masterclass-content">
+                            <span class="content-number">2</span>
+                            <strong>Diseño de conversaciones:</strong> Flujos y diálogos
+                        </div>
+                        <div class="masterclass-content">
+                            <span class="content-number">3</span>
+                            <strong>Integración:</strong> APIs y sistemas
+                        </div>
+                        <div class="masterclass-content">
+                            <span class="content-number">4</span>
+                            <strong>Optimización:</strong> Mejorar respuestas
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Ver Módulo</a>
+                </div>
+                
+                <div class="masterclass-card">
+                    <div class="masterclass-title">🎁 Módulo 6: Casos de Estudio</div>
+                    <p>Análisis de casos reales de implementación de IA</p>
+                    <div class="masterclass-stats">
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">120 min</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Instructor:</span>
+                            <span style="color: #28a745; font-weight: bold;">Panel de Expertos</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Nivel:</span>
+                            <span style="color: #28a745; font-weight: bold;">Todos</span>
+                        </div>
+                    </div>
+                    <div class="masterclass-preview">
+                        <div class="masterclass-header">
+                            <div class="masterclass-title">Contenido del Módulo</div>
+                        </div>
+                        <div class="masterclass-content">
+                            <span class="content-number">1</span>
+                            <strong>Netflix:</strong> Cómo usan IA para recomendaciones
+                        </div>
+                        <div class="masterclass-content">
+                            <span class="content-number">2</span>
+                            <strong>Amazon:</strong> Personalización con machine learning
+                        </div>
+                        <div class="masterclass-content">
+                            <span class="content-number">3</span>
+                            <strong>Spotify:</strong> IA para descubrimiento de música
+                        </div>
+                        <div class="masterclass-content">
+                            <span class="content-number">4</span>
+                            <strong>Airbnb:</strong> Optimización de precios con IA
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Ver Módulo</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="authority">
+            <h3 style="margin: 0 0 15px 0;">🏆 LIDERAMOS EN MASTERCLASSES IA</h3>
+            <p style="margin: 0; font-size: 1.2em;">La masterclass más completa sobre IA en marketing con 8 horas de contenido premium</p>
+        </div>
+
+        <section class="agenda-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">📋 Agenda de la Masterclass</h2>
+            
+            <div class="agenda-grid">
+                <div class="agenda-card">
+                    <div class="agenda-icon">🌅</div>
+                    <h3>9:00 AM - 10:30 AM</h3>
+                    <p>Módulo 1: Fundamentos de IA</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Introducción a la IA</li>
+                        <li>✅ Herramientas principales</li>
+                        <li>✅ Casos de uso</li>
+                        <li>✅ Q&A en vivo</li>
+                    </ul>
+                </div>
+                
+                <div class="agenda-card">
+                    <div class="agenda-icon">☀️</div>
+                    <h3>10:45 AM - 12:45 PM</h3>
+                    <p>Módulo 2: Automatización</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Workflows básicos</li>
+                        <li>✅ Integración de herramientas</li>
+                        <li>✅ Optimización</li>
+                        <li>✅ Demo en vivo</li>
+                    </ul>
+                </div>
+                
+                <div class="agenda-card">
+                    <div class="agenda-icon">🌤️</div>
+                    <h3>2:00 PM - 3:45 PM</h3>
+                    <p>Módulo 3: Análisis de Datos</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Recolección de datos</li>
+                        <li>✅ Procesamiento</li>
+                        <li>✅ Análisis predictivo</li>
+                        <li>✅ Visualización</li>
+                    </ul>
+                </div>
+                
+                <div class="agenda-card">
+                    <div class="agenda-icon">🌅</div>
+                    <h3>4:00 PM - 5:50 PM</h3>
+                    <p>Módulo 4: Optimización</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Psicología del consumidor</li>
+                        <li>✅ A/B testing</li>
+                        <li>✅ Personalización</li>
+                        <li>✅ Casos de éxito</li>
+                    </ul>
+                </div>
+                
+                <div class="agenda-card">
+                    <div class="agenda-icon">🌆</div>
+                    <h3>6:05 PM - 7:40 PM</h3>
+                    <p>Módulo 5: Chatbots</p>
+                    <ul style="text-align: left;">
+                        <li>✅ NLP básico</li>
+                        <li>✅ Diseño de conversaciones</li>
+                        <li>✅ Integración</li>
+                        <li>✅ Optimización</li>
+                    </ul>
+                </div>
+                
+                <div class="agenda-card">
+                    <div class="agenda-icon">🌃</div>
+                    <h3>7:55 PM - 9:55 PM</h3>
+                    <p>Módulo 6: Casos de Estudio</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Netflix</li>
+                        <li>✅ Amazon</li>
+                        <li>✅ Spotify</li>
+                        <li>✅ Airbnb</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="social-proof">
+            <h3 style="margin: 0 0 15px 0;">👥 MÁS DE 500 PROFESIONALES HAN PARTICIPADO</h3>
+            <p style="margin: 0; font-size: 1.2em;">Desde marketers hasta CEOs, todos han implementado IA exitosamente después de nuestra masterclass</p>
+        </div>
+
+        <section class="stats-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">📊 Estadísticas de la Masterclass</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">500+</div>
+                    <h3>Participantes</h3>
+                    <p>Profesionales certificados</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">8</div>
+                    <h3>Horas</h3>
+                    <p>De contenido premium</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">300%</div>
+                    <h3>Aumento Resultados</h3>
+                    <p>Promedio de participantes</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">95%</div>
+                    <h3>Satisfacción</h3>
+                    <p>De participantes</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">6</div>
+                    <h3>Módulos</h3>
+                    <p>De contenido especializado</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">98%</div>
+                    <h3>Implementación</h3>
+                    <p>De participantes aplican lo aprendido</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="premium">
+            <h3 style="margin: 0 0 15px 0;">👑 GARANTÍA DE RESULTADOS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Garantizamos que implementarás IA exitosamente en 30 días o te devolvemos tu dinero. Sin preguntas, sin condiciones</p>
+        </div>
+
+        <div class="curiosity">
+            <h3 style="margin: 0 0 15px 0;">🔍 ¿QUÉ HACE ESPECIAL A NUESTRA MASTERCLASS?</h3>
+            <p style="margin: 0; font-size: 1.2em;">Descubre las ventajas únicas que nos hacen líderes en educación de IA</p>
+        </div>
+
+        <div class="empathy">
+            <h3 style="margin: 0 0 15px 0;">💝 Entendemos tus Necesidades</h3>
+            <p style="margin: 0; font-size: 1.2em;">Sabemos que aprender IA puede ser complejo. Por eso nuestra masterclass es práctica, interactiva y fácil de seguir</p>
+        </div>
+    </div>
+
+    <footer style="background: #2c3e50; color: white; padding: 40px 0; text-align: center;">
+        <div class="container">
+            <p>&copy; 2024 IA Marketing Solutions. Todos los derechos reservados.</p>
+            <p>Educando sobre IA desde 2020</p>
+        </div>
+    </footer>
+
+    <script>
+        // Track masterclass interactions
+        document.querySelectorAll('.masterclass-card .cta-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const masterclass = this.closest('.masterclass-card').querySelector('.masterclass-title').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'masterclass_click', {
+                        'event_category': 'AI Masterclass',
+                        'event_label': masterclass,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track agenda card clicks
+        document.querySelectorAll('.agenda-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const agenda = this.querySelector('h3').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'agenda_click', {
+                        'event_category': 'AI Masterclass',
+                        'event_label': agenda,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track masterclass preview interactions
+        document.querySelectorAll('.masterclass-preview').forEach(preview => {
+            preview.addEventListener('click', function() {
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'masterclass_preview_click', {
+                        'event_category': 'AI Masterclass',
+                        'event_label': 'Masterclass Preview',
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Animate masterclass cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.masterclass-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+        
+        // Animate stat numbers
+        const statObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumber = entry.target.querySelector('.stat-number');
+                    const finalValue = statNumber.textContent;
+                    const isPlus = finalValue.includes('+');
+                    const isPercentage = finalValue.includes('%');
+                    const numericValue = parseFloat(finalValue.replace(/[^0-9.]/g, ''));
+                    
+                    let currentValue = 0;
+                    const increment = numericValue / 30;
+                    
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= numericValue) {
+                            currentValue = numericValue;
+                            clearInterval(timer);
+                        }
+                        
+                        if (isPlus) {
+                            statNumber.textContent = Math.round(currentValue).toLocaleString() + '+';
+                        } else if (isPercentage) {
+                            statNumber.textContent = Math.round(currentValue) + '%';
+                        } else {
+                            statNumber.textContent = Math.round(currentValue).toLocaleString();
+                        }
+                    }, 30);
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.stat-card').forEach(card => {
+            statObserver.observe(card);
+        });
+    </script>
+</body>
+</html>
+
+
+

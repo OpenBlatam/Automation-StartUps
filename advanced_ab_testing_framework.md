@@ -660,3 +660,4 @@ SECCIÓN 3: ANÁLISIS
 - [ ] Iterar perdedores (más iteración = más dinero)
 - [ ] Planificar próximos tests (más planificación = más dinero)
 - [ ] Reportar resultados (más reportes = más dinero)
+

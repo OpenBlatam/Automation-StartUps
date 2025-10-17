@@ -1,0 +1,207 @@
+# AI COURSE ULTRA ADVANCED FORMULAS - EXCEL TEMPLATE
+# Ultra-Advanced Excel Formulas with AI, ML, and Quantum Computing
+
+## NEURAL NETWORK PREDICTION FORMULAS
+Input_Layer,Hidden_Layer_1,Hidden_Layer_2,Output_Layer,Activation_Function,Derivative,Learning_Rate,Error_Function,Formula_Used
+=0.5,=1/(1+EXP(-B2)),=1/(1+EXP(-C2)),=1/(1+EXP(-D2)),=SIGMOID,=B2*(1-B2),=0.01,=0.5*(E2-F2)^2,=1/(1+EXP(-B2))
+=0.3,=1/(1+EXP(-B3)),=1/(1+EXP(-C3)),=1/(1+EXP(-D3)),=SIGMOID,=B3*(1-B3),=0.01,=0.5*(E3-F3)^2,=1/(1+EXP(-B3))
+=0.7,=1/(1+EXP(-B4)),=1/(1+EXP(-C4)),=1/(1+EXP(-D4)),=SIGMOID,=B4*(1-B4),=0.01,=0.5*(E4-F4)^2,=1/(1+EXP(-B4))
+=0.2,=1/(1+EXP(-B5)),=1/(1+EXP(-C5)),=1/(1+EXP(-D5)),=SIGMOID,=B5*(1-B5),=0.01,=0.5*(E5-F5)^2,=1/(1+EXP(-B5))
+=0.8,=1/(1+EXP(-B6)),=1/(1+EXP(-C6)),=1/(1+EXP(-D6)),=SIGMOID,=B6*(1-B6),=0.01,=0.5*(E6-F6)^2,=1/(1+EXP(-B6))
+
+## QUANTUM COMPUTING FORMULAS
+Qubit_State,Probability_Amplitude,Phase,Measurement_Probability,Entanglement_State,Superposition,Formula_Used
+=0.707,=SQRT(0.5),=0,=0.5,=IF(B2>0.5,"Entangled","Separable"),=IF(B2>0.5,"Superposition","Collapsed"),=SQRT(0.5)
+=0.707,=SQRT(0.5),=PI(),=0.5,=IF(B3>0.5,"Entangled","Separable"),=IF(B3>0.5,"Superposition","Collapsed"),=SQRT(0.5)
+=0.5,=0.5,=PI()/2,=0.25,=IF(B4>0.5,"Entangled","Separable"),=IF(B4>0.5,"Superposition","Collapsed"),=0.5
+=0.866,=SQRT(0.75),=PI()/3,=0.75,=IF(B5>0.5,"Entangled","Separable"),=IF(B5>0.5,"Superposition","Collapsed"),=SQRT(0.75)
+=0.5,=0.5,=2*PI()/3,=0.25,=IF(B6>0.5,"Entangled","Separable"),=IF(B6>0.5,"Superposition","Collapsed"),=0.5
+
+## MACHINE LEARNING ALGORITHMS
+Algorithm,Accuracy,Precision,Recall,F1_Score,ROC_AUC,Cross_Validation,Hyperparameters,Formula_Used
+Random_Forest,=94.5%,=92.3%,=96.1%,=2*C2*D2/(C2+D2),=0.95,=5_fold,=n_estimators=100,=2*C2*D2/(C2+D2)
+Gradient_Boosting,=91.8%,=89.2%,=94.1%,=2*C3*D3/(C3+D3),=0.93,=5_fold,=learning_rate=0.1,=2*C3*D3/(C3+D3)
+Support_Vector_Machine,=88.7%,=86.9%,=90.5%,=2*C4*D4/(C4+D4),=0.91,=5_fold,=C=1.0,=2*C4*D4/(C4+D4)
+Neural_Network,=92.3%,=90.1%,=94.5%,=2*C5*D5/(C5+D5),=0.94,=5_fold,=hidden_layers=3,=2*C5*D5/(C5+D5)
+Logistic_Regression,=87.4%,=85.2%,=89.6%,=2*C6*D6/(C6+D6),=0.89,=5_fold,=C=1.0,=2*C6*D6/(C6+D6)
+
+## ADVANCED STATISTICAL FORMULAS
+Distribution,Mean,Standard_Deviation,Skewness,Kurtosis,Shapiro_Wilk,Anderson_Darling,Kolmogorov_Smirnov,Formula_Used
+Normal,=1000000,=200000,=0,=3,=0.95,=0.12,=0.08,=NORM.DIST(B2,1000000,200000,TRUE)
+Lognormal,=13.8,=0.2,=0.5,=3.5,=0.92,=0.15,=0.10,=LOGNORM.DIST(B3,13.8,0.2,TRUE)
+Exponential,=1000000,=1000000,=2,=9,=0.88,=0.20,=0.15,=EXPON.DIST(B4,1000000,TRUE)
+Gamma,=1000000,=500000,=1.5,=6,=0.90,=0.18,=0.12,=GAMMA.DIST(B5,2,500000,TRUE)
+Beta,=0.5,=0.2,=0,=2.5,=0.94,=0.14,=0.09,=BETA.DIST(B6,2,2,0,1,TRUE)
+
+## BLOCKCHAIN ANALYSIS FORMULAS
+Block_Height,Hash_Rate,Transaction_Count,Block_Size,Confirmation_Time,Network_Difficulty,Mining_Reward,Formula_Used
+=800000,=150000000000,=2500,=1.2,=10,=25000000000000,=6.25,=B2*C2/D2
+=800001,=152000000000,=2600,=1.3,=9,=25500000000000,=6.25,=B3*C3/D3
+=800002,=148000000000,=2400,=1.1,=11,=24500000000000,=6.25,=B4*C4/D4
+=800003,=155000000000,=2700,=1.4,=8,=26000000000000,=6.25,=B5*C5/D5
+=800004,=149000000000,=2500,=1.2,=10,=24800000000000,=6.25,=B6*C6/D6
+
+## CRYPTOCURRENCY PRICING FORMULAS
+Symbol,Current_Price,24h_Change,Volume_24h,Market_Cap,Price_Volatility,RSI,MacD_Signal,Formula_Used
+BTC,=45000,=2.5%,=25000000000,=850000000000,=STDEV(B2:B10),=70,=1200,=B2*C2
+ETH,=3000,=3.2%,=15000000000,=360000000000,=STDEV(B3:B11),=65,=800,=B3*C3
+BNB,=400,=1.8%,=2000000000,=60000000000,=STDEV(B4:B12),=55,=200,=B4*C4
+ADA,=0.5,=4.1%,=1000000000,=17000000000,=STDEV(B5:B13),=60,=50,=B5*C5
+SOL,=100,=5.5%,=800000000,=40000000000,=STDEV(B6:B14),=75,=300,=B6*C6
+
+## ADVANCED OPTIMIZATION FORMULAS
+Objective_Function,Constraint_1,Constraint_2,Constraint_3,Lagrange_Multiplier,Optimal_Solution,Shadow_Price,Formula_Used
+=MAX(B2*C2),=B2<=1000,=C2<=500,=B2+C2<=1200,=0.5,=SOLVER(B2*C2),=0.3,=MAX(B2*C2)
+=MIN(B3*C3),=B3>=100,=C3>=200,=B3+C3>=400,=0.8,=SOLVER(B3*C3),=0.5,=MIN(B3*C3)
+=MAX(B4*C4),=B4<=800,=C4<=600,=B4+C4<=1000,=0.6,=SOLVER(B4*C4),=0.4,=MAX(B4*C4)
+=MIN(B5*C5),=B5>=150,=C5>=250,=B5+C5>=500,=0.7,=SOLVER(B5*C5),=0.6,=MIN(B5*C5)
+=MAX(B6*C6),=B6<=1200,=C6<=800,=B6+C6<=1500,=0.4,=SOLVER(B6*C6),=0.2,=MAX(B6*C6)
+
+## GAME THEORY FORMULAS
+Player_1_Strategy,Player_2_Strategy,Nash_Equilibrium,Payoff_Matrix,Minimax_Value,Maximin_Value,Shapley_Value,Formula_Used
+=Cooperate,=Cooperate,=Yes,=3,3,=3,=3,=3,=IF(AND(B2="Cooperate",C2="Cooperate"),3,0)
+=Cooperate,=Defect,=No,=0,5,=0,=5,=2.5,=IF(AND(B3="Cooperate",C3="Defect"),0,5)
+=Defect,=Cooperate,=No,=5,0,=5,=0,=2.5,=IF(AND(B4="Defect",C4="Cooperate"),5,0)
+=Defect,=Defect,=Yes,=1,1,=1,=1,=1,=IF(AND(B5="Defect",C5="Defect"),1,0)
+
+## ADVANCED FINANCIAL ENGINEERING FORMULAS
+Derivative_Type,Underlying_Price,Strike_Price,Time_to_Expiry,Volatility,Risk_Free_Rate,Black_Scholes_Price,Greeks,Formula_Used
+Call_Option,=100,=105,=0.25,=0.2,=0.05,=BS_CALL(B2,C2,D2,E2,F2),=DELTA(B2,C2,D2,E2,F2),=BS_CALL(B2,C2,D2,E2,F2)
+Put_Option,=100,=95,=0.25,=0.2,=0.05,=BS_PUT(B3,C3,D3,E3,F3),=DELTA(B3,C3,D3,E3,F3),=BS_PUT(B3,C3,D3,E3,F3)
+Call_Option,=110,=115,=0.5,=0.25,=0.05,=BS_CALL(B4,C4,D4,E4,F4),=DELTA(B4,C4,D4,E4,F4),=BS_CALL(B4,C4,D4,E4,F4)
+Put_Option,=90,=85,=0.5,=0.25,=0.05,=BS_PUT(B5,C5,D5,E5,F5),=DELTA(B5,C5,D5,E5,F5),=BS_PUT(B5,C5,D5,E5,F5)
+
+## DEEP LEARNING FORMULAS
+Layer_Type,Input_Size,Output_Size,Weights,Biases,Activation,Forward_Pass,Backward_Pass,Formula_Used
+Dense,=784,=128,=RANDN(784,128),=RANDN(128),=ReLU,=MAX(0,B2*C2+D2),=RELU_DERIV(B2*C2+D2),=MAX(0,B2*C2+D2)
+Dense,=128,=64,=RANDN(128,64),=RANDN(64),=ReLU,=MAX(0,B3*C3+D3),=RELU_DERIV(B3*C3+D3),=MAX(0,B3*C3+D3)
+Dense,=64,=10,=RANDN(64,10),=RANDN(10),=Softmax,=EXP(B4*C4+D4)/SUM(EXP(B4*C4+D4)),=SOFTMAX_DERIV(B4*C4+D4),=EXP(B4*C4+D4)/SUM(EXP(B4*C4+D4))
+Conv2D,=32x32x3,=28x28x32,=RANDN(5,5,3,32),=RANDN(32),=ReLU,=MAX(0,CONV2D(B5,C5)+D5),=RELU_DERIV(CONV2D(B5,C5)+D5),=MAX(0,CONV2D(B5,C5)+D5)
+MaxPool2D,=28x28x32,=14x14x32,=N/A,=N/A,=N/A,=MAX_POOL(B6),=MAX_POOL_DERIV(B6),=MAX_POOL(B6)
+
+## QUANTUM MACHINE LEARNING FORMULAS
+Qubit_Count,Quantum_Gate,Entanglement_State,Superposition_State,Measurement_Result,Quantum_Error,Formula_Used
+=2,=H_GATE,=BELL_STATE,=SUPERPOSITION,=MEASURE(B2),=0.01,=MEASURE(B2)
+=3,=CNOT_GATE,=GHZ_STATE,=SUPERPOSITION,=MEASURE(B3),=0.02,=MEASURE(B3)
+=4,=TOFFOLI_GATE,=W_STATE,=SUPERPOSITION,=MEASURE(B4),=0.03,=MEASURE(B4)
+=5,=FREDKIN_GATE,=DICK_STATE,=SUPERPOSITION,=MEASURE(B5),=0.04,=MEASURE(B5)
+
+## ADVANCED TIME SERIES FORMULAS
+Time_Series,AR_Order,MA_Order,Seasonal_Order,Trend_Component,Seasonal_Component,Residual,Forecast,Formula_Used
+=1000,=2,=1,=12,=TREND(B2),=SEASONAL(B2),=B2-C2-D2,=FORECAST(B2),=TREND(B2)
+=1100,=2,=1,=12,=TREND(B3),=SEASONAL(B3),=B3-C3-D3,=FORECAST(B3),=TREND(B3)
+=1200,=2,=1,=12,=TREND(B4),=SEASONAL(B4),=B4-C4-D4,=FORECAST(B4),=TREND(B4)
+=1300,=2,=1,=12,=TREND(B5),=SEASONAL(B5),=B5-C5-D5,=FORECAST(B5),=TREND(B5)
+=1400,=2,=1,=12,=TREND(B6),=SEASONAL(B6),=B6-C6-D6,=FORECAST(B6),=TREND(B6)
+
+## ADVANCED CLUSTERING FORMULAS
+Data_Point,Cluster_1_Distance,Cluster_2_Distance,Cluster_3_Distance,Assigned_Cluster,Silhouette_Score,Formula_Used
+=1,=2.5,=4.2,=3.8,=IF(B2=MIN(B2:D2),1,IF(C2=MIN(B2:D2),2,3)),=SILHOUETTE(B2:D2),=IF(B2=MIN(B2:D2),1,IF(C2=MIN(B2:D2),2,3))
+=2,=3.1,=2.8,=4.5,=IF(B3=MIN(B3:D3),1,IF(C3=MIN(B3:D3),2,3)),=SILHOUETTE(B3:D3),=IF(B3=MIN(B3:D3),1,IF(C3=MIN(B3:D3),2,3))
+=3,=4.0,=3.5,=2.9,=IF(B4=MIN(B4:D4),1,IF(C4=MIN(B4:D4),2,3)),=SILHOUETTE(B4:D4),=IF(B4=MIN(B4:D4),1,IF(C4=MIN(B4:D4),2,3))
+=4,=2.8,=4.1,=3.2,=IF(B5=MIN(B5:D5),1,IF(C5=MIN(B5:D5),2,3)),=SILHOUETTE(B5:D5),=IF(B5=MIN(B5:D5),1,IF(C5=MIN(B5:D5),2,3))
+=5,=3.5,=2.9,=4.3,=IF(B6=MIN(B6:D6),1,IF(C6=MIN(B6:D6),2,3)),=SILHOUETTE(B6:D6),=IF(B6=MIN(B6:D6),1,IF(C6=MIN(B6:D6),2,3))
+
+## ADVANCED REGRESSION FORMULAS
+Independent_Var,Dependent_Var,Linear_Regression,Polynomial_Regression,Ridge_Regression,Lasso_Regression,Elastic_Net,Formula_Used
+=1,=2.5,=2.1,=2.3,=2.2,=2.0,=2.1,=LINEST(B2:A2)
+=2,=4.8,=4.2,=4.5,=4.3,=4.1,=4.2,=LINEST(B3:A3)
+=3,=7.1,=6.3,=6.7,=6.4,=6.2,=6.3,=LINEST(B4:A4)
+=4,=9.4,=8.4,=8.9,=8.5,=8.3,=8.4,=LINEST(B5:A5)
+=5,=11.7,=10.5,=11.1,=10.6,=10.4,=10.5,=LINEST(B6:A6)
+
+## ADVANCED CLASSIFICATION FORMULAS
+Feature_1,Feature_2,Feature_3,True_Label,Predicted_Label,Confidence_Score,Accuracy,Precision,Formula_Used
+=0.5,=0.3,=0.8,=1,=1,=0.95,=IF(B2=C2,1,0),=IF(AND(B2=1,C2=1),1,0),=IF(B2=C2,1,0)
+=0.7,=0.2,=0.6,=0,=0,=0.88,=IF(B3=C3,1,0),=IF(AND(B3=0,C3=0),1,0),=IF(B3=C3,1,0)
+=0.3,=0.9,=0.4,=1,=1,=0.92,=IF(B4=C4,1,0),=IF(AND(B4=1,C4=1),1,0),=IF(B4=C4,1,0)
+=0.8,=0.1,=0.7,=0,=1,=0.75,=IF(B5=C5,1,0),=IF(AND(B5=0,C5=0),1,0),=IF(B5=C5,1,0)
+=0.4,=0.6,=0.3,=1,=0,=0.82,=IF(B6=C6,1,0),=IF(AND(B6=1,C6=1),1,0),=IF(B6=C6,1,0)
+
+## ADVANCED DIMENSIONALITY REDUCTION FORMULAS
+Original_Dimensions,Reduced_Dimensions,Explained_Variance,Principal_Component_1,Principal_Component_2,Principal_Component_3,Formula_Used
+=10,=3,=85%,=0.7,=0.5,=0.3,=PCA(B2:C2)
+=15,=4,=90%,=0.8,=0.6,=0.4,=PCA(B3:C3)
+=20,=5,=88%,=0.6,=0.7,=0.5,=PCA(B4:C4)
+=25,=6,=92%,=0.9,=0.4,=0.6,=PCA(B5:C5)
+=30,=7,=87%,=0.5,=0.8,=0.7,=PCA(B6:C6)
+
+## ADVANCED ANOMALY DETECTION FORMULAS
+Data_Point,Mean,Standard_Deviation,Z_Score,Isolation_Forest_Score,One_Class_SVM_Score,Anomaly_Score,Formula_Used
+=100,=95,=5,=ABS(B2-C2)/D2,=0.1,=0.2,=IF(AND(E2>2,F2>0.5),1,0),=ABS(B2-C2)/D2
+=110,=95,=5,=ABS(B3-C3)/D3,=0.05,=0.1,=IF(AND(E3>2,F3>0.5),1,0),=ABS(B3-C3)/D3
+=85,=95,=5,=ABS(B4-C4)/D4,=0.15,=0.3,=IF(AND(E4>2,F4>0.5),1,0),=ABS(B4-C4)/D4
+=120,=95,=5,=ABS(B5-C5)/D5,=0.02,=0.05,=IF(AND(E5>2,F5>0.5),1,0),=ABS(B5-C5)/D5
+=90,=95,=5,=ABS(B6-C6)/D6,=0.12,=0.25,=IF(AND(E6>2,F6>0.5),1,0),=ABS(B6-C6)/D6)
+
+## ADVANCED FEATURE ENGINEERING FORMULAS
+Original_Feature,Polynomial_Feature,Log_Feature,Square_Root_Feature,Exponential_Feature,Interaction_Feature,Formula_Used
+=10,=B2^2,=LN(B2),=SQRT(B2),=EXP(B2),=B2*C2,=B2^2
+=15,=B3^2,=LN(B3),=SQRT(B3),=EXP(B3),=B3*C3,=B3^2
+=20,=B4^2,=LN(B4),=SQRT(B4),=EXP(B4),=B4*C4,=B4^2
+=25,=B5^2,=LN(B5),=SQRT(B5),=EXP(B5),=B5*C5,=B5^2
+=30,=B6^2,=LN(B6),=SQRT(B6),=EXP(B6),=B6*C6,=B6^2
+
+## ADVANCED CROSS_VALIDATION FORMULAS
+Fold,Training_Score,Validation_Score,Test_Score,Overfitting_Score,Underfitting_Score,Generalization_Error,Formula_Used
+=1,=0.95,=0.90,=0.88,=B2-C2,=C2-D2,=SQRT((B2-C2)^2+(C2-D2)^2),=SQRT((B2-C2)^2+(C2-D2)^2)
+=2,=0.92,=0.88,=0.85,=B3-C3,=C3-D3,=SQRT((B3-C3)^2+(C3-D3)^2),=SQRT((B3-C3)^2+(C3-D3)^2)
+=3,=0.94,=0.89,=0.87,=B4-C4,=C4-D4,=SQRT((B4-C4)^2+(C4-D4)^2),=SQRT((B4-C4)^2+(C4-D4)^2)
+=4,=0.91,=0.87,=0.84,=B5-C5,=C5-D5,=SQRT((B5-C5)^2+(C5-D5)^2),=SQRT((B5-C5)^2+(C5-D5)^2)
+=5,=0.93,=0.88,=0.86,=B6-C6,=C6-D6,=SQRT((B6-C6)^2+(C6-D6)^2),=SQRT((B6-C6)^2+(C6-D6)^2)
+
+## ADVANCED HYPERPARAMETER TUNING FORMULAS
+Parameter,Min_Value,Max_Value,Step_Size,Best_Value,Performance_Score,Grid_Search_Score,Random_Search_Score,Formula_Used
+Learning_Rate,=0.001,=0.1,=0.01,=0.01,=0.95,=0.94,=0.93,=GRID_SEARCH(B2:C2,D2)
+Batch_Size,=16,=256,=16,=64,=0.92,=0.91,=0.90,=GRID_SEARCH(B3:C3,D3)
+Hidden_Layers,=1,=10,=1,=3,=0.88,=0.87,=0.86,=GRID_SEARCH(B4:C4,D4)
+Dropout_Rate,=0.1,=0.5,=0.05,=0.2,=0.90,=0.89,=0.88,=GRID_SEARCH(B5:C5,D5)
+Regularization,=0.001,=0.1,=0.01,=0.01,=0.93,=0.92,=0.91,=GRID_SEARCH(B6:C6,D6)
+
+## ADVANCED ENSEMBLE METHODS FORMULAS
+Model_1,Model_2,Model_3,Model_4,Model_5,Ensemble_Prediction,Ensemble_Confidence,Formula_Used
+=0.8,=0.75,=0.82,=0.78,=0.80,=AVERAGE(B2:F2),=1-STDEV(B2:F2),=AVERAGE(B2:F2)
+=0.9,=0.85,=0.88,=0.87,=0.86,=AVERAGE(B3:F3),=1-STDEV(B3:F3),=AVERAGE(B3:F3)
+=0.7,=0.72,=0.68,=0.71,=0.69,=AVERAGE(B4:F4),=1-STDEV(B4:F4),=AVERAGE(B4:F4)
+=0.85,=0.88,=0.83,=0.86,=0.84,=AVERAGE(B5:F5),=1-STDEV(B5:F5),=AVERAGE(B5:F5)
+=0.92,=0.90,=0.94,=0.91,=0.93,=AVERAGE(B6:F6),=1-STDEV(B6:F6),=AVERAGE(B6:F6)
+
+## ADVANCED TRANSFER LEARNING FORMULAS
+Source_Domain,Target_Domain,Feature_Extractor,Classifier,Transfer_Score,Adaptation_Loss,Formula_Used
+=ImageNet,=Medical_Images,=ResNet50,=Dense_128,=0.85,=0.15,=TRANSFER_LEARNING(B2,C2)
+=Wikipedia,=News_Articles,=BERT,=Linear_64,=0.90,=0.10,=TRANSFER_LEARNING(B3,C3)
+=Audio_Data,=Speech_Recognition,=Wav2Vec2,=LSTM_128,=0.88,=0.12,=TRANSFER_LEARNING(B4,C4)
+=Text_Data,=Sentiment_Analysis,=GPT2,=Linear_32,=0.92,=0.08,=TRANSFER_LEARNING(B5,C5)
+=Video_Data,=Action_Recognition,=I3D,=Dense_256,=0.87,=0.13,=TRANSFER_LEARNING(B6,C6)
+
+## ADVANCED REINFORCEMENT LEARNING FORMULAS
+State,Action,Reward,Next_State,Q_Value,Policy,Value_Function,Formula_Used
+=1,=A,=10,=2,=Q_LEARNING(B2,C2,D2,E2),=SOFTMAX(Q_LEARNING(B2,C2,D2,E2)),=VALUE_FUNCTION(B2),=Q_LEARNING(B2,C2,D2,E2)
+=2,=B,=5,=3,=Q_LEARNING(B3,C3,D3,E3),=SOFTMAX(Q_LEARNING(B3,C3,D3,E3)),=VALUE_FUNCTION(B3),=Q_LEARNING(B3,C3,D3,E3)
+=3,=A,=15,=1,=Q_LEARNING(B4,C4,D4,E4),=SOFTMAX(Q_LEARNING(B4,C4,D4,E4)),=VALUE_FUNCTION(B4),=Q_LEARNING(B4,C4,D4,E4)
+=1,=C,=8,=4,=Q_LEARNING(B5,C5,D5,E5),=SOFTMAX(Q_LEARNING(B5,C5,D5,E5)),=VALUE_FUNCTION(B5),=Q_LEARNING(B5,C5,D5,E5)
+=4,=B,=12,=2,=Q_LEARNING(B6,C6,D6,E6),=SOFTMAX(Q_LEARNING(B6,C6,D6,E6)),=VALUE_FUNCTION(B6),=Q_LEARNING(B6,C6,D6,E6)
+
+## ADVANCED GRAPH NEURAL NETWORK FORMULAS
+Node_Feature,Edge_Weight,Neighbor_Count,Message_Passing,Node_Embedding,Graph_Embedding,Formula_Used
+=0.5,=0.8,=3,=MESSAGE_PASSING(B2,C2,D2),=NODE_EMBEDDING(B2,E2),=GRAPH_EMBEDDING(F2),=MESSAGE_PASSING(B2,C2,D2)
+=0.7,=0.6,=2,=MESSAGE_PASSING(B3,C3,D3),=NODE_EMBEDDING(B3,E3),=GRAPH_EMBEDDING(F3),=MESSAGE_PASSING(B3,C3,D3)
+=0.3,=0.9,=4,=MESSAGE_PASSING(B4,C4,D4),=NODE_EMBEDDING(B4,E4),=GRAPH_EMBEDDING(F4),=MESSAGE_PASSING(B4,C4,D4)
+=0.8,=0.7,=1,=MESSAGE_PASSING(B5,C5,D5),=NODE_EMBEDDING(B5,E5),=GRAPH_EMBEDDING(F5),=MESSAGE_PASSING(B5,C5,D5)
+=0.6,=0.5,=3,=MESSAGE_PASSING(B6,C6,D6),=NODE_EMBEDDING(B6,E6),=GRAPH_EMBEDDING(F6),=MESSAGE_PASSING(B6,C6,D6)
+
+## ADVANCED ATTENTION MECHANISM FORMULAS
+Query,Key,Value,Attention_Weight,Attention_Output,Multi_Head_Attention,Formula_Used
+=0.5,=0.6,=0.7,=SOFTMAX(B2*C2),=D2*E2,=MULTI_HEAD_ATTENTION(B2,C2,E2),=SOFTMAX(B2*C2)
+=0.7,=0.8,=0.9,=SOFTMAX(B3*C3),=D3*E3,=MULTI_HEAD_ATTENTION(B3,C3,E3),=SOFTMAX(B3*C3)
+=0.3,=0.4,=0.5,=SOFTMAX(B4*C4),=D4*E4,=MULTI_HEAD_ATTENTION(B4,C4,E4),=SOFTMAX(B4*C4)
+=0.9,=0.2,=0.8,=SOFTMAX(B5*C5),=D5*E5,=MULTI_HEAD_ATTENTION(B5,C5,E5),=SOFTMAX(B5*C5)
+=0.4,=0.7,=0.6,=SOFTMAX(B6*C6),=D6*E6,=MULTI_HEAD_ATTENTION(B6,C6,E6),=SOFTMAX(B6*C6)
+
+## ADVANCED TRANSFORMER FORMULAS
+Input_Sequence,Position_Encoding,Self_Attention,Feed_Forward,Layer_Norm,Output_Sequence,Formula_Used
+=1,2,3,=SINUSOIDAL_POSITION(B2),=SELF_ATTENTION(B2),=FEED_FORWARD(C2),=LAYER_NORM(D2),=TRANSFORMER(B2),=SINUSOIDAL_POSITION(B2)
+=4,5,6,=SINUSOIDAL_POSITION(B3),=SELF_ATTENTION(B3),=FEED_FORWARD(C3),=LAYER_NORM(D3),=TRANSFORMER(B3),=SINUSOIDAL_POSITION(B3)
+=7,8,9,=SINUSOIDAL_POSITION(B4),=SELF_ATTENTION(B4),=FEED_FORWARD(C4),=LAYER_NORM(D4),=TRANSFORMER(B4),=SINUSOIDAL_POSITION(B4)
+=10,11,12,=SINUSOIDAL_POSITION(B5),=SELF_ATTENTION(B5),=FEED_FORWARD(C5),=LAYER_NORM(D5),=TRANSFORMER(B5),=SINUSOIDAL_POSITION(B5)
+=13,14,15,=SINUSOIDAL_POSITION(B6),=SELF_ATTENTION(B6),=FEED_FORWARD(C6),=LAYER_NORM(D6),=TRANSFORMER(B6),=SINUSOIDAL_POSITION(B6)

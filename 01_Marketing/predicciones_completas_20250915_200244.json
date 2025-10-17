@@ -1,0 +1,502 @@
+[
+  {
+    "anchor_text_id": "at_0001",
+    "anchor_text": "El futuro del marketing: marketing digital IA",
+    "score_calidad": 70,
+    "ctr_predicho": 9.88,
+    "conversion_rate_predicho": 18.16,
+    "roi_predicho": 3.59,
+    "confianza": 78.4,
+    "fecha_prediccion": "2025-09-15T20:02:44.067728"
+  },
+  {
+    "anchor_text_id": "at_0002",
+    "anchor_text": "Aprende marketing digital IA en 6 meses",
+    "score_calidad": 70,
+    "ctr_predicho": 10.03,
+    "conversion_rate_predicho": 14.95,
+    "roi_predicho": 3.48,
+    "confianza": 71.4,
+    "fecha_prediccion": "2025-09-15T20:02:44.067734"
+  },
+  {
+    "anchor_text_id": "at_0003",
+    "anchor_text": "IA Marketing: Básico - Multiplica ventas",
+    "score_calidad": 80,
+    "ctr_predicho": 8.11,
+    "conversion_rate_predicho": 16.71,
+    "roi_predicho": 4.34,
+    "confianza": 88.4,
+    "fecha_prediccion": "2025-09-15T20:02:44.067740"
+  },
+  {
+    "anchor_text_id": "at_0004",
+    "anchor_text": "El futuro del marketing: curso IA marketing",
+    "score_calidad": 70,
+    "ctr_predicho": 10.06,
+    "conversion_rate_predicho": 13.67,
+    "roi_predicho": 3.42,
+    "confianza": 70.1,
+    "fecha_prediccion": "2025-09-15T20:02:44.067745"
+  },
+  {
+    "anchor_text_id": "at_0005",
+    "anchor_text": "Estrategias machine learning marketing que funcionan",
+    "score_calidad": 70,
+    "ctr_predicho": 8.61,
+    "conversion_rate_predicho": 14.11,
+    "roi_predicho": 2.97,
+    "confianza": 78.8,
+    "fecha_prediccion": "2025-09-15T20:02:44.067750"
+  },
+  {
+    "anchor_text_id": "at_0006",
+    "anchor_text": "Guía completa de curso IA marketing",
+    "score_calidad": 70,
+    "ctr_predicho": 9.11,
+    "conversion_rate_predicho": 15.08,
+    "roi_predicho": 2.99,
+    "confianza": 84.9,
+    "fecha_prediccion": "2025-09-15T20:02:44.067755"
+  },
+  {
+    "anchor_text_id": "at_0007",
+    "anchor_text": "Curso marketing digital IA - Efectividad probada",
+    "score_calidad": 70,
+    "ctr_predicho": 10.03,
+    "conversion_rate_predicho": 19.17,
+    "roi_predicho": 3.05,
+    "confianza": 79.3,
+    "fecha_prediccion": "2025-09-15T20:02:44.067771"
+  },
+  {
+    "anchor_text_id": "at_0008",
+    "anchor_text": "Certificación inteligencia artificial marketing - Híbrido",
+    "score_calidad": 70,
+    "ctr_predicho": 7.42,
+    "conversion_rate_predicho": 17.5,
+    "roi_predicho": 3.32,
+    "confianza": 73.1,
+    "fecha_prediccion": "2025-09-15T20:02:44.067778"
+  },
+  {
+    "anchor_text_id": "at_0009",
+    "anchor_text": "El futuro del marketing: marketing digital IA",
+    "score_calidad": 70,
+    "ctr_predicho": 9.5,
+    "conversion_rate_predicho": 13.93,
+    "roi_predicho": 3.79,
+    "confianza": 73.4,
+    "fecha_prediccion": "2025-09-15T20:02:44.067783"
+  },
+  {
+    "anchor_text_id": "at_0010",
+    "anchor_text": "El futuro del marketing: curso IA marketing",
+    "score_calidad": 70,
+    "ctr_predicho": 9.72,
+    "conversion_rate_predicho": 20.5,
+    "roi_predicho": 3.33,
+    "confianza": 84.8,
+    "fecha_prediccion": "2025-09-15T20:02:44.067787"
+  },
+  {
+    "anchor_text_id": "at_0011",
+    "anchor_text": "Transforma tu negocio con curso marketing automatizado",
+    "score_calidad": 80,
+    "ctr_predicho": 11.24,
+    "conversion_rate_predicho": 22.88,
+    "roi_predicho": 3.13,
+    "confianza": 84.2,
+    "fecha_prediccion": "2025-09-15T20:02:44.067792"
+  },
+  {
+    "anchor_text_id": "at_0012",
+    "anchor_text": "Domina inteligencia artificial marketing - Resultados comprobados",
+    "score_calidad": 60,
+    "ctr_predicho": 7.28,
+    "conversion_rate_predicho": 11.64,
+    "roi_predicho": 2.28,
+    "confianza": 89.9,
+    "fecha_prediccion": "2025-09-15T20:02:44.067797"
+  },
+  {
+    "anchor_text_id": "at_0013",
+    "anchor_text": "Guía completa de curso marketing automatizado",
+    "score_calidad": 70,
+    "ctr_predicho": 6.9,
+    "conversion_rate_predicho": 16.03,
+    "roi_predicho": 4.02,
+    "confianza": 85.1,
+    "fecha_prediccion": "2025-09-15T20:02:44.067803"
+  },
+  {
+    "anchor_text_id": "at_0014",
+    "anchor_text": "El futuro del marketing: marketing digital IA",
+    "score_calidad": 70,
+    "ctr_predicho": 8.22,
+    "conversion_rate_predicho": 14.27,
+    "roi_predicho": 3.08,
+    "confianza": 92.1,
+    "fecha_prediccion": "2025-09-15T20:02:44.067808"
+  },
+  {
+    "anchor_text_id": "at_0015",
+    "anchor_text": "El futuro del marketing: inteligencia artificial marketing",
+    "score_calidad": 70,
+    "ctr_predicho": 9.11,
+    "conversion_rate_predicho": 17.67,
+    "roi_predicho": 3.58,
+    "confianza": 87.4,
+    "fecha_prediccion": "2025-09-15T20:02:44.067812"
+  },
+  {
+    "anchor_text_id": "at_0016",
+    "anchor_text": "Transforma tu negocio con machine learning marketing",
+    "score_calidad": 80,
+    "ctr_predicho": 8.6,
+    "conversion_rate_predicho": 24.55,
+    "roi_predicho": 3.93,
+    "confianza": 88.4,
+    "fecha_prediccion": "2025-09-15T20:02:44.067817"
+  },
+  {
+    "anchor_text_id": "at_0017",
+    "anchor_text": "Transforma tu negocio con IA aplicada marketing",
+    "score_calidad": 80,
+    "ctr_predicho": 11.26,
+    "conversion_rate_predicho": 17.17,
+    "roi_predicho": 3.96,
+    "confianza": 81.9,
+    "fecha_prediccion": "2025-09-15T20:02:44.067822"
+  },
+  {
+    "anchor_text_id": "at_0018",
+    "anchor_text": "Transforma tu negocio con curso marketing automatizado",
+    "score_calidad": 80,
+    "ctr_predicho": 9.86,
+    "conversion_rate_predicho": 15.82,
+    "roi_predicho": 3.03,
+    "confianza": 71.3,
+    "fecha_prediccion": "2025-09-15T20:02:44.067826"
+  },
+  {
+    "anchor_text_id": "at_0019",
+    "anchor_text": "Transforma tu negocio con IA aplicada marketing",
+    "score_calidad": 80,
+    "ctr_predicho": 7.78,
+    "conversion_rate_predicho": 19.33,
+    "roi_predicho": 4.82,
+    "confianza": 90.8,
+    "fecha_prediccion": "2025-09-15T20:02:44.067831"
+  },
+  {
+    "anchor_text_id": "at_0020",
+    "anchor_text": "Curso curso marketing automatizado - Éxito asegurado",
+    "score_calidad": 70,
+    "ctr_predicho": 8.27,
+    "conversion_rate_predicho": 18.65,
+    "roi_predicho": 3.0,
+    "confianza": 77.5,
+    "fecha_prediccion": "2025-09-15T20:02:44.067837"
+  },
+  {
+    "anchor_text_id": "at_0021",
+    "anchor_text": "Certificación machine learning marketing - Presencial",
+    "score_calidad": 70,
+    "ctr_predicho": 7.89,
+    "conversion_rate_predicho": 12.8,
+    "roi_predicho": 4.31,
+    "confianza": 84.7,
+    "fecha_prediccion": "2025-09-15T20:02:44.067842"
+  },
+  {
+    "anchor_text_id": "at_0022",
+    "anchor_text": "Transforma tu negocio con IA aplicada marketing",
+    "score_calidad": 80,
+    "ctr_predicho": 11.22,
+    "conversion_rate_predicho": 21.2,
+    "roi_predicho": 3.64,
+    "confianza": 73.4,
+    "fecha_prediccion": "2025-09-15T20:02:44.067847"
+  },
+  {
+    "anchor_text_id": "at_0023",
+    "anchor_text": "Masterclass machine learning marketing 2024",
+    "score_calidad": 70,
+    "ctr_predicho": 9.16,
+    "conversion_rate_predicho": 13.54,
+    "roi_predicho": 2.89,
+    "confianza": 87.3,
+    "fecha_prediccion": "2025-09-15T20:02:44.067852"
+  },
+  {
+    "anchor_text_id": "at_0024",
+    "anchor_text": "IA Marketing: Especializado - Aumenta conversiones",
+    "score_calidad": 70,
+    "ctr_predicho": 9.23,
+    "conversion_rate_predicho": 21.9,
+    "roi_predicho": 4.42,
+    "confianza": 88.3,
+    "fecha_prediccion": "2025-09-15T20:02:44.067856"
+  },
+  {
+    "anchor_text_id": "at_0025",
+    "anchor_text": "Domina marketing digital IA - Satisfacción garantizada",
+    "score_calidad": 80,
+    "ctr_predicho": 8.97,
+    "conversion_rate_predicho": 24.75,
+    "roi_predicho": 3.47,
+    "confianza": 87.0,
+    "fecha_prediccion": "2025-09-15T20:02:44.067862"
+  },
+  {
+    "anchor_text_id": "at_0026",
+    "anchor_text": "Masterclass machine learning marketing 2024",
+    "score_calidad": 70,
+    "ctr_predicho": 7.97,
+    "conversion_rate_predicho": 12.91,
+    "roi_predicho": 3.57,
+    "confianza": 88.0,
+    "fecha_prediccion": "2025-09-15T20:02:44.067867"
+  },
+  {
+    "anchor_text_id": "at_0027",
+    "anchor_text": "IA Marketing: Avanzado - Optimiza ROI",
+    "score_calidad": 70,
+    "ctr_predicho": 9.27,
+    "conversion_rate_predicho": 15.11,
+    "roi_predicho": 4.22,
+    "confianza": 85.4,
+    "fecha_prediccion": "2025-09-15T20:02:44.067871"
+  },
+  {
+    "anchor_text_id": "at_0028",
+    "anchor_text": "Curso inteligencia artificial marketing - Efectividad probada",
+    "score_calidad": 50,
+    "ctr_predicho": 4.59,
+    "conversion_rate_predicho": 11.38,
+    "roi_predicho": 2.91,
+    "confianza": 89.9,
+    "fecha_prediccion": "2025-09-15T20:02:44.067879"
+  },
+  {
+    "anchor_text_id": "at_0029",
+    "anchor_text": "Estrategias inteligencia artificial marketing que funcionan",
+    "score_calidad": 70,
+    "ctr_predicho": 9.63,
+    "conversion_rate_predicho": 14.62,
+    "roi_predicho": 3.24,
+    "confianza": 93.1,
+    "fecha_prediccion": "2025-09-15T20:02:44.067884"
+  },
+  {
+    "anchor_text_id": "at_0030",
+    "anchor_text": "Certificación machine learning marketing - Híbrido",
+    "score_calidad": 70,
+    "ctr_predicho": 8.95,
+    "conversion_rate_predicho": 14.66,
+    "roi_predicho": 4.13,
+    "confianza": 84.8,
+    "fecha_prediccion": "2025-09-15T20:02:44.067890"
+  },
+  {
+    "anchor_text_id": "at_0031",
+    "anchor_text": "El futuro del marketing: machine learning marketing",
+    "score_calidad": 70,
+    "ctr_predicho": 8.36,
+    "conversion_rate_predicho": 22.0,
+    "roi_predicho": 2.69,
+    "confianza": 83.0,
+    "fecha_prediccion": "2025-09-15T20:02:44.067894"
+  },
+  {
+    "anchor_text_id": "at_0032",
+    "anchor_text": "El futuro del marketing: marketing digital IA",
+    "score_calidad": 70,
+    "ctr_predicho": 7.94,
+    "conversion_rate_predicho": 16.1,
+    "roi_predicho": 4.26,
+    "confianza": 90.1,
+    "fecha_prediccion": "2025-09-15T20:02:44.067899"
+  },
+  {
+    "anchor_text_id": "at_0033",
+    "anchor_text": "Certificación inteligencia artificial marketing - Presencial",
+    "score_calidad": 70,
+    "ctr_predicho": 8.79,
+    "conversion_rate_predicho": 20.17,
+    "roi_predicho": 3.54,
+    "confianza": 85.4,
+    "fecha_prediccion": "2025-09-15T20:02:44.067905"
+  },
+  {
+    "anchor_text_id": "at_0034",
+    "anchor_text": "El futuro del marketing: inteligencia artificial marketing",
+    "score_calidad": 70,
+    "ctr_predicho": 8.29,
+    "conversion_rate_predicho": 22.25,
+    "roi_predicho": 2.94,
+    "confianza": 92.4,
+    "fecha_prediccion": "2025-09-15T20:02:44.067909"
+  },
+  {
+    "anchor_text_id": "at_0035",
+    "anchor_text": "Curso inteligencia artificial marketing - Éxito asegurado",
+    "score_calidad": 70,
+    "ctr_predicho": 8.3,
+    "conversion_rate_predicho": 13.37,
+    "roi_predicho": 2.8,
+    "confianza": 73.7,
+    "fecha_prediccion": "2025-09-15T20:02:44.067915"
+  },
+  {
+    "anchor_text_id": "at_0036",
+    "anchor_text": "Aprende machine learning marketing en 6 meses",
+    "score_calidad": 70,
+    "ctr_predicho": 8.29,
+    "conversion_rate_predicho": 20.7,
+    "roi_predicho": 3.65,
+    "confianza": 85.3,
+    "fecha_prediccion": "2025-09-15T20:02:44.067920"
+  },
+  {
+    "anchor_text_id": "at_0037",
+    "anchor_text": "Aprende inteligencia artificial marketing en 90 días",
+    "score_calidad": 70,
+    "ctr_predicho": 8.96,
+    "conversion_rate_predicho": 22.17,
+    "roi_predicho": 2.63,
+    "confianza": 78.8,
+    "fecha_prediccion": "2025-09-15T20:02:44.067925"
+  },
+  {
+    "anchor_text_id": "at_0038",
+    "anchor_text": "Transforma tu negocio con marketing digital IA",
+    "score_calidad": 80,
+    "ctr_predicho": 11.01,
+    "conversion_rate_predicho": 18.33,
+    "roi_predicho": 3.71,
+    "confianza": 82.6,
+    "fecha_prediccion": "2025-09-15T20:02:44.067930"
+  },
+  {
+    "anchor_text_id": "at_0039",
+    "anchor_text": "Transforma tu negocio con marketing digital IA",
+    "score_calidad": 80,
+    "ctr_predicho": 10.26,
+    "conversion_rate_predicho": 21.71,
+    "roi_predicho": 3.57,
+    "confianza": 83.5,
+    "fecha_prediccion": "2025-09-15T20:02:44.067934"
+  },
+  {
+    "anchor_text_id": "at_0040",
+    "anchor_text": "Guía completa de inteligencia artificial marketing",
+    "score_calidad": 70,
+    "ctr_predicho": 6.94,
+    "conversion_rate_predicho": 14.93,
+    "roi_predicho": 4.32,
+    "confianza": 94.4,
+    "fecha_prediccion": "2025-09-15T20:02:44.067940"
+  },
+  {
+    "anchor_text_id": "at_0041",
+    "anchor_text": "Domina machine learning marketing - Satisfacción garantizada",
+    "score_calidad": 80,
+    "ctr_predicho": 7.76,
+    "conversion_rate_predicho": 18.31,
+    "roi_predicho": 3.66,
+    "confianza": 74.9,
+    "fecha_prediccion": "2025-09-15T20:02:44.067946"
+  },
+  {
+    "anchor_text_id": "at_0042",
+    "anchor_text": "Aprende IA aplicada marketing en 1 año",
+    "score_calidad": 70,
+    "ctr_predicho": 8.74,
+    "conversion_rate_predicho": 18.76,
+    "roi_predicho": 2.96,
+    "confianza": 92.1,
+    "fecha_prediccion": "2025-09-15T20:02:44.067951"
+  },
+  {
+    "anchor_text_id": "at_0043",
+    "anchor_text": "Masterclass curso marketing automatizado 2024",
+    "score_calidad": 70,
+    "ctr_predicho": 7.98,
+    "conversion_rate_predicho": 21.09,
+    "roi_predicho": 3.86,
+    "confianza": 92.2,
+    "fecha_prediccion": "2025-09-15T20:02:44.067956"
+  },
+  {
+    "anchor_text_id": "at_0044",
+    "anchor_text": "Estrategias machine learning marketing que funcionan",
+    "score_calidad": 70,
+    "ctr_predicho": 9.78,
+    "conversion_rate_predicho": 19.88,
+    "roi_predicho": 3.09,
+    "confianza": 72.0,
+    "fecha_prediccion": "2025-09-15T20:02:44.067960"
+  },
+  {
+    "anchor_text_id": "at_0045",
+    "anchor_text": "Transforma tu negocio con curso IA marketing",
+    "score_calidad": 80,
+    "ctr_predicho": 7.92,
+    "conversion_rate_predicho": 19.27,
+    "roi_predicho": 4.86,
+    "confianza": 94.2,
+    "fecha_prediccion": "2025-09-15T20:02:44.067965"
+  },
+  {
+    "anchor_text_id": "at_0046",
+    "anchor_text": "El futuro del marketing: machine learning marketing",
+    "score_calidad": 70,
+    "ctr_predicho": 9.78,
+    "conversion_rate_predicho": 18.66,
+    "roi_predicho": 3.26,
+    "confianza": 78.3,
+    "fecha_prediccion": "2025-09-15T20:02:44.067970"
+  },
+  {
+    "anchor_text_id": "at_0047",
+    "anchor_text": "Masterclass IA aplicada marketing 2024",
+    "score_calidad": 70,
+    "ctr_predicho": 10.38,
+    "conversion_rate_predicho": 15.39,
+    "roi_predicho": 2.55,
+    "confianza": 77.1,
+    "fecha_prediccion": "2025-09-15T20:02:44.067975"
+  },
+  {
+    "anchor_text_id": "at_0048",
+    "anchor_text": "Guía completa de curso marketing automatizado",
+    "score_calidad": 70,
+    "ctr_predicho": 7.96,
+    "conversion_rate_predicho": 20.21,
+    "roi_predicho": 3.22,
+    "confianza": 75.2,
+    "fecha_prediccion": "2025-09-15T20:02:44.067980"
+  },
+  {
+    "anchor_text_id": "at_0049",
+    "anchor_text": "Masterclass marketing digital IA 2024",
+    "score_calidad": 70,
+    "ctr_predicho": 8.46,
+    "conversion_rate_predicho": 13.11,
+    "roi_predicho": 4.5,
+    "confianza": 83.2,
+    "fecha_prediccion": "2025-09-15T20:02:44.067985"
+  },
+  {
+    "anchor_text_id": "at_0050",
+    "anchor_text": "El futuro del marketing: machine learning marketing",
+    "score_calidad": 70,
+    "ctr_predicho": 7.95,
+    "conversion_rate_predicho": 13.15,
+    "roi_predicho": 4.06,
+    "confianza": 92.8,
+    "fecha_prediccion": "2025-09-15T20:02:44.067989"
+  }
+]

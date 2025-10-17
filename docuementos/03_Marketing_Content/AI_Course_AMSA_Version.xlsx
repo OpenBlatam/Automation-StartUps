@@ -1,0 +1,163 @@
+# AI COURSE AMSA VERSION - EXCEL TEMPLATE
+# Advanced Marketing & Sales Analytics for AI Course Business
+
+## AMSA MARKETING FUNNEL ANALYTICS
+Funnel_Stage,Visitors,Leads,Qualified_Leads,Opportunities,Closed_Won,Conversion_Rate,Formula_Used
+Awareness,=10000,=1000,=800,=400,=200,=B2/C2,=B2/C2
+Interest,=1000,=800,=600,=300,=150,=B3/C3,=B3/C3
+Consideration,=800,=600,=400,=200,=100,=B4/C4,=B4/C4
+Intent,=600,=400,=300,=150,=75,=B5/C5,=B5/C5
+Purchase,=400,=300,=200,=100,=50,=B6/C6,=B6/C6
+TOTAL,=12800,=3100,=2300,=1150,=575,=AVERAGE(F2:F6),=AVERAGE(F2:F6)
+
+## AMSA CUSTOMER JOURNEY MAPPING
+Touchpoint,Channel,Interaction_Type,Engagement_Score,Conversion_Probability,Revenue_Attribution,Formula_Used
+Website_Visit,=Organic,=Page_View,=0.3,=5%,=B2*C2*D2*E2,=B2*C2*D2*E2
+Email_Open,=Email,=Open,=0.4,=8%,=B3*C3*D3*E3,=B3*C3*D3*E3
+Social_Media,=Social,=Like_Share,=0.5,=12%,=B4*C4*D4*E4,=B4*C4*D4*E4
+Webinar_Attend,=Webinar,=Registration,=0.7,=25%,=B5*C5*D5*E5,=B5*C5*D5*E5
+Demo_Request,=Sales,=Demo,=0.8,=40%,=B6*C6*D6*E6,=B6*C6*D6*E6
+TOTAL,=0,=0,=0.54,=18%,=AVERAGE(F2:F6),=AVERAGE(F2:F6)
+
+## AMSA ATTRIBUTION MODELING
+Attribution_Model,First_Touch,Last_Touch,Linear,Time_Decay,Position_Based,Formula_Used
+Direct_Traffic,=20%,=30%,=25%,=22%,=24%,=AVERAGE(B2:E2),=AVERAGE(B2:E2)
+Organic_Search,=25%,=20%,=22%,=24%,=23%,=AVERAGE(B3:E3),=AVERAGE(B3:E3)
+Paid_Search,=15%,=25%,=20%,=18%,=19%,=AVERAGE(B4:E4),=AVERAGE(B4:E4)
+Social_Media,=10%,=15%,=12%,=14%,=13%,=AVERAGE(B5:E5),=AVERAGE(B5:E5)
+Email_Marketing,=20%,=10%,=15%,=16%,=17%,=AVERAGE(B6:E6),=AVERAGE(B6:E6)
+Referrals,=10%,=0%,=6%,=6%,=4%,=AVERAGE(B7:E7),=AVERAGE(B7:E7)
+TOTAL,=100%,=100%,=100%,=100%,=100%,=AVERAGE(F2:F7),=AVERAGE(F2:F7)
+
+## AMSA CONVERSION OPTIMIZATION
+Page,Visitors,Conversions,Conversion_Rate,Baseline_Rate,Improvement,Formula_Used
+Landing_Page,=5000,=250,=5%,=3%,=B2/C2,=B2/C2
+Product_Page,=3000,=180,=6%,=4%,=B3/C3,=B3/C3
+Checkout_Page,=1000,=80,=8%,=6%,=B4/C4,=B4/C4
+Thank_You_Page,=800,=75,=9.4%,=7%,=B5/C5,=B5/C5
+Course_Overview,=2000,=120,=6%,=5%,=B6/C6,=B6/C6
+TOTAL,=11800,=705,=6%,=5%,=AVERAGE(F2:F6),=AVERAGE(F2:F6)
+
+## AMSA CUSTOMER LIFETIME VALUE
+Customer_Segment,Average_Order_Value,Purchase_Frequency,Average_Lifespan,CLV,Formula_Used
+High_Value,=2000,=2,=24_months,=B2*C2*D2,=B2*C2*D2
+Medium_Value,=1000,=3,=18_months,=B3*C3*D3,=B3*C3*D3
+Low_Value,=500,=4,=12_months,=B4*C4*D4,=B4*C4*D4
+Enterprise,=5000,=1,=36_months,=B5*C5*D5,=B5*C5*D5
+SMB,=800,=2,=15_months,=B6*C6*D6,=B6*C6*D6
+TOTAL,=1860,=2.4,=21_months,=AVERAGE(F2:F6),=AVERAGE(F2:F6)
+
+## AMSA CUSTOMER ACQUISITION COST
+Channel,Spend,Leads,Conversions,CAC,ROI,Formula_Used
+Google_Ads,=50000,=2000,=200,=B2/C2,=(D2*2000-B2)/B2,=B2/C2
+Facebook_Ads,=30000,=1500,=150,=B3/C3,=(D3*2000-B3)/B3,=B3/C3
+LinkedIn_Ads,=20000,=800,=100,=B4/C4,=(D4*2000-B4)/B4,=B4/C4
+Email_Marketing,=10000,=1000,=200,=B5/C5,=(D5*2000-B5)/B5,=B5/C5
+Content_Marketing,=15000,=500,=100,=B6/C6,=(D6*2000-B6)/B6,=B6/C6
+TOTAL,=125000,=6800,=750,=AVERAGE(F2:F6),=AVERAGE(G2:G6),=AVERAGE(F2:F6)
+
+## AMSA SALES PERFORMANCE
+Sales_Rep,Quotas,Actual_Sales,Quota_Attainment,Deals_Closed,Win_Rate,Formula_Used
+Rep_1,=100000,=120000,=B2/C2,=15,=D2/E2,=B2/C2
+Rep_2,=100000,=95000,=B3/C3,=12,=D3/E3,=B3/C3
+Rep_3,=100000,=110000,=B4/C4,=14,=D4/E4,=B4/C4
+Rep_4,=100000,=88000,=B5/C5,=11,=D5/E5,=B5/C5
+Rep_5,=100000,=105000,=B6/C6,=13,=D6/E6,=B6/C6
+TOTAL,=500000,=518000,=AVERAGE(F2:F6),=65,=AVERAGE(G2:G6),=AVERAGE(F2:F6)
+
+## AMSA LEAD SCORING
+Lead_Attribute,Weight,Score,Behavior_Score,Demographic_Score,Total_Score,Formula_Used
+Email_Open_Rate,=0.2,=0.8,=0.7,=0.6,=B2*C2*D2*E2,=B2*C2*D2*E2
+Website_Visits,=0.15,=0.6,=0.8,=0.5,=B3*C3*D3*E3,=B3*C3*D3*E3
+Content_Download,=0.25,=0.9,=0.9,=0.7,=B4*C4*D4*E4,=B4*C4*D4*E4
+Webinar_Attendance,=0.3,=0.95,=0.95,=0.8,=B5*C5*D5*E5,=B5*C5*D5*E5
+Demo_Request,=0.1,=1.0,=1.0,=0.9,=B6*C6*D6*E6,=B6*C6*D6*E6
+TOTAL,=1.0,=0.85,=0.87,=0.7,=AVERAGE(F2:F6),=AVERAGE(F2:F6)
+
+## AMSA CONTENT PERFORMANCE
+Content_Type,Views,Engagement,Conversions,CTR,Engagement_Rate,Formula_Used
+Blog_Posts,=50000,=5000,=500,=B2/C2,=C2/B2,=B2/C2
+Videos,=30000,=6000,=300,=B3/C3,=C3/B3,=B3/C3
+Webinars,=10000,=2000,=200,=B4/C4,=C4/B4,=B4/C4
+Ebooks,=8000,=1600,=150,=B5/C5,=C5/B5,=B5/C5
+Case_Studies,=5000,=1000,=100,=B6/C6,=C6/B6,=B6/C6
+TOTAL,=103000,=15600,=1250,=AVERAGE(F2:F6),=AVERAGE(G2:G6),=AVERAGE(F2:F6)
+
+## AMSA EMAIL MARKETING METRICS
+Campaign,Recipients,Opens,Clicks,Conversions,Open_Rate,Click_Rate,Formula_Used
+Welcome_Series,=10000,=3000,=600,=120,=B2/C2,=C2/D2,=B2/C2
+Newsletter,=50000,=15000,=3000,=300,=B3/C3,=C3/D3,=B3/C3
+Product_Launch,=20000,=8000,=2000,=400,=B4/C4,=C4/D4,=B4/C4
+Re_engagement,=15000,=3000,=600,=90,=B5/C5,=C5/D5,=B5/C5
+Abandoned_Cart,=5000,=2000,=800,=200,=B6/C6,=C6/D6,=B6/C6
+TOTAL,=100000,=31000,=7000,=1110,=AVERAGE(F2:F6),=AVERAGE(G2:G6),=AVERAGE(F2:F6)
+
+## AMSA SOCIAL MEDIA ANALYTICS
+Platform,Followers,Engagement,Reach,Impressions,Engagement_Rate,Formula_Used
+LinkedIn,=50000,=5000,=100000,=200000,=B2/C2,=B2/C2
+Twitter,=30000,=3000,=80000,=150000,=B3/C3,=B3/C3
+Facebook,=25000,=2500,=60000,=120000,=B4/C4,=B4/C4
+YouTube,=20000,=2000,=50000,=100000,=B5/C5,=B5/C5
+Instagram,=15000,=1500,=40000,=80000,=B6/C6,=B6/C6
+TOTAL,=140000,=14000,=330000,=650000,=AVERAGE(F2:F6),=AVERAGE(F2:F6)
+
+## AMSA PREDICTIVE ANALYTICS
+Metric,Current_Value,Predicted_Value,Confidence_Interval,Accuracy,Formula_Used
+Lead_Volume,=1000,=1200,=±100,=85%,=PREDICT(B2,C2,D2),=PREDICT(B2,C2,D2)
+Conversion_Rate,=5%,=6%,=±0.5%,=90%,=PREDICT(B3,C3,D3),=PREDICT(B3,C3,D3)
+Revenue,=500000,=600000,=±50000,=88%,=PREDICT(B4,C4,D4),=PREDICT(B4,C4,D4)
+Churn_Rate,=3%,=2.5%,=±0.3%,=92%,=PREDICT(B5,C5,D5),=PREDICT(B5,C5,D5)
+Customer_LTV,=2000,=2500,=±200,=87%,=PREDICT(B6,C6,D6),=PREDICT(B6,C6,D6)
+TOTAL,=0,=0,=0,=88.4%,=AVERAGE(E2:E6),=AVERAGE(E2:E6)
+
+## AMSA A/B TESTING RESULTS
+Test_Name,Control_Conversion,Variation_Conversion,Lift,Statistical_Significance,Formula_Used
+Landing_Page_Headline,=3.2%,=4.1%,=B2/C2,=95%,=B2/C2
+CTA_Button_Color,=4.5%,=5.8%,=B3/C3,=99%,=B3/C3
+Email_Subject_Line,=8.2%,=10.1%,=B4/C4,=97%,=B4/C4
+Pricing_Display,=2.8%,=3.6%,=B5/C5,=92%,=B5/C5
+Checkout_Process,=6.1%,=7.9%,=B6/C6,=98%,=B6/C6
+TOTAL,=5.0%,=6.3%,=AVERAGE(F2:F6),=96.2%,=AVERAGE(F2:F6)
+
+## AMSA CUSTOMER SEGMENTATION
+Segment,Size,Revenue_Contribution,Profit_Margin,Churn_Rate,LTV,Formula_Used
+Enterprise,=100,=60%,=80%,=2%,=5000,=B2*C2*D2*E2,=B2*C2*D2*E2
+Mid_Market,=500,=30%,=70%,=5%,=2000,=B3*C3*D3*E3,=B3*C3*D3*E3
+SMB,=2000,=10%,=60%,=10%,=800,=B4*C4*D4*E4,=B4*C4*D4*E4
+TOTAL,=2600,=100%,=70%,=5.7%,=AVERAGE(F2:F4),=AVERAGE(F2:F4)
+
+## AMSA MARKETING AUTOMATION
+Workflow,Triggers,Recipients,Open_Rate,Click_Rate,Conversion_Rate,Formula_Used
+Welcome_Series,=1000,=1000,=85%,=25%,=15%,=B2*C2*D2*E2,=B2*C2*D2*E2
+Abandoned_Cart,=500,=500,=70%,=30%,=20%,=B3*C3*D3*E3,=B3*C3*D3*E3
+Re_engagement,=2000,=2000,=60%,=20%,=10%,=B4*C4*D4*E4,=B4*C4*D4*E4
+Upsell_Campaign,=300,=300,=80%,=35%,=25%,=B5*C5*D5*E5,=B5*C5*D5*E5
+Win_Back,=1000,=1000,=50%,=15%,=8%,=B6*C6*D6*E6,=B6*C6*D6*E6
+TOTAL,=4800,=4800,=69%,=25%,=15.6%,=AVERAGE(F2:F6),=AVERAGE(F2:F6)
+
+## AMSA SALES FORECASTING
+Period,Historical_Sales,Seasonal_Factor,Trend_Growth,Forecast,Accuracy,Formula_Used
+Q1_2024,=500000,=0.9,=1.2,=B2*C2*D2,=95%,=B2*C2*D2
+Q2_2024,=600000,=1.1,=1.2,=B3*C3*D3,=92%,=B3*C3*D3
+Q3_2024,=550000,=0.8,=1.2,=B4*C4*D4,=88%,=B4*C4*D4
+Q4_2024,=700000,=1.2,=1.2,=B5*C5*D5,=90%,=B5*C5*D5
+Q1_2025,=800000,=0.9,=1.2,=B6*C6*D6,=85%,=B6*C6*D6
+TOTAL,=3150000,=0,=0,=AVERAGE(F2:F6),=90%,=AVERAGE(F2:F6)
+
+## AMSA CUSTOMER RETENTION
+Retention_Strategy,Implementation_Cost,Retention_Rate,Revenue_Impact,ROI,Formula_Used
+Loyalty_Program,=50000,=15%,=200000,=B2*C2*D2,=B2*C2*D2
+Customer_Support,=30000,=10%,=150000,=B3*C3*D3,=B3*C3*D3
+Personalization,=40000,=12%,=180000,=B4*C4*D4,=B4*C4*D4
+Upselling,=25000,=8%,=120000,=B5*C5*D5,=B5*C5*D5
+Feedback_System,=15000,=5%,=80000,=B6*C6*D6,=B6*C6*D6
+TOTAL,=160000,=50%,=730000,=AVERAGE(F2:F6),=AVERAGE(F2:F6)
+
+## AMSA MARKETING ROI
+Campaign,Spend,Revenue,ROI,Cost_per_Lead,Revenue_per_Lead,Formula_Used
+Google_Ads,=50000,=200000,=B2/C2,=B2/1000,=C2/1000,=B2/C2
+Facebook_Ads,=30000,=150000,=B3/C3,=B3/800,=C3/800,=B3/C3
+LinkedIn_Ads,=20000,=120000,=B4/C4,=B4/500,=C4/500,=B4/C4
+Email_Marketing,=10000,=80000,=B5/C5,=B5/2000,=C5/2000,=B5/C5
+Content_Marketing,=15000,=100000,=B6/C6,=B6/1000,=C6/1000,=B6/C6
+TOTAL,=125000,=650000,=AVERAGE(F2:F6),=AVERAGE(G2:G6),=AVERAGE(H2:H6),=AVERAGE(F2:F6)

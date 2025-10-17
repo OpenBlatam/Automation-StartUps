@@ -1405,3 +1405,4 @@ if __name__ == "__main__":
     export_data = aip_analyzer.export_aip_analysis()
     
     print("✅ Sistema de análisis de AI Privacy de marketing completado!")
+

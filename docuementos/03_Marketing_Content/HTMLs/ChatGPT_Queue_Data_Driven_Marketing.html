@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📈 Marketing Data-Driven - ChatGPT Queue</title>
+    <style>
+        @page { size: A4; margin: 2cm; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; margin:0; padding:0; background: linear-gradient(135deg,#1e3c72,#2a5298); }
+        .container { background:#fff; margin:20px; padding:40px; border-radius:20px; box-shadow:0 20px 40px rgba(0,0,0,.1); }
+        .header { background:linear-gradient(135deg,#1e3c72,#2a5298); color:#fff; text-align:center; padding:50px; margin:-40px -40px 40px -40px; border-radius:20px 20px 0 0; }
+        h1 { margin:0; font-size:2.6em; }
+        .subtitle { opacity:.9; margin-top:10px; }
+        .section { background:#f8f9fa; border-left:6px solid #1e3c72; padding:28px; border-radius:14px; margin:28px 0; }
+        .title { color:#1e3c72; font-size:1.6em; font-weight:700; margin:0 0 14px 0; }
+        .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:18px; }
+        .card { background:#fff; border-left:4px solid #2a5298; border-radius:10px; padding:18px; box-shadow:0 10px 20px rgba(0,0,0,.06); }
+        .card h3 { margin:0 0 8px 0; color:#2a5298; font-size:1.1em; }
+        .small { color:#666; font-size:.95em; }
+        .kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px; margin-top:10px; }
+        .kpi { background:#e8f4ff; border-radius:8px; padding:12px; text-align:center; }
+        .kpi .num { font-size:1.6em; font-weight:800; color:#1e3c72; }
+        .kpi .lbl { font-size:.85em; color:#555; }
+        .table { width:100%; border-collapse:collapse; }
+        .table th, .table td { border:1px solid #eee; padding:10px; text-align:left; font-size:.95em; }
+        .table th { background:#1e3c72; color:#fff; }
+        .note { font-size:.9em; color:#555; margin-top:8px; }
+        .footer { background:#2d3436; color:#fff; text-align:center; padding:28px; margin:40px -40px -40px -40px; border-radius:0 0 20px 20px; }
+    </style>
+    </head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📈 Marketing Data-Driven</h1>
+            <div class="subtitle">ChatGPT Queue · Orquestación de datos para máximo ROI</div>
+        </div>
+
+        <div class="section">
+            <div class="title">🎯 Objetivos y KPIs Principales</div>
+            <div class="kpis">
+                <div class="kpi"><div class="num">+30%</div><div class="lbl">CVR LP</div></div>
+                <div class="kpi"><div class="num">-25%</div><div class="lbl">CPA</div></div>
+                <div class="kpi"><div class="num">+40%</div><div class="lbl">LTV</div></div>
+                <div class="kpi"><div class="num">< 0.8m</div><div class="lbl">CAC Payback</div></div>
+                <div class="kpi"><div class="num">95%</div><div class="lbl">Retención 90d</div></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="title">🧩 Arquitectura de Datos</div>
+            <div class="grid">
+                <div class="card">
+                    <h3>Captura</h3>
+                    <div class="small">GA4 · Pixel Meta/LinkedIn · UTM estándares · Server-side tracking · Eventos de producto</div>
+                </div>
+                <div class="card">
+                    <h3>Ingesta y ETL</h3>
+                    <div class="small">Segment/Hevo → BigQuery · Esquemas normalizados · Deduplicación · Validación</div>
+                </div>
+                <div class="card">
+                    <h3>Modelado</h3>
+                    <div class="small">dbt: tablas de hechos/dimensiones · Cohortes · Embudo unificado · Atribución</div>
+                </div>
+                <div class="card">
+                    <h3>Activación</h3>
+                    <div class="small">Reverse ETL (Hightouch) → Ads, Email, CRM · Audiencias dinámicas · Triggers</div>
+                </div>
+                <div class="card">
+                    <h3>BI y ML</h3>
+                    <div class="small">Looker/Metabase · Notebooks · Modelos de propensión, churn, LTV</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="title">🔗 Modelo de Atribución Híbrido</div>
+            <table class="table">
+                <thead><tr><th>Modelo</th><th>Uso</th><th>Peso</th><th>Decisiones</th></tr></thead>
+                <tbody>
+                    <tr><td>Data-driven</td><td>Asignación base</td><td>50%</td><td>Budget cross-canal</td></tr>
+                    <tr><td>Time-decay</td><td>Remarketing</td><td>20%</td><td>Secuencias y timing</td></tr>
+                    <tr><td>Position-based</td><td>TOFU/MOFU</td><td>20%</td><td>Creatividades y mensajes</td></tr>
+                    <tr><td>Last-touch</td><td>BOFU</td><td>10%</td><td>Optimización checkout</td></tr>
+                </tbody>
+            </table>
+            <div class="note">Recalibración semanal con Bayesian updating sobre ventanas de 28 días.</div>
+        </div>
+
+        <div class="section">
+            <div class="title">🧪 Ciclo de Experimentación Continua</div>
+            <div class="grid">
+                <div class="card"><h3>Ideación</h3><div class="small">Backlog ICE · Insights de mapas de calor, encuestas, embudos</div></div>
+                <div class="card"><h3>Diseño</h3><div class="small">Hipótesis, métricas primarias/secundarias, tamaño de muestra</div></div>
+                <div class="card"><h3>Ejecución</h3><div class="small">A/B/n controlado · Split de tráfico · Horizonte 7-14 días</div></div>
+                <div class="card"><h3>Análisis</h3><div class="small">Uplift, significancia, heterogeneidad por segmento</div></div>
+                <div class="card"><h3>Activación</h3><div class="small">Rollout progresivo · Feature flags · Documentación</div></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="title">🤖 Modelos Predictivos Clave</div>
+            <div class="grid">
+                <div class="card"><h3>Propensión a convertir</h3><div class="small">XGBoost · Features de sesión, fuente, mensaje · Activación: pujas y creativos</div></div>
+                <div class="card"><h3>Churn 30/90 días</h3><div class="small">Random Forest · Señales de uso · Triggers de reactivación</div></div>
+                <div class="card"><h3>LTV 12 meses</h3><div class="small">Gamma-Gamma + BG/NBD · Segmentación de valor · Pricing</div></div>
+                <div class="card"><h3>Recomendador</h3><div class="small">Contenido/funciones sugeridas por segmento y contexto</div></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="title">📊 Cuadros de Mando</div>
+            <div class="grid">
+                <div class="card"><h3>Growth Executive</h3><div class="small">ARR, CAC, LTV, Payback, ROI, Cohortes</div></div>
+                <div class="card"><h3>Embudo y Mensajería</h3><div class="small">TOFU→BOFU, CVR por mensaje/tono, abandonos</div></div>
+                <div class="card"><h3>Canales</h3><div class="small">Spend, CPC/CPA, ROAS, saturación, overlap</div></div>
+                <div class="card"><h3>Producto</h3><div class="small">AHA moment, feature usage, stickiness, NPS</div></div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div><strong>Marketing Data-Driven</strong> · Datos → Decisiones → Revenue</div>
+            <div style="opacity:.8; margin-top:8px;">© 2024 - ChatGPT Queue. Sistema de crecimiento guiado por datos.</div>
+        </div>
+    </div>
+</body>
+</html>
+
+

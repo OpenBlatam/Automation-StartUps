@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Optimización de Conversión | IA Marketing Solutions</title>
+    <meta name="description" content="🔥 Guía completa de optimización de conversión. 25+ estrategias probadas que aumentan conversiones 300% y ROI 250% con IA y psicología.">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Tonos Emocionales Avanzados */
+        .excitement { background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; animation: excitement-pulse 2s infinite; text-align: center; }
+        @keyframes excitement-pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        
+        .trust { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .trust::before { content: "🛡️ "; font-size: 1.8em; }
+        
+        .success { background: linear-gradient(135deg, #28a745 0%, #198754 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .success::before { content: "🎉 "; font-size: 1.8em; }
+        
+        .premium { background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; position: relative; overflow: hidden; }
+        .premium::before { content: "👑 "; font-size: 1.8em; }
+        .premium::after { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent); animation: premium-shine 3s infinite; }
+        @keyframes premium-shine { 0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); } 100% { transform: translateX(100%) translateY(100%) rotate(45deg); } }
+        
+        .curiosity { background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .curiosity::before { content: "🔍 "; font-size: 1.8em; }
+        
+        .social-proof { background: linear-gradient(135deg, #007bff 0%, #6610f2 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .social-proof::before { content: "👥 "; font-size: 1.8em; }
+        
+        .authority { background: linear-gradient(135deg, #343a40 0%, #6c757d 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .authority::before { content: "🏆 "; font-size: 1.8em; }
+        
+        .empathy { background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .empathy::before { content: "💝 "; font-size: 1.8em; }
+        
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 0; text-align: center; }
+        .hero h1 { font-size: 3.5em; margin-bottom: 20px; font-weight: 700; }
+        .hero p { font-size: 1.3em; margin-bottom: 30px; opacity: 0.95; }
+        
+        .cta-button { background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; padding: 20px 40px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.3em; display: inline-block; margin: 20px 10px; transition: all 0.3s; box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3); }
+        .cta-button:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4); }
+        
+        .strategies-section { background: white; padding: 60px 0; }
+        .strategies-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 40px; }
+        .strategy-card { background: #f8f9fa; padding: 30px; border-radius: 20px; border-left: 6px solid #667eea; transition: transform 0.3s; }
+        .strategy-card:hover { transform: translateY(-5px); }
+        .strategy-title { font-size: 1.4em; font-weight: bold; color: #2c3e50; margin-bottom: 15px; }
+        .strategy-stats { background: white; padding: 15px; border-radius: 10px; margin: 15px 0; }
+        .stat-item { display: flex; justify-content: space-between; margin: 8px 0; }
+        
+        .strategy-preview { background: white; border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin: 20px 0; }
+        .strategy-header { border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px; }
+        .strategy-step { background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #667eea; }
+        .step-number { background: #667eea; color: white; width: 25px; height: 25px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 10px; }
+        
+        .psychology-section { background: #f8f9fa; padding: 60px 0; }
+        .psychology-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px; }
+        .psychology-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        .psychology-icon { font-size: 2.5em; margin-bottom: 15px; }
+        
+        .results-section { background: #2c3e50; color: white; padding: 60px 0; }
+        .results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 40px; }
+        .result-card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; text-align: center; }
+        .result-number { font-size: 2.5em; font-weight: bold; color: #ff6b6b; margin-bottom: 10px; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5em; }
+            .hero p { font-size: 1.1em; }
+            .strategies-grid { grid-template-columns: 1fr; }
+            .psychology-grid { grid-template-columns: 1fr; }
+            .results-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>🎯 Optimización de Conversión</h1>
+            <p><strong>25+ estrategias probadas</strong> que aumentan conversiones 300% y ROI 250% usando IA y psicología del consumidor</p>
+            <a href="#strategies" class="cta-button">🚀 Ver Estrategias</a>
+            <a href="#psychology" class="cta-button" style="background: transparent; border: 2px solid white;">🧠 Psicología</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="excitement">
+            <h2 style="margin: 0; font-size: 2.2em;">🎯 ¡CONVIERTE 300% MÁS!</h2>
+            <p style="margin: 10px 0 0 0; font-size: 1.2em;">Estrategias probadas que aumentan conversiones 300% y ROI 250%</p>
+        </div>
+
+        <div class="success">
+            <h3 style="margin: 0 0 15px 0;">🎉 RESULTADOS COMPROBADOS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Nuestras estrategias han generado $10M+ en ventas adicionales para 500+ empresas</p>
+        </div>
+
+        <section class="strategies-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">🎯 Estrategias de Conversión</h2>
+            
+            <div class="strategies-grid">
+                <div class="strategy-card">
+                    <div class="strategy-title">🔥 Urgencia y Escasez</div>
+                    <p>Crear presión temporal y limitación de ofertas para acelerar decisiones</p>
+                    <div class="strategy-stats">
+                        <div class="stat-item">
+                            <span>Conversión:</span>
+                            <span style="color: #28a745; font-weight: bold;">+180%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Implementación:</span>
+                            <span style="color: #28a745; font-weight: bold;">2 horas</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>ROI:</span>
+                            <span style="color: #28a745; font-weight: bold;">450%</span>
+                        </div>
+                    </div>
+                    <div class="strategy-preview">
+                        <div class="strategy-header">
+                            <div class="strategy-title">Implementación Paso a Paso</div>
+                        </div>
+                        <div class="strategy-step">
+                            <span class="step-number">1</span>
+                            <strong>Countdown Timer:</strong> Mostrar tiempo limitado en ofertas
+                        </div>
+                        <div class="strategy-step">
+                            <span class="step-number">2</span>
+                            <strong>Stock Limitado:</strong> "Solo quedan X unidades"
+                        </div>
+                        <div class="strategy-step">
+                            <span class="step-number">3</span>
+                            <strong>Oferta por Tiempo:</strong> Descuento que expira en 24h
+                        </div>
+                        <div class="strategy-step">
+                            <span class="step-number">4</span>
+                            <strong>FOMO:</strong> "Otros ya están comprando"
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Implementar Estrategia</a>
+                </div>
+                
+                <div class="strategy-card">
+                    <div class="strategy-title">👥 Prueba Social</div>
+                    <p>Usar testimonios, reviews y números para generar confianza</p>
+                    <div class="strategy-stats">
+                        <div class="stat-item">
+                            <span>Conversión:</span>
+                            <span style="color: #28a745; font-weight: bold;">+220%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Implementación:</span>
+                            <span style="color: #28a745; font-weight: bold;">3 horas</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>ROI:</span>
+                            <span style="color: #28a745; font-weight: bold;">380%</span>
+                        </div>
+                    </div>
+                    <div class="strategy-preview">
+                        <div class="strategy-header">
+                            <div class="strategy-title">Elementos de Prueba Social</div>
+                        </div>
+                        <div class="strategy-step">
+                            <span class="step-number">1</span>
+                            <strong>Testimonios:</strong> Con fotos y nombres reales
+                        </div>
+                        <div class="strategy-step">
+                            <span class="step-number">2</span>
+                            <strong>Reviews:</strong> Estrellas y comentarios
+                        </div>
+                        <div class="strategy-step">
+                            <span class="step-number">3</span>
+                            <strong>Números:</strong> "15,000+ clientes satisfechos"
+                        </div>
+                        <div class="strategy-step">
+                            <span class="step-number">4</span>
+                            <strong>Logos:</strong> Empresas que confían en ti
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Implementar Estrategia</a>
+                </div>
+                
+                <div class="strategy-card">
+                    <div class="strategy-title">🎁 Ofertas Irresistibles</div>
+                    <p>Crear propuestas de valor que no se pueden rechazar</p>
+                    <div class="strategy-stats">
+                        <div class="stat-item">
+                            <span>Conversión:</span>
+                            <span style="color: #28a745; font-weight: bold;">+250%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Implementación:</span>
+                            <span style="color: #28a745; font-weight: bold;">1 hora</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>ROI:</span>
+                            <span style="color: #28a745; font-weight: bold;">520%</span>
+                        </div>
+                    </div>
+                    <div class="strategy-preview">
+                        <div class="strategy-header">
+                            <div class="strategy-title">Tipos de Ofertas</div>
+                        </div>
+                        <div class="strategy-step">
+                            <span class="step-number">1</span>
+                            <strong>Bonus:</strong> "Incluye X valorado en $Y"
+                        </div>
+                        <div class="strategy-step">
+                            <span class="step-number">2</span>
+                            <strong>Garantía:</strong> "30 días o te devolvemos el dinero"
+                        </div>
+                        <div class="strategy-step">
+                            <span class="step-number">3</span>
+                            <strong>Descuento:</strong> "50% OFF solo hoy"
+                        </div>
+                        <div class="strategy-step">
+                            <span class="step-number">4</span>
+                            <strong>Gratis:</strong> "Envío gratis en pedidos +$X"
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Implementar Estrategia</a>
+                </div>
+                
+                <div class="strategy-card">
+                    <div class="strategy-title">🎨 Optimización de Landing Pages</div>
+                    <p>Mejorar elementos visuales y UX para maximizar conversiones</p>
+                    <div class="strategy-stats">
+                        <div class="stat-item">
+                            <span>Conversión:</span>
+                            <span style="color: #28a745; font-weight: bold;">+190%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Implementación:</span>
+                            <span style="color: #28a745; font-weight: bold;">4 horas</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>ROI:</span>
+                            <span style="color: #28a745; font-weight: bold;">340%</span>
+                        </div>
+                    </div>
+                    <div class="strategy-preview">
+                        <div class="strategy-header">
+                            <div class="strategy-title">Elementos Clave</div>
+                        </div>
+                        <div class="strategy-step">
+                            <span class="step-number">1</span>
+                            <strong>Headline:</strong> Claro, específico y beneficioso
+                        </div>
+                        <div class="strategy-step">
+                            <span class="step-number">2</span>
+                            <strong>CTA:</strong> Botón prominente y acción clara
+                        </div>
+                        <div class="strategy-step">
+                            <span class="step-number">3</span>
+                            <strong>Formulario:</strong> Mínimos campos necesarios
+                        </div>
+                        <div class="strategy-step">
+                            <span class="step-number">4</span>
+                            <strong>Mobile:</strong> Optimizado para móviles
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Implementar Estrategia</a>
+                </div>
+                
+                <div class="strategy-card">
+                    <div class="strategy-title">🧠 Personalización con IA</div>
+                    <p>Usar inteligencia artificial para personalizar experiencias</p>
+                    <div class="strategy-stats">
+                        <div class="stat-item">
+                            <span>Conversión:</span>
+                            <span style="color: #28a745; font-weight: bold;">+300%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Implementación:</span>
+                            <span style="color: #28a745; font-weight: bold;">6 horas</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>ROI:</span>
+                            <span style="color: #28a745; font-weight: bold;">580%</span>
+                        </div>
+                    </div>
+                    <div class="strategy-preview">
+                        <div class="strategy-header">
+                            <div class="strategy-title">Técnicas de Personalización</div>
+                        </div>
+                        <div class="strategy-step">
+                            <span class="step-number">1</span>
+                            <strong>Contenido Dinámico:</strong> Adaptar según comportamiento
+                        </div>
+                        <div class="strategy-step">
+                            <span class="step-number">2</span>
+                            <strong>Recomendaciones:</strong> Productos basados en historial
+                        </div>
+                        <div class="strategy-step">
+                            <span class="step-number">3</span>
+                            <strong>Precios:</strong> Ofertas personalizadas
+                        </div>
+                        <div class="strategy-step">
+                            <span class="step-number">4</span>
+                            <strong>Timing:</strong> Envíos en horarios óptimos
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Implementar Estrategia</a>
+                </div>
+                
+                <div class="strategy-card">
+                    <div class="strategy-title">📊 A/B Testing Inteligente</div>
+                    <p>Probar y optimizar elementos para maximizar conversiones</p>
+                    <div class="strategy-stats">
+                        <div class="stat-item">
+                            <span>Conversión:</span>
+                            <span style="color: #28a745; font-weight: bold;">+150%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Implementación:</span>
+                            <span style="color: #28a745; font-weight: bold;">2 horas</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>ROI:</span>
+                            <span style="color: #28a745; font-weight: bold;">280%</span>
+                        </div>
+                    </div>
+                    <div class="strategy-preview">
+                        <div class="strategy-header">
+                            <div class="strategy-title">Elementos a Probar</div>
+                        </div>
+                        <div class="strategy-step">
+                            <span class="step-number">1</span>
+                            <strong>Headlines:</strong> Diferentes propuestas de valor
+                        </div>
+                        <div class="strategy-step">
+                            <span class="step-number">2</span>
+                            <strong>CTAs:</strong> Colores, textos y posiciones
+                        </div>
+                        <div class="strategy-step">
+                            <span class="step-number">3</span>
+                            <strong>Imágenes:</strong> Diferentes estilos y mensajes
+                        </div>
+                        <div class="strategy-step">
+                            <span class="step-number">4</span>
+                            <strong>Formularios:</strong> Número de campos y diseño
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Implementar Estrategia</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="authority">
+            <h3 style="margin: 0 0 15px 0;">🏆 LIDERAMOS EN OPTIMIZACIÓN</h3>
+            <p style="margin: 0; font-size: 1.2em;">Hemos optimizado más de 1,000 campañas y generado $10M+ en ventas adicionales</p>
+        </div>
+
+        <section class="psychology-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">🧠 Psicología del Consumidor</h2>
+            
+            <div class="psychology-grid">
+                <div class="psychology-card">
+                    <div class="psychology-icon">⚡</div>
+                    <h3>Efecto de Urgencia</h3>
+                    <p>Los humanos toman decisiones más rápido cuando sienten que el tiempo se agota</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Countdown timers</li>
+                        <li>✅ Ofertas limitadas</li>
+                        <li>✅ Stock limitado</li>
+                        <li>✅ Fechas de vencimiento</li>
+                    </ul>
+                </div>
+                
+                <div class="psychology-card">
+                    <div class="psychology-icon">👥</div>
+                    <h3>Prueba Social</h3>
+                    <p>Las personas confían más en las decisiones de otros que en la información directa</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Testimonios reales</li>
+                        <li>✅ Reviews y ratings</li>
+                        <li>✅ Números de usuarios</li>
+                        <li>✅ Logos de empresas</li>
+                    </ul>
+                </div>
+                
+                <div class="psychology-card">
+                    <div class="psychology-icon">🎁</div>
+                    <h3>Efecto de Regalo</h3>
+                    <p>Las personas valoran más lo que reciben gratis que lo que pagan</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Bonuses incluidos</li>
+                        <li>✅ Envío gratis</li>
+                        <li>✅ Muestras gratuitas</li>
+                        <li>✅ Contenido premium</li>
+                    </ul>
+                </div>
+                
+                <div class="psychology-card">
+                    <div class="psychology-icon">🔒</div>
+                    <h3>Reducción de Riesgo</h3>
+                    <p>Las personas evitan pérdidas más de lo que buscan ganancias</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Garantías de devolución</li>
+                        <li>✅ Certificaciones</li>
+                        <li>✅ Seguridad de pago</li>
+                        <li>✅ Políticas claras</li>
+                    </ul>
+                </div>
+                
+                <div class="psychology-card">
+                    <div class="psychology-icon">🎯</div>
+                    <h3>Efecto de Anclaje</h3>
+                    <p>Las personas se basan en la primera información que reciben</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Precios originales</li>
+                        <li>✅ Comparaciones</li>
+                        <li>✅ Valores de mercado</li>
+                        <li>✅ Descuentos visibles</li>
+                    </ul>
+                </div>
+                
+                <div class="psychology-card">
+                    <div class="psychology-icon">💝</div>
+                    <h3>Reciprocidad</h3>
+                    <p>Las personas sienten obligación de devolver favores</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Contenido gratuito</li>
+                        <li>✅ Muestras de producto</li>
+                        <li>✅ Consultas sin costo</li>
+                        <li>✅ Recursos útiles</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="social-proof">
+            <h3 style="margin: 0 0 15px 0;">👥 MÁS DE 500 EMPRESAS OPTIMIZARON CON NOSOTROS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Desde startups hasta Fortune 500, todas han visto resultados increíbles con nuestras estrategias</p>
+        </div>
+
+        <section class="results-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">📊 Resultados Promedio</h2>
+            
+            <div class="results-grid">
+                <div class="result-card">
+                    <div class="result-number">300%</div>
+                    <h3>Aumento de Conversión</h3>
+                    <p>Promedio con nuestras estrategias</p>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-number">250%</div>
+                    <h3>Aumento de ROI</h3>
+                    <p>Retorno de inversión promedio</p>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-number">$10M</div>
+                    <h3>Ventas Generadas</h3>
+                    <p>En total por nuestros clientes</p>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-number">1,000</div>
+                    <h3>Campañas Optimizadas</h3>
+                    <p>Con resultados comprobados</p>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-number">40%</div>
+                    <h3>Reducción de CAC</h3>
+                    <p>Costo de adquisición de cliente</p>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-number">85%</div>
+                    <h3>Satisfacción</h3>
+                    <p>De clientes con nuestros resultados</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="premium">
+            <h3 style="margin: 0 0 15px 0;">👑 GUÍA COMPLETA DE OPTIMIZACIÓN</h3>
+            <p style="margin: 0; font-size: 1.2em;">Obtén todas las 25+ estrategias + implementación + seguimiento + soporte por solo $297</p>
+        </div>
+
+        <div class="curiosity">
+            <h3 style="margin: 0 0 15px 0;">🔍 ¿CÓMO FUNCIONAN NUESTRAS ESTRATEGIAS?</h3>
+            <p style="margin: 0; font-size: 1.2em;">Descubre la ciencia detrás de la optimización de conversión y por qué funcionan</p>
+        </div>
+
+        <div class="empathy">
+            <h3 style="margin: 0 0 15px 0;">💝 Entendemos tus Necesidades</h3>
+            <p style="margin: 0; font-size: 1.2em;">Sabemos que optimizar conversiones puede ser complejo. Por eso nuestras estrategias están probadas y son fáciles de implementar</p>
+        </div>
+    </div>
+
+    <footer style="background: #2c3e50; color: white; padding: 40px 0; text-align: center;">
+        <div class="container">
+            <p>&copy; 2024 IA Marketing Solutions. Todos los derechos reservados.</p>
+            <p>Optimizando conversiones con inteligencia artificial desde 2020</p>
+        </div>
+    </footer>
+
+    <script>
+        // Track strategy interactions
+        document.querySelectorAll('.strategy-card .cta-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const strategy = this.closest('.strategy-card').querySelector('.strategy-title').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'strategy_click', {
+                        'event_category': 'Conversion Optimization',
+                        'event_label': strategy,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track psychology card clicks
+        document.querySelectorAll('.psychology-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const psychology = this.querySelector('h3').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'psychology_click', {
+                        'event_category': 'Conversion Optimization',
+                        'event_label': psychology,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track strategy preview interactions
+        document.querySelectorAll('.strategy-preview').forEach(preview => {
+            preview.addEventListener('click', function() {
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'strategy_preview_click', {
+                        'event_category': 'Conversion Optimization',
+                        'event_label': 'Strategy Preview',
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Animate strategy cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.strategy-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+        
+        // Animate result numbers
+        const resultObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const resultNumber = entry.target.querySelector('.result-number');
+                    const finalValue = resultNumber.textContent;
+                    const isPercentage = finalValue.includes('%');
+                    const isMillion = finalValue.includes('M');
+                    const isK = finalValue.includes('K');
+                    const numericValue = parseFloat(finalValue.replace(/[^0-9.]/g, ''));
+                    
+                    let currentValue = 0;
+                    const increment = numericValue / 30;
+                    
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= numericValue) {
+                            currentValue = numericValue;
+                            clearInterval(timer);
+                        }
+                        
+                        if (isPercentage) {
+                            resultNumber.textContent = Math.round(currentValue) + '%';
+                        } else if (isMillion) {
+                            resultNumber.textContent = '$' + (currentValue / 1000000).toFixed(1) + 'M';
+                        } else if (isK) {
+                            resultNumber.textContent = Math.round(currentValue / 1000) + 'K';
+                        } else {
+                            resultNumber.textContent = Math.round(currentValue).toLocaleString();
+                        }
+                    }, 30);
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.result-card').forEach(card => {
+            resultObserver.observe(card);
+        });
+    </script>
+</body>
+</html>
+
+

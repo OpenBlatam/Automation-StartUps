@@ -1349,3 +1349,4 @@ if __name__ == "__main__":
     export_data = aif_analyzer.export_aif_analysis()
     
     print("✅ Sistema de análisis de AI Fairness de marketing completado!")
+

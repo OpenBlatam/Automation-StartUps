@@ -1,0 +1,9 @@
+Meta,Categoría,Monto Objetivo,Monto Actual,Progreso %,Fecha Límite,Acciones,Prioridad
+Fondo de Emergencia,Corto Plazo,100000,25000,=D2/C2,2024-12-31,Ahorrar $6250/mes,Crítico
+Compra de Auto,Corto Plazo,300000,50000,=D3/C3,2025-06-30,Ahorrar $25000/mes,Alto
+Viaje de Ensueño,Mediano Plazo,150000,0,=D4/C4,2025-12-31,Ahorrar $12500/mes,Medio
+Enganche Casa,Mediano Plazo,500000,100000,=D5/C5,2026-12-31,Ahorrar $20833/mes,Alto
+Fondo Universitario,Largo Plazo,1000000,0,=D6/C6,2040-12-31,Ahorrar $2778/mes,Alto
+Jubilación,Largo Plazo,10000000,500000,=D7/C7,2055-12-31,Ahorrar $20833/mes,Crítico
+Negocio Propio,Mediano Plazo,800000,200000,=D8/C8,2027-12-31,Ahorrar $25000/mes,Alto
+Máster,Mediano Plazo,200000,0,=D9/C9,2026-06-30,Ahorrar $8333/mes,Medio

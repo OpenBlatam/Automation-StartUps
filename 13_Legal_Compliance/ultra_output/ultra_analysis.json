@@ -1,0 +1,279 @@
+{
+  "ai_analysis": {
+    "company_analysis": {
+      "complexity_score": 0.75,
+      "risk_indicators": [],
+      "compliance_issues": [],
+      "recommendations": [],
+      "sentiment": "neutral"
+    },
+    "investor_analysis": {
+      "complexity_score": 0.8227272727272728,
+      "risk_indicators": [],
+      "compliance_issues": [],
+      "recommendations": [],
+      "sentiment": "neutral"
+    },
+    "market_analysis": {
+      "complexity_score": 0.45,
+      "risk_indicators": [],
+      "compliance_issues": [],
+      "recommendations": [],
+      "sentiment": "neutral"
+    },
+    "compatibility_analysis": {
+      "score": 1.0,
+      "recommendations": [
+        "Excelente compatibilidad - Proceder con la transacci\u00f3n"
+      ]
+    }
+  },
+  "valuations": {
+    "dcf": {
+      "base": 97257741.29231766,
+      "optimistic": 171728810.95041692,
+      "pessimistic": 50431469.81061541
+    },
+    "comparable": {
+      "revenue": 40000000.0,
+      "ebitda": 25000000.0,
+      "earnings": 4500000.0,
+      "book_value": 4500000.0
+    },
+    "precedent": {
+      "weighted_average": 50000000.0,
+      "median": 50000000.0
+    },
+    "real_options": {
+      "value": 8028640.0671121515
+    },
+    "monte_carlo": {
+      "mean": 657480559.4931628,
+      "median": 628391014.9781209,
+      "std": 241437846.96611795,
+      "percentile_25": 484343884.66047627,
+      "percentile_75": 796699268.2847078,
+      "percentile_90": 978490031.0506287,
+      "percentile_95": 1103021609.27275
+    },
+    "final": {
+      "weighted_average": 148602270.31838092,
+      "confidence_interval": {
+        "lower": 118881816.25470474,
+        "upper": 178322724.3820571
+      }
+    }
+  },
+  "risk_analysis": {
+    "financial": {
+      "factors": {
+        "revenue_concentration": {
+          "score": 0.3,
+          "description": "Riesgo de concentraci\u00f3n de revenue",
+          "mitigation": "Diversificar base de clientes"
+        },
+        "cash_burn": {
+          "score": 0.2,
+          "description": "Runway de 18.0 meses",
+          "runway_months": 18.0,
+          "mitigation": "Asegurar financiamiento adicional"
+        },
+        "debt_levels": {
+          "score": 0.1,
+          "description": "Niveles de deuda bajos",
+          "mitigation": "Mantener estructura de capital conservadora"
+        },
+        "profitability": {
+          "score": 0.1,
+          "description": "Rentabilidad en desarrollo",
+          "mitigation": "Enfocarse en path to profitability"
+        }
+      },
+      "score": 0.20000000000000004,
+      "trend": "stable"
+    },
+    "operational": {
+      "factors": {
+        "key_personnel": {
+          "score": 0.4,
+          "description": "Dependencia de personal clave",
+          "mitigation": "Implementar planes de sucesi\u00f3n"
+        },
+        "technology": {
+          "score": 0.2,
+          "description": "Tecnolog\u00eda estable",
+          "mitigation": "Mantener actualizaciones regulares"
+        },
+        "market_position": {
+          "score": 0.3,
+          "description": "Posici\u00f3n de mercado estable",
+          "mitigation": "Fortalecer ventajas competitivas"
+        }
+      },
+      "score": 0.31000000000000005
+    },
+    "regulatory": {
+      "factors": {
+        "compliance": {
+          "score": 0.2,
+          "description": "Cumplimiento regulatorio adecuado",
+          "mitigation": "Mantener programas de compliance activos"
+        },
+        "licenses": {
+          "score": 0.3,
+          "description": "Licencias requeridas obtenidas",
+          "mitigation": "Monitorear renovaciones de licencias"
+        },
+        "regulatory_changes": {
+          "score": 0.4,
+          "description": "Riesgo de cambios regulatorios",
+          "mitigation": "Monitorear cambios regulatorios activamente"
+        }
+      },
+      "score": 0.29000000000000004
+    },
+    "market": {
+      "factors": {
+        "competition": {
+          "score": 0.4,
+          "description": "Competencia moderada",
+          "mitigation": "Diferenciaci\u00f3n y ventajas competitivas"
+        },
+        "market_size": {
+          "score": 0.2,
+          "description": "Mercado de tama\u00f1o adecuado",
+          "mitigation": "Expandir a mercados adyacentes"
+        },
+        "customer_adoption": {
+          "score": 0.3,
+          "description": "Adopci\u00f3n de clientes en crecimiento",
+          "mitigation": "Mejorar experiencia del cliente"
+        }
+      },
+      "score": 0.32000000000000006
+    },
+    "technology": {
+      "factors": {
+        "obsolescence": {
+          "score": 0.3,
+          "description": "Riesgo de obsolescencia tecnol\u00f3gica",
+          "mitigation": "Inversi\u00f3n continua en R&D"
+        },
+        "dependency": {
+          "score": 0.4,
+          "description": "Dependencia de tecnolog\u00eda espec\u00edfica",
+          "mitigation": "Diversificar stack tecnol\u00f3gico"
+        },
+        "security": {
+          "score": 0.5,
+          "description": "Riesgo de seguridad cibern\u00e9tica",
+          "mitigation": "Implementar medidas de seguridad robustas"
+        }
+      },
+      "score": 0.39999999999999997
+    },
+    "competitive": {
+      "factors": {
+        "intensity": {
+          "score": 0.4,
+          "description": "Intensidad competitiva moderada",
+          "mitigation": "Fortalecer ventajas competitivas"
+        },
+        "barriers": {
+          "score": 0.3,
+          "description": "Barreras de entrada moderadas",
+          "mitigation": "Construir moats m\u00e1s fuertes"
+        },
+        "bargaining": {
+          "score": 0.3,
+          "description": "Poder de negociaci\u00f3n equilibrado",
+          "mitigation": "Mejorar propuesta de valor"
+        }
+      },
+      "score": 0.3333333333333333
+    },
+    "correlation": {
+      "financial_operational": 0.6,
+      "financial_regulatory": 0.2,
+      "financial_market": 0.2,
+      "financial_technology": 0.2,
+      "financial_competitive": 0.2,
+      "operational_regulatory": 0.2,
+      "operational_market": 0.2,
+      "operational_technology": 0.2,
+      "operational_competitive": 0.2,
+      "regulatory_market": 0.5,
+      "regulatory_technology": 0.2,
+      "regulatory_competitive": 0.2,
+      "market_technology": 0.2,
+      "market_competitive": 0.2,
+      "technology_competitive": 0.7
+    },
+    "overall": {
+      "score": 0.29283333333333333,
+      "risk_level": "MEDIO",
+      "risk_trend": "DECRECIENTE"
+    },
+    "mitigation_recommendations": [
+      "Implementar sistema de monitoreo de riesgos en tiempo real",
+      "Desarrollar planes de contingencia para escenarios adversos",
+      "Establecer m\u00e9tricas de riesgo y alertas tempranas",
+      "Realizar an\u00e1lisis de riesgo trimestrales"
+    ]
+  },
+  "financial_projections": {
+    "base_scenario": [
+      1312500.0,
+      2296875.0,
+      4019531.25,
+      7034179.6875,
+      12309814.453125
+    ],
+    "optimistic_scenario": [
+      1425000.0,
+      2707500.0,
+      5144249.999999999,
+      9774074.999999998,
+      18570742.499999993
+    ],
+    "pessimistic_scenario": [
+      1200000.0,
+      1920000.0000000002,
+      3072000.0000000005,
+      4915200.000000001,
+      7864320.000000002
+    ]
+  },
+  "recommendations": {
+    "valuation": [
+      "Valoraci\u00f3n recomendada: $148,602,270",
+      "An\u00e1lisis cu\u00e1ntico: Alta confianza en valoraci\u00f3n"
+    ],
+    "risk_mitigation": [
+      "Implementar sistema de monitoreo de riesgos en tiempo real",
+      "Desarrollar planes de contingencia para escenarios adversos",
+      "Establecer m\u00e9tricas de riesgo y alertas tempranas",
+      "Realizar an\u00e1lisis de riesgo trimestrales"
+    ],
+    "negotiation": [
+      "Negociaci\u00f3n favorable - T\u00e9rminos est\u00e1ndar"
+    ],
+    "due_diligence": [
+      "Completar an\u00e1lisis financiero detallado",
+      "Verificar propiedad intelectual",
+      "Revisar contratos clave",
+      "Validar m\u00e9tricas operacionales"
+    ],
+    "closing": [
+      "Preparar documentaci\u00f3n legal final",
+      "Coordinar con todas las partes",
+      "Programar cierre de transacci\u00f3n",
+      "Establecer timeline de integraci\u00f3n"
+    ],
+    "blockchain": [
+      "Implementar validaci\u00f3n blockchain para documentos",
+      "Usar firmas digitales para autenticaci\u00f3n",
+      "Crear registros inmutables de transacciones"
+    ]
+  }
+}

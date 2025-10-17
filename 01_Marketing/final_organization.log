@@ -1,0 +1,23 @@
+[2025-10-01 16:23:29] [INFO] Iniciando organización final...
+[2025-10-01 16:23:29] [INFO] Encontrados 7 archivos para organizar
+[2025-10-01 16:23:29] [INFO] Organizado: EXECUTIVE_SUMMARY_LATAM.md → 06_Documentation (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:23:29] [INFO] Organizado: MODELO_FINANCIERO_LATAM.md → 06_Documentation (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:23:29] [INFO] Organizado: PITCH_DECK_INVERSIONISTAS_LATAM.md → 06_Documentation (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:23:29] [INFO] Organizado: ESTRATEGIA_GO_TO_MARKET_LATAM.md → 06_Strategy (pattern_analysis) - Confianza: 0.54
+[2025-10-01 16:23:29] [INFO] Organizado: COPYCAR_AI_TECHNICAL_WHITEPAPER.md → 06_Documentation (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:23:29] [INFO] Organizado: final_organizer.py → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:23:29] [INFO] Organizado: customerFeedbackService.ts → 01_Marketing (pattern_analysis) - Confianza: 0.51
+[2025-10-01 16:23:29] [INFO] Organización final completada: 7 archivos organizados
+[2025-10-01 16:23:29] [INFO] Creando archivos índice finales...
+[2025-10-01 16:23:29] [INFO] Archivos índice finales creados
+[2025-10-01 16:23:29] [INFO] Verificando organización final...
+[2025-10-01 16:23:29] [INFO] Verificación final completada: 99/100 puntos
+[2025-10-01 16:24:32] [INFO] Iniciando organización final...
+[2025-10-01 16:24:32] [INFO] Encontrados 2 archivos para organizar
+[2025-10-01 16:24:32] [INFO] Organizado: ORGANIZACION_PERFECTA_FINAL.md → 06_Documentation (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:24:32] [INFO] Organizado: final_organizer.py → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:24:32] [INFO] Organización final completada: 2 archivos organizados
+[2025-10-01 16:24:32] [INFO] Creando archivos índice finales...
+[2025-10-01 16:24:32] [INFO] Archivos índice finales creados
+[2025-10-01 16:24:48] [INFO] Verificando organización final...
+[2025-10-01 16:24:48] [INFO] Verificación final completada: 100/100 puntos

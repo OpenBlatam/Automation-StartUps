@@ -1,0 +1,21 @@
+Métrica,Valor,Meta,Progreso %,Estado,Tendencia,Acción
+RESUMEN FINANCIERO,,,,,,
+Patrimonio Neto,1500000,2000000,=B2/C2,=IF(D2>0.8,"✅","❌"),📈,Continuar ahorrando
+Ingresos Mensuales,57000,60000,=B3/C3,=IF(D3>0.9,"✅","❌"),📈,Buscar ingresos adicionales
+Gastos Mensuales,45000,40000,=B4/C4,=IF(D4<1.1,"✅","❌"),📉,Reducir gastos
+Ahorro Mensual,12000,15000,=B5/C5,=IF(D5>0.8,"✅","❌"),📈,Aumentar ahorro
+,,,,,,
+OBJETIVOS PRINCIPALES,,,,,,
+Fondo de Emergencia,75000,100000,=B8/C8,=IF(D8>0.8,"✅","❌"),📈,Completar en 3 meses
+Compra de Auto,50000,300000,=B9/C9,=IF(D9>0.2,"✅","❌"),📈,Ahorrar $25000/mes
+Enganche Casa,100000,500000,=B10/C10,=IF(D10>0.2,"✅","❌"),📈,Ahorrar $20000/mes
+,,,,,,
+ANÁLISIS DE RIESGO,,,,,,
+Ratio Deuda/Ingresos,0.3,0.4,=B12/C12,=IF(D12<1,"✅","❌"),📉,Mantener bajo control
+Cobertura de Seguros,0.8,1.0,=B13/C13,=IF(D13>0.8,"✅","❌"),📈,Aumentar cobertura
+Diversificación,0.7,0.8,=B14/C14,=IF(D14>0.8,"✅","❌"),📈,Diversificar más
+,,,,,,
+MARKETING NEGOCIO,,,,,,
+Presupuesto Marketing,6000,6000,=B17/C17,=IF(D17>0.9,"✅","❌"),📈,Mantener nivel
+ROI Marketing,3.5,3.0,=B18/C18,=IF(D18>1,"✅","❌"),📈,Excelente rendimiento
+Conversiones,0.12,0.10,=B19/C19,=IF(D19>1,"✅","❌"),📈,Superando expectativas

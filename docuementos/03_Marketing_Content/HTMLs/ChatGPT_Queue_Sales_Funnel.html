@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔄 Embudo de Ventas - ChatGPT Queue</title>
+    <style>
+        @page { size: A4; margin: 2cm; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+        }
+        
+        .container {
+            background: white;
+            margin: 20px;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+            color: white;
+            text-align: center;
+            padding: 50px;
+            margin: -40px -40px 40px -40px;
+            border-radius: 20px 20px 0 0;
+        }
+        
+        h1 {
+            font-size: 3em;
+            margin: 0;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.3em;
+            margin: 20px 0;
+            opacity: 0.9;
+        }
+        
+        .funnel-visual {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .funnel-stage {
+            background: white;
+            margin: 20px 0;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-left: 5px solid;
+            position: relative;
+        }
+        
+        .funnel-stage.awareness {
+            border-left-color: #74b9ff;
+        }
+        
+        .funnel-stage.interest {
+            border-left-color: #00b894;
+        }
+        
+        .funnel-stage.consideration {
+            border-left-color: #fdcb6e;
+        }
+        
+        .funnel-stage.intent {
+            border-left-color: #fd79a8;
+        }
+        
+        .funnel-stage.purchase {
+            border-left-color: #ff6b6b;
+        }
+        
+        .funnel-stage.retention {
+            border-left-color: #a29bfe;
+        }
+        
+        .stage-number {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: #6c5ce7;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .stage-title {
+            color: #6c5ce7;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            font-weight: bold;
+            margin-left: 40px;
+        }
+        
+        .stage-description {
+            color: #666;
+            margin-bottom: 20px;
+            margin-left: 40px;
+        }
+        
+        .stage-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .metric-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .metric-number {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #6c5ce7;
+        }
+        
+        .metric-label {
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .stage-strategies {
+            background: #e8f4f8;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .strategies-title {
+            color: #0984e3;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .strategy-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .strategy-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #ddd;
+            color: #666;
+        }
+        
+        .strategy-list li:before {
+            content: "✅ ";
+            color: #00b894;
+            font-weight: bold;
+        }
+        
+        .conversion-flow {
+            background: #2c2c54;
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .flow-title {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .flow-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .flow-step {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .step-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #a29bfe;
+            margin-bottom: 10px;
+        }
+        
+        .step-title {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+        
+        .step-description {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+        
+        .optimization-section {
+            background: #fff3cd;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border-left: 5px solid #ffc107;
+        }
+        
+        .optimization-title {
+            color: #856404;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .optimization-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .optimization-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .opt-title {
+            color: #856404;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .opt-description {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .footer {
+            background: #2d3436;
+            color: white;
+            padding: 40px;
+            text-align: center;
+            margin: 40px -40px -40px -40px;
+            border-radius: 0 0 20px 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔄 Embudo de Ventas Completo</h1>
+            <p class="subtitle">ChatGPT Queue - Sistema de Conversión Optimizado</p>
+        </div>
+
+        <div class="funnel-visual">
+            <h2 style="color: #6c5ce7; margin-bottom: 30px;">📊 Visualización del Embudo</h2>
+            <div style="font-size: 1.2em; color: #666; margin-bottom: 30px;">
+                Desde el primer contacto hasta la retención a largo plazo
+            </div>
+        </div>
+
+        <div class="funnel-stage awareness">
+            <div class="stage-number">1</div>
+            <div class="stage-title">🎯 CONCIENCIA (Awareness)</div>
+            <div class="stage-description">
+                El usuario descubre que existe un problema: pierde 2+ horas diarias esperando respuestas de ChatGPT.
+            </div>
+            
+            <div class="stage-metrics">
+                <div class="metric-card">
+                    <div class="metric-number">100,000</div>
+                    <div class="metric-label">Impresiones/mes</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">2.5%</div>
+                    <div class="metric-label">CTR</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">2,500</div>
+                    <div class="metric-label">Clicks/mes</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">$2.50</div>
+                    <div class="metric-label">CPC</div>
+                </div>
+            </div>
+            
+            <div class="stage-strategies">
+                <div class="strategies-title">🎯 Estrategias de Conciencia</div>
+                <ul class="strategy-list">
+                    <li>Publicidad pagada en Google, Facebook, LinkedIn</li>
+                    <li>Contenido SEO sobre productividad y ChatGPT</li>
+                    <li>Videos educativos en YouTube</li>
+                    <li>Posts en redes sociales con estadísticas impactantes</li>
+                    <li>Webinars sobre optimización de ChatGPT</li>
+                    <li>Colaboraciones con influencers de productividad</li>
+                    <li>Artículos en blogs de tecnología</li>
+                    <li>Podcasts sobre automatización</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="funnel-stage interest">
+            <div class="stage-number">2</div>
+            <div class="stage-title">💡 INTERÉS (Interest)</div>
+            <div class="stage-description">
+                El usuario se interesa en la solución y visita la landing page o se suscribe al email.
+            </div>
+            
+            <div class="stage-metrics">
+                <div class="metric-card">
+                    <div class="metric-number">2,500</div>
+                    <div class="metric-label">Visitas/mes</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">45%</div>
+                    <div class="metric-label">Bounce Rate</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">1,375</div>
+                    <div class="metric-label">Usuarios comprometidos</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">$6.25</div>
+                    <div class="metric-label">Costo por visita</div>
+                </div>
+            </div>
+            
+            <div class="stage-strategies">
+                <div class="strategies-title">💡 Estrategias de Interés</div>
+                <ul class="strategy-list">
+                    <li>Landing page optimizada con valor claro</li>
+                    <li>Demo en video de 60 segundos</li>
+                    <li>Testimonios de usuarios reales</li>
+                    <li>Calculadora de ahorro de tiempo</li>
+                    <li>Oferta de prueba gratuita</li>
+                    <li>Contenido educativo sobre ChatGPT</li>
+                    <li>Comparación con alternativas</li>
+                    <li>Garantía de 30 días</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="funnel-stage consideration">
+            <div class="stage-number">3</div>
+            <div class="stage-title">🤔 CONSIDERACIÓN (Consideration)</div>
+            <div class="stage-description">
+                El usuario evalúa la solución, compara opciones y considera la compra.
+            </div>
+            
+            <div class="stage-metrics">
+                <div class="metric-card">
+                    <div class="metric-number">1,375</div>
+                    <div class="metric-label">Usuarios en consideración</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">25%</div>
+                    <div class="metric-label">Tasa de consideración</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">344</div>
+                    <div class="metric-label">Leads calificados</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">$18.13</div>
+                    <div class="metric-label">Costo por lead</div>
+                </div>
+            </div>
+            
+            <div class="stage-strategies">
+                <div class="strategies-title">🤔 Estrategias de Consideración</div>
+                <ul class="strategy-list">
+                    <li>Secuencia de email de nutrimiento</li>
+                    <li>Casos de estudio detallados</li>
+                    <li>Comparación de precios y características</li>
+                    <li>FAQ comprehensiva</li>
+                    <li>Chat en vivo para dudas</li>
+                    <li>Webinar de demostración</li>
+                    <li>Prueba gratuita de 7 días</li>
+                    <li>Testimonios en video</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="funnel-stage intent">
+            <div class="stage-number">4</div>
+            <div class="stage-title">🎯 INTENCIÓN (Intent)</div>
+            <div class="stage-description">
+                El usuario muestra intención de compra: visita la página de precios, inicia checkout.
+            </div>
+            
+            <div class="stage-metrics">
+                <div class="metric-card">
+                    <div class="metric-number">344</div>
+                    <div class="metric-label">Leads calificados</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">40%</div>
+                    <div class="metric-label">Tasa de intención</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">138</div>
+                    <div class="metric-label">Usuarios con intención</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">$45.31</div>
+                    <div class="metric-label">Costo por intención</div>
+                </div>
+            </div>
+            
+            <div class="stage-strategies">
+                <div class="strategies-title">🎯 Estrategias de Intención</div>
+                <ul class="strategy-list">
+                    <li>Página de precios clara y transparente</li>
+                    <li>Ofertas de descuento por tiempo limitado</li>
+                    <li>Garantía de devolución prominente</li>
+                    <li>Proceso de checkout simplificado</li>
+                    <li>Múltiples opciones de pago</li>
+                    <li>Testimonios de compradores recientes</li>
+                    <li>Indicadores de escasez (stock limitado)</li>
+                    <li>Chat de soporte durante checkout</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="funnel-stage purchase">
+            <div class="stage-number">5</div>
+            <div class="stage-title">💳 COMPRA (Purchase)</div>
+            <div class="stage-description">
+                El usuario completa la compra y se convierte en cliente.
+            </div>
+            
+            <div class="stage-metrics">
+                <div class="metric-card">
+                    <div class="metric-number">138</div>
+                    <div class="metric-label">Usuarios con intención</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">12%</div>
+                    <div class="metric-label">Tasa de conversión</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">17</div>
+                    <div class="metric-label">Ventas/mes</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">$377.65</div>
+                    <div class="metric-label">Costo por venta</div>
+                </div>
+            </div>
+            
+            <div class="stage-strategies">
+                <div class="strategies-title">💳 Estrategias de Compra</div>
+                <ul class="strategy-list">
+                    <li>Proceso de checkout de un solo paso</li>
+                    <li>Múltiples opciones de pago (tarjeta, PayPal, etc.)</li>
+                    <li>Confirmación inmediata de compra</li>
+                    <li>Instrucciones claras de instalación</li>
+                    <li>Email de bienvenida automático</li>
+                    <li>Acceso inmediato al producto</li>
+                    <li>Soporte técnico post-compra</li>
+                    <li>Programa de referidos</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="funnel-stage retention">
+            <div class="stage-number">6</div>
+            <div class="stage-title">🔄 RETENCIÓN (Retention)</div>
+            <div class="stage-description">
+                El usuario se convierte en cliente recurrente y defensor de la marca.
+            </div>
+            
+            <div class="stage-metrics">
+                <div class="metric-card">
+                    <div class="metric-number">17</div>
+                    <div class="metric-label">Nuevos clientes/mes</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">89%</div>
+                    <div class="metric-label">Retención 30 días</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">15</div>
+                    <div class="metric-label">Clientes retenidos</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">$25.18</div>
+                    <div class="metric-label">Costo por retención</div>
+                </div>
+            </div>
+            
+            <div class="stage-strategies">
+                <div class="strategies-title">🔄 Estrategias de Retención</div>
+                <ul class="strategy-list">
+                    <li>Onboarding personalizado</li>
+                    <li>Email de seguimiento post-compra</li>
+                    <li>Tips y trucos por email</li>
+                    <li>Comunidad de usuarios</li>
+                    <li>Actualizaciones regulares del producto</li>
+                    <li>Programa de referidos con recompensas</li>
+                    <li>Soporte técnico prioritario</li>
+                    <li>Encuestas de satisfacción</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="conversion-flow">
+            <h2 class="flow-title">🔄 Flujo de Conversión Detallado</h2>
+            <div class="flow-steps">
+                <div class="flow-step">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Descubrimiento</div>
+                    <div class="step-description">Usuario ve anuncio o contenido</div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Click</div>
+                    <div class="step-description">Hace click en el enlace</div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Landing Page</div>
+                    <div class="step-description">Llega a la página de destino</div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Interés</div>
+                    <div class="step-description">Ve el demo o lee información</div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Consideración</div>
+                    <div class="step-description">Evalúa la solución</div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">6</div>
+                    <div class="step-title">Intención</div>
+                    <div class="step-description">Muestra interés en comprar</div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">7</div>
+                    <div class="step-title">Compra</div>
+                    <div class="step-description">Completa la transacción</div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">8</div>
+                    <div class="step-title">Retención</div>
+                    <div class="step-description">Se convierte en cliente fiel</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="optimization-section">
+            <h2 class="optimization-title">⚡ Estrategias de Optimización</h2>
+            
+            <div class="optimization-grid">
+                <div class="optimization-card">
+                    <div class="opt-title">A/B Testing</div>
+                    <div class="opt-description">Testear headlines, CTAs, colores, imágenes y copy para optimizar conversiones</div>
+                </div>
+                <div class="optimization-card">
+                    <div class="opt-title">Personalización</div>
+                    <div class="opt-description">Mostrar contenido relevante basado en comportamiento y demografía</div>
+                </div>
+                <div class="optimization-card">
+                    <div class="opt-title">Retargeting</div>
+                    <div class="opt-description">Re-enganchar usuarios que no completaron la compra</div>
+                </div>
+                <div class="optimization-card">
+                    <div class="opt-title">Upselling</div>
+                    <div class="opt-description">Ofrecer productos complementarios o versiones premium</div>
+                </div>
+                <div class="optimization-card">
+                    <div class="opt-title">Cross-selling</div>
+                    <div class="opt-description">Recomendar productos relacionados durante el checkout</div>
+                </div>
+                <div class="optimization-card">
+                    <div class="opt-title">Gamificación</div>
+                    <div class="opt-description">Usar elementos de juego para aumentar engagement</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <h3>🔄 Embudo de Ventas Optimizado</h3>
+            <p style="font-size: 1.2em; margin: 20px 0;">
+                <strong>Sistema completo de conversión desde la conciencia hasta la retención</strong>
+            </p>
+            <p style="font-size: 1.1em; margin: 20px 0;">
+                Conciencia • Interés • Consideración • Intención • Compra • Retención
+            </p>
+            <p style="font-size: 0.9em; margin-top: 30px; opacity: 0.8;">
+                © 2024 - ChatGPT Queue Sales Funnel. Sistema de conversión para máximo ROI.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

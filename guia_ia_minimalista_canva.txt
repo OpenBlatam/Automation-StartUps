@@ -1,0 +1,70 @@
+HERRAMIENTAS DE IA GRATUITAS
+═══════════════════════════════════════════════════════════════
+Lista minimalista - Enero 2025
+
+CHATBOTS
+───────────────────────────────────────────────────────────────
+ChatGPT - chat.openai.com
+Claude 4 - claude.ai
+Google Gemini - gemini.google.com
+DeepSeek R1 - deepseek.com
+Luzia - luzia.com
+
+IMÁGENES
+───────────────────────────────────────────────────────────────
+DALL-E 2 - openai.com/dall-e-2
+Bing Creator - bing.com/create
+Leonardo.AI - leonardo.ai
+DreamStudio - dreamstudio.ai
+Scribble Diffusion - scribblediffusion.com
+Flair - withflair.ai
+Interior AI - interiorai.com
+
+VIDEO Y AUDIO
+───────────────────────────────────────────────────────────────
+Runway ML - runwayml.com
+ElevenLabs - elevenlabs.io
+Synthesia - synthesia.io
+AIVA.AI - aiva.ai
+Soundful - soundful.com
+Soundraw - soundraw.io
+
+PRODUCTIVIDAD
+───────────────────────────────────────────────────────────────
+Grammarly - grammarly.com
+DeepL - deepl.com
+Rows - rows.com
+Tome - beta.tome.app
+AgentGPT - agentgpt.reworkd.ai
+
+PROGRAMACIÓN
+───────────────────────────────────────────────────────────────
+Codeium - codeium.com
+AutoRegEx - autoregex.xyz
+
+DISEÑO
+───────────────────────────────────────────────────────────────
+Canva IA - canva.com
+AI Magic Tools - runwayml.com/ai-magic-tools
+
+RECONOCIMIENTO
+───────────────────────────────────────────────────────────────
+Google Lens - Google Photos
+Socratic - socratic.org
+
+ESPECIALIZADAS
+───────────────────────────────────────────────────────────────
+NameSnack - namesnack.com
+AI Suggests - ai-suggests.com
+Piggy Quiz - piggy.to
+Inworld - inworld.ai
+Monica - monica.im
+
+═══════════════════════════════════════════════════════════════
+Todas gratuitas con limitaciones
+Algunas requieren registro
+Revisar términos de uso
+Combinar para mejores resultados
+
+Actualizado: Enero 2025
+═══════════════════════════════════════════════════════════════

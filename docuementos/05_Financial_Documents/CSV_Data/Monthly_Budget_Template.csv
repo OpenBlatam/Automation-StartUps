@@ -1,0 +1,38 @@
+Categoría,Presupuesto,% del Ingreso,Real,Diferencia,Prioridad,Notas
+INGRESOS,,,,,,
+Salario Principal,50000,=B2/$B$8,48000,=B2-D2,Crítico,Ingreso fijo mensual
+Bonos,5000,=B3/$B$8,3000,=B3-D3,Alto,Variable según desempeño
+Ingresos Adicionales,2000,=B4/$B$8,1500,=B4-D4,Medio,Freelance y proyectos
+TOTAL INGRESOS,=SUM(B2:B4),=B5/$B$8,=SUM(D2:D4),=B5-D5,,
+,,,,,,
+GASTOS FIJOS,,,,,,
+Renta/Hipoteca,15000,=B8/$B$5,15000,=B8-D8,Crítico,Vivienda principal
+Servicios,3000,=B9/$B$5,2800,=B9-D9,Crítico,Luz agua gas internet
+Seguros,2000,=B10/$B$5,2000,=B10-D10,Alto,Vida auto salud
+Transporte,4000,=B11/$B$5,3800,=B11-D11,Alto,Gasolina transporte público
+Alimentación,8000,=B12/$B$5,7500,=B12-D12,Crítico,Supermercado y comida
+TOTAL GASTOS FIJOS,=SUM(B8:B12),=B13/$B$5,=SUM(D8:D12),=B13-D13,,
+,,,,,,
+GASTOS VARIABLES,,,,,,
+Entretenimiento,3000,=B16/$B$5,2500,=B16-D16,Medio,Cine restaurantes ocio
+Ropa,2000,=B17/$B$5,1500,=B17-D17,Bajo,Vestimenta y accesorios
+Salud,1500,=B18/$B$5,1200,=B18-D18,Alto,Médicos medicinas
+Educación,2000,=B19/$B$5,1800,=B19-D19,Alto,Cursos libros capacitación
+TOTAL GASTOS VARIABLES,=SUM(B16:B19),=B20/$B$5,=SUM(D16:D19),=B20-D20,,
+,,,,,,
+MARKETING NEGOCIO,,,,,,
+Marketing Digital,6000,=B23/$B$5,6000,=B23-D23,Crítico,Esencial para negocio
+Publicidad,2000,=B24/$B$5,1500,=B24-D24,Alto,Google Ads Facebook
+TOTAL MARKETING,=SUM(B23:B24),=B25/$B$5,=SUM(D23:D24),=B25-D25,,
+,,,,,,
+AHORROS E INVERSIONES,,,,,,
+Fondo de Emergencia,5000,=B28/$B$5,5000,=B28-D28,Crítico,3-6 meses de gastos
+Inversiones,3000,=B29/$B$5,2500,=B29-D29,Alto,Portafolio diversificado
+Jubilación,2000,=B30/$B$5,2000,=B30-D30,Alto,Afore 401k
+TOTAL AHORROS,=SUM(B28:B30),=B31/$B$5,=SUM(D28:D30),=B31-D31,,
+,,,,,,
+RESUMEN FINANCIERO,,,,,,
+TOTAL GASTOS,=B13+B20+B25,=B34/$B$5,=D13+D20+D25,=B34-D34,,
+INGRESO NETO,=B5-B34,=B35/$B$5,=D5-D34,=B35-D35,,
+TASA DE AHORRO,=B31/$B$5,,=D31/D5,,,Meta: 20%
+ROI MARKETING,=B25/B5,,=D25/D5,,,Meta: 300%

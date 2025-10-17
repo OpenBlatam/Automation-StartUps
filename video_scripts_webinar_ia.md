@@ -620,3 +620,4 @@ Viernes: Publicar en LinkedIn
 - [ ] Monitorear métricas iniciales
 - [ ] Responder comentarios
 - [ ] Optimizar basado en datos
+

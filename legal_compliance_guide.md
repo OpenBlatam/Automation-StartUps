@@ -516,3 +516,4 @@
 - [ ] Capacitar al equipo (más capacitación = más compliance)
 - [ ] Implementar mejoras (más mejoras = más compliance)
 - [ ] Reportar cumplimiento (más reportes = más compliance)
+

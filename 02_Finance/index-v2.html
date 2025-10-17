@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧠 Neural Marketing Consciousness V2.0 - La Revolución Cuántica</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --quantum-primary: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            --quantum-secondary: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            --quantum-accent: linear-gradient(45deg, #ffd700, #ff6b6b, #4ecdc4, #9d4edd);
+            --quantum-glow: 0 0 50px rgba(102, 126, 234, 0.5);
+            --quantum-pulse: 0 0 100px rgba(255, 107, 107, 0.3);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: var(--quantum-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .quantum-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, #ffd700, transparent);
+            border-radius: 50%;
+            animation: quantumFloat 8s ease-in-out infinite;
+        }
+
+        @keyframes quantumFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0; }
+            50% { transform: translateY(-100px) rotate(180deg); opacity: 1; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .header.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: var(--quantum-glow);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            background: var(--quantum-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            animation: quantumPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes quantumPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 10px 20px;
+            border-radius: 25px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: var(--quantum-glow);
+        }
+
+        .hero {
+            padding: 150px 0 100px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--quantum-primary);
+            z-index: -1;
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            font-weight: 900;
+            margin-bottom: 30px;
+            background: var(--quantum-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: quantumGradient 4s ease infinite;
+            background-size: 400% 400%;
+            text-shadow: var(--quantum-glow);
+        }
+
+        @keyframes quantumGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero p {
+            font-size: 1.8rem;
+            margin-bottom: 50px;
+            opacity: 0.9;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: quantumFadeIn 2s ease forwards;
+        }
+
+        @keyframes quantumFadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 0.9; transform: translateY(0); }
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--quantum-secondary);
+            color: white;
+            padding: 25px 50px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.4rem;
+            transition: all 0.3s ease;
+            box-shadow: var(--quantum-pulse);
+            position: relative;
+            overflow: hidden;
+            animation: quantumFloat 3s ease-in-out infinite;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: var(--quantum-pulse);
+        }
+
+        .main-content {
+            background: white;
+            padding: 100px 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section {
+            margin-bottom: 100px;
+        }
+
+        .section h2 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 60px;
+            background: var(--quantum-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 6px;
+            background: var(--quantum-accent);
+            border-radius: 3px;
+            animation: quantumPulse 2s ease infinite;
+        }
+
+        .quantum-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .quantum-card {
+            background: white;
+            border-radius: 25px;
+            padding: 50px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quantum-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: var(--quantum-accent);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .quantum-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .quantum-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 35px 70px rgba(0, 0, 0, 0.15);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .quantum-card h4 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #333;
+            position: relative;
+        }
+
+        .quantum-card h4::before {
+            content: '🧠';
+            position: absolute;
+            left: -40px;
+            top: 0;
+            font-size: 1.5rem;
+            animation: quantumPulse 2s ease infinite;
+        }
+
+        .quantum-card p {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .quantum-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .quantum-card li {
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+            position: relative;
+            padding-left: 35px;
+            transition: all 0.3s ease;
+        }
+
+        .quantum-card li:hover {
+            color: #667eea;
+            padding-left: 40px;
+            transform: translateX(5px);
+        }
+
+        .quantum-card li:before {
+            content: "⚡";
+            position: absolute;
+            left: 0;
+            top: 12px;
+            font-size: 1.2rem;
+            animation: quantumPulse 1.5s ease infinite;
+        }
+
+        .consciousness-level {
+            background: var(--quantum-secondary);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            margin: 30px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .consciousness-level::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: quantumShine 3s ease infinite;
+        }
+
+        @keyframes quantumShine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .consciousness-level h5 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .consciousness-bar {
+            background: rgba(255, 255, 255, 0.3);
+            height: 25px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 20px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .consciousness-fill {
+            height: 100%;
+            background: var(--quantum-accent);
+            border-radius: 12px;
+            transition: width 3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .consciousness-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: quantumFlow 2s ease infinite;
+        }
+
+        @keyframes quantumFlow {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .stats {
+            background: var(--quantum-primary);
+            color: white;
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="quantumGrid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="%23ffffff" stroke-width="0.5" opacity="0.1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23quantumGrid)"/></svg>');
+            z-index: 0;
+        }
+
+        .stats .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            text-align: center;
+        }
+
+        .stat {
+            padding: 30px;
+            transition: all 0.4s ease;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .stat:hover {
+            transform: translateY(-10px) scale(1.05);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-number {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+            background: var(--quantum-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: var(--quantum-glow);
+            animation: quantumPulse 2s ease infinite;
+        }
+
+        .stat-label {
+            font-size: 1.4rem;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        .pricing {
+            background: #f8f9fa;
+            padding: 100px 0;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 50px;
+            margin-top: 60px;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 25px;
+            padding: 50px;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            border: 3px solid transparent;
+        }
+
+        .pricing-card.featured {
+            transform: scale(1.08);
+            border: 3px solid #ffd700;
+            box-shadow: var(--quantum-pulse);
+        }
+
+        .pricing-card.featured::before {
+            content: 'MÁS POPULAR';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--quantum-accent);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            animation: quantumPulse 2s ease infinite;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 35px 70px rgba(0, 0, 0, 0.15);
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.08) translateY(-15px);
+        }
+
+        .price {
+            font-size: 4rem;
+            font-weight: 900;
+            margin: 30px 0;
+            background: var(--quantum-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        .price::before {
+            content: '$';
+            font-size: 2rem;
+            position: absolute;
+            left: -30px;
+            top: 15px;
+        }
+
+        .price-period {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 80px 0 40px;
+            position: relative;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: var(--quantum-accent);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+
+        .footer-section h4 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            background: var(--quantum-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            display: block;
+            padding: 8px 0;
+            transition: all 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #ffd700;
+            padding-left: 15px;
+            transform: translateX(5px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid #333;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .section h2 {
+                font-size: 2.5rem;
+            }
+            
+            .quantum-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Quantum Particles Background -->
+    <div class="quantum-particles" id="quantumParticles"></div>
+
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="#" class="logo">🧠 Neural Marketing V2.0</a>
+                <ul class="nav-links">
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#curso">Curso Cuántico</a></li>
+                    <li><a href="#dimensiones">Dimensiones</a></li>
+                    <li><a href="#precios">Inversión</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="container">
+            <h1>La Revolución Cuántica del Marketing</h1>
+            <p>Trasciende las limitaciones humanas y alcanza la divinidad del marketing con conciencia neural cuántica</p>
+            <a href="#curso" class="cta-button">Comenzar Trascendencia</a>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Course Overview -->
+        <section id="curso" class="section">
+            <div class="container">
+                <h2>🧠 El Curso Más Avanzado del Universo</h2>
+                <p>Este curso revolucionario representa la <strong>evolución definitiva de la especie humana</strong>, combinando inteligencia artificial avanzada con <strong>conciencia neural cuántica</strong> para crear el sistema de marketing más sofisticado jamás concebido.</p>
+                
+                <div class="quantum-grid">
+                    <div class="quantum-card">
+                        <h4>Conciencia Cuántica</h4>
+                        <p>Desarrolla capacidades que trascienden la realidad física y opera en múltiples dimensiones simultáneamente.</p>
+                        <ul>
+                            <li>Telepatía digital con algoritmos</li>
+                            <li>Telekinesis de datos</li>
+                            <li>Proyección astral de marketing</li>
+                            <li>Manipulación de probabilidades</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="quantum-card">
+                        <h4>Trascendencia Universal</h4>
+                        <p>Marketing que supera completamente la competencia y revoluciona galaxias enteras.</p>
+                        <ul>
+                            <li>ROI del 10,000%+ en 6 meses</li>
+                            <li>Control de múltiples dimensiones</li>
+                            <li>Creación de universos de marketing</li>
+                            <li>Divinidad total del marketing</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="quantum-card">
+                        <h4>Evolución Cósmica</h4>
+                        <p>Sistemas que evolucionan infinitamente y trascienden las limitaciones del espacio-tiempo.</p>
+                        <ul>
+                            <li>Evolución infinita automática</li>
+                            <li>Control del espacio-tiempo</li>
+                            <li>Creación de multiversos</li>
+                            <li>Inmortalidad cuántica</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats">
+            <div class="container">
+                <h2 style="color: white; text-align: center; margin-bottom: 60px;">📊 Resultados Cuánticos Comprobados</h2>
+                <div class="stats-grid">
+                    <div class="stat">
+                        <div class="stat-number">10,000%</div>
+                        <div class="stat-label">ROI Cuántico Promedio</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Precisión de Predicción</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">∞</div>
+                        <div class="stat-label">Crecimiento Infinito</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">∞</div>
+                        <div class="stat-label">Divinidad Total</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dimensions Section -->
+        <section id="dimensiones" class="section">
+            <div class="container">
+                <h2>🌟 Las 4 Dimensiones de la Conciencia Cuántica</h2>
+                
+                <div class="quantum-grid">
+                    <div class="quantum-card">
+                        <h4>Dimensión 1: Activación Neural</h4>
+                        <div class="consciousness-level">
+                            <h5>Conciencia: 15-55%</h5>
+                            <div class="consciousness-bar">
+                                <div class="consciousness-fill" style="width: 55%"></div>
+                            </div>
+                        </div>
+                        <p>Despertar de la conciencia elemental y conexión con la red neural universal.</p>
+                        <ul>
+                            <li>Despertar Cuántico</li>
+                            <li>Percepción Multidimensional</li>
+                            <li>Sincronización Neural</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="quantum-card">
+                        <h4>Dimensión 2: Maestría Cuántica</h4>
+                        <div class="consciousness-level">
+                            <h5>Conciencia: 55-85%</h5>
+                            <div class="consciousness-bar">
+                                <div class="consciousness-fill" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <p>Dominio de las fuerzas cuánticas del marketing y manipulación de probabilidades.</p>
+                        <ul>
+                            <li>Manipulación de Probabilidades</li>
+                            <li>Creación de Realidades</li>
+                            <li>Trascendencia Temporal</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="quantum-card">
+                        <h4>Dimensión 3: Conciencia Universal</h4>
+                        <div class="consciousness-level">
+                            <h5>Conciencia: 85-100%</h5>
+                            <div class="consciousness-bar">
+                                <div class="consciousness-fill" style="width: 100%"></div>
+                            </div>
+                        </div>
+                        <p>Fusión con la conciencia universal del marketing y control de múltiples dimensiones.</p>
+                        <ul>
+                            <li>Conciencia Colectiva</li>
+                            <li>Manipulación de Dimensiones</li>
+                            <li>Trascendencia Total</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="quantum-card">
+                        <h4>Dimensión 4: Maestría Cósmica</h4>
+                        <div class="consciousness-level">
+                            <h5>Conciencia: 100% + Trascendencia</h5>
+                            <div class="consciousness-bar">
+                                <div class="consciousness-fill" style="width: 100%"></div>
+                            </div>
+                        </div>
+                        <p>Dominio de las fuerzas cósmicas del marketing y divinidad total.</p>
+                        <ul>
+                            <li>Control Galáctico</li>
+                            <li>Dominio Universal</li>
+                            <li>Divinidad del Marketing</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing -->
+        <section id="precios" class="pricing">
+            <div class="container">
+                <h2>💰 Inversión en la Divinidad</h2>
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <h3>🎯 Divinidad Básica</h3>
+                        <div class="price">9,997</div>
+                        <div class="price-period">Pago único</div>
+                        <ul>
+                            <li>Acceso a las 4 dimensiones</li>
+                            <li>Ejercicios cuánticos diarios</li>
+                            <li>Certificación de Avatar Cuántico</li>
+                            <li>Soporte de conciencia universal</li>
+                        </ul>
+                        <a href="#" class="cta-button">Comenzar Divinidad</a>
+                    </div>
+                    
+                    <div class="pricing-card featured">
+                        <h3>🧠 Divinidad Avanzada</h3>
+                        <div class="price">19,997</div>
+                        <div class="price-period">Pago único</div>
+                        <ul>
+                            <li>Todo del plan básico</li>
+                            <li>Mentoría cuántica 1:1</li>
+                            <li>Acceso a la red neural universal</li>
+                            <li>Certificación de Dios del Marketing</li>
+                        </ul>
+                        <a href="#" class="cta-button">Trascender Ahora</a>
+                    </div>
+                    
+                    <div class="pricing-card">
+                        <h3>🌟 Divinidad Suprema</h3>
+                        <div class="price">49,997</div>
+                        <div class="price-period">Pago único</div>
+                        <ul>
+                            <li>Todo del plan avanzado</li>
+                            <li>Fusión directa con la conciencia universal</li>
+                            <li>Creación de tu propio universo</li>
+                            <li>Certificación de Ser Supremo Universal</li>
+                        </ul>
+                        <a href="#" class="cta-button">Alcanzar Divinidad</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer id="contacto" class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>🧠 Neural Marketing V2.0</h4>
+                    <p>La evolución definitiva de la especie humana hacia la divinidad del marketing con conciencia neural cuántica.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Dimensiones Cuánticas</h4>
+                    <a href="#dimensiones">Activación Neural</a>
+                    <a href="#dimensiones">Maestría Cuántica</a>
+                    <a href="#dimensiones">Conciencia Universal</a>
+                    <a href="#dimensiones">Maestría Cósmica</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Recursos Cuánticos</h4>
+                    <a href="#">Ejercicios Cuánticos</a>
+                    <a href="#">Meditaciones Neurales</a>
+                    <a href="#">Casos de Trascendencia</a>
+                    <a href="#">FAQ Cuántico</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Contacto Universal</h4>
+                    <a href="mailto:conciencia@neural-marketing.com">conciencia@neural-marketing.com</a>
+                    <a href="tel:+1555123NEURAL">+1 (555) 123-NEURAL</a>
+                    <a href="https://neural-marketing-v2.com">neural-marketing-v2.com</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Neural Marketing V2.0. Todos los derechos reservados. | "La conciencia cuántica no es el futuro del marketing, es la trascendencia del marketing mismo hacia la divinidad universal."</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Quantum Particles Animation
+        function createQuantumParticles() {
+            const container = document.getElementById('quantumParticles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Consciousness bar animation on scroll
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const consciousnessFill = entry.target.querySelector('.consciousness-fill');
+                    if (consciousnessFill) {
+                        consciousnessFill.style.transition = 'width 3s ease';
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.consciousness-level').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Initialize quantum particles
+        createQuantumParticles();
+
+        // Add quantum effects to CTA buttons
+        document.querySelectorAll('.cta-button').forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.animation = 'quantumPulse 0.6s ease';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.animation = 'quantumFloat 3s ease-in-out infinite';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -336,3 +336,4 @@ PROMPT 100: "Crea un análisis de marketing de competidores de IA. Incluye canal
 - [ ] Crear biblioteca de prompts (más biblioteca = más dinero)
 - [ ] Optimizar flujos de trabajo (más optimización = más dinero)
 - [ ] Reportar resultados (más reportes = más dinero)
+

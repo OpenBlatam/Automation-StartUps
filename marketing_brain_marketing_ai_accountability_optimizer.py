@@ -1405,3 +1405,4 @@ if __name__ == "__main__":
     export_data = aia_optimizer.export_aia_analysis()
     
     print("✅ Sistema de optimización de AI Accountability de marketing completado!")
+

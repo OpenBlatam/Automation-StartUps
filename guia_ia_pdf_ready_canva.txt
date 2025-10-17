@@ -1,0 +1,308 @@
+GUÍA COMPLETA: HERRAMIENTAS DE INTELIGENCIA ARTIFICIAL GRATUITAS
+═══════════════════════════════════════════════════════════════
+Recursos probados y actualizados - Enero 2025
+
+ÍNDICE
+───────────────────────────────────────────────────────────────
+1. Chatbots y Asistentes de IA
+2. Generadores de Imágenes
+3. Herramientas de Video y Audio
+4. Herramientas de Productividad
+5. Herramientas de Programación
+6. Herramientas de Diseño
+7. Herramientas de Reconocimiento
+8. Herramientas Especializadas
+9. Consejos de Uso
+10. Recursos Adicionales
+
+1. CHATBOTS Y ASISTENTES DE IA
+───────────────────────────────────────────────────────────────
+
+ChatGPT (OpenAI)
+• Descripción: Modelo de lenguaje avanzado para conversaciones naturales
+• Características: Generación de texto coherente, múltiples idiomas
+• Precio: Gratis con limitaciones, versión premium disponible
+• Enlace: https://chat.openai.com
+• Mejor para: Escritura, análisis, conversaciones generales
+
+Claude 4 (Anthropic)
+• Descripción: Asistente de IA especializado en programación y análisis
+• Características: Interacciones cálidas, análisis de documentos extensos
+• Precio: Gratuito con registro
+• Enlace: https://claude.ai
+• Mejor para: Programación, análisis técnico, documentos largos
+
+Google Gemini 2.0
+• Descripción: Asistente de Google con integración profunda
+• Características: Generación de imágenes, asistencia personalizada
+• Precio: Completamente gratuito
+• Enlace: https://gemini.google.com
+• Mejor para: Integración con Google Workspace, búsquedas
+
+DeepSeek R1
+• Descripción: Modelo de código abierto de alto rendimiento
+• Características: Análisis complejos, conversaciones avanzadas
+• Precio: Completamente gratuito
+• Enlace: https://deepseek.com
+• Mejor para: Análisis técnico, investigación
+
+Luzia (WhatsApp)
+• Descripción: Chatbot integrado con WhatsApp
+• Características: Conversaciones naturales, información en tiempo real
+• Precio: Gratuito
+• Enlace: https://luzia.com
+• Mejor para: Uso móvil, consultas rápidas
+
+2. GENERADORES DE IMÁGENES
+───────────────────────────────────────────────────────────────
+
+DALL-E 2 (OpenAI)
+• Descripción: Generador de imágenes a partir de descripciones textuales
+• Características: Arte digital de alta calidad, múltiples estilos
+• Precio: Gratis con créditos limitados
+• Enlace: https://openai.com/dall-e-2
+• Mejor para: Arte digital, ilustraciones creativas
+
+Bing Image Creator (Microsoft)
+• Descripción: Versión avanzada de DALL-E integrada en Bing
+• Características: Generación rápida, integración con Microsoft
+• Precio: Completamente gratuito
+• Enlace: https://bing.com/create
+• Mejor para: Generación rápida de imágenes
+
+Leonardo.AI
+• Descripción: Plataforma especializada en ilustraciones y arte digital
+• Características: Herramientas avanzadas para diseñadores
+• Precio: Plan gratuito disponible
+• Enlace: https://leonardo.ai
+• Mejor para: Diseñadores profesionales, arte comercial
+
+DreamStudio (Stability AI)
+• Descripción: Plataforma oficial de Stable Diffusion
+• Características: Control avanzado, múltiples modelos
+• Precio: Créditos gratuitos disponibles
+• Enlace: https://dreamstudio.ai
+• Mejor para: Usuarios avanzados, control preciso
+
+Scribble Diffusion
+• Descripción: Convierte bocetos simples en imágenes detalladas
+• Características: Interfaz intuitiva, resultados rápidos
+• Precio: Completamente gratuito
+• Enlace: https://scribblediffusion.com
+• Mejor para: Bocetos, prototipos rápidos
+
+Flair
+• Descripción: Diseña contenido para empresas con IA
+• Características: Sesiones fotográficas de productos
+• Precio: Plan gratuito disponible
+• Enlace: https://withflair.ai
+• Mejor para: Marketing, productos, e-commerce
+
+Interior AI
+• Descripción: Crea maquetas de interiorismo virtuales
+• Características: Puestas en escena para diseño de interiores
+• Precio: Gratuito con limitaciones
+• Enlace: https://interiorai.com
+• Mejor para: Arquitectos, diseñadores de interiores
+
+3. HERRAMIENTAS DE VIDEO Y AUDIO
+───────────────────────────────────────────────────────────────
+
+Runway ML
+• Descripción: Edición de video impulsada por IA
+• Características: Generación de contenido visual innovador
+• Precio: Plan gratuito disponible
+• Enlace: https://runwayml.com
+• Mejor para: Editores de video, creadores de contenido
+
+ElevenLabs
+• Descripción: Conversión de texto a voz con voces realistas
+• Características: Múltiples voces, control de emociones
+• Precio: Plan gratuito con limitaciones
+• Enlace: https://elevenlabs.io
+• Mejor para: Podcasts, audiolibros, contenido multimedia
+
+Synthesia
+• Descripción: Generación de videos con avatares virtuales
+• Características: Presentaciones y contenido educativo
+• Precio: Plan gratuito disponible
+• Enlace: https://synthesia.io
+• Mejor para: Educación, presentaciones corporativas
+
+AIVA.AI
+• Descripción: Composición musical en diversos géneros
+• Características: Partituras clásicas, electrónicas y cinematográficas
+• Precio: Plan gratuito disponible
+• Enlace: https://aiva.ai
+• Mejor para: Músicos, creadores de contenido
+
+Soundful
+• Descripción: Creación de música impulsada por IA
+• Características: Música libre de regalías
+• Precio: Plan gratuito disponible
+• Enlace: https://soundful.com
+• Mejor para: Creadores de contenido, marketing
+
+Soundraw
+• Descripción: Generador de música original
+• Características: Melodías libres de regalías, sin conocimientos musicales
+• Precio: Plan gratuito disponible
+• Enlace: https://soundraw.io
+• Mejor para: Principiantes, contenido rápido
+
+4. HERRAMIENTAS DE PRODUCTIVIDAD
+───────────────────────────────────────────────────────────────
+
+Grammarly
+• Descripción: Corrector de gramática y estilo basado en IA
+• Características: Mejora la redacción en inglés
+• Precio: Plan gratuito disponible
+• Enlace: https://grammarly.com
+• Mejor para: Escritores, estudiantes, profesionales
+
+DeepL Translator
+• Descripción: Traductor impulsado por IA
+• Características: Traducciones más precisas que Google Translate
+• Precio: Plan gratuito con limitaciones
+• Enlace: https://deepl.com
+• Mejor para: Traducción profesional, documentos
+
+Rows
+• Descripción: Análisis de datos y hojas de cálculo con IA
+• Características: Automatización de tareas repetitivas
+• Precio: Plan gratuito disponible
+• Enlace: https://rows.com
+• Mejor para: Análisis de datos, automatización
+
+Tome
+• Descripción: Crea presentaciones automáticamente
+• Características: Genera diapositivas con texto e imágenes
+• Precio: Plan gratuito disponible
+• Enlace: https://beta.tome.app
+• Mejor para: Presentaciones, pitch decks
+
+AgentGPT
+• Descripción: Crea agentes autónomos de IA
+• Características: Instalación en navegador
+• Precio: Completamente gratuito
+• Enlace: https://agentgpt.reworkd.ai
+• Mejor para: Automatización, tareas repetitivas
+
+5. HERRAMIENTAS DE PROGRAMACIÓN
+───────────────────────────────────────────────────────────────
+
+Codeium
+• Descripción: Autocompleta código mientras programas
+• Características: Compatible con múltiples plataformas
+• Precio: Completamente gratuito
+• Enlace: https://codeium.com
+• Mejor para: Desarrolladores, programadores
+
+AutoRegEx
+• Descripción: Traduce descripciones a expresiones regulares
+• Características: Facilita la creación de patrones de búsqueda
+• Precio: Completamente gratuito
+• Enlace: https://autoregex.xyz
+• Mejor para: Desarrolladores, análisis de texto
+
+6. HERRAMIENTAS DE DISEÑO
+───────────────────────────────────────────────────────────────
+
+Canva con IA
+• Descripción: Diseño gráfico con herramientas de IA integradas
+• Características: Creación de diseños profesionales
+• Precio: Plan gratuito disponible
+• Enlace: https://canva.com
+• Mejor para: Diseñadores, marketing, redes sociales
+
+AI Magic Tools
+• Descripción: Suite de más de 30 herramientas de IA
+• Características: Edición de video, creación de imágenes
+• Precio: Accesible desde navegador
+• Enlace: https://runwayml.com/ai-magic-tools
+• Mejor para: Creadores de contenido, diseñadores
+
+7. HERRAMIENTAS DE RECONOCIMIENTO
+───────────────────────────────────────────────────────────────
+
+Google Lens
+• Descripción: Reconocimiento de objetos y texto
+• Características: Integración con servicios de Google
+• Precio: Completamente gratuito
+• Enlace: Disponible en Google Photos
+• Mejor para: Identificación, traducción visual
+
+Socratic (Google)
+• Descripción: Resolución de problemas matemáticos
+• Características: Explicaciones paso a paso
+• Precio: Completamente gratuito
+• Enlace: https://socratic.org
+• Mejor para: Estudiantes, educación
+
+8. HERRAMIENTAS ESPECIALIZADAS
+───────────────────────────────────────────────────────────────
+
+NameSnack
+• Descripción: Generador de nombres para negocios
+• Características: Basado en palabras clave
+• Precio: Completamente gratuito
+• Enlace: https://namesnack.com
+• Mejor para: Emprendedores, branding
+
+AI Suggests
+• Descripción: Genera ideas de contenido para blogs
+• Características: Basado en temáticas específicas
+• Precio: Completamente gratuito
+• Enlace: https://ai-suggests.com
+• Mejor para: Bloggers, creadores de contenido
+
+Piggy Quiz Maker
+• Descripción: Genera juegos de preguntas y respuestas
+• Características: Quizzes interactivos personalizados
+• Precio: Completamente gratuito
+• Enlace: https://piggy.to
+• Mejor para: Educadores, marketing interactivo
+
+Inworld
+• Descripción: Crea personajes virtuales personalizados
+• Características: Define características y comportamientos
+• Precio: Plan gratuito disponible
+• Enlace: https://inworld.ai
+• Mejor para: Desarrolladores de juegos, storytelling
+
+Monica
+• Descripción: Asistente de IA para Chrome y Edge
+• Características: Responde preguntas sobre páginas web
+• Precio: Plan gratuito disponible
+• Enlace: https://monica.im
+• Mejor para: Investigación, navegación web
+
+9. CONSEJOS DE USO
+───────────────────────────────────────────────────────────────
+
+• La mayoría de herramientas ofrecen planes gratuitos con limitaciones
+• Algunas requieren registro para acceder a funciones completas
+• Siempre revisa los términos de uso antes de crear contenido comercial
+• Combina múltiples herramientas para obtener mejores resultados
+• Mantén actualizada tu lista de herramientas favoritas
+• Experimenta con diferentes herramientas para encontrar las que mejor se adapten a tus necesidades
+
+10. RECURSOS ADICIONALES
+───────────────────────────────────────────────────────────────
+
+• Comunidades de IA en Reddit y Discord
+• Tutoriales en YouTube para cada herramienta
+• Documentación oficial de cada plataforma
+• Foros de usuarios para tips y trucos
+• Newsletters especializadas en IA
+
+═══════════════════════════════════════════════════════════════
+INFORMACIÓN IMPORTANTE
+───────────────────────────────────────────────────────────────
+• Última actualización: Enero 2025
+• Todas las herramientas han sido probadas y están funcionando
+• Los precios pueden cambiar, verificar en cada sitio web
+• Algunas herramientas pueden requerir registro o verificación
+• Siempre revisar términos de uso y políticas de privacidad
+
+═══════════════════════════════════════════════════════════════

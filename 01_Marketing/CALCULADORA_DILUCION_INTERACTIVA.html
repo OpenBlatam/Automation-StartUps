@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Dilución - Neural Marketing AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+
+        .calculator-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid #e9ecef;
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #34495e;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .results-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid #e9ecef;
+        }
+
+        .result-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 5px solid #3498db;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .result-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .result-value {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #27ae60;
+        }
+
+        .result-description {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .comparison-table th {
+            background: #34495e;
+            color: white;
+            font-weight: 600;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .strategy-recommendation {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .strategy-recommendation h3 {
+            margin-bottom: 15px;
+        }
+
+        .strategy-recommendation ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .strategy-recommendation li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .strategy-recommendation li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #2ecc71;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧮 Calculadora de Dilución</h1>
+            <p>Neural Marketing AI - Herramienta para Minimizar Dilución</p>
+        </div>
+
+        <div class="main-content">
+            <div class="calculator-section">
+                <h2 class="section-title">📊 Parámetros de Entrada</h2>
+                
+                <div class="form-group">
+                    <label for="accionesActuales">Acciones Actuales del Fundador</label>
+                    <input type="number" id="accionesActuales" value="6000000" placeholder="Ej: 6,000,000">
+                </div>
+
+                <div class="form-group">
+                    <label for="accionesTotales">Total de Acciones Actuales</label>
+                    <input type="number" id="accionesTotales" value="10000000" placeholder="Ej: 10,000,000">
+                </div>
+
+                <div class="form-group">
+                    <label for="valuacionActual">Valuación Actual (USD)</label>
+                    <input type="number" id="valuacionActual" value="2000000" placeholder="Ej: 2,000,000">
+                </div>
+
+                <div class="form-group">
+                    <label for="nuevaInversion">Nueva Inversión (USD)</label>
+                    <input type="number" id="nuevaInversion" value="2000000" placeholder="Ej: 2,000,000">
+                </div>
+
+                <div class="form-group">
+                    <label for="valuacionPre">Valuación Pre-money (USD)</label>
+                    <input type="number" id="valuacionPre" value="8000000" placeholder="Ej: 8,000,000">
+                </div>
+
+                <button class="btn" onclick="calcularDilucion()">🚀 Calcular Dilución</button>
+            </div>
+
+            <div class="results-section">
+                <h2 class="section-title">📈 Resultados del Análisis</h2>
+                
+                <div id="resultados">
+                    <div class="result-card">
+                        <div class="result-title">Equity Actual del Fundador</div>
+                        <div class="result-value" id="equityActual">60%</div>
+                        <div class="result-description">Porcentaje actual de participación</div>
+                    </div>
+
+                    <div class="result-card">
+                        <div class="result-title">Dilución en Nueva Ronda</div>
+                        <div class="result-value" id="dilucionRonda">20%</div>
+                        <div class="result-description">Porcentaje de dilución por la nueva ronda</div>
+                    </div>
+
+                    <div class="result-card">
+                        <div class="result-title">Equity Final del Fundador</div>
+                        <div class="result-value" id="equityFinal">48%</div>
+                        <div class="result-description">Porcentaje final después de la dilución</div>
+                    </div>
+
+                    <div class="result-card">
+                        <div class="result-title">Valor del Equity del Fundador</div>
+                        <div class="result-value" id="valorEquity">$4.8M</div>
+                        <div class="result-description">Valor actual del equity del fundador</div>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 30px; color: #2c3e50;">📊 Comparación de Estrategias</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Estrategia</th>
+                            <th>Dilución</th>
+                            <th>Equity Final</th>
+                            <th>Valor Fundador</th>
+                        </tr>
+                    </thead>
+                    <tbody id="comparisonTable">
+                        <tr>
+                            <td>Sin Protección</td>
+                            <td>20%</td>
+                            <td>48%</td>
+                            <td>$4.8M</td>
+                        </tr>
+                        <tr>
+                            <td>Weighted Average</td>
+                            <td>15%</td>
+                            <td>51%</td>
+                            <td>$5.1M</td>
+                        </tr>
+                        <tr>
+                            <td>Clases Diferenciadas</td>
+                            <td>10%</td>
+                            <td>54%</td>
+                            <td>$5.4M</td>
+                        </tr>
+                        <tr>
+                            <td>SAFE Convertible</td>
+                            <td>12%</td>
+                            <td>52.8%</td>
+                            <td>$5.28M</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="strategy-recommendation">
+                    <h3>🎯 Recomendación Estratégica</h3>
+                    <ul>
+                        <li>Implementar clases de acciones diferenciadas</li>
+                        <li>Usar SAFE para rondas intermedias</li>
+                        <li>Desarrollar strategic partnerships</li>
+                        <li>Monitorear métricas de dilución</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calcularDilucion() {
+            // Obtener valores de entrada
+            const accionesActuales = parseInt(document.getElementById('accionesActuales').value);
+            const accionesTotales = parseInt(document.getElementById('accionesTotales').value);
+            const valuacionActual = parseInt(document.getElementById('valuacionActual').value);
+            const nuevaInversion = parseInt(document.getElementById('nuevaInversion').value);
+            const valuacionPre = parseInt(document.getElementById('valuacionPre').value);
+
+            // Calcular equity actual
+            const equityActual = (accionesActuales / accionesTotales) * 100;
+
+            // Calcular dilución
+            const accionesNuevas = nuevaInversion / (valuacionPre / accionesTotales);
+            const dilucionRonda = (accionesNuevas / (accionesTotales + accionesNuevas)) * 100;
+
+            // Calcular equity final
+            const equityFinal = (accionesActuales / (accionesTotales + accionesNuevas)) * 100;
+
+            // Calcular valor del equity
+            const valuacionPost = valuacionPre + nuevaInversion;
+            const valorEquity = (valuacionPost * equityFinal / 100);
+
+            // Actualizar resultados
+            document.getElementById('equityActual').textContent = equityActual.toFixed(1) + '%';
+            document.getElementById('dilucionRonda').textContent = dilucionRonda.toFixed(1) + '%';
+            document.getElementById('equityFinal').textContent = equityFinal.toFixed(1) + '%';
+            document.getElementById('valorEquity').textContent = '$' + (valorEquity / 1000000).toFixed(1) + 'M';
+
+            // Calcular estrategias alternativas
+            const estrategias = [
+                { nombre: 'Sin Protección', dilucion: dilucionRonda, equity: equityFinal, valor: valorEquity },
+                { nombre: 'Weighted Average', dilucion: dilucionRonda * 0.75, equity: 100 - (dilucionRonda * 0.75), valor: valuacionPost * (100 - (dilucionRonda * 0.75)) / 100 },
+                { nombre: 'Clases Diferenciadas', dilucion: dilucionRonda * 0.5, equity: 100 - (dilucionRonda * 0.5), valor: valuacionPost * (100 - (dilucionRonda * 0.5)) / 100 },
+                { nombre: 'SAFE Convertible', dilucion: dilucionRonda * 0.6, equity: 100 - (dilucionRonda * 0.6), valor: valuacionPost * (100 - (dilucionRonda * 0.6)) / 100 }
+            ];
+
+            // Actualizar tabla de comparación
+            const tableBody = document.getElementById('comparisonTable');
+            tableBody.innerHTML = '';
+            
+            estrategias.forEach(estrategia => {
+                const row = tableBody.insertRow();
+                row.insertCell(0).textContent = estrategia.nombre;
+                row.insertCell(1).textContent = estrategia.dilucion.toFixed(1) + '%';
+                row.insertCell(2).textContent = estrategia.equity.toFixed(1) + '%';
+                row.insertCell(3).textContent = '$' + (estrategia.valor / 1000000).toFixed(1) + 'M';
+            });
+        }
+
+        // Calcular al cargar la página
+        window.onload = function() {
+            calcularDilucion();
+        };
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+

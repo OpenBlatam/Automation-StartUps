@@ -1,0 +1,38 @@
+Proceso,Automatización,Estado,Frecuencia,Próxima Ejecución,Acción,Resultado
+TRANSFERENCIAS AUTOMÁTICAS,,,,,,
+Ahorro Fondo Emergencia,Transferencia $5000,✅ Activo,Mensual,2024-02-01,Transferir,Completado
+Ahorro Inversiones,Transferencia $3000,✅ Activo,Mensual,2024-02-01,Transferir,Completado
+Ahorro Jubilación,Transferencia $2000,✅ Activo,Mensual,2024-02-01,Transferir,Completado
+Pago Hipoteca,Transferencia $12000,✅ Activo,Mensual,2024-02-01,Transferir,Completado
+Pago Préstamo Auto,Transferencia $4000,✅ Activo,Mensual,2024-02-01,Transferir,Completado
+,,,,,,
+PAGOS AUTOMÁTICOS,,,,,,
+Servicios Públicos,Transferencia $3000,✅ Activo,Mensual,2024-02-01,Pagar,Completado
+Seguros,Transferencia $2000,✅ Activo,Mensual,2024-02-01,Pagar,Completado
+Internet,Transferencia $800,✅ Activo,Mensual,2024-02-01,Pagar,Completado
+Teléfono,Transferencia $600,✅ Activo,Mensual,2024-02-01,Pagar,Completado
+Gimnasio,Transferencia $500,✅ Activo,Mensual,2024-02-01,Pagar,Completado
+,,,,,,
+INVERSIONES AUTOMÁTICAS,,,,,,
+Compra ETF S&P 500,Compra $2000,✅ Activo,Mensual,2024-02-01,Comprar,Completado
+Compra ETF NASDAQ,Compra $1500,✅ Activo,Mensual,2024-02-01,Comprar,Completado
+Compra Bonos,Compra $1000,✅ Activo,Mensual,2024-02-01,Comprar,Completado
+Contribución AFORE,Transferencia $5000,✅ Activo,Mensual,2024-02-01,Contribuir,Completado
+,,,,,,
+ALERTAS AUTOMÁTICAS,,,,,,
+Saldo Bajo,< $10000,✅ Activo,Diario,2024-01-31,Notificar,Monitoreando
+Gasto Excesivo,> $50000,✅ Activo,Diario,2024-01-31,Notificar,Monitoreando
+Vencimiento Factura,3 días antes,✅ Activo,Diario,2024-01-31,Recordar,Monitoreando
+Objetivo Alcanzado,100% progreso,✅ Activo,Diario,2024-01-31,Celebrar,Monitoreando
+,,,,,,
+REPORTES AUTOMÁTICOS,,,,,,
+Reporte Semanal,Resumen financiero,✅ Activo,Semanal,2024-02-04,Generar,Programado
+Reporte Mensual,Análisis completo,✅ Activo,Mensual,2024-02-01,Generar,Programado
+Reporte Trimestral,Revisión portafolio,✅ Activo,Trimestral,2024-04-01,Generar,Programado
+Reporte Anual,Resumen anual,✅ Activo,Anual,2024-12-31,Generar,Programado
+,,,,,,
+OPTIMIZACIÓN AUTOMÁTICA,,,,,,
+Rebalanceo Portafolio,Desviación > 5%,✅ Activo,Trimestral,2024-04-01,Ajustar,Programado
+Optimización Impuestos,Fin de año,✅ Activo,Anual,2024-12-01,Optimizar,Programado
+Revisión Seguros,Anual,✅ Activo,Anual,2024-12-01,Revisar,Programado
+Actualización Metas,Trimestral,✅ Activo,Trimestral,2024-04-01,Actualizar,Programado

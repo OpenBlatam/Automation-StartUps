@@ -1,0 +1,3050 @@
+{
+    "fecha_generacion": "2025-09-15T20:07:14.128661",
+    "idiomas_generados": 11,
+    "total_anchor_texts": 165,
+    "anchor_texts_por_idioma": {
+        "es": [
+            {
+                "id": "es_001",
+                "idioma": "es",
+                "region": "España/Latinoamérica",
+                "anchor_text": "Transforma tu negocio con marketing digital IA",
+                "palabra_clave": "marketing digital IA",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 46,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 30
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.128711"
+            },
+            {
+                "id": "es_002",
+                "idioma": "es",
+                "region": "España/Latinoamérica",
+                "anchor_text": "Masterclass curso marketing automatizado 2024",
+                "palabra_clave": "curso marketing automatizado",
+                "plantilla_usada": "masterclass_año",
+                "caracteristicas": {
+                    "longitud": 45,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 5,
+                    "score_calidad": 20
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.128725"
+            },
+            {
+                "id": "es_003",
+                "idioma": "es",
+                "region": "España/Latinoamérica",
+                "anchor_text": "Masterclass marketing digital IA 2024",
+                "palabra_clave": "marketing digital IA",
+                "plantilla_usada": "masterclass_año",
+                "caracteristicas": {
+                    "longitud": 37,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 5,
+                    "score_calidad": 20
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.128736"
+            },
+            {
+                "id": "es_004",
+                "idioma": "es",
+                "region": "España/Latinoamérica",
+                "anchor_text": "Transforma tu negocio con marketing digital IA",
+                "palabra_clave": "marketing digital IA",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 46,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 30
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.128747"
+            },
+            {
+                "id": "es_005",
+                "idioma": "es",
+                "region": "España/Latinoamérica",
+                "anchor_text": "Transforma tu negocio con IA aplicada marketing",
+                "palabra_clave": "IA aplicada marketing",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 47,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 30
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.128759"
+            },
+            {
+                "id": "es_006",
+                "idioma": "es",
+                "region": "España/Latinoamérica",
+                "anchor_text": "Curso machine learning marketing - comprobado",
+                "palabra_clave": "machine learning marketing",
+                "plantilla_usada": "curso_basico",
+                "caracteristicas": {
+                    "longitud": 45,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 6,
+                    "score_calidad": 32
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.128772"
+            },
+            {
+                "id": "es_007",
+                "idioma": "es",
+                "region": "España/Latinoamérica",
+                "anchor_text": "Transforma tu negocio con curso IA marketing",
+                "palabra_clave": "curso IA marketing",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 44,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 30
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.128781"
+            },
+            {
+                "id": "es_008",
+                "idioma": "es",
+                "region": "España/Latinoamérica",
+                "anchor_text": "Domina inteligencia artificial marketing - Satisfacción garantizada",
+                "palabra_clave": "inteligencia artificial marketing",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 67,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 10
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.128798"
+            },
+            {
+                "id": "es_009",
+                "idioma": "es",
+                "region": "España/Latinoamérica",
+                "anchor_text": "Domina IA aplicada marketing - Sin riesgo",
+                "palabra_clave": "IA aplicada marketing",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 41,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 30
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.128811"
+            },
+            {
+                "id": "es_010",
+                "idioma": "es",
+                "region": "España/Latinoamérica",
+                "anchor_text": "Domina curso IA marketing - 100% efectivo",
+                "palabra_clave": "curso IA marketing",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 41,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 42
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.128822"
+            },
+            {
+                "id": "es_011",
+                "idioma": "es",
+                "region": "España/Latinoamérica",
+                "anchor_text": "Curso curso IA marketing - seguro",
+                "palabra_clave": "curso IA marketing",
+                "plantilla_usada": "curso_basico",
+                "caracteristicas": {
+                    "longitud": 33,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 6,
+                    "score_calidad": 32
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.128833"
+            },
+            {
+                "id": "es_012",
+                "idioma": "es",
+                "region": "España/Latinoamérica",
+                "anchor_text": "Curso marketing digital IA - resultados",
+                "palabra_clave": "marketing digital IA",
+                "plantilla_usada": "curso_basico",
+                "caracteristicas": {
+                    "longitud": 39,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 6,
+                    "score_calidad": 32
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.128844"
+            },
+            {
+                "id": "es_013",
+                "idioma": "es",
+                "region": "España/Latinoamérica",
+                "anchor_text": "Curso marketing digital IA - éxito",
+                "palabra_clave": "marketing digital IA",
+                "plantilla_usada": "curso_basico",
+                "caracteristicas": {
+                    "longitud": 34,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 6,
+                    "score_calidad": 32
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.128855"
+            },
+            {
+                "id": "es_014",
+                "idioma": "es",
+                "region": "España/Latinoamérica",
+                "anchor_text": "Masterclass curso IA marketing 2024",
+                "palabra_clave": "curso IA marketing",
+                "plantilla_usada": "masterclass_año",
+                "caracteristicas": {
+                    "longitud": 35,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 5,
+                    "score_calidad": 20
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.128867"
+            },
+            {
+                "id": "es_015",
+                "idioma": "es",
+                "region": "España/Latinoamérica",
+                "anchor_text": "Aprende inteligencia artificial marketing en 6 meses",
+                "palabra_clave": "inteligencia artificial marketing",
+                "plantilla_usada": "aprende_tiempo",
+                "caracteristicas": {
+                    "longitud": 52,
+                    "palabras_poder": 0,
+                    "llamada_accion": 1,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 35
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.128880"
+            }
+        ],
+        "en": [
+            {
+                "id": "en_001",
+                "idioma": "en",
+                "region": "USA/UK/International",
+                "anchor_text": "Course AI applied marketing - safe",
+                "palabra_clave": "AI applied marketing",
+                "plantilla_usada": "curso_basico",
+                "caracteristicas": {
+                    "longitud": 34,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 6,
+                    "score_calidad": 32
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.128894"
+            },
+            {
+                "id": "en_002",
+                "idioma": "en",
+                "region": "USA/UK/International",
+                "anchor_text": "Learn automated marketing course in 6 months",
+                "palabra_clave": "automated marketing course",
+                "plantilla_usada": "aprende_tiempo",
+                "caracteristicas": {
+                    "longitud": 44,
+                    "palabras_poder": 0,
+                    "llamada_accion": 1,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 35
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.128906"
+            },
+            {
+                "id": "en_003",
+                "idioma": "en",
+                "region": "USA/UK/International",
+                "anchor_text": "Master artificial intelligence marketing - No risk",
+                "palabra_clave": "artificial intelligence marketing",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 50,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 30
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.128918"
+            },
+            {
+                "id": "en_004",
+                "idioma": "en",
+                "region": "USA/UK/International",
+                "anchor_text": "Masterclass digital marketing AI 2024",
+                "palabra_clave": "digital marketing AI",
+                "plantilla_usada": "masterclass_año",
+                "caracteristicas": {
+                    "longitud": 37,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 5,
+                    "score_calidad": 30
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.128927"
+            },
+            {
+                "id": "en_005",
+                "idioma": "en",
+                "region": "USA/UK/International",
+                "anchor_text": "Master artificial intelligence marketing - Satisfaction guaranteed",
+                "palabra_clave": "artificial intelligence marketing",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 66,
+                    "palabras_poder": 2,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 32
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.128940"
+            },
+            {
+                "id": "en_006",
+                "idioma": "en",
+                "region": "USA/UK/International",
+                "anchor_text": "Transform your business with artificial intelligence marketing",
+                "palabra_clave": "artificial intelligence marketing",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 62,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 10
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.128951"
+            },
+            {
+                "id": "en_007",
+                "idioma": "en",
+                "region": "USA/UK/International",
+                "anchor_text": "Master artificial intelligence marketing - 100% effective",
+                "palabra_clave": "artificial intelligence marketing",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 57,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 42
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.128967"
+            },
+            {
+                "id": "en_008",
+                "idioma": "en",
+                "region": "USA/UK/International",
+                "anchor_text": "Transform your business with AI marketing course",
+                "palabra_clave": "AI marketing course",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 48,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 30
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.128977"
+            },
+            {
+                "id": "en_009",
+                "idioma": "en",
+                "region": "USA/UK/International",
+                "anchor_text": "Transform your business with AI marketing course",
+                "palabra_clave": "AI marketing course",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 48,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 30
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.128985"
+            },
+            {
+                "id": "en_010",
+                "idioma": "en",
+                "region": "USA/UK/International",
+                "anchor_text": "Master artificial intelligence marketing - Satisfaction guaranteed",
+                "palabra_clave": "artificial intelligence marketing",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 66,
+                    "palabras_poder": 2,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 32
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129035"
+            },
+            {
+                "id": "en_011",
+                "idioma": "en",
+                "region": "USA/UK/International",
+                "anchor_text": "Course AI applied marketing - proven",
+                "palabra_clave": "AI applied marketing",
+                "plantilla_usada": "curso_basico",
+                "caracteristicas": {
+                    "longitud": 36,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 6,
+                    "score_calidad": 32
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129048"
+            },
+            {
+                "id": "en_012",
+                "idioma": "en",
+                "region": "USA/UK/International",
+                "anchor_text": "Learn digital marketing AI in 1 year",
+                "palabra_clave": "digital marketing AI",
+                "plantilla_usada": "aprende_tiempo",
+                "caracteristicas": {
+                    "longitud": 36,
+                    "palabras_poder": 0,
+                    "llamada_accion": 1,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 35
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129059"
+            },
+            {
+                "id": "en_013",
+                "idioma": "en",
+                "region": "USA/UK/International",
+                "anchor_text": "Masterclass digital marketing AI 2024",
+                "palabra_clave": "digital marketing AI",
+                "plantilla_usada": "masterclass_año",
+                "caracteristicas": {
+                    "longitud": 37,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 5,
+                    "score_calidad": 30
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129068"
+            },
+            {
+                "id": "en_014",
+                "idioma": "en",
+                "region": "USA/UK/International",
+                "anchor_text": "Master AI marketing course - Satisfaction guaranteed",
+                "palabra_clave": "AI marketing course",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 52,
+                    "palabras_poder": 2,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 52
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129081"
+            },
+            {
+                "id": "en_015",
+                "idioma": "en",
+                "region": "USA/UK/International",
+                "anchor_text": "Course artificial intelligence marketing - results",
+                "palabra_clave": "artificial intelligence marketing",
+                "plantilla_usada": "curso_basico",
+                "caracteristicas": {
+                    "longitud": 50,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 6,
+                    "score_calidad": 32
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129091"
+            }
+        ],
+        "fr": [
+            {
+                "id": "fr_001",
+                "idioma": "fr",
+                "region": "France/Canada",
+                "anchor_text": "Transformez votre entreprise avec cours marketing IA",
+                "palabra_clave": "cours marketing IA",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 52,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 30
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129103"
+            },
+            {
+                "id": "fr_002",
+                "idioma": "fr",
+                "region": "France/Canada",
+                "anchor_text": "Maîtrisez marketing machine learning - Sans risque",
+                "palabra_clave": "marketing machine learning",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 50,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 30
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129129"
+            },
+            {
+                "id": "fr_003",
+                "idioma": "fr",
+                "region": "France/Canada",
+                "anchor_text": "Maîtrisez marketing digital IA - 100% efficace",
+                "palabra_clave": "marketing digital IA",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 46,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 42
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129142"
+            },
+            {
+                "id": "fr_004",
+                "idioma": "fr",
+                "region": "France/Canada",
+                "anchor_text": "Masterclass cours marketing automatisé 2024",
+                "palabra_clave": "cours marketing automatisé",
+                "plantilla_usada": "masterclass_año",
+                "caracteristicas": {
+                    "longitud": 43,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 5,
+                    "score_calidad": 20
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129222"
+            },
+            {
+                "id": "fr_005",
+                "idioma": "fr",
+                "region": "France/Canada",
+                "anchor_text": "Maîtrisez intelligence artificielle marketing - Satisfaction garantie",
+                "palabra_clave": "intelligence artificielle marketing",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 69,
+                    "palabras_poder": 2,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 32
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129267"
+            },
+            {
+                "id": "fr_006",
+                "idioma": "fr",
+                "region": "France/Canada",
+                "anchor_text": "Maîtrisez marketing digital IA - Sans risque",
+                "palabra_clave": "marketing digital IA",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 44,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 30
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129290"
+            },
+            {
+                "id": "fr_007",
+                "idioma": "fr",
+                "region": "France/Canada",
+                "anchor_text": "Maîtrisez intelligence artificielle marketing - Satisfaction garantie",
+                "palabra_clave": "intelligence artificielle marketing",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 69,
+                    "palabras_poder": 2,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 32
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129311"
+            },
+            {
+                "id": "fr_008",
+                "idioma": "fr",
+                "region": "France/Canada",
+                "anchor_text": "Cours cours marketing IA - sûr",
+                "palabra_clave": "cours marketing IA",
+                "plantilla_usada": "curso_basico",
+                "caracteristicas": {
+                    "longitud": 30,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 6,
+                    "score_calidad": 32
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129333"
+            },
+            {
+                "id": "fr_009",
+                "idioma": "fr",
+                "region": "France/Canada",
+                "anchor_text": "Cours cours marketing automatisé - sûr",
+                "palabra_clave": "cours marketing automatisé",
+                "plantilla_usada": "curso_basico",
+                "caracteristicas": {
+                    "longitud": 38,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 6,
+                    "score_calidad": 32
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129363"
+            },
+            {
+                "id": "fr_010",
+                "idioma": "fr",
+                "region": "France/Canada",
+                "anchor_text": "Transformez votre entreprise avec intelligence artificielle marketing",
+                "palabra_clave": "intelligence artificielle marketing",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 69,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 10
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129384"
+            },
+            {
+                "id": "fr_011",
+                "idioma": "fr",
+                "region": "France/Canada",
+                "anchor_text": "Cours marketing digital IA - prouvé",
+                "palabra_clave": "marketing digital IA",
+                "plantilla_usada": "curso_basico",
+                "caracteristicas": {
+                    "longitud": 35,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 6,
+                    "score_calidad": 32
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129402"
+            },
+            {
+                "id": "fr_012",
+                "idioma": "fr",
+                "region": "France/Canada",
+                "anchor_text": "Apprenez marketing digital IA en 30 jours",
+                "palabra_clave": "marketing digital IA",
+                "plantilla_usada": "aprende_tiempo",
+                "caracteristicas": {
+                    "longitud": 41,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 20
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129422"
+            },
+            {
+                "id": "fr_013",
+                "idioma": "fr",
+                "region": "France/Canada",
+                "anchor_text": "Cours marketing digital IA - sûr",
+                "palabra_clave": "marketing digital IA",
+                "plantilla_usada": "curso_basico",
+                "caracteristicas": {
+                    "longitud": 32,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 6,
+                    "score_calidad": 32
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129504"
+            },
+            {
+                "id": "fr_014",
+                "idioma": "fr",
+                "region": "France/Canada",
+                "anchor_text": "Apprenez marketing digital IA en 1 an",
+                "palabra_clave": "marketing digital IA",
+                "plantilla_usada": "aprende_tiempo",
+                "caracteristicas": {
+                    "longitud": 37,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 20
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129590"
+            },
+            {
+                "id": "fr_015",
+                "idioma": "fr",
+                "region": "France/Canada",
+                "anchor_text": "Transformez votre entreprise avec intelligence artificielle marketing",
+                "palabra_clave": "intelligence artificielle marketing",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 69,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 10
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129605"
+            }
+        ],
+        "de": [
+            {
+                "id": "de_001",
+                "idioma": "de",
+                "region": "Germany/Austria/Switzerland",
+                "anchor_text": "Lernen Sie künstliche Intelligenz Marketing in 1 Jahr",
+                "palabra_clave": "künstliche Intelligenz Marketing",
+                "plantilla_usada": "aprende_tiempo",
+                "caracteristicas": {
+                    "longitud": 53,
+                    "palabras_poder": 0,
+                    "llamada_accion": 1,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 8,
+                    "score_calidad": 35
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129621"
+            },
+            {
+                "id": "de_002",
+                "idioma": "de",
+                "region": "Germany/Austria/Switzerland",
+                "anchor_text": "Lernen Sie Digitales Marketing KI in 6 Monate",
+                "palabra_clave": "Digitales Marketing KI",
+                "plantilla_usada": "aprende_tiempo",
+                "caracteristicas": {
+                    "longitud": 45,
+                    "palabras_poder": 0,
+                    "llamada_accion": 1,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 8,
+                    "score_calidad": 35
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129633"
+            },
+            {
+                "id": "de_003",
+                "idioma": "de",
+                "region": "Germany/Austria/Switzerland",
+                "anchor_text": "Kurs Digitales Marketing KI - bewiesen",
+                "palabra_clave": "Digitales Marketing KI",
+                "plantilla_usada": "curso_basico",
+                "caracteristicas": {
+                    "longitud": 38,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 6,
+                    "score_calidad": 32
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129643"
+            },
+            {
+                "id": "de_004",
+                "idioma": "de",
+                "region": "Germany/Austria/Switzerland",
+                "anchor_text": "Verwandeln Sie Ihr Unternehmen mit KI angewandtes Marketing",
+                "palabra_clave": "KI angewandtes Marketing",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 59,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 8,
+                    "score_calidad": 20
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129653"
+            },
+            {
+                "id": "de_005",
+                "idioma": "de",
+                "region": "Germany/Austria/Switzerland",
+                "anchor_text": "Kurs automatisierter Marketing Kurs - sicher",
+                "palabra_clave": "automatisierter Marketing Kurs",
+                "plantilla_usada": "curso_basico",
+                "caracteristicas": {
+                    "longitud": 44,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 6,
+                    "score_calidad": 32
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129663"
+            },
+            {
+                "id": "de_006",
+                "idioma": "de",
+                "region": "Germany/Austria/Switzerland",
+                "anchor_text": "Beherrschen Sie KI Marketing Kurs - Zufriedenheit garantiert",
+                "palabra_clave": "KI Marketing Kurs",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 60,
+                    "palabras_poder": 2,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 8,
+                    "score_calidad": 52
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129695"
+            },
+            {
+                "id": "de_007",
+                "idioma": "de",
+                "region": "Germany/Austria/Switzerland",
+                "anchor_text": "Verwandeln Sie Ihr Unternehmen mit Machine Learning Marketing",
+                "palabra_clave": "Machine Learning Marketing",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 61,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 8,
+                    "score_calidad": 0
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129738"
+            },
+            {
+                "id": "de_008",
+                "idioma": "de",
+                "region": "Germany/Austria/Switzerland",
+                "anchor_text": "Lernen Sie automatisierter Marketing Kurs in 30 Tage",
+                "palabra_clave": "automatisierter Marketing Kurs",
+                "plantilla_usada": "aprende_tiempo",
+                "caracteristicas": {
+                    "longitud": 52,
+                    "palabras_poder": 0,
+                    "llamada_accion": 1,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 8,
+                    "score_calidad": 35
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129762"
+            },
+            {
+                "id": "de_009",
+                "idioma": "de",
+                "region": "Germany/Austria/Switzerland",
+                "anchor_text": "Masterclass KI Marketing Kurs 2024",
+                "palabra_clave": "KI Marketing Kurs",
+                "plantilla_usada": "masterclass_año",
+                "caracteristicas": {
+                    "longitud": 34,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 5,
+                    "score_calidad": 20
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129794"
+            },
+            {
+                "id": "de_010",
+                "idioma": "de",
+                "region": "Germany/Austria/Switzerland",
+                "anchor_text": "Verwandeln Sie Ihr Unternehmen mit KI angewandtes Marketing",
+                "palabra_clave": "KI angewandtes Marketing",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 59,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 8,
+                    "score_calidad": 20
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129807"
+            },
+            {
+                "id": "de_011",
+                "idioma": "de",
+                "region": "Germany/Austria/Switzerland",
+                "anchor_text": "Lernen Sie automatisierter Marketing Kurs in 90 Tage",
+                "palabra_clave": "automatisierter Marketing Kurs",
+                "plantilla_usada": "aprende_tiempo",
+                "caracteristicas": {
+                    "longitud": 52,
+                    "palabras_poder": 0,
+                    "llamada_accion": 1,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 8,
+                    "score_calidad": 35
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129875"
+            },
+            {
+                "id": "de_012",
+                "idioma": "de",
+                "region": "Germany/Austria/Switzerland",
+                "anchor_text": "Beherrschen Sie Digitales Marketing KI - Zufriedenheit garantiert",
+                "palabra_clave": "Digitales Marketing KI",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 65,
+                    "palabras_poder": 2,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 8,
+                    "score_calidad": 32
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129901"
+            },
+            {
+                "id": "de_013",
+                "idioma": "de",
+                "region": "Germany/Austria/Switzerland",
+                "anchor_text": "Lernen Sie Machine Learning Marketing in 6 Monate",
+                "palabra_clave": "Machine Learning Marketing",
+                "plantilla_usada": "aprende_tiempo",
+                "caracteristicas": {
+                    "longitud": 49,
+                    "palabras_poder": 0,
+                    "llamada_accion": 1,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 8,
+                    "score_calidad": 35
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129923"
+            },
+            {
+                "id": "de_014",
+                "idioma": "de",
+                "region": "Germany/Austria/Switzerland",
+                "anchor_text": "Lernen Sie KI Marketing Kurs in 90 Tage",
+                "palabra_clave": "KI Marketing Kurs",
+                "plantilla_usada": "aprende_tiempo",
+                "caracteristicas": {
+                    "longitud": 39,
+                    "palabras_poder": 0,
+                    "llamada_accion": 1,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 8,
+                    "score_calidad": 35
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129945"
+            },
+            {
+                "id": "de_015",
+                "idioma": "de",
+                "region": "Germany/Austria/Switzerland",
+                "anchor_text": "Beherrschen Sie künstliche Intelligenz Marketing - 100% effektiv",
+                "palabra_clave": "künstliche Intelligenz Marketing",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 64,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 8,
+                    "score_calidad": 22
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.129968"
+            }
+        ],
+        "pt": [
+            {
+                "id": "pt_001",
+                "idioma": "pt",
+                "region": "Brazil/Portugal",
+                "anchor_text": "Curso curso marketing automatizado - comprovado",
+                "palabra_clave": "curso marketing automatizado",
+                "plantilla_usada": "curso_basico",
+                "caracteristicas": {
+                    "longitud": 47,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 6,
+                    "score_calidad": 32
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130119"
+            },
+            {
+                "id": "pt_002",
+                "idioma": "pt",
+                "region": "Brazil/Portugal",
+                "anchor_text": "Curso inteligência artificial marketing - eficaz",
+                "palabra_clave": "inteligência artificial marketing",
+                "plantilla_usada": "curso_basico",
+                "caracteristicas": {
+                    "longitud": 48,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 6,
+                    "score_calidad": 32
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130158"
+            },
+            {
+                "id": "pt_003",
+                "idioma": "pt",
+                "region": "Brazil/Portugal",
+                "anchor_text": "Transforme seu negócio com inteligência artificial marketing",
+                "palabra_clave": "inteligência artificial marketing",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 60,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 30
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130171"
+            },
+            {
+                "id": "pt_004",
+                "idioma": "pt",
+                "region": "Brazil/Portugal",
+                "anchor_text": "Domine inteligência artificial marketing - 100% eficaz",
+                "palabra_clave": "inteligência artificial marketing",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 54,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 42
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130195"
+            },
+            {
+                "id": "pt_005",
+                "idioma": "pt",
+                "region": "Brazil/Portugal",
+                "anchor_text": "Domine marketing digital IA - Satisfação garantida",
+                "palabra_clave": "marketing digital IA",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 50,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 30
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130208"
+            },
+            {
+                "id": "pt_006",
+                "idioma": "pt",
+                "region": "Brazil/Portugal",
+                "anchor_text": "Domine marketing machine learning - Sem risco",
+                "palabra_clave": "marketing machine learning",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 45,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 30
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130222"
+            },
+            {
+                "id": "pt_007",
+                "idioma": "pt",
+                "region": "Brazil/Portugal",
+                "anchor_text": "Transforme seu negócio com marketing digital IA",
+                "palabra_clave": "marketing digital IA",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 47,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 30
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130232"
+            },
+            {
+                "id": "pt_008",
+                "idioma": "pt",
+                "region": "Brazil/Portugal",
+                "anchor_text": "Domine curso marketing automatizado - Sem risco",
+                "palabra_clave": "curso marketing automatizado",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 47,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 30
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130243"
+            },
+            {
+                "id": "pt_009",
+                "idioma": "pt",
+                "region": "Brazil/Portugal",
+                "anchor_text": "Aprenda IA aplicada marketing em 1 ano",
+                "palabra_clave": "IA aplicada marketing",
+                "plantilla_usada": "aprende_tiempo",
+                "caracteristicas": {
+                    "longitud": 38,
+                    "palabras_poder": 0,
+                    "llamada_accion": 1,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 35
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130254"
+            },
+            {
+                "id": "pt_010",
+                "idioma": "pt",
+                "region": "Brazil/Portugal",
+                "anchor_text": "Aprenda curso marketing automatizado em 1 ano",
+                "palabra_clave": "curso marketing automatizado",
+                "plantilla_usada": "aprende_tiempo",
+                "caracteristicas": {
+                    "longitud": 45,
+                    "palabras_poder": 0,
+                    "llamada_accion": 1,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 35
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130265"
+            },
+            {
+                "id": "pt_011",
+                "idioma": "pt",
+                "region": "Brazil/Portugal",
+                "anchor_text": "Transforme seu negócio com curso marketing IA",
+                "palabra_clave": "curso marketing IA",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 45,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 30
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130275"
+            },
+            {
+                "id": "pt_012",
+                "idioma": "pt",
+                "region": "Brazil/Portugal",
+                "anchor_text": "Masterclass curso marketing automatizado 2024",
+                "palabra_clave": "curso marketing automatizado",
+                "plantilla_usada": "masterclass_año",
+                "caracteristicas": {
+                    "longitud": 45,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 5,
+                    "score_calidad": 20
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130307"
+            },
+            {
+                "id": "pt_013",
+                "idioma": "pt",
+                "region": "Brazil/Portugal",
+                "anchor_text": "Transforme seu negócio com IA aplicada marketing",
+                "palabra_clave": "IA aplicada marketing",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 48,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 30
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130337"
+            },
+            {
+                "id": "pt_014",
+                "idioma": "pt",
+                "region": "Brazil/Portugal",
+                "anchor_text": "Domine curso marketing IA - Satisfação garantida",
+                "palabra_clave": "curso marketing IA",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 48,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 30
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130362"
+            },
+            {
+                "id": "pt_015",
+                "idioma": "pt",
+                "region": "Brazil/Portugal",
+                "anchor_text": "Curso marketing digital IA - garantido",
+                "palabra_clave": "marketing digital IA",
+                "plantilla_usada": "curso_basico",
+                "caracteristicas": {
+                    "longitud": 38,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 6,
+                    "score_calidad": 42
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130394"
+            }
+        ],
+        "it": [
+            {
+                "id": "it_001",
+                "idioma": "it",
+                "region": "Italy",
+                "anchor_text": "Trasforma il tuo business con corso marketing automatizzato",
+                "palabra_clave": "corso marketing automatizzato",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 59,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 8,
+                    "score_calidad": 30
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130435"
+            },
+            {
+                "id": "it_002",
+                "idioma": "it",
+                "region": "Italy",
+                "anchor_text": "Impara marketing digitale IA in 1 anno",
+                "palabra_clave": "marketing digitale IA",
+                "plantilla_usada": "aprende_tiempo",
+                "caracteristicas": {
+                    "longitud": 38,
+                    "palabras_poder": 0,
+                    "llamada_accion": 1,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 35
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130457"
+            },
+            {
+                "id": "it_003",
+                "idioma": "it",
+                "region": "Italy",
+                "anchor_text": "Masterclass intelligenza artificiale marketing 2024",
+                "palabra_clave": "intelligenza artificiale marketing",
+                "plantilla_usada": "masterclass_año",
+                "caracteristicas": {
+                    "longitud": 51,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 5,
+                    "score_calidad": 20
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130492"
+            },
+            {
+                "id": "it_004",
+                "idioma": "it",
+                "region": "Italy",
+                "anchor_text": "Domina intelligenza artificiale marketing - Soddisfazione garantita",
+                "palabra_clave": "intelligenza artificiale marketing",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 67,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 10
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130533"
+            },
+            {
+                "id": "it_005",
+                "idioma": "it",
+                "region": "Italy",
+                "anchor_text": "Masterclass marketing digitale IA 2024",
+                "palabra_clave": "marketing digitale IA",
+                "plantilla_usada": "masterclass_año",
+                "caracteristicas": {
+                    "longitud": 38,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 5,
+                    "score_calidad": 20
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130547"
+            },
+            {
+                "id": "it_006",
+                "idioma": "it",
+                "region": "Italy",
+                "anchor_text": "Impara IA applicata marketing in 1 anno",
+                "palabra_clave": "IA applicata marketing",
+                "plantilla_usada": "aprende_tiempo",
+                "caracteristicas": {
+                    "longitud": 39,
+                    "palabras_poder": 0,
+                    "llamada_accion": 1,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 35
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130559"
+            },
+            {
+                "id": "it_007",
+                "idioma": "it",
+                "region": "Italy",
+                "anchor_text": "Corso corso marketing automatizzato - garantito",
+                "palabra_clave": "corso marketing automatizzato",
+                "plantilla_usada": "curso_basico",
+                "caracteristicas": {
+                    "longitud": 47,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 6,
+                    "score_calidad": 42
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130570"
+            },
+            {
+                "id": "it_008",
+                "idioma": "it",
+                "region": "Italy",
+                "anchor_text": "Corso marketing digitale IA - successo",
+                "palabra_clave": "marketing digitale IA",
+                "plantilla_usada": "curso_basico",
+                "caracteristicas": {
+                    "longitud": 38,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 6,
+                    "score_calidad": 32
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130581"
+            },
+            {
+                "id": "it_009",
+                "idioma": "it",
+                "region": "Italy",
+                "anchor_text": "Impara IA applicata marketing in 6 mesi",
+                "palabra_clave": "IA applicata marketing",
+                "plantilla_usada": "aprende_tiempo",
+                "caracteristicas": {
+                    "longitud": 39,
+                    "palabras_poder": 0,
+                    "llamada_accion": 1,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 35
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130592"
+            },
+            {
+                "id": "it_010",
+                "idioma": "it",
+                "region": "Italy",
+                "anchor_text": "Corso marketing machine learning - efficace",
+                "palabra_clave": "marketing machine learning",
+                "plantilla_usada": "curso_basico",
+                "caracteristicas": {
+                    "longitud": 43,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 6,
+                    "score_calidad": 32
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130603"
+            },
+            {
+                "id": "it_011",
+                "idioma": "it",
+                "region": "Italy",
+                "anchor_text": "Masterclass marketing digitale IA 2024",
+                "palabra_clave": "marketing digitale IA",
+                "plantilla_usada": "masterclass_año",
+                "caracteristicas": {
+                    "longitud": 38,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 5,
+                    "score_calidad": 20
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130615"
+            },
+            {
+                "id": "it_012",
+                "idioma": "it",
+                "region": "Italy",
+                "anchor_text": "Trasforma il tuo business con IA applicata marketing",
+                "palabra_clave": "IA applicata marketing",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 52,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 8,
+                    "score_calidad": 30
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130626"
+            },
+            {
+                "id": "it_013",
+                "idioma": "it",
+                "region": "Italy",
+                "anchor_text": "Impara marketing machine learning in 90 giorni",
+                "palabra_clave": "marketing machine learning",
+                "plantilla_usada": "aprende_tiempo",
+                "caracteristicas": {
+                    "longitud": 46,
+                    "palabras_poder": 0,
+                    "llamada_accion": 1,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 35
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130638"
+            },
+            {
+                "id": "it_014",
+                "idioma": "it",
+                "region": "Italy",
+                "anchor_text": "Domina IA applicata marketing - Soddisfazione garantita",
+                "palabra_clave": "IA applicata marketing",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 55,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 30
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130692"
+            },
+            {
+                "id": "it_015",
+                "idioma": "it",
+                "region": "Italy",
+                "anchor_text": "Impara IA applicata marketing in 90 giorni",
+                "palabra_clave": "IA applicata marketing",
+                "plantilla_usada": "aprende_tiempo",
+                "caracteristicas": {
+                    "longitud": 42,
+                    "palabras_poder": 0,
+                    "llamada_accion": 1,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 35
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130734"
+            }
+        ],
+        "nl": [
+            {
+                "id": "nl_001",
+                "idioma": "nl",
+                "region": "Netherlands/Belgium",
+                "anchor_text": "Transformeer je bedrijf met AI toegepast marketing",
+                "palabra_clave": "AI toegepast marketing",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 50,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 30
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130889"
+            },
+            {
+                "id": "nl_002",
+                "idioma": "nl",
+                "region": "Netherlands/Belgium",
+                "anchor_text": "Transformeer je bedrijf met AI marketing cursus",
+                "palabra_clave": "AI marketing cursus",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 47,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 30
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130967"
+            },
+            {
+                "id": "nl_003",
+                "idioma": "nl",
+                "region": "Netherlands/Belgium",
+                "anchor_text": "Beheers geautomatiseerde marketing cursus - Geen risico",
+                "palabra_clave": "geautomatiseerde marketing cursus",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 55,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 30
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.130983"
+            },
+            {
+                "id": "nl_004",
+                "idioma": "nl",
+                "region": "Netherlands/Belgium",
+                "anchor_text": "Masterclass AI toegepast marketing 2024",
+                "palabra_clave": "AI toegepast marketing",
+                "plantilla_usada": "masterclass_año",
+                "caracteristicas": {
+                    "longitud": 39,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 5,
+                    "score_calidad": 20
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131025"
+            },
+            {
+                "id": "nl_005",
+                "idioma": "nl",
+                "region": "Netherlands/Belgium",
+                "anchor_text": "Transformeer je bedrijf met machine learning marketing",
+                "palabra_clave": "machine learning marketing",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 54,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 30
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131060"
+            },
+            {
+                "id": "nl_006",
+                "idioma": "nl",
+                "region": "Netherlands/Belgium",
+                "anchor_text": "Transformeer je bedrijf met digitaal marketing AI",
+                "palabra_clave": "digitaal marketing AI",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 49,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 30
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131101"
+            },
+            {
+                "id": "nl_007",
+                "idioma": "nl",
+                "region": "Netherlands/Belgium",
+                "anchor_text": "Leer digitaal marketing AI in 1 jaar",
+                "palabra_clave": "digitaal marketing AI",
+                "plantilla_usada": "aprende_tiempo",
+                "caracteristicas": {
+                    "longitud": 36,
+                    "palabras_poder": 0,
+                    "llamada_accion": 1,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 35
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131116"
+            },
+            {
+                "id": "nl_008",
+                "idioma": "nl",
+                "region": "Netherlands/Belgium",
+                "anchor_text": "Masterclass kunstmatige intelligentie marketing 2024",
+                "palabra_clave": "kunstmatige intelligentie marketing",
+                "plantilla_usada": "masterclass_año",
+                "caracteristicas": {
+                    "longitud": 52,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 5,
+                    "score_calidad": 20
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131127"
+            },
+            {
+                "id": "nl_009",
+                "idioma": "nl",
+                "region": "Netherlands/Belgium",
+                "anchor_text": "Beheers machine learning marketing - Geen risico",
+                "palabra_clave": "machine learning marketing",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 48,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 30
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131140"
+            },
+            {
+                "id": "nl_010",
+                "idioma": "nl",
+                "region": "Netherlands/Belgium",
+                "anchor_text": "Beheers AI marketing cursus - Tevredenheid gegarandeerd",
+                "palabra_clave": "AI marketing cursus",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 55,
+                    "palabras_poder": 2,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 52
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131152"
+            },
+            {
+                "id": "nl_011",
+                "idioma": "nl",
+                "region": "Netherlands/Belgium",
+                "anchor_text": "Leer kunstmatige intelligentie marketing in 90 dagen",
+                "palabra_clave": "kunstmatige intelligentie marketing",
+                "plantilla_usada": "aprende_tiempo",
+                "caracteristicas": {
+                    "longitud": 52,
+                    "palabras_poder": 0,
+                    "llamada_accion": 1,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 35
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131163"
+            },
+            {
+                "id": "nl_012",
+                "idioma": "nl",
+                "region": "Netherlands/Belgium",
+                "anchor_text": "Beheers kunstmatige intelligentie marketing - Tevredenheid gegarandeerd",
+                "palabra_clave": "kunstmatige intelligentie marketing",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 71,
+                    "palabras_poder": 2,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 32
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131175"
+            },
+            {
+                "id": "nl_013",
+                "idioma": "nl",
+                "region": "Netherlands/Belgium",
+                "anchor_text": "Transformeer je bedrijf met AI toegepast marketing",
+                "palabra_clave": "AI toegepast marketing",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 50,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 30
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131185"
+            },
+            {
+                "id": "nl_014",
+                "idioma": "nl",
+                "region": "Netherlands/Belgium",
+                "anchor_text": "Leer machine learning marketing in 6 maanden",
+                "palabra_clave": "machine learning marketing",
+                "plantilla_usada": "aprende_tiempo",
+                "caracteristicas": {
+                    "longitud": 44,
+                    "palabras_poder": 0,
+                    "llamada_accion": 1,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 35
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131196"
+            },
+            {
+                "id": "nl_015",
+                "idioma": "nl",
+                "region": "Netherlands/Belgium",
+                "anchor_text": "Beheers AI toegepast marketing - Geen risico",
+                "palabra_clave": "AI toegepast marketing",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 44,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 30
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131211"
+            }
+        ],
+        "ru": [
+            {
+                "id": "ru_001",
+                "idioma": "ru",
+                "region": "Russia/CIS",
+                "anchor_text": "Мастер-класс автоматизированный маркетинг курс 2024",
+                "palabra_clave": "автоматизированный маркетинг курс",
+                "plantilla_usada": "masterclass_año",
+                "caracteristicas": {
+                    "longitud": 51,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 5,
+                    "score_calidad": 20
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131264"
+            },
+            {
+                "id": "ru_002",
+                "idioma": "ru",
+                "region": "Russia/CIS",
+                "anchor_text": "Преобразуйте свой бизнес с искусственный интеллект маркетинг",
+                "palabra_clave": "искусственный интеллект маркетинг",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 60,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 20
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131279"
+            },
+            {
+                "id": "ru_003",
+                "idioma": "ru",
+                "region": "Russia/CIS",
+                "anchor_text": "Изучите цифровой маркетинг ИИ за 6 месяцев",
+                "palabra_clave": "цифровой маркетинг ИИ",
+                "plantilla_usada": "aprende_tiempo",
+                "caracteristicas": {
+                    "longitud": 42,
+                    "palabras_poder": 0,
+                    "llamada_accion": 1,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 35
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131292"
+            },
+            {
+                "id": "ru_004",
+                "idioma": "ru",
+                "region": "Russia/CIS",
+                "anchor_text": "Изучите автоматизированный маркетинг курс за 90 дней",
+                "palabra_clave": "автоматизированный маркетинг курс",
+                "plantilla_usada": "aprende_tiempo",
+                "caracteristicas": {
+                    "longitud": 52,
+                    "palabras_poder": 0,
+                    "llamada_accion": 1,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 35
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131325"
+            },
+            {
+                "id": "ru_005",
+                "idioma": "ru",
+                "region": "Russia/CIS",
+                "anchor_text": "Мастер-класс искусственный интеллект маркетинг 2024",
+                "palabra_clave": "искусственный интеллект маркетинг",
+                "plantilla_usada": "masterclass_año",
+                "caracteristicas": {
+                    "longitud": 51,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 5,
+                    "score_calidad": 20
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131350"
+            },
+            {
+                "id": "ru_006",
+                "idioma": "ru",
+                "region": "Russia/CIS",
+                "anchor_text": "Мастер-класс искусственный интеллект маркетинг 2024",
+                "palabra_clave": "искусственный интеллект маркетинг",
+                "plantilla_usada": "masterclass_año",
+                "caracteristicas": {
+                    "longitud": 51,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 5,
+                    "score_calidad": 20
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131360"
+            },
+            {
+                "id": "ru_007",
+                "idioma": "ru",
+                "region": "Russia/CIS",
+                "anchor_text": "Мастер-класс ИИ прикладной маркетинг 2024",
+                "palabra_clave": "ИИ прикладной маркетинг",
+                "plantilla_usada": "masterclass_año",
+                "caracteristicas": {
+                    "longitud": 41,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 5,
+                    "score_calidad": 20
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131482"
+            },
+            {
+                "id": "ru_008",
+                "idioma": "ru",
+                "region": "Russia/CIS",
+                "anchor_text": "Мастер-класс ИИ прикладной маркетинг 2024",
+                "palabra_clave": "ИИ прикладной маркетинг",
+                "plantilla_usada": "masterclass_año",
+                "caracteristicas": {
+                    "longitud": 41,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 5,
+                    "score_calidad": 20
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131497"
+            },
+            {
+                "id": "ru_009",
+                "idioma": "ru",
+                "region": "Russia/CIS",
+                "anchor_text": "Курс машинное обучение маркетинг - безопасный",
+                "palabra_clave": "машинное обучение маркетинг",
+                "plantilla_usada": "curso_basico",
+                "caracteristicas": {
+                    "longitud": 45,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 6,
+                    "score_calidad": 32
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131510"
+            },
+            {
+                "id": "ru_010",
+                "idioma": "ru",
+                "region": "Russia/CIS",
+                "anchor_text": "Преобразуйте свой бизнес с машинное обучение маркетинг",
+                "palabra_clave": "машинное обучение маркетинг",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 54,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 20
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131524"
+            },
+            {
+                "id": "ru_011",
+                "idioma": "ru",
+                "region": "Russia/CIS",
+                "anchor_text": "Изучите машинное обучение маркетинг за 30 дней",
+                "palabra_clave": "машинное обучение маркетинг",
+                "plantilla_usada": "aprende_tiempo",
+                "caracteristicas": {
+                    "longitud": 46,
+                    "palabras_poder": 0,
+                    "llamada_accion": 1,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 35
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131536"
+            },
+            {
+                "id": "ru_012",
+                "idioma": "ru",
+                "region": "Russia/CIS",
+                "anchor_text": "Курс цифровой маркетинг ИИ - проверенный",
+                "palabra_clave": "цифровой маркетинг ИИ",
+                "plantilla_usada": "curso_basico",
+                "caracteristicas": {
+                    "longitud": 40,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 6,
+                    "score_calidad": 32
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131547"
+            },
+            {
+                "id": "ru_013",
+                "idioma": "ru",
+                "region": "Russia/CIS",
+                "anchor_text": "Курс ИИ прикладной маркетинг - безопасный",
+                "palabra_clave": "ИИ прикладной маркетинг",
+                "plantilla_usada": "curso_basico",
+                "caracteristicas": {
+                    "longitud": 41,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 6,
+                    "score_calidad": 32
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131558"
+            },
+            {
+                "id": "ru_014",
+                "idioma": "ru",
+                "region": "Russia/CIS",
+                "anchor_text": "Изучите цифровой маркетинг ИИ за 6 месяцев",
+                "palabra_clave": "цифровой маркетинг ИИ",
+                "plantilla_usada": "aprende_tiempo",
+                "caracteristicas": {
+                    "longitud": 42,
+                    "palabras_poder": 0,
+                    "llamada_accion": 1,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 35
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131570"
+            },
+            {
+                "id": "ru_015",
+                "idioma": "ru",
+                "region": "Russia/CIS",
+                "anchor_text": "Изучите искусственный интеллект маркетинг за 30 дней",
+                "palabra_clave": "искусственный интеллект маркетинг",
+                "plantilla_usada": "aprende_tiempo",
+                "caracteristicas": {
+                    "longitud": 52,
+                    "palabras_poder": 0,
+                    "llamada_accion": 1,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 35
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131581"
+            }
+        ],
+        "ja": [
+            {
+                "id": "ja_001",
+                "idioma": "ja",
+                "region": "Japan",
+                "anchor_text": "6ヶ月で人工知能マーケティングを学ぶ",
+                "palabra_clave": "人工知能マーケティング",
+                "plantilla_usada": "aprende_tiempo",
+                "caracteristicas": {
+                    "longitud": 18,
+                    "palabras_poder": 0,
+                    "llamada_accion": 1,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 1,
+                    "score_calidad": 15
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131876"
+            },
+            {
+                "id": "ja_002",
+                "idioma": "ja",
+                "region": "Japan",
+                "anchor_text": "機械学習マーケティングでビジネスを変革",
+                "palabra_clave": "機械学習マーケティング",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 19,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 1,
+                    "score_calidad": 10
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131886"
+            },
+            {
+                "id": "ja_003",
+                "idioma": "ja",
+                "region": "Japan",
+                "anchor_text": "自動化マーケティングコースをマスター - 満足保証",
+                "palabra_clave": "自動化マーケティングコース",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 25,
+                    "palabras_poder": 2,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 3,
+                    "score_calidad": 32
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131899"
+            },
+            {
+                "id": "ja_004",
+                "idioma": "ja",
+                "region": "Japan",
+                "anchor_text": "マスタークラス デジタルマーケティングAI 2024",
+                "palabra_clave": "デジタルマーケティングAI",
+                "plantilla_usada": "masterclass_año",
+                "caracteristicas": {
+                    "longitud": 26,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 3,
+                    "score_calidad": 10
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131908"
+            },
+            {
+                "id": "ja_005",
+                "idioma": "ja",
+                "region": "Japan",
+                "anchor_text": "AIマーケティングコースをマスター - リスクなし",
+                "palabra_clave": "AIマーケティングコース",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 25,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 3,
+                    "score_calidad": 10
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131958"
+            },
+            {
+                "id": "ja_006",
+                "idioma": "ja",
+                "region": "Japan",
+                "anchor_text": "マスタークラス AI応用マーケティング 2024",
+                "palabra_clave": "AI応用マーケティング",
+                "plantilla_usada": "masterclass_año",
+                "caracteristicas": {
+                    "longitud": 24,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 3,
+                    "score_calidad": 10
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.131981"
+            },
+            {
+                "id": "ja_007",
+                "idioma": "ja",
+                "region": "Japan",
+                "anchor_text": "マスタークラス 機械学習マーケティング 2024",
+                "palabra_clave": "機械学習マーケティング",
+                "plantilla_usada": "masterclass_año",
+                "caracteristicas": {
+                    "longitud": 24,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 3,
+                    "score_calidad": 10
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132014"
+            },
+            {
+                "id": "ja_008",
+                "idioma": "ja",
+                "region": "Japan",
+                "anchor_text": "人工知能マーケティングでビジネスを変革",
+                "palabra_clave": "人工知能マーケティング",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 19,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 1,
+                    "score_calidad": 10
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132030"
+            },
+            {
+                "id": "ja_009",
+                "idioma": "ja",
+                "region": "Japan",
+                "anchor_text": "人工知能マーケティングをマスター - 満足保証",
+                "palabra_clave": "人工知能マーケティング",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 23,
+                    "palabras_poder": 2,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 3,
+                    "score_calidad": 32
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132055"
+            },
+            {
+                "id": "ja_010",
+                "idioma": "ja",
+                "region": "Japan",
+                "anchor_text": "人工知能マーケティングコース - 実証済み",
+                "palabra_clave": "人工知能マーケティング",
+                "plantilla_usada": "curso_basico",
+                "caracteristicas": {
+                    "longitud": 21,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 3,
+                    "score_calidad": 12
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132071"
+            },
+            {
+                "id": "ja_011",
+                "idioma": "ja",
+                "region": "Japan",
+                "anchor_text": "マスタークラス 人工知能マーケティング 2024",
+                "palabra_clave": "人工知能マーケティング",
+                "plantilla_usada": "masterclass_año",
+                "caracteristicas": {
+                    "longitud": 24,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 3,
+                    "score_calidad": 10
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132085"
+            },
+            {
+                "id": "ja_012",
+                "idioma": "ja",
+                "region": "Japan",
+                "anchor_text": "マスタークラス AIマーケティングコース 2024",
+                "palabra_clave": "AIマーケティングコース",
+                "plantilla_usada": "masterclass_año",
+                "caracteristicas": {
+                    "longitud": 25,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 3,
+                    "score_calidad": 10
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132095"
+            },
+            {
+                "id": "ja_013",
+                "idioma": "ja",
+                "region": "Japan",
+                "anchor_text": "機械学習マーケティングでビジネスを変革",
+                "palabra_clave": "機械学習マーケティング",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 19,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 1,
+                    "score_calidad": 10
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132104"
+            },
+            {
+                "id": "ja_014",
+                "idioma": "ja",
+                "region": "Japan",
+                "anchor_text": "マスタークラス 人工知能マーケティング 2024",
+                "palabra_clave": "人工知能マーケティング",
+                "plantilla_usada": "masterclass_año",
+                "caracteristicas": {
+                    "longitud": 24,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 3,
+                    "score_calidad": 10
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132113"
+            },
+            {
+                "id": "ja_015",
+                "idioma": "ja",
+                "region": "Japan",
+                "anchor_text": "自動化マーケティングコースコース - 安全",
+                "palabra_clave": "自動化マーケティングコース",
+                "plantilla_usada": "curso_basico",
+                "caracteristicas": {
+                    "longitud": 21,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 3,
+                    "score_calidad": 12
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132123"
+            }
+        ],
+        "ko": [
+            {
+                "id": "ko_001",
+                "idioma": "ko",
+                "region": "South Korea",
+                "anchor_text": "마스터클래스 머신러닝 마케팅 2024",
+                "palabra_clave": "머신러닝 마케팅",
+                "plantilla_usada": "masterclass_año",
+                "caracteristicas": {
+                    "longitud": 20,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 4,
+                    "score_calidad": 10
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132135"
+            },
+            {
+                "id": "ko_002",
+                "idioma": "ko",
+                "region": "South Korea",
+                "anchor_text": "마스터클래스 인공지능 마케팅 2024",
+                "palabra_clave": "인공지능 마케팅",
+                "plantilla_usada": "masterclass_año",
+                "caracteristicas": {
+                    "longitud": 20,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 4,
+                    "score_calidad": 10
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132144"
+            },
+            {
+                "id": "ko_003",
+                "idioma": "ko",
+                "region": "South Korea",
+                "anchor_text": "마스터클래스 디지털 마케팅 AI 2024",
+                "palabra_clave": "디지털 마케팅 AI",
+                "plantilla_usada": "masterclass_año",
+                "caracteristicas": {
+                    "longitud": 22,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 5,
+                    "score_calidad": 10
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132153"
+            },
+            {
+                "id": "ko_004",
+                "idioma": "ko",
+                "region": "South Korea",
+                "anchor_text": "머신러닝 마케팅로 비즈니스 변혁",
+                "palabra_clave": "머신러닝 마케팅",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 17,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 4,
+                    "score_calidad": 0
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132162"
+            },
+            {
+                "id": "ko_005",
+                "idioma": "ko",
+                "region": "South Korea",
+                "anchor_text": "마스터클래스 인공지능 마케팅 2024",
+                "palabra_clave": "인공지능 마케팅",
+                "plantilla_usada": "masterclass_año",
+                "caracteristicas": {
+                    "longitud": 20,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 4,
+                    "score_calidad": 10
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132170"
+            },
+            {
+                "id": "ko_006",
+                "idioma": "ko",
+                "region": "South Korea",
+                "anchor_text": "디지털 마케팅 AI 코스 - 결과",
+                "palabra_clave": "디지털 마케팅 AI",
+                "plantilla_usada": "curso_basico",
+                "caracteristicas": {
+                    "longitud": 18,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 6,
+                    "score_calidad": 12
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132181"
+            },
+            {
+                "id": "ko_007",
+                "idioma": "ko",
+                "region": "South Korea",
+                "anchor_text": "AI 마케팅 코스 코스 - 입증",
+                "palabra_clave": "AI 마케팅 코스",
+                "plantilla_usada": "curso_basico",
+                "caracteristicas": {
+                    "longitud": 17,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 6,
+                    "score_calidad": 12
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132190"
+            },
+            {
+                "id": "ko_008",
+                "idioma": "ko",
+                "region": "South Korea",
+                "anchor_text": "AI 응용 마케팅로 비즈니스 변혁",
+                "palabra_clave": "AI 응용 마케팅",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 18,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 5,
+                    "score_calidad": 0
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132198"
+            },
+            {
+                "id": "ko_009",
+                "idioma": "ko",
+                "region": "South Korea",
+                "anchor_text": "1년에 AI 응용 마케팅 배우기",
+                "palabra_clave": "AI 응용 마케팅",
+                "plantilla_usada": "aprende_tiempo",
+                "caracteristicas": {
+                    "longitud": 17,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 5,
+                    "score_calidad": 0
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132209"
+            },
+            {
+                "id": "ko_010",
+                "idioma": "ko",
+                "region": "South Korea",
+                "anchor_text": "인공지능 마케팅로 비즈니스 변혁",
+                "palabra_clave": "인공지능 마케팅",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 17,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 4,
+                    "score_calidad": 0
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132224"
+            },
+            {
+                "id": "ko_011",
+                "idioma": "ko",
+                "region": "South Korea",
+                "anchor_text": "1년에 인공지능 마케팅 배우기",
+                "palabra_clave": "인공지능 마케팅",
+                "plantilla_usada": "aprende_tiempo",
+                "caracteristicas": {
+                    "longitud": 16,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 4,
+                    "score_calidad": 0
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132257"
+            },
+            {
+                "id": "ko_012",
+                "idioma": "ko",
+                "region": "South Korea",
+                "anchor_text": "마스터클래스 머신러닝 마케팅 2024",
+                "palabra_clave": "머신러닝 마케팅",
+                "plantilla_usada": "masterclass_año",
+                "caracteristicas": {
+                    "longitud": 20,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 4,
+                    "score_calidad": 10
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132266"
+            },
+            {
+                "id": "ko_013",
+                "idioma": "ko",
+                "region": "South Korea",
+                "anchor_text": "AI 마케팅 코스 마스터 - 위험 없음",
+                "palabra_clave": "AI 마케팅 코스",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 21,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 7,
+                    "score_calidad": 10
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132277"
+            },
+            {
+                "id": "ko_014",
+                "idioma": "ko",
+                "region": "South Korea",
+                "anchor_text": "6개월에 인공지능 마케팅 배우기",
+                "palabra_clave": "인공지능 마케팅",
+                "plantilla_usada": "aprende_tiempo",
+                "caracteristicas": {
+                    "longitud": 17,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 4,
+                    "score_calidad": 0
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132287"
+            },
+            {
+                "id": "ko_015",
+                "idioma": "ko",
+                "region": "South Korea",
+                "anchor_text": "자동화 마케팅 코스 코스 - 보장",
+                "palabra_clave": "자동화 마케팅 코스",
+                "plantilla_usada": "curso_basico",
+                "caracteristicas": {
+                    "longitud": 18,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 6,
+                    "score_calidad": 22
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132296"
+            }
+        ],
+        "zh": [
+            {
+                "id": "zh_001",
+                "idioma": "zh",
+                "region": "China/Taiwan",
+                "anchor_text": "在90天内学习AI营销课程",
+                "palabra_clave": "AI营销课程",
+                "plantilla_usada": "aprende_tiempo",
+                "caracteristicas": {
+                    "longitud": 13,
+                    "palabras_poder": 0,
+                    "llamada_accion": 1,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 1,
+                    "score_calidad": 15
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132308"
+            },
+            {
+                "id": "zh_002",
+                "idioma": "zh",
+                "region": "China/Taiwan",
+                "anchor_text": "大师班 自动化营销课程 2024",
+                "palabra_clave": "自动化营销课程",
+                "plantilla_usada": "masterclass_año",
+                "caracteristicas": {
+                    "longitud": 16,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 3,
+                    "score_calidad": 0
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132317"
+            },
+            {
+                "id": "zh_003",
+                "idioma": "zh",
+                "region": "China/Taiwan",
+                "anchor_text": "掌握数字营销AI - 100%有效",
+                "palabra_clave": "数字营销AI",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 17,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 3,
+                    "score_calidad": 22
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132327"
+            },
+            {
+                "id": "zh_004",
+                "idioma": "zh",
+                "region": "China/Taiwan",
+                "anchor_text": "用机器学习营销改变您的业务",
+                "palabra_clave": "机器学习营销",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 13,
+                    "palabras_poder": 0,
+                    "llamada_accion": 1,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 1,
+                    "score_calidad": 15
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132335"
+            },
+            {
+                "id": "zh_005",
+                "idioma": "zh",
+                "region": "China/Taiwan",
+                "anchor_text": "用自动化营销课程改变您的业务",
+                "palabra_clave": "自动化营销课程",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 14,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 1,
+                    "score_calidad": 0
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132343"
+            },
+            {
+                "id": "zh_006",
+                "idioma": "zh",
+                "region": "China/Taiwan",
+                "anchor_text": "自动化营销课程课程 - 安全",
+                "palabra_clave": "自动化营销课程",
+                "plantilla_usada": "curso_basico",
+                "caracteristicas": {
+                    "longitud": 14,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 3,
+                    "score_calidad": 12
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132352"
+            },
+            {
+                "id": "zh_007",
+                "idioma": "zh",
+                "region": "China/Taiwan",
+                "anchor_text": "用数字营销AI改变您的业务",
+                "palabra_clave": "数字营销AI",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 13,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 1,
+                    "score_calidad": 0
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132363"
+            },
+            {
+                "id": "zh_008",
+                "idioma": "zh",
+                "region": "China/Taiwan",
+                "anchor_text": "大师班 AI应用营销 2024",
+                "palabra_clave": "AI应用营销",
+                "plantilla_usada": "masterclass_año",
+                "caracteristicas": {
+                    "longitud": 15,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 3,
+                    "score_calidad": 0
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132371"
+            },
+            {
+                "id": "zh_009",
+                "idioma": "zh",
+                "region": "China/Taiwan",
+                "anchor_text": "用AI应用营销改变您的业务",
+                "palabra_clave": "AI应用营销",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 13,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 1,
+                    "score_calidad": 0
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132378"
+            },
+            {
+                "id": "zh_010",
+                "idioma": "zh",
+                "region": "China/Taiwan",
+                "anchor_text": "用AI营销课程改变您的业务",
+                "palabra_clave": "AI营销课程",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 13,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 1,
+                    "score_calidad": 0
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132386"
+            },
+            {
+                "id": "zh_011",
+                "idioma": "zh",
+                "region": "China/Taiwan",
+                "anchor_text": "掌握AI应用营销 - 100%有效",
+                "palabra_clave": "AI应用营销",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 17,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 3,
+                    "score_calidad": 22
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132396"
+            },
+            {
+                "id": "zh_012",
+                "idioma": "zh",
+                "region": "China/Taiwan",
+                "anchor_text": "掌握数字营销AI - 满意保证",
+                "palabra_clave": "数字营销AI",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 15,
+                    "palabras_poder": 2,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 3,
+                    "score_calidad": 32
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132405"
+            },
+            {
+                "id": "zh_013",
+                "idioma": "zh",
+                "region": "China/Taiwan",
+                "anchor_text": "掌握人工智能营销 - 100%有效",
+                "palabra_clave": "人工智能营销",
+                "plantilla_usada": "domina_garantia",
+                "caracteristicas": {
+                    "longitud": 17,
+                    "palabras_poder": 1,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 3,
+                    "score_calidad": 22
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132415"
+            },
+            {
+                "id": "zh_014",
+                "idioma": "zh",
+                "region": "China/Taiwan",
+                "anchor_text": "用AI应用营销改变您的业务",
+                "palabra_clave": "AI应用营销",
+                "plantilla_usada": "transforma_negocio",
+                "caracteristicas": {
+                    "longitud": 13,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 0,
+                    "urgencia": 0,
+                    "palabras_totales": 1,
+                    "score_calidad": 0
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132492"
+            },
+            {
+                "id": "zh_015",
+                "idioma": "zh",
+                "region": "China/Taiwan",
+                "anchor_text": "自动化营销课程课程 - 可靠",
+                "palabra_clave": "自动化营销课程",
+                "plantilla_usada": "curso_basico",
+                "caracteristicas": {
+                    "longitud": 14,
+                    "palabras_poder": 0,
+                    "llamada_accion": 0,
+                    "beneficios": 1,
+                    "urgencia": 0,
+                    "palabras_totales": 3,
+                    "score_calidad": 12
+                },
+                "fecha_creacion": "2025-09-15T20:07:14.132501"
+            }
+        ]
+    },
+    "estadisticas_globales": {
+        "idiomas_analizados": 11,
+        "total_anchor_texts": 165,
+        "promedio_por_idioma": 15.0,
+        "mejor_idioma": {
+            "idioma": "en",
+            "score": 32.27
+        },
+        "peor_idioma": {
+            "idioma": "ko",
+            "score": 7.07
+        },
+        "distribucion_regiones": {
+            "España/Latinoamérica": 15,
+            "USA/UK/International": 15,
+            "France/Canada": 15,
+            "Germany/Austria/Switzerland": 15,
+            "Brazil/Portugal": 15,
+            "Italy": 15,
+            "Netherlands/Belgium": 15,
+            "Russia/CIS": 15,
+            "Japan": 15,
+            "South Korea": 15,
+            "China/Taiwan": 15
+        },
+        "scores_promedio_por_idioma": {
+            "es": 28.33,
+            "en": 32.27,
+            "fr": 26.93,
+            "de": 29.33,
+            "pt": 31.87,
+            "it": 29.4,
+            "nl": 31.27,
+            "ru": 27.4,
+            "ja": 13.53,
+            "ko": 7.07,
+            "zh": 10.13
+        }
+    },
+    "recomendaciones": [
+        "Idioma con mejor rendimiento: en (score: 32.27/100)",
+        "Idioma que necesita optimización: ko (score: 7.07/100)",
+        "Mercado internacional bien cubierto, considera expandir a mercados emergentes",
+        "Mercado asiático incluido, optimiza para regulaciones locales",
+        "Mercado ruso incluido, considera aspectos culturales específicos",
+        "Adapta el tono y estilo según las preferencias culturales de cada región",
+        "Considera las regulaciones de marketing digital de cada país",
+        "Optimiza los horarios de publicación según las zonas horarias",
+        "Incluye elementos visuales que resuenen con cada cultura",
+        "Monitorea el rendimiento por idioma y ajusta la estrategia"
+    ]
+}

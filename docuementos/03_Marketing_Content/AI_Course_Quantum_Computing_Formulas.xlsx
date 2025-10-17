@@ -1,0 +1,146 @@
+# AI COURSE QUANTUM COMPUTING FORMULAS - EXCEL TEMPLATE
+# Quantum Computing and Advanced Physics Formulas
+
+## QUANTUM GATE FORMULAS
+Gate_Type,Matrix_Representation,Input_State,Output_State,Probability,Phase,Formula_Used
+Pauli_X,=0,1;1,0,=0.707,0.707,=0.707,0.707,=0.5,=0,=QUANTUM_GATE(B2,C2)
+Pauli_Y,=0,-i;i,0,=0.707,0.707,=0.707i,-0.707i,=0.5,=PI()/2,=QUANTUM_GATE(B3,C3)
+Pauli_Z,=1,0;0,-1,=0.707,0.707,=0.707,-0.707,=0.5,=PI(),=QUANTUM_GATE(B4,C4)
+Hadamard,=1/SQRT(2)*1,1;1,-1,=1,0,=0.707,0.707,=0.5,=0,=QUANTUM_GATE(B5,C5)
+CNOT,=1,0,0,0;0,1,0,0;0,0,0,1;0,0,1,0,=1,0,0,0,=1,0,0,0,=1,=0,=QUANTUM_GATE(B6,C6)
+
+## QUANTUM SUPERPOSITION FORMULAS
+Qubit_State,Alpha_Coefficient,Beta_Coefficient,Measurement_Probability_0,Measurement_Probability_1,Formula_Used
+=0.707|0⟩+0.707|1⟩,=0.707,=0.707,=0.5,=0.5,=SQRT(0.5)
+=0.6|0⟩+0.8|1⟩,=0.6,=0.8,=0.36,=0.64,=SQRT(0.36)
+=0.8|0⟩+0.6|1⟩,=0.8,=0.6,=0.64,=0.36,=SQRT(0.64)
+=0.5|0⟩+0.866|1⟩,=0.5,=0.866,=0.25,=0.75,=SQRT(0.25)
+=0.9|0⟩+0.436|1⟩,=0.9,=0.436,=0.81,=0.19,=SQRT(0.81)
+
+## QUANTUM ENTANGLEMENT FORMULAS
+Qubit_1,Qubit_2,Entangled_State,Bell_State,Entanglement_Entropy,Formula_Used
+=0.707|0⟩+0.707|1⟩,=0.707|0⟩+0.707|1⟩,=0.5|00⟩+0.5|11⟩,=BELL_STATE,=1,=ENTANGLEMENT(B2,C2)
+=0.6|0⟩+0.8|1⟩,=0.8|0⟩+0.6|1⟩,=0.48|00⟩+0.36|01⟩+0.64|10⟩+0.48|11⟩,=BELL_STATE,=0.97,=ENTANGLEMENT(B3,C3)
+=0.8|0⟩+0.6|1⟩,=0.6|0⟩+0.8|1⟩,=0.48|00⟩+0.64|01⟩+0.36|10⟩+0.48|11⟩,=BELL_STATE,=0.97,=ENTANGLEMENT(B4,C4)
+=0.5|0⟩+0.866|1⟩,=0.866|0⟩+0.5|1⟩,=0.433|00⟩+0.25|01⟩+0.75|10⟩+0.433|11⟩,=BELL_STATE,=0.99,=ENTANGLEMENT(B5,C5)
+=0.9|0⟩+0.436|1⟩,=0.436|0⟩+0.9|1⟩,=0.392|00⟩+0.81|01⟩+0.19|10⟩+0.392|11⟩,=BELL_STATE,=0.92,=ENTANGLEMENT(B6,C6)
+
+## QUANTUM INTERFERENCE FORMULAS
+Path_1_Amplitude,Path_2_Amplitude,Phase_Difference,Constructive_Interference,Destructive_Interference,Formula_Used
+=0.5,=0.5,=0,=1,=0,=INTERFERENCE(B2,C2,D2)
+=0.3,=0.7,=PI(),=0,=1,=INTERFERENCE(B3,C3,D3)
+=0.6,=0.4,=PI()/2,=0.5,=0.5,=INTERFERENCE(B4,C4,D4)
+=0.8,=0.2,=PI()/4,=0.7,=0.3,=INTERFERENCE(B5,C5,D5)
+=0.4,=0.6,=3*PI()/2,=0.3,=0.7,=INTERFERENCE(B6,C6,D6)
+
+## QUANTUM TUNNELING FORMULAS
+Barrier_Height,Barrier_Width,Particle_Energy,Tunneling_Probability,Transmission_Coefficient,Formula_Used
+=10,=1,=5,=0.1,=0.1,=TUNNELING(B2,C2,D2)
+=8,=2,=4,=0.05,=0.05,=TUNNELING(B3,C3,D3)
+=12,=0.5,=6,=0.2,=0.2,=TUNNELING(B4,C4,D4)
+=6,=1.5,=3,=0.15,=0.15,=TUNNELING(B5,C5,D5)
+=15,=3,=7,=0.02,=0.02,=TUNNELING(B6,C6,D6)
+
+## QUANTUM ERROR CORRECTION FORMULAS
+Logical_Qubit,Physical_Qubits,Error_Rate,Correction_Threshold,Success_Probability,Formula_Used
+=1,=3,=0.01,=0.1,=0.99,=ERROR_CORRECTION(B2,C2,D2)
+=1,=5,=0.05,=0.2,=0.95,=ERROR_CORRECTION(B3,C3,D3)
+=1,=7,=0.1,=0.3,=0.9,=ERROR_CORRECTION(B4,C4,D4)
+=1,=9,=0.15,=0.4,=0.85,=ERROR_CORRECTION(B5,C5,D5)
+=1,=11,=0.2,=0.5,=0.8,=ERROR_CORRECTION(B6,C6,D6)
+
+## QUANTUM ALGORITHMS FORMULAS
+Algorithm,Input_Size,Quantum_Speedup,Classical_Complexity,Quantum_Complexity,Formula_Used
+Shor,=1024,=2^512,=O(2^n),=O(n^3),=QUANTUM_ALGORITHM(B2)
+Grover,=1000000,=1000,=O(n),=O(sqrt(n)),=QUANTUM_ALGORITHM(B3)
+Deutsch_Jozsa,=8,=2^8,=O(2^n),=O(1),=QUANTUM_ALGORITHM(B4)
+Simon,=16,=2^8,=O(2^n),=O(n),=QUANTUM_ALGORITHM(B5)
+Bernstein_Vazirani,=32,=2^16,=O(2^n),=O(1),=QUANTUM_ALGORITHM(B6)
+
+## QUANTUM MACHINE LEARNING FORMULAS
+Quantum_State,Feature_Map,Quantum_Kernel,Classical_Kernel,Quantum_Advantage,Formula_Used
+=0.707|0⟩+0.707|1⟩,=Z_GATE,=0.5,=0.3,=1.67,=QUANTUM_ML(B2,C2)
+=0.6|0⟩+0.8|1⟩,=X_GATE,=0.6,=0.4,=1.5,=QUANTUM_ML(B3,C3)
+=0.8|0⟩+0.6|1⟩,=Y_GATE,=0.7,=0.5,=1.4,=QUANTUM_ML(B4,C4)
+=0.5|0⟩+0.866|1⟩,=H_GATE,=0.8,=0.6,=1.33,=QUANTUM_ML(B5,C5)
+=0.9|0⟩+0.436|1⟩,=CNOT_GATE,=0.9,=0.7,=1.29,=QUANTUM_ML(B6,C6)
+
+## QUANTUM OPTIMIZATION FORMULAS
+Problem_Size,Classical_Time,Quantum_Time,Quantum_Speedup,Energy_Landscape,Formula_Used
+=10,=1000,=100,=10,=QUANTUM_OPTIMIZATION(B2),=QUANTUM_OPTIMIZATION(B2)
+=20,=10000,=200,=50,=QUANTUM_OPTIMIZATION(B3),=QUANTUM_OPTIMIZATION(B3)
+=30,=100000,=300,=333,=QUANTUM_OPTIMIZATION(B4),=QUANTUM_OPTIMIZATION(B4)
+=40,=1000000,=400,=2500,=QUANTUM_OPTIMIZATION(B5),=QUANTUM_OPTIMIZATION(B5)
+=50,=10000000,=500,=20000,=QUANTUM_OPTIMIZATION(B6),=QUANTUM_OPTIMIZATION(B6)
+
+## QUANTUM CRYPTOGRAPHY FORMULAS
+Key_Length,Classical_Security,Quantum_Security,BB84_Protocol,Quantum_Key_Distribution,Formula_Used
+=256,=2^128,=2^256,=BB84,=QKD,=QUANTUM_CRYPTO(B2)
+=512,=2^256,=2^512,=BB84,=QKD,=QUANTUM_CRYPTO(B3)
+=1024,=2^512,=2^1024,=BB84,=QKD,=QUANTUM_CRYPTO(B4)
+=2048,=2^1024,=2^2048,=BB84,=QKD,=QUANTUM_CRYPTO(B5)
+=4096,=2^2048,=2^4096,=BB84,=QKD,=QUANTUM_CRYPTO(B6)
+
+## QUANTUM SIMULATION FORMULAS
+System_Size,Classical_Complexity,Quantum_Complexity,Simulation_Accuracy,Formula_Used
+=10,=2^10,=10^3,=0.99,=QUANTUM_SIMULATION(B2)
+=20,=2^20,=20^3,=0.98,=QUANTUM_SIMULATION(B3)
+=30,=2^30,=30^3,=0.97,=QUANTUM_SIMULATION(B4)
+=40,=2^40,=40^3,=0.96,=QUANTUM_SIMULATION(B5)
+=50,=2^50,=50^3,=0.95,=QUANTUM_SIMULATION(B6)
+
+## QUANTUM TELEPORTATION FORMULAS
+Alice_Qubit,Bob_Qubit,Entangled_Pair,Teleportation_Fidelity,Formula_Used
+=0.707|0⟩+0.707|1⟩,=0.707|0⟩+0.707|1⟩,=0.5|00⟩+0.5|11⟩,=0.99,=QUANTUM_TELEPORTATION(B2,C2,D2)
+=0.6|0⟩+0.8|1⟩,=0.8|0⟩+0.6|1⟩,=0.48|00⟩+0.36|01⟩+0.64|10⟩+0.48|11⟩,=0.95,=QUANTUM_TELEPORTATION(B3,C3,D3)
+=0.8|0⟩+0.6|1⟩,=0.6|0⟩+0.8|1⟩,=0.48|00⟩+0.64|01⟩+0.36|10⟩+0.48|11⟩,=0.95,=QUANTUM_TELEPORTATION(B4,C4,D4)
+=0.5|0⟩+0.866|1⟩,=0.866|0⟩+0.5|1⟩,=0.433|00⟩+0.25|01⟩+0.75|10⟩+0.433|11⟩,=0.97,=QUANTUM_TELEPORTATION(B5,C5,D5)
+=0.9|0⟩+0.436|1⟩,=0.436|0⟩+0.9|1⟩,=0.392|00⟩+0.81|01⟩+0.19|10⟩+0.392|11⟩,=0.92,=QUANTUM_TELEPORTATION(B6,C6,D6)
+
+## QUANTUM METROLOGY FORMULAS
+Measurement_Precision,Quantum_Limit,Classical_Limit,Quantum_Advantage,Formula_Used
+=0.01,=1/sqrt(N),=1/N,=sqrt(N),=QUANTUM_METROLOGY(B2)
+=0.005,=1/sqrt(2*N),=1/(2*N),=sqrt(2*N),=QUANTUM_METROLOGY(B3)
+=0.001,=1/sqrt(4*N),=1/(4*N),=sqrt(4*N),=QUANTUM_METROLOGY(B4)
+=0.0005,=1/sqrt(8*N),=1/(8*N),=sqrt(8*N),=QUANTUM_METROLOGY(B5)
+=0.0001,=1/sqrt(16*N),=1/(16*N),=sqrt(16*N),=QUANTUM_METROLOGY(B6)
+
+## QUANTUM THERMODYNAMICS FORMULAS
+System_Energy,Heat_Bath_Temperature,Quantum_Work,Quantum_Heat,Formula_Used
+=10,=1,=5,=5,=QUANTUM_THERMODYNAMICS(B2,C2)
+=20,=2,=10,=10,=QUANTUM_THERMODYNAMICS(B3,C3)
+=30,=3,=15,=15,=QUANTUM_THERMODYNAMICS(B4,C4)
+=40,=4,=20,=20,=QUANTUM_THERMODYNAMICS(B5,C5)
+=50,=5,=25,=25,=QUANTUM_THERMODYNAMICS(B6,C6)
+
+## QUANTUM INFORMATION FORMULAS
+Quantum_State,Information_Content,Von_Neumann_Entropy,Mutual_Information,Formula_Used
+=0.707|0⟩+0.707|1⟩,=1,=1,=0.5,=QUANTUM_INFO(B2)
+=0.6|0⟩+0.8|1⟩,=0.97,=0.97,=0.48,=QUANTUM_INFO(B3)
+=0.8|0⟩+0.6|1⟩,=0.97,=0.97,=0.48,=QUANTUM_INFO(B4)
+=0.5|0⟩+0.866|1⟩,=0.99,=0.99,=0.49,=QUANTUM_INFO(B5)
+=0.9|0⟩+0.436|1⟩,=0.92,=0.92,=0.46,=QUANTUM_INFO(B6)
+
+## QUANTUM CHANNEL FORMULAS
+Input_State,Channel_Noise,Output_State,Channel_Capacity,Formula_Used
+=0.707|0⟩+0.707|1⟩,=0.1,=0.636|0⟩+0.636|1⟩,=1-0.1,=QUANTUM_CHANNEL(B2,C2)
+=0.6|0⟩+0.8|1⟩,=0.05,=0.57|0⟩+0.76|1⟩,=1-0.05,=QUANTUM_CHANNEL(B3,C3)
+=0.8|0⟩+0.6|1⟩,=0.15,=0.68|0⟩+0.51|1⟩,=1-0.15,=QUANTUM_CHANNEL(B4,C4)
+=0.5|0⟩+0.866|1⟩,=0.2,=0.4|0⟩+0.693|1⟩,=1-0.2,=QUANTUM_CHANNEL(B5,C5)
+=0.9|0⟩+0.436|1⟩,=0.08,=0.828|0⟩+0.401|1⟩,=1-0.08,=QUANTUM_CHANNEL(B6,C6)
+
+## QUANTUM ERROR MITIGATION FORMULAS
+Error_Rate,Mitigation_Technique,Error_Reduction,Final_Error_Rate,Formula_Used
+=0.1,=Zero_Noise_Extrapolation,=0.5,=0.05,=ERROR_MITIGATION(B2,C2,D2)
+=0.15,=Clifford_Data_Regression,=0.6,=0.06,=ERROR_MITIGATION(B3,C3,D3)
+=0.2,=Probabilistic_Error_Cancellation,=0.7,=0.06,=ERROR_MITIGATION(B4,C4,D4)
+=0.25,=Virtual_Distillation,=0.8,=0.05,=ERROR_MITIGATION(B5,C5,D5)
+=0.3,=Symmetry_Verification,=0.9,=0.03,=ERROR_MITIGATION(B6,C6,D6)
+
+## QUANTUM ADVANTAGE FORMULAS
+Problem_Class,Classical_Time,Quantum_Time,Quantum_Speedup,Formula_Used
+=Factoring,=2^1024,=2^10,=2^1014,=QUANTUM_ADVANTAGE(B2)
+=Search,=N,=sqrt(N),=sqrt(N),=QUANTUM_ADVANTAGE(B3)
+=Simulation,=2^N,=N^3,=2^N/N^3,=QUANTUM_ADVANTAGE(B4)
+=Optimization,=2^N,=N^2,=2^N/N^2,=QUANTUM_ADVANTAGE(B5)
+=Machine_Learning,=N^2,=N,=N,=QUANTUM_ADVANTAGE(B6)

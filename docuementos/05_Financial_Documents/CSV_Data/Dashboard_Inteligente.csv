@@ -1,0 +1,21 @@
+Métrica,Valor Actual,Meta,Progreso %,Estado IA,Tendencia,Recomendación
+RESUMEN FINANCIERO,,,,,,
+Patrimonio Neto,1500000,2000000,=B2/C2,=IF(D2>0.8,"🟢 Excelente",IF(D2>0.6,"🟡 Bueno","🔴 Mejorar")),📈,Continuar ahorrando $50K/mes
+Tasa de Ahorro,0.25,0.30,=B3/C3,=IF(D3>0.9,"🟢 Excelente",IF(D3>0.7,"🟡 Bueno","🔴 Mejorar")),📈,Aumentar ahorro a $15K/mes
+ROI Marketing,3.5,3.0,=B4/C4,=IF(D4>1,"🟢 Excelente",IF(D4>0.8,"🟡 Bueno","🔴 Mejorar")),📈,Mantener estrategia actual
+Ratio Deuda/Ingresos,0.3,0.4,=B5/C5,=IF(D5<1,"🟢 Excelente",IF(D5<1.2,"🟡 Bueno","🔴 Mejorar")),📉,Excelente control de deuda
+Fondo Emergencia,75000,100000,=B6/C6,=IF(D6>0.8,"🟢 Excelente",IF(D6>0.6,"🟡 Bueno","🔴 Mejorar")),📈,Completar en 3 meses
+,,,,,,
+PREDICCIONES IA,,,,,,
+Ingresos +15% en 6 meses,85%,,Alto,Invertir en capacitación,6 meses
+Gastos +8% por inflación,90%,,Medio,Ajustar presupuesto,3 meses
+ROI Marketing +20%,75%,,Alto,Optimizar campañas,2 meses
+Patrimonio +25% anual,80%,,Muy Alto,Mantener estrategia,12 meses
+Riesgo de recesión,30%,,Alto,Fortalecer fondo emergencia,Inmediato
+,,,,,,
+ALERTAS INTELIGENTES,,,,,,
+Presupuesto excedido,15%,10%,Crítica,Revisar categorías,Diario
+Fondo emergencia bajo,75%,80%,Media,Aumentar ahorro,Semanal
+Portafolio -5%,-5%,0%,Media,Revisar estrategia,Mensual
+Deuda/Ingresos alto,35%,30%,Media,Reducir gastos,Mensual
+Oportunidad inversión,15%,10%,Baja,Evaluar oportunidad,Inmediato

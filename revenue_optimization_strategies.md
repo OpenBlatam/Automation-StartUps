@@ -369,3 +369,4 @@ ROI: 4x en 90 días (más ROI = más dinero)
 - [ ] Refinar procesos (más refinamiento = más dinero)
 - [ ] Escalar exitosos (más escalamiento = más dinero)
 - [ ] Automatizar procesos (más automatización = más dinero)
+

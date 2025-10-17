@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛡️ Seguridad IA Marketing | IA Marketing Solutions</title>
+    <meta name="description" content="🔥 Seguridad de grado militar para IA en marketing. Encriptación, compliance, GDPR, CCPA, SOC 2, ISO 27001. Tus datos están 100% seguros con nosotros.">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Tonos Emocionales Avanzados */
+        .excitement { background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; animation: excitement-pulse 2s infinite; text-align: center; }
+        @keyframes excitement-pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        
+        .trust { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .trust::before { content: "🛡️ "; font-size: 1.8em; }
+        
+        .success { background: linear-gradient(135deg, #28a745 0%, #198754 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .success::before { content: "🎉 "; font-size: 1.8em; }
+        
+        .premium { background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; position: relative; overflow: hidden; }
+        .premium::before { content: "👑 "; font-size: 1.8em; }
+        .premium::after { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent); animation: premium-shine 3s infinite; }
+        @keyframes premium-shine { 0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); } 100% { transform: translateX(100%) translateY(100%) rotate(45deg); } }
+        
+        .curiosity { background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .curiosity::before { content: "🔍 "; font-size: 1.8em; }
+        
+        .social-proof { background: linear-gradient(135deg, #007bff 0%, #6610f2 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .social-proof::before { content: "👥 "; font-size: 1.8em; }
+        
+        .authority { background: linear-gradient(135deg, #343a40 0%, #6c757d 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .authority::before { content: "🏆 "; font-size: 1.8em; }
+        
+        .empathy { background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .empathy::before { content: "💝 "; font-size: 1.8em; }
+        
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 0; text-align: center; }
+        .hero h1 { font-size: 3.5em; margin-bottom: 20px; font-weight: 700; }
+        .hero p { font-size: 1.3em; margin-bottom: 30px; opacity: 0.95; }
+        
+        .cta-button { background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; padding: 20px 40px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.3em; display: inline-block; margin: 20px 10px; transition: all 0.3s; box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3); }
+        .cta-button:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4); }
+        
+        .security-section { background: white; padding: 60px 0; }
+        .security-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 40px; }
+        .security-card { background: #f8f9fa; padding: 30px; border-radius: 20px; border-left: 6px solid #667eea; transition: transform 0.3s; }
+        .security-card:hover { transform: translateY(-5px); }
+        .security-card.featured { border-left: 6px solid #ff6b6b; background: linear-gradient(135deg, #fff5f5 0%, #f8f9fa 100%); }
+        .security-card.featured::before { content: "⭐ DESTACADO"; position: absolute; top: -10px; right: 20px; background: #ff6b6b; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8em; font-weight: bold; }
+        .security-category { color: #667eea; font-weight: bold; font-size: 0.9em; margin-bottom: 10px; }
+        .security-title { font-size: 1.4em; font-weight: bold; color: #2c3e50; margin-bottom: 15px; }
+        .security-description { color: #666; margin-bottom: 20px; line-height: 1.6; }
+        .security-features { background: white; padding: 15px; border-radius: 10px; margin: 15px 0; }
+        .feature-item { display: flex; align-items: center; margin: 8px 0; font-size: 0.9em; }
+        .feature-item::before { content: "✅ "; color: #28a745; font-weight: bold; margin-right: 8px; }
+        
+        .certifications-section { background: #f8f9fa; padding: 60px 0; }
+        .certifications-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px; }
+        .certification-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        .certification-icon { font-size: 2.5em; margin-bottom: 15px; }
+        
+        .compliance-section { background: #2c3e50; color: white; padding: 60px 0; }
+        .compliance-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
+        .compliance-card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; }
+        
+        .stats-section { background: #2c3e50; color: white; padding: 60px 0; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 40px; }
+        .stat-card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; text-align: center; }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #ff6b6b; margin-bottom: 10px; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5em; }
+            .hero p { font-size: 1.1em; }
+            .security-grid { grid-template-columns: 1fr; }
+            .certifications-grid { grid-template-columns: 1fr; }
+            .compliance-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>🛡️ Seguridad IA Marketing</h1>
+            <p><strong>Seguridad de grado militar</strong> para IA en marketing. Encriptación, compliance, GDPR, CCPA, SOC 2, ISO 27001. Tus datos están 100% seguros con nosotros</p>
+            <a href="#security" class="cta-button">🛡️ Ver Seguridad</a>
+            <a href="#certifications" class="cta-button" style="background: transparent; border: 2px solid white;">🏆 Certificaciones</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="excitement">
+            <h2 style="margin: 0; font-size: 2.2em;">🛡️ ¡SEGURIDAD DE GRADO MILITAR!</h2>
+            <p style="margin: 10px 0 0 0; font-size: 1.2em;">Encriptación AES-256, compliance completo y certificaciones internacionales</p>
+        </div>
+
+        <div class="success">
+            <h3 style="margin: 0 0 15px 0;">🎉 100% SEGURO</h3>
+            <p style="margin: 0; font-size: 1.2em;">Cero brechas de seguridad desde 2020. Tus datos están protegidos con la mejor tecnología del mundo</p>
+        </div>
+
+        <section class="security-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">🛡️ Medidas de Seguridad</h2>
+            
+            <div class="security-grid">
+                <div class="security-card featured">
+                    <div class="security-category">🔐 Encriptación</div>
+                    <div class="security-title">Encriptación AES-256</div>
+                    <div class="security-description">
+                        Encriptación de grado militar AES-256 para todos los datos. Tus información está protegida tanto en tránsito como en reposo.
+                    </div>
+                    <div class="security-features">
+                        <div class="feature-item">AES-256 encriptación</div>
+                        <div class="feature-item">TLS 1.3 para tránsito</div>
+                        <div class="feature-item">Claves rotativas automáticas</div>
+                        <div class="feature-item">Encriptación end-to-end</div>
+                        <div class="feature-item">Zero-knowledge architecture</div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">🔐 Ver Detalles</a>
+                </div>
+                
+                <div class="security-card">
+                    <div class="security-category">🏢 Infraestructura</div>
+                    <div class="security-title">Servidores Seguros</div>
+                    <div class="security-description">
+                        Infraestructura en la nube más segura del mundo con AWS, Google Cloud y Microsoft Azure. Redundancia y disponibilidad garantizada.
+                    </div>
+                    <div class="security-features">
+                        <div class="feature-item">AWS, Google Cloud, Azure</div>
+                        <div class="feature-item">99.99% uptime garantizado</div>
+                        <div class="feature-item">Backup automático diario</div>
+                        <div class="feature-item">Redundancia geográfica</div>
+                        <div class="feature-item">Monitoreo 24/7</div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">🏢 Ver Infraestructura</a>
+                </div>
+                
+                <div class="security-card">
+                    <div class="security-category">👥 Acceso</div>
+                    <div class="security-title">Control de Acceso</div>
+                    <div class="security-description">
+                        Control de acceso granular con autenticación multifactor, SSO y permisos específicos por usuario y función.
+                    </div>
+                    <div class="security-features">
+                        <div class="feature-item">Autenticación multifactor</div>
+                        <div class="feature-item">Single Sign-On (SSO)</div>
+                        <div class="feature-item">Permisos granulares</div>
+                        <div class="feature-item">Auditoría de accesos</div>
+                        <div class="feature-item">Sesiones seguras</div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">👥 Ver Acceso</a>
+                </div>
+                
+                <div class="security-card">
+                    <div class="security-category">🔍 Monitoreo</div>
+                    <div class="security-title">Monitoreo 24/7</div>
+                    <div class="security-description">
+                        Monitoreo continuo de seguridad con detección de amenazas en tiempo real y respuesta automática a incidentes.
+                    </div>
+                    <div class="security-features">
+                        <div class="feature-item">Monitoreo 24/7</div>
+                        <div class="feature-item">Detección de amenazas</div>
+                        <div class="feature-item">Respuesta automática</div>
+                        <div class="feature-item">Alertas en tiempo real</div>
+                        <div class="feature-item">Análisis de comportamiento</div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">🔍 Ver Monitoreo</a>
+                </div>
+                
+                <div class="security-card">
+                    <div class="security-category">📋 Backup</div>
+                    <div class="security-title">Backup y Recuperación</div>
+                    <div class="security-description">
+                        Sistema de backup automático con múltiples copias de seguridad y recuperación rápida ante cualquier incidente.
+                    </div>
+                    <div class="security-features">
+                        <div class="feature-item">Backup automático diario</div>
+                        <div class="feature-item">Múltiples ubicaciones</div>
+                        <div class="feature-item">Recuperación rápida</div>
+                        <div class="feature-item">Versionado completo</div>
+                        <div class="feature-item">Pruebas de recuperación</div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">📋 Ver Backup</a>
+                </div>
+                
+                <div class="security-card">
+                    <div class="security-category">🔒 Privacidad</div>
+                    <div class="security-title">Privacidad de Datos</div>
+                    <div class="security-description">
+                        Protección completa de la privacidad con anonimización, pseudonimización y cumplimiento de regulaciones internacionales.
+                    </div>
+                    <div class="security-features">
+                        <div class="feature-item">Anonimización de datos</div>
+                        <div class="feature-item">Pseudonimización</div>
+                        <div class="feature-item">Minimización de datos</div>
+                        <div class="feature-item">Consentimiento granular</div>
+                        <div class="feature-item">Derecho al olvido</div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">🔒 Ver Privacidad</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="authority">
+            <h3 style="margin: 0 0 15px 0;">🏆 LIDERAMOS EN SEGURIDAD</h3>
+            <p style="margin: 0; font-size: 1.2em;">Las certificaciones de seguridad más estrictas del mundo con cero brechas desde 2020</p>
+        </div>
+
+        <section class="certifications-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">🏆 Certificaciones de Seguridad</h2>
+            
+            <div class="certifications-grid">
+                <div class="certification-card">
+                    <div class="certification-icon">🛡️</div>
+                    <h3>SOC 2 Type II</h3>
+                    <p>Certificación de controles de seguridad</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Disponibilidad</li>
+                        <li>✅ Confidencialidad</li>
+                        <li>✅ Integridad</li>
+                        <li>✅ Privacidad</li>
+                        <li>✅ Procesamiento</li>
+                    </ul>
+                    <p><strong>Auditoría anual</strong></p>
+                </div>
+                
+                <div class="certification-card">
+                    <div class="certification-icon">🔒</div>
+                    <h3>ISO 27001</h3>
+                    <p>Gestión de seguridad de la información</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Políticas de seguridad</li>
+                        <li>✅ Gestión de riesgos</li>
+                        <li>✅ Controles de acceso</li>
+                        <li>✅ Monitoreo continuo</li>
+                        <li>✅ Mejora continua</li>
+                    </ul>
+                    <p><strong>Certificación internacional</strong></p>
+                </div>
+                
+                <div class="certification-card">
+                    <div class="certification-icon">🌍</div>
+                    <h3>GDPR</h3>
+                    <p>Regulación General de Protección de Datos</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Consentimiento explícito</li>
+                        <li>✅ Derecho al olvido</li>
+                        <li>✅ Portabilidad de datos</li>
+                        <li>✅ Privacidad por diseño</li>
+                        <li>✅ Evaluación de impacto</li>
+                    </ul>
+                    <p><strong>Cumplimiento completo</strong></p>
+                </div>
+                
+                <div class="certification-card">
+                    <div class="certification-icon">🇺🇸</div>
+                    <h3>CCPA</h3>
+                    <p>Ley de Privacidad del Consumidor de California</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Derecho a saber</li>
+                        <li>✅ Derecho a eliminar</li>
+                        <li>✅ Derecho a optar</li>
+                        <li>✅ No discriminación</li>
+                        <li>✅ Transparencia</li>
+                    </ul>
+                    <p><strong>Cumplimiento estatal</strong></p>
+                </div>
+                
+                <div class="certification-card">
+                    <div class="certification-icon">☁️</div>
+                    <h3>HIPAA</h3>
+                    <p>Ley de Portabilidad y Responsabilidad del Seguro de Salud</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Protección de datos médicos</li>
+                        <li>✅ Controles administrativos</li>
+                        <li>✅ Controles físicos</li>
+                        <li>✅ Controles técnicos</li>
+                        <li>✅ Auditoría de accesos</li>
+                    </ul>
+                    <p><strong>Para sector salud</strong></p>
+                </div>
+                
+                <div class="certification-card">
+                    <div class="certification-icon">🏦</div>
+                    <h3>PCI DSS</h3>
+                    <p>Estándar de Seguridad de Datos de la Industria de Tarjetas de Pago</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Protección de datos de tarjetas</li>
+                        <li>✅ Redes seguras</li>
+                        <li>✅ Monitoreo de vulnerabilidades</li>
+                        <li>✅ Controles de acceso</li>
+                        <li>✅ Políticas de seguridad</li>
+                    </ul>
+                    <p><strong>Para pagos</strong></p>
+                </div>
+            </div>
+        </section>
+
+        <div class="social-proof">
+            <h3 style="margin: 0 0 15px 0;">👥 MÁS DE 10,000 EMPRESAS CONFIABLES</h3>
+            <p style="margin: 0; font-size: 1.2em;">Desde startups hasta Fortune 500, todos confían en nuestra seguridad para proteger sus datos más sensibles</p>
+        </div>
+
+        <section class="compliance-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">📋 Compliance y Regulaciones</h2>
+            
+            <div class="compliance-grid">
+                <div class="compliance-card">
+                    <h3>🌍 Regulaciones Internacionales</h3>
+                    <ul>
+                        <li>✅ GDPR (Europa)</li>
+                        <li>✅ CCPA (California)</li>
+                        <li>✅ PIPEDA (Canadá)</li>
+                        <li>✅ LGPD (Brasil)</li>
+                        <li>✅ PDPA (Singapur)</li>
+                        <li>✅ Privacy Act (Australia)</li>
+                    </ul>
+                </div>
+                
+                <div class="compliance-card">
+                    <h3>🏥 Sectores Regulados</h3>
+                    <ul>
+                        <li>✅ HIPAA (Salud)</li>
+                        <li>✅ PCI DSS (Financiero)</li>
+                        <li>✅ SOX (Público)</li>
+                        <li>✅ FERPA (Educación)</li>
+                        <li>✅ GLBA (Seguros)</li>
+                        <li>✅ COPPA (Menores)</li>
+                    </ul>
+                </div>
+                
+                <div class="compliance-card">
+                    <h3>🔒 Controles de Seguridad</h3>
+                    <ul>
+                        <li>✅ Encriptación AES-256</li>
+                        <li>✅ Autenticación multifactor</li>
+                        <li>✅ Monitoreo 24/7</li>
+                        <li>✅ Backup automático</li>
+                        <li>✅ Auditoría continua</li>
+                        <li>✅ Respuesta a incidentes</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="stats-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">📊 Estadísticas de Seguridad</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">0</div>
+                    <h3>Brechas</h3>
+                    <p>De seguridad desde 2020</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">99.99%</div>
+                    <h3>Uptime</h3>
+                    <p>Disponibilidad garantizada</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">6</div>
+                    <h3>Certificaciones</h3>
+                    <p>Internacionales</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">24/7</div>
+                    <h3>Monitoreo</h3>
+                    <p>De seguridad</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">AES-256</div>
+                    <h3>Encriptación</h3>
+                    <p>De grado militar</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <h3>Compliance</h3>
+                    <p>Con regulaciones</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="premium">
+            <h3 style="margin: 0 0 15px 0;">👑 SEGURIDAD PREMIUM</h3>
+            <p style="margin: 0; font-size: 1.2em;">Auditoría de seguridad personalizada + compliance específico + soporte dedicado por solo $297/mes</p>
+        </div>
+
+        <div class="curiosity">
+            <h3 style="margin: 0 0 15px 0;">🔍 ¿POR QUÉ NUESTRA SEGURIDAD ES DIFERENTE?</h3>
+            <p style="margin: 0; font-size: 1.2em;">Descubre por qué más de 10,000 empresas confían en nosotros para proteger sus datos más sensibles</p>
+        </div>
+
+        <div class="empathy">
+            <h3 style="margin: 0 0 15px 0;">💝 Entendemos tus Preocupaciones</h3>
+            <p style="margin: 0; font-size: 1.2em;">Sabemos que la seguridad es crucial para tu negocio. Por eso implementamos las mejores prácticas y certificaciones del mundo</p>
+        </div>
+    </div>
+
+    <footer style="background: #2c3e50; color: white; padding: 40px 0; text-align: center;">
+        <div class="container">
+            <p>&copy; 2024 IA Marketing Solutions. Todos los derechos reservados.</p>
+            <p>Seguridad certificada desde 2020</p>
+        </div>
+    </footer>
+
+    <script>
+        // Track security interactions
+        document.querySelectorAll('.security-card .cta-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const security = this.closest('.security-card').querySelector('.security-title').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'security_click', {
+                        'event_category': 'AI Security',
+                        'event_label': security,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track certification card clicks
+        document.querySelectorAll('.certification-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const certification = this.querySelector('h3').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'certification_click', {
+                        'event_category': 'AI Security',
+                        'event_label': certification,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track compliance interactions
+        document.querySelectorAll('.compliance-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const compliance = this.querySelector('h3').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'compliance_click', {
+                        'event_category': 'AI Security',
+                        'event_label': compliance,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Animate security cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.security-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+        
+        // Animate stat numbers
+        const statObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumber = entry.target.querySelector('.stat-number');
+                    const finalValue = statNumber.textContent;
+                    const isPlus = finalValue.includes('+');
+                    const isPercentage = finalValue.includes('%');
+                    const isSlash = finalValue.includes('/');
+                    const isAES = finalValue.includes('AES');
+                    const numericValue = parseFloat(finalValue.replace(/[^0-9.]/g, ''));
+                    
+                    let currentValue = 0;
+                    const increment = numericValue / 30;
+                    
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= numericValue) {
+                            currentValue = numericValue;
+                            clearInterval(timer);
+                        }
+                        
+                        if (isPlus) {
+                            statNumber.textContent = Math.round(currentValue).toLocaleString() + '+';
+                        } else if (isPercentage) {
+                            statNumber.textContent = Math.round(currentValue) + '%';
+                        } else if (isSlash) {
+                            statNumber.textContent = Math.round(currentValue) + '/7';
+                        } else if (isAES) {
+                            statNumber.textContent = 'AES-256';
+                        } else {
+                            statNumber.textContent = Math.round(currentValue).toLocaleString();
+                        }
+                    }, 30);
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.stat-card').forEach(card => {
+            statObserver.observe(card);
+        });
+    </script>
+</body>
+</html>
+

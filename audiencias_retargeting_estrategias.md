@@ -450,3 +450,5 @@ Implementar nuevas estrategias de retargeting
 - [ ] Reportar resultados y insights
 
 
+
+

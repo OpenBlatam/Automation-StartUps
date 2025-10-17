@@ -1,0 +1,97 @@
+# AI COURSE MONTE CARLO FORMULAS - EXCEL TEMPLATE
+# Monte Carlo Simulation Formulas and Advanced Statistical Analysis
+
+## MONTE CARLO SIMULATION FORMULAS
+Simulation_Run,Base_Revenue,Random_Factor,Revenue_Scenario,Probability,Confidence_Interval_95%,Confidence_Interval_99%,Value_at_Risk,Formula_Used
+1,=1000000,=RAND(),=B2*C2,=NORM.DIST(D2,1000000,200000,TRUE),=NORM.INV(0.025,1000000,200000),=NORM.INV(0.005,1000000,200000),=NORM.INV(0.05,1000000,200000),=B2*C2
+2,=1000000,=RAND(),=B3*C3,=NORM.DIST(D3,1000000,200000,TRUE),=NORM.INV(0.025,1000000,200000),=NORM.INV(0.005,1000000,200000),=NORM.INV(0.05,1000000,200000),=B3*C3
+3,=1000000,=RAND(),=B4*C4,=NORM.DIST(D4,1000000,200000,TRUE),=NORM.INV(0.025,1000000,200000),=NORM.INV(0.005,1000000,200000),=NORM.INV(0.05,1000000,200000),=B4*C4
+4,=1000000,=RAND(),=B5*C5,=NORM.DIST(D5,1000000,200000,TRUE),=NORM.INV(0.025,1000000,200000),=NORM.INV(0.005,1000000,200000),=NORM.INV(0.05,1000000,200000),=B5*C5
+5,=1000000,=RAND(),=B6*C6,=NORM.DIST(D6,1000000,200000,TRUE),=NORM.INV(0.025,1000000,200000),=NORM.INV(0.005,1000000,200000),=NORM.INV(0.05,1000000,200000),=B6*C6
+6,=1000000,=RAND(),=B7*C7,=NORM.DIST(D7,1000000,200000,TRUE),=NORM.INV(0.025,1000000,200000),=NORM.INV(0.005,1000000,200000),=NORM.INV(0.05,1000000,200000),=B7*C7
+7,=1000000,=RAND(),=B8*C8,=NORM.DIST(D8,1000000,200000,TRUE),=NORM.INV(0.025,1000000,200000),=NORM.INV(0.005,1000000,200000),=NORM.INV(0.05,1000000,200000),=B8*C8
+8,=1000000,=RAND(),=B9*C9,=NORM.DIST(D9,1000000,200000,TRUE),=NORM.INV(0.025,1000000,200000),=NORM.INV(0.005,1000000,200000),=NORM.INV(0.05,1000000,200000),=B9*C9
+9,=1000000,=RAND(),=B10*C10,=NORM.DIST(D10,1000000,200000,TRUE),=NORM.INV(0.025,1000000,200000),=NORM.INV(0.005,1000000,200000),=NORM.INV(0.05,1000000,200000),=B10*C10
+10,=1000000,=RAND(),=B11*C11,=NORM.DIST(D11,1000000,200000,TRUE),=NORM.INV(0.025,1000000,200000),=NORM.INV(0.005,1000000,200000),=NORM.INV(0.05,1000000,200000),=B11*C11
+
+## MONTE CARLO STATISTICS FORMULAS
+Statistic,Formula,Value,Interpretation,Formula_Used
+Mean,=AVERAGE(D2:D11),=AVERAGE(D2:D11),=IF(B2>=950000,"Above_Expected",IF(B2>=900000,"Expected","Below_Expected")),=AVERAGE(D2:D11)
+Standard_Deviation,=STDEV(D2:D11),=STDEV(D2:D11),=IF(B3<=200000,"Low_Volatility",IF(B3<=300000,"Medium_Volatility","High_Volatility")),=STDEV(D2:D11)
+Minimum,=MIN(D2:D11),=MIN(D2:D11),=IF(B4>=800000,"Good_Minimum",IF(B4>=600000,"Acceptable","Poor")),=MIN(D2:D11)
+Maximum,=MAX(D2:D11),=MAX(D2:D11),=IF(B5<=1200000,"Reasonable_Maximum",IF(B5<=1500000,"High_Maximum","Very_High")),=MAX(D2:D11)
+Percentile_5,=PERCENTILE(D2:D11,0.05),=PERCENTILE(D2:D11,0.05),=IF(B6>=700000,"Good_Tail",IF(B6>=500000,"Acceptable","Poor")),=PERCENTILE(D2:D11,0.05)
+Percentile_95,=PERCENTILE(D2:D11,0.95),=PERCENTILE(D2:D11,0.95),=IF(B7<=1300000,"Reasonable_Tail",IF(B7<=1500000,"High_Tail","Very_High")),=PERCENTILE(D2:D11,0.95)
+Skewness,=SKEW(D2:D11),=SKEW(D2:D11),=IF(ABS(B8)<=0.5,"Normal",IF(ABS(B8)<=1,"Moderate_Skew","High_Skew")),=SKEW(D2:D11)
+Kurtosis,=KURT(D2:D11),=KURT(D2:D11),=IF(ABS(B9)<=0.5,"Normal",IF(ABS(B9)<=1,"Moderate_Kurtosis","High_Kurtosis")),=KURT(D2:D11)
+
+## MONTE CARLO SCENARIO ANALYSIS FORMULAS
+Scenario,Probability,Revenue_Multiplier,Profit_Multiplier,Revenue_Scenario,Profit_Scenario,Expected_Value,Formula_Used
+Best_Case,=5%,=1.5,=1.5,=1000000*C2,=500000*D2,=B2*E2,=1000000*C2
+Optimistic,=15%,=1.2,=1.2,=1000000*C3,=500000*D3,=B3*E3,=1000000*C3
+Base_Case,=50%,=1.0,=1.0,=1000000*C4,=500000*D4,=B4*E4,=1000000*C4
+Pessimistic,=25%,=0.8,=0.8,=1000000*C5,=500000*D5,=B5*E5,=1000000*C5
+Worst_Case,=5%,=0.6,=0.6,=1000000*C6,=500000*D6,=B6*E6,=1000000*C6
+
+## MONTE CARLO CORRELATION ANALYSIS FORMULAS
+Variable_1,Variable_2,Correlation,Strength,Interpretation,Formula_Used
+Revenue,Marketing_Spend,=CORREL(D2:D11,F2:F11),=IF(ABS(C2)>0.7,"Strong",IF(ABS(C2)>0.5,"Medium","Weak")),=IF(C2>0,"Positive","Negative"),=CORREL(D2:D11,F2:F11)
+Revenue,Customer_Count,=CORREL(D2:D11,G2:G11),=IF(ABS(C3)>0.7,"Strong",IF(ABS(C3)>0.5,"Medium","Weak")),=IF(C3>0,"Positive","Negative"),=CORREL(D2:D11,G2:G11)
+Revenue,Churn_Rate,=CORREL(D2:D11,H2:H11),=IF(ABS(C4)>0.7,"Strong",IF(ABS(C4)>0.5,"Medium","Weak")),=IF(C4>0,"Positive","Negative"),=CORREL(D2:D11,H2:H11)
+Marketing_Spend,Customer_Count,=CORREL(F2:F11,G2:G11),=IF(ABS(C5)>0.7,"Strong",IF(ABS(C5)>0.5,"Medium","Weak")),=IF(C5>0,"Positive","Negative"),=CORREL(F2:F11,G2:G11)
+Customer_Count,Churn_Rate,=CORREL(G2:G11,H2:H11),=IF(ABS(C6)>0.7,"Strong",IF(ABS(C6)>0.5,"Medium","Weak")),=IF(C6>0,"Positive","Negative"),=CORREL(G2:G11,H2:H11)
+
+## MONTE CARLO RISK METRICS FORMULAS
+Risk_Metric,Formula,Value,Risk_Level,Interpretation,Formula_Used
+Value_at_Risk_95%,=PERCENTILE(D2:D11,0.05),=PERCENTILE(D2:D11,0.05),=IF(B2>=800000,"Low",IF(B2>=600000,"Medium","High")),=95%_confidence_loss,=PERCENTILE(D2:D11,0.05)
+Value_at_Risk_99%,=PERCENTILE(D2:D11,0.01),=PERCENTILE(D2:D11,0.01),=IF(B3>=700000,"Low",IF(B3>=500000,"Medium","High")),=99%_confidence_loss,=PERCENTILE(D2:D11,0.01)
+Expected_Shortfall,=AVERAGE(IF(D2:D11<=B2,D2:D11)),=AVERAGE(IF(D2:D11<=B2,D2:D11)),=IF(B4>=750000,"Low",IF(B4>=550000,"Medium","High")),=Average_loss_beyond_VaR,=AVERAGE(IF(D2:D11<=B2,D2:D11))
+Maximum_Drawdown,=MAX(D2:D11)-MIN(D2:D11),=MAX(D2:D11)-MIN(D2:D11),=IF(B5<=400000,"Low",IF(B5<=600000,"Medium","High")),=Peak_to_trough_loss,=MAX(D2:D11)-MIN(D2:D11)
+Sharpe_Ratio,=(AVERAGE(D2:D11)-1000000)/STDEV(D2:D11),=(AVERAGE(D2:D11)-1000000)/STDEV(D2:D11),=IF(B6>=1,"Excellent",IF(B6>=0.5,"Good",IF(B6>=0,"Fair","Poor"))),=Risk_adjusted_return,=(AVERAGE(D2:D11)-1000000)/STDEV(D2:D11)
+
+## MONTE CARLO OPTIMIZATION FORMULAS
+Variable,Current_Value,Optimal_Value,Improvement,Revenue_Impact,Profit_Impact,ROI,Priority,Formula_Used
+Price,=497,=597,=(B2-A2)/A2,=C2*1000000,=C2*800000,=D2/E2,=IF(F2>=3,"High",IF(F2>=2,"Medium","Low")),=(B2-A2)/A2
+Volume,=1000,=1200,=(B3-A3)/A3,=C3*1000000,=C3*800000,=D3/E3,=IF(F3>=3,"High",IF(F3>=2,"Medium","Low")),=(B3-A3)/A3
+Conversion_Rate,=15%,=18%,=(B4-A4)/A4,=C4*1000000,=C4*800000,=D4/E4,=IF(F4>=3,"High",IF(F4>=2,"Medium","Low")),=(B4-A4)/A4
+Churn_Rate,=3%,=2%,=(A5-B5)/A5,=C5*1000000,=C5*800000,=D5/E5,=IF(F5>=3,"High",IF(F5>=2,"Medium","Low")),=(A5-B5)/A5
+CAC,=12.50,=10.00,=(A6-B6)/A6,=C6*1000000,=C6*800000,=D6/E6,=IF(F6>=3,"High",IF(F6>=2,"Medium","Low")),=(A6-B6)/A6
+LTV,=3200,=4000,=(B7-A7)/A7,=C7*1000000,=C7*800000,=D7/E7,=IF(F7>=3,"High",IF(F7>=2,"Medium","Low")),=(B7-A7)/A7
+
+## MONTE CARLO SENSITIVITY ANALYSIS FORMULAS
+Variable,Base_Value,Low_Value,High_Value,Revenue_Impact,Profit_Impact,Elasticity,Volatility,Formula_Used
+Price,=497,=397,=597,=(D2-C2)/C2,=(D2-C2)/C2*0.8,=E2/F2,=STDEV(C2:D2)/AVERAGE(C2:D2),=(D2-C2)/C2
+Volume,=1000,=800,=1200,=(D3-C3)/C3,=(D3-C3)/C3*0.9,=E3/F3,=STDEV(C3:D3)/AVERAGE(C3:D3),=(D3-C3)/C3
+Conversion_Rate,=15%,=12%,=18%,=(D4-C4)/C4,=(D4-C4)/C4*0.7,=E4/F4,=STDEV(C4:D4)/AVERAGE(C4:D4),=(D4-C4)/C4
+Churn_Rate,=3%,=2%,=5%,=(D5-C5)/C5,=(D5-C5)/C5*0.6,=E5/F5,=STDEV(C5:D5)/AVERAGE(C5:D5),=(D5-C5)/C5
+CAC,=12.50,=10.00,=15.00,=(D6-C6)/C6,=(D6-C6)/C6*0.5,=E6/F6,=STDEV(C6:D6)/AVERAGE(C6:D6),=(D6-C6)/C6
+LTV,=3200,=2800,=3600,=(D7-C7)/C7,=(D7-C7)/C7*0.8,=E7/F7,=STDEV(C7:D7)/AVERAGE(C7:D7),=(D7-C7)/C7
+
+## MONTE CARLO CONFIDENCE INTERVALS FORMULAS
+Confidence_Level,Lower_Bound,Upper_Bound,Interval_Width,Interpretation,Formula_Used
+90%,=PERCENTILE(D2:D11,0.05),=PERCENTILE(D2:D11,0.95),=B2-A2,=90%_of_values_fall_within_range,=PERCENTILE(D2:D11,0.95)-PERCENTILE(D2:D11,0.05)
+95%,=PERCENTILE(D2:D11,0.025),=PERCENTILE(D2:D11,0.975),=B3-A3,=95%_of_values_fall_within_range,=PERCENTILE(D2:D11,0.975)-PERCENTILE(D2:D11,0.025)
+99%,=PERCENTILE(D2:D11,0.005),=PERCENTILE(D2:D11,0.995),=B4-A4,=99%_of_values_fall_within_range,=PERCENTILE(D2:D11,0.995)-PERCENTILE(D2:D11,0.005)
+
+## MONTE CARLO DISTRIBUTION ANALYSIS FORMULAS
+Distribution_Type,Parameters,Goodness_of_Fit,KS_Statistic,P_Value,Accept_Hypothesis,Formula_Used
+Normal,Mean=1000000,StdDev=200000,=IF(D2<0.05,"Good","Poor"),=KS_TEST(D2:D11),=NORM.DIST(D2,0,1,TRUE),=IF(F2>0.05,"Yes","No"),=KS_TEST(D2:D11)
+Lognormal,Mean=13.8,StdDev=0.2,=IF(D3<0.05,"Good","Poor"),=KS_TEST(LOG(D2:D11)),=NORM.DIST(D3,0,1,TRUE),=IF(F3>0.05,"Yes","No"),=KS_TEST(LOG(D2:D11))
+Exponential,Rate=0.000001,=IF(D4<0.05,"Good","Poor"),=KS_TEST(EXP(D2:D11)),=NORM.DIST(D4,0,1,TRUE),=IF(F4>0.05,"Yes","No"),=KS_TEST(EXP(D2:D11))
+
+## MONTE CARLO PORTFOLIO OPTIMIZATION FORMULAS
+Asset,Weight,Expected_Return,Volatility,Correlation,Portfolio_Return,Portfolio_Volatility,Sharpe_Ratio,Formula_Used
+AI_Course_Business,=85%,=25%,=25%,=1.0,=SUMPRODUCT(B2:B4,C2:C4),=SQRT(SUMPRODUCT(B2:B4^2,D2:D4^2)),=(E2-0.02)/F2,=SUMPRODUCT(B2:B4,C2:C4)
+Cash_Reserves,=10%,=2%,=1%,=0.0,=SUMPRODUCT(B2:B4,C2:C4),=SQRT(SUMPRODUCT(B2:B4^2,D2:D4^2)),=(E2-0.02)/F2,=SUMPRODUCT(B2:B4,C2:C4)
+Bonds,=5%,=4%,=3%,=0.2,=SUMPRODUCT(B2:B4,C2:C4),=SQRT(SUMPRODUCT(B2:B4^2,D2:D4^2)),=(E2-0.02)/F2,=SUMPRODUCT(B2:B4,C2:C4)
+
+## MONTE CARLO STRESS TESTING FORMULAS
+Stress_Scenario,Probability,Revenue_Impact,Profit_Impact,Cash_Flow_Impact,Survival_Probability,Expected_Loss,Formula_Used
+Economic_Recession,=30%,=-40%,=-60%,=-50%,=85%,=500000,=B2*F2
+Market_Crash,=20%,=-60%,=-80%,=-70%,=70%,=800000,=B3*F3
+Technology_Disruption,=25%,=-30%,=-50%,=-40%,=80%,=600000,=B4*F4
+Regulatory_Changes,=15%,=-20%,=-30%,=-25%,=90%,=300000,=B5*F5
+Key_Personnel_Loss,=10%,=-15%,=-25%,=-20%,=95%,=200000,=B6*F6
+Competitive_Threat,=40%,=-25%,=-35%,=-30%,=85%,=400000,=B7*F7
+Supply_Chain_Disruption,=20%,=-10%,=-15%,=-20%,=90%,=150000,=B8*F8
+Cybersecurity_Breach,=15%,=-35%,=-45%,=-40%,=75%,=700000,=B9*F9

@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎓 Programas de Entrenamiento IA | IA Marketing Solutions</title>
+    <meta name="description" content="🔥 Programas de entrenamiento especializados en IA para marketing. Certificaciones oficiales, mentores expertos y proyectos reales. Domina la IA en 90 días.">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Tonos Emocionales Avanzados */
+        .excitement { background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; animation: excitement-pulse 2s infinite; text-align: center; }
+        @keyframes excitement-pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        
+        .trust { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .trust::before { content: "🛡️ "; font-size: 1.8em; }
+        
+        .success { background: linear-gradient(135deg, #28a745 0%, #198754 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .success::before { content: "🎉 "; font-size: 1.8em; }
+        
+        .premium { background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; position: relative; overflow: hidden; }
+        .premium::before { content: "👑 "; font-size: 1.8em; }
+        .premium::after { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent); animation: premium-shine 3s infinite; }
+        @keyframes premium-shine { 0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); } 100% { transform: translateX(100%) translateY(100%) rotate(45deg); } }
+        
+        .curiosity { background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .curiosity::before { content: "🔍 "; font-size: 1.8em; }
+        
+        .social-proof { background: linear-gradient(135deg, #007bff 0%, #6610f2 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .social-proof::before { content: "👥 "; font-size: 1.8em; }
+        
+        .authority { background: linear-gradient(135deg, #343a40 0%, #6c757d 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .authority::before { content: "🏆 "; font-size: 1.8em; }
+        
+        .empathy { background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .empathy::before { content: "💝 "; font-size: 1.8em; }
+        
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 0; text-align: center; }
+        .hero h1 { font-size: 3.5em; margin-bottom: 20px; font-weight: 700; }
+        .hero p { font-size: 1.3em; margin-bottom: 30px; opacity: 0.95; }
+        
+        .cta-button { background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; padding: 20px 40px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.3em; display: inline-block; margin: 20px 10px; transition: all 0.3s; box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3); }
+        .cta-button:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4); }
+        
+        .programs-section { background: white; padding: 60px 0; }
+        .programs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 40px; }
+        .program-card { background: #f8f9fa; padding: 30px; border-radius: 20px; border-left: 6px solid #667eea; transition: transform 0.3s; }
+        .program-card:hover { transform: translateY(-5px); }
+        .program-title { font-size: 1.4em; font-weight: bold; color: #2c3e50; margin-bottom: 15px; }
+        .program-stats { background: white; padding: 15px; border-radius: 10px; margin: 15px 0; }
+        .stat-item { display: flex; justify-content: space-between; margin: 8px 0; }
+        
+        .program-preview { background: white; border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin: 20px 0; }
+        .program-header { border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px; }
+        .program-module { background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #667eea; }
+        .module-number { background: #667eea; color: white; width: 25px; height: 25px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 10px; }
+        
+        .certifications-section { background: #f8f9fa; padding: 60px 0; }
+        .certifications-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px; }
+        .certification-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        .certification-icon { font-size: 2.5em; margin-bottom: 15px; }
+        
+        .mentors-section { background: #2c3e50; color: white; padding: 60px 0; }
+        .mentors-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 40px; }
+        .mentor-card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; text-align: center; }
+        .mentor-number { font-size: 2.5em; font-weight: bold; color: #ff6b6b; margin-bottom: 10px; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5em; }
+            .hero p { font-size: 1.1em; }
+            .programs-grid { grid-template-columns: 1fr; }
+            .certifications-grid { grid-template-columns: 1fr; }
+            .mentors-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>🎓 Programas de Entrenamiento IA</h1>
+            <p><strong>Certificaciones oficiales</strong> y mentores expertos para dominar la IA en marketing. Proyectos reales y resultados garantizados</p>
+            <a href="#programs" class="cta-button">🚀 Ver Programas</a>
+            <a href="#certifications" class="cta-button" style="background: transparent; border: 2px solid white;">🏆 Certificaciones</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="excitement">
+            <h2 style="margin: 0; font-size: 2.2em;">🎓 ¡DOMINA LA IA EN 90 DÍAS!</h2>
+            <p style="margin: 10px 0 0 0; font-size: 1.2em;">Programas especializados con certificaciones oficiales y mentores expertos</p>
+        </div>
+
+        <div class="success">
+            <h3 style="margin: 0 0 15px 0;">🎉 RESULTADOS COMPROBADOS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Más de 1,000 profesionales se han certificado con nosotros y aumentado su salario 150%</p>
+        </div>
+
+        <section class="programs-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">🎓 Programas de Entrenamiento</h2>
+            
+            <div class="programs-grid">
+                <div class="program-card">
+                    <div class="program-title">🚀 Fundamentos de IA en Marketing</div>
+                    <p>Programa introductorio para dominar los conceptos básicos de IA aplicada al marketing</p>
+                    <div class="program-stats">
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">30 días</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Inversión:</span>
+                            <span style="color: #28a745; font-weight: bold;">$997</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Certificación:</span>
+                            <span style="color: #28a745; font-weight: bold;">Sí</span>
+                        </div>
+                    </div>
+                    <div class="program-preview">
+                        <div class="program-header">
+                            <div class="program-title">Módulos del Programa</div>
+                        </div>
+                        <div class="program-module">
+                            <span class="module-number">1</span>
+                            <strong>Introducción a la IA:</strong> Conceptos básicos y aplicaciones en marketing
+                        </div>
+                        <div class="program-module">
+                            <span class="module-number">2</span>
+                            <strong>Herramientas de IA:</strong> ChatGPT, Midjourney, Jasper y más
+                        </div>
+                        <div class="program-module">
+                            <span class="module-number">3</span>
+                            <strong>Automatización:</strong> Workflows y procesos automatizados
+                        </div>
+                        <div class="program-module">
+                            <span class="module-number">4</span>
+                            <strong>Proyecto Final:</strong> Implementación práctica en tu negocio
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Inscribirse</a>
+                </div>
+                
+                <div class="program-card">
+                    <div class="program-title">⚙️ Automatización Avanzada</div>
+                    <p>Programa avanzado para crear sistemas de automatización complejos con IA</p>
+                    <div class="program-stats">
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">60 días</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Inversión:</span>
+                            <span style="color: #28a745; font-weight: bold;">$2,497</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Certificación:</span>
+                            <span style="color: #28a745; font-weight: bold;">Avanzada</span>
+                        </div>
+                    </div>
+                    <div class="program-preview">
+                        <div class="program-header">
+                            <div class="program-title">Módulos del Programa</div>
+                        </div>
+                        <div class="program-module">
+                            <span class="module-number">1</span>
+                            <strong>Arquitectura de Sistemas:</strong> Diseño de sistemas de automatización
+                        </div>
+                        <div class="program-module">
+                            <span class="module-number">2</span>
+                            <strong>Integración de APIs:</strong> Conexión de múltiples herramientas
+                        </div>
+                        <div class="program-module">
+                            <span class="module-number">3</span>
+                            <strong>Machine Learning:</strong> Modelos predictivos y personalización
+                        </div>
+                        <div class="program-module">
+                            <span class="module-number">4</span>
+                            <strong>Optimización:</strong> Mejora continua de sistemas
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Inscribirse</a>
+                </div>
+                
+                <div class="program-card">
+                    <div class="program-title">📊 Análisis de Datos con IA</div>
+                    <p>Programa especializado en análisis de datos y métricas usando inteligencia artificial</p>
+                    <div class="program-stats">
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">45 días</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Inversión:</span>
+                            <span style="color: #28a745; font-weight: bold;">$1,797</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Certificación:</span>
+                            <span style="color: #28a745; font-weight: bold;">Especializada</span>
+                        </div>
+                    </div>
+                    <div class="program-preview">
+                        <div class="program-header">
+                            <div class="program-title">Módulos del Programa</div>
+                        </div>
+                        <div class="program-module">
+                            <span class="module-number">1</span>
+                            <strong>Recolección de Datos:</strong> APIs, web scraping y fuentes de datos
+                        </div>
+                        <div class="program-module">
+                            <span class="module-number">2</span>
+                            <strong>Procesamiento:</strong> Limpieza y preparación de datos
+                        </div>
+                        <div class="program-module">
+                            <span class="module-number">3</span>
+                            <strong>Análisis Predictivo:</strong> Modelos de machine learning
+                        </div>
+                        <div class="program-module">
+                            <span class="module-number">4</span>
+                            <strong>Visualización:</strong> Dashboards y reportes automáticos
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Inscribirse</a>
+                </div>
+                
+                <div class="program-card">
+                    <div class="program-title">🎯 Optimización de Conversión</div>
+                    <p>Programa especializado en usar IA para optimizar conversiones y aumentar ROI</p>
+                    <div class="program-stats">
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">40 días</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Inversión:</span>
+                            <span style="color: #28a745; font-weight: bold;">$1,497</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Certificación:</span>
+                            <span style="color: #28a745; font-weight: bold;">Especializada</span>
+                        </div>
+                    </div>
+                    <div class="program-preview">
+                        <div class="program-header">
+                            <div class="program-title">Módulos del Programa</div>
+                        </div>
+                        <div class="program-module">
+                            <span class="module-number">1</span>
+                            <strong>Psicología del Consumidor:</strong> Comportamiento y toma de decisiones
+                        </div>
+                        <div class="program-module">
+                            <span class="module-number">2</span>
+                            <strong>A/B Testing:</strong> Pruebas automatizadas con IA
+                        </div>
+                        <div class="program-module">
+                            <span class="module-number">3</span>
+                            <strong>Personalización:</strong> Experiencias personalizadas
+                        </div>
+                        <div class="program-module">
+                            <span class="module-number">4</span>
+                            <strong>Optimización Continua:</strong> Mejora basada en datos
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Inscribirse</a>
+                </div>
+                
+                <div class="program-card">
+                    <div class="program-title">🤖 Chatbots y Conversación</div>
+                    <p>Programa especializado en crear chatbots inteligentes y sistemas de conversación</p>
+                    <div class="program-stats">
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">35 días</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Inversión:</span>
+                            <span style="color: #28a745; font-weight: bold;">$1,297</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Certificación:</span>
+                            <span style="color: #28a745; font-weight: bold;">Especializada</span>
+                        </div>
+                    </div>
+                    <div class="program-preview">
+                        <div class="program-header">
+                            <div class="program-title">Módulos del Programa</div>
+                        </div>
+                        <div class="program-module">
+                            <span class="module-number">1</span>
+                            <strong>NLP Básico:</strong> Procesamiento de lenguaje natural
+                        </div>
+                        <div class="program-module">
+                            <span class="module-number">2</span>
+                            <strong>Diseño de Conversaciones:</strong> Flujos y diálogos
+                        </div>
+                        <div class="program-module">
+                            <span class="module-number">3</span>
+                            <strong>Integración:</strong> APIs y sistemas existentes
+                        </div>
+                        <div class="program-module">
+                            <span class="module-number">4</span>
+                            <strong>Optimización:</strong> Mejora de respuestas y precisión
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Inscribirse</a>
+                </div>
+                
+                <div class="program-card">
+                    <div class="program-title">👑 Programa Master Completo</div>
+                    <p>Programa integral que incluye todos los módulos y certificación master</p>
+                    <div class="program-stats">
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">90 días</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Inversión:</span>
+                            <span style="color: #28a745; font-weight: bold;">$4,997</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Certificación:</span>
+                            <span style="color: #28a745; font-weight: bold;">Master</span>
+                        </div>
+                    </div>
+                    <div class="program-preview">
+                        <div class="program-header">
+                            <div class="program-title">Incluye TODO</div>
+                        </div>
+                        <div class="program-module">
+                            <span class="module-number">1</span>
+                            <strong>Todos los programas:</strong> Acceso completo a todos los módulos
+                        </div>
+                        <div class="program-module">
+                            <span class="module-number">2</span>
+                            <strong>Mentoría 1:1:</strong> Sesiones personalizadas con expertos
+                        </div>
+                        <div class="program-module">
+                            <span class="module-number">3</span>
+                            <strong>Proyectos reales:</strong> Implementación en empresas reales
+                        </div>
+                        <div class="program-module">
+                            <span class="module-number">4</span>
+                            <strong>Certificación Master:</strong> Certificado de experto en IA
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Inscribirse</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="authority">
+            <h3 style="margin: 0 0 15px 0;">🏆 LIDERAMOS EN ENTRENAMIENTO IA</h3>
+            <p style="margin: 0; font-size: 1.2em;">Más de 1,000 profesionales se han certificado con nosotros y aumentado su salario 150%</p>
+        </div>
+
+        <section class="certifications-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">🏆 Certificaciones Oficiales</h2>
+            
+            <div class="certifications-grid">
+                <div class="certification-card">
+                    <div class="certification-icon">🎓</div>
+                    <h3>Certificación Básica</h3>
+                    <p>Fundamentos de IA en Marketing</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 30 horas de contenido</li>
+                        <li>✅ 5 proyectos prácticos</li>
+                        <li>✅ Examen final</li>
+                        <li>✅ Certificado oficial</li>
+                    </ul>
+                </div>
+                
+                <div class="certification-card">
+                    <div class="certification-icon">⚙️</div>
+                    <h3>Certificación Avanzada</h3>
+                    <p>Automatización con IA</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 60 horas de contenido</li>
+                        <li>✅ 10 proyectos prácticos</li>
+                        <li>✅ Examen práctico</li>
+                        <li>✅ Certificado avanzado</li>
+                    </ul>
+                </div>
+                
+                <div class="certification-card">
+                    <div class="certification-icon">📊</div>
+                    <h3>Certificación Especializada</h3>
+                    <p>Análisis de Datos con IA</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 45 horas de contenido</li>
+                        <li>✅ 8 proyectos prácticos</li>
+                        <li>✅ Examen especializado</li>
+                        <li>✅ Certificado especializado</li>
+                    </ul>
+                </div>
+                
+                <div class="certification-card">
+                    <div class="certification-icon">🎯</div>
+                    <h3>Certificación en Conversión</h3>
+                    <p>Optimización con IA</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 40 horas de contenido</li>
+                        <li>✅ 6 proyectos prácticos</li>
+                        <li>✅ Examen de optimización</li>
+                        <li>✅ Certificado en conversión</li>
+                    </ul>
+                </div>
+                
+                <div class="certification-card">
+                    <div class="certification-icon">🤖</div>
+                    <h3>Certificación en Chatbots</h3>
+                    <p>Conversación con IA</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 35 horas de contenido</li>
+                        <li>✅ 7 proyectos prácticos</li>
+                        <li>✅ Examen de chatbots</li>
+                        <li>✅ Certificado en chatbots</li>
+                    </ul>
+                </div>
+                
+                <div class="certification-card">
+                    <div class="certification-icon">👑</div>
+                    <h3>Certificación Master</h3>
+                    <p>Experto en IA para Marketing</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 200+ horas de contenido</li>
+                        <li>✅ 30+ proyectos prácticos</li>
+                        <li>✅ Examen master</li>
+                        <li>✅ Certificado master</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="social-proof">
+            <h3 style="margin: 0 0 15px 0;">👥 MÁS DE 1,000 PROFESIONALES CERTIFICADOS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Desde marketers hasta CEOs, todos han dominado la IA con nuestros programas</p>
+        </div>
+
+        <section class="mentors-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">👥 Nuestros Mentores</h2>
+            
+            <div class="mentors-grid">
+                <div class="mentor-card">
+                    <div class="mentor-number">15+</div>
+                    <h3>Mentores Expertos</h3>
+                    <p>Especialistas en IA y marketing</p>
+                </div>
+                
+                <div class="mentor-card">
+                    <div class="mentor-number">10+</div>
+                    <h3>Años de Experiencia</h3>
+                    <p>Promedio por mentor</p>
+                </div>
+                
+                <div class="mentor-card">
+                    <div class="mentor-number">PhD</div>
+                    <h3>Nivel Académico</h3>
+                    <p>En ciencias de la computación</p>
+                </div>
+                
+                <div class="mentor-card">
+                    <div class="mentor-number">FAANG</div>
+                    <h3>Experiencia</h3>
+                    <p>Ex-Google, Microsoft, Amazon</p>
+                </div>
+                
+                <div class="mentor-card">
+                    <div class="mentor-number">24/7</div>
+                    <h3>Disponibilidad</h3>
+                    <p>Soporte y mentoría</p>
+                </div>
+                
+                <div class="mentor-card">
+                    <div class="mentor-number">95%</div>
+                    <h3>Satisfacción</h3>
+                    <p>De estudiantes con mentores</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="premium">
+            <h3 style="margin: 0 0 15px 0;">👑 GARANTÍA DE RESULTADOS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Garantizamos que dominarás la IA en 90 días o te devolvemos tu dinero. Sin preguntas, sin condiciones</p>
+        </div>
+
+        <div class="curiosity">
+            <h3 style="margin: 0 0 15px 0;">🔍 ¿POR QUÉ NUESTROS PROGRAMAS SON DIFERENTES?</h3>
+            <p style="margin: 0; font-size: 1.2em;">Descubre las ventajas únicas que nos hacen líderes en entrenamiento de IA</p>
+        </div>
+
+        <div class="empathy">
+            <h3 style="margin: 0 0 15px 0;">💝 Entendemos tus Necesidades</h3>
+            <p style="margin: 0; font-size: 1.2em;">Sabemos que aprender IA puede ser abrumador. Por eso ofrecemos programas estructurados y soporte personalizado</p>
+        </div>
+    </div>
+
+    <footer style="background: #2c3e50; color: white; padding: 40px 0; text-align: center;">
+        <div class="container">
+            <p>&copy; 2024 IA Marketing Solutions. Todos los derechos reservados.</p>
+            <p>Entrenando profesionales en IA desde 2020</p>
+        </div>
+    </footer>
+
+    <script>
+        // Track program interactions
+        document.querySelectorAll('.program-card .cta-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const program = this.closest('.program-card').querySelector('.program-title').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'program_click', {
+                        'event_category': 'AI Training Programs',
+                        'event_label': program,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track certification card clicks
+        document.querySelectorAll('.certification-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const certification = this.querySelector('h3').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'certification_click', {
+                        'event_category': 'AI Training Programs',
+                        'event_label': certification,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track program preview interactions
+        document.querySelectorAll('.program-preview').forEach(preview => {
+            preview.addEventListener('click', function() {
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'program_preview_click', {
+                        'event_category': 'AI Training Programs',
+                        'event_label': 'Program Preview',
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Animate program cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.program-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+        
+        // Animate mentor numbers
+        const mentorObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const mentorNumber = entry.target.querySelector('.mentor-number');
+                    const finalValue = mentorNumber.textContent;
+                    const isPlus = finalValue.includes('+');
+                    const isPhD = finalValue.includes('PhD');
+                    const isFAANG = finalValue.includes('FAANG');
+                    const is24 = finalValue.includes('24/7');
+                    const isPercentage = finalValue.includes('%');
+                    const numericValue = parseFloat(finalValue.replace(/[^0-9.]/g, ''));
+                    
+                    let currentValue = 0;
+                    const increment = numericValue / 30;
+                    
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= numericValue) {
+                            currentValue = numericValue;
+                            clearInterval(timer);
+                        }
+                        
+                        if (isPlus) {
+                            mentorNumber.textContent = Math.round(currentValue) + '+';
+                        } else if (isPhD) {
+                            mentorNumber.textContent = 'PhD';
+                        } else if (isFAANG) {
+                            mentorNumber.textContent = 'FAANG';
+                        } else if (is24) {
+                            mentorNumber.textContent = '24/7';
+                        } else if (isPercentage) {
+                            mentorNumber.textContent = Math.round(currentValue) + '%';
+                        } else {
+                            mentorNumber.textContent = Math.round(currentValue);
+                        }
+                    }, 30);
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.mentor-card').forEach(card => {
+            mentorObserver.observe(card);
+        });
+    </script>
+</body>
+</html>
+
+
+

@@ -592,3 +592,4 @@ Domingo: Stories de última oportunidad en Instagram
 - [ ] Analizar audiencia y engagement
 - [ ] Optimizar estrategia de contenido
 - [ ] Reportar resultados a stakeholders
+

@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Calculadora Avanzada Anti-Dependencia VC - Startups SaaS IA LATAM</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            padding: 30px;
+        }
+
+        .input-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid #e9ecef;
+        }
+
+        .input-section h2 {
+            color: #495057;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .results-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid #e9ecef;
+        }
+
+        .results-section h2 {
+            color: #495057;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-left: 4px solid #667eea;
+            text-align: center;
+        }
+
+        .metric-title {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+
+        .metric-value {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .metric-description {
+            font-size: 0.8em;
+            color: #6c757d;
+        }
+
+        .chart-container {
+            margin-top: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .recommendations {
+            background: #e8f5e8;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid #28a745;
+        }
+
+        .recommendations h3 {
+            color: #155724;
+            margin-bottom: 15px;
+        }
+
+        .recommendations ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .recommendations li {
+            padding: 8px 0;
+            border-bottom: 1px solid #c3e6cb;
+        }
+
+        .recommendations li:last-child {
+            border-bottom: none;
+        }
+
+        .recommendations li::before {
+            content: "✓ ";
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            border-color: #ffc107;
+            color: #856404;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .alert-danger {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Calculadora Avanzada Anti-Dependencia VC</h1>
+            <p>Herramienta integral para optimizar tu estrategia de financiamiento</p>
+        </div>
+
+        <div class="main-content">
+            <div class="input-section">
+                <h2>📊 Datos de tu Startup</h2>
+                
+                <div class="form-group">
+                    <label for="revenue">Revenue Anual (ARR) - USD</label>
+                    <input type="number" id="revenue" value="1000000" min="0" step="10000">
+                </div>
+
+                <div class="form-group">
+                    <label for="growthRate">Tasa de Crecimiento Anual (%)</label>
+                    <input type="number" id="growthRate" value="50" min="0" max="500" step="5">
+                </div>
+
+                <div class="form-group">
+                    <label for="grossMargin">Gross Margin (%)</label>
+                    <input type="number" id="grossMargin" value="80" min="0" max="100" step="5">
+                </div>
+
+                <div class="form-group">
+                    <label for="churnRate">Churn Rate Mensual (%)</label>
+                    <input type="number" id="churnRate" value="3" min="0" max="20" step="0.5">
+                </div>
+
+                <div class="form-group">
+                    <label for="cac">Customer Acquisition Cost (CAC) - USD</label>
+                    <input type="number" id="cac" value="500" min="0" step="50">
+                </div>
+
+                <div class="form-group">
+                    <label for="arpu">Average Revenue Per User (ARPU) - USD</label>
+                    <input type="number" id="arpu" value="100" min="0" step="10">
+                </div>
+
+                <div class="form-group">
+                    <label for="runway">Runway Actual (meses)</label>
+                    <input type="number" id="runway" value="12" min="0" step="1">
+                </div>
+
+                <div class="form-group">
+                    <label for="vcPercentage">Dependencia VC Actual (%)</label>
+                    <input type="number" id="vcPercentage" value="70" min="0" max="100" step="5">
+                </div>
+
+                <div class="form-group">
+                    <label for="country">País</label>
+                    <select id="country">
+                        <option value="mexico">México</option>
+                        <option value="brazil">Brasil</option>
+                        <option value="colombia">Colombia</option>
+                        <option value="argentina">Argentina</option>
+                        <option value="chile">Chile</option>
+                    </select>
+                </div>
+
+                <button class="btn" onclick="calculateAdvancedResults()">🚀 Calcular Estrategia Avanzada</button>
+            </div>
+
+            <div class="results-section">
+                <h2>📈 Resultados y Análisis Avanzado</h2>
+                
+                <div id="alerts-container"></div>
+                
+                <div class="metrics-grid" id="metrics-container">
+                    <div class="metric-card">
+                        <div class="metric-title">Lifetime Value (LTV)</div>
+                        <div class="metric-value" id="ltv">$0</div>
+                        <div class="metric-description">Valor de por vida del cliente</div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-title">LTV/CAC Ratio</div>
+                        <div class="metric-value" id="ltvCacRatio">0x</div>
+                        <div class="metric-description">Eficiencia de adquisición</div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-title">Payback Period</div>
+                        <div class="metric-value" id="paybackPeriod">0 meses</div>
+                        <div class="metric-description">Tiempo de recuperación</div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-title">Diversificación Score</div>
+                        <div class="metric-value" id="diversificationScore">0/100</div>
+                        <div class="metric-description">Score de diversificación</div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-title">Control Score</div>
+                        <div class="metric-value" id="controlScore">0/100</div>
+                        <div class="metric-description">Score de control</div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-title">Eficiencia Score</div>
+                        <div class="metric-value" id="efficiencyScore">0/100</div>
+                        <div class="metric-description">Score de eficiencia</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="revenueChart" width="400" height="200"></canvas>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="fundingMixChart" width="400" height="200"></canvas>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="scenarioChart" width="400" height="200"></canvas>
+                </div>
+
+                <div class="recommendations" id="recommendations">
+                    <h3>🎯 Recomendaciones Inteligentes</h3>
+                    <ul id="recommendationsList">
+                        <li>Calcula tu estrategia para ver recomendaciones personalizadas</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let revenueChart = null;
+        let fundingMixChart = null;
+        let scenarioChart = null;
+
+        function calculateAdvancedResults() {
+            // Obtener valores del formulario
+            const revenue = parseFloat(document.getElementById('revenue').value);
+            const growthRate = parseFloat(document.getElementById('growthRate').value) / 100;
+            const grossMargin = parseFloat(document.getElementById('grossMargin').value) / 100;
+            const churnRate = parseFloat(document.getElementById('churnRate').value) / 100;
+            const cac = parseFloat(document.getElementById('cac').value);
+            const arpu = parseFloat(document.getElementById('arpu').value);
+            const runway = parseFloat(document.getElementById('runway').value);
+            const vcPercentage = parseFloat(document.getElementById('vcPercentage').value);
+            const country = document.getElementById('country').value;
+
+            // Calcular métricas avanzadas
+            const ltv = calculateLTV(arpu, grossMargin, churnRate);
+            const ltvCacRatio = ltv / cac;
+            const paybackPeriod = cac / (arpu * grossMargin);
+            const revenue3Years = revenue * Math.pow(1 + growthRate, 3);
+            
+            // Calcular scores avanzados
+            const diversificationScore = calculateDiversificationScore(vcPercentage);
+            const controlScore = calculateControlScore(vcPercentage);
+            const efficiencyScore = calculateEfficiencyScore(ltvCacRatio, paybackPeriod, revenue, growthRate);
+
+            // Actualizar métricas en la UI
+            document.getElementById('ltv').textContent = '$' + ltv.toLocaleString();
+            document.getElementById('ltvCacRatio').textContent = ltvCacRatio.toFixed(1) + 'x';
+            document.getElementById('paybackPeriod').textContent = paybackPeriod.toFixed(1) + ' meses';
+            document.getElementById('diversificationScore').textContent = diversificationScore + '/100';
+            document.getElementById('controlScore').textContent = controlScore + '/100';
+            document.getElementById('efficiencyScore').textContent = efficiencyScore + '/100';
+
+            // Generar alertas
+            generateAlerts(vcPercentage, ltvCacRatio, paybackPeriod, runway, controlScore);
+
+            // Generar gráficos
+            generateRevenueChart(revenue, growthRate);
+            generateFundingMixChart(vcPercentage, diversificationScore);
+            generateScenarioChart(revenue, growthRate, vcPercentage);
+
+            // Generar recomendaciones
+            generateAdvancedRecommendations(revenue, ltvCacRatio, paybackPeriod, runway, vcPercentage, country, diversificationScore, controlScore, efficiencyScore);
+        }
+
+        function calculateLTV(arpu, grossMargin, churnRate) {
+            const monthlyChurnRate = churnRate;
+            const monthlyRevenue = arpu * grossMargin;
+            const ltv = monthlyRevenue / monthlyChurnRate;
+            return ltv;
+        }
+
+        function calculateDiversificationScore(vcPercentage) {
+            if (vcPercentage <= 20) return 100;
+            else if (vcPercentage <= 30) return 80;
+            else if (vcPercentage <= 50) return 60;
+            else if (vcPercentage <= 70) return 40;
+            else return 20;
+        }
+
+        function calculateControlScore(vcPercentage) {
+            const founderControl = 100 - vcPercentage;
+            if (founderControl >= 80) return 100;
+            else if (founderControl >= 60) return 80;
+            else if (founderControl >= 40) return 60;
+            else if (founderControl >= 20) return 40;
+            else return 20;
+        }
+
+        function calculateEfficiencyScore(ltvCacRatio, paybackPeriod, revenue, growthRate) {
+            let score = 0;
+            
+            // Score basado en LTV/CAC
+            if (ltvCacRatio >= 5) score += 40;
+            else if (ltvCacRatio >= 3) score += 30;
+            else if (ltvCacRatio >= 2) score += 20;
+            else score += 10;
+            
+            // Score basado en payback period
+            if (paybackPeriod <= 6) score += 30;
+            else if (paybackPeriod <= 12) score += 20;
+            else if (paybackPeriod <= 18) score += 10;
+            else score += 5;
+            
+            // Score basado en crecimiento
+            if (growthRate >= 0.5) score += 20;
+            else if (growthRate >= 0.3) score += 15;
+            else if (growthRate >= 0.1) score += 10;
+            else score += 5;
+            
+            // Score basado en revenue
+            if (revenue >= 1000000) score += 10;
+            else if (revenue >= 500000) score += 8;
+            else if (revenue >= 100000) score += 5;
+            else score += 2;
+            
+            return Math.min(score, 100);
+        }
+
+        function generateAlerts(vcPercentage, ltvCacRatio, paybackPeriod, runway, controlScore) {
+            const alertsContainer = document.getElementById('alerts-container');
+            alertsContainer.innerHTML = '';
+
+            // Alerta de dependencia VC
+            if (vcPercentage > 50) {
+                const alert = document.createElement('div');
+                alert.className = 'alert alert-danger';
+                alert.innerHTML = `<strong>⚠️ Dependencia VC Alta:</strong> ${vcPercentage.toFixed(1)}% de dependencia VC. Considera diversificar fuentes de financiamiento.`;
+                alertsContainer.appendChild(alert);
+            } else if (vcPercentage > 30) {
+                const alert = document.createElement('div');
+                alert.className = 'alert alert-warning';
+                alert.innerHTML = `<strong>⚠️ Dependencia VC Moderada:</strong> ${vcPercentage.toFixed(1)}% de dependencia VC. Monitorea y considera reducir.`;
+                alertsContainer.appendChild(alert);
+            } else {
+                const alert = document.createElement('div');
+                alert.className = 'alert alert-success';
+                alert.innerHTML = `<strong>✅ Dependencia VC Baja:</strong> ${vcPercentage.toFixed(1)}% de dependencia VC. Excelente diversificación.`;
+                alertsContainer.appendChild(alert);
+            }
+
+            // Alerta de LTV/CAC
+            if (ltvCacRatio < 2) {
+                const alert = document.createElement('div');
+                alert.className = 'alert alert-danger';
+                alert.innerHTML = `<strong>⚠️ LTV/CAC Bajo:</strong> ${ltvCacRatio.toFixed(1)}x es insuficiente. Optimiza tu estrategia de adquisición.`;
+                alertsContainer.appendChild(alert);
+            } else if (ltvCacRatio < 3) {
+                const alert = document.createElement('div');
+                alert.className = 'alert alert-warning';
+                alert.innerHTML = `<strong>⚠️ LTV/CAC Moderado:</strong> ${ltvCacRatio.toFixed(1)}x es aceptable pero puede mejorar.`;
+                alertsContainer.appendChild(alert);
+            }
+
+            // Alerta de runway
+            if (runway < 6) {
+                const alert = document.createElement('div');
+                alert.className = 'alert alert-danger';
+                alert.innerHTML = `<strong>⚠️ Runway Crítico:</strong> ${runway} meses de runway. Busca financiamiento inmediatamente.`;
+                alertsContainer.appendChild(alert);
+            } else if (runway < 12) {
+                const alert = document.createElement('div');
+                alert.className = 'alert alert-warning';
+                alert.innerHTML = `<strong>⚠️ Runway Limitado:</strong> ${runway} meses de runway. Considera diversificar fuentes de capital.`;
+                alertsContainer.appendChild(alert);
+            }
+        }
+
+        function generateRevenueChart(revenue, growthRate) {
+            const ctx = document.getElementById('revenueChart').getContext('2d');
+            
+            if (revenueChart) {
+                revenueChart.destroy();
+            }
+
+            const months = [];
+            const revenueData = [];
+            let currentRevenue = revenue;
+
+            for (let i = 0; i < 36; i++) {
+                months.push(`Mes ${i + 1}`);
+                revenueData.push(currentRevenue);
+                currentRevenue *= (1 + growthRate / 12);
+            }
+
+            revenueChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: months,
+                    datasets: [{
+                        label: 'Revenue Proyectado',
+                        data: revenueData,
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Proyección de Revenue (36 meses)'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function generateFundingMixChart(vcPercentage, diversificationScore) {
+            const ctx = document.getElementById('fundingMixChart').getContext('2d');
+            
+            if (fundingMixChart) {
+                fundingMixChart.destroy();
+            }
+
+            const rbfPercentage = Math.min(40, 100 - vcPercentage - 20);
+            const strategicPercentage = Math.min(25, 100 - vcPercentage - rbfPercentage - 15);
+            const grantPercentage = Math.min(15, 100 - vcPercentage - rbfPercentage - strategicPercentage);
+            const debtPercentage = 100 - vcPercentage - rbfPercentage - strategicPercentage - grantPercentage;
+
+            fundingMixChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['VC', 'Revenue-Based', 'Strategic', 'Grants', 'Debt'],
+                    datasets: [{
+                        data: [vcPercentage, rbfPercentage, strategicPercentage, grantPercentage, debtPercentage],
+                        backgroundColor: [
+                            '#dc3545',
+                            '#667eea',
+                            '#28a745',
+                            '#ffc107',
+                            '#6c757d'
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Mix de Financiamiento Recomendado'
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        function generateScenarioChart(revenue, growthRate, vcPercentage) {
+            const ctx = document.getElementById('scenarioChart').getContext('2d');
+            
+            if (scenarioChart) {
+                scenarioChart.destroy();
+            }
+
+            const scenarios = ['Conservador', 'Realista', 'Optimista'];
+            const vcDependency = [30, 20, 10];
+            const control = [70, 80, 90];
+            const efficiency = [60, 80, 95];
+
+            scenarioChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: scenarios,
+                    datasets: [{
+                        label: 'Dependencia VC (%)',
+                        data: vcDependency,
+                        backgroundColor: '#dc3545'
+                    }, {
+                        label: 'Control Fundadores (%)',
+                        data: control,
+                        backgroundColor: '#28a745'
+                    }, {
+                        label: 'Eficiencia Score',
+                        data: efficiency,
+                        backgroundColor: '#667eea'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Comparación de Escenarios Anti-VC'
+                        }
+                    }
+                }
+            });
+        }
+
+        function generateAdvancedRecommendations(revenue, ltvCacRatio, paybackPeriod, runway, vcPercentage, country, diversificationScore, controlScore, efficiencyScore) {
+            const recommendations = [];
+
+            // Recomendaciones basadas en diversificación
+            if (diversificationScore < 60) {
+                recommendations.push("Implementa Revenue-Based Financing para reducir dependencia VC");
+                recommendations.push("Busca partnerships estratégicos con corporaciones");
+                recommendations.push("Aplica a grants gubernamentales y programas de apoyo");
+            }
+
+            // Recomendaciones basadas en eficiencia
+            if (efficiencyScore < 70) {
+                recommendations.push("Optimiza tu estrategia de adquisición de clientes");
+                recommendations.push("Mejora la retención de clientes para aumentar LTV");
+                recommendations.push("Implementa automatización para reducir costos operacionales");
+            }
+
+            // Recomendaciones basadas en control
+            if (controlScore < 70) {
+                recommendations.push("Revisa la estructura de capital actual");
+                recommendations.push("Considera buyback de acciones de inversores");
+                recommendations.push("Negocia mejores términos con inversores existentes");
+            }
+
+            // Recomendaciones específicas por país
+            const countryGrants = {
+                'mexico': 'CONACYT, INADEM, PROSOFT',
+                'brazil': 'BNDES, FINEP, FAPESP',
+                'colombia': 'COLCIENCIAS, SENA, FONTIC',
+                'argentina': 'ANPCyT, FONTAR, FONSOFT',
+                'chile': 'CORFO, SERCOTEC, FONDEF'
+            };
+
+            recommendations.push(`Aplica a grants disponibles en ${country}: ${countryGrants[country]}`);
+
+            // Recomendaciones de Revenue-Based Financing
+            if (revenue >= 100000) {
+                recommendations.push("Eres elegible para Capchase, Pipe, y Wayflyer para Revenue-Based Financing");
+            } else if (revenue >= 50000) {
+                recommendations.push("Considera Clearco y plataformas regionales para Revenue-Based Financing");
+            }
+
+            // Actualizar UI
+            const recommendationsList = document.getElementById('recommendationsList');
+            recommendationsList.innerHTML = '';
+            recommendations.forEach(rec => {
+                const li = document.createElement('li');
+                li.textContent = rec;
+                recommendationsList.appendChild(li);
+            });
+        }
+
+        // Inicializar con valores por defecto
+        window.onload = function() {
+            calculateAdvancedResults();
+        };
+    </script>
+</body>
+</html>

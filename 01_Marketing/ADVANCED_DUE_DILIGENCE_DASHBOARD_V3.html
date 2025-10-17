@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Due Diligence Dashboard - Frontier AI Marketing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
+            min-height: 100vh;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #667eea, #764ba2, #f093fb, #f5576c, #4facfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .status-badges {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .status-badge {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .metric-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .metric-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            font-weight: 700;
+        }
+        
+        .metric-value {
+            font-size: 2.5em;
+            font-weight: 900;
+            margin: 15px 0;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea, #764ba2, #f093fb, #f5576c, #4facfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c, #4facfe);
+            border-radius: 10px;
+            transition: width 1s ease;
+            position: relative;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .category-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .category-title {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: #333;
+        }
+        
+        .category-score {
+            font-size: 1.8em;
+            font-weight: 900;
+            padding: 10px 20px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .category-items {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .category-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .category-item:last-child {
+            border-bottom: none;
+        }
+        
+        .item-name {
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .item-score {
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        .insights-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .insights-section h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            font-weight: 700;
+        }
+        
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .insight-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            transition: transform 0.3s ease;
+        }
+        
+        .insight-item:hover {
+            transform: translateX(5px);
+        }
+        
+        .insight-item.warning {
+            border-left-color: #ffc107;
+            background: #fff3cd;
+        }
+        
+        .insight-item.danger {
+            border-left-color: #dc3545;
+            background: #f8d7da;
+        }
+        
+        .insight-item.success {
+            border-left-color: #28a745;
+            background: #d4edda;
+        }
+        
+        .timeline-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .timeline-section h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            font-weight: 700;
+        }
+        
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .timeline-week {
+            font-weight: 700;
+            color: #667eea;
+            margin-right: 20px;
+            min-width: 100px;
+        }
+        
+        .timeline-content {
+            flex: 1;
+        }
+        
+        .timeline-progress {
+            width: 150px;
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .timeline-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #20c997, #17a2b8, #4facfe);
+            border-radius: 5px;
+            transition: width 1s ease;
+        }
+        
+        .controls-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn.export {
+            background: linear-gradient(135deg, #28a745, #20c997);
+        }
+        
+        .btn.refresh {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+        }
+        
+        .btn.ai {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-container {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn {
+                margin: 5px;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="header">
+            <h1>🚀 Advanced Due Diligence Dashboard</h1>
+            <p>Frontier AI Marketing Platform - Investment Readiness Assessment</p>
+            <div class="status-badges">
+                <div class="status-badge">📊 Real-time Analytics</div>
+                <div class="status-badge">🤖 AI-Powered Insights</div>
+                <div class="status-badge">📈 Progress Tracking</div>
+                <div class="status-badge">🎯 Investment Ready</div>
+            </div>
+        </div>
+        
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <h3>📊 Overall Score</h3>
+                <div class="metric-value" id="overall-score">0</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="overall-progress" style="width: 0%"></div>
+                </div>
+                <p style="text-align: center; margin-top: 10px;">Target: 850+ Points</p>
+            </div>
+            
+            <div class="metric-card">
+                <h3>🎯 Investment Readiness</h3>
+                <div class="metric-value" id="readiness-level">Not Ready</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="readiness-progress" style="width: 0%"></div>
+                </div>
+                <p style="text-align: center; margin-top: 10px;">Target: Investment Ready</p>
+            </div>
+            
+            <div class="metric-card">
+                <h3>📈 Success Probability</h3>
+                <div class="metric-value" id="success-probability">0%</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="success-progress" style="width: 0%"></div>
+                </div>
+                <p style="text-align: center; margin-top: 10px;">Target: 85%+</p>
+            </div>
+            
+            <div class="metric-card">
+                <h3>⚡ Completion Rate</h3>
+                <div class="metric-value" id="completion-rate">0%</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="completion-progress" style="width: 0%"></div>
+                </div>
+                <p style="text-align: center; margin-top: 10px;">Target: 90%+</p>
+            </div>
+        </div>
+        
+        <div class="categories-grid">
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-title">💰 Financial Analysis</div>
+                    <div class="category-score" id="financial-score">0/250</div>
+                </div>
+                <ul class="category-items">
+                    <li class="category-item">
+                        <span class="item-name">Revenue Projections</span>
+                        <span class="item-score" id="revenue-score">0/100</span>
+                    </li>
+                    <li class="category-item">
+                        <span class="item-name">Unit Economics</span>
+                        <span class="item-score" id="unit-economics-score">0/75</span>
+                    </li>
+                    <li class="category-item">
+                        <span class="item-name">Financial Controls</span>
+                        <span class="item-score" id="financial-controls-score">0/75</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-title">🏗️ Technology & Product</div>
+                    <div class="category-score" id="technology-score">0/200</div>
+                </div>
+                <ul class="category-items">
+                    <li class="category-item">
+                        <span class="item-name">Technical Architecture</span>
+                        <span class="item-score" id="architecture-score">0/80</span>
+                    </li>
+                    <li class="category-item">
+                        <span class="item-name">AI/ML Platform</span>
+                        <span class="item-score" id="ai-ml-score">0/60</span>
+                    </li>
+                    <li class="category-item">
+                        <span class="item-name">Security & Compliance</span>
+                        <span class="item-score" id="security-score">0/60</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-title">📊 Market & Competition</div>
+                    <div class="category-score" id="market-score">0/200</div>
+                </div>
+                <ul class="category-items">
+                    <li class="category-item">
+                        <span class="item-name">Market Analysis</span>
+                        <span class="item-score" id="market-analysis-score">0/100</span>
+                    </li>
+                    <li class="category-item">
+                        <span class="item-name">Competitive Intelligence</span>
+                        <span class="item-score" id="competitive-score">0/80</span>
+                    </li>
+                    <li class="category-item">
+                        <span class="item-name">Customer Validation</span>
+                        <span class="item-score" id="customer-validation-score">0/20</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-title">👥 Team & Leadership</div>
+                    <div class="category-score" id="team-score">0/150</div>
+                </div>
+                <ul class="category-items">
+                    <li class="category-item">
+                        <span class="item-name">Leadership Assessment</span>
+                        <span class="item-score" id="leadership-score">0/80</span>
+                    </li>
+                    <li class="category-item">
+                        <span class="item-name">Organizational Development</span>
+                        <span class="item-score" id="organizational-score">0/70</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-title">⚖️ Legal & Compliance</div>
+                    <div class="category-score" id="legal-score">0/100</div>
+                </div>
+                <ul class="category-items">
+                    <li class="category-item">
+                        <span class="item-name">Corporate Structure</span>
+                        <span class="item-score" id="corporate-score">0/50</span>
+                    </li>
+                    <li class="category-item">
+                        <span class="item-name">Regulatory Compliance</span>
+                        <span class="item-score" id="regulatory-score">0/50</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-title">🚀 Operations & Risk</div>
+                    <div class="category-score" id="operations-score">0/100</div>
+                </div>
+                <ul class="category-items">
+                    <li class="category-item">
+                        <span class="item-name">Business Operations</span>
+                        <span class="item-score" id="business-ops-score">0/50</span>
+                    </li>
+                    <li class="category-item">
+                        <span class="item-name">Risk Management</span>
+                        <span class="item-score" id="risk-mgmt-score">0/50</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="insights-section">
+            <h3>🤖 AI-Powered Insights</h3>
+            <div class="insights-grid" id="insights-list">
+                <div class="insight-item success">
+                    <strong>✅ Opportunity:</strong> Strong market positioning with clear competitive advantages
+                </div>
+                <div class="insight-item warning">
+                    <strong>⚠️ Attention:</strong> Team expansion needed for optimal performance
+                </div>
+                <div class="insight-item danger">
+                    <strong>🚨 Risk:</strong> Financial projections need validation from multiple sources
+                </div>
+                <div class="insight-item success">
+                    <strong>✅ Strength:</strong> Technology architecture shows excellent scalability potential
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline-section">
+            <h3>📅 Execution Timeline</h3>
+            <div class="timeline-item">
+                <div class="timeline-week">Week 1-2</div>
+                <div class="timeline-content">
+                    <strong>Phase 1: Foundation</strong><br>
+                    Complete financial modeling and technical architecture review
+                </div>
+                <div class="timeline-progress">
+                    <div class="timeline-fill" id="phase1-progress" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-week">Week 3-4</div>
+                <div class="timeline-content">
+                    <strong>Phase 2: Deep Dive</strong><br>
+                    Complete team assessment and legal compliance review
+                </div>
+                <div class="timeline-progress">
+                    <div class="timeline-fill" id="phase2-progress" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-week">Week 5-6</div>
+                <div class="timeline-content">
+                    <strong>Phase 3: Finalization</strong><br>
+                    Complete risk assessment and prepare investment materials
+                </div>
+                <div class="timeline-progress">
+                    <div class="timeline-fill" id="phase3-progress" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls-section">
+            <button class="btn refresh" onclick="refreshData()">🔄 Refresh Data</button>
+            <button class="btn export" onclick="exportReport()">📊 Export Report</button>
+            <button class="btn ai" onclick="runAIAnalysis()">🤖 Run AI Analysis</button>
+            <button class="btn" onclick="simulateProgress()">⚡ Simulate Progress</button>
+        </div>
+    </div>
+    
+    <script>
+        // Data structure
+        const dueDiligenceData = {
+            overallScore: 0,
+            readinessLevel: 'Not Ready',
+            successProbability: 0,
+            completionRate: 0,
+            categories: {
+                financial: { score: 0, maxScore: 250, items: { revenue: 0, unitEconomics: 0, financialControls: 0 } },
+                technology: { score: 0, maxScore: 200, items: { architecture: 0, aiMl: 0, security: 0 } },
+                market: { score: 0, maxScore: 200, items: { marketAnalysis: 0, competitive: 0, customerValidation: 0 } },
+                team: { score: 0, maxScore: 150, items: { leadership: 0, organizational: 0 } },
+                legal: { score: 0, maxScore: 100, items: { corporate: 0, regulatory: 0 } },
+                operations: { score: 0, maxScore: 100, items: { businessOps: 0, riskMgmt: 0 } }
+            },
+            insights: []
+        };
+        
+        function calculateOverallScore() {
+            let totalScore = 0;
+            let totalMaxScore = 0;
+            
+            Object.keys(dueDiligenceData.categories).forEach(category => {
+                const categoryData = dueDiligenceData.categories[category];
+                totalScore += categoryData.score;
+                totalMaxScore += categoryData.maxScore;
+            });
+            
+            dueDiligenceData.overallScore = totalScore;
+            dueDiligenceData.completionRate = (totalScore / totalMaxScore) * 100;
+            dueDiligenceData.successProbability = Math.min(100, (totalScore / totalMaxScore) * 100);
+            
+            // Determine readiness level
+            if (totalScore >= 850) {
+                dueDiligenceData.readinessLevel = 'Investment Ready';
+            } else if (totalScore >= 700) {
+                dueDiligenceData.readinessLevel = 'Almost Ready';
+            } else if (totalScore >= 500) {
+                dueDiligenceData.readinessLevel = 'In Progress';
+            } else {
+                dueDiligenceData.readinessLevel = 'Not Ready';
+            }
+        }
+        
+        function updateDashboard() {
+            calculateOverallScore();
+            
+            // Update overall metrics
+            document.getElementById('overall-score').textContent = dueDiligenceData.overallScore;
+            document.getElementById('overall-progress').style.width = (dueDiligenceData.overallScore / 1000) * 100 + '%';
+            
+            document.getElementById('readiness-level').textContent = dueDiligenceData.readinessLevel;
+            document.getElementById('readiness-progress').style.width = (dueDiligenceData.overallScore / 1000) * 100 + '%';
+            
+            document.getElementById('success-probability').textContent = Math.round(dueDiligenceData.successProbability) + '%';
+            document.getElementById('success-progress').style.width = dueDiligenceData.successProbability + '%';
+            
+            document.getElementById('completion-rate').textContent = Math.round(dueDiligenceData.completionRate) + '%';
+            document.getElementById('completion-progress').style.width = dueDiligenceData.completionRate + '%';
+            
+            // Update category scores
+            Object.keys(dueDiligenceData.categories).forEach(category => {
+                const categoryData = dueDiligenceData.categories[category];
+                document.getElementById(category + '-score').textContent = `${categoryData.score}/${categoryData.maxScore}`;
+                
+                // Update individual item scores
+                Object.keys(categoryData.items).forEach(item => {
+                    const itemElement = document.getElementById(item + '-score');
+                    if (itemElement) {
+                        itemElement.textContent = `${categoryData.items[item]}/${getItemMaxScore(category, item)}`;
+                    }
+                });
+            });
+        }
+        
+        function getItemMaxScore(category, item) {
+            const maxScores = {
+                financial: { revenue: 100, unitEconomics: 75, financialControls: 75 },
+                technology: { architecture: 80, aiMl: 60, security: 60 },
+                market: { marketAnalysis: 100, competitive: 80, customerValidation: 20 },
+                team: { leadership: 80, organizational: 70 },
+                legal: { corporate: 50, regulatory: 50 },
+                operations: { businessOps: 50, riskMgmt: 50 }
+            };
+            return maxScores[category][item] || 0;
+        }
+        
+        function refreshData() {
+            console.log('Refreshing data...');
+            updateDashboard();
+        }
+        
+        function runAIAnalysis() {
+            console.log('Running AI analysis...');
+            
+            const insights = [
+                'Strong market positioning with clear competitive advantages',
+                'Team expansion needed for optimal performance',
+                'Financial projections need validation from multiple sources',
+                'Technology architecture shows excellent scalability potential',
+                'Customer validation data shows strong product-market fit',
+                'Legal compliance framework needs strengthening',
+                'Risk management processes are well-established',
+                'Unit economics demonstrate strong profitability potential'
+            ];
+            
+            const randomInsight = insights[Math.floor(Math.random() * insights.length)];
+            
+            const insightsList = document.getElementById('insights-list');
+            const insightElement = document.createElement('div');
+            insightElement.className = 'insight-item success';
+            insightElement.innerHTML = `<strong>🤖 AI Insight:</strong> ${randomInsight}`;
+            insightsList.appendChild(insightElement);
+            
+            // Update data
+            dueDiligenceData.overallScore += Math.floor(Math.random() * 50) + 10;
+            
+            updateDashboard();
+        }
+        
+        function exportReport() {
+            const report = {
+                timestamp: new Date().toISOString(),
+                overallScore: dueDiligenceData.overallScore,
+                readinessLevel: dueDiligenceData.readinessLevel,
+                successProbability: dueDiligenceData.successProbability,
+                completionRate: dueDiligenceData.completionRate,
+                categories: dueDiligenceData.categories,
+                insights: dueDiligenceData.insights
+            };
+            
+            const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'due-diligence-report.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        function simulateProgress() {
+            const interval = setInterval(() => {
+                let hasProgress = false;
+                
+                Object.keys(dueDiligenceData.categories).forEach(category => {
+                    const categoryData = dueDiligenceData.categories[category];
+                    if (categoryData.score < categoryData.maxScore) {
+                        const increment = Math.floor(Math.random() * 30) + 5;
+                        categoryData.score += increment;
+                        if (categoryData.score > categoryData.maxScore) {
+                            categoryData.score = categoryData.maxScore;
+                        }
+                        hasProgress = true;
+                    }
+                    
+                    // Update individual items
+                    Object.keys(categoryData.items).forEach(item => {
+                        const maxScore = getItemMaxScore(category, item);
+                        if (categoryData.items[item] < maxScore) {
+                            const increment = Math.floor(Math.random() * 15) + 2;
+                            categoryData.items[item] += increment;
+                            if (categoryData.items[item] > maxScore) {
+                                categoryData.items[item] = maxScore;
+                            }
+                        }
+                    });
+                });
+                
+                // Simulate insights
+                if (Math.random() < 0.3) {
+                    runAIAnalysis();
+                }
+                
+                updateDashboard();
+                
+                if (!hasProgress) {
+                    clearInterval(interval);
+                }
+            }, 1000);
+        }
+        
+        // Initialize dashboard
+        updateDashboard();
+        
+        // Auto-refresh every 30 seconds
+        setInterval(refreshData, 30000);
+        
+        // Auto AI analysis every 2 minutes
+        setInterval(runAIAnalysis, 120000);
+    </script>
+</body>
+</html>

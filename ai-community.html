@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👥 Comunidad IA Marketing | IA Marketing Solutions</title>
+    <meta name="description" content="🔥 Únete a la comunidad más grande de profesionales de IA en marketing. 5,000+ miembros, networking, eventos exclusivos y oportunidades de negocio.">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Tonos Emocionales Avanzados */
+        .excitement { background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; animation: excitement-pulse 2s infinite; text-align: center; }
+        @keyframes excitement-pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        
+        .trust { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .trust::before { content: "🛡️ "; font-size: 1.8em; }
+        
+        .success { background: linear-gradient(135deg, #28a745 0%, #198754 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .success::before { content: "🎉 "; font-size: 1.8em; }
+        
+        .premium { background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; position: relative; overflow: hidden; }
+        .premium::before { content: "👑 "; font-size: 1.8em; }
+        .premium::after { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent); animation: premium-shine 3s infinite; }
+        @keyframes premium-shine { 0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); } 100% { transform: translateX(100%) translateY(100%) rotate(45deg); } }
+        
+        .curiosity { background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .curiosity::before { content: "🔍 "; font-size: 1.8em; }
+        
+        .social-proof { background: linear-gradient(135deg, #007bff 0%, #6610f2 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .social-proof::before { content: "👥 "; font-size: 1.8em; }
+        
+        .authority { background: linear-gradient(135deg, #343a40 0%, #6c757d 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .authority::before { content: "🏆 "; font-size: 1.8em; }
+        
+        .empathy { background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .empathy::before { content: "💝 "; font-size: 1.8em; }
+        
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 0; text-align: center; }
+        .hero h1 { font-size: 3.5em; margin-bottom: 20px; font-weight: 700; }
+        .hero p { font-size: 1.3em; margin-bottom: 30px; opacity: 0.95; }
+        
+        .cta-button { background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; padding: 20px 40px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.3em; display: inline-block; margin: 20px 10px; transition: all 0.3s; box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3); }
+        .cta-button:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4); }
+        
+        .community-section { background: white; padding: 60px 0; }
+        .community-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 40px; }
+        .community-card { background: #f8f9fa; padding: 30px; border-radius: 20px; border-left: 6px solid #667eea; transition: transform 0.3s; }
+        .community-card:hover { transform: translateY(-5px); }
+        .community-title { font-size: 1.4em; font-weight: bold; color: #2c3e50; margin-bottom: 15px; }
+        .community-stats { background: white; padding: 15px; border-radius: 10px; margin: 15px 0; }
+        .stat-item { display: flex; justify-content: space-between; margin: 8px 0; }
+        
+        .community-preview { background: white; border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin: 20px 0; }
+        .community-header { border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px; }
+        .community-feature { background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #667eea; }
+        .feature-number { background: #667eea; color: white; width: 25px; height: 25px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 10px; }
+        
+        .events-section { background: #f8f9fa; padding: 60px 0; }
+        .events-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px; }
+        .event-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        .event-icon { font-size: 2.5em; margin-bottom: 15px; }
+        
+        .benefits-section { background: #2c3e50; color: white; padding: 60px 0; }
+        .benefits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 40px; }
+        .benefit-card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; text-align: center; }
+        .benefit-number { font-size: 2.5em; font-weight: bold; color: #ff6b6b; margin-bottom: 10px; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5em; }
+            .hero p { font-size: 1.1em; }
+            .community-grid { grid-template-columns: 1fr; }
+            .events-grid { grid-template-columns: 1fr; }
+            .benefits-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>👥 Comunidad IA Marketing</h1>
+            <p><strong>5,000+ profesionales</strong> conectados en la comunidad más grande de IA en marketing. Networking, eventos exclusivos y oportunidades de negocio</p>
+            <a href="#community" class="cta-button">🚀 Unirse Ahora</a>
+            <a href="#events" class="cta-button" style="background: transparent; border: 2px solid white;">📅 Eventos</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="excitement">
+            <h2 style="margin: 0; font-size: 2.2em;">👥 ¡ÚNETE A LA COMUNIDAD MÁS GRANDE!</h2>
+            <p style="margin: 10px 0 0 0; font-size: 1.2em;">5,000+ profesionales conectados en IA y marketing</p>
+        </div>
+
+        <div class="success">
+            <h3 style="margin: 0 0 15px 0;">🎉 RESULTADOS COMPROBADOS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Nuestra comunidad ha generado $10M+ en oportunidades de negocio y 500+ colaboraciones exitosas</p>
+        </div>
+
+        <section class="community-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">👥 Comunidades Especializadas</h2>
+            
+            <div class="community-grid">
+                <div class="community-card">
+                    <div class="community-title">🚀 Emprendedores en IA</div>
+                    <p>Comunidad para emprendedores que usan IA en sus negocios</p>
+                    <div class="community-stats">
+                        <div class="stat-item">
+                            <span>Miembros:</span>
+                            <span style="color: #28a745; font-weight: bold;">1,200+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Actividad:</span>
+                            <span style="color: #28a745; font-weight: bold;">Diaria</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Oportunidades:</span>
+                            <span style="color: #28a745; font-weight: bold;">50+/mes</span>
+                        </div>
+                    </div>
+                    <div class="community-preview">
+                        <div class="community-header">
+                            <div class="community-title">Beneficios Exclusivos</div>
+                        </div>
+                        <div class="community-feature">
+                            <span class="feature-number">1</span>
+                            <strong>Networking:</strong> Conecta con otros emprendedores
+                        </div>
+                        <div class="community-feature">
+                            <span class="feature-number">2</span>
+                            <strong>Mentoría:</strong> Acceso a mentores exitosos
+                        </div>
+                        <div class="community-feature">
+                            <span class="feature-number">3</span>
+                            <strong>Oportunidades:</strong> Colaboraciones y partnerships
+                        </div>
+                        <div class="community-feature">
+                            <span class="feature-number">4</span>
+                            <strong>Recursos:</strong> Herramientas y templates exclusivos
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Unirse</a>
+                </div>
+                
+                <div class="community-card">
+                    <div class="community-title">💼 Marketers Profesionales</div>
+                    <p>Comunidad para marketers que quieren dominar la IA</p>
+                    <div class="community-stats">
+                        <div class="stat-item">
+                            <span>Miembros:</span>
+                            <span style="color: #28a745; font-weight: bold;">2,500+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Actividad:</span>
+                            <span style="color: #28a745; font-weight: bold;">Diaria</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Casos de estudio:</span>
+                            <span style="color: #28a745; font-weight: bold;">100+</span>
+                        </div>
+                    </div>
+                    <div class="community-preview">
+                        <div class="community-header">
+                            <div class="community-title">Beneficios Exclusivos</div>
+                        </div>
+                        <div class="community-feature">
+                            <span class="feature-number">1</span>
+                            <strong>Casos de estudio:</strong> Ejemplos reales de implementación
+                        </div>
+                        <div class="community-feature">
+                            <span class="feature-number">2</span>
+                            <strong>Herramientas:</strong> Acceso a herramientas premium
+                        </div>
+                        <div class="community-feature">
+                            <span class="feature-number">3</span>
+                            <strong>Webinars:</strong> Sesiones exclusivas con expertos
+                        </div>
+                        <div class="community-feature">
+                            <span class="feature-number">4</span>
+                            <strong>Certificaciones:</strong> Programas de certificación
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Unirse</a>
+                </div>
+                
+                <div class="community-card">
+                    <div class="community-title">👨‍💻 Desarrolladores IA</div>
+                    <p>Comunidad técnica para desarrolladores especializados en IA</p>
+                    <div class="community-stats">
+                        <div class="stat-item">
+                            <span>Miembros:</span>
+                            <span style="color: #28a745; font-weight: bold;">800+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Actividad:</span>
+                            <span style="color: #28a745; font-weight: bold;">Diaria</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Proyectos:</span>
+                            <span style="color: #28a745; font-weight: bold;">200+</span>
+                        </div>
+                    </div>
+                    <div class="community-preview">
+                        <div class="community-header">
+                            <div class="community-title">Beneficios Exclusivos</div>
+                        </div>
+                        <div class="community-feature">
+                            <span class="feature-number">1</span>
+                            <strong>Code reviews:</strong> Revisión de código por expertos
+                        </div>
+                        <div class="community-feature">
+                            <span class="feature-number">2</span>
+                            <strong>Proyectos colaborativos:</strong> Trabaja en proyectos reales
+                        </div>
+                        <div class="community-feature">
+                            <span class="feature-number">3</span>
+                            <strong>APIs exclusivas:</strong> Acceso a APIs beta
+                        </div>
+                        <div class="community-feature">
+                            <span class="feature-number">4</span>
+                            <strong>Hackathons:</strong> Competencias y premios
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Unirse</a>
+                </div>
+                
+                <div class="community-card">
+                    <div class="community-title">🎓 Estudiantes y Académicos</div>
+                    <p>Comunidad para estudiantes y académicos interesados en IA</p>
+                    <div class="community-stats">
+                        <div class="stat-item">
+                            <span>Miembros:</span>
+                            <span style="color: #28a745; font-weight: bold;">1,500+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Actividad:</span>
+                            <span style="color: #28a745; font-weight: bold;">Diaria</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Investigaciones:</span>
+                            <span style="color: #28a745; font-weight: bold;">50+</span>
+                        </div>
+                    </div>
+                    <div class="community-preview">
+                        <div class="community-header">
+                            <div class="community-title">Beneficios Exclusivos</div>
+                        </div>
+                        <div class="community-feature">
+                            <span class="feature-number">1</span>
+                            <strong>Becas:</strong> Acceso a becas y financiamiento
+                        </div>
+                        <div class="community-feature">
+                            <span class="feature-number">2</span>
+                            <strong>Investigación:</strong> Colaboración en proyectos de investigación
+                        </div>
+                        <div class="community-feature">
+                            <span class="feature-number">3</span>
+                            <strong>Publicaciones:</strong> Oportunidades de publicación
+                        </div>
+                        <div class="community-feature">
+                            <span class="feature-number">4</span>
+                            <strong>Mentoría académica:</strong> Guía de profesores expertos
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Unirse</a>
+                </div>
+                
+                <div class="community-card">
+                    <div class="community-title">🏢 Ejecutivos y CEOs</div>
+                    <p>Comunidad exclusiva para ejecutivos y tomadores de decisiones</p>
+                    <div class="community-stats">
+                        <div class="stat-item">
+                            <span>Miembros:</span>
+                            <span style="color: #28a745; font-weight: bold;">300+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Actividad:</span>
+                            <span style="color: #28a745; font-weight: bold;">Semanal</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Inversiones:</span>
+                            <span style="color: #28a745; font-weight: bold;">$5M+</span>
+                        </div>
+                    </div>
+                    <div class="community-preview">
+                        <div class="community-header">
+                            <div class="community-title">Beneficios Exclusivos</div>
+                        </div>
+                        <div class="community-feature">
+                            <span class="feature-number">1</span>
+                            <strong>Eventos VIP:</strong> Cenas y eventos exclusivos
+                        </div>
+                        <div class="community-feature">
+                            <span class="feature-number">2</span>
+                            <strong>Oportunidades de inversión:</strong> Acceso a deals exclusivos
+                        </div>
+                        <div class="community-feature">
+                            <span class="feature-number">3</span>
+                            <strong>Consultoría estratégica:</strong> Asesoría personalizada
+                        </div>
+                        <div class="community-feature">
+                            <span class="feature-number">4</span>
+                            <strong>Networking premium:</strong> Conexiones de alto nivel
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Unirse</a>
+                </div>
+                
+                <div class="community-card">
+                    <div class="community-title">🌍 Comunidad Global</div>
+                    <p>Comunidad general para todos los profesionales de IA en marketing</p>
+                    <div class="community-stats">
+                        <div class="stat-item">
+                            <span>Miembros:</span>
+                            <span style="color: #28a745; font-weight: bold;">5,000+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Actividad:</span>
+                            <span style="color: #28a745; font-weight: bold;">24/7</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Países:</span>
+                            <span style="color: #28a745; font-weight: bold;">50+</span>
+                        </div>
+                    </div>
+                    <div class="community-preview">
+                        <div class="community-header">
+                            <div class="community-title">Beneficios Exclusivos</div>
+                        </div>
+                        <div class="community-feature">
+                            <span class="feature-number">1</span>
+                            <strong>Foros globales:</strong> Discusiones en múltiples idiomas
+                        </div>
+                        <div class="community-feature">
+                            <span class="feature-number">2</span>
+                            <strong>Eventos virtuales:</strong> Webinars y conferencias
+                        </div>
+                        <div class="community-feature">
+                            <span class="feature-number">3</span>
+                            <strong>Recursos multilingües:</strong> Contenido en varios idiomas
+                        </div>
+                        <div class="community-feature">
+                            <span class="feature-number">4</span>
+                            <strong>Networking internacional:</strong> Conexiones globales
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Unirse</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="authority">
+            <h3 style="margin: 0 0 15px 0;">🏆 LIDERAMOS EN COMUNIDADES IA</h3>
+            <p style="margin: 0; font-size: 1.2em;">La comunidad más grande y activa de profesionales de IA en marketing con 5,000+ miembros</p>
+        </div>
+
+        <section class="events-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">📅 Eventos Exclusivos</h2>
+            
+            <div class="events-grid">
+                <div class="event-card">
+                    <div class="event-icon">🌐</div>
+                    <h3>Webinars Semanales</h3>
+                    <p>Expertos compartiendo estrategias de IA</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Cada miércoles 7 PM</li>
+                        <li>✅ 60 minutos de contenido</li>
+                        <li>✅ Q&A en vivo</li>
+                        <li>✅ Grabaciones exclusivas</li>
+                    </ul>
+                </div>
+                
+                <div class="event-card">
+                    <div class="event-icon">🏆</div>
+                    <h3>Hackathons Mensuales</h3>
+                    <p>Competencias de desarrollo con IA</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 48 horas de competencia</li>
+                        <li>✅ Premios de $10,000+</li>
+                        <li>✅ Mentores expertos</li>
+                        <li>✅ Networking intensivo</li>
+                    </ul>
+                </div>
+                
+                <div class="event-card">
+                    <div class="event-icon">🍽️</div>
+                    <h3>Cenas de Networking</h3>
+                    <p>Eventos presenciales en ciudades principales</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 20 ciudades principales</li>
+                        <li>✅ 50 personas por evento</li>
+                        <li>✅ Speakers invitados</li>
+                        <li>✅ Oportunidades de negocio</li>
+                    </ul>
+                </div>
+                
+                <div class="event-card">
+                    <div class="event-icon">🎓</div>
+                    <h3>Workshops Intensivos</h3>
+                    <p>Sesiones de entrenamiento profundo</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 4 horas de contenido</li>
+                        <li>✅ Proyectos prácticos</li>
+                        <li>✅ Certificaciones</li>
+                        <li>✅ Materiales exclusivos</li>
+                    </ul>
+                </div>
+                
+                <div class="event-card">
+                    <div class="event-icon">🤝</div>
+                    <h3>Meetups Locales</h3>
+                    <p>Encuentros informales por ciudad</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 100+ ciudades</li>
+                        <li>✅ 2-3 horas de duración</li>
+                        <li>✅ Presentaciones cortas</li>
+                        <li>✅ Networking libre</li>
+                    </ul>
+                </div>
+                
+                <div class="event-card">
+                    <div class="event-icon">🏢</div>
+                    <h3>Conferencias Anuales</h3>
+                    <p>Eventos grandes con speakers internacionales</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 3 días de contenido</li>
+                        <li>✅ 1,000+ asistentes</li>
+                        <li>✅ Speakers de FAANG</li>
+                        <li>✅ Expo de herramientas</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="social-proof">
+            <h3 style="margin: 0 0 15px 0;">👥 MÁS DE 5,000 PROFESIONALES CONECTADOS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Desde estudiantes hasta CEOs, todos encuentran valor en nuestra comunidad</p>
+        </div>
+
+        <section class="benefits-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">💡 Beneficios de la Comunidad</h2>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-number">5,000+</div>
+                    <h3>Miembros Activos</h3>
+                    <p>Profesionales conectados</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-number">$10M+</div>
+                    <h3>Oportunidades</h3>
+                    <p>De negocio generadas</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-number">500+</div>
+                    <h3>Colaboraciones</h3>
+                    <p>Exitosas entre miembros</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-number">50+</div>
+                    <h3>Países</h3>
+                    <p>Representados</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-number">24/7</div>
+                    <h3>Actividad</h3>
+                    <p>Comunidad siempre activa</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-number">95%</div>
+                    <h3>Satisfacción</h3>
+                    <p>De miembros activos</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="premium">
+            <h3 style="margin: 0 0 15px 0;">👑 MEMBRESÍA PREMIUM</h3>
+            <p style="margin: 0; font-size: 1.2em;">Acceso completo a todas las comunidades + eventos exclusivos + recursos premium por solo $97/mes</p>
+        </div>
+
+        <div class="curiosity">
+            <h3 style="margin: 0 0 15px 0;">🔍 ¿QUÉ HACE ESPECIAL A NUESTRA COMUNIDAD?</h3>
+            <p style="margin: 0; font-size: 1.2em;">Descubre las ventajas únicas que nos hacen la comunidad líder en IA para marketing</p>
+        </div>
+
+        <div class="empathy">
+            <h3 style="margin: 0 0 15px 0;">💝 Entendemos tus Necesidades</h3>
+            <p style="margin: 0; font-size: 1.2em;">Sabemos que aprender IA puede ser solitario. Por eso creamos una comunidad donde todos se apoyan mutuamente</p>
+        </div>
+    </div>
+
+    <footer style="background: #2c3e50; color: white; padding: 40px 0; text-align: center;">
+        <div class="container">
+            <p>&copy; 2024 IA Marketing Solutions. Todos los derechos reservados.</p>
+            <p>Conectando profesionales en IA desde 2020</p>
+        </div>
+    </footer>
+
+    <script>
+        // Track community interactions
+        document.querySelectorAll('.community-card .cta-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const community = this.closest('.community-card').querySelector('.community-title').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'community_click', {
+                        'event_category': 'AI Community',
+                        'event_label': community,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track event card clicks
+        document.querySelectorAll('.event-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const event = this.querySelector('h3').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'event_click', {
+                        'event_category': 'AI Community',
+                        'event_label': event,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track community preview interactions
+        document.querySelectorAll('.community-preview').forEach(preview => {
+            preview.addEventListener('click', function() {
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'community_preview_click', {
+                        'event_category': 'AI Community',
+                        'event_label': 'Community Preview',
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Animate community cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.community-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+        
+        // Animate benefit numbers
+        const benefitObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const benefitNumber = entry.target.querySelector('.benefit-number');
+                    const finalValue = benefitNumber.textContent;
+                    const isPlus = finalValue.includes('+');
+                    const isMillion = finalValue.includes('M');
+                    const is24 = finalValue.includes('24/7');
+                    const isPercentage = finalValue.includes('%');
+                    const numericValue = parseFloat(finalValue.replace(/[^0-9.]/g, ''));
+                    
+                    let currentValue = 0;
+                    const increment = numericValue / 30;
+                    
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= numericValue) {
+                            currentValue = numericValue;
+                            clearInterval(timer);
+                        }
+                        
+                        if (isPlus) {
+                            benefitNumber.textContent = Math.round(currentValue).toLocaleString() + '+';
+                        } else if (isMillion) {
+                            benefitNumber.textContent = '$' + (currentValue / 1000000).toFixed(1) + 'M+';
+                        } else if (is24) {
+                            benefitNumber.textContent = '24/7';
+                        } else if (isPercentage) {
+                            benefitNumber.textContent = Math.round(currentValue) + '%';
+                        } else {
+                            benefitNumber.textContent = Math.round(currentValue).toLocaleString();
+                        }
+                    }, 30);
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.benefit-card').forEach(card => {
+            benefitObserver.observe(card);
+        });
+    </script>
+</body>
+</html>
+
+
+

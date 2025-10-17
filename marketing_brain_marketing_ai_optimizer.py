@@ -2277,3 +2277,5 @@ if __name__ == "__main__":
     print("✅ Sistema de optimización de AI de marketing completado!")
 
 
+
+

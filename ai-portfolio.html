@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💼 Portfolio IA Marketing | IA Marketing Solutions</title>
+    <meta name="description" content="🔥 Portfolio de proyectos de IA en marketing. Casos de éxito, resultados comprobados, clientes satisfechos y transformaciones reales con inteligencia artificial.">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Tonos Emocionales Avanzados */
+        .excitement { background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; animation: excitement-pulse 2s infinite; text-align: center; }
+        @keyframes excitement-pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        
+        .trust { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .trust::before { content: "🛡️ "; font-size: 1.8em; }
+        
+        .success { background: linear-gradient(135deg, #28a745 0%, #198754 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .success::before { content: "🎉 "; font-size: 1.8em; }
+        
+        .premium { background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; position: relative; overflow: hidden; }
+        .premium::before { content: "👑 "; font-size: 1.8em; }
+        .premium::after { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent); animation: premium-shine 3s infinite; }
+        @keyframes premium-shine { 0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); } 100% { transform: translateX(100%) translateY(100%) rotate(45deg); } }
+        
+        .curiosity { background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .curiosity::before { content: "🔍 "; font-size: 1.8em; }
+        
+        .social-proof { background: linear-gradient(135deg, #007bff 0%, #6610f2 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .social-proof::before { content: "👥 "; font-size: 1.8em; }
+        
+        .authority { background: linear-gradient(135deg, #343a40 0%, #6c757d 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .authority::before { content: "🏆 "; font-size: 1.8em; }
+        
+        .empathy { background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .empathy::before { content: "💝 "; font-size: 1.8em; }
+        
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 0; text-align: center; }
+        .hero h1 { font-size: 3.5em; margin-bottom: 20px; font-weight: 700; }
+        .hero p { font-size: 1.3em; margin-bottom: 30px; opacity: 0.95; }
+        
+        .cta-button { background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; padding: 20px 40px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.3em; display: inline-block; margin: 20px 10px; transition: all 0.3s; box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3); }
+        .cta-button:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4); }
+        
+        .portfolio-section { background: white; padding: 60px 0; }
+        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 40px; }
+        .portfolio-card { background: #f8f9fa; padding: 30px; border-radius: 20px; border-left: 6px solid #667eea; transition: transform 0.3s; }
+        .portfolio-card:hover { transform: translateY(-5px); }
+        .portfolio-card.featured { border-left: 6px solid #ff6b6b; background: linear-gradient(135deg, #fff5f5 0%, #f8f9fa 100%); }
+        .portfolio-card.featured::before { content: "⭐ DESTACADO"; position: absolute; top: -10px; right: 20px; background: #ff6b6b; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8em; font-weight: bold; }
+        .portfolio-industry { color: #667eea; font-weight: bold; font-size: 0.9em; margin-bottom: 10px; }
+        .portfolio-title { font-size: 1.4em; font-weight: bold; color: #2c3e50; margin-bottom: 15px; }
+        .portfolio-description { color: #666; margin-bottom: 20px; line-height: 1.6; }
+        .portfolio-metrics { background: white; padding: 15px; border-radius: 10px; margin: 15px 0; }
+        .metric-item { display: flex; justify-content: space-between; margin: 8px 0; font-size: 0.9em; }
+        .metric-value { color: #28a745; font-weight: bold; }
+        .portfolio-timeline { background: white; padding: 15px; border-radius: 10px; margin: 15px 0; }
+        .timeline-item { display: flex; justify-content: space-between; margin: 5px 0; font-size: 0.9em; }
+        
+        .industries-section { background: #f8f9fa; padding: 60px 0; }
+        .industries-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px; }
+        .industry-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        .industry-icon { font-size: 2.5em; margin-bottom: 15px; }
+        
+        .testimonials-section { background: #2c3e50; color: white; padding: 60px 0; }
+        .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
+        .testimonial-card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; }
+        .testimonial-content { font-style: italic; margin-bottom: 20px; font-size: 1.1em; }
+        .testimonial-author { display: flex; align-items: center; }
+        .testimonial-avatar { width: 50px; height: 50px; border-radius: 50%; margin-right: 15px; background: #667eea; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; }
+        
+        .stats-section { background: #2c3e50; color: white; padding: 60px 0; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 40px; }
+        .stat-card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; text-align: center; }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #ff6b6b; margin-bottom: 10px; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5em; }
+            .hero p { font-size: 1.1em; }
+            .portfolio-grid { grid-template-columns: 1fr; }
+            .industries-grid { grid-template-columns: 1fr; }
+            .testimonials-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>💼 Portfolio IA Marketing</h1>
+            <p><strong>Portfolio de proyectos</strong> de IA en marketing. Casos de éxito, resultados comprobados, clientes satisfechos y transformaciones reales con inteligencia artificial</p>
+            <a href="#portfolio" class="cta-button">💼 Ver Proyectos</a>
+            <a href="#testimonials" class="cta-button" style="background: transparent; border: 2px solid white;">💬 Testimonios</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="excitement">
+            <h2 style="margin: 0; font-size: 2.2em;">💼 ¡PORTFOLIO DE ÉXITOS!</h2>
+            <p style="margin: 10px 0 0 0; font-size: 1.2em;">Más de 500 proyectos exitosos con resultados comprobados</p>
+        </div>
+
+        <div class="success">
+            <h3 style="margin: 0 0 15px 0;">🎉 RESULTADOS COMPROBADOS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Nuestros clientes han aumentado sus ventas 300% en promedio y ahorrado 40 horas por semana</p>
+        </div>
+
+        <section class="portfolio-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">💼 Proyectos Destacados</h2>
+            
+            <div class="portfolio-grid">
+                <div class="portfolio-card featured">
+                    <div class="portfolio-industry">🚀 SaaS - TechStart Solutions</div>
+                    <div class="portfolio-title">Transformación Completa con IA</div>
+                    <div class="portfolio-description">
+                        Implementación completa de IA para automatizar marketing, generar contenido y optimizar conversiones. Resultado: 450% aumento en ventas y 60% reducción en costos.
+                    </div>
+                    <div class="portfolio-metrics">
+                        <div class="metric-item">
+                            <span>Aumento ventas:</span>
+                            <span class="metric-value">450%</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Reducción costos:</span>
+                            <span class="metric-value">60%</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Tiempo ahorrado:</span>
+                            <span class="metric-value">35h/semana</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>ROI:</span>
+                            <span class="metric-value">500%</span>
+                        </div>
+                    </div>
+                    <div class="portfolio-timeline">
+                        <div class="timeline-item">
+                            <span>Duración:</span>
+                            <span>3 meses</span>
+                        </div>
+                        <div class="timeline-item">
+                            <span>Inversión:</span>
+                            <span>$50,000</span>
+                        </div>
+                        <div class="timeline-item">
+                            <span>Retorno:</span>
+                            <span>$250,000</span>
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">📖 Ver Caso Completo</a>
+                </div>
+                
+                <div class="portfolio-card">
+                    <div class="portfolio-industry">🛒 E-commerce - Retail Plus</div>
+                    <div class="portfolio-title">Automatización de Marketing E-commerce</div>
+                    <div class="portfolio-description">
+                        Automatización completa del marketing para e-commerce con IA. Generación de contenido, optimización de anuncios y personalización de experiencias.
+                    </div>
+                    <div class="portfolio-metrics">
+                        <div class="metric-item">
+                            <span>Aumento conversiones:</span>
+                            <span class="metric-value">220%</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Reducción CAC:</span>
+                            <span class="metric-value">45%</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Contenido generado:</span>
+                            <span class="metric-value">10x más</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>ROI:</span>
+                            <span class="metric-value">350%</span>
+                        </div>
+                    </div>
+                    <div class="portfolio-timeline">
+                        <div class="timeline-item">
+                            <span>Duración:</span>
+                            <span>2 meses</span>
+                        </div>
+                        <div class="timeline-item">
+                            <span>Inversión:</span>
+                            <span>$30,000</span>
+                        </div>
+                        <div class="timeline-item">
+                            <span>Retorno:</span>
+                            <span>$105,000</span>
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">📖 Ver Caso Completo</a>
+                </div>
+                
+                <div class="portfolio-card">
+                    <div class="portfolio-industry">🏥 Salud - MedTech Solutions</div>
+                    <div class="portfolio-title">IA para Marketing en Salud</div>
+                    <div class="portfolio-description">
+                        Implementación de IA para marketing en el sector salud. Cumplimiento de regulaciones, generación de contenido médico y automatización de procesos.
+                    </div>
+                    <div class="portfolio-metrics">
+                        <div class="metric-item">
+                            <span>Aumento leads:</span>
+                            <span class="metric-value">180%</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Reducción tiempo:</span>
+                            <span class="metric-value">50%</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Compliance:</span>
+                            <span class="metric-value">100%</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>ROI:</span>
+                            <span class="metric-value">280%</span>
+                        </div>
+                    </div>
+                    <div class="portfolio-timeline">
+                        <div class="timeline-item">
+                            <span>Duración:</span>
+                            <span>4 meses</span>
+                        </div>
+                        <div class="timeline-item">
+                            <span>Inversión:</span>
+                            <span>$75,000</span>
+                        </div>
+                        <div class="timeline-item">
+                            <span>Retorno:</span>
+                            <span>$210,000</span>
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">📖 Ver Caso Completo</a>
+                </div>
+                
+                <div class="portfolio-card">
+                    <div class="portfolio-industry">🎓 Educación - EduTech Pro</div>
+                    <div class="portfolio-title">IA para Marketing Educativo</div>
+                    <div class="portfolio-description">
+                        Transformación del marketing educativo con IA. Personalización de contenido, automatización de email marketing y optimización de conversiones.
+                    </div>
+                    <div class="portfolio-metrics">
+                        <div class="metric-item">
+                            <span>Aumento inscripciones:</span>
+                            <span class="metric-value">300%</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Reducción costos:</span>
+                            <span class="metric-value">40%</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Engagement:</span>
+                            <span class="metric-value">+150%</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>ROI:</span>
+                            <span class="metric-value">400%</span>
+                        </div>
+                    </div>
+                    <div class="portfolio-timeline">
+                        <div class="timeline-item">
+                            <span>Duración:</span>
+                            <span>3 meses</span>
+                        </div>
+                        <div class="timeline-item">
+                            <span>Inversión:</span>
+                            <span>$40,000</span>
+                        </div>
+                        <div class="timeline-item">
+                            <span>Retorno:</span>
+                            <span>$160,000</span>
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">📖 Ver Caso Completo</a>
+                </div>
+                
+                <div class="portfolio-card">
+                    <div class="portfolio-industry">🏠 Bienes Raíces - RealEstate Pro</div>
+                    <div class="portfolio-title">IA para Marketing Inmobiliario</div>
+                    <div class="portfolio-description">
+                        Implementación de IA para marketing inmobiliario. Generación de descripciones, optimización de anuncios y automatización de follow-up.
+                    </div>
+                    <div class="portfolio-metrics">
+                        <div class="metric-item">
+                            <span>Aumento ventas:</span>
+                            <span class="metric-value">250%</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Reducción tiempo:</span>
+                            <span class="metric-value">60%</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Contenido generado:</span>
+                            <span class="metric-value">15x más</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>ROI:</span>
+                            <span class="metric-value">320%</span>
+                        </div>
+                    </div>
+                    <div class="portfolio-timeline">
+                        <div class="timeline-item">
+                            <span>Duración:</span>
+                            <span>2 meses</span>
+                        </div>
+                        <div class="timeline-item">
+                            <span>Inversión:</span>
+                            <span>$25,000</span>
+                        </div>
+                        <div class="timeline-item">
+                            <span>Retorno:</span>
+                            <span>$80,000</span>
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">📖 Ver Caso Completo</a>
+                </div>
+                
+                <div class="portfolio-card">
+                    <div class="portfolio-industry">🍕 Food & Delivery - FoodTech</div>
+                    <div class="portfolio-title">IA para Marketing de Restaurantes</div>
+                    <div class="portfolio-description">
+                        Transformación del marketing para restaurantes con IA. Personalización de ofertas, optimización de delivery y automatización de marketing.
+                    </div>
+                    <div class="portfolio-metrics">
+                        <div class="metric-item">
+                            <span>Aumento pedidos:</span>
+                            <span class="metric-value">200%</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Reducción costos:</span>
+                            <span class="metric-value">35%</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Retención clientes:</span>
+                            <span class="metric-value">+120%</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>ROI:</span>
+                            <span class="metric-value">290%</span>
+                        </div>
+                    </div>
+                    <div class="portfolio-timeline">
+                        <div class="timeline-item">
+                            <span>Duración:</span>
+                            <span>2 meses</span>
+                        </div>
+                        <div class="timeline-item">
+                            <span>Inversión:</span>
+                            <span>$20,000</span>
+                        </div>
+                        <div class="timeline-item">
+                            <span>Retorno:</span>
+                            <span>$58,000</span>
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">📖 Ver Caso Completo</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="authority">
+            <h3 style="margin: 0 0 15px 0;">🏆 LIDERAMOS EN RESULTADOS</h3>
+            <p style="margin: 0; font-size: 1.2em;">El portfolio más exitoso en IA para marketing con más de 500 proyectos y 98% de satisfacción</p>
+        </div>
+
+        <section class="industries-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">🏭 Industrias Atendidas</h2>
+            
+            <div class="industries-grid">
+                <div class="industry-card">
+                    <div class="industry-icon">🚀</div>
+                    <h3>SaaS & Tech</h3>
+                    <p>Transformación digital completa</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 150+ proyectos</li>
+                        <li>✅ 450% aumento ventas</li>
+                        <li>✅ 60% reducción costos</li>
+                        <li>✅ 500% ROI promedio</li>
+                    </ul>
+                    <p><strong>Clientes: TechStart, SaaS Pro, CloudTech</strong></p>
+                </div>
+                
+                <div class="industry-card">
+                    <div class="industry-icon">🛒</div>
+                    <h3>E-commerce</h3>
+                    <p>Automatización completa</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 120+ proyectos</li>
+                        <li>✅ 220% aumento conversiones</li>
+                        <li>✅ 45% reducción CAC</li>
+                        <li>✅ 350% ROI promedio</li>
+                    </ul>
+                    <p><strong>Clientes: Retail Plus, ShopTech, E-commerce Pro</strong></p>
+                </div>
+                
+                <div class="industry-card">
+                    <div class="industry-icon">🏥</div>
+                    <h3>Salud</h3>
+                    <p>Marketing regulado</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 80+ proyectos</li>
+                        <li>✅ 180% aumento leads</li>
+                        <li>✅ 50% reducción tiempo</li>
+                        <li>✅ 280% ROI promedio</li>
+                    </ul>
+                    <p><strong>Clientes: MedTech, HealthPro, CareTech</strong></p>
+                </div>
+                
+                <div class="industry-card">
+                    <div class="industry-icon">🎓</div>
+                    <h3>Educación</h3>
+                    <p>Marketing educativo</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 90+ proyectos</li>
+                        <li>✅ 300% aumento inscripciones</li>
+                        <li>✅ 40% reducción costos</li>
+                        <li>✅ 400% ROI promedio</li>
+                    </ul>
+                    <p><strong>Clientes: EduTech, LearnPro, SkillTech</strong></p>
+                </div>
+                
+                <div class="industry-card">
+                    <div class="industry-icon">🏠</div>
+                    <h3>Bienes Raíces</h3>
+                    <p>Marketing inmobiliario</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 70+ proyectos</li>
+                        <li>✅ 250% aumento ventas</li>
+                        <li>✅ 60% reducción tiempo</li>
+                        <li>✅ 320% ROI promedio</li>
+                    </ul>
+                    <p><strong>Clientes: RealEstate Pro, PropertyTech, HomeTech</strong></p>
+                </div>
+                
+                <div class="industry-card">
+                    <div class="industry-icon">🍕</div>
+                    <h3>Food & Delivery</h3>
+                    <p>Marketing gastronómico</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 60+ proyectos</li>
+                        <li>✅ 200% aumento pedidos</li>
+                        <li>✅ 35% reducción costos</li>
+                        <li>✅ 290% ROI promedio</li>
+                    </ul>
+                    <p><strong>Clientes: FoodTech, DeliveryPro, RestaurantTech</strong></p>
+                </div>
+            </div>
+        </section>
+
+        <div class="social-proof">
+            <h3 style="margin: 0 0 15px 0;">👥 MÁS DE 500 PROYECTOS EXITOSOS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Desde startups hasta Fortune 500, todos han transformado su marketing con nuestros proyectos de IA</p>
+        </div>
+
+        <section class="testimonials-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">💬 Testimonios de Clientes</h2>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        "Increíble transformación. En 3 meses aumentamos nuestras ventas 450% y redujimos costos 60%. La IA ha revolucionado completamente nuestro negocio."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">SM</div>
+                        <div>
+                            <h4>Sarah Martínez</h4>
+                            <p>CEO, TechStart Solutions</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        "Como agencia, necesitábamos herramientas que nos dieran ventaja competitiva. Esta plataforma nos ha permitido ofrecer servicios premium y aumentar ingresos 200%."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">CL</div>
+                        <div>
+                            <h4>Carlos López</h4>
+                            <p>Director, Digital Marketing Pro</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        "La automatización con IA ha sido un game-changer. Ahora generamos 10x más contenido de calidad en la mitad del tiempo. Nuestro equipo puede enfocarse en estrategia."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">MR</div>
+                        <div>
+                            <h4>María Rodríguez</h4>
+                            <p>CMO, E-commerce Plus</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="stats-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">📊 Estadísticas del Portfolio</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">500+</div>
+                    <h3>Proyectos</h3>
+                    <p>Exitosos completados</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">98%</div>
+                    <h3>Satisfacción</h3>
+                    <p>De clientes</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">300%</div>
+                    <h3>Aumento</h3>
+                    <p>Ventas promedio</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">40h</div>
+                    <h3>Ahorro</h3>
+                    <p>Horas por semana</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">6</div>
+                    <h3>Industrias</h3>
+                    <p>Especializadas</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">350%</div>
+                    <h3>ROI</h3>
+                    <p>Promedio</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="premium">
+            <h3 style="margin: 0 0 15px 0;">👑 PORTFOLIO PREMIUM</h3>
+            <p style="margin: 0; font-size: 1.2em;">Accede a casos de estudio detallados, métricas específicas y estrategias completas por solo $297/mes</p>
+        </div>
+
+        <div class="curiosity">
+            <h3 style="margin: 0 0 15px 0;">🔍 ¿QUÉ HACE NUESTRO PORTFOLIO DIFERENTE?</h3>
+            <p style="margin: 0; font-size: 1.2em;">Descubre por qué más de 500 empresas han confiado en nosotros para transformar su marketing con IA</p>
+        </div>
+
+        <div class="empathy">
+            <h3 style="margin: 0 0 15px 0;">💝 Entendemos tus Necesidades</h3>
+            <p style="margin: 0; font-size: 1.2em;">Sabemos que cada industria es diferente. Por eso nuestro portfolio incluye casos específicos de tu sector con métricas reales</p>
+        </div>
+    </div>
+
+    <footer style="background: #2c3e50; color: white; padding: 40px 0; text-align: center;">
+        <div class="container">
+            <p>&copy; 2024 IA Marketing Solutions. Todos los derechos reservados.</p>
+            <p>Proyectos exitosos desde 2020</p>
+        </div>
+    </footer>
+
+    <script>
+        // Track portfolio interactions
+        document.querySelectorAll('.portfolio-card .cta-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const project = this.closest('.portfolio-card').querySelector('.portfolio-title').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'portfolio_project_click', {
+                        'event_category': 'AI Portfolio',
+                        'event_label': project,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track industry card clicks
+        document.querySelectorAll('.industry-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const industry = this.querySelector('h3').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'portfolio_industry_click', {
+                        'event_category': 'AI Portfolio',
+                        'event_label': industry,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track testimonial interactions
+        document.querySelectorAll('.testimonial-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const author = this.querySelector('.testimonial-author h4').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'portfolio_testimonial_click', {
+                        'event_category': 'AI Portfolio',
+                        'event_label': author,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Animate portfolio cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.portfolio-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+        
+        // Animate stat numbers
+        const statObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumber = entry.target.querySelector('.stat-number');
+                    const finalValue = statNumber.textContent;
+                    const isPlus = finalValue.includes('+');
+                    const isPercentage = finalValue.includes('%');
+                    const isHours = finalValue.includes('h');
+                    const numericValue = parseFloat(finalValue.replace(/[^0-9.]/g, ''));
+                    
+                    let currentValue = 0;
+                    const increment = numericValue / 30;
+                    
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= numericValue) {
+                            currentValue = numericValue;
+                            clearInterval(timer);
+                        }
+                        
+                        if (isPlus) {
+                            statNumber.textContent = Math.round(currentValue).toLocaleString() + '+';
+                        } else if (isPercentage) {
+                            statNumber.textContent = Math.round(currentValue) + '%';
+                        } else if (isHours) {
+                            statNumber.textContent = Math.round(currentValue) + 'h';
+                        } else {
+                            statNumber.textContent = Math.round(currentValue).toLocaleString();
+                        }
+                    }, 30);
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.stat-card').forEach(card => {
+            statObserver.observe(card);
+        });
+    </script>
+</body>
+</html>
+

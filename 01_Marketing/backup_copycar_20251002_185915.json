@@ -1,0 +1,91 @@
+{
+  "timestamp": "2025-10-02T18:59:15.635425",
+  "configuracion": {
+    "startup": {
+      "nombre": "CopyCar.ai",
+      "sector": "AI Marketing",
+      "pais": "Mexico",
+      "valuacion_actual": 2000000,
+      "equity_fundador_actual": 60,
+      "mrr_actual": 50000,
+      "usuarios_actuales": 1000
+    },
+    "objetivos": {
+      "equity_fundador_objetivo": 45,
+      "dilucion_maxima_por_ronda": 15,
+      "valuacion_objetivo_12_meses": 50000000,
+      "usuarios_objetivo_12_meses": 50000,
+      "mrr_objetivo_12_meses": 2000000
+    },
+    "alertas": {
+      "dilucion_critica": 20,
+      "equity_critico": 40,
+      "valuacion_baja": 15000000,
+      "crecimiento_lento": 0.15,
+      "churn_alto": 0.08
+    },
+    "notificaciones": {
+      "email": {
+        "habilitado": true,
+        "smtp_server": "smtp.gmail.com",
+        "smtp_port": 587,
+        "email_from": "alerts@copycar.ai",
+        "email_to": "founder@copycar.ai",
+        "password": "your_password"
+      },
+      "slack": {
+        "habilitado": true,
+        "webhook_url": "https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK",
+        "channel": "#alerts"
+      },
+      "sms": {
+        "habilitado": false,
+        "api_key": "your_twilio_api_key",
+        "phone_from": "+1234567890",
+        "phone_to": "+1234567890"
+      }
+    },
+    "reportes": {
+      "frecuencia": "diaria",
+      "formato": "markdown",
+      "incluir_graficos": true,
+      "enviar_email": true,
+      "guardar_archivo": true
+    }
+  },
+  "metricas": {
+    "financieras": {
+      "valuacion": 1997504.184633733,
+      "equity_fundador": 60,
+      "dilucion_por_ronda": 0,
+      "valor_fundador": 1198502.51078024,
+      "roi_inversionistas": -0.0012479076831335423
+    },
+    "operativas": {
+      "mrr": 50757.55180946929,
+      "usuarios": 1001,
+      "crecimiento_mrr_mensual": 0.2,
+      "crecimiento_usuarios_mensual": 0.3,
+      "churn_rate": 0.05,
+      "cac": 100,
+      "ltv": 2000
+    },
+    "implementacion": {
+      "estrategias_implementadas": 0,
+      "partnerships_activos": 0,
+      "herramientas_configuradas": 0,
+      "alertas_configuradas": 0,
+      "reportes_generados": 0
+    },
+    "mercado": {
+      "market_share_latam": 0.001,
+      "posicionamiento_precio": 0.6,
+      "diferenciacion_producto": 0.7,
+      "satisfaccion_cliente": 0.8,
+      "retencion_cliente": 0.95
+    }
+  },
+  "alertas": {
+    "alertas_criticas": {
+      "dilucion_excesiva": {
+        "condicion": 

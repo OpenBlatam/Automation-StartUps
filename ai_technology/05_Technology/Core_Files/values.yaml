@@ -1,0 +1,334 @@
+# Default values for neural-marketing
+# This is a YAML-formatted file.
+
+replicaCount: 3
+
+image:
+  repository: neural-marketing
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext:
+  fsGroup: 2000
+
+securityContext:
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 3001
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/rate-limit: "100"
+    nginx.ingress.kubernetes.io/rate-limit-window: "1m"
+  hosts:
+    - host: app.neuralmarketing.ai
+      paths:
+        - path: /
+          pathType: Prefix
+    - host: api.neuralmarketing.ai
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: neural-marketing-tls
+      hosts:
+        - app.neuralmarketing.ai
+        - api.neuralmarketing.ai
+
+resources:
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+  requests:
+    cpu: 500m
+    memory: 512Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+# Backend configuration
+backend:
+  enabled: true
+  replicaCount: 3
+  image:
+    repository: neural-marketing/backend
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 80
+    targetPort: 3001
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+    requests:
+      cpu: 500m
+      memory: 512Mi
+  env:
+    NODE_ENV: "production"
+    PORT: "3001"
+    LOG_LEVEL: "info"
+    PROMETHEUS_ENABLED: "true"
+    METRICS_PORT: "9090"
+
+# Frontend configuration
+frontend:
+  enabled: true
+  replicaCount: 2
+  image:
+    repository: neural-marketing/frontend
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 80
+    targetPort: 3000
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 200m
+      memory: 256Mi
+  env:
+    VITE_API_URL: "https://api.neuralmarketing.ai/api"
+    VITE_APP_NAME: "Neural Marketing Consciousness"
+
+# Database configuration
+postgresql:
+  enabled: true
+  auth:
+    postgresPassword: "postgres"
+    database: "ai_marketing_saas"
+  primary:
+    persistence:
+      enabled: true
+      size: 20Gi
+      storageClass: "fast-ssd"
+    resources:
+      limits:
+        cpu: 1000m
+        memory: 2Gi
+      requests:
+        cpu: 500m
+        memory: 1Gi
+
+# Redis configuration
+redis:
+  enabled: true
+  auth:
+    enabled: false
+  master:
+    persistence:
+      enabled: true
+      size: 5Gi
+    resources:
+      limits:
+        cpu: 500m
+        memory: 512Mi
+      requests:
+        cpu: 200m
+        memory: 256Mi
+
+# Monitoring configuration
+monitoring:
+  enabled: true
+  prometheus:
+    enabled: true
+    server:
+      persistentVolume:
+        enabled: true
+        size: 10Gi
+      resources:
+        limits:
+          cpu: 1000m
+          memory: 2Gi
+        requests:
+          cpu: 500m
+          memory: 1Gi
+  grafana:
+    enabled: true
+    adminPassword: "admin"
+    persistence:
+      enabled: true
+      size: 5Gi
+    resources:
+      limits:
+        cpu: 500m
+        memory: 1Gi
+      requests:
+        cpu: 200m
+        memory: 512Mi
+
+# Secrets configuration
+secrets:
+  create: true
+  data:
+    DATABASE_URL: "postgresql://postgres:postgres@neural-marketing-postgres:5432/ai_marketing_saas"
+    REDIS_URL: "redis://neural-marketing-redis:6379"
+    JWT_SECRET: "your-super-secret-jwt-key-change-in-production"
+    OPENAI_API_KEY: "your-openai-api-key-here"
+    SMTP_HOST: "smtp.gmail.com"
+    SMTP_PORT: "587"
+    SMTP_USER: "your-email@gmail.com"
+    SMTP_PASS: "your-app-password"
+
+# ConfigMap configuration
+configMap:
+  create: true
+  data:
+    NODE_ENV: "production"
+    CLIENT_URL: "https://app.neuralmarketing.ai"
+    CORS_ORIGIN: "https://app.neuralmarketing.ai"
+    RATE_LIMIT_WINDOW_MS: "900000"
+    RATE_LIMIT_MAX_REQUESTS: "1000"
+    LOG_LEVEL: "info"
+    PROMETHEUS_ENABLED: "true"
+    GRAFANA_ENABLED: "true"
+    METRICS_PORT: "9090"
+
+# Pod Disruption Budget
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 2
+
+# Network Policy
+networkPolicy:
+  enabled: true
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: ingress-nginx
+      ports:
+        - protocol: TCP
+          port: 80
+        - protocol: TCP
+          port: 9090
+
+# Service Monitor for Prometheus
+serviceMonitor:
+  enabled: true
+  interval: 30s
+  scrapeTimeout: 10s
+  labels: {}
+
+# Horizontal Pod Autoscaler
+hpa:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+
+# Vertical Pod Autoscaler
+vpa:
+  enabled: false
+  updatePolicy: "Auto"
+
+# Pod Security Policy
+podSecurityPolicy:
+  enabled: false
+
+# Security Context
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  fsGroup: 2000
+  seccompProfile:
+    type: RuntimeDefault
+
+# Service Account
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+# RBAC
+rbac:
+  create: true
+
+# Service
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 3001
+  annotations: {}
+
+# Ingress
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/rate-limit: "100"
+    nginx.ingress.kubernetes.io/rate-limit-window: "1m"
+  hosts:
+    - host: app.neuralmarketing.ai
+      paths:
+        - path: /
+          pathType: Prefix
+    - host: api.neuralmarketing.ai
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: neural-marketing-tls
+      hosts:
+        - app.neuralmarketing.ai
+        - api.neuralmarketing.ai
+
+# Tests
+tests:
+  enabled: true
+  image:
+    repository: neural-marketing/tests
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  resources:
+    limits:
+      cpu: 200m
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+

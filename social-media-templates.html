@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📱 Templates de Redes Sociales | IA Marketing Solutions</title>
+    <meta name="description" content="🔥 Templates de redes sociales que generan engagement. 50+ plantillas para LinkedIn, Instagram, Twitter, TikTok. Contenido que convierte y viraliza.">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Tonos Emocionales Avanzados */
+        .excitement { background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; animation: excitement-pulse 2s infinite; text-align: center; }
+        @keyframes excitement-pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        
+        .trust { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .trust::before { content: "🛡️ "; font-size: 1.8em; }
+        
+        .success { background: linear-gradient(135deg, #28a745 0%, #198754 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .success::before { content: "🎉 "; font-size: 1.8em; }
+        
+        .premium { background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; position: relative; overflow: hidden; }
+        .premium::before { content: "👑 "; font-size: 1.8em; }
+        .premium::after { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent); animation: premium-shine 3s infinite; }
+        @keyframes premium-shine { 0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); } 100% { transform: translateX(100%) translateY(100%) rotate(45deg); } }
+        
+        .curiosity { background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .curiosity::before { content: "🔍 "; font-size: 1.8em; }
+        
+        .social-proof { background: linear-gradient(135deg, #007bff 0%, #6610f2 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .social-proof::before { content: "👥 "; font-size: 1.8em; }
+        
+        .authority { background: linear-gradient(135deg, #343a40 0%, #6c757d 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .authority::before { content: "🏆 "; font-size: 1.8em; }
+        
+        .empathy { background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .empathy::before { content: "💝 "; font-size: 1.8em; }
+        
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 0; text-align: center; }
+        .hero h1 { font-size: 3.5em; margin-bottom: 20px; font-weight: 700; }
+        .hero p { font-size: 1.3em; margin-bottom: 30px; opacity: 0.95; }
+        
+        .cta-button { background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; padding: 20px 40px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.3em; display: inline-block; margin: 20px 10px; transition: all 0.3s; box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3); }
+        .cta-button:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4); }
+        
+        .platforms-section { background: white; padding: 60px 0; }
+        .platforms-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
+        .platform-card { background: #f8f9fa; padding: 30px; border-radius: 20px; border-left: 6px solid #667eea; transition: transform 0.3s; }
+        .platform-card:hover { transform: translateY(-5px); }
+        .platform-icon { font-size: 3em; margin-bottom: 15px; text-align: center; }
+        .platform-stats { background: white; padding: 15px; border-radius: 10px; margin: 15px 0; }
+        .stat-item { display: flex; justify-content: space-between; margin: 8px 0; }
+        
+        .template-preview { background: white; border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin: 20px 0; }
+        .template-header { border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px; }
+        .template-title { font-weight: bold; color: #2c3e50; margin-bottom: 5px; }
+        .template-meta { color: #666; font-size: 0.9em; }
+        .template-content { line-height: 1.6; }
+        
+        .content-types-section { background: #f8f9fa; padding: 60px 0; }
+        .content-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px; }
+        .content-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        .content-icon { font-size: 2.5em; margin-bottom: 15px; }
+        
+        .viral-section { background: #2c3e50; color: white; padding: 60px 0; }
+        .viral-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 40px; }
+        .viral-card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; text-align: center; }
+        .viral-number { font-size: 2.5em; font-weight: bold; color: #ff6b6b; margin-bottom: 10px; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5em; }
+            .hero p { font-size: 1.1em; }
+            .platforms-grid { grid-template-columns: 1fr; }
+            .content-grid { grid-template-columns: 1fr; }
+            .viral-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>📱 Templates de Redes Sociales</h1>
+            <p><strong>Contenido que viraliza</strong> con 50+ templates optimizados para engagement, conversión y crecimiento orgánico</p>
+            <a href="#templates" class="cta-button">🚀 Ver Templates</a>
+            <a href="#viral" class="cta-button" style="background: transparent; border: 2px solid white;">🔥 Estrategias Virales</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="excitement">
+            <h2 style="margin: 0; font-size: 2.2em;">🔥 ¡CONTENIDO QUE VIRALIZA!</h2>
+            <p style="margin: 10px 0 0 0; font-size: 1.2em;">Templates probados que generan 500% más engagement y 300% más seguidores</p>
+        </div>
+
+        <div class="success">
+            <h3 style="margin: 0 0 15px 0;">🎉 RESULTADOS COMPROBADOS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Nuestros templates han generado más de 10M de impresiones y 500K interacciones</p>
+        </div>
+
+        <section class="platforms-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">📱 Templates por Plataforma</h2>
+            
+            <div class="platforms-grid">
+                <div class="platform-card">
+                    <div class="platform-icon">💼</div>
+                    <h3>LinkedIn (B2B)</h3>
+                    <p>Templates profesionales para generar leads y networking empresarial</p>
+                    <div class="platform-stats">
+                        <div class="stat-item">
+                            <span>Templates:</span>
+                            <span style="color: #28a745; font-weight: bold;">25</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Engagement:</span>
+                            <span style="color: #28a745; font-weight: bold;">8.5%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Leads generados:</span>
+                            <span style="color: #28a745; font-weight: bold;">2,500</span>
+                        </div>
+                    </div>
+                    <div class="template-preview">
+                        <div class="template-header">
+                            <div class="template-title">🚀 "5 Estrategias de IA que Aumentaron las Ventas 300%"</div>
+                            <div class="template-meta">LinkedIn Post • 2 min lectura • 1,200 likes</div>
+                        </div>
+                        <div class="template-content">
+                            <p>¿Sabías que las empresas que usan IA en marketing aumentan sus ventas un 300%?</p>
+                            <p>Después de analizar 500+ casos de estudio, estas son las 5 estrategias que realmente funcionan:</p>
+                            <p>1️⃣ Personalización automática de contenido<br>
+                            2️⃣ Predicción de comportamiento del cliente<br>
+                            3️⃣ Optimización de campañas en tiempo real<br>
+                            4️⃣ Chatbots inteligentes<br>
+                            5️⃣ Análisis predictivo de leads</p>
+                            <p>¿Cuál has implementado en tu empresa? 👇</p>
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Usar Templates LinkedIn</a>
+                </div>
+                
+                <div class="platform-card">
+                    <div class="platform-icon">📸</div>
+                    <h3>Instagram</h3>
+                    <p>Contenido visual atractivo para engagement y crecimiento de audiencia</p>
+                    <div class="platform-stats">
+                        <div class="stat-item">
+                            <span>Templates:</span>
+                            <span style="color: #28a745; font-weight: bold;">30</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Engagement:</span>
+                            <span style="color: #28a745; font-weight: bold;">12.3%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Seguidores nuevos:</span>
+                            <span style="color: #28a745; font-weight: bold;">15,000</span>
+                        </div>
+                    </div>
+                    <div class="template-preview">
+                        <div class="template-header">
+                            <div class="template-title">🎨 "Antes vs Después: Transformación con IA"</div>
+                            <div class="template-meta">Instagram Post • Carousel • 3,500 likes</div>
+                        </div>
+                        <div class="template-content">
+                            <p>📸 Swipe para ver la transformación completa</p>
+                            <p>Slide 1: "ANTES: 2 horas creando contenido"<br>
+                            Slide 2: "DESPUÉS: 10 minutos con IA"<br>
+                            Slide 3: "Resultado: 300% más engagement"</p>
+                            <p>💡 El secreto: Automatización inteligente + Personalización</p>
+                            <p>¿Quieres saber cómo? Link en bio 🔗</p>
+                            <p>#IA #Marketing #Automatización #Productividad</p>
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Usar Templates Instagram</a>
+                </div>
+                
+                <div class="platform-card">
+                    <div class="platform-icon">🐦</div>
+                    <h3>Twitter/X</h3>
+                    <p>Hilos virales y tweets que generan conversación y engagement</p>
+                    <div class="platform-stats">
+                        <div class="stat-item">
+                            <span>Templates:</span>
+                            <span style="color: #28a745; font-weight: bold;">20</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Engagement:</span>
+                            <span style="color: #28a745; font-weight: bold;">15.7%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Retweets:</span>
+                            <span style="color: #28a745; font-weight: bold;">8,500</span>
+                        </div>
+                    </div>
+                    <div class="template-preview">
+                        <div class="template-header">
+                            <div class="template-title">🧵 "Hilo: 10 Herramientas de IA que Cambiarán tu Marketing"</div>
+                            <div class="template-meta">Twitter Thread • 5 tweets • 2,100 retweets</div>
+                        </div>
+                        <div class="template-content">
+                            <p>🧵 HILO: 10 herramientas de IA que están revolucionando el marketing (y que probablemente no conoces)</p>
+                            <p>1/10 🎯 ChatGPT para copywriting<br>
+                            Genera copy que convierte en segundos, no horas</p>
+                            <p>2/10 📊 Jasper para contenido<br>
+                            Crea blogs, emails y social media posts automáticamente</p>
+                            <p>3/10 🎨 Midjourney para imágenes<br>
+                            Genera imágenes profesionales sin diseñador</p>
+                            <p>4/10 📈 Surfer SEO para ranking<br>
+                            Optimiza contenido para posicionar #1 en Google</p>
+                            <p>5/10 💬 Drift para chatbots<br>
+                            Atiende clientes 24/7 con IA conversacional</p>
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Usar Templates Twitter</a>
+                </div>
+                
+                <div class="platform-card">
+                    <div class="platform-icon">🎵</div>
+                    <h3>TikTok</h3>
+                    <p>Contenido viral y entretenido para audiencias jóvenes</p>
+                    <div class="platform-stats">
+                        <div class="stat-item">
+                            <span>Templates:</span>
+                            <span style="color: #28a745; font-weight: bold;">15</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Engagement:</span>
+                            <span style="color: #28a745; font-weight: bold;">25.4%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Vistas:</span>
+                            <span style="color: #28a745; font-weight: bold;">500K</span>
+                        </div>
+                    </div>
+                    <div class="template-preview">
+                        <div class="template-header">
+                            <div class="template-title">⚡ "POV: Usas IA para crear contenido"</div>
+                            <div class="template-meta">TikTok Video • 30 segundos • 150K views</div>
+                        </div>
+                        <div class="template-content">
+                            <p>🎬 SCRIPT:</p>
+                            <p>POV: Usas IA para crear contenido</p>
+                            <p>⏰ 0-3s: "Antes: 3 horas creando un post"<br>
+                            ⏰ 3-6s: "Ahora: 30 segundos con IA"<br>
+                            ⏰ 6-9s: "Resultado: 10x más engagement"</p>
+                            <p>🎵 MÚSICA: Trendy beat<br>
+                            📱 EFECTOS: Transiciones rápidas<br>
+                            🏷️ HASHTAGS: #IA #Marketing #Productividad</p>
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Usar Templates TikTok</a>
+                </div>
+                
+                <div class="platform-card">
+                    <div class="platform-icon">📘</div>
+                    <h3>Facebook</h3>
+                    <p>Contenido para comunidades y engagement de audiencia amplia</p>
+                    <div class="platform-stats">
+                        <div class="stat-item">
+                            <span>Templates:</span>
+                            <span style="color: #28a745; font-weight: bold;">18</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Engagement:</span>
+                            <span style="color: #28a745; font-weight: bold;">6.8%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Alcance:</span>
+                            <span style="color: #28a745; font-weight: bold;">50K</span>
+                        </div>
+                    </div>
+                    <div class="template-preview">
+                        <div class="template-header">
+                            <div class="template-title">💡 "¿Sabías que...? Datos Curiosos sobre IA"</div>
+                            <div class="template-meta">Facebook Post • 1 min lectura • 850 likes</div>
+                        </div>
+                        <div class="template-content">
+                            <p>💡 ¿Sabías que...?</p>
+                            <p>La IA puede generar contenido 1000x más rápido que un humano, pero con la misma calidad.</p>
+                            <p>📊 Datos que te van a sorprender:</p>
+                            <p>• 73% de empresas usan IA en marketing<br>
+                            • Ahorran 40 horas semanales en promedio<br>
+                            • Aumentan conversiones 300%<br>
+                            • ROI promedio: 250%</p>
+                            <p>¿Tu empresa ya está usando IA? Cuéntanos en los comentarios 👇</p>
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Usar Templates Facebook</a>
+                </div>
+                
+                <div class="platform-card">
+                    <div class="platform-icon">📺</div>
+                    <h3>YouTube</h3>
+                    <p>Scripts para videos educativos y entretenidos</p>
+                    <div class="platform-stats">
+                        <div class="stat-item">
+                            <span>Templates:</span>
+                            <span style="color: #28a745; font-weight: bold;">12</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Engagement:</span>
+                            <span style="color: #28a745; font-weight: bold;">9.2%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Vistas:</span>
+                            <span style="color: #28a745; font-weight: bold;">100K</span>
+                        </div>
+                    </div>
+                    <div class="template-preview">
+                        <div class="template-header">
+                            <div class="template-title">🎬 "Cómo Aumentar Ventas 300% con IA en 30 Días"</div>
+                            <div class="template-meta">YouTube Video • 15 min • 25K views</div>
+                        </div>
+                        <div class="template-content">
+                            <p>🎬 SCRIPT:</p>
+                            <p>⏰ 0-30s: Hook + Preview<br>
+                            "¿Quieres aumentar tus ventas 300% en 30 días? En este video te muestro exactamente cómo hacerlo con IA"</p>
+                            <p>⏰ 30s-2min: Introducción<br>
+                            "Soy [NOMBRE] y he ayudado a 500+ empresas a implementar IA exitosamente"</p>
+                            <p>⏰ 2-12min: Contenido principal<br>
+                            "Paso 1: Herramientas esenciales<br>
+                            Paso 2: Implementación<br>
+                            Paso 3: Optimización"</p>
+                            <p>⏰ 12-15min: CTA + Cierre</p>
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Usar Templates YouTube</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="authority">
+            <h3 style="margin: 0 0 15px 0;">🏆 LIDERAMOS EN CONTENIDO VIRAL</h3>
+            <p style="margin: 0; font-size: 1.2em;">Nuestros templates han sido utilizados por más de 1,000 empresas y han generado 10M+ de impresiones</p>
+        </div>
+
+        <section class="content-types-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">🎨 Tipos de Contenido</h2>
+            
+            <div class="content-grid">
+                <div class="content-card">
+                    <div class="content-icon">📊</div>
+                    <h3>Contenido Educativo</h3>
+                    <p>Templates que enseñan y aportan valor a tu audiencia</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Tutoriales paso a paso</li>
+                        <li>✅ Tips y consejos</li>
+                        <li>✅ Guías completas</li>
+                        <li>✅ Casos de estudio</li>
+                    </ul>
+                </div>
+                
+                <div class="content-card">
+                    <div class="content-icon">🎭</div>
+                    <h3>Contenido Entretenido</h3>
+                    <p>Templates que entretienen y generan engagement</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Memes y humor</li>
+                        <li>✅ Challenges virales</li>
+                        <li>✅ Contenido interactivo</li>
+                        <li>✅ Storytelling</li>
+                    </ul>
+                </div>
+                
+                <div class="content-card">
+                    <div class="content-icon">💼</div>
+                    <h3>Contenido Profesional</h3>
+                    <p>Templates para networking y autoridad en la industria</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Insights de industria</li>
+                        <li>✅ Opiniones expertas</li>
+                        <li>✅ Networking</li>
+                        <li>✅ Thought leadership</li>
+                    </ul>
+                </div>
+                
+                <div class="content-card">
+                    <div class="content-icon">🎯</div>
+                    <h3>Contenido de Conversión</h3>
+                    <p>Templates diseñados para generar leads y ventas</p>
+                    <ul style="text-align: left;">
+                        <li>✅ CTAs estratégicos</li>
+                        <li>✅ Lead magnets</li>
+                        <li>✅ Testimonios</li>
+                        <li>✅ Ofertas especiales</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="social-proof">
+            <h3 style="margin: 0 0 15px 0;">👥 MÁS DE 1,000 EMPRESAS USAN NUESTROS TEMPLATES</h3>
+            <p style="margin: 0; font-size: 1.2em;">Desde startups hasta Fortune 500, todas han visto resultados increíbles con nuestro contenido</p>
+        </div>
+
+        <section class="viral-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">🔥 Resultados Virales</h2>
+            
+            <div class="viral-grid">
+                <div class="viral-card">
+                    <div class="viral-number">10M+</div>
+                    <h3>Impresiones</h3>
+                    <p>Total de impresiones generadas por nuestros templates</p>
+                </div>
+                
+                <div class="viral-card">
+                    <div class="viral-number">500K</div>
+                    <h3>Interacciones</h3>
+                    <p>Likes, comentarios y shares generados</p>
+                </div>
+                
+                <div class="viral-card">
+                    <div class="viral-number">25K</div>
+                    <h3>Leads</h3>
+                    <p>Leads generados a través de contenido social</p>
+                </div>
+                
+                <div class="viral-card">
+                    <div class="viral-number">300%</div>
+                    <h3>Engagement</h3>
+                    <p>Aumento promedio en engagement</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="premium">
+            <h3 style="margin: 0 0 15px 0;">👑 PAQUETE COMPLETO DE TEMPLATES SOCIALES</h3>
+            <p style="margin: 0; font-size: 1.2em;">Obtén todos los 120 templates + calendario editorial + automatización por solo $297</p>
+        </div>
+
+        <div class="curiosity">
+            <h3 style="margin: 0 0 15px 0;">🔍 ¿CÓMO FUNCIONAN NUESTROS TEMPLATES VIRALES?</h3>
+            <p style="margin: 0; font-size: 1.2em;">Descubre la psicología detrás del contenido que viraliza y genera engagement masivo</p>
+        </div>
+
+        <div class="empathy">
+            <h3 style="margin: 0 0 15px 0;">💝 Entendemos tus Necesidades</h3>
+            <p style="margin: 0; font-size: 1.2em;">Sabemos que crear contenido consistente puede ser abrumador. Por eso nuestros templates están listos para usar y personalizar</p>
+        </div>
+    </div>
+
+    <footer style="background: #2c3e50; color: white; padding: 40px 0; text-align: center;">
+        <div class="container">
+            <p>&copy; 2024 IA Marketing Solutions. Todos los derechos reservados.</p>
+            <p>Creando contenido viral con inteligencia artificial desde 2020</p>
+        </div>
+    </footer>
+
+    <script>
+        // Track platform template interactions
+        document.querySelectorAll('.platform-card .cta-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const platform = this.closest('.platform-card').querySelector('h3').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'platform_template_click', {
+                        'event_category': 'Social Media Templates',
+                        'event_label': platform,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track content type clicks
+        document.querySelectorAll('.content-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const contentType = this.querySelector('h3').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'content_type_click', {
+                        'event_category': 'Social Media Templates',
+                        'event_label': contentType,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track template preview interactions
+        document.querySelectorAll('.template-preview').forEach(preview => {
+            preview.addEventListener('click', function() {
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'template_preview_click', {
+                        'event_category': 'Social Media Templates',
+                        'event_label': 'Template Preview',
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Animate platform cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.platform-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+        
+        // Animate viral numbers
+        const viralObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const number = entry.target.querySelector('.viral-number');
+                    const finalValue = number.textContent;
+                    const isPercentage = finalValue.includes('%');
+                    const isMillion = finalValue.includes('M');
+                    const isK = finalValue.includes('K');
+                    const numericValue = parseFloat(finalValue.replace(/[^0-9.]/g, ''));
+                    
+                    let currentValue = 0;
+                    const increment = numericValue / 50;
+                    
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= numericValue) {
+                            currentValue = numericValue;
+                            clearInterval(timer);
+                        }
+                        
+                        if (isPercentage) {
+                            number.textContent = Math.round(currentValue) + '%';
+                        } else if (isMillion) {
+                            number.textContent = (currentValue / 1000000).toFixed(1) + 'M+';
+                        } else if (isK) {
+                            number.textContent = Math.round(currentValue / 1000) + 'K';
+                        } else {
+                            number.textContent = Math.round(currentValue);
+                        }
+                    }, 30);
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.viral-card').forEach(card => {
+            viralObserver.observe(card);
+        });
+    </script>
+</body>
+</html>
+
+

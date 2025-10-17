@@ -1,0 +1,25 @@
+Organización,Causa,Monto Anual,Monto Mensual,Beneficio Fiscal,Impacto,Prioridad,Estado
+Cruz Roja,Salud y Emergencias,12000,1000,=E2*0.3,Alto,Alta,Activo
+UNICEF,Educación Infantil,6000,500,=E3*0.3,Alto,Alta,Activo
+Médicos Sin Fronteras,Salud Global,8000,667,=E4*0.3,Muy Alto,Alta,Activo
+Banco de Alimentos,Combate Hambre,4000,333,=E5*0.3,Alto,Media,Activo
+Refugio Animal,Protección Animal,2000,167,=E6*0.3,Medio,Baja,Activo
+Iglesia Local,Religión,6000,500,=E7*0.3,Medio,Media,Activo
+Universidad Local,Educación,10000,833,=E8*0.3,Alto,Alta,Activo
+Fundación Cáncer,Investigación,5000,417,=E9*0.3,Alto,Alta,Activo
+,,,,,,
+TOTALES,,=SUM(C2:C9),=SUM(D2:D9),=SUM(E2:E9),,,
+,,,,,,
+ANÁLISIS DE IMPACTO,,,,,
+Métrica,Valor,Objetivo,Estado
+Total Donado Anual,=C10,>50000,=IF(B12>50000,"✅ Cumplido","❌ Por mejorar")
+Ahorro Fiscal,=E10,>15000,=IF(B13>15000,"✅ Cumplido","❌ Por mejorar")
+Organizaciones Apoyadas,=COUNTIF(G2:G9,"Activo"),>5,=IF(B14>5,"✅ Cumplido","❌ Por mejorar")
+Diversidad de Causas,=COUNTUNIQUE(B2:B9),>4,=IF(B15>4,"✅ Cumplido","❌ Por mejorar")
+,,,,,,
+PLAN DE DONACIONES,,,,,
+Estrategia,Descripción,Beneficio,Implementación
+Donaciones Mensuales,Contribuciones regulares,Estabilidad para organizaciones,Transferencia automática
+Donaciones Anuales,Contribuciones grandes,Mayor impacto,Fin de año
+Donaciones en Especie,Productos y servicios,Valor adicional,Según necesidad
+Voluntariado,Tiempo y habilidades,Impacto directo,Horario flexible

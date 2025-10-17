@@ -1,0 +1,2253 @@
+{
+  "timestamp": "2025-10-06T11:30:22.473898",
+  "holographic_metrics": {
+    "total_files": 6153,
+    "total_dimensions": 11,
+    "total_entanglements": 18926628,
+    "average_dimensional_coherence": 0.6523270071581828,
+    "high_coherence_files": 0,
+    "medium_coherence_files": 6152,
+    "low_coherence_files": 1
+  },
+  "dimensional_analysis": {
+    "temporal_dimension": {
+      "average_value": 1.7590082009811339,
+      "std_deviation": 0.0016901215136828549,
+      "min_value": 1.7490495887122688,
+      "max_value": 1.759771643247564,
+      "stability": 0.9990391622320236
+    },
+    "spatial_dimension": {
+      "average_value": 0.6581992523971399,
+      "std_deviation": 0.09588379366686473,
+      "min_value": 0.5,
+      "max_value": 1.2,
+      "stability": 0.8543240617219495
+    },
+    "semantic_dimension": {
+      "average_value": 0.02090037380139735,
+      "std_deviation": 0.04755045038922332,
+      "min_value": 0.0,
+      "max_value": 0.4,
+      "stability": 0
+    },
+    "contextual_dimension": {
+      "average_value": 0.4927352510970808,
+      "std_deviation": 0.244572239476303,
+      "min_value": 0.3,
+      "max_value": 0.9,
+      "stability": 0.503643713471362
+    },
+    "relational_dimension": {
+      "average_value": 0.49644990252076593,
+      "std_deviation": 0.2905607920701849,
+      "min_value": 0.00033249522501044293,
+      "max_value": 0.9996988037621857,
+      "stability": 0.41472283387540576
+    }
+  },
+  "holographic_projections": {
+    "/Users/adan/frontier/Analisis_Competencia_TikTok_IA.md": {
+      "temporal_spatial": {
+        "x": 0.7213803420090852,
+        "y": 0.2049643321273628,
+        "magnitude": 0.7499333138896822
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.3279429314037805,
+        "magnitude": 0.3279429314037805
+      },
+      "relational_functional": {
+        "x": 0.12566150445015076,
+        "y": 0.0,
+        "magnitude": 0.12566150445015076
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.29104935162085516,
+        "magnitude": 0.29104935162085516
+      },
+      "chronological_logical": {
+        "x": 0.1398016380910656,
+        "y": 0.2049643321273628,
+        "magnitude": 0.24810255028387188
+      },
+      "quantum_plane": {
+        "x": 0.40987564482874334,
+        "y": 0.7213803420090852,
+        "magnitude": 0.8296912932295498
+      }
+    },
+    "/Users/adan/frontier/Expansion_Internacional_TikTok_IA.md": {
+      "temporal_spatial": {
+        "x": 0.8243635722187168,
+        "y": 0.2342246811168299,
+        "magnitude": 0.8569927073467336
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.37475948978692786,
+        "magnitude": 0.37475948978692786
+      },
+      "relational_functional": {
+        "x": 0.020179263153073643,
+        "y": 0.0,
+        "magnitude": 0.020179263153073643
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.08432088520205876,
+        "magnitude": 0.08432088520205876
+      },
+      "chronological_logical": {
+        "x": 0.15982793918482854,
+        "y": 0.2342246811168299,
+        "magnitude": 0.283559819770626
+      },
+      "quantum_plane": {
+        "x": 0.19286119007759847,
+        "y": 0.8243635722187168,
+        "magnitude": 0.8466231380250312
+      }
+    },
+    "/Users/adan/frontier/Automatizacion_Avanzada_TikTok_IA.md": {
+      "temporal_spatial": {
+        "x": 0.73748841178057,
+        "y": 0.20954103920204087,
+        "magnitude": 0.7666789449440351
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.3352656627232654,
+        "magnitude": 0.3352656627232654
+      },
+      "relational_functional": {
+        "x": 0.1751796351598062,
+        "y": 0.0,
+        "magnitude": 0.1751796351598062
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.4148912576200409,
+        "magnitude": 0.4148912576200409
+      },
+      "chronological_logical": {
+        "x": 0.14299664781532137,
+        "y": 0.20954103920204087,
+        "magnitude": 0.25368383550453166
+      },
+      "quantum_plane": {
+        "x": 0.18061611821118942,
+        "y": 0.73748841178057,
+        "magnitude": 0.7592834382944922
+      }
+    },
+    "/Users/adan/frontier/VC_Templates_Scripts_2024.md": {
+      "temporal_spatial": {
+        "x": 0.7815601432920131,
+        "y": 0.22206304688096112,
+        "magnitude": 0.8124950795990632
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.35530087500953783,
+        "magnitude": 0.35530087500953783
+      },
+      "relational_functional": {
+        "x": 0.31977571214616773,
+        "y": 0.1268931696462635,
+        "magnitude": 0.34403253128369143
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.039971348438573,
+        "magnitude": 0.039971348438573
+      },
+      "chronological_logical": {
+        "x": 0.15155895707436698,
+        "y": 0.22206304688096112,
+        "magnitude": 0.26885333224553076
+      },
+      "quantum_plane": {
+        "x": 0.14620132799595634,
+        "y": 0.7815601432920131,
+        "magnitude": 0.7951170265378633
+      }
+    },
+    "/Users/adan/frontier/Liderazgo_Autoridad_TikTok_IA.md": {
+      "temporal_spatial": {
+        "x": 0.7885425071184383,
+        "y": 0.22404690018952134,
+        "magnitude": 0.8197538039052735
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.3584750403032341,
+        "magnitude": 0.3584750403032341
+      },
+      "relational_functional": {
+        "x": 0.1351019562996302,
+        "y": 0.0,
+        "magnitude": 0.1351019562996302
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.3002228462539586,
+        "magnitude": 0.3002228462539586
+      },
+      "chronological_logical": {
+        "x": 0.15292907716116588,
+        "y": 0.22404690018952134,
+        "magnitude": 0.2712642920214512
+      },
+      "quantum_plane": {
+        "x": 0.13239612655857658,
+        "y": 0.7885425071184383,
+        "magnitude": 0.7995799021113192
+      }
+    },
+    "/Users/adan/frontier/ORGANIZACION_CUANTICA_PREDICTIVA_FINAL.md": {
+      "temporal_spatial": {
+        "x": 0.7751506939023004,
+        "y": 0.2202418884093401,
+        "magnitude": 0.8058319227154817
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.35238702145494416,
+        "magnitude": 0.35238702145494416
+      },
+      "relational_functional": {
+        "x": 0.09355995731965923,
+        "y": 0.0,
+        "magnitude": 0.09355995731965923
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.04845321545005482,
+        "magnitude": 0.04845321545005482
+      },
+      "chronological_logical": {
+        "x": 0.1503423687088992,
+        "y": 0.2202418884093401,
+        "magnitude": 0.26666330313546105
+      },
+      "quantum_plane": {
+        "x": 0.37979968733868347,
+        "y": 0.7751506939023004,
+        "magnitude": 0.8631954591862607
+      }
+    },
+    "/Users/adan/frontier/VC_Advanced_Closing_Techniques_2024.md": {
+      "temporal_spatial": {
+        "x": 0.8016301120235229,
+        "y": 0.2277654198569636,
+        "magnitude": 0.8333594200496354
+      },
+      "semantic_contextual": {
+        "x": 0.045553083971392724,
+        "y": 0.3644246717711418,
+        "magnitude": 0.3672607042072555
+      },
+      "relational_functional": {
+        "x": 0.02238660908386651,
+        "y": 0.0,
+        "magnitude": 0.02238660908386651
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.2687631954312171,
+        "magnitude": 0.2687631954312171
+      },
+      "chronological_logical": {
+        "x": 0.15548908011930443,
+        "y": 0.2277654198569636,
+        "magnitude": 0.275778789102727
+      },
+      "quantum_plane": {
+        "x": 0.14779342392707284,
+        "y": 0.8016301120235229,
+        "magnitude": 0.815140314705961
+      }
+    },
+    "/Users/adan/frontier/MODELO_FINANCIERO_ULTRA_OPTIMIZADO.md": {
+      "temporal_spatial": {
+        "x": 0.7793422462769043,
+        "y": 0.2214328470037889,
+        "magnitude": 0.8101893868498491
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.35429255520606223,
+        "magnitude": 0.35429255520606223
+      },
+      "relational_functional": {
+        "x": 0.22216038566508964,
+        "y": 0.0,
+        "magnitude": 0.22216038566508964
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.2612907594644709,
+        "magnitude": 0.2612907594644709
+      },
+      "chronological_logical": {
+        "x": 0.15118153114313268,
+        "y": 0.2214328470037889,
+        "magnitude": 0.2681200497743229
+      },
+      "quantum_plane": {
+        "x": 0.16897776105173895,
+        "y": 0.7793422462769043,
+        "magnitude": 0.7974508264225385
+      }
+    },
+    "/Users/adan/frontier/PAQUETE_INVERSION_ULTRA_OPTIMIZADO.md": {
+      "temporal_spatial": {
+        "x": 0.7404101012208925,
+        "y": 0.2103712023208844,
+        "magnitude": 0.7697162858845243
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.33659392371341507,
+        "magnitude": 0.33659392371341507
+      },
+      "relational_functional": {
+        "x": 0.3814431910074654,
+        "y": 0.0,
+        "magnitude": 0.3814431910074654
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.2314083225529729,
+        "magnitude": 0.2314083225529729
+      },
+      "chronological_logical": {
+        "x": 0.14365576299538016,
+        "y": 0.2103712023208844,
+        "magnitude": 0.25474108621837843
+      },
+      "quantum_plane": {
+        "x": 0.17406788630555411,
+        "y": 0.7404101012208925,
+        "magnitude": 0.7605963101625037
+      }
+    },
+    "/Users/adan/frontier/Innovacion_Futuro_TikTok_IA.md": {
+      "temporal_spatial": {
+        "x": 0.7832735184651869,
+        "y": 0.22254976134849452,
+        "magnitude": 0.814276243669865
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.35607961815759126,
+        "magnitude": 0.35607961815759126
+      },
+      "relational_functional": {
+        "x": 0.31798348839157287,
+        "y": 0.0,
+        "magnitude": 0.31798348839157287
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.09347089976636769,
+        "magnitude": 0.09347089976636769
+      },
+      "chronological_logical": {
+        "x": 0.15198229880786837,
+        "y": 0.22254976134849452,
+        "magnitude": 0.2694939988704685
+      },
+      "quantum_plane": {
+        "x": 0.1663856397278166,
+        "y": 0.7832735184651869,
+        "magnitude": 0.8007506389859881
+      }
+    },
+    "/Users/adan/frontier/VC_Market_Intelligence_2024.md": {
+      "temporal_spatial": {
+        "x": 0.7955377378849218,
+        "y": 0.2260345234126267,
+        "magnitude": 0.82702593561111
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.3616552374602027,
+        "magnitude": 0.3616552374602027
+      },
+      "relational_functional": {
+        "x": 0.3277134652049026,
+        "y": 0.0,
+        "magnitude": 0.3277134652049026
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.004520690468252534,
+        "magnitude": 0.004520690468252534
+      },
+      "chronological_logical": {
+        "x": 0.15438159932264944,
+        "y": 0.2260345234126267,
+        "magnitude": 0.2737248326034603
+      },
+      "quantum_plane": {
+        "x": 0.05377504199408416,
+        "y": 0.7955377378849218,
+        "magnitude": 0.7973531510820812
+      }
+    },
+    "/Users/adan/frontier/SISTEMA_VERSIONADO.md": {
+      "temporal_spatial": {
+        "x": 0.7336498776661333,
+        "y": 0.20845034320187367,
+        "magnitude": 0.7626884610248875
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.3335205491229979,
+        "magnitude": 0.3335205491229979
+      },
+      "relational_functional": {
+        "x": 0.32349783712929875,
+        "y": 0.0,
+        "magnitude": 0.32349783712929875
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.22512637065802357,
+        "magnitude": 0.22512637065802357
+      },
+      "chronological_logical": {
+        "x": 0.14238661162316477,
+        "y": 0.20845034320187367,
+        "magnitude": 0.2524390872081914
+      },
+      "quantum_plane": {
+        "x": 0.29666838151156183,
+        "y": 0.7336498776661333,
+        "magnitude": 0.7913622884546762
+      }
+    },
+    "/Users/adan/frontier/SISTEMA_BUSQUEDA_AVANZADO.md": {
+      "temporal_spatial": {
+        "x": 0.7963855116359939,
+        "y": 0.22627530322488806,
+        "magnitude": 0.8279072387612266
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.3620404851598209,
+        "magnitude": 0.3620404851598209
+      },
+      "relational_functional": {
+        "x": 0.06350740245139383,
+        "y": 0.0,
+        "magnitude": 0.06350740245139383
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.321310930579341,
+        "magnitude": 0.321310930579341
+      },
+      "chronological_logical": {
+        "x": 0.15457906827615325,
+        "y": 0.22627530322488806,
+        "magnitude": 0.2740350364435882
+      },
+      "quantum_plane": {
+        "x": 0.03357358541291702,
+        "y": 0.7963855116359939,
+        "magnitude": 0.797092885918073
+      }
+    },
+    "/Users/adan/frontier/Estrategias_Crecimiento_Viral.md": {
+      "temporal_spatial": {
+        "x": 0.7334524987837383,
+        "y": 0.20839435957650856,
+        "magnitude": 0.762483296259933
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.3334309753224137,
+        "magnitude": 0.3334309753224137
+      },
+      "relational_functional": {
+        "x": 0.18025500189162189,
+        "y": 0.0,
+        "magnitude": 0.18025500189162189
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.3459346368970042,
+        "magnitude": 0.3459346368970042
+      },
+      "chronological_logical": {
+        "x": 0.14237748623221488,
+        "y": 0.20839435957650856,
+        "magnitude": 0.25238771303117685
+      },
+      "quantum_plane": {
+        "x": 0.3026232165895614,
+        "y": 0.7334524987837383,
+        "magnitude": 0.7934313953903779
+      }
+    },
+    "/Users/adan/frontier/Checklist_Implementacion_TikTok_IA.md": {
+      "temporal_spatial": {
+        "x": 0.7228585630537756,
+        "y": 0.2053844158136085,
+        "magnitude": 0.7514700662296979
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.32861506530177365,
+        "magnitude": 0.32861506530177365
+      },
+      "relational_functional": {
+        "x": 0.24156993641676464,
+        "y": 0.0,
+        "magnitude": 0.24156993641676464
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.40666114331094483,
+        "magnitude": 0.40666114331094483
+      },
+      "chronological_logical": {
+        "x": 0.14033134029244562,
+        "y": 0.2053844158136085,
+        "magnitude": 0.24874815240996548
+      },
+      "quantum_plane": {
+        "x": 0.20420557149771507,
+        "y": 0.7228585630537756,
+        "magnitude": 0.7511487320170871
+      }
+    },
+    "/Users/adan/frontier/OPTIMIZACION_ARCHIVOS.md": {
+      "temporal_spatial": {
+        "x": 0.7994147370436677,
+        "y": 0.22713595412679422,
+        "magnitude": 0.8310563539614421
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.36341752660287074,
+        "magnitude": 0.36341752660287074
+      },
+      "relational_functional": {
+        "x": 0.17543012431984106,
+        "y": 0.0,
+        "magnitude": 0.17543012431984106
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.04542719082535884,
+        "magnitude": 0.04542719082535884
+      },
+      "chronological_logical": {
+        "x": 0.15520698372951502,
+        "y": 0.22713595412679422,
+        "magnitude": 0.2750998899590894
+      },
+      "quantum_plane": {
+        "x": 0.26220932526800905,
+        "y": 0.7994147370436677,
+        "magnitude": 0.841318995423318
+      }
+    },
+    "/Users/adan/frontier/VC_Advanced_Psychology_Mastery_2024.md": {
+      "temporal_spatial": {
+        "x": 0.7465210949744233,
+        "y": 0.21210743044218272,
+        "magnitude": 0.7760691382155313
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.33937188870749235,
+        "magnitude": 0.33937188870749235
+      },
+      "relational_functional": {
+        "x": 0.36454622829121924,
+        "y": 0.0,
+        "magnitude": 0.36454622829121924
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.17392809296258982,
+        "magnitude": 0.17392809296258982
+      },
+      "chronological_logical": {
+        "x": 0.14495040730609743,
+        "y": 0.21210743044218272,
+        "magnitude": 0.25690500701035185
+      },
+      "quantum_plane": {
+        "x": 0.23108071567001476,
+        "y": 0.7465210949744233,
+        "magnitude": 0.7814678767527032
+      }
+    },
+    "/Users/adan/frontier/VC_AI_Negotiation_Assistant_2024.md": {
+      "temporal_spatial": {
+        "x": 0.7515270106774592,
+        "y": 0.21352972221683605,
+        "magnitude": 0.7812731852865532
+      },
+      "semantic_contextual": {
+        "x": 0.042705944443367214,
+        "y": 0.3416475555469377,
+        "magnitude": 0.3443063314869447
+      },
+      "relational_functional": {
+        "x": 0.22599155093374498,
+        "y": 0.0,
+        "magnitude": 0.22599155093374498
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.3117533944365806,
+        "magnitude": 0.3117533944365806
+      },
+      "chronological_logical": {
+        "x": 0.14593601968582579,
+        "y": 0.21352972221683605,
+        "magnitude": 0.2586353883592516
+      },
+      "quantum_plane": {
+        "x": 0.23645451127499034,
+        "y": 0.7515270106774592,
+        "magnitude": 0.7878474368049263
+      }
+    },
+    "/Users/adan/frontier/SISTEMA_TAGS_METADATOS.md": {
+      "temporal_spatial": {
+        "x": 0.8243673820724563,
+        "y": 0.23422572387923585,
+        "magnitude": 0.8569966571415242
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.37476115820677736,
+        "magnitude": 0.37476115820677736
+      },
+      "relational_functional": {
+        "x": 0.09337047057798421,
+        "y": 0.0,
+        "magnitude": 0.09337047057798421
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.04684514477584717,
+        "magnitude": 0.04684514477584717
+      },
+      "chronological_logical": {
+        "x": 0.16009469042781768,
+        "y": 0.23422572387923585,
+        "magnitude": 0.28371112003220955
+      },
+      "quantum_plane": {
+        "x": 0.18359273393250783,
+        "y": 0.8243673820724563,
+        "magnitude": 0.8445637172989423
+      }
+    },
+    "/Users/adan/frontier/VC_Marketing_SaaS_Specialized_Guide_2024.md": {
+      "temporal_spatial": {
+        "x": 0.7103380368640909,
+        "y": 0.20182687495927068,
+        "magnitude": 0.7384539349693762
+      },
+      "semantic_contextual": {
+        "x": 0.040365374991854136,
+        "y": 0.3229229999348331,
+        "magnitude": 0.3254360572910525
+      },
+      "relational_functional": {
+        "x": 0.21498796181191826,
+        "y": 0.05766482141693448,
+        "magnitude": 0.2225871859588727
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.3794345249234289,
+        "magnitude": 0.3794345249234289
+      },
+      "chronological_logical": {
+        "x": 0.13798221856432163,
+        "y": 0.20182687495927068,
+        "magnitude": 0.2444855416906229
+      },
+      "quantum_plane": {
+        "x": 0.30901191625952507,
+        "y": 0.7103380368640909,
+        "magnitude": 0.7746408787343425
+      }
+    },
+    "/Users/adan/frontier/Casos_Uso_Practicos_TikTok_IA.md": {
+      "temporal_spatial": {
+        "x": 0.7716905817983599,
+        "y": 0.2192589177279643,
+        "magnitude": 0.8022348951769235
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.3508142683647429,
+        "magnitude": 0.3508142683647429
+      },
+      "relational_functional": {
+        "x": 0.23599425314519282,
+        "y": 0.0,
+        "magnitude": 0.23599425314519282
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.23679963114620145,
+        "magnitude": 0.23679963114620145
+      },
+      "chronological_logical": {
+        "x": 0.14990995438881213,
+        "y": 0.2192589177279643,
+        "magnitude": 0.2656077322445526
+      },
+      "quantum_plane": {
+        "x": 0.22590640056349023,
+        "y": 0.7716905817983599,
+        "magnitude": 0.804077145460461
+      }
+    },
+    "/Users/adan/frontier/ANALISIS_COMPETITIVO_ULTRA_OPTIMIZADO.md": {
+      "temporal_spatial": {
+        "x": 0.7899679409313287,
+        "y": 0.22445190291918585,
+        "magnitude": 0.8212356570579037
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.3591230446706974,
+        "magnitude": 0.3591230446706974
+      },
+      "relational_functional": {
+        "x": 0.17615182159817583,
+        "y": 0.0,
+        "magnitude": 0.17615182159817583
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.28280939767817415,
+        "magnitude": 0.28280939767817415
+      },
+      "chronological_logical": {
+        "x": 0.15347212665285442,
+        "y": 0.22445190291918585,
+        "magnitude": 0.27190503927546733
+      },
+      "quantum_plane": {
+        "x": 0.10797992550599808,
+        "y": 0.7899679409313287,
+        "magnitude": 0.7973136221158924
+      }
+    },
+    "/Users/adan/frontier/VC_Quick_Reference_2024.md": {
+      "temporal_spatial": {
+        "x": 0.7621783558924635,
+        "y": 0.2165561301294775,
+        "magnitude": 0.7923461388103018
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.346489808207164,
+        "magnitude": 0.346489808207164
+      },
+      "relational_functional": {
+        "x": 0.35081430017370313,
+        "y": 0.0,
+        "magnitude": 0.35081430017370313
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.0519734712310746,
+        "magnitude": 0.0519734712310746
+      },
+      "chronological_logical": {
+        "x": 0.14808804808553871,
+        "y": 0.2165561301294775,
+        "magnitude": 0.2623482942243765
+      },
+      "quantum_plane": {
+        "x": 0.23986218276409552,
+        "y": 0.7621783558924635,
+        "magnitude": 0.7990304830926634
+      }
+    },
+    "/Users/adan/frontier/VC_NEGOTIATION_STRATEGY_ULTRA.md": {
+      "temporal_spatial": {
+        "x": 0.7438880453818965,
+        "y": 0.21135926666665433,
+        "magnitude": 0.7733318586919617
+      },
+      "semantic_contextual": {
+        "x": 0.04227185333333087,
+        "y": 0.33817482666664694,
+        "magnitude": 0.3408065770715867
+      },
+      "relational_functional": {
+        "x": 0.294375520742083,
+        "y": 0.0,
+        "magnitude": 0.294375520742083
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.01268155599999926,
+        "magnitude": 0.01268155599999926
+      },
+      "chronological_logical": {
+        "x": 0.1445464605321482,
+        "y": 0.21135926666665433,
+        "magnitude": 0.2560594049400212
+      },
+      "quantum_plane": {
+        "x": 0.3652732202390325,
+        "y": 0.7438880453818965,
+        "magnitude": 0.8287303237398106
+      }
+    },
+    "/Users/adan/frontier/VC_Valuation_Financial_Engineering_2024.md": {
+      "temporal_spatial": {
+        "x": 0.72650062211129,
+        "y": 0.20641923852839467,
+        "magnitude": 0.755256284954143
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.3302707816454315,
+        "magnitude": 0.3302707816454315
+      },
+      "relational_functional": {
+        "x": 0.28029068595549145,
+        "y": 0.0,
+        "magnitude": 0.28029068595549145
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.09495284972306155,
+        "magnitude": 0.09495284972306155
+      },
+      "chronological_logical": {
+        "x": 0.14118042732500424,
+        "y": 0.20641923852839467,
+        "magnitude": 0.25008161686600056
+      },
+      "quantum_plane": {
+        "x": 0.41278254254551383,
+        "y": 0.72650062211129,
+        "magnitude": 0.8355791891606864
+      }
+    },
+    "/Users/adan/frontier/VC_AI_Course_Specialized_Guide_2024.md": {
+      "temporal_spatial": {
+        "x": 0.7725923869550021,
+        "y": 0.21951509285857176,
+        "magnitude": 0.8031723802357343
+      },
+      "semantic_contextual": {
+        "x": 0.04390301857171436,
+        "y": 0.35122414857371487,
+        "magnitude": 0.35395745165349923
+      },
+      "relational_functional": {
+        "x": 0.2868227209952545,
+        "y": 0.06271859795959193,
+        "magnitude": 0.2935998906831175
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.0043903018571714355,
+        "magnitude": 0.0043903018571714355
+      },
+      "chronological_logical": {
+        "x": 0.15016674930453638,
+        "y": 0.21951509285857176,
+        "magnitude": 0.2659641490678751
+      },
+      "quantum_plane": {
+        "x": 0.2695758722447007,
+        "y": 0.7725923869550021,
+        "magnitude": 0.818272660717269
+      }
+    },
+    "/Users/adan/frontier/INDICE_GENERAL_ORGANIZACION.md": {
+      "temporal_spatial": {
+        "x": 0.6794011292557676,
+        "y": 0.19303673076617966,
+        "magnitude": 0.7062924846399732
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.30885876922588745,
+        "magnitude": 0.30885876922588745
+      },
+      "relational_functional": {
+        "x": 0.35623746773191234,
+        "y": 0.0,
+        "magnitude": 0.35623746773191234
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.38221272691703573,
+        "magnitude": 0.38221272691703573
+      },
+      "chronological_logical": {
+        "x": 0.13206805461051244,
+        "y": 0.19303673076617966,
+        "magnitude": 0.23389132192858253
+      },
+      "quantum_plane": {
+        "x": 0.2793927957311381,
+        "y": 0.6794011292557676,
+        "magnitude": 0.7346061725444959
+      }
+    },
+    "/Users/adan/frontier/VC_Negotiation_Master_Index_2024.md": {
+      "temporal_spatial": {
+        "x": 0.7508928750980123,
+        "y": 0.21334968861516843,
+        "magnitude": 0.7806139887967345
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.3413595017842695,
+        "magnitude": 0.3413595017842695
+      },
+      "relational_functional": {
+        "x": 0.09400479327286902,
+        "y": 0.0,
+        "magnitude": 0.09400479327286902
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.40963140214112337,
+        "magnitude": 0.40963140214112337
+      },
+      "chronological_logical": {
+        "x": 0.1459785978738309,
+        "y": 0.21334968861516843,
+        "magnitude": 0.2585108134477143
+      },
+      "quantum_plane": {
+        "x": 0.17507959215359833,
+        "y": 0.7508928750980123,
+        "magnitude": 0.7710337044913338
+      }
+    },
+    "/Users/adan/frontier/Estrategias_Monetizacion_Avanzadas.md": {
+      "temporal_spatial": {
+        "x": 0.7281462711833755,
+        "y": 0.20688674159224404,
+        "magnitude": 0.7569670508581663
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.3310187865475905,
+        "magnitude": 0.3310187865475905
+      },
+      "relational_functional": {
+        "x": 0.27819133016980385,
+        "y": 0.0,
+        "magnitude": 0.27819133016980385
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.19033580226486452,
+        "magnitude": 0.19033580226486452
+      },
+      "chronological_logical": {
+        "x": 0.14157090899292568,
+        "y": 0.20688674159224404,
+        "magnitude": 0.25068794570090364
+      },
+      "quantum_plane": {
+        "x": 0.3754528824532543,
+        "y": 0.7281462711833755,
+        "magnitude": 0.8192446882224571
+      }
+    },
+    "/Users/adan/frontier/VC_Case_Studies_2024.md": {
+      "temporal_spatial": {
+        "x": 0.6715927961517519,
+        "y": 0.19081823391989539,
+        "magnitude": 0.6981751085789557
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.30530917427183263,
+        "magnitude": 0.30530917427183263
+      },
+      "relational_functional": {
+        "x": 0.3026023027397378,
+        "y": 0.0,
+        "magnitude": 0.3026023027397378
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.3587382797694033,
+        "magnitude": 0.3587382797694033
+      },
+      "chronological_logical": {
+        "x": 0.1305941040984193,
+        "y": 0.19081823391989539,
+        "magnitude": 0.2312280658172288
+      },
+      "quantum_plane": {
+        "x": 0.3815889155221047,
+        "y": 0.6715927961517519,
+        "magnitude": 0.7724292746214793
+      }
+    },
+    "/Users/adan/frontier/ESCENARIOS_FINANCIEROS_AVANZADOS.md": {
+      "temporal_spatial": {
+        "x": 0.7182071769313697,
+        "y": 0.20406261825491942,
+        "magnitude": 0.7466345164568677
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.32650018920787105,
+        "magnitude": 0.32650018920787105
+      },
+      "relational_functional": {
+        "x": 0.09299219729798616,
+        "y": 0.0,
+        "magnitude": 0.09299219729798616
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.39588147941454366,
+        "magnitude": 0.39588147941454366
+      },
+      "chronological_logical": {
+        "x": 0.13967273297673305,
+        "y": 0.20406261825491942,
+        "magnitude": 0.24728530992811268
+      },
+      "quantum_plane": {
+        "x": 0.3307790898385893,
+        "y": 0.7182071769313697,
+        "magnitude": 0.7907188851103616
+      }
+    },
+    "/Users/adan/frontier/NAMING_CONVENTIONS.md": {
+      "temporal_spatial": {
+        "x": 0.8355081144016611,
+        "y": 0.2373911122652866,
+        "magnitude": 0.8685783496113457
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.37982577962445857,
+        "magnitude": 0.37982577962445857
+      },
+      "relational_functional": {
+        "x": 0.12415039229928004,
+        "y": 0.0,
+        "magnitude": 0.12415039229928004
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.037982577962445856,
+        "magnitude": 0.037982577962445856
+      },
+      "chronological_logical": {
+        "x": 0.16250083338377122,
+        "y": 0.2373911122652866,
+        "magnitude": 0.2876822223095652
+      },
+      "quantum_plane": {
+        "x": 0.04107274703979038,
+        "y": 0.8355081144016611,
+        "magnitude": 0.836517052892775
+      }
+    },
+    "/Users/adan/frontier/99_Duplicates/sistema-marketing-ultra-consciente-ultra-avanzado-ultra-trascendental-ultra-divino-ultra-iluminado-ultra-supremo-ultra-absoluto-ultra-infinito.md": {
+      "temporal_spatial": {
+        "x": 0.7067095172077623,
+        "y": 0.24106988857554415,
+        "magnitude": 0.7466947387586536
+      },
+      "semantic_contextual": {
+        "x": 0.0401783147625907,
+        "y": 0.3214265181007256,
+        "magnitude": 0.32392792950827487
+      },
+      "relational_functional": {
+        "x": 0.3985014531819921,
+        "y": 0.0,
+        "magnitude": 0.3985014531819921
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.34553350695827995,
+        "magnitude": 0.34553350695827995
+      },
+      "chronological_logical": {
+        "x": 0.1376951098184365,
+        "y": 0.20089157381295347,
+        "magnitude": 0.2435515709186796
+      },
+      "quantum_plane": {
+        "x": 0.00186635436738561,
+        "y": 0.7067095172077623,
+        "magnitude": 0.7067119816379606
+      }
+    },
+    "/Users/adan/frontier/99_Duplicates/sistema-marketing-ultra-consciente-ultra-avanzado-ultra-trascendental-ultra-divino-ultra-iluminado-ultra-supremo-ultra-absoluto-ultra-infinito-ultra-eterno.md": {
+      "temporal_spatial": {
+        "x": 0.8021995848061346,
+        "y": 0.2736430737193048,
+        "magnitude": 0.8475875799335922
+      },
+      "semantic_contextual": {
+        "x": 0.04560717895321747,
+        "y": 0.36485743162573975,
+        "magnitude": 0.36769683189361607
+      },
+      "relational_functional": {
+        "x": 0.14292240424664504,
+        "y": 0.0,
+        "magnitude": 0.14292240424664504
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.009121435790643494,
+        "magnitude": 0.009121435790643494
+      },
+      "chronological_logical": {
+        "x": 0.15631363706244392,
+        "y": 0.22803589476608732,
+        "magnitude": 0.27646757935327515
+      },
+      "quantum_plane": {
+        "x": 0.22237355395309577,
+        "y": 0.8021995848061346,
+        "magnitude": 0.8324507020604074
+      }
+    },
+    "/Users/adan/frontier/12_User_Guides/VIP_Program_Customer_Documentation.md": {
+      "temporal_spatial": {
+        "x": 0.8128746629861684,
+        "y": 0.2772182681132678,
+        "magnitude": 0.8588452630716411
+      },
+      "semantic_contextual": {
+        "x": 0.046203044685544634,
+        "y": 0.36962435748435707,
+        "magnitude": 0.3725008550110164
+      },
+      "relational_functional": {
+        "x": 0.14374147284462038,
+        "y": 0.0,
+        "magnitude": 0.14374147284462038
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.14784974299374282,
+        "magnitude": 0.14784974299374282
+      },
+      "chronological_logical": {
+        "x": 0.158497673540841,
+        "y": 0.23101522342772315,
+        "magnitude": 0.2801598578904905
+      },
+      "quantum_plane": {
+        "x": 0.05115880787693102,
+        "y": 0.8128746629861684,
+        "magnitude": 0.8144829288255621
+      }
+    },
+    "/Users/adan/frontier/ai_technology/README.md": {
+      "temporal_spatial": {
+        "x": 0.7426688159158862,
+        "y": 0.25321555443615884,
+        "magnitude": 0.7846496588556677
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.33762073924821184,
+        "magnitude": 0.33762073924821184
+      },
+      "relational_functional": {
+        "x": 0.236620171285741,
+        "y": 0.0,
+        "magnitude": 0.236620171285741
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.26165607291736415,
+        "magnitude": 0.26165607291736415
+      },
+      "chronological_logical": {
+        "x": 0.14482197733806418,
+        "y": 0.2110129620301324,
+        "magnitude": 0.2559294341509723
+      },
+      "quantum_plane": {
+        "x": 0.283521195095724,
+        "y": 0.7426688159158862,
+        "magnitude": 0.7949473178786203
+      }
+    },
+    "/Users/adan/frontier/ai_technology/Neural_Consciousness_Revolutionary_System.md": {
+      "temporal_spatial": {
+        "x": 0.7745112566250862,
+        "y": 0.26407308075310404,
+        "magnitude": 0.8182922941207534
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.35209744100413876,
+        "magnitude": 0.35209744100413876
+      },
+      "relational_functional": {
+        "x": 0.3034113244787705,
+        "y": 0.0,
+        "magnitude": 0.3034113244787705
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.1804499385146211,
+        "magnitude": 0.1804499385146211
+      },
+      "chronological_logical": {
+        "x": 0.15104454159492028,
+        "y": 0.2200609006275867,
+        "magnitude": 0.2669105721597483
+      },
+      "quantum_plane": {
+        "x": 0.10277766176750089,
+        "y": 0.7745112566250862,
+        "magnitude": 0.7813007963629405
+      }
+    },
+    "/Users/adan/frontier/ai_technology/Neural_Consciousness_Implementation_Toolkit_Enhanced.md": {
+      "temporal_spatial": {
+        "x": 0.7690261499686729,
+        "y": 0.26220267860538227,
+        "magnitude": 0.8124970547660325
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.3496035714738431,
+        "magnitude": 0.3496035714738431
+      },
+      "relational_functional": {
+        "x": 0.1760659421974221,
+        "y": 0.0,
+        "magnitude": 0.1760659421974221
+      },
+      "hierarchical_categorical": {
+        "x": 0.0,
+        "y": 0.2665727232488053,
+        "magnitude": 0.2665727232488053
+      },
+      "chronological_logical": {
+        "x": 0.14998564877493858,
+        "y": 0.21850223217115192,
+        "magnitude": 0.2650262634197132
+      },
+      "quantum_plane": {
+        "x": 0.21290074148506602,
+        "y": 0.7690261499686729,
+        "magnitude": 0.7979523451062293
+      }
+    },
+    "/Users/adan/frontier/ai_technology/08_AI_Artificial_Intelligence/Semantic_Cluster_cluster_70/README.md": {
+      "temporal_spatial": {
+        "x": 0.7028199863619652,
+        "y": 0.3195486224729946,
+        "magnitude": 0.7720539199785345
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.3195486224729946,
+        "magnitude": 0.3195486224729946
+      },
+      "relational_functional": {
+        "x": 0.06969434519983683,
+        "y": 0.0,
+        "magnitude": 0.06969434519983683
+      },
+      "hierarchical_categorical": {
+        "x": 0.3195486224729946,
+        "y": 0.2476501824165708,
+        "magnitude": 0.40427952579292115
+      },
+      "chronological_logical": {
+        "x": 0.1374010911636984,
+        "y": 0.1997178890456216,
+        "magnitude": 0.24241760467798987
+      },
+      "quantum_plane": {
+        "x": 0.2734152350096689,
+        "y": 0.7028199863619652,
+        "magnitude": 0.7541298455605808
+      }
+    },
+    "/Users/adan/frontier/ai_technology/08_AI_Artificial_Intelligence/Advanced_AI/README.md": {
+      "temporal_spatial": {
+        "x": 0.7131539114589316,
+        "y": 0.32424711083912056,
+        "magnitude": 0.7834058273440979
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.32424711083912056,
+        "magnitude": 0.32424711083912056
+      },
+      "relational_functional": {
+        "x": 0.1939027577651026,
+        "y": 0.0,
+        "magnitude": 0.1939027577651026
+      },
+      "hierarchical_categorical": {
+        "x": 0.32424711083912056,
+        "y": 0.2512915109003184,
+        "magnitude": 0.41022385637366554
+      },
+      "chronological_logical": {
+        "x": 0.1394485242622258,
+        "y": 0.20265444427445034,
+        "magnitude": 0.24599738759405326
+      },
+      "quantum_plane": {
+        "x": 0.121418755905749,
+        "y": 0.7131539114589316,
+        "magnitude": 0.7234162119519257
+      }
+    },
+    "/Users/adan/frontier/ai_technology/08_AI_Artificial_Intelligence/Core_Files/CONSCIOUSNESS_AI_ALGORITHMS.md": {
+      "temporal_spatial": {
+        "x": 0.6741634406941851,
+        "y": 0.306565299641854,
+        "magnitude": 0.7405934294288073
+      },
+      "semantic_contextual": {
+        "x": 0.03832066245523175,
+        "y": 0.306565299641854,
+        "magnitude": 0.3089510577996255
+      },
+      "relational_functional": {
+        "x": 0.26945379626137816,
+        "y": 0.0,
+        "magnitude": 0.26945379626137816
+      },
+      "hierarchical_categorical": {
+        "x": 0.306565299641854,
+        "y": 0.06131305992837081,
+        "magnitude": 0.3126364890128466
+      },
+      "chronological_logical": {
+        "x": 0.13197861839549027,
+        "y": 0.19160331227615876,
+        "magnitude": 0.23265894564528924
+      },
+      "quantum_plane": {
+        "x": 0.36275819577322466,
+        "y": 0.6741634406941851,
+        "magnitude": 0.765565054955663
+      }
+    },
+    "/Users/adan/frontier/ai_technology/08_AI_Artificial_Intelligence/Core_Files/ai-marketing-webinar-cosmic-mastery.md": {
+      "temporal_spatial": {
+        "x": 0.7425878591505803,
+        "y": 0.3378940060530493,
+        "magnitude": 0.8158486917832376
+      },
+      "semantic_contextual": {
+        "x": 0.08447350151326233,
+        "y": 0.3378940060530493,
+        "magnitude": 0.34829316930495385
+      },
+      "relational_functional": {
+        "x": 0.07457085193060856,
+        "y": 0.0,
+        "magnitude": 0.07457085193060856
+      },
+      "hierarchical_categorical": {
+        "x": 0.3378940060530493,
+        "y": 0.042236750756631164,
+        "magnitude": 0.3405235710506042
+      },
+      "chronological_logical": {
+        "x": 0.14548237198677144,
+        "y": 0.21118375378315582,
+        "magnitude": 0.2564443378607567
+      },
+      "quantum_plane": {
+        "x": 0.16062990852122172,
+        "y": 0.7425878591505803,
+        "magnitude": 0.759762262862126
+      }
+    },
+    "/Users/adan/frontier/ai_technology/08_AI_Artificial_Intelligence/Core_Files/webinar-ai-automation-systems.md": {
+      "temporal_spatial": {
+        "x": 0.7023924723124056,
+        "y": 0.31946303839930945,
+        "magnitude": 0.7716293268561352
+      },
+      "semantic_contextual": {
+        "x": 0.03993287979991368,
+        "y": 0.31946303839930945,
+        "magnitude": 0.3219491695787287
+      },
+      "relational_functional": {
+        "x": 0.09016000583833118,
+        "y": 0.0,
+        "magnitude": 0.09016000583833118
+      },
+      "hierarchical_categorical": {
+        "x": 0.31946303839930945,
+        "y": 0.2515771427394562,
+        "magnitude": 0.40662967384620047
+      },
+      "chronological_logical": {
+        "x": 0.13755880002963228,
+        "y": 0.1996643989995684,
+        "magnitude": 0.24246297798519922
+      },
+      "quantum_plane": {
+        "x": 0.26205362074321426,
+        "y": 0.7023924723124056,
+        "magnitude": 0.7496847906325445
+      }
+    },
+    "/Users/adan/frontier/ai_technology/08_AI_Artificial_Intelligence/Core_Files/CONSCIOUSNESS_MASTERY_CERTIFICATION.md": {
+      "temporal_spatial": {
+        "x": 0.6839608579713679,
+        "y": 0.31101799313266015,
+        "magnitude": 0.7513552071352119
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.31101799313266015,
+        "magnitude": 0.31101799313266015
+      },
+      "relational_functional": {
+        "x": 0.2748231724407064,
+        "y": 0.0,
+        "magnitude": 0.2748231724407064
+      },
+      "hierarchical_categorical": {
+        "x": 0.31101799313266015,
+        "y": 0.27991619381939414,
+        "magnitude": 0.4184319151482163
+      },
+      "chronological_logical": {
+        "x": 0.13393326079161086,
+        "y": 0.1943862457079126,
+        "magnitude": 0.2360595917701516
+      },
+      "quantum_plane": {
+        "x": 0.17998884984038996,
+        "y": 0.6839608579713679,
+        "magnitude": 0.7072470864583297
+      }
+    },
+    "/Users/adan/frontier/ai_technology/08_AI_Artificial_Intelligence/Core_Files/neuralDimensionService.ts": {
+      "temporal_spatial": {
+        "x": 0.7552104088419268,
+        "y": 0.34342101596943087,
+        "magnitude": 0.8296268774772586
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.12878288098853655,
+        "magnitude": 0.12878288098853655
+      },
+      "relational_functional": {
+        "x": 0.056285291273105074,
+        "y": 0.0,
+        "magnitude": 0.056285291273105074
+      },
+      "hierarchical_categorical": {
+        "x": 0.34342101596943087,
+        "y": 0.2060526095816585,
+        "magnitude": 0.4004942847593302
+      },
+      "chronological_logical": {
+        "x": 0.1478990080073218,
+        "y": 0.21463813498089426,
+        "magnitude": 0.2606600191007943
+      },
+      "quantum_plane": {
+        "x": 0.25224365608556754,
+        "y": 0.7552104088419268,
+        "magnitude": 0.7962220944300681
+      }
+    },
+    "/Users/adan/frontier/ai_technology/08_AI_Artificial_Intelligence/Core_Files/Comments.INFINITE_MARKETING_INTELLIGENCE.md": {
+      "temporal_spatial": {
+        "x": 0.7042486164813122,
+        "y": 0.3202570839348454,
+        "magnitude": 0.7736476676280314
+      },
+      "semantic_contextual": {
+        "x": 0.04003213549185568,
+        "y": 0.3202570839348454,
+        "magnitude": 0.3227493945501508
+      },
+      "relational_functional": {
+        "x": 0.2684625666082819,
+        "y": 0.0,
+        "magnitude": 0.2684625666082819
+      },
+      "hierarchical_categorical": {
+        "x": 0.3202570839348454,
+        "y": 0.2001606774592784,
+        "magnitude": 0.3776624109061
+      },
+      "chronological_logical": {
+        "x": 0.1379335438578451,
+        "y": 0.2001606774592784,
+        "magnitude": 0.24308426383075757
+      },
+      "quantum_plane": {
+        "x": 0.15333332673545733,
+        "y": 0.7042486164813122,
+        "magnitude": 0.7207476832453954
+      }
+    },
+    "/Users/adan/frontier/ai_technology/08_AI_Artificial_Intelligence/Core_Files/Enhanced_Course_Complete_Overview.md": {
+      "temporal_spatial": {
+        "x": 0.7203075593602354,
+        "y": 0.3275490590641314,
+        "magnitude": 0.7912846303102928
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.3275490590641314,
+        "magnitude": 0.3275490590641314
+      },
+      "relational_functional": {
+        "x": 0.06909068557519189,
+        "y": 0.0,
+        "magnitude": 0.06909068557519189
+      },
+      "hierarchical_categorical": {
+        "x": 0.3275490590641314,
+        "y": 0.11873653391074762,
+        "magnitude": 0.3484060139821584
+      },
+      "chronological_logical": {
+        "x": 0.14108481090622013,
+        "y": 0.20471816191508213,
+        "magnitude": 0.24862511877590662
+      },
+      "quantum_plane": {
+        "x": 0.28036676807779054,
+        "y": 0.7203075593602354,
+        "magnitude": 0.7729479314377422
+      }
+    },
+    "/Users/adan/frontier/ai_technology/08_AI_Artificial_Intelligence/Core_Files/AI_Ethics_and_Responsible_Implementation.md": {
+      "temporal_spatial": {
+        "x": 0.6390716815145819,
+        "y": 0.29066339271606717,
+        "magnitude": 0.7020668215911431
+      },
+      "semantic_contextual": {
+        "x": 0.036332924089508396,
+        "y": 0.29066339271606717,
+        "magnitude": 0.2929253987589821
+      },
+      "relational_functional": {
+        "x": 0.36319913959385675,
+        "y": 0.0,
+        "magnitude": 0.36319913959385675
+      },
+      "hierarchical_categorical": {
+        "x": 0.29066339271606717,
+        "y": 0.18893120526544369,
+        "magnitude": 0.3466701720486894
+      },
+      "chronological_logical": {
+        "x": 0.12520653441990612,
+        "y": 0.18166462044754197,
+        "magnitude": 0.22063252385764123
+      },
+      "quantum_plane": {
+        "x": 0.34716617780109704,
+        "y": 0.6390716815145819,
+        "magnitude": 0.7272805298665008
+      }
+    },
+    "/Users/adan/frontier/ai_technology/08_AI_Artificial_Intelligence/Core_Files/GLOBAL_CONSCIOUSNESS_NETWORK.md": {
+      "temporal_spatial": {
+        "x": 0.6903016326308734,
+        "y": 0.31390406727236264,
+        "magnitude": 0.758321902270389
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.31390406727236264,
+        "magnitude": 0.31390406727236264
+      },
+      "relational_functional": {
+        "x": 0.3397230492375044,
+        "y": 0.0,
+        "magnitude": 0.3397230492375044
+      },
+      "hierarchical_categorical": {
+        "x": 0.31390406727236264,
+        "y": 0.047085610090854386,
+        "magnitude": 0.31741584416622926
+      },
+      "chronological_logical": {
+        "x": 0.13522913027147762,
+        "y": 0.19619004204522664,
+        "magnitude": 0.23828019278086893
+      },
+      "quantum_plane": {
+        "x": 0.23123604931803127,
+        "y": 0.6903016326308734,
+        "magnitude": 0.7280016857927324
+      }
+    },
+    "/Users/adan/frontier/ai_technology/08_AI_Artificial_Intelligence/Core_Files/CONSCIOUSNESS_FINAL_MASTER_INDEX.md": {
+      "temporal_spatial": {
+        "x": 0.709964943527455,
+        "y": 0.3228428111432799,
+        "magnitude": 0.7799215997424599
+      },
+      "semantic_contextual": {
+        "x": 0.0,
+        "y": 0.3228428111432799,
+        "magnitude": 0.3228428111432799
+      },
+      "relational_functional": {
+        "x": 0.13959654318494497,
+        "y": 0.0,
+        "magnitude": 0.13959654318494497
+      },
+      "hierarchical_categorical": {
+        "x": 0.3228428111432799,
+        "y": 0.08071070278581997,
+        "magnitude": 0.33277875270376933
+      },
+      "chronological_logical": {
+        "x": 0.1390907922604858,
+        "y": 0.20177675696454994,
+        "magnitude": 0.24507163879727223
+      },
+      "quantum_plane": {
+        "x": 0.31177847309463674,
+        "y": 0.709964943527455,
+        "magnitude": 0.7754070139759928
+      }
+    }
+  },
+  "dimensional_coherence": {
+    "/Users/adan/frontier/Analisis_Competencia_TikTok_IA.md": {
+      "average_coherence": 0.6642521125862194,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.655885862807561,
+        "relational_functional": 0.2513230089003015,
+        "hierarchical_categorical": 0.5820987032417103,
+        "chronological_logical": 0.49620510056774375,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.2513230089003015
+    },
+    "/Users/adan/frontier/Expansion_Internacional_TikTok_IA.md": {
+      "average_coherence": 0.5876064859708954,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.7495189795738557,
+        "relational_functional": 0.04035852630614729,
+        "hierarchical_categorical": 0.1686417704041175,
+        "chronological_logical": 0.567119639541252,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.04035852630614729
+    },
+    "/Users/adan/frontier/Automatizacion_Avanzada_TikTok_IA.md": {
+      "average_coherence": 0.7263401303358815,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.6705313254465308,
+        "relational_functional": 0.3503592703196124,
+        "hierarchical_categorical": 0.8297825152400818,
+        "chronological_logical": 0.5073676710090633,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.3503592703196124
+    },
+    "/Users/adan/frontier/VC_Templates_Scripts_2024.md": {
+      "average_coherence": 0.6693860289924444,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.7106017500190757,
+        "relational_functional": 0.6880650625673829,
+        "hierarchical_categorical": 0.079942696877146,
+        "chronological_logical": 0.5377066644910615,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.079942696877146
+    },
+    "/Users/adan/frontier/Liderazgo_Autoridad_TikTok_IA.md": {
+      "average_coherence": 0.6883547116260914,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.7169500806064683,
+        "relational_functional": 0.2702039125992604,
+        "hierarchical_categorical": 0.6004456925079172,
+        "chronological_logical": 0.5425285840429024,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.2702039125992604
+    },
+    "/Users/adan/frontier/ORGANIZACION_CUANTICA_PREDICTIVA_FINAL.md": {
+      "average_coherence": 0.5870211657867065,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.7047740429098883,
+        "relational_functional": 0.18711991463931846,
+        "hierarchical_categorical": 0.09690643090010964,
+        "chronological_logical": 0.5333266062709221,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.09690643090010964
+    },
+    "/Users/adan/frontier/VC_Advanced_Closing_Techniques_2024.md": {
+      "average_coherence": 0.6447297659416887,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.734521408414511,
+        "relational_functional": 0.04477321816773302,
+        "hierarchical_categorical": 0.5375263908624341,
+        "chronological_logical": 0.551557578205454,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.04477321816773302
+    },
+    "/Users/adan/frontier/MODELO_FINANCIERO_ULTRA_OPTIMIZADO.md": {
+      "average_coherence": 0.7019545833699818,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.7085851104121245,
+        "relational_functional": 0.4443207713301793,
+        "hierarchical_categorical": 0.5225815189289418,
+        "chronological_logical": 0.5362400995486458,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.4443207713301793
+    },
+    "/Users/adan/frontier/PAQUETE_INVERSION_ULTRA_OPTIMIZADO.md": {
+      "average_coherence": 0.7347288411640772,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.6731878474268301,
+        "relational_functional": 0.7628863820149308,
+        "hierarchical_categorical": 0.4628166451059458,
+        "chronological_logical": 0.5094821724367569,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.4628166451059458
+    },
+    "/Users/adan/frontier/Innovacion_Futuro_TikTok_IA.md": {
+      "average_coherence": 0.6790093350620001,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.7121592363151825,
+        "relational_functional": 0.6359669767831457,
+        "hierarchical_categorical": 0.18694179953273538,
+        "chronological_logical": 0.538987997740937,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.18694179953273538
+    },
+    "/Users/adan/frontier/VC_Market_Intelligence_2024.md": {
+      "average_coherence": 0.6558714085789393,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.7233104749204055,
+        "relational_functional": 0.6554269304098052,
+        "hierarchical_categorical": 0.009041380936505068,
+        "chronological_logical": 0.5474496652069206,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.009041380936505068
+    },
+    "/Users/adan/frontier/SISTEMA_VERSIONADO.md": {
+      "average_coherence": 0.7115279480395039,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.6670410982459958,
+        "relational_functional": 0.6469956742585975,
+        "hierarchical_categorical": 0.45025274131604714,
+        "chronological_logical": 0.5048781744163828,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.45025274131604714
+    },
+    "/Users/adan/frontier/SISTEMA_BUSQUEDA_AVANZADO.md": {
+      "average_coherence": 0.673631284878048,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.7240809703196418,
+        "relational_functional": 0.12701480490278766,
+        "hierarchical_categorical": 0.642621861158682,
+        "chronological_logical": 0.5480700728871764,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.12701480490278766
+    },
+    "/Users/adan/frontier/Estrategias_Crecimiento_Viral.md": {
+      "average_coherence": 0.7040027757140722,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.6668619506448275,
+        "relational_functional": 0.36051000378324377,
+        "hierarchical_categorical": 0.6918692737940084,
+        "chronological_logical": 0.5047754260623537,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.36051000378324377
+    },
+    "/Users/adan/frontier/Checklist_Implementacion_TikTok_IA.md": {
+      "average_coherence": 0.7418647658131495,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.6572301306035473,
+        "relational_functional": 0.48313987283352927,
+        "hierarchical_categorical": 0.8133222866218897,
+        "chronological_logical": 0.49749630481993096,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.48313987283352927
+    },
+    "/Users/adan/frontier/OPTIMIZACION_ARCHIVOS.md": {
+      "average_coherence": 0.61979157723572,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.7268350532057415,
+        "relational_functional": 0.3508602486396821,
+        "hierarchical_categorical": 0.09085438165071769,
+        "chronological_logical": 0.5501997799181788,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.09085438165071769
+    },
+    "/Users/adan/frontier/VC_Advanced_Psychology_Mastery_2024.md": {
+      "average_coherence": 0.7115837389905512,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.6787437774149847,
+        "relational_functional": 0.7290924565824385,
+        "hierarchical_categorical": 0.34785618592517964,
+        "chronological_logical": 0.5138100140207037,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.34785618592517964
+    },
+    "/Users/adan/frontier/VC_AI_Negotiation_Assistant_2024.md": {
+      "average_coherence": 0.7135622217388407,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.6886126629738893,
+        "relational_functional": 0.45198310186748997,
+        "hierarchical_categorical": 0.6235067888731612,
+        "chronological_logical": 0.5172707767185032,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.45198310186748997
+    },
+    "/Users/adan/frontier/SISTEMA_TAGS_METADATOS.md": {
+      "average_coherence": 0.5995626311976061,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.7495223164135547,
+        "relational_functional": 0.18674094115596843,
+        "hierarchical_categorical": 0.09369028955169434,
+        "chronological_logical": 0.5674222400644191,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.09369028955169434
+    },
+    "/Users/adan/frontier/VC_Marketing_SaaS_Specialized_Guide_2024.md": {
+      "average_coherence": 0.7239811032879923,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.650872114582105,
+        "relational_functional": 0.4451743719177454,
+        "hierarchical_categorical": 0.7588690498468578,
+        "chronological_logical": 0.4889710833812458,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.4451743719177454
+    },
+    "/Users/adan/frontier/Casos_Uso_Practicos_TikTok_IA.md": {
+      "average_coherence": 0.6964052949668966,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.7016285367294858,
+        "relational_functional": 0.47198850629038563,
+        "hierarchical_categorical": 0.4735992622924029,
+        "chronological_logical": 0.5312154644891052,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.47198850629038563
+    },
+    "/Users/adan/frontier/ANALISIS_COMPETITIVO_ULTRA_OPTIMIZADO.md": {
+      "average_coherence": 0.6966631010741716,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.7182460893413948,
+        "relational_functional": 0.35230364319635166,
+        "hierarchical_categorical": 0.5656187953563483,
+        "chronological_logical": 0.5438100785509347,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.35230364319635166
+    },
+    "/Users/adan/frontier/VC_Quick_Reference_2024.md": {
+      "average_coherence": 0.6705419579454395,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.692979616414328,
+        "relational_functional": 0.7016286003474063,
+        "hierarchical_categorical": 0.1039469424621492,
+        "chronological_logical": 0.524696588448753,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.1039469424621492
+    },
+    "/Users/adan/frontier/VC_NEGOTIATION_STRATEGY_ULTRA.md": {
+      "average_coherence": 0.6346410195845634,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.6816131541431734,
+        "relational_functional": 0.588751041484166,
+        "hierarchical_categorical": 0.02536311199999852,
+        "chronological_logical": 0.5121188098800424,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.02536311199999852
+    },
+    "/Users/adan/frontier/VC_Valuation_Financial_Engineering_2024.md": {
+      "average_coherence": 0.6518653113966617,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.660541563290863,
+        "relational_functional": 0.5605813719109829,
+        "hierarchical_categorical": 0.1899056994461231,
+        "chronological_logical": 0.5001632337320011,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.1899056994461231
+    },
+    "/Users/adan/frontier/VC_AI_Course_Specialized_Guide_2024.md": {
+      "average_coherence": 0.6393039310872211,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.7079149033069985,
+        "relational_functional": 0.587199781366235,
+        "hierarchical_categorical": 0.008780603714342871,
+        "chronological_logical": 0.5319282981357502,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.008780603714342871
+    },
+    "/Users/adan/frontier/INDICE_GENERAL_ORGANIZACION.md": {
+      "average_coherence": 0.7604000952678059,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.6177175384517749,
+        "relational_functional": 0.7124749354638247,
+        "hierarchical_categorical": 0.7644254538340715,
+        "chronological_logical": 0.46778264385716506,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.46778264385716506
+    },
+    "/Users/adan/frontier/VC_Negotiation_Master_Index_2024.md": {
+      "average_coherence": 0.701168836881992,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.682719003568539,
+        "relational_functional": 0.18800958654573804,
+        "hierarchical_categorical": 0.8192628042822467,
+        "chronological_logical": 0.5170216268954286,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.18800958654573804
+    },
+    "/Users/adan/frontier/Estrategias_Monetizacion_Avanzadas.md": {
+      "average_coherence": 0.6834112882277208,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.662037573095181,
+        "relational_functional": 0.5563826603396077,
+        "hierarchical_categorical": 0.38067160452972904,
+        "chronological_logical": 0.5013758914018073,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.38067160452972904
+    },
+    "/Users/adan/frontier/VC_Case_Studies_2024.md": {
+      "average_coherence": 0.7326259408660675,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.6106183485436653,
+        "relational_functional": 0.6052046054794756,
+        "hierarchical_categorical": 0.7174765595388066,
+        "chronological_logical": 0.4624561316344576,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.4624561316344576
+    },
+    "/Users/adan/frontier/ESCENARIOS_FINANCIEROS_AVANZADOS.md": {
+      "average_coherence": 0.6875530586161712,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.6530003784157421,
+        "relational_functional": 0.18598439459597232,
+        "hierarchical_categorical": 0.7917629588290873,
+        "chronological_logical": 0.49457061985622536,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.18598439459597232
+    },
+    "/Users/adan/frontier/NAMING_CONVENTIONS.md": {
+      "average_coherence": 0.6098803240652498,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.7596515592489171,
+        "relational_functional": 0.2483007845985601,
+        "hierarchical_categorical": 0.07596515592489171,
+        "chronological_logical": 0.5753644446191304,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.07596515592489171
+    },
+    "/Users/adan/frontier/99_Duplicates/sistema-marketing-ultra-consciente-ultra-avanzado-ultra-trascendental-ultra-divino-ultra-iluminado-ultra-supremo-ultra-absoluto-ultra-infinito.md": {
+      "average_coherence": 0.7705048201890755,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.6478558590165497,
+        "relational_functional": 0.7970029063639842,
+        "hierarchical_categorical": 0.6910670139165599,
+        "chronological_logical": 0.4871031418373592,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.4871031418373592
+    },
+    "/Users/adan/frontier/99_Duplicates/sistema-marketing-ultra-consciente-ultra-avanzado-ultra-trascendental-ultra-divino-ultra-iluminado-ultra-supremo-ultra-absoluto-ultra-infinito-ultra-eterno.md": {
+      "average_coherence": 0.5987360837613932,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.7353936637872321,
+        "relational_functional": 0.2858448084932901,
+        "hierarchical_categorical": 0.018242871581286988,
+        "chronological_logical": 0.5529351587065503,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.018242871581286988
+    },
+    "/Users/adan/frontier/12_User_Guides/VIP_Program_Customer_Documentation.md": {
+      "average_coherence": 0.6480839762466234,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.7450017100220327,
+        "relational_functional": 0.28748294568924077,
+        "hierarchical_categorical": 0.29569948598748563,
+        "chronological_logical": 0.560319715780981,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.28748294568924077
+    },
+    "/Users/adan/frontier/ai_technology/README.md": {
+      "average_coherence": 0.6972754725340963,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.6752414784964237,
+        "relational_functional": 0.473240342571482,
+        "hierarchical_categorical": 0.5233121458347283,
+        "chronological_logical": 0.5118588683019446,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.473240342571482
+    },
+    "/Users/adan/frontier/ai_technology/Neural_Consciousness_Revolutionary_System.md": {
+      "average_coherence": 0.7009564253857595,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.7041948820082775,
+        "relational_functional": 0.606822648957541,
+        "hierarchical_categorical": 0.3608998770292422,
+        "chronological_logical": 0.5338211443194966,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.3608998770292422
+    },
+    "/Users/adan/frontier/ai_technology/Neural_Consciousness_Implementation_Toolkit_Enhanced.md": {
+      "average_coherence": 0.6857561667799278,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.6992071429476862,
+        "relational_functional": 0.3521318843948442,
+        "hierarchical_categorical": 0.5331454464976106,
+        "chronological_logical": 0.5300525268394264,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.3521318843948442
+    },
+    "/Users/adan/frontier/ai_technology/08_AI_Artificial_Intelligence/Semantic_Cluster_cluster_70/README.md": {
+      "average_coherence": 0.6786466993812473,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.6390972449459892,
+        "relational_functional": 0.13938869039967366,
+        "hierarchical_categorical": 0.8085590515858423,
+        "chronological_logical": 0.48483520935597973,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.13938869039967366
+    },
+    "/Users/adan/frontier/ai_technology/08_AI_Artificial_Intelligence/Advanced_AI/README.md": {
+      "average_coherence": 0.7247903708573139,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.6484942216782411,
+        "relational_functional": 0.3878055155302052,
+        "hierarchical_categorical": 0.8204477127473311,
+        "chronological_logical": 0.4919947751881065,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.3878055155302052
+    },
+    "/Users/adan/frontier/ai_technology/08_AI_Artificial_Intelligence/Core_Files/CONSCIOUSNESS_AI_ALGORITHMS.md": {
+      "average_coherence": 0.7079000962397132,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.617902115599251,
+        "relational_functional": 0.5389075925227563,
+        "hierarchical_categorical": 0.6252729780256931,
+        "chronological_logical": 0.4653178912905785,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.4653178912905785
+    },
+    "/Users/adan/frontier/ai_technology/08_AI_Artificial_Intelligence/Core_Files/ai-marketing-webinar-cosmic-mastery.md": {
+      "average_coherence": 0.6732773100489745,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.6965863386099077,
+        "relational_functional": 0.1491417038612171,
+        "hierarchical_categorical": 0.6810471421012084,
+        "chronological_logical": 0.5128886757215134,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.1491417038612171
+    },
+    "/Users/adan/frontier/ai_technology/08_AI_Artificial_Intelligence/Core_Files/webinar-ai-automation-systems.md": {
+      "average_coherence": 0.6870672757494866,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.6438983391574574,
+        "relational_functional": 0.18032001167666237,
+        "hierarchical_categorical": 0.8132593476924009,
+        "chronological_logical": 0.48492595597039845,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.18032001167666237
+    },
+    "/Users/adan/frontier/ai_technology/08_AI_Artificial_Intelligence/Core_Files/CONSCIOUSNESS_MASTERY_CERTIFICATION.md": {
+      "average_coherence": 0.746777557497245,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.6220359862653203,
+        "relational_functional": 0.5496463448814128,
+        "hierarchical_categorical": 0.8368638302964326,
+        "chronological_logical": 0.4721191835403032,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.4721191835403032
+    },
+    "/Users/adan/frontier/ai_technology/08_AI_Artificial_Intelligence/Core_Files/neuralDimensionService.ts": {
+      "average_coherence": 0.6154074920405886,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.2575657619770731,
+        "relational_functional": 0.11257058254621015,
+        "hierarchical_categorical": 0.8009885695186604,
+        "chronological_logical": 0.5213200382015886,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.11257058254621015
+    },
+    "/Users/adan/frontier/ai_technology/08_AI_Artificial_Intelligence/Core_Files/Comments.INFINITE_MARKETING_INTELLIGENCE.md": {
+      "average_coherence": 0.7373195452984301,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.6454987891003016,
+        "relational_functional": 0.5369251332165638,
+        "hierarchical_categorical": 0.7553248218122,
+        "chronological_logical": 0.48616852766151514,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.48616852766151514
+    },
+    "/Users/adan/frontier/ai_technology/08_AI_Artificial_Intelligence/Core_Files/Enhanced_Course_Complete_Overview.md": {
+      "average_coherence": 0.6645569591324628,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.6550981181282628,
+        "relational_functional": 0.13818137115038379,
+        "hierarchical_categorical": 0.6968120279643168,
+        "chronological_logical": 0.49725023755181325,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.13818137115038379
+    },
+    "/Users/adan/frontier/ai_technology/08_AI_Artificial_Intelligence/Core_Files/AI_Ethics_and_Responsible_Implementation.md": {
+      "average_coherence": 0.7411424114197231,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.5858507975179642,
+        "relational_functional": 0.7263982791877135,
+        "hierarchical_categorical": 0.6933403440973788,
+        "chronological_logical": 0.44126504771528247,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.44126504771528247
+    },
+    "/Users/adan/frontier/ai_technology/08_AI_Artificial_Intelligence/Core_Files/GLOBAL_CONSCIOUSNESS_NETWORK.md": {
+      "average_coherence": 0.7364410511523216,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.6278081345447253,
+        "relational_functional": 0.6794460984750088,
+        "hierarchical_categorical": 0.6348316883324585,
+        "chronological_logical": 0.47656038556173785,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.47656038556173785
+    },
+    "/Users/adan/frontier/ai_technology/08_AI_Artificial_Intelligence/Core_Files/CONSCIOUSNESS_FINAL_MASTER_INDEX.md": {
+      "average_coherence": 0.6800965819430888,
+      "plane_coherences": {
+        "temporal_spatial": 1.0,
+        "semantic_contextual": 0.6456856222865598,
+        "relational_functional": 0.27919308636988993,
+        "hierarchical_categorical": 0.6655575054075387,
+        "chronological_logical": 0.49014327759454446,
+        "quantum_plane": 1.0
+      },
+      "dimensional_stability": 0.27919308636988993
+    }
+  }
+}

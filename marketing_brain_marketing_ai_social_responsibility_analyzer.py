@@ -1405,3 +1405,4 @@ if __name__ == "__main__":
     export_data = aisr_analyzer.export_aisr_analysis()
     
     print("✅ Sistema de análisis de AI Social Responsibility de marketing completado!")
+

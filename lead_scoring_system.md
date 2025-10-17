@@ -323,3 +323,4 @@ LEADS MUY CALIENTES:
 - [ ] Ajustar puntuación (más ajuste = más dinero)
 - [ ] Mejorar segmentación (más mejora = más dinero)
 - [ ] Reportar resultados (más reportes = más dinero)
+

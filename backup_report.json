@@ -1,0 +1,17 @@
+{
+  "timestamp": "2025-10-06T13:20:18.165777",
+  "backups_created": [
+    {
+      "name": "backup_ultra_avanzado_20251006_132017",
+      "path": "backups/backup_ultra_avanzado_20251006_132017/backup_ultra_avanzado_20251006_132017.tar.gz",
+      "size": 13532451,
+      "original_size": 61730274,
+      "compression_ratio": 78.0780966564315,
+      "files_count": 2567,
+      "type": "full"
+    }
+  ],
+  "total_size": 13532451,
+  "compression_ratio": 0,
+  "files_backed_up": 2567
+}

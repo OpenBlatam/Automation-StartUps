@@ -400,3 +400,4 @@ ROI: 3x en 90 días (más ROI = más dinero)
 - [ ] Mejorar IA (más mejora = más dinero)
 - [ ] Escalar exitosos (más escalamiento = más dinero)
 - [ ] Reportar resultados (más reportes = más dinero)
+

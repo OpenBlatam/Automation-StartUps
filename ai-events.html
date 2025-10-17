@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎪 Eventos IA Marketing | IA Marketing Solutions</title>
+    <meta name="description" content="🔥 Eventos exclusivos sobre IA en marketing. Conferencias, workshops, networking, casos de estudio y oportunidades de negocio.">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Tonos Emocionales Avanzados */
+        .excitement { background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; animation: excitement-pulse 2s infinite; text-align: center; }
+        @keyframes excitement-pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        
+        .trust { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .trust::before { content: "🛡️ "; font-size: 1.8em; }
+        
+        .success { background: linear-gradient(135deg, #28a745 0%, #198754 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .success::before { content: "🎉 "; font-size: 1.8em; }
+        
+        .premium { background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; position: relative; overflow: hidden; }
+        .premium::before { content: "👑 "; font-size: 1.8em; }
+        .premium::after { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent); animation: premium-shine 3s infinite; }
+        @keyframes premium-shine { 0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); } 100% { transform: translateX(100%) translateY(100%) rotate(45deg); } }
+        
+        .curiosity { background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .curiosity::before { content: "🔍 "; font-size: 1.8em; }
+        
+        .social-proof { background: linear-gradient(135deg, #007bff 0%, #6610f2 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .social-proof::before { content: "👥 "; font-size: 1.8em; }
+        
+        .authority { background: linear-gradient(135deg, #343a40 0%, #6c757d 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .authority::before { content: "🏆 "; font-size: 1.8em; }
+        
+        .empathy { background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .empathy::before { content: "💝 "; font-size: 1.8em; }
+        
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 0; text-align: center; }
+        .hero h1 { font-size: 3.5em; margin-bottom: 20px; font-weight: 700; }
+        .hero p { font-size: 1.3em; margin-bottom: 30px; opacity: 0.95; }
+        
+        .cta-button { background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; padding: 20px 40px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.3em; display: inline-block; margin: 20px 10px; transition: all 0.3s; box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3); }
+        .cta-button:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4); }
+        
+        .events-section { background: white; padding: 60px 0; }
+        .events-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 40px; }
+        .event-card { background: #f8f9fa; padding: 30px; border-radius: 20px; border-left: 6px solid #667eea; transition: transform 0.3s; }
+        .event-card:hover { transform: translateY(-5px); }
+        .event-title { font-size: 1.4em; font-weight: bold; color: #2c3e50; margin-bottom: 15px; }
+        .event-stats { background: white; padding: 15px; border-radius: 10px; margin: 15px 0; }
+        .stat-item { display: flex; justify-content: space-between; margin: 8px 0; }
+        
+        .event-preview { background: white; border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin: 20px 0; }
+        .event-header { border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px; }
+        .event-content { background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #667eea; }
+        .content-number { background: #667eea; color: white; width: 25px; height: 25px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 10px; }
+        
+        .upcoming-section { background: #f8f9fa; padding: 60px 0; }
+        .upcoming-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px; }
+        .upcoming-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        .upcoming-icon { font-size: 2.5em; margin-bottom: 15px; }
+        
+        .stats-section { background: #2c3e50; color: white; padding: 60px 0; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 40px; }
+        .stat-card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; text-align: center; }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #ff6b6b; margin-bottom: 10px; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5em; }
+            .hero p { font-size: 1.1em; }
+            .events-grid { grid-template-columns: 1fr; }
+            .upcoming-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>🎪 Eventos IA Marketing</h1>
+            <p><strong>Eventos exclusivos</strong> sobre IA en marketing. Conferencias, workshops, networking, casos de estudio y oportunidades de negocio</p>
+            <a href="#events" class="cta-button">🎪 Ver Eventos</a>
+            <a href="#upcoming" class="cta-button" style="background: transparent; border: 2px solid white;">📅 Próximos</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="excitement">
+            <h2 style="margin: 0; font-size: 2.2em;">🎪 ¡EVENTOS EXCLUSIVOS!</h2>
+            <p style="margin: 10px 0 0 0; font-size: 1.2em;">Conferencias, workshops, networking y oportunidades de negocio</p>
+        </div>
+
+        <div class="success">
+            <h3 style="margin: 0 0 15px 0;">🎉 RESULTADOS COMPROBADOS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Nuestros eventos han generado $5M+ en oportunidades de negocio y 10,000+ conexiones profesionales</p>
+        </div>
+
+        <section class="events-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">🎪 Tipos de Eventos</h2>
+            
+            <div class="events-grid">
+                <div class="event-card">
+                    <div class="event-title">🏛️ Conferencias Anuales</div>
+                    <p>Eventos de 2-3 días con expertos internacionales en IA y marketing</p>
+                    <div class="event-stats">
+                        <div class="stat-item">
+                            <span>Frecuencia:</span>
+                            <span style="color: #28a745; font-weight: bold;">Anual</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Asistentes:</span>
+                            <span style="color: #28a745; font-weight: bold;">2,000+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Países:</span>
+                            <span style="color: #28a745; font-weight: bold;">30+</span>
+                        </div>
+                    </div>
+                    <div class="event-preview">
+                        <div class="event-header">
+                            <div class="event-title">Incluye</div>
+                        </div>
+                        <div class="event-content">
+                            <span class="content-number">1</span>
+                            <strong>Keynotes internacionales:</strong> Expertos de Google, OpenAI, Microsoft
+                        </div>
+                        <div class="event-content">
+                            <span class="content-number">2</span>
+                            <strong>Workshops prácticos:</strong> Implementación en vivo
+                        </div>
+                        <div class="event-content">
+                            <span class="content-number">3</span>
+                            <strong>Networking premium:</strong> Conexiones de alto nivel
+                        </div>
+                        <div class="event-content">
+                            <span class="content-number">4</span>
+                            <strong>Exposición de herramientas:</strong> Últimas tecnologías
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Ver Conferencia</a>
+                </div>
+                
+                <div class="event-card">
+                    <div class="event-title">🔧 Workshops Prácticos</div>
+                    <p>Sesiones intensivas de 4-8 horas para implementar IA en marketing</p>
+                    <div class="event-stats">
+                        <div class="stat-item">
+                            <span>Frecuencia:</span>
+                            <span style="color: #28a745; font-weight: bold;">Mensual</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Asistentes:</span>
+                            <span style="color: #28a745; font-weight: bold;">50-100</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">4-8 horas</span>
+                        </div>
+                    </div>
+                    <div class="event-preview">
+                        <div class="event-header">
+                            <div class="event-title">Incluye</div>
+                        </div>
+                        <div class="event-content">
+                            <span class="content-number">1</span>
+                            <strong>Implementación práctica:</strong> Hands-on con herramientas
+                        </div>
+                        <div class="event-content">
+                            <span class="content-number">2</span>
+                            <strong>Casos reales:</strong> Proyectos de empresas
+                        </div>
+                        <div class="event-content">
+                            <span class="content-number">3</span>
+                            <strong>Mentoría personalizada:</strong> 1:1 con expertos
+                        </div>
+                        <div class="event-content">
+                            <span class="content-number">4</span>
+                            <strong>Certificación:</strong> Certificado de participación
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Ver Workshop</a>
+                </div>
+                
+                <div class="event-card">
+                    <div class="event-title">🤝 Networking Events</div>
+                    <p>Eventos de networking exclusivos para profesionales de IA y marketing</p>
+                    <div class="event-stats">
+                        <div class="stat-item">
+                            <span>Frecuencia:</span>
+                            <span style="color: #28a745; font-weight: bold;">Quincenal</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Asistentes:</span>
+                            <span style="color: #28a745; font-weight: bold;">100-200</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">3-4 horas</span>
+                        </div>
+                    </div>
+                    <div class="event-preview">
+                        <div class="event-header">
+                            <div class="event-title">Incluye</div>
+                        </div>
+                        <div class="event-content">
+                            <span class="content-number">1</span>
+                            <strong>Speed networking:</strong> Conexiones rápidas
+                        </div>
+                        <div class="event-content">
+                            <span class="content-number">2</span>
+                            <strong>Presentaciones lightning:</strong> 5 minutos por speaker
+                        </div>
+                        <div class="event-content">
+                            <span class="content-number">3</span>
+                            <strong>Oportunidades de negocio:</strong> Colaboraciones
+                        </div>
+                        <div class="event-content">
+                            <span class="content-number">4</span>
+                            <strong>After party:</strong> Networking informal
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Ver Networking</a>
+                </div>
+                
+                <div class="event-card">
+                    <div class="event-title">🎯 Masterclasses VIP</div>
+                    <p>Clases magistrales exclusivas con expertos de nivel mundial</p>
+                    <div class="event-stats">
+                        <div class="stat-item">
+                            <span>Frecuencia:</span>
+                            <span style="color: #28a745; font-weight: bold;">Trimestral</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Asistentes:</span>
+                            <span style="color: #28a745; font-weight: bold;">20-30</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">8 horas</span>
+                        </div>
+                    </div>
+                    <div class="event-preview">
+                        <div class="event-header">
+                            <div class="event-title">Incluye</div>
+                        </div>
+                        <div class="event-content">
+                            <span class="content-number">1</span>
+                            <strong>Expertos internacionales:</strong> Líderes de la industria
+                        </div>
+                        <div class="event-content">
+                            <span class="content-number">2</span>
+                            <strong>Contenido exclusivo:</strong> No disponible en otros lugares
+                        </div>
+                        <div class="event-content">
+                            <span class="content-number">3</span>
+                            <strong>Acceso VIP:</strong> Networking de alto nivel
+                        </div>
+                        <div class="event-content">
+                            <span class="content-number">4</span>
+                            <strong>Certificación premium:</strong> Nivel experto
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Ver Masterclass</a>
+                </div>
+                
+                <div class="event-card">
+                    <div class="event-title">🏆 Hackathons IA</div>
+                    <p>Competencias de 48 horas para desarrollar soluciones de IA en marketing</p>
+                    <div class="event-stats">
+                        <div class="stat-item">
+                            <span>Frecuencia:</span>
+                            <span style="color: #28a745; font-weight: bold;">Semestral</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Participantes:</span>
+                            <span style="color: #28a745; font-weight: bold;">200-300</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">48 horas</span>
+                        </div>
+                    </div>
+                    <div class="event-preview">
+                        <div class="event-header">
+                            <div class="event-title">Incluye</div>
+                        </div>
+                        <div class="event-content">
+                            <span class="content-number">1</span>
+                            <strong>Desafíos reales:</strong> Problemas de empresas
+                        </div>
+                        <div class="event-content">
+                            <span class="content-number">2</span>
+                            <strong>Mentores expertos:</strong> Guía durante el evento
+                        </div>
+                        <div class="event-content">
+                            <span class="content-number">3</span>
+                            <strong>Premios en efectivo:</strong> $50,000+ en premios
+                        </div>
+                        <div class="event-content">
+                            <span class="content-number">4</span>
+                            <strong>Oportunidades de inversión:</strong> VCs y aceleradoras
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Ver Hackathon</a>
+                </div>
+                
+                <div class="event-card">
+                    <div class="event-title">🌍 Eventos Virtuales</div>
+                    <p>Eventos online con alcance global y networking internacional</p>
+                    <div class="event-stats">
+                        <div class="stat-item">
+                            <span>Frecuencia:</span>
+                            <span style="color: #28a745; font-weight: bold;">Mensual</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Asistentes:</span>
+                            <span style="color: #28a745; font-weight: bold;">1,000+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Países:</span>
+                            <span style="color: #28a745; font-weight: bold;">50+</span>
+                        </div>
+                    </div>
+                    <div class="event-preview">
+                        <div class="event-header">
+                            <div class="event-title">Incluye</div>
+                        </div>
+                        <div class="event-content">
+                            <span class="content-number">1</span>
+                            <strong>Alcance global:</strong> Participantes de todo el mundo
+                        </div>
+                        <div class="event-content">
+                            <span class="content-number">2</span>
+                            <strong>Networking virtual:</strong> Salas de chat y video
+                        </div>
+                        <div class="event-content">
+                            <span class="content-number">3</span>
+                            <strong>Grabaciones:</strong> Acceso posterior al evento
+                        </div>
+                        <div class="event-content">
+                            <span class="content-number">4</span>
+                            <strong>Recursos digitales:</strong> Materiales descargables
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Ver Virtual</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="authority">
+            <h3 style="margin: 0 0 15px 0;">🏆 LIDERAMOS EN EVENTOS IA</h3>
+            <p style="margin: 0; font-size: 1.2em;">Los eventos más exclusivos sobre IA en marketing con expertos internacionales y networking de alto nivel</p>
+        </div>
+
+        <section class="upcoming-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">📅 Próximos Eventos</h2>
+            
+            <div class="upcoming-grid">
+                <div class="upcoming-card">
+                    <div class="upcoming-icon">🏛️</div>
+                    <h3>15-17 de Marzo</h3>
+                    <p>Conferencia Anual IA Marketing 2024</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 2,000+ asistentes</li>
+                        <li>✅ 30+ países</li>
+                        <li>✅ 50+ speakers</li>
+                        <li>✅ $5M+ en oportunidades</li>
+                    </ul>
+                </div>
+                
+                <div class="upcoming-card">
+                    <div class="upcoming-icon">🔧</div>
+                    <h3>22 de Marzo</h3>
+                    <p>Workshop: Automatización con IA</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 8 horas intensivas</li>
+                        <li>✅ 50 participantes</li>
+                        <li>✅ Implementación práctica</li>
+                        <li>✅ Certificación incluida</li>
+                    </ul>
+                </div>
+                
+                <div class="upcoming-card">
+                    <div class="upcoming-icon">🤝</div>
+                    <h3>29 de Marzo</h3>
+                    <p>Networking Event: IA & Marketing</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 150 profesionales</li>
+                        <li>✅ Speed networking</li>
+                        <li>✅ Lightning talks</li>
+                        <li>✅ After party</li>
+                    </ul>
+                </div>
+                
+                <div class="upcoming-card">
+                    <div class="upcoming-icon">🎯</div>
+                    <h3>5-6 de Abril</h3>
+                    <p>Masterclass VIP: Expertos IA</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 25 participantes</li>
+                        <li>✅ Expertos internacionales</li>
+                        <li>✅ Contenido exclusivo</li>
+                        <li>✅ Networking premium</li>
+                    </ul>
+                </div>
+                
+                <div class="upcoming-card">
+                    <div class="upcoming-icon">🏆</div>
+                    <h3>12-14 de Abril</h3>
+                    <p>Hackathon IA Marketing 2024</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 48 horas</li>
+                        <li>✅ 250 participantes</li>
+                        <li>✅ $50,000+ en premios</li>
+                        <li>✅ Oportunidades de inversión</li>
+                    </ul>
+                </div>
+                
+                <div class="upcoming-card">
+                    <div class="upcoming-icon">🌍</div>
+                    <h3>19 de Abril</h3>
+                    <p>Evento Virtual: IA Global</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 1,000+ asistentes</li>
+                        <li>✅ 50+ países</li>
+                        <li>✅ Networking virtual</li>
+                        <li>✅ Grabaciones incluidas</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="social-proof">
+            <h3 style="margin: 0 0 15px 0;">👥 MÁS DE 10,000 PROFESIONALES HAN PARTICIPADO</h3>
+            <p style="margin: 0; font-size: 1.2em;">Desde marketers hasta CEOs, todos han encontrado valor en nuestros eventos exclusivos</p>
+        </div>
+
+        <section class="stats-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">📊 Estadísticas de Eventos</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">50+</div>
+                    <h3>Eventos</h3>
+                    <p>Realizados exitosamente</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">10,000+</div>
+                    <h3>Participantes</h3>
+                    <p>Total acumulado</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">$5M+</div>
+                    <h3>Oportunidades</h3>
+                    <p>De negocio generadas</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">95%</div>
+                    <h3>Satisfacción</h3>
+                    <p>De participantes</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">50+</div>
+                    <h3>Países</h3>
+                    <p>Con participantes</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">98%</div>
+                    <h3>Recomendación</h3>
+                    <p>De participantes</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="premium">
+            <h3 style="margin: 0 0 15px 0;">👑 MEMBRESÍA VIP</h3>
+            <p style="margin: 0; font-size: 1.2em;">Acceso prioritario a todos los eventos + networking exclusivo + oportunidades de negocio por solo $197/mes</p>
+        </div>
+
+        <div class="curiosity">
+            <h3 style="margin: 0 0 15px 0;">🔍 ¿QUÉ HACE ESPECIAL A NUESTROS EVENTOS?</h3>
+            <p style="margin: 0; font-size: 1.2em;">Descubre las ventajas únicas que nos hacen líderes en eventos de IA</p>
+        </div>
+
+        <div class="empathy">
+            <h3 style="margin: 0 0 15px 0;">💝 Entendemos tus Necesidades</h3>
+            <p style="margin: 0; font-size: 1.2em;">Sabemos que el networking y el aprendizaje son clave para el éxito. Por eso nuestros eventos están diseñados para maximizar ambos</p>
+        </div>
+    </div>
+
+    <footer style="background: #2c3e50; color: white; padding: 40px 0; text-align: center;">
+        <div class="container">
+            <p>&copy; 2024 IA Marketing Solutions. Todos los derechos reservados.</p>
+            <p>Conectando profesionales en IA desde 2020</p>
+        </div>
+    </footer>
+
+    <script>
+        // Track event interactions
+        document.querySelectorAll('.event-card .cta-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const event = this.closest('.event-card').querySelector('.event-title').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'event_click', {
+                        'event_category': 'AI Events',
+                        'event_label': event,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track upcoming card clicks
+        document.querySelectorAll('.upcoming-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const upcoming = this.querySelector('h3').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'upcoming_click', {
+                        'event_category': 'AI Events',
+                        'event_label': upcoming,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track event preview interactions
+        document.querySelectorAll('.event-preview').forEach(preview => {
+            preview.addEventListener('click', function() {
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'event_preview_click', {
+                        'event_category': 'AI Events',
+                        'event_label': 'Event Preview',
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Animate event cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.event-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+        
+        // Animate stat numbers
+        const statObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumber = entry.target.querySelector('.stat-number');
+                    const finalValue = statNumber.textContent;
+                    const isPlus = finalValue.includes('+');
+                    const isMillion = finalValue.includes('M');
+                    const isPercentage = finalValue.includes('%');
+                    const numericValue = parseFloat(finalValue.replace(/[^0-9.]/g, ''));
+                    
+                    let currentValue = 0;
+                    const increment = numericValue / 30;
+                    
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= numericValue) {
+                            currentValue = numericValue;
+                            clearInterval(timer);
+                        }
+                        
+                        if (isPlus) {
+                            statNumber.textContent = Math.round(currentValue).toLocaleString() + '+';
+                        } else if (isMillion) {
+                            statNumber.textContent = '$' + (currentValue / 1000000).toFixed(1) + 'M+';
+                        } else if (isPercentage) {
+                            statNumber.textContent = Math.round(currentValue) + '%';
+                        } else {
+                            statNumber.textContent = Math.round(currentValue).toLocaleString();
+                        }
+                    }, 30);
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.stat-card').forEach(card => {
+            statObserver.observe(card);
+        });
+    </script>
+</body>
+</html>
+
+
+

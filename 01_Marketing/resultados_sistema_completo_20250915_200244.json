@@ -1,0 +1,99 @@
+{
+  "fecha_ejecucion": "2025-09-15T20:02:44.065825",
+  "configuracion": {
+    "modo_ia": true,
+    "prediccion_automatica": true,
+    "optimizacion_automatica": true,
+    "analisis_competencia": true,
+    "ab_testing": true,
+    "dashboard_tiempo_real": true,
+    "exportacion_automatica": true
+  },
+  "etapas": [
+    {
+      "nombre": "Generación Masiva",
+      "estado": "completado",
+      "anchor_texts_generados": 385,
+      "tiempo_ejecucion": 4.343277244996152,
+      "archivos_generados": [
+        "anchor_texts_generados.json"
+      ]
+    },
+    {
+      "nombre": "Predicción Rendimiento",
+      "estado": "completado",
+      "predicciones_generadas": 50,
+      "tiempo_ejecucion": 6.245422337798528,
+      "archivos_generados": [
+        "predicciones_rendimiento.json"
+      ]
+    },
+    {
+      "nombre": "Optimización Automática",
+      "estado": "completado",
+      "optimizaciones_realizadas": 20,
+      "tiempo_ejecucion": 6.60681234708702,
+      "archivos_generados": [
+        "optimizaciones_automaticas.json"
+      ]
+    },
+    {
+      "nombre": "Análisis Competencia",
+      "estado": "completado",
+      "competidores_analizados": 3,
+      "oportunidades_identificadas": 4,
+      "tiempo_ejecucion": 2.0410843017396987,
+      "archivos_generados": [
+        "analisis_competencia.json"
+      ]
+    },
+    {
+      "nombre": "A/B Testing",
+      "estado": "completado",
+      "tests_ejecutados": 10,
+      "tiempo_ejecucion": 5.447706466944894,
+      "archivos_generados": [
+        "ab_tests_resultados.json"
+      ]
+    },
+    {
+      "nombre": "Dashboard Tiempo Real",
+      "estado": "completado",
+      "archivo_generado": "dashboard_tiempo_real_20250915_200244.html",
+      "tiempo_ejecucion": 1.9461250860093162,
+      "archivos_generados": [
+        "dashboard_tiempo_real_20250915_200244.html"
+      ]
+    },
+    {
+      "nombre": "Exportación Automática",
+      "estado": "completado",
+      "archivos_exportados": 5,
+      "tiempo_ejecucion": 1.063980810840913,
+      "archivos_generados": [
+        "anchor_texts_completos_20250915_200244.json",
+        "predicciones_completas_20250915_200244.json",
+        "optimizaciones_completas_20250915_200244.json",
+        "ab_tests_completos_20250915_200244.json",
+        "analisis_competencia_completo_20250915_200244.json"
+      ]
+    }
+  ],
+  "estadisticas_finales": {
+    "anchor_texts_generados": 385,
+    "predicciones_generadas": 50,
+    "optimizaciones_realizadas": 20,
+    "ab_tests_ejecutados": 10,
+    "archivos_exportados": 5,
+    "tiempo_total_ejecucion": 0.0058,
+    "eficiencia_sistema": 4.35
+  },
+  "archivos_generados": [],
+  "recomendaciones": [
+    "Excelente generación de anchor texts, implementar en campañas piloto",
+    "Revisar todos los archivos generados para implementación",
+    "Configurar monitoreo continuo del rendimiento",
+    "Planificar próximas iteraciones del sistema",
+    "Documentar lecciones aprendidas para futuras mejoras"
+  ]
+}

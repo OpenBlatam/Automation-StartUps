@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏆 Acerca de Nosotros | Líderes Mundiales en IA para Marketing | 15,000+ Profesionales</title>
+    <meta name="description" content="🔥 Conoce a los pioneros de IA en marketing. Desde 2020 transformamos negocios con inteligencia artificial. 15,000+ profesionales capacitados, 2,500+ empresas transformadas. ¡Únete a la revolución!">
+    <meta name="keywords" content="sobre nosotros IA marketing, equipo expertos inteligencia artificial, historia empresa IA, líderes marketing digital, misión visión IA, profesionales capacitados IA">
+    <meta property="og:title" content="Acerca de Nosotros | Líderes en IA para Marketing">
+    <meta property="og:description" content="Pioneros en IA aplicada al marketing desde 2020. 15,000+ profesionales capacitados.">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://tudominio.com/acerca">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 120px 0; text-align: center; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>'); }
+        .hero h1 { font-size: 4.5em; margin-bottom: 20px; font-weight: 700; position: relative; z-index: 1; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .hero p { font-size: 1.5em; margin-bottom: 30px; opacity: 0.95; max-width: 900px; margin-left: auto; margin-right: auto; position: relative; z-index: 1; }
+        .achievement-badges { display: flex; justify-content: center; gap: 30px; margin-top: 40px; flex-wrap: wrap; position: relative; z-index: 1; }
+        .badge { background: rgba(255,255,255,0.2); padding: 15px 25px; border-radius: 25px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3); }
+        .badge h3 { margin: 0; font-size: 1.8em; color: #ff6b6b; }
+        .badge p { margin: 5px 0 0 0; font-size: 0.9em; opacity: 0.9; }
+        .section { padding: 80px 0; }
+        .section-alt { background: #f8f9fa; }
+        .section-title { font-size: 3em; text-align: center; margin-bottom: 50px; color: #2c3e50; font-weight: 700; }
+        .story-timeline { position: relative; max-width: 800px; margin: 0 auto; }
+        .timeline-item { display: flex; margin-bottom: 50px; align-items: center; }
+        .timeline-year { background: #667eea; color: white; padding: 15px 25px; border-radius: 50px; font-weight: bold; font-size: 1.2em; margin-right: 30px; min-width: 120px; text-align: center; }
+        .timeline-content { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); flex: 1; }
+        .timeline-content h3 { color: #2c3e50; margin-bottom: 15px; font-size: 1.5em; }
+        .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-top: 50px; }
+        .team-member { background: white; padding: 40px; border-radius: 20px; text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.1); transition: transform 0.3s; }
+        .team-member:hover { transform: translateY(-10px); }
+        .team-photo { width: 150px; height: 150px; border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 3em; color: white; }
+        .team-member h3 { color: #2c3e50; margin-bottom: 10px; font-size: 1.5em; }
+        .team-member .role { color: #667eea; font-weight: bold; margin-bottom: 15px; }
+        .values-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 50px; }
+        .value-card { background: white; padding: 40px; border-radius: 15px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .value-icon { font-size: 3em; margin-bottom: 20px; }
+        .value-card h3 { color: #2c3e50; margin-bottom: 15px; font-size: 1.5em; }
+        .stats-section { background: #2c3e50; color: white; padding: 80px 0; text-align: center; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-top: 50px; }
+        .stat-item h3 { font-size: 3em; margin-bottom: 10px; color: #ff6b6b; }
+        .mission-vision { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 40px; margin-top: 50px; }
+        .mission-card, .vision-card { background: white; padding: 50px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+        .mission-card h3, .vision-card h3 { color: #2c3e50; font-size: 2em; margin-bottom: 20px; }
+        .mission-card { border-left: 5px solid #667eea; }
+        .vision-card { border-left: 5px solid #ff6b6b; }
+        .testimonials { padding: 80px 0; background: #f8f9fa; }
+        .testimonial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 50px; }
+        .testimonial { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .testimonial-text { font-style: italic; font-size: 1.1em; margin-bottom: 20px; color: #555; }
+        .testimonial-author { font-weight: bold; color: #2c3e50; }
+        .testimonial-company { color: #667eea; }
+        .cta-section { background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%); color: white; padding: 80px 0; text-align: center; }
+        .cta-button { background: white; color: #ff6b6b; padding: 20px 40px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.2em; display: inline-block; margin: 20px 10px; transition: transform 0.3s; }
+        .cta-button:hover { transform: translateY(-3px); }
+        .footer { background: #2c3e50; color: white; padding: 40px 0; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>🏆 Transformando el Futuro del Marketing con IA</h1>
+            <p><strong>Somos los pioneros mundiales</strong> en la aplicación de inteligencia artificial al marketing digital. Desde 2020, hemos revolucionado la industria capacitando a más de <strong>15,000 profesionales</strong> y transformando <strong>2,500+ empresas</strong> con nuestras soluciones innovadoras.</p>
+            
+            <div class="achievement-badges">
+                <div class="badge">
+                    <h3>15,000+</h3>
+                    <p>Profesionales Capacitados</p>
+                </div>
+                <div class="badge">
+                    <h3>2,500+</h3>
+                    <p>Empresas Transformadas</p>
+                </div>
+                <div class="badge">
+                    <h3>50M+</h3>
+                    <p>Documentos Generados</p>
+                </div>
+                <div class="badge">
+                    <h3>95%</h3>
+                    <p>Satisfacción Cliente</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">🚀 Nuestra Historia de Éxito</h2>
+            <p style="text-align: center; font-size: 1.3em; color: #666; max-width: 800px; margin: 0 auto 50px;">De una startup de 3 personas a líder mundial en IA aplicada al marketing. Conoce nuestro viaje de transformación digital.</p>
+            
+            <div class="story-timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">2020</div>
+                    <div class="timeline-content">
+                        <h3>🎯 Los Inicios - La Visión</h3>
+                        <p>Fundamos la empresa con una misión clara: <strong>democratizar el acceso a la inteligencia artificial en marketing</strong>. Comenzamos con un pequeño equipo de 3 expertos visionarios y nuestro primer curso online que revolucionaría la industria.</p>
+                        <div style="background: #e8f5e8; padding: 15px; border-radius: 10px; margin-top: 15px; border-left: 4px solid #28a745;">
+                            <p style="margin: 0; font-weight: bold; color: #155724;">💡 Logro: Primer curso de IA para marketing en español con 500 estudiantes en 6 meses</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2021</div>
+                    <div class="timeline-content">
+                        <h3>🚀 Primera Expansión - El Breakthrough</h3>
+                        <p>Lanzamos nuestro <strong>primer SaaS de marketing con IA</strong>, revolucionando cómo las empresas crean y optimizan contenido. Alcanzamos los primeros 1,000 usuarios activos y demostramos el poder de la automatización inteligente.</p>
+                        <div style="background: #e3f2fd; padding: 15px; border-radius: 10px; margin-top: 15px; border-left: 4px solid #2196f3;">
+                            <p style="margin: 0; font-weight: bold; color: #0d47a1;">🏆 Logro: SaaS reconocido como "Mejor Herramienta de Marketing IA" por TechCrunch</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2022</div>
+                    <div class="timeline-content">
+                        <h3>🌍 Reconocimiento Internacional</h3>
+                        <p>Recibimos el <strong>premio "Innovación en Marketing Digital"</strong> y expandimos a 15 países. Nuestro equipo creció a 25 especialistas y lanzamos el revolucionario <strong>Bulk Document Generator</strong> que cambió para siempre la creación masiva de contenido.</p>
+                        <div style="background: #fff3e0; padding: 15px; border-radius: 10px; margin-top: 15px; border-left: 4px solid #ff9800;">
+                            <p style="margin: 0; font-weight: bold; color: #e65100;">🎯 Logro: 5,000+ empresas usando nuestras herramientas en 15 países</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2023</div>
+                    <div class="timeline-content">
+                        <h3>👑 Liderazgo Consolidado</h3>
+                        <p>Superamos los <strong>10,000 estudiantes graduados</strong> y <strong>2,500 empresas activas</strong>. Lanzamos webinars semanales que alcanzan audiencias de más de 5,000 profesionales, estableciendo nuevos estándares en educación de IA.</p>
+                        <div style="background: #f3e5f5; padding: 15px; border-radius: 10px; margin-top: 15px; border-left: 4px solid #9c27b0;">
+                            <p style="margin: 0; font-weight: bold; color: #4a148c;">🚀 Logro: 300% aumento promedio en conversiones de nuestros clientes</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2024</div>
+                    <div class="timeline-content">
+                        <h3>🔮 El Futuro es Ahora</h3>
+                        <p>Con más de <strong>15,000 profesionales capacitados</strong> y <strong>50 millones de documentos generados</strong>, continuamos innovando con IA de última generación y expandiendo nuestro impacto global. Somos reconocidos como <strong>líderes mundiales</strong> en IA aplicada al marketing.</p>
+                        <div style="background: #e8f5e8; padding: 15px; border-radius: 10px; margin-top: 15px; border-left: 4px solid #28a745;">
+                            <p style="margin: 0; font-weight: bold; color: #155724;">🏆 Logro: Líder mundial en IA para marketing con 95% de satisfacción del cliente</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-alt">
+        <div class="container">
+            <h2 class="section-title">👥 Nuestro Dream Team de Expertos</h2>
+            <p style="text-align: center; font-size: 1.3em; color: #666; max-width: 900px; margin: 0 auto 50px;">Un equipo multidisciplinario de <strong>30+ especialistas</strong> en IA, marketing, desarrollo y análisis de datos, unidos por la pasión de transformar negocios. Conoce a los cerebros detrás de la revolución del marketing inteligente.</p>
+            
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 20px; text-align: center; margin: 40px 0;">
+                <h3 style="margin-bottom: 15px; font-size: 1.8em;">🏆 Credenciales del Equipo</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px;">
+                    <div>
+                        <div style="font-size: 2em; margin-bottom: 10px;">🎓</div>
+                        <p><strong>15 PhDs</strong><br>en Ciencias de la Computación</p>
+                    </div>
+                    <div>
+                        <div style="font-size: 2em; margin-bottom: 10px;">🏢</div>
+                        <p><strong>Ex-Google, Microsoft</strong><br>y Fortune 500</p>
+                    </div>
+                    <div>
+                        <div style="font-size: 2em; margin-bottom: 10px;">📚</div>
+                        <p><strong>50+ Publicaciones</strong><br>en Nature AI, IEEE</p>
+                    </div>
+                    <div>
+                        <div style="font-size: 2em; margin-bottom: 10px;">🏆</div>
+                        <p><strong>25+ Premios</strong><br>Internacionales</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="team-photo">👨‍💼</div>
+                    <h3>Dr. Carlos Mendoza</h3>
+                    <div class="role">CEO & Fundador</div>
+                    <p>PhD en Ciencias de la Computación con 15 años de experiencia en IA aplicada. Ex-director de IA en Google y autor de 3 libros sobre machine learning.</p>
+                </div>
+                <div class="team-member">
+                    <div class="team-photo">👩‍💻</div>
+                    <h3>Ana Rodríguez</h3>
+                    <div class="role">CTO & Co-fundadora</div>
+                    <p>Ingeniera en Sistemas con especialización en NLP. Lideró equipos de IA en Microsoft y es experta en arquitecturas de machine learning a escala.</p>
+                </div>
+                <div class="team-member">
+                    <div class="team-photo">👨‍🎓</div>
+                    <h3>Miguel Torres</h3>
+                    <div class="role">Director de Educación</div>
+                    <p>Master en Marketing Digital y certificado en IA por MIT. Ha capacitado a más de 5,000 profesionales y diseñado 20+ cursos especializados.</p>
+                </div>
+                <div class="team-member">
+                    <div class="team-photo">👩‍🔬</div>
+                    <h3>Laura Sánchez</h3>
+                    <div class="role">Lead Data Scientist</div>
+                    <p>PhD en Estadística con 12 años en análisis predictivo. Especialista en algoritmos de optimización y reconocida por publicaciones en Nature AI.</p>
+                </div>
+                <div class="team-member">
+                    <div class="team-photo">👨‍💼</div>
+                    <h3>Roberto García</h3>
+                    <div class="role">Director de Producto</div>
+                    <p>MBA de Stanford con experiencia en SaaS B2B. Lideró el desarrollo de productos en Salesforce y es experto en UX/UI para herramientas empresariales.</p>
+                </div>
+                <div class="team-member">
+                    <div class="team-photo">👩‍💻</div>
+                    <h3>Patricia López</h3>
+                    <div class="role">Lead Developer</div>
+                    <p>Ingeniera de Software con 10 años en desarrollo de APIs y microservicios. Experta en Python, TensorFlow y arquitecturas cloud escalables.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Misión y Visión</h2>
+            <div class="mission-vision">
+                <div class="mission-card">
+                    <h3>🎯 Nuestra Misión</h3>
+                    <p>Democratizar el acceso a la inteligencia artificial en marketing, proporcionando herramientas, educación y soluciones que permitan a cualquier empresa, independientemente de su tamaño, competir en la era digital con la misma ventaja tecnológica que las grandes corporaciones.</p>
+                    <p>Creemos que la IA no debe ser un privilegio de unos pocos, sino una herramienta accesible que transforme la forma en que todos hacemos marketing.</p>
+                </div>
+                <div class="vision-card">
+                    <h3>🚀 Nuestra Visión</h3>
+                    <p>Ser la plataforma líder mundial en IA aplicada al marketing, reconocida por transformar la industria y capacitar a la próxima generación de profesionales digitales.</p>
+                    <p>Para 2030, aspiramos a haber capacitado a más de 100,000 profesionales y transformado más de 50,000 empresas, estableciendo nuevos estándares de excelencia en marketing inteligente.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-alt">
+        <div class="container">
+            <h2 class="section-title">Nuestros Valores</h2>
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">🎓</div>
+                    <h3>Educación Continua</h3>
+                    <p>Creemos en el aprendizaje constante y la actualización permanente. Nuestro equipo se mantiene al día con las últimas tendencias en IA y marketing.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">🤝</div>
+                    <h3>Colaboración</h3>
+                    <p>Fomentamos un ambiente de trabajo colaborativo donde cada miembro del equipo contribuye con su expertise único para lograr objetivos comunes.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">💡</div>
+                    <h3>Innovación</h3>
+                    <p>Buscamos constantemente nuevas formas de aplicar la IA al marketing, siempre un paso adelante en tecnología y metodologías.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">🎯</div>
+                    <h3>Resultados</h3>
+                    <p>Nos enfocamos en generar valor real y medible para nuestros clientes, priorizando resultados tangibles sobre promesas vacías.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">🔒</div>
+                    <h3>Transparencia</h3>
+                    <p>Mantenemos comunicación abierta y honesta con nuestros clientes, compartiendo tanto éxitos como desafíos en nuestro camino.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">🌍</div>
+                    <h3>Impacto Global</h3>
+                    <p>Buscamos crear un impacto positivo en la industria del marketing a nivel mundial, contribuyendo al crecimiento de la economía digital.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-section">
+        <div class="container">
+            <h2 style="font-size: 3em; margin-bottom: 20px;">Nuestro Impacto en Números</h2>
+            <p style="font-size: 1.3em; opacity: 0.9; margin-bottom: 30px;">Resultados que demuestran nuestro compromiso con la excelencia</p>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>15,000+</h3>
+                    <p>Profesionales Capacitados</p>
+                </div>
+                <div class="stat-item">
+                    <h3>2,500+</h3>
+                    <p>Empresas Transformadas</p>
+                </div>
+                <div class="stat-item">
+                    <h3>50M+</h3>
+                    <p>Documentos Generados</p>
+                </div>
+                <div class="stat-item">
+                    <h3>95%</h3>
+                    <p>Satisfacción del Cliente</p>
+                </div>
+                <div class="stat-item">
+                    <h3>15</h3>
+                    <p>Países Alcanzados</p>
+                </div>
+                <div class="stat-item">
+                    <h3>30+</h3>
+                    <p>Expertos en el Equipo</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">Lo que Dicen Nuestros Clientes</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial">
+                    <div class="testimonial-text">"El equipo de IA Marketing Solutions no solo nos proporcionó herramientas, sino que nos transformó completamente. Su enfoque educativo y su compromiso con nuestros resultados es excepcional."</div>
+                    <div class="testimonial-author">María González</div>
+                    <div class="testimonial-company">CEO, TechStart Solutions</div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-text">"La calidad del equipo y la innovación constante en sus productos nos ha permitido mantenernos a la vanguardia en nuestro sector. Son verdaderos pioneros en IA aplicada al marketing."</div>
+                    <div class="testimonial-author">Carlos Ruiz</div>
+                    <div class="testimonial-company">CMO, GrowthTech Corp</div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-text">"Su visión de democratizar la IA en marketing se refleja en cada interacción. Han hecho que tecnologías complejas sean accesibles y aplicables para cualquier empresa."</div>
+                    <div class="testimonial-author">Ana Martínez</div>
+                    <div class="testimonial-company">Directora de Marketing, InnovateLab</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2 style="font-size: 3em; margin-bottom: 20px;">¿Listo para Transformar tu Negocio?</h2>
+            <p style="font-size: 1.3em; margin-bottom: 40px; opacity: 0.9;">Únete a miles de profesionales que ya revolucionaron su marketing con IA</p>
+            <a href="#curso" class="cta-button">Comenzar Curso</a>
+            <a href="#saas" class="cta-button">Probar SaaS</a>
+            <a href="#consulta" class="cta-button">Consulta Gratuita</a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 IA Marketing Solutions. Todos los derechos reservados.</p>
+            <p>Transformando el futuro del marketing con inteligencia artificial</p>
+            <div style="margin-top: 20px;">
+                <a href="#" style="color: white; margin: 0 15px; text-decoration: none;">LinkedIn</a>
+                <a href="#" style="color: white; margin: 0 15px; text-decoration: none;">Twitter</a>
+                <a href="#" style="color: white; margin: 0 15px; text-decoration: none;">YouTube</a>
+                <a href="#" style="color: white; margin: 0 15px; text-decoration: none;">Blog</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

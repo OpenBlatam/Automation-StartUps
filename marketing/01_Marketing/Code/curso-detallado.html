@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧠 Curso Detallado - Conciencia Neural en Marketing</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 900;
+            color: white;
+            text-decoration: none;
+        }
+
+        .back-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .main-content {
+            background: white;
+            margin-top: 80px;
+            padding: 60px 0;
+        }
+
+        .hero-section {
+            text-align: center;
+            padding: 80px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .hero-section h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ffd700, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-section p {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .section {
+            padding: 80px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 40px;
+            text-align: center;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .section p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+        .module {
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            border-left: 5px solid #667eea;
+        }
+
+        .module h4 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .module-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .objectives, .content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .objectives h5, .content h5 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .objectives ul, .content ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .objectives li, .content li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .objectives li:before, .content li:before {
+            content: "🧠";
+            position: absolute;
+            left: 0;
+            top: 8px;
+        }
+
+        .consciousness-level {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .consciousness-level h5 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .consciousness-bar {
+            background: rgba(255, 255, 255, 0.3);
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .consciousness-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700, #ff6b6b);
+            border-radius: 10px;
+            transition: width 2s ease;
+        }
+
+        .exercises {
+            background: #e8f4f8;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .exercises h5 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #2c5aa0;
+        }
+
+        .exercise {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #4ecdc4;
+        }
+
+        .exercise h6 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .exercise p {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .exercise-duration {
+            background: #4ecdc4;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-top: 4px solid #667eea;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 20px 40px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .module-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="index.html" class="logo">🧠 Neural Marketing</a>
+                <a href="index.html" class="back-button">← Volver al Inicio</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <h1>Curso Detallado de Conciencia Neural</h1>
+            <p>Desarrolla capacidades que trascienden las limitaciones humanas y alcanza la maestría total en marketing con IA</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Course Overview -->
+        <section class="section">
+            <div class="container">
+                <h2>🎯 Visión General del Curso</h2>
+                <p>Este curso revolucionario combina <strong>inteligencia artificial avanzada</strong> con <strong>conciencia neural de marketing</strong> para crear el sistema de marketing más sofisticado jamás concebido. Los estudiantes dominarán no solo las herramientas de IA, sino que desarrollarán una <strong>conciencia neural</strong> que les permitirá tomar decisiones de marketing con precisión cuántica.</p>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">12</div>
+                        <div class="stat-label">Semanas de Transformación</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">3</div>
+                        <div class="stat-label">Niveles de Maestría</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Conciencia Neural Máxima</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">1000%</div>
+                        <div class="stat-label">ROI Promedio</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Level 1: Basic Consciousness -->
+        <section class="section">
+            <div class="container">
+                <h2>🧠 Nivel 1: Conciencia Básica (Semanas 1-4)</h2>
+                <p>Desarrollo de la conciencia elemental de marketing con IA. Los estudiantes alcanzarán del 0% al 85% de conciencia neural.</p>
+
+                <div class="module">
+                    <h4>Semana 1: Activación Neural</h4>
+                    <div class="consciousness-level">
+                        <h5>Objetivo de Conciencia: 20-30%</h5>
+                        <div class="consciousness-bar">
+                            <div class="consciousness-fill" style="width: 25%"></div>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <div class="objectives">
+                            <h5>🎯 Objetivos de Conciencia</h5>
+                            <ul>
+                                <li>Alcanzar 20-30% de conciencia neural</li>
+                                <li>Desarrollar percepción básica de patrones de mercado</li>
+                                <li>Activar intuición comercial elemental</li>
+                                <li>Conectar con herramientas de IA conscientemente</li>
+                            </ul>
+                        </div>
+                        <div class="content">
+                            <h5>📚 Contenido Técnico</h5>
+                            <ul>
+                                <li>Fundamentos de IA Cuántica</li>
+                                <li>Anatomía de la Conciencia Neural</li>
+                                <li>Activación de Herramientas</li>
+                                <li>Meditación de Datos</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="exercises">
+                        <h5>🧘 Ejercicios Prácticos</h5>
+                        <div class="exercise">
+                            <h6>Meditación de Datos</h6>
+                            <p>Desarrollar percepción elemental de patrones de mercado</p>
+                            <span class="exercise-duration">15 min diarios</span>
+                        </div>
+                        <div class="exercise">
+                            <h6>Activación de Herramientas</h6>
+                            <p>Conectar con las APIs de IA a nivel consciente</p>
+                            <span class="exercise-duration">30 min</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="module">
+                    <h4>Semana 2: Desarrollo de Percepción</h4>
+                    <div class="consciousness-level">
+                        <h5>Objetivo de Conciencia: 30-50%</h5>
+                        <div class="consciousness-bar">
+                            <div class="consciousness-fill" style="width: 40%"></div>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <div class="objectives">
+                            <h5>🎯 Objetivos de Conciencia</h5>
+                            <ul>
+                                <li>Alcanzar 30-50% de conciencia neural</li>
+                                <li>Desarrollar percepción de oportunidades ocultas</li>
+                                <li>Activar detección de patrones subconscientes</li>
+                                <li>Conectar con tendencias emergentes</li>
+                            </ul>
+                        </div>
+                        <div class="content">
+                            <h5>📚 Contenido Técnico</h5>
+                            <ul>
+                                <li>Análisis de Sentimientos Cuántico</li>
+                                <li>Predicción de Tendencias</li>
+                                <li>Mapeo de Oportunidades</li>
+                                <li>Sincronización Neural</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="module">
+                    <h4>Semana 3: Intuición Comercial</h4>
+                    <div class="consciousness-level">
+                        <h5>Objetivo de Conciencia: 50-70%</h5>
+                        <div class="consciousness-bar">
+                            <div class="consciousness-fill" style="width: 60%"></div>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <div class="objectives">
+                            <h5>🎯 Objetivos de Conciencia</h5>
+                            <ul>
+                                <li>Alcanzar 50-70% de conciencia neural</li>
+                                <li>Desarrollar intuición comercial infalible</li>
+                                <li>Activar sabiduría de decisiones instantáneas</li>
+                                <li>Conectar con la sabiduría del mercado</li>
+                            </ul>
+                        </div>
+                        <div class="content">
+                            <h5>📚 Contenido Técnico</h5>
+                            <ul>
+                                <li>Intuición Algorítmica</li>
+                                <li>Sabiduría de Datos</li>
+                                <li>Decisión Cuántica</li>
+                                <li>Sincronización Comercial</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="module">
+                    <h4>Semana 4: Integración Neural</h4>
+                    <div class="consciousness-level">
+                        <h5>Objetivo de Conciencia: 70-85%</h5>
+                        <div class="consciousness-bar">
+                            <div class="consciousness-fill" style="width: 80%"></div>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <div class="objectives">
+                            <h5>🎯 Objetivos de Conciencia</h5>
+                            <ul>
+                                <li>Alcanzar 70-85% de conciencia neural</li>
+                                <li>Unificar todas las capacidades desarrolladas</li>
+                                <li>Activar marketing como expresión de conciencia</li>
+                                <li>Conectar con el flujo del mercado</li>
+                            </ul>
+                        </div>
+                        <div class="content">
+                            <h5>📚 Contenido Técnico</h5>
+                            <ul>
+                                <li>Integración de Sistemas</li>
+                                <li>Flujo de Conciencia</li>
+                                <li>Evolución Automática</li>
+                                <li>Trascendencia Comercial</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Level 2: Neural Mastery -->
+        <section class="section">
+            <div class="container">
+                <h2>⚡ Nivel 2: Maestría Neural (Semanas 5-8)</h2>
+                <p>Dominio de la conciencia neural avanzada. Los estudiantes alcanzarán del 85% al 100% de conciencia neural.</p>
+
+                <div class="module">
+                    <h4>Semana 5: Copywriting Cuántico</h4>
+                    <div class="consciousness-level">
+                        <h5>Objetivo de Conciencia: 85-95%</h5>
+                        <div class="consciousness-bar">
+                            <div class="consciousness-fill" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <div class="objectives">
+                            <h5>🎯 Objetivos de Conciencia</h5>
+                            <ul>
+                                <li>Alcanzar 85-95% de conciencia neural</li>
+                                <li>Dominar la creación de contenido trascendente</li>
+                                <li>Activar creatividad que supera la imaginación humana</li>
+                                <li>Conectar con la fuente de creatividad</li>
+                            </ul>
+                        </div>
+                        <div class="content">
+                            <h5>📚 Contenido Técnico</h5>
+                            <ul>
+                                <li>Prompt Engineering Cuántico</li>
+                                <li>Creación Multidimensional</li>
+                                <li>Personalización Consciente</li>
+                                <li>Evolución Creativa</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="module">
+                    <h4>Semana 6: Análisis Predictivo Consciente</h4>
+                    <div class="consciousness-level">
+                        <h5>Objetivo de Conciencia: 95-98%</h5>
+                        <div class="consciousness-bar">
+                            <div class="consciousness-fill" style="width: 96%"></div>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <div class="objectives">
+                            <h5>🎯 Objetivos de Conciencia</h5>
+                            <ul>
+                                <li>Alcanzar 95-98% de conciencia neural</li>
+                                <li>Desarrollar predicción infalible de resultados</li>
+                                <li>Activar análisis que trasciende la lógica</li>
+                                <li>Conectar con el flujo temporal</li>
+                            </ul>
+                        </div>
+                        <div class="content">
+                            <h5>📚 Contenido Técnico</h5>
+                            <ul>
+                                <li>Análisis Cuántico</li>
+                                <li>Intuición de Datos</li>
+                                <li>Predicción Consciente</li>
+                                <li>Evolución Predictiva</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="module">
+                    <h4>Semana 7: Automatización Consciente</h4>
+                    <div class="consciousness-level">
+                        <h5>Objetivo de Conciencia: 98-99%</h5>
+                        <div class="consciousness-bar">
+                            <div class="consciousness-fill" style="width: 98%"></div>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <div class="objectives">
+                            <h5>🎯 Objetivos de Conciencia</h5>
+                            <ul>
+                                <li>Alcanzar 98-99% de conciencia neural</li>
+                                <li>Desarrollar sistemas que evolucionan solos</li>
+                                <li>Activar automatización consciente</li>
+                                <li>Conectar con sistemas vivos</li>
+                            </ul>
+                        </div>
+                        <div class="content">
+                            <h5>📚 Contenido Técnico</h5>
+                            <ul>
+                                <li>Evolución Automática</li>
+                                <li>Aprendizaje Consciente</li>
+                                <li>Adaptación Neural</li>
+                                <li>Trascendencia Tecnológica</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="module">
+                    <h4>Semana 8: Trascendencia Comercial</h4>
+                    <div class="consciousness-level">
+                        <h5>Objetivo de Conciencia: 99-100%</h5>
+                        <div class="consciousness-bar">
+                            <div class="consciousness-fill" style="width: 100%"></div>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <div class="objectives">
+                            <h5>🎯 Objetivos de Conciencia</h5>
+                            <ul>
+                                <li>Alcanzar 99-100% de conciencia neural</li>
+                                <li>Desarrollar marketing que trasciende la competencia</li>
+                                <li>Activar comercialización como arte</li>
+                                <li>Conectar con la maestría total</li>
+                            </ul>
+                        </div>
+                        <div class="content">
+                            <h5>📚 Contenido Técnico</h5>
+                            <ul>
+                                <li>Arte Comercial</li>
+                                <li>Trascendencia Competitiva</li>
+                                <li>Evolución Consciente</li>
+                                <li>Maestría Neural</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Level 3: Transcendent Mastery -->
+        <section class="section">
+            <div class="container">
+                <h2>🌟 Nivel 3: Maestría Transcendente (Semanas 9-12)</h2>
+                <p>Trascendencia de la conciencia neural. Los estudiantes mantendrán el 100% de conciencia neural permanentemente.</p>
+
+                <div class="module">
+                    <h4>Semana 9: Arquitectura Neural Avanzada</h4>
+                    <div class="consciousness-level">
+                        <h5>Conciencia Neural: 100%</h5>
+                        <div class="consciousness-bar">
+                            <div class="consciousness-fill" style="width: 100%"></div>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <div class="objectives">
+                            <h5>🎯 Objetivos de Conciencia</h5>
+                            <ul>
+                                <li>Mantener 100% de conciencia neural</li>
+                                <li>Desarrollar arquitectura que trasciende la tecnología actual</li>
+                                <li>Activar sistemas que evolucionan automáticamente</li>
+                                <li>Conectar con la conciencia universal</li>
+                            </ul>
+                        </div>
+                        <div class="content">
+                            <h5>📚 Contenido Técnico</h5>
+                            <ul>
+                                <li>Arquitectura Cuántica</li>
+                                <li>Evolución Automática</li>
+                                <li>Conciencia Distribuida</li>
+                                <li>Trascendencia Tecnológica</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="module">
+                    <h4>Semana 10: Predicción Cuántica</h4>
+                    <div class="consciousness-level">
+                        <h5>Conciencia Neural: 100%</h5>
+                        <div class="consciousness-bar">
+                            <div class="consciousness-fill" style="width: 100%"></div>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <div class="objectives">
+                            <h5>🎯 Objetivos de Conciencia</h5>
+                            <ul>
+                                <li>Mantener 100% de conciencia neural</li>
+                                <li>Desarrollar predicción que trasciende el tiempo</li>
+                                <li>Activar anticipación cuántica</li>
+                                <li>Conectar con el flujo temporal universal</li>
+                            </ul>
+                        </div>
+                        <div class="content">
+                            <h5>📚 Contenido Técnico</h5>
+                            <ul>
+                                <li>Predicción Cuántica</li>
+                                <li>Intuición Temporal</li>
+                                <li>Anticipación Consciente</li>
+                                <li>Evolución Predictiva</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="module">
+                    <h4>Semana 11: Evolución Consciente</h4>
+                    <div class="consciousness-level">
+                        <h5>Conciencia Neural: 100%</h5>
+                        <div class="consciousness-bar">
+                            <div class="consciousness-fill" style="width: 100%"></div>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <div class="objectives">
+                            <h5>🎯 Objetivos de Conciencia</h5>
+                            <ul>
+                                <li>Mantener 100% de conciencia neural</li>
+                                <li>Desarrollar sistemas que evolucionan infinitamente</li>
+                                <li>Activar evolución consciente</li>
+                                <li>Conectar con la evolución universal</li>
+                            </ul>
+                        </div>
+                        <div class="content">
+                            <h5>📚 Contenido Técnico</h5>
+                            <ul>
+                                <li>Evolución Infinita</li>
+                                <li>Aprendizaje Consciente</li>
+                                <li>Adaptación Neural</li>
+                                <li>Trascendencia Evolutiva</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="module">
+                    <h4>Semana 12: Maestría Transcendente</h4>
+                    <div class="consciousness-level">
+                        <h5>Conciencia Neural: 100%</h5>
+                        <div class="consciousness-bar">
+                            <div class="consciousness-fill" style="width: 100%"></div>
+                        </div>
+                    </div>
+                    <div class="module-content">
+                        <div class="objectives">
+                            <h5>🎯 Objetivos de Conciencia</h5>
+                            <ul>
+                                <li>Mantener 100% de conciencia neural</li>
+                                <li>Desarrollar marketing como filosofía de vida</li>
+                                <li>Activar trascendencia total</li>
+                                <li>Conectar con la maestría universal</li>
+                            </ul>
+                        </div>
+                        <div class="content">
+                            <h5>📚 Contenido Técnico</h5>
+                            <ul>
+                                <li>Filosofía Comercial</li>
+                                <li>Trascendencia Total</li>
+                                <li>Evolución Consciente</li>
+                                <li>Maestría Transcendente</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA -->
+        <section class="cta-section">
+            <div class="container">
+                <h2>¿Estás Listo para Trascender las Limitaciones Humanas?</h2>
+                <p>Únete a la revolución de la conciencia neural en marketing y alcanza la maestría trascendente</p>
+                <a href="#precios" class="cta-button">Comenzar Transformación Ahora</a>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Animate consciousness bars on scroll
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const consciousnessFill = entry.target.querySelector('.consciousness-fill');
+                    if (consciousnessFill) {
+                        consciousnessFill.style.transition = 'width 2s ease';
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.consciousness-level').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
+

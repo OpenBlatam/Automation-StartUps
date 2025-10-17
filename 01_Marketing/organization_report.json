@@ -1,0 +1,50 @@
+{
+  "timestamp": "2025-10-04T11:45:04.390222",
+  "organization_score": 100.0,
+  "total_files": 453,
+  "organized_files": 453,
+  "unorganized_files": 0,
+  "unorganized_list": [],
+  "categories_status": {
+    "01_Marketing": {
+      "files_count": 9,
+      "has_readme": false
+    },
+    "02_Finance": {
+      "files_count": 200,
+      "has_readme": true
+    },
+    "03_Human_Resources": {
+      "files_count": 42,
+      "has_readme": true
+    },
+    "04_Business_Strategy": {
+      "files_count": 37,
+      "has_readme": true
+    },
+    "05_Technology": {
+      "files_count": 3,
+      "has_readme": false
+    },
+    "06_Documentation": {
+      "files_count": 92,
+      "has_readme": true
+    },
+    "07_Risk_Management": {
+      "files_count": 27,
+      "has_readme": true
+    },
+    "08_AI_Artificial_Intelligence": {
+      "files_count": 2,
+      "has_readme": false
+    },
+    "09_Sales": {
+      "files_count": 33,
+      "has_readme": true
+    },
+    "10_Customer_Service": {
+      "files_count": 8,
+      "has_readme": true
+    }
+  }
+}

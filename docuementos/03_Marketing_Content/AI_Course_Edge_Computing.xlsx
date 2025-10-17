@@ -1,0 +1,61 @@
+# AI COURSE EDGE COMPUTING VERSION - EXCEL TEMPLATE
+# Ultra-Advanced Edge Computing with IoT and Real-Time Processing
+
+## EDGE COMPUTING METRICS
+Edge_Metric,Current_Value,Target_Value,Edge_Score,Formula_Used
+Edge_Nodes,=1000,=800,=B2*C2*D2,=B2*C2*D2
+Latency_Reduction,=80%,=70%,=B3*C3*D3,=B3*C3*D3
+Bandwidth_Savings,=60%,=50%,=B4*C4*D4,=B4*C4*D4
+Processing_Power,=500_GFLOPS,=400_GFLOPS,=B5*C5*D5,=B5*C5*D5
+TOTAL,=0,=0,=AVERAGE(F2:F5),=AVERAGE(F2:F5)
+
+## INTERNET OF THINGS IoT
+IoT_Device_Type,Device_Count,Data_Generated,Processing_Time,Formula_Used
+Sensors,=B2*C2*D2,=Sensors,=IOT_METRICS(B2,C2,D2),=IOT_METRICS(B2,C2,D2)
+Actuators,=B3*C3*D3,=Actuators,=IOT_METRICS(B3,C3,D3),=IOT_METRICS(B3,C3,D3)
+Gateways,=B4*C4*D4,=Gateways,=IOT_METRICS(B4,C4,D4),=IOT_METRICS(B4,C4,D4)
+Smart_Devices,=B5*C5*D5,=Smart_Devices,=IOT_METRICS(B5,C5,D5),=IOT_METRICS(B5,C5,D5)
+TOTAL,=0,=AVERAGE(F2:F5),=AVERAGE(G2:G5),=AVERAGE(F2:F5)
+
+## REAL-TIME PROCESSING
+Processing_Type,Response_Time,Throughput,Accuracy_Score,Formula_Used
+Stream_Processing,=B2*C2*D2,=Stream_Processing,=REAL_TIME_METRICS(B2,C2,D2),=REAL_TIME_METRICS(B2,C2,D2)
+Event_Processing,=B3*C3*D3,=Event_Processing,=REAL_TIME_METRICS(B3,C3,D3),=REAL_TIME_METRICS(B3,C3,D3)
+Batch_Processing,=B4*C4*D4,=Batch_Processing,=REAL_TIME_METRICS(B4,C4,D4),=REAL_TIME_METRICS(B4,C4,D4)
+TOTAL,=0,=AVERAGE(F2:F4),=AVERAGE(G2:G4),=AVERAGE(F2:F4)
+
+## FOG COMPUTING
+Fog_Layer,Processing_Capacity,Storage_Capacity,Network_Latency,Formula_Used
+Edge_Layer,=B2*C2*D2,=Edge_Layer,=FOG_METRICS(B2,C2,D2),=FOG_METRICS(B2,C2,D2)
+Fog_Layer,=B3*C3*D3,=Fog_Layer,=FOG_METRICS(B3,C3,D3),=FOG_METRICS(B3,C3,D3)
+Cloud_Layer,=B4*C4*D4,=Cloud_Layer,=FOG_METRICS(B4,C4,D4),=FOG_METRICS(B4,C4,D4)
+TOTAL,=0,=AVERAGE(F2:F4),=AVERAGE(G2:G4),=AVERAGE(F2:F4)
+
+## EDGE AI
+AI_Model_Type,Model_Size,Inference_Time,Accuracy_Score,Formula_Used
+TinyML,=B2*C2*D2,=TinyML,=EDGE_AI_METRICS(B2,C2,D2),=EDGE_AI_METRICS(B2,C2,D2)
+Mobile_AI,=B3*C3*D3,=Mobile_AI,=EDGE_AI_METRICS(B3,C3,D3),=EDGE_AI_METRICS(B3,C3,D3)
+Edge_Neural_Networks,=B4*C4*D4,=Edge_Neural_Networks,=EDGE_AI_METRICS(B4,C4,D4),=EDGE_AI_METRICS(B4,C4,D4)
+TOTAL,=0,=AVERAGE(F2:F4),=AVERAGE(G2:G4),=AVERAGE(F2:F4)
+
+## EDGE SECURITY
+Security_Type,Protection_Level,Threat_Detection,Response_Time,Formula_Used
+Device_Security,=B2*C2*D2,=Device_Security,=EDGE_SECURITY_METRICS(B2,C2,D2),=EDGE_SECURITY_METRICS(B2,C2,D2)
+Network_Security,=B3*C3*D3,=Network_Security,=EDGE_SECURITY_METRICS(B3,C3,D3),=EDGE_SECURITY_METRICS(B3,C3,D3)
+Data_Security,=B4*C4*D4,=Data_Security,=EDGE_SECURITY_METRICS(B4,C4,D4),=EDGE_SECURITY_METRICS(B4,C4,D4)
+TOTAL,=0,=AVERAGE(F2:F4),=AVERAGE(G2:G4),=AVERAGE(F2:F4)
+
+## EDGE OPTIMIZATION
+Optimization_Type,Performance_Gain,Resource_Savings,Formula_Used
+Data_Compression,=B2*C2*D2,=Data_Compression,=EDGE_OPTIMIZATION_METRICS(B2,C2,D2),=EDGE_OPTIMIZATION_METRICS(B2,C2,D2)
+Caching_Strategy,=B3*C3*D3,=Caching_Strategy,=EDGE_OPTIMIZATION_METRICS(B3,C3,D3),=EDGE_OPTIMIZATION_METRICS(B3,C3,D3)
+Load_Balancing,=B4*C4*D4,=Load_Balancing,=EDGE_OPTIMIZATION_METRICS(B4,C4,D4),=EDGE_OPTIMIZATION_METRICS(B4,C4,D4)
+TOTAL,=0,=AVERAGE(F2:F4),=AVERAGE(G2:G4),=AVERAGE(F2:F4)
+
+## EDGE DASHBOARD
+KPI,Current_Value,Target_Value,Status,Formula_Used
+Edge_Nodes,=1000,=800,=IF(B2>=C2,"Exceeding","Below"),=IF(B2>=C2,"Exceeding","Below")
+Latency_Reduction,=80%,=70%,=IF(B3>=C3,"Exceeding","Below"),=IF(B3>=C3,"Exceeding","Below")
+Bandwidth_Savings,=60%,=50%,=IF(B4>=C4,"Exceeding","Below"),=IF(B4>=C4,"Exceeding","Below")
+Processing_Power,=500_GFLOPS,=400_GFLOPS,=IF(B5>=C5,"Exceeding","Below"),=IF(B5>=C5,"Exceeding","Below")
+TOTAL,=0,=0,=AVERAGE(E2:E5),=AVERAGE(E2:E5)

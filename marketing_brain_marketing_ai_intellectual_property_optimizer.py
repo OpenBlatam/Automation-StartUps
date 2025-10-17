@@ -1405,3 +1405,4 @@ if __name__ == "__main__":
     export_data = aiip_optimizer.export_aiip_analysis()
     
     print("✅ Sistema de optimización de AI Intellectual Property de marketing completado!")
+

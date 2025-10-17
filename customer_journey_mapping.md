@@ -294,3 +294,4 @@ FASE 6 - ADVOCACY:
 - [ ] Optimizar continuamente (más optimización = más dinero)
 - [ ] Ajustar estrategias (más ajuste = más dinero)
 - [ ] Reportar resultados (más reportes = más dinero)
+

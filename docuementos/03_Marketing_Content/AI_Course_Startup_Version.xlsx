@@ -1,0 +1,101 @@
+# AI COURSE STARTUP VERSION - EXCEL TEMPLATE
+# Simplified Financial Model for Startups and Small Businesses
+
+## SIMPLE REVENUE PROJECTION
+Month,Leads,Conversion_Rate,Average_Price,Revenue,Expenses,Profit,Formula_Used
+1,=100,=10%,=500,=B2*C2*D2,=5000,=E2-F2,=B2*C2*D2
+2,=120,=12%,=500,=B3*C3*D3,=5500,=E3-F3,=B3*C3*D3
+3,=150,=15%,=500,=B4*C4*D4,=6000,=E4-F4,=B4*C4*D4
+4,=180,=18%,=500,=B5*C5*D5,=6500,=E5-F5,=B5*C5*D5
+5,=220,=20%,=500,=B6*C6*D6,=7000,=E6-F6,=B6*C6*D6
+6,=270,=22%,=500,=B7*C7*D7,=7500,=E7-F7,=B7*C7*D7
+7,=330,=25%,=500,=B8*C8*D8,=8000,=E8-F8,=B8*C8*D8
+8,=400,=27%,=500,=B9*C9*D9,=8500,=E9-F9,=B9*C9*D9
+9,=490,=30%,=500,=B10*C10*D10,=9000,=E10-F10,=B10*C10*D10
+10,=600,=32%,=500,=B11*C11*D11,=9500,=E11-F11,=B11*C11*D11
+11,=730,=35%,=500,=B12*C12*D12,=10000,=E12-F12,=B12*C12*D12
+12,=890,=38%,=500,=B13*C13*D13,=10500,=E13-F13,=B13*C13*D13
+
+## SIMPLE CASH FLOW
+Month,Revenue,Expenses,Net_Cash_Flow,Cumulative_Cash,Formula_Used
+1,=5000,=5000,=B2-C2,=D2,=B2-C2
+2,=7200,=5500,=B3-C3,=D2+D3,=B3-C3
+3,=11250,=6000,=B4-C4,=D3+D4,=B4-C4
+4,=16200,=6500,=B5-C5,=D4+D5,=B5-C5
+5,=22000,=7000,=B6-C6,=D5+D6,=B6-C6
+6,=29700,=7500,=B7-C7,=D6+D7,=B7-C7
+7,=41250,=8000,=B8-C8,=D7+D8,=B8-C8
+8,=54000,=8500,=B9-C9,=D8+D9,=B9-C9
+9,=73500,=9000,=B10-C10,=D9+D10,=B10-C10
+10,=96000,=9500,=B11-C11,=D10+D11,=B11-C11
+11,=127750,=10000,=B12-C12,=D11+D12,=B12-C12
+12,=169100,=10500,=B13-C13,=D12+D13,=B13-C13
+
+## SIMPLE KPIs
+Metric,Current_Value,Target_Value,Status,Formula_Used
+Monthly_Revenue,=169100,=100000,=IF(B2>=C2,"Exceeding","Below"),=IF(B2>=C2,"Exceeding","Below")
+Monthly_Profit,=158600,=50000,=IF(B3>=C3,"Exceeding","Below"),=IF(B3>=C3,"Exceeding","Below")
+Customer_Count,=338,=200,=IF(B4>=C4,"Exceeding","Below"),=IF(B4>=C4,"Exceeding","Below")
+Conversion_Rate,=38%,=25%,=IF(B5>=C5,"Exceeding","Below"),=IF(B5>=C5,"Exceeding","Below")
+Average_Order_Value,=500,=400,=IF(B6>=C6,"Exceeding","Below"),=IF(B6>=C6,"Exceeding","Below")
+
+## SIMPLE BREAK-EVEN
+Product,Price,Variable_Cost,Contribution_Margin,Fixed_Cost,Break_Even_Units,Formula_Used
+Course,=500,=50,=B2-C2,=10000,=D2/E2,=D2/E2
+Consulting,=2000,=200,=B3-C3,=5000,=D3/E3,=D3/E3
+SaaS,=100,=10,=B4-C4,=2000,=D4/E4,=D4/E4
+TOTAL,=0,=0,=0,=17000,=SUM(F2:F4),=SUM(F2:F4)
+
+## SIMPLE CUSTOMER METRICS
+Month,New_Customers,Churn_Rate,Retained_Customers,Total_Customers,Formula_Used
+1,=5,=5%,=5,=5,=B2
+2,=6,=5%,=5,=11,=B3+E2*(1-C3)
+3,=8,=5%,=10,=21,=B4+E3*(1-C4)
+4,=9,=5%,=20,=41,=B5+E4*(1-C5)
+5,=11,=5%,=39,=82,=B6+E5*(1-C6)
+6,=14,=5%,=78,=164,=B7+E6*(1-C7)
+7,=17,=5%,=156,=328,=B8+E7*(1-C8)
+8,=20,=5%,=312,=656,=B9+E8*(1-C9)
+9,=25,=5%,=624,=1312,=B10+E9*(1-C10)
+10,=30,=5%,=1248,=2624,=B11+E10*(1-C11)
+11,=37,=5%,=2496,=5248,=B12+E11*(1-C12)
+12,=45,=5%,=4992,=10496,=B13+E12*(1-C13)
+
+## SIMPLE MARKETING METRICS
+Channel,Spend,Leads,Conversions,ROI,Formula_Used
+Facebook,=2000,=100,=20,=(D2*500-B2)/B2,=(D2*500-B2)/B2
+Google,=1500,=80,=16,=(D3*500-B3)/B3,=(D3*500-B3)/B3
+Email,=500,=50,=15,=(D4*500-B4)/B4,=(D4*500-B4)/B4
+Referrals,=0,=30,=12,=(D5*500-B5)/B5,=(D5*500-B5)/B5
+TOTAL,=4000,=260,=63,=AVERAGE(E2:E5),=AVERAGE(E2:E5)
+
+## SIMPLE FINANCIAL RATIOS
+Ratio,Value,Industry_Average,Status,Formula_Used
+Gross_Margin,=90%,=70%,=IF(B2>=C2,"Good","Needs_Improvement"),=IF(B2>=C2,"Good","Needs_Improvement")
+Net_Margin,=94%,=20%,=IF(B3>=C3,"Excellent","Good"),=IF(B3>=C3,"Excellent","Good")
+ROI,=4000%,=200%,=IF(B4>=C4,"Excellent","Good"),=IF(B4>=C4,"Excellent","Good")
+Customer_LTV,=500,=300,=IF(B5>=C5,"Good","Needs_Improvement"),=IF(B5>=C5,"Good","Needs_Improvement")
+CAC,=63,=100,=IF(B6<=C6,"Good","Needs_Improvement"),=IF(B6<=C6,"Good","Needs_Improvement")
+
+## SIMPLE SCENARIO ANALYSIS
+Scenario,Revenue,Profit,Probability,Expected_Value,Formula_Used
+Best_Case,=250000,=235000,=20%,=B2*C2,=B2*C2
+Base_Case,=169100,=158600,=60%,=B3*C3,=B3*C3
+Worst_Case,=100000,=90000,=20%,=B4*C4,=B4*C4
+TOTAL,=0,=0,=100%,=SUM(D2:D4),=SUM(D2:D4)
+
+## SIMPLE GROWTH STRATEGY
+Strategy,Investment,Expected_Revenue,ROI,Priority,Formula_Used
+Hire_Sales_Rep,=50000,=100000,=100%,=High,=B2/C2
+Marketing_Campaign,=25000,=75000,=200%,=High,=B3/C3
+Product_Development,=75000,=150000,=100%,=Medium,=B4/C4
+Customer_Support,=15000,=30000,=100%,=Low,=B5/C5
+TOTAL,=165000,=355000,=115%,=AVERAGE(D2:D5),=AVERAGE(D2:D5)
+
+## SIMPLE RISK ASSESSMENT
+Risk,Probability,Impact,Score,Action,Formula_Used
+Market_Competition,=60%,=Medium,=B2*C2,=Monitor_competitors,=B2*C2
+Economic_Downturn,=30%,=High,=B3*C3,=Diversify_revenue,=B3*C3
+Key_Personnel_Loss,=20%,=High,=B4*C4,=Cross_train_team,=B4*C4
+Technology_Change,=40%,=Medium,=B5*C5,=Stay_updated,=B5*C5
+TOTAL,=0,=0,=AVERAGE(D2:D5),=0,=AVERAGE(D2:D5)

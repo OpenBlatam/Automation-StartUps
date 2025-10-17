@@ -1,0 +1,15 @@
+Escenario,Probabilidad,Ingresos,Gastos,Patrimonio,Quantum Score,Preparación,Acción
+Singularidad,5%,200000,80000,5000000,=IF(B2>0.04,95,85),Listo,Acelerar inversión
+Boom Cuántico,15%,120000,60000,3000000,=IF(B3>0.12,90,80),Preparado,Mantener momentum
+Crecimiento Normal,50%,80000,50000,2000000,=IF(B4>0.45,85,75),En curso,Optimizar
+Recesión Suave,20%,60000,55000,1500000,=IF(B5>0.18,80,70),Preparando,Consolidar
+Crisis Cuántica,10%,40000,70000,800000,=IF(B6>0.08,75,65),Urgente,Proteger activos
+,,,,,,
+ANÁLISIS DE SENSIBILIDAD CUÁNTICA,,,,,
+Variable,Cambio,Impacto,Sensibilidad,Acción Cuántica
+Inflación +5%,+5%,Alto,0.85,Activar protección cuántica
+Tecnología +50%,+50%,Muy Alto,0.92,Acelerar adopción
+Mercado +30%,+30%,Alto,0.88,Explotar superposición
+Regulación -20%,-20%,Medio,0.75,Ajustar coherencia
+Competencia +100%,+100%,Alto,0.90,Aumentar entrelazamiento
+Innovación +200%,+200%,Muy Alto,0.95,Activar túnel cuántico

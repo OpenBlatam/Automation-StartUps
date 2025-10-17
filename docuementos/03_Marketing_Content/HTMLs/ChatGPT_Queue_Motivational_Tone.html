@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔥 DESPERTA EL GIGANTE DE LA PRODUCTIVIDAD QUE LLEVAS DENTRO</title>
+    <style>
+        @page { size: A4; margin: 2cm; }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #ff6b6b, #ffa726, #42a5f5);
+        }
+        
+        .container {
+            background: white;
+            margin: 20px;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        
+        .motivational-header {
+            background: linear-gradient(135deg, #ff6b6b, #ffa726);
+            color: white;
+            text-align: center;
+            padding: 60px;
+            margin: -40px -40px 40px -40px;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .motivational-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="10" cy="60" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="40" r="0.5" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .fire-emoji {
+            font-size: 4em;
+            margin-bottom: 20px;
+            animation: fire 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes fire {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.1) rotate(-2deg); }
+            75% { transform: scale(1.1) rotate(2deg); }
+        }
+        
+        h1 {
+            font-size: 3em;
+            margin: 0;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .subtitle {
+            font-size: 1.5em;
+            margin: 20px 0;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .vision-section {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 40px 0;
+            text-align: center;
+        }
+        
+        .vision-title {
+            font-size: 2.2em;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+        
+        .vision-text {
+            font-size: 1.3em;
+            line-height: 1.8;
+            margin: 20px 0;
+        }
+        
+        .transformation-timeline {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 40px 0;
+            border-left: 8px solid #ff6b6b;
+        }
+        
+        .timeline-title {
+            color: #ff6b6b;
+            font-size: 2em;
+            text-align: center;
+            margin-bottom: 40px;
+            font-weight: bold;
+        }
+        
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .timeline-emoji {
+            font-size: 3em;
+            margin-right: 30px;
+            min-width: 80px;
+        }
+        
+        .timeline-content h3 {
+            color: #ff6b6b;
+            font-size: 1.5em;
+            margin: 0 0 10px 0;
+        }
+        
+        .timeline-content p {
+            font-size: 1.2em;
+            margin: 0;
+            line-height: 1.6;
+        }
+        
+        .success-metrics {
+            background: linear-gradient(135deg, #00b894, #00a085);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 40px 0;
+            text-align: center;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .metric-card {
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .metric-number {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .metric-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .cta-motivational {
+            background: linear-gradient(135deg, #ff6b6b, #ffa726);
+            color: white;
+            padding: 30px 50px;
+            border: none;
+            border-radius: 50px;
+            font-size: 2em;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 40px 0;
+            text-align: center;
+            box-shadow: 0 15px 30px rgba(255, 107, 107, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-motivational::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .cta-motivational:hover::before {
+            left: 100%;
+        }
+        
+        .cta-motivational:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(255, 107, 107, 0.6);
+        }
+        
+        .testimonial-motivational {
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 40px 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .testimonial-motivational::before {
+            content: '"';
+            font-size: 6em;
+            color: rgba(255,255,255,0.3);
+            position: absolute;
+            top: -20px;
+            left: 30px;
+        }
+        
+        .testimonial-text {
+            font-size: 1.4em;
+            font-style: italic;
+            margin: 30px 0;
+            line-height: 1.8;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .testimonial-author {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .challenge-section {
+            background: #2d3436;
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 40px 0;
+            text-align: center;
+        }
+        
+        .challenge-title {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #ff6b6b;
+        }
+        
+        .challenge-text {
+            font-size: 1.3em;
+            line-height: 1.8;
+            margin: 20px 0;
+        }
+        
+        .price-motivational {
+            background: linear-gradient(135deg, #fd79a8, #e84393);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 40px 0;
+            text-align: center;
+        }
+        
+        .price-amount {
+            font-size: 4em;
+            font-weight: bold;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .price-comparison {
+            font-size: 1.3em;
+            margin: 20px 0;
+        }
+        
+        .guarantee-motivational {
+            background: #00b894;
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+        
+        .footer-motivational {
+            background: #2d3436;
+            color: white;
+            padding: 40px;
+            text-align: center;
+            margin: 40px -40px -40px -40px;
+            border-radius: 0 0 20px 20px;
+        }
+        
+        .call-to-action-final {
+            background: linear-gradient(135deg, #ff6b6b, #ffa726);
+            color: white;
+            padding: 50px;
+            border-radius: 20px;
+            margin: 40px 0;
+            text-align: center;
+        }
+        
+        .cta-final-title {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+        
+        .cta-final-text {
+            font-size: 1.4em;
+            margin: 20px 0;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="motivational-header">
+            <div class="fire-emoji">🔥</div>
+            <h1>DESPERTA EL GIGANTE DE LA PRODUCTIVIDAD QUE LLEVAS DENTRO</h1>
+            <p class="subtitle">¿Estás listo para una transformación REAL?</p>
+        </div>
+
+        <div class="vision-section">
+            <h2 class="vision-title">🌟 TU VIDA EN 30 DÍAS</h2>
+            <p class="vision-text">
+                Imagínate despertarte cada mañana sabiendo que tienes <strong>2 horas EXTRA</strong> 
+                para conquistar tus sueños.
+            </p>
+            <p class="vision-text">
+                <strong>Eso es exactamente lo que ChatGPT Queue hace por ti.</strong>
+            </p>
+            <p class="vision-text">
+                No es solo una extensión. Es tu llave hacia la libertad de tiempo. 
+                Es tu pasaporte hacia la productividad que siempre quisiste tener.
+            </p>
+        </div>
+
+        <div class="transformation-timeline">
+            <h2 class="timeline-title">⚡ TU TRANSFORMACIÓN DIARIA</h2>
+            
+            <div class="timeline-item">
+                <div class="timeline-emoji">🌅</div>
+                <div class="timeline-content">
+                    <h3>DESPERTAR</h3>
+                    <p>Con energía renovada, sabiendo que tu tiempo está optimizado y que cada minuto cuenta hacia tus metas.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-emoji">⚡</div>
+                <div class="timeline-content">
+                    <h3>TRABAJO</h3>
+                    <p>Fluyendo con ChatGPT sin interrupciones ni esperas. Cada tarea se completa con la eficiencia de un experto.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-emoji">🎯</div>
+                <div class="timeline-content">
+                    <h3>LOGROS</h3>
+                    <p>Proyectos completados, metas alcanzadas, sueños realizados. Cada día es un paso más hacia tu mejor versión.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-emoji">🌙</div>
+                <div class="timeline-content">
+                    <h3>DESCANSO</h3>
+                    <p>Tiempo real para ti, tu familia, tus pasiones. El equilibrio perfecto entre productividad y bienestar.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="success-metrics">
+            <h2 style="font-size: 2.5em; margin-bottom: 30px;">📊 LOS NÚMEROS DE TU ÉXITO</h2>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-number">2.3h</div>
+                    <div class="metric-label">Ahorro Diario</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">$2,000</div>
+                    <div class="metric-label">Ahorro Mensual</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">340%</div>
+                    <div class="metric-label">ROI en 6 meses</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">98%</div>
+                    <div class="metric-label">Satisfacción</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="testimonial-motivational">
+            <div class="testimonial-text">
+                "ChatGPT Queue no solo cambió mi productividad, cambió mi vida. Ahora tengo tiempo para mis hijos, 
+                para mis proyectos, para MÍ. Es como tener un asistente personal que nunca duerme. 
+                ¡No puedo imaginar mi vida sin él!"
+            </div>
+            <div class="testimonial-author">- Carlos Mendoza, Emprendedor Exitoso</div>
+        </div>
+
+        <div class="challenge-section">
+            <h2 class="challenge-title">🚀 TU MOMENTO ES AHORA</h2>
+            <p class="challenge-text">
+                No dejes que otro día pase sin optimizar tu potencial. Tu futuro productivo te está esperando.
+            </p>
+            <p class="challenge-text">
+                <strong>¿Estás listo para esta transformación?</strong>
+            </p>
+        </div>
+
+        <div class="price-motivational">
+            <h2 style="font-size: 2em; margin-bottom: 30px;">💰 INVERSIÓN EN TU FUTURO</h2>
+            <div class="price-amount">$19.99</div>
+            <div class="price-comparison">
+                <del style="opacity: 0.7;">Precio normal: $99.99</del><br>
+                <strong style="font-size: 1.2em;">¡Ahorras $80 HOY!</strong>
+            </div>
+            <p style="font-size: 1.3em; margin: 20px 0;">
+                <strong>Menos de lo que gastas en café en una semana</strong><br>
+                <strong>Más valor que cualquier curso de productividad</strong>
+            </p>
+        </div>
+
+        <div class="guarantee-motivational">
+            🛡️ GARANTÍA DE TRANSFORMACIÓN - Si no ahorras 2 horas diarias en 30 días, te devolvemos el 100%
+        </div>
+
+        <div class="call-to-action-final">
+            <h2 class="cta-final-title">⚡ TU TRANSFORMACIÓN COMIENZA AHORA ⚡</h2>
+            <p class="cta-final-text">
+                No es solo una compra. Es una inversión en tu futuro. Es el primer paso hacia la vida que siempre quisiste tener.
+            </p>
+            <p class="cta-final-text">
+                <strong>¿Estás listo para despertar al gigante que llevas dentro?</strong>
+            </p>
+            <a href="#" class="cta-motivational">
+                🔥 SÍ, QUIERO TRANSFORMAR MI VIDA AHORA 🔥
+            </a>
+            <p style="font-size: 1.2em; margin-top: 30px; opacity: 0.9;">
+                <strong>Pago único • Sin suscripciones • Transformación garantizada</strong>
+            </p>
+        </div>
+
+        <div class="footer-motivational">
+            <h3>🌟 TU ÉXITO TE ESTÁ ESPERANDO</h3>
+            <p style="font-size: 1.3em; margin: 20px 0;">
+                Únete a miles de personas que ya despertaron su potencial con ChatGPT Queue.
+            </p>
+            <p style="font-size: 1.1em; margin: 20px 0;">
+                <strong>El momento es AHORA. La oportunidad es TUYA. El éxito es INEVITABLE.</strong>
+            </p>
+            <p style="font-size: 0.9em; margin-top: 30px; opacity: 0.8;">
+                © 2024 - ChatGPT Queue. Despertando el potencial en cada persona.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,126 @@
+# AI COURSE ACADEMIC VERSION - EXCEL TEMPLATE
+# Research-Focused Financial Model for Academic Institutions and Research
+
+## ACADEMIC RESEARCH METRICS
+Research_Area,Publications,Citations,Impact_Factor,H_Index,Research_Score,Formula_Used
+AI_Education,=25,=500,=3.5,=15,=B2*C2*D2*E2,=B2*C2*D2*E2
+Machine_Learning,=18,=300,=4.2,=12,=B3*C3*D3*E3,=B3*C3*D3*E3
+Educational_Technology,=22,=400,=2.8,=14,=B4*C4*D4*E4,=B4*C4*D4*E4
+Data_Science,=15,=250,=3.8,=10,=B5*C5*D5*E5,=B5*C5*D5*E5
+Neural_Networks,=20,=350,=4.5,=13,=B6*C6*D6*E6,=B6*C6*D6*E6
+TOTAL,=100,=1800,=3.76,=64,=SUM(F2:F6),=SUM(F2:F6)
+
+## ACADEMIC GRANT FUNDING
+Grant_Source,Amount,Duration,Success_Rate,Research_Output,ROI,Formula_Used
+NSF,=500000,=3_years,=25%,=15_papers,=300%,=B2*C2*D2
+NIH,=750000,=4_years,=20%,=20_papers,=267%,=B3*C3*D3
+DOE,=300000,=2_years,=30%,=10_papers,=333%,=B4*C4*D4
+Private_Foundations,=200000,=2_years,=40%,=8_papers,=400%,=B5*C5*D5
+Industry_Partnerships,=400000,=3_years,=35%,=12_papers,=300%,=B6*C6*D6
+TOTAL,=2150000,=0,=30%,=65_papers,=320%,=AVERAGE(F2:F6)
+
+## ACADEMIC STUDENT METRICS
+Program,Enrolled,Graduated,Employment_Rate,Average_Salary,Program_Success,Formula_Used
+PhD_AI,=15,=12,=100%,=120000,=B2*C2*D2*E2,=B2*C2*D2*E2
+Masters_ML,=25,=22,=95%,=85000,=B3*C3*D3*E3,=B3*C3*D3*E3
+Bachelors_CS,=50,=45,=90%,=70000,=B4*C4*D4*E4,=B4*C4*D4*E4
+Certificate_AI,=100,=85,=85%,=55000,=B5*C5*D5*E5,=B5*C5*D5*E5
+Online_Courses,=500,=400,=80%,=45000,=B6*C6*D6*E6,=B6*C6*D6*E6
+TOTAL,=690,=564,=90%,=AVERAGE(E2:E6),=AVERAGE(F2:F6),=AVERAGE(F2:F6)
+
+## ACADEMIC FACULTY PRODUCTIVITY
+Faculty_Member,Publications,Research_Grants,Teaching_Load,Service_Hours,Productivity_Score,Formula_Used
+Dr_Smith,=8,=3,=2_courses,=50,=B2*C2*D2*E2,=B2*C2*D2*E2
+Dr_Jones,=12,=5,=3_courses,=40,=B3*C3*D3*E3,=B3*C3*D3*E3
+Dr_Wilson,=6,=2,=2_courses,=60,=B4*C4*D4*E4,=B4*C4*D4*E4
+Dr_Brown,=10,=4,=3_courses,=45,=B5*C5*D5*E5,=B5*C5*D5*E5
+Dr_Davis,=15,=6,=2_courses,=35,=B6*C6*D6*E6,=B6*C6*D6*E6
+TOTAL,=51,=20,=12_courses,=230,=AVERAGE(F2:F6),=AVERAGE(F2:F6)
+
+## ACADEMIC RESEARCH COLLABORATION
+Collaboration_Type,Partners,Projects,Publications,Impact_Score,Formula_Used
+International,=15,=8,=25,=B2*C2*D2,=B2*C2*D2
+Industry,=10,=12,=18,=B3*C3*D3,=B3*C3*D3
+Government,=5,=6,=12,=B4*C4*D4,=B4*C4*D4
+Other_Universities,=20,=15,=30,=B5*C5*D5,=B5*C5*D5
+Research_Centers,=8,=10,=15,=B6*C6*D6,=B6*C6*D6
+TOTAL,=58,=51,=100,=AVERAGE(E2:E6),=AVERAGE(E2:E6)
+
+## ACADEMIC INTELLECTUAL PROPERTY
+IP_Type,Applications,Patents_Granted,Licenses,Revenue,Formula_Used
+Patents,=25,=15,=8,=500000,=B2*C2*D2*E2
+Copyrights,=50,=45,=20,=100000,=B3*C3*D3*E3
+Trademarks,=10,=8,=5,=50000,=B4*C4*D4*E4
+Trade_Secrets,=5,=5,=3,=200000,=B5*C5*D5*E5
+Software,=30,=25,=15,=300000,=B6*C6*D6*E6
+TOTAL,=120,=98,=51,=1150000,=SUM(F2:F6)
+
+## ACADEMIC CONFERENCE PARTICIPATION
+Conference,Attendees,Papers_Presented,Networking_Score,Knowledge_Transfer,Formula_Used
+ICML,=5,=3,=9,=B2*C2*D2,=B2*C2*D2
+NeurIPS,=8,=5,=9,=B3*C3*D3,=B3*C3*D3
+AAAI,=6,=4,=8,=B4*C4*D4,=B4*C4*D4
+ICLR,=4,=2,=9,=B5*C5*D5,=B5*C5*D5
+AAMAS,=3,=1,=7,=B6*C6*D6,=B6*C6*D6
+TOTAL,=26,=15,=8.4,=AVERAGE(E2:E6),=AVERAGE(E2:E6)
+
+## ACADEMIC PUBLICATION IMPACT
+Journal,Impact_Factor,Publications,Total_Citations,Impact_Score,Formula_Used
+Nature,=69.5,=2,=200,=B2*C2*D2,=B2*C2*D2
+Science,=63.7,=1,=150,=B3*C3*D3,=B3*C3*D3
+JMLR,=4.2,=5,=100,=B4*C4*D4,=B4*C4*D4
+IEEE_TPAMI,=16.4,=8,=300,=B5*C5*D5,=B5*C5*D5
+Neural_Computation,=2.8,=10,=150,=B6*C6*D6,=B6*C6*D6
+TOTAL,=0,=26,=900,=AVERAGE(E2:E6),=AVERAGE(E2:E6)
+
+## ACADEMIC RESEARCH FUNDING EFFICIENCY
+Funding_Source,Amount,Publications,Students_Supported,Research_Efficiency,Formula_Used
+Federal_Grants,=2000000,=40,=20,=B2/(C2+D2),=B2/(C2+D2)
+State_Grants,=500000,=15,=10,=B3/(C3+D3),=B3/(C3+D3)
+Private_Grants,=300000,=12,=8,=B4/(C4+D4),=B4/(C4+D4)
+Industry_Contracts,=400000,=8,=6,=B5/(C5+D5),=B5/(C5+D5)
+Endowment,=100000,=5,=4,=B6/(C6+D6),=B6/(C6+D6)
+TOTAL,=3300000,=80,=48,=AVERAGE(E2:E6),=AVERAGE(E2:E6)
+
+## ACADEMIC INNOVATION METRICS
+Innovation_Type,Projects,Commercialization,Revenue,Innovation_Score,Formula_Used
+Research_Prototypes,=15,=5,=200000,=B2*C2*D2,=B2*C2*D2
+Startup_Companies,=8,=3,=500000,=B3*C3*D3,=B3*C3*D3
+Technology_Transfer,=12,=8,=300000,=B4*C4*D4,=B4*C4*D4
+Open_Source_Projects,=20,=15,=50000,=B5*C5*D5,=B5*C5*D5
+Industry_Partnerships,=10,=7,=400000,=B6*C6*D6,=B6*C6*D6
+TOTAL,=65,=38,=1450000,=AVERAGE(E2:E6),=AVERAGE(E2:E6)
+
+## ACADEMIC QUALITY ASSURANCE
+Quality_Metric,Current_Score,Target_Score,Benchmark,Performance_Rating,Formula_Used
+Research_Quality,=4.5,=4.0,=3.5,=IF(B2>=C2,"Exceeding","Below"),=IF(B2>=C2,"Exceeding","Below")
+Teaching_Excellence,=4.2,=4.0,=3.8,=IF(B3>=C3,"Exceeding","Below"),=IF(B3>=C3,"Exceeding","Below")
+Student_Satisfaction,=4.3,=4.0,=3.6,=IF(B4>=C4,"Exceeding","Below"),=IF(B4>=C4,"Exceeding","Below")
+Faculty_Development,=4.1,=4.0,=3.7,=IF(B5>=C5,"Exceeding","Below"),=IF(B5>=C5,"Exceeding","Below")
+Research_Impact,=4.4,=4.0,=3.9,=IF(B6>=C6,"Exceeding","Below"),=IF(B6>=C6,"Exceeding","Below")
+TOTAL,=4.3,=4.0,=3.7,=AVERAGE(E2:E6),=AVERAGE(E2:E6)
+
+## ACADEMIC SUSTAINABILITY METRICS
+Sustainability_Area,Current_Status,Target_Status,Progress,Formula_Used
+Environmental,=85%,=90%,=B2/C2,=B2/C2
+Social,=80%,=85%,=B3/C3,=B3/C3
+Economic,=75%,=80%,=B4/C4,=B4/C4
+Governance,=90%,=95%,=B5/C5,=B5/C5
+TOTAL,=82.5%,=87.5%,=AVERAGE(D2:D5),=AVERAGE(D2:D5)
+
+## ACADEMIC GLOBAL RANKING
+Ranking_System,Current_Rank,Target_Rank,Global_Average,Performance,Formula_Used
+QS_World_University,=150,=100,=500,=B2/C2,=B2/C2
+Times_Higher_Education,=200,=150,=800,=B3/C3,=B3/C3
+ARWU_Shanghai,=300,=200,=1000,=B4/C4,=B4/C4
+US_News_Global,=250,=180,=600,=B5/C5,=B5/C5
+TOTAL,=225,=157.5,=725,=AVERAGE(F2:F5),=AVERAGE(F2:F5)
+
+## ACADEMIC RESEARCH OUTPUT
+Output_Type,Quantity,Quality_Score,Impact_Score,Total_Score,Formula_Used
+Peer_Reviewed_Papers,=100,=4.2,=4.5,=B2*C2*D2,=B2*C2*D2
+Conference_Presentations,=50,=3.8,=4.0,=B3*C3*D3,=B3*C3*D3
+Book_Chapters,=25,=4.0,=4.2,=B4*C4*D4,=B4*C4*D4
+Books,=5,=4.5,=4.8,=B5*C5*D5,=B5*C5*D5
+Software_Releases,=20,=3.5,=3.8,=B6*C6*D6,=B6*C6*D6
+TOTAL,=200,=4.0,=4.26,=AVERAGE(E2:E6),=AVERAGE(E2:E6)

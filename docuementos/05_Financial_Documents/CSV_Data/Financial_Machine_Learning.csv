@@ -1,0 +1,32 @@
+Modelo,Entrenamiento,Precisión %,Datos Usados,Última Actualización,Próxima Actualización,Estado
+MODELOS DE PREDICCIÓN,,,,,,
+Predicción de Ingresos,Regresión Lineal,87%,36 meses,2024-01-31,2024-02-28,✅ Activo
+Predicción de Gastos,Random Forest,92%,36 meses,2024-01-31,2024-02-28,✅ Activo
+Predicción de ROI,Neural Network,78%,24 meses,2024-01-31,2024-03-31,✅ Activo
+Predicción de Volatilidad,SVM,85%,48 meses,2024-01-31,2024-04-30,✅ Activo
+,,,,,,
+MODELOS DE CLASIFICACIÓN,,,,,,
+Clasificación de Gastos,Decision Tree,95%,12 meses,2024-01-31,2024-02-28,✅ Activo
+Detección de Anomalías,Isolation Forest,88%,24 meses,2024-01-31,2024-03-31,✅ Activo
+Clasificación de Riesgo,Naive Bayes,82%,36 meses,2024-01-31,2024-04-30,✅ Activo
+Optimización de Portafolio,Genetic Algorithm,90%,48 meses,2024-01-31,2024-06-30,✅ Activo
+,,,,,,
+MODELOS DE RECOMENDACIÓN,,,,,,
+Recomendación de Inversiones,Collaborative Filtering,85%,24 meses,2024-01-31,2024-02-28,✅ Activo
+Recomendación de Ahorro,Content-Based,90%,36 meses,2024-01-31,2024-03-31,✅ Activo
+Recomendación de Seguros,Hybrid,88%,12 meses,2024-01-31,2024-04-30,✅ Activo
+Recomendación de Metas,Deep Learning,92%,48 meses,2024-01-31,2024-06-30,✅ Activo
+,,,,,,
+MÉTRICAS DE RENDIMIENTO,,,,,,
+Métrica,Valor,Objetivo,Estado,Tendencia
+Precisión Promedio,87.5%,>85%,✅ Cumplido,📈 Mejorando
+Recall Promedio,84.2%,>80%,✅ Cumplido,📈 Mejorando
+F1-Score,85.8%,>85%,✅ Cumplido,📈 Mejorando
+AUC-ROC,89.3%,>85%,✅ Cumplido,📈 Mejorando
+,,,,,,
+OPTIMIZACIÓN CONTINUA,,,,,,
+Proceso,Descripción,Frecuencia,Última Ejecución,Próxima Ejecución,Estado
+Entrenamiento Diario,Actualización de modelos,Diario,2024-01-31,2024-02-01,✅ Programado
+Validación Semanal,Prueba de precisión,Semanal,2024-01-28,2024-02-04,✅ Programado
+Ajuste Mensual,Optimización de parámetros,Mensual,2024-01-31,2024-02-28,✅ Programado
+Reentrenamiento Trimestral,Modelo completo,Trimestral,2024-01-31,2024-04-30,✅ Programado

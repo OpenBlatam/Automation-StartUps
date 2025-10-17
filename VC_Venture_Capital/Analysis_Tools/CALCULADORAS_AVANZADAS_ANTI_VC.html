@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadoras Avanzadas Anti-VC Dependencia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .calculators-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            padding: 30px;
+        }
+
+        .calculator-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .calculator-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .calculator-title {
+            font-size: 1.5em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #34495e;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .calculate-btn {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s ease;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .results {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #2c3e50;
+        }
+
+        .result-label {
+            color: #7f8c8d;
+        }
+
+        .result-value {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .chart-container {
+            margin-top: 20px;
+            height: 300px;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            background: #ecf0f1;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            background: #bdc3c7;
+            color: #7f8c8d;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            background: #3498db;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .insights {
+            background: #e8f5e8;
+            border: 1px solid #27ae60;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .insights h4 {
+            color: #27ae60;
+            margin-bottom: 10px;
+        }
+
+        .insights ul {
+            margin-left: 20px;
+        }
+
+        .insights li {
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .warning h4 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .comparison-table th {
+            background: #3498db;
+            color: white;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .metric-value {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .calculators-grid {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Calculadoras Avanzadas Anti-VC Dependencia</h1>
+            <p>Herramientas financieras inteligentes para la independencia empresarial en LATAM</p>
+        </div>
+
+        <div class="calculators-grid">
+            <!-- Calculadora de Flujo de Caja Proyectado -->
+            <div class="calculator-card">
+                <h2 class="calculator-title">💰 Flujo de Caja Proyectado</h2>
+                
+                <div class="tabs">
+                    <div class="tab active" onclick="switchTab('cashflow', 'basic')">Básico</div>
+                    <div class="tab" onclick="switchTab('cashflow', 'advanced')">Avanzado</div>
+                </div>
+
+                <div id="cashflow-basic" class="tab-content active">
+                    <div class="input-group">
+                        <label>Ingresos Mensuales Actuales ($)</label>
+                        <input type="number" id="monthly-revenue" placeholder="50000">
+                    </div>
+                    <div class="input-group">
+                        <label>Crecimiento Mensual (%)</label>
+                        <input type="number" id="monthly-growth" placeholder="5" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label>Gastos Mensuales ($)</label>
+                        <input type="number" id="monthly-expenses" placeholder="30000">
+                    </div>
+                    <div class="input-group">
+                        <label>Meses a Proyectar</label>
+                        <input type="number" id="projection-months" placeholder="12" min="1" max="60">
+                    </div>
+                </div>
+
+                <div id="cashflow-advanced" class="tab-content">
+                    <div class="input-group">
+                        <label>Ingresos Recurrentes ($)</label>
+                        <input type="number" id="recurring-revenue" placeholder="40000">
+                    </div>
+                    <div class="input-group">
+                        <label>Ingresos No Recurrentes ($)</label>
+                        <input type="number" id="non-recurring-revenue" placeholder="10000">
+                    </div>
+                    <div class="input-group">
+                        <label>Gastos Fijos ($)</label>
+                        <input type="number" id="fixed-expenses" placeholder="20000">
+                    </div>
+                    <div class="input-group">
+                        <label>Gastos Variables (%)</label>
+                        <input type="number" id="variable-expenses-pct" placeholder="20" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label>Estacionalidad (Factor)</label>
+                        <input type="number" id="seasonality" placeholder="1.0" step="0.1" min="0.1" max="3">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calculateCashFlow()">Calcular Proyección</button>
+
+                <div id="cashflow-results" class="results" style="display: none;">
+                    <h4>Proyección de Flujo de Caja</h4>
+                    <div id="cashflow-details"></div>
+                    <div class="chart-container">
+                        <canvas id="cashflow-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calculadora de Punto de Equilibrio -->
+            <div class="calculator-card">
+                <h2 class="calculator-title">⚖️ Punto de Equilibrio</h2>
+                
+                <div class="input-group">
+                    <label>Costos Fijos Mensuales ($)</label>
+                    <input type="number" id="fixed-costs" placeholder="25000">
+                </div>
+                <div class="input-group">
+                    <label>Precio por Unidad ($)</label>
+                    <input type="number" id="price-per-unit" placeholder="100">
+                </div>
+                <div class="input-group">
+                    <label>Costo Variable por Unidad ($)</label>
+                    <input type="number" id="variable-cost-per-unit" placeholder="40">
+                </div>
+                <div class="input-group">
+                    <label>Margen de Contribución Deseado (%)</label>
+                    <input type="number" id="desired-margin" placeholder="30" step="0.1">
+                </div>
+
+                <button class="calculate-btn" onclick="calculateBreakEven()">Calcular Punto de Equilibrio</button>
+
+                <div id="breakeven-results" class="results" style="display: none;">
+                    <h4>Análisis de Punto de Equilibrio</h4>
+                    <div id="breakeven-details"></div>
+                </div>
+            </div>
+
+            <!-- Calculadora de Valoración Empresarial -->
+            <div class="calculator-card">
+                <h2 class="calculator-title">📊 Valoración Empresarial</h2>
+                
+                <div class="input-group">
+                    <label>EBITDA Anual ($)</label>
+                    <input type="number" id="annual-ebitda" placeholder="500000">
+                </div>
+                <div class="input-group">
+                    <label>Múltiplo EBITDA (x)</label>
+                    <input type="number" id="ebitda-multiple" placeholder="8" step="0.1">
+                </div>
+                <div class="input-group">
+                    <label>Flujo de Caja Libre Anual ($)</label>
+                    <input type="number" id="free-cash-flow" placeholder="400000">
+                </div>
+                <div class="input-group">
+                    <label>Tasa de Descuento (%)</label>
+                    <input type="number" id="discount-rate" placeholder="12" step="0.1">
+                </div>
+                <div class="input-group">
+                    <label>Crecimiento Esperado (%)</label>
+                    <input type="number" id="growth-rate" placeholder="15" step="0.1">
+                </div>
+
+                <button class="calculate-btn" onclick="calculateValuation()">Calcular Valoración</button>
+
+                <div id="valuation-results" class="results" style="display: none;">
+                    <h4>Valoración Empresarial</h4>
+                    <div id="valuation-details"></div>
+                </div>
+            </div>
+
+            <!-- Calculadora de Rentabilidad por Cliente -->
+            <div class="calculator-card">
+                <h2 class="calculator-title">👥 Rentabilidad por Cliente</h2>
+                
+                <div class="input-group">
+                    <label>Valor Promedio por Cliente ($)</label>
+                    <input type="number" id="avg-customer-value" placeholder="5000">
+                </div>
+                <div class="input-group">
+                    <label>Costo de Adquisición ($)</label>
+                    <input type="number" id="customer-acquisition-cost" placeholder="500">
+                </div>
+                <div class="input-group">
+                    <label>Vida Promedio del Cliente (meses)</label>
+                    <input type="number" id="customer-lifetime-months" placeholder="24">
+                </div>
+                <div class="input-group">
+                    <label>Frecuencia de Compra (veces/mes)</label>
+                    <input type="number" id="purchase-frequency" placeholder="2" step="0.1">
+                </div>
+                <div class="input-group">
+                    <label>Margen de Beneficio (%)</label>
+                    <input type="number" id="profit-margin" placeholder="25" step="0.1">
+                </div>
+
+                <button class="calculate-btn" onclick="calculateCustomerProfitability()">Calcular Rentabilidad</button>
+
+                <div id="customer-results" class="results" style="display: none;">
+                    <h4>Análisis de Rentabilidad por Cliente</h4>
+                    <div id="customer-details"></div>
+                </div>
+            </div>
+
+            <!-- Calculadora de Escalabilidad -->
+            <div class="calculator-card">
+                <h2 class="calculator-title">📈 Escalabilidad Empresarial</h2>
+                
+                <div class="input-group">
+                    <label>Ingresos Actuales ($)</label>
+                    <input type="number" id="current-revenue" placeholder="100000">
+                </div>
+                <div class="input-group">
+                    <label>Meta de Ingresos ($)</label>
+                    <input type="number" id="target-revenue" placeholder="1000000">
+                </div>
+                <div class="input-group">
+                    <label>Tiempo para Alcanzar Meta (años)</label>
+                    <input type="number" id="time-to-target" placeholder="3">
+                </div>
+                <div class="input-group">
+                    <label>Inversión Requerida ($)</label>
+                    <input type="number" id="required-investment" placeholder="200000">
+                </div>
+                <div class="input-group">
+                    <label>ROI Esperado (%)</label>
+                    <input type="number" id="expected-roi" placeholder="300" step="0.1">
+                </div>
+
+                <button class="calculate-btn" onclick="calculateScalability()">Calcular Escalabilidad</button>
+
+                <div id="scalability-results" class="results" style="display: none;">
+                    <h4>Plan de Escalabilidad</h4>
+                    <div id="scalability-details"></div>
+                </div>
+            </div>
+
+            <!-- Calculadora de Estrategias Anti-VC -->
+            <div class="calculator-card">
+                <h2 class="calculator-title">🛡️ Estrategias Anti-VC</h2>
+                
+                <div class="input-group">
+                    <label>Capital Actual Disponible ($)</label>
+                    <input type="number" id="available-capital" placeholder="50000">
+                </div>
+                <div class="input-group">
+                    <label>Necesidad de Capital ($)</label>
+                    <input type="number" id="capital-need" placeholder="200000">
+                </div>
+                <div class="input-group">
+                    <label>Ingresos Mensuales ($)</label>
+                    <input type="number" id="monthly-income" placeholder="80000">
+                </div>
+                <div class="input-group">
+                    <label>Gastos Mensuales ($)</label>
+                    <input type="number" id="monthly-costs" placeholder="50000">
+                </div>
+                <div class="input-group">
+                    <label>Perfil de Riesgo</label>
+                    <select id="risk-profile">
+                        <option value="conservative">Conservador</option>
+                        <option value="moderate">Moderado</option>
+                        <option value="aggressive">Agresivo</option>
+                    </select>
+                </div>
+
+                <button class="calculate-btn" onclick="calculateAntiVCStrategies()">Generar Estrategias</button>
+
+                <div id="antivc-results" class="results" style="display: none;">
+                    <h4>Estrategias Recomendadas</h4>
+                    <div id="antivc-details"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Funciones de navegación por pestañas
+        function switchTab(calculator, tab) {
+            // Ocultar todas las pestañas del calculador
+            const tabs = document.querySelectorAll(`#${calculator} .tab`);
+            const contents = document.querySelectorAll(`#${calculator} .tab-content`);
+            
+            tabs.forEach(t => t.classList.remove('active'));
+            contents.forEach(c => c.classList.remove('active'));
+            
+            // Mostrar la pestaña seleccionada
+            event.target.classList.add('active');
+            document.getElementById(`${calculator}-${tab}`).classList.add('active');
+        }
+
+        // Calculadora de Flujo de Caja
+        function calculateCashFlow() {
+            const monthlyRevenue = parseFloat(document.getElementById('monthly-revenue').value) || 0;
+            const monthlyGrowth = parseFloat(document.getElementById('monthly-growth').value) || 0;
+            const monthlyExpenses = parseFloat(document.getElementById('monthly-expenses').value) || 0;
+            const projectionMonths = parseInt(document.getElementById('projection-months').value) || 12;
+
+            const recurringRevenue = parseFloat(document.getElementById('recurring-revenue').value) || monthlyRevenue;
+            const nonRecurringRevenue = parseFloat(document.getElementById('non-recurring-revenue').value) || 0;
+            const fixedExpenses = parseFloat(document.getElementById('fixed-expenses').value) || monthlyExpenses;
+            const variableExpensesPct = parseFloat(document.getElementById('variable-expenses-pct').value) || 0;
+            const seasonality = parseFloat(document.getElementById('seasonality').value) || 1.0;
+
+            let projections = [];
+            let cumulativeCash = 0;
+            let totalRevenue = 0;
+            let totalExpenses = 0;
+
+            for (let month = 1; month <= projectionMonths; month++) {
+                const growthFactor = Math.pow(1 + monthlyGrowth / 100, month - 1);
+                const seasonalFactor = 1 + (seasonality - 1) * Math.sin(2 * Math.PI * (month - 1) / 12);
+                
+                const revenue = (recurringRevenue + nonRecurringRevenue) * growthFactor * seasonalFactor;
+                const variableExpenses = revenue * (variableExpensesPct / 100);
+                const expenses = fixedExpenses + variableExpenses;
+                const netCash = revenue - expenses;
+                
+                cumulativeCash += netCash;
+                totalRevenue += revenue;
+                totalExpenses += expenses;
+
+                projections.push({
+                    month,
+                    revenue,
+                    expenses,
+                    netCash,
+                    cumulativeCash
+                });
+            }
+
+            // Mostrar resultados
+            const resultsDiv = document.getElementById('cashflow-results');
+            const detailsDiv = document.getElementById('cashflow-details');
+            
+            detailsDiv.innerHTML = `
+                <div class="result-item">
+                    <span class="result-label">Ingresos Totales Proyectados:</span>
+                    <span class="result-value">$${totalRevenue.toLocaleString()}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Gastos Totales Proyectados:</span>
+                    <span class="result-value">$${totalExpenses.toLocaleString()}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Flujo de Caja Neto:</span>
+                    <span class="result-value">$${(totalRevenue - totalExpenses).toLocaleString()}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Flujo de Caja Acumulado:</span>
+                    <span class="result-value">$${cumulativeCash.toLocaleString()}</span>
+                </div>
+            `;
+
+            resultsDiv.style.display = 'block';
+
+            // Crear gráfico
+            createCashFlowChart(projections);
+        }
+
+        function createCashFlowChart(projections) {
+            const ctx = document.getElementById('cashflow-chart').getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: projections.map(p => `Mes ${p.month}`),
+                    datasets: [{
+                        label: 'Ingresos',
+                        data: projections.map(p => p.revenue),
+                        borderColor: '#27ae60',
+                        backgroundColor: 'rgba(39, 174, 96, 0.1)',
+                        tension: 0.4
+                    }, {
+                        label: 'Gastos',
+                        data: projections.map(p => p.expenses),
+                        borderColor: '#e74c3c',
+                        backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                        tension: 0.4
+                    }, {
+                        label: 'Flujo Neto',
+                        data: projections.map(p => p.netCash),
+                        borderColor: '#3498db',
+                        backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value.toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': $' + context.parsed.y.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Calculadora de Punto de Equilibrio
+        function calculateBreakEven() {
+            const fixedCosts = parseFloat(document.getElementById('fixed-costs').value) || 0;
+            const pricePerUnit = parseFloat(document.getElementById('price-per-unit').value) || 0;
+            const variableCostPerUnit = parseFloat(document.getElementById('variable-cost-per-unit').value) || 0;
+            const desiredMargin = parseFloat(document.getElementById('desired-margin').value) || 0;
+
+            const contributionMargin = pricePerUnit - variableCostPerUnit;
+            const contributionMarginRatio = contributionMargin / pricePerUnit;
+            const breakEvenUnits = Math.ceil(fixedCosts / contributionMargin);
+            const breakEvenRevenue = breakEvenUnits * pricePerUnit;
+            const targetUnits = Math.ceil(fixedCosts / (contributionMargin * (1 - desiredMargin / 100)));
+            const targetRevenue = targetUnits * pricePerUnit;
+
+            const resultsDiv = document.getElementById('breakeven-results');
+            const detailsDiv = document.getElementById('breakeven-details');
+            
+            detailsDiv.innerHTML = `
+                <div class="result-item">
+                    <span class="result-label">Margen de Contribución por Unidad:</span>
+                    <span class="result-value">$${contributionMargin.toFixed(2)}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Ratio de Margen de Contribución:</span>
+                    <span class="result-value">${(contributionMarginRatio * 100).toFixed(1)}%</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Unidades para Punto de Equilibrio:</span>
+                    <span class="result-value">${breakEvenUnits.toLocaleString()}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Ingresos para Punto de Equilibrio:</span>
+                    <span class="result-value">$${breakEvenRevenue.toLocaleString()}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Unidades para Margen Deseado:</span>
+                    <span class="result-value">${targetUnits.toLocaleString()}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Ingresos para Margen Deseado:</span>
+                    <span class="result-value">$${targetRevenue.toLocaleString()}</span>
+                </div>
+            `;
+
+            resultsDiv.style.display = 'block';
+        }
+
+        // Calculadora de Valoración Empresarial
+        function calculateValuation() {
+            const annualEBITDA = parseFloat(document.getElementById('annual-ebitda').value) || 0;
+            const ebitdaMultiple = parseFloat(document.getElementById('ebitda-multiple').value) || 0;
+            const freeCashFlow = parseFloat(document.getElementById('free-cash-flow').value) || 0;
+            const discountRate = parseFloat(document.getElementById('discount-rate').value) || 0;
+            const growthRate = parseFloat(document.getElementById('growth-rate').value) || 0;
+
+            const ebitdaValuation = annualEBITDA * ebitdaMultiple;
+            const dcfValuation = freeCashFlow / ((discountRate - growthRate) / 100);
+            const averageValuation = (ebitdaValuation + dcfValuation) / 2;
+            const priceToSales = averageValuation / (annualEBITDA * 2); // Asumiendo 50% margen
+
+            const resultsDiv = document.getElementById('valuation-results');
+            const detailsDiv = document.getElementById('valuation-details');
+            
+            detailsDiv.innerHTML = `
+                <div class="result-item">
+                    <span class="result-label">Valoración por EBITDA:</span>
+                    <span class="result-value">$${ebitdaValuation.toLocaleString()}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Valoración por DCF:</span>
+                    <span class="result-value">$${dcfValuation.toLocaleString()}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Valoración Promedio:</span>
+                    <span class="result-value">$${averageValuation.toLocaleString()}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Múltiplo P/S:</span>
+                    <span class="result-value">${priceToSales.toFixed(1)}x</span>
+                </div>
+            `;
+
+            resultsDiv.style.display = 'block';
+        }
+
+        // Calculadora de Rentabilidad por Cliente
+        function calculateCustomerProfitability() {
+            const avgCustomerValue = parseFloat(document.getElementById('avg-customer-value').value) || 0;
+            const acquisitionCost = parseFloat(document.getElementById('customer-acquisition-cost').value) || 0;
+            const lifetimeMonths = parseFloat(document.getElementById('customer-lifetime-months').value) || 0;
+            const purchaseFrequency = parseFloat(document.getElementById('purchase-frequency').value) || 0;
+            const profitMargin = parseFloat(document.getElementById('profit-margin').value) || 0;
+
+            const monthlyValue = avgCustomerValue * purchaseFrequency;
+            const lifetimeValue = monthlyValue * lifetimeMonths;
+            const lifetimeProfit = lifetimeValue * (profitMargin / 100);
+            const netLifetimeValue = lifetimeProfit - acquisitionCost;
+            const paybackPeriod = acquisitionCost / (monthlyValue * (profitMargin / 100));
+            const customerROI = (netLifetimeValue / acquisitionCost) * 100;
+
+            const resultsDiv = document.getElementById('customer-results');
+            const detailsDiv = document.getElementById('customer-details');
+            
+            detailsDiv.innerHTML = `
+                <div class="result-item">
+                    <span class="result-label">Valor Mensual por Cliente:</span>
+                    <span class="result-value">$${monthlyValue.toLocaleString()}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Valor de Vida del Cliente:</span>
+                    <span class="result-value">$${lifetimeValue.toLocaleString()}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Beneficio de Vida del Cliente:</span>
+                    <span class="result-value">$${lifetimeProfit.toLocaleString()}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Valor Neto de Vida del Cliente:</span>
+                    <span class="result-value">$${netLifetimeValue.toLocaleString()}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Período de Recuperación (meses):</span>
+                    <span class="result-value">${paybackPeriod.toFixed(1)}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">ROI del Cliente:</span>
+                    <span class="result-value">${customerROI.toFixed(1)}%</span>
+                </div>
+            `;
+
+            resultsDiv.style.display = 'block';
+        }
+
+        // Calculadora de Escalabilidad
+        function calculateScalability() {
+            const currentRevenue = parseFloat(document.getElementById('current-revenue').value) || 0;
+            const targetRevenue = parseFloat(document.getElementById('target-revenue').value) || 0;
+            const timeToTarget = parseFloat(document.getElementById('time-to-target').value) || 0;
+            const requiredInvestment = parseFloat(document.getElementById('required-investment').value) || 0;
+            const expectedROI = parseFloat(document.getElementById('expected-roi').value) || 0;
+
+            const growthRate = Math.pow(targetRevenue / currentRevenue, 1 / timeToTarget) - 1;
+            const monthlyGrowthRate = Math.pow(1 + growthRate, 1/12) - 1;
+            const expectedReturn = requiredInvestment * (expectedROI / 100);
+            const paybackPeriod = requiredInvestment / ((targetRevenue - currentRevenue) / timeToTarget);
+            const revenuePerDollarInvested = (targetRevenue - currentRevenue) / requiredInvestment;
+
+            const resultsDiv = document.getElementById('scalability-results');
+            const detailsDiv = document.getElementById('scalability-details');
+            
+            detailsDiv.innerHTML = `
+                <div class="result-item">
+                    <span class="result-label">Tasa de Crecimiento Anual Requerida:</span>
+                    <span class="result-value">${(growthRate * 100).toFixed(1)}%</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Tasa de Crecimiento Mensual:</span>
+                    <span class="result-value">${(monthlyGrowthRate * 100).toFixed(2)}%</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Retorno Esperado:</span>
+                    <span class="result-value">$${expectedReturn.toLocaleString()}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Período de Recuperación (años):</span>
+                    <span class="result-value">${paybackPeriod.toFixed(1)}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Ingresos por Dólar Invertido:</span>
+                    <span class="result-value">$${revenuePerDollarInvested.toFixed(2)}</span>
+                </div>
+            `;
+
+            resultsDiv.style.display = 'block';
+        }
+
+        // Calculadora de Estrategias Anti-VC
+        function calculateAntiVCStrategies() {
+            const availableCapital = parseFloat(document.getElementById('available-capital').value) || 0;
+            const capitalNeed = parseFloat(document.getElementById('capital-need').value) || 0;
+            const monthlyIncome = parseFloat(document.getElementById('monthly-income').value) || 0;
+            const monthlyCosts = parseFloat(document.getElementById('monthly-costs').value) || 0;
+            const riskProfile = document.getElementById('risk-profile').value;
+
+            const monthlyProfit = monthlyIncome - monthlyCosts;
+            const capitalGap = capitalNeed - availableCapital;
+            const monthsToSelfFund = capitalGap / monthlyProfit;
+            const selfFundingFeasible = monthsToSelfFund <= 24;
+
+            let strategies = [];
+            
+            if (selfFundingFeasible) {
+                strategies.push({
+                    name: "Autofinanciamiento",
+                    description: `Puedes autofinanciar el crecimiento en ${monthsToSelfFund.toFixed(1)} meses`,
+                    priority: "Alta",
+                    timeline: `${monthsToSelfFund.toFixed(1)} meses`
+                });
+            }
+
+            if (monthlyProfit > 10000) {
+                strategies.push({
+                    name: "Reinversión de Utilidades",
+                    description: "Reinvierte el 70% de las utilidades mensuales",
+                    priority: "Alta",
+                    timeline: "Continuo"
+                });
+            }
+
+            if (availableCapital > 20000) {
+                strategies.push({
+                    name: "Crowdfunding",
+                    description: "Lanza una campaña de crowdfunding para capital adicional",
+                    priority: "Media",
+                    timeline: "3-6 meses"
+                });
+            }
+
+            if (monthlyIncome > 50000) {
+                strategies.push({
+                    name: "Financiamiento Bancario",
+                    description: "Solicita un préstamo empresarial tradicional",
+                    priority: "Media",
+                    timeline: "1-3 meses"
+                });
+            }
+
+            strategies.push({
+                name: "Partnerships Estratégicos",
+                description: "Busca socios estratégicos para co-inversión",
+                priority: "Media",
+                timeline: "3-12 meses"
+            });
+
+            strategies.push({
+                name: "Revenue-Based Financing",
+                description: "Financiamiento basado en ingresos futuros",
+                priority: "Baja",
+                timeline: "1-2 meses"
+            });
+
+            const resultsDiv = document.getElementById('antivc-results');
+            const detailsDiv = document.getElementById('antivc-details');
+            
+            let strategiesHTML = `
+                <div class="result-item">
+                    <span class="result-label">Brecha de Capital:</span>
+                    <span class="result-value">$${capitalGap.toLocaleString()}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Utilidad Mensual:</span>
+                    <span class="result-value">$${monthlyProfit.toLocaleString()}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Autofinanciamiento Factible:</span>
+                    <span class="result-value">${selfFundingFeasible ? 'Sí' : 'No'}</span>
+                </div>
+            `;
+
+            strategiesHTML += '<h4>Estrategias Recomendadas:</h4>';
+            strategies.forEach((strategy, index) => {
+                const priorityColor = strategy.priority === 'Alta' ? '#e74c3c' : 
+                                    strategy.priority === 'Media' ? '#f39c12' : '#27ae60';
+                
+                strategiesHTML += `
+                    <div class="result-item">
+                        <span class="result-label" style="color: ${priorityColor}; font-weight: bold;">
+                            ${strategy.name} (${strategy.priority})
+                        </span>
+                        <span class="result-value">${strategy.timeline}</span>
+                    </div>
+                    <div style="margin-left: 20px; margin-bottom: 10px; color: #7f8c8d;">
+                        ${strategy.description}
+                    </div>
+                `;
+            });
+
+            detailsDiv.innerHTML = strategiesHTML;
+            resultsDiv.style.display = 'block';
+        }
+
+        // Inicializar calculadoras al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Calculadoras Anti-VC Dependencia cargadas');
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+

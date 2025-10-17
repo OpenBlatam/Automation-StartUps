@@ -120,22 +120,19 @@ export class CustomerFeedbackService {
 
   // Análisis de sentimiento con IA especializada para marketing
   private async analyzeSentiment(content: string, language: string): Promise<{sentiment: string, score: number}> {
-    // Simulación de análisis de sentimiento con IA
-    // En producción, integrar con servicios como AWS Comprehend, Google Cloud NLP, o Azure Cognitive Services
-    
     const positiveKeywords = {
-      'es': ['excelente', 'genial', 'fantástico', 'increíble', 'perfecto', 'recomiendo', 'satisfecho', 'feliz', 'contento', 'impresionante'],
-      'pt': ['excelente', 'ótimo', 'fantástico', 'incrível', 'perfeito', 'recomendo', 'satisfeito', 'feliz', 'impressionante'],
-      'en': ['excellent', 'great', 'fantastic', 'amazing', 'perfect', 'recommend', 'satisfied', 'happy', 'impressive']
+      'es': ['excelente', 'genial', 'fantástico', 'increíble', 'perfecto', 'recomiendo', 'satisfecho', 'feliz', 'contento', 'impresionante', 'maravilloso', 'increíble', 'bueno', 'buena', 'buenos', 'buenas'],
+      'pt': ['excelente', 'ótimo', 'fantástico', 'incrível', 'perfeito', 'recomendo', 'satisfeito', 'feliz', 'impressionante', 'maravilhoso', 'incrível', 'bom', 'boa', 'bons', 'boas'],
+      'en': ['excellent', 'great', 'fantastic', 'amazing', 'perfect', 'recommend', 'satisfied', 'happy', 'impressive', 'wonderful', 'incredible', 'good', 'nice', 'awesome']
     };
 
     const negativeKeywords = {
-      'es': ['terrible', 'malo', 'horrible', 'pésimo', 'decepcionante', 'frustrante', 'problema', 'error', 'falla', 'insatisfecho'],
-      'pt': ['terrível', 'ruim', 'horrível', 'péssimo', 'decepcionante', 'frustrante', 'problema', 'erro', 'falha', 'insatisfeito'],
-      'en': ['terrible', 'bad', 'horrible', 'awful', 'disappointing', 'frustrating', 'problem', 'error', 'failure', 'unsatisfied']
+      'es': ['terrible', 'malo', 'horrible', 'pésimo', 'decepcionante', 'frustrante', 'problema', 'error', 'falla', 'insatisfecho', 'mal', 'mala', 'malos', 'malas', 'pésimo', 'pésima'],
+      'pt': ['terrível', 'ruim', 'horrível', 'péssimo', 'decepcionante', 'frustrante', 'problema', 'erro', 'falha', 'insatisfeito', 'ruim', 'ruins'],
+      'en': ['terrible', 'bad', 'horrible', 'awful', 'disappointing', 'frustrating', 'problem', 'error', 'failure', 'unsatisfied', 'poor', 'worst']
     };
 
-    const keywords = positiveKeywords[language] || positiveKeywords['es'];
+    const words = positiveKeywords[language] || positiveKeywords['es'];
     const negativeWords = negativeKeywords[language] || negativeKeywords['es'];
 
     let score = 0;
@@ -144,15 +141,15 @@ export class CustomerFeedbackService {
 
     const contentLower = content.toLowerCase();
 
-    keywords.forEach(keyword => {
-      if (contentLower.includes(keyword)) {
+    words.forEach(word => {
+      if (contentLower.includes(word)) {
         positiveCount++;
         score += 0.1;
       }
     });
 
-    negativeWords.forEach(keyword => {
-      if (contentLower.includes(keyword)) {
+    negativeWords.forEach(word => {
+      if (contentLower.includes(word)) {
         negativeCount++;
         score -= 0.1;
       }
@@ -269,9 +266,8 @@ export class CustomerFeedbackService {
 
   // Análisis de tendencia de sentimiento
   private async analyzeSentimentTrend(feedback: CustomerFeedback): Promise<'improving' | 'declining' | 'stable'> {
-    // En producción, comparar con feedback histórico
     const recentFeedback = Array.from(this.feedbackData.values())
-      .filter(f => f.timestamp > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)) // Últimos 7 días
+      .filter(f => f.timestamp > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000))
       .filter(f => f.source === feedback.source);
 
     if (recentFeedback.length < 3) return 'stable';
@@ -331,19 +327,12 @@ export class CustomerFeedbackService {
   private calculatePriorityLevel(feedback: CustomerFeedback): 'low' | 'medium' | 'high' | 'critical' {
     let score = 0;
 
-    // Sentimiento negativo aumenta prioridad
     if (feedback.sentiment === 'negative') score += 2;
     if (feedback.sentiment === 'mixed') score += 1;
-
-    // Urgencia explícita
     if (feedback.metadata.urgency === 'critical') score += 3;
     if (feedback.metadata.urgency === 'high') score += 2;
     if (feedback.metadata.urgency === 'medium') score += 1;
-
-    // Respuesta requerida
     if (feedback.metadata.responseRequired) score += 1;
-
-    // Temas críticos
     if (feedback.keyThemes?.includes('soporte')) score += 1;
     if (feedback.keyThemes?.includes('funcionalidad')) score += 1;
 
@@ -357,7 +346,6 @@ export class CustomerFeedbackService {
   private async findRelatedFeedback(feedback: CustomerFeedback): Promise<string[]> {
     const related: string[] = [];
     
-    // Buscar por temas similares
     if (feedback.keyThemes) {
       const similarFeedback = Array.from(this.feedbackData.values())
         .filter(f => f.id !== feedback.id)
@@ -433,51 +421,39 @@ export class CustomerFeedbackService {
     return analytics;
   }
 
-  // Calcular distribución de sentimientos
+  // Métodos auxiliares
   private calculateSentimentDistribution(feedback: CustomerFeedback[]): Record<string, number> {
     const distribution: Record<string, number> = {};
-    
     feedback.forEach(f => {
       distribution[f.sentiment] = (distribution[f.sentiment] || 0) + 1;
     });
-
     return distribution;
   }
 
-  // Calcular distribución por fuente
   private calculateSourceDistribution(feedback: CustomerFeedback[]): Record<string, number> {
     const distribution: Record<string, number> = {};
-    
     feedback.forEach(f => {
       distribution[f.source] = (distribution[f.source] || 0) + 1;
     });
-
     return distribution;
   }
 
-  // Calcular distribución por región
   private calculateRegionDistribution(feedback: CustomerFeedback[]): Record<string, number> {
     const distribution: Record<string, number> = {};
-    
     feedback.forEach(f => {
       distribution[f.region] = (distribution[f.region] || 0) + 1;
     });
-
     return distribution;
   }
 
-  // Calcular distribución por idioma
   private calculateLanguageDistribution(feedback: CustomerFeedback[]): Record<string, number> {
     const distribution: Record<string, number> = {};
-    
     feedback.forEach(f => {
       distribution[f.language] = (distribution[f.language] || 0) + 1;
     });
-
     return distribution;
   }
 
-  // Calcular análisis de tendencias
   private async calculateTrendAnalysis(feedback: CustomerFeedback[], period: string): Promise<any> {
     const midPoint = Math.floor(feedback.length / 2);
     const firstHalf = feedback.slice(0, midPoint);
@@ -497,7 +473,6 @@ export class CustomerFeedbackService {
     };
   }
 
-  // Generar insights de tendencias
   private generateTrendInsights(sentimentChange: number, volumeChange: number): string[] {
     const insights: string[] = [];
 
@@ -516,7 +491,6 @@ export class CustomerFeedbackService {
     return insights;
   }
 
-  // Calcular temas principales
   private calculateTopThemes(feedback: CustomerFeedback[]): Array<{theme: string, frequency: number, sentiment: string, trend: string}> {
     const themeCount: Record<string, {count: number, sentiment: number}> = {};
 
@@ -535,13 +509,12 @@ export class CustomerFeedbackService {
         theme,
         frequency: data.count,
         sentiment: data.sentiment / data.count > 0.1 ? 'positive' : data.sentiment / data.count < -0.1 ? 'negative' : 'neutral',
-        trend: 'stable' // En producción, calcular tendencia real
+        trend: 'stable'
       }))
       .sort((a, b) => b.frequency - a.frequency)
       .slice(0, 10);
   }
 
-  // Calcular insights culturales
   private calculateCulturalInsights(feedback: CustomerFeedback[]): Array<{region: string, insights: string[], recommendations: string[]}> {
     const regionGroups: Record<string, CustomerFeedback[]> = {};
 
@@ -559,7 +532,6 @@ export class CustomerFeedbackService {
     }));
   }
 
-  // Generar insights regionales
   private generateRegionalInsights(region: string, feedback: CustomerFeedback[]): string[] {
     const insights: string[] = [];
     const avgSentiment = feedback.reduce((sum, f) => sum + f.sentimentScore, 0) / feedback.length;
@@ -578,7 +550,6 @@ export class CustomerFeedbackService {
     return insights;
   }
 
-  // Generar recomendaciones regionales
   private generateRegionalRecommendations(region: string, feedback: CustomerFeedback[]): string[] {
     const recommendations: string[] = [];
 
@@ -596,7 +567,6 @@ export class CustomerFeedbackService {
     return recommendations;
   }
 
-  // Generar recomendaciones con IA
   private generateAIRecommendations(feedback: CustomerFeedback[]): string[] {
     const recommendations: string[] = [];
 
@@ -618,7 +588,6 @@ export class CustomerFeedbackService {
     return recommendations;
   }
 
-  // Obtener período en milisegundos
   private getPeriodMs(period: string): number {
     const periods: Record<string, number> = {
       '7d': 7 * 24 * 60 * 60 * 1000,
@@ -626,21 +595,17 @@ export class CustomerFeedbackService {
       '90d': 90 * 24 * 60 * 60 * 1000,
       '1y': 365 * 24 * 60 * 60 * 1000
     };
-
     return periods[period] || periods['30d'];
   }
 
-  // Guardar en base de datos
   private async saveToDatabase(feedback: CustomerFeedback): Promise<void> {
     try {
-      // En producción, implementar guardado en base de datos
       console.log('Saving feedback to database:', feedback.id);
     } catch (error) {
       console.error('Error saving feedback to database:', error);
     }
   }
 
-  // Broadcast actualización de feedback
   private broadcastFeedbackUpdate(feedback: CustomerFeedback): void {
     const message = {
       type: 'feedback_update',
@@ -653,7 +618,6 @@ export class CustomerFeedbackService {
       }
     };
 
-    // Enviar a todas las conexiones WebSocket activas
     this.wsConnections.forEach(ws => {
       if (ws.readyState === WebSocket.OPEN) {
         ws.send(JSON.stringify(message));
@@ -697,7 +661,6 @@ export class CustomerFeedbackService {
       filteredFeedback = filteredFeedback.filter(f => f.timestamp <= criteria.dateTo!);
     }
 
-    // Ordenar por timestamp descendente
     filteredFeedback.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
 
     if (criteria.limit) {
@@ -720,7 +683,6 @@ export class CustomerFeedbackService {
     const updatedFeedback = { ...feedback, ...updates };
     this.feedbackData.set(id, updatedFeedback);
 
-    // Re-procesar insights si es necesario
     if (updates.content || updates.sentiment) {
       updatedFeedback.insights = await this.generateInsights(updatedFeedback);
     }
@@ -740,6 +702,3 @@ export class CustomerFeedbackService {
 }
 
 export const customerFeedbackService = new CustomerFeedbackService();
-
-
-

@@ -1393,3 +1393,4 @@ if __name__ == "__main__":
     export_data = aibd_optimizer.export_aibd_analysis()
     
     print("✅ Sistema de optimización de AI Bias Detection de marketing completado!")
+

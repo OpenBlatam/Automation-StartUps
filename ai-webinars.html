@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎥 Webinars IA Marketing | IA Marketing Solutions</title>
+    <meta name="description" content="🔥 Webinars gratuitos sobre IA en marketing. 50+ webinars, 100,000+ asistentes, expertos invitados, casos de estudio y Q&A en vivo.">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Tonos Emocionales Avanzados */
+        .excitement { background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; animation: excitement-pulse 2s infinite; text-align: center; }
+        @keyframes excitement-pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        
+        .trust { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .trust::before { content: "🛡️ "; font-size: 1.8em; }
+        
+        .success { background: linear-gradient(135deg, #28a745 0%, #198754 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .success::before { content: "🎉 "; font-size: 1.8em; }
+        
+        .premium { background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; position: relative; overflow: hidden; }
+        .premium::before { content: "👑 "; font-size: 1.8em; }
+        .premium::after { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent); animation: premium-shine 3s infinite; }
+        @keyframes premium-shine { 0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); } 100% { transform: translateX(100%) translateY(100%) rotate(45deg); } }
+        
+        .curiosity { background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .curiosity::before { content: "🔍 "; font-size: 1.8em; }
+        
+        .social-proof { background: linear-gradient(135deg, #007bff 0%, #6610f2 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .social-proof::before { content: "👥 "; font-size: 1.8em; }
+        
+        .authority { background: linear-gradient(135deg, #343a40 0%, #6c757d 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .authority::before { content: "🏆 "; font-size: 1.8em; }
+        
+        .empathy { background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .empathy::before { content: "💝 "; font-size: 1.8em; }
+        
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 0; text-align: center; }
+        .hero h1 { font-size: 3.5em; margin-bottom: 20px; font-weight: 700; }
+        .hero p { font-size: 1.3em; margin-bottom: 30px; opacity: 0.95; }
+        
+        .cta-button { background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; padding: 20px 40px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.3em; display: inline-block; margin: 20px 10px; transition: all 0.3s; box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3); }
+        .cta-button:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4); }
+        
+        .webinars-section { background: white; padding: 60px 0; }
+        .webinars-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 40px; }
+        .webinar-card { background: #f8f9fa; padding: 30px; border-radius: 20px; border-left: 6px solid #667eea; transition: transform 0.3s; }
+        .webinar-card:hover { transform: translateY(-5px); }
+        .webinar-title { font-size: 1.4em; font-weight: bold; color: #2c3e50; margin-bottom: 15px; }
+        .webinar-stats { background: white; padding: 15px; border-radius: 10px; margin: 15px 0; }
+        .stat-item { display: flex; justify-content: space-between; margin: 8px 0; }
+        
+        .webinar-preview { background: white; border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin: 20px 0; }
+        .webinar-header { border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px; }
+        .webinar-content { background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #667eea; }
+        .content-number { background: #667eea; color: white; width: 25px; height: 25px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 10px; }
+        
+        .upcoming-section { background: #f8f9fa; padding: 60px 0; }
+        .upcoming-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px; }
+        .upcoming-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        .upcoming-icon { font-size: 2.5em; margin-bottom: 15px; }
+        
+        .stats-section { background: #2c3e50; color: white; padding: 60px 0; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 40px; }
+        .stat-card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; text-align: center; }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #ff6b6b; margin-bottom: 10px; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5em; }
+            .hero p { font-size: 1.1em; }
+            .webinars-grid { grid-template-columns: 1fr; }
+            .upcoming-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>🎥 Webinars IA Marketing</h1>
+            <p><strong>50+ webinars gratuitos</strong> con expertos en IA y marketing. 100,000+ asistentes, casos de estudio y Q&A en vivo</p>
+            <a href="#webinars" class="cta-button">🎥 Ver Webinars</a>
+            <a href="#upcoming" class="cta-button" style="background: transparent; border: 2px solid white;">📅 Próximos</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="excitement">
+            <h2 style="margin: 0; font-size: 2.2em;">🎥 ¡WEBINARS GRATUITOS SEMANALES!</h2>
+            <p style="margin: 10px 0 0 0; font-size: 1.2em;">50+ webinars con expertos y 100,000+ asistentes</p>
+        </div>
+
+        <div class="success">
+            <h3 style="margin: 0 0 15px 0;">🎉 CONTENIDO COMPROBADO</h3>
+            <p style="margin: 0; font-size: 1.2em;">Nuestros webinars tienen 85% de satisfacción y 70% de asistentes que implementan lo aprendido</p>
+        </div>
+
+        <section class="webinars-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">🎥 Webinars Disponibles</h2>
+            
+            <div class="webinars-grid">
+                <div class="webinar-card">
+                    <div class="webinar-title">🚀 Fundamentos de IA en Marketing</div>
+                    <p>Webinar introductorio para entender cómo implementar IA en tu marketing</p>
+                    <div class="webinar-stats">
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">60 min</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Asistentes:</span>
+                            <span style="color: #28a745; font-weight: bold;">5,000+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Rating:</span>
+                            <span style="color: #28a745; font-weight: bold;">4.8/5</span>
+                        </div>
+                    </div>
+                    <div class="webinar-preview">
+                        <div class="webinar-header">
+                            <div class="webinar-title">Contenido del Webinar</div>
+                        </div>
+                        <div class="webinar-content">
+                            <span class="content-number">1</span>
+                            <strong>Introducción a la IA:</strong> Conceptos básicos y aplicaciones
+                        </div>
+                        <div class="webinar-content">
+                            <span class="content-number">2</span>
+                            <strong>Herramientas principales:</strong> ChatGPT, Midjourney, Jasper
+                        </div>
+                        <div class="webinar-content">
+                            <span class="content-number">3</span>
+                            <strong>Casos de uso:</strong> Ejemplos reales de implementación
+                        </div>
+                        <div class="webinar-content">
+                            <span class="content-number">4</span>
+                            <strong>Q&A en vivo:</strong> Preguntas y respuestas
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Ver Webinar</a>
+                </div>
+                
+                <div class="webinar-card">
+                    <div class="webinar-title">⚙️ Automatización con IA</div>
+                    <p>Webinar avanzado sobre cómo automatizar procesos de marketing con IA</p>
+                    <div class="webinar-stats">
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">90 min</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Asistentes:</span>
+                            <span style="color: #28a745; font-weight: bold;">3,500+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Rating:</span>
+                            <span style="color: #28a745; font-weight: bold;">4.9/5</span>
+                        </div>
+                    </div>
+                    <div class="webinar-preview">
+                        <div class="webinar-header">
+                            <div class="webinar-title">Contenido del Webinar</div>
+                        </div>
+                        <div class="webinar-content">
+                            <span class="content-number">1</span>
+                            <strong>Workflows básicos:</strong> Cómo crear automatizaciones
+                        </div>
+                        <div class="webinar-content">
+                            <span class="content-number">2</span>
+                            <strong>Integración de herramientas:</strong> Conectar sistemas
+                        </div>
+                        <div class="webinar-content">
+                            <span class="content-number">3</span>
+                            <strong>Optimización:</strong> Mejorar procesos existentes
+                        </div>
+                        <div class="webinar-content">
+                            <span class="content-number">4</span>
+                            <strong>Demo en vivo:</strong> Implementación práctica
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Ver Webinar</a>
+                </div>
+                
+                <div class="webinar-card">
+                    <div class="webinar-title">📊 Análisis de Datos con IA</div>
+                    <p>Webinar especializado en usar IA para analizar datos de marketing</p>
+                    <div class="webinar-stats">
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">75 min</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Asistentes:</span>
+                            <span style="color: #28a745; font-weight: bold;">2,800+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Rating:</span>
+                            <span style="color: #28a745; font-weight: bold;">4.7/5</span>
+                        </div>
+                    </div>
+                    <div class="webinar-preview">
+                        <div class="webinar-header">
+                            <div class="webinar-title">Contenido del Webinar</div>
+                        </div>
+                        <div class="webinar-content">
+                            <span class="content-number">1</span>
+                            <strong>Recolección de datos:</strong> APIs y fuentes de datos
+                        </div>
+                        <div class="webinar-content">
+                            <span class="content-number">2</span>
+                            <strong>Procesamiento:</strong> Limpieza y preparación
+                        </div>
+                        <div class="webinar-content">
+                            <span class="content-number">3</span>
+                            <strong>Análisis predictivo:</strong> Modelos de machine learning
+                        </div>
+                        <div class="webinar-content">
+                            <span class="content-number">4</span>
+                            <strong>Visualización:</strong> Dashboards y reportes
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Ver Webinar</a>
+                </div>
+                
+                <div class="webinar-card">
+                    <div class="webinar-title">🎯 Optimización de Conversión</div>
+                    <p>Webinar sobre cómo usar IA para optimizar conversiones y aumentar ROI</p>
+                    <div class="webinar-stats">
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">80 min</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Asistentes:</span>
+                            <span style="color: #28a745; font-weight: bold;">4,200+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Rating:</span>
+                            <span style="color: #28a745; font-weight: bold;">4.8/5</span>
+                        </div>
+                    </div>
+                    <div class="webinar-preview">
+                        <div class="webinar-header">
+                            <div class="webinar-title">Contenido del Webinar</div>
+                        </div>
+                        <div class="webinar-content">
+                            <span class="content-number">1</span>
+                            <strong>Psicología del consumidor:</strong> Comportamiento y decisiones
+                        </div>
+                        <div class="webinar-content">
+                            <span class="content-number">2</span>
+                            <strong>A/B testing:</strong> Pruebas automatizadas
+                        </div>
+                        <div class="webinar-content">
+                            <span class="content-number">3</span>
+                            <strong>Personalización:</strong> Experiencias personalizadas
+                        </div>
+                        <div class="webinar-content">
+                            <span class="content-number">4</span>
+                            <strong>Casos de éxito:</strong> Ejemplos reales
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Ver Webinar</a>
+                </div>
+                
+                <div class="webinar-card">
+                    <div class="webinar-title">🤖 Chatbots y Conversación</div>
+                    <p>Webinar sobre cómo crear chatbots inteligentes para marketing</p>
+                    <div class="webinar-stats">
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">70 min</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Asistentes:</span>
+                            <span style="color: #28a745; font-weight: bold;">3,000+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Rating:</span>
+                            <span style="color: #28a745; font-weight: bold;">4.6/5</span>
+                        </div>
+                    </div>
+                    <div class="webinar-preview">
+                        <div class="webinar-header">
+                            <div class="webinar-title">Contenido del Webinar</div>
+                        </div>
+                        <div class="webinar-content">
+                            <span class="content-number">1</span>
+                            <strong>NLP básico:</strong> Procesamiento de lenguaje natural
+                        </div>
+                        <div class="webinar-content">
+                            <span class="content-number">2</span>
+                            <strong>Diseño de conversaciones:</strong> Flujos y diálogos
+                        </div>
+                        <div class="webinar-content">
+                            <span class="content-number">3</span>
+                            <strong>Integración:</strong> APIs y sistemas
+                        </div>
+                        <div class="webinar-content">
+                            <span class="content-number">4</span>
+                            <strong>Optimización:</strong> Mejorar respuestas
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Ver Webinar</a>
+                </div>
+                
+                <div class="webinar-card">
+                    <div class="webinar-title">🎁 Webinar Especial: IA en 2024</div>
+                    <p>Webinar especial con predicciones y tendencias de IA para 2024</p>
+                    <div class="webinar-stats">
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">120 min</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Asistentes:</span>
+                            <span style="color: #28a745; font-weight: bold;">8,500+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Rating:</span>
+                            <span style="color: #28a745; font-weight: bold;">4.9/5</span>
+                        </div>
+                    </div>
+                    <div class="webinar-preview">
+                        <div class="webinar-header">
+                            <div class="webinar-title">Contenido del Webinar</div>
+                        </div>
+                        <div class="webinar-content">
+                            <span class="content-number">1</span>
+                            <strong>Tendencias 2024:</strong> Qué esperar en IA
+                        </div>
+                        <div class="webinar-content">
+                            <span class="content-number">2</span>
+                            <strong>Nuevas herramientas:</strong> Últimas novedades
+                        </div>
+                        <div class="webinar-content">
+                            <span class="content-number">3</span>
+                            <strong>Predicciones:</strong> Futuro del marketing
+                        </div>
+                        <div class="webinar-content">
+                            <span class="content-number">4</span>
+                            <strong>Panel de expertos:</strong> Discusión grupal
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Ver Webinar</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="authority">
+            <h3 style="margin: 0 0 15px 0;">🏆 LIDERAMOS EN WEBINARS IA</h3>
+            <p style="margin: 0; font-size: 1.2em;">Los webinars más vistos sobre IA en marketing con 100,000+ asistentes y 85% de satisfacción</p>
+        </div>
+
+        <section class="upcoming-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">📅 Próximos Webinars</h2>
+            
+            <div class="upcoming-grid">
+                <div class="upcoming-card">
+                    <div class="upcoming-icon">🚀</div>
+                    <h3>15 de Enero</h3>
+                    <p>IA Generativa en Marketing</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 7:00 PM (GMT-5)</li>
+                        <li>✅ 60 minutos</li>
+                        <li>✅ Q&A incluido</li>
+                        <li>✅ Grabación disponible</li>
+                    </ul>
+                </div>
+                
+                <div class="upcoming-card">
+                    <div class="upcoming-icon">⚙️</div>
+                    <h3>22 de Enero</h3>
+                    <p>Automatización Avanzada</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 7:00 PM (GMT-5)</li>
+                        <li>✅ 90 minutos</li>
+                        <li>✅ Demo en vivo</li>
+                        <li>✅ Recursos incluidos</li>
+                    </ul>
+                </div>
+                
+                <div class="upcoming-card">
+                    <div class="upcoming-icon">📊</div>
+                    <h3>29 de Enero</h3>
+                    <p>Análisis Predictivo</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 7:00 PM (GMT-5)</li>
+                        <li>✅ 75 minutos</li>
+                        <li>✅ Casos prácticos</li>
+                        <li>✅ Templates incluidos</li>
+                    </ul>
+                </div>
+                
+                <div class="upcoming-card">
+                    <div class="upcoming-icon">🎯</div>
+                    <h3>5 de Febrero</h3>
+                    <p>Optimización de ROI</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 7:00 PM (GMT-5)</li>
+                        <li>✅ 80 minutos</li>
+                        <li>✅ Calculadora incluida</li>
+                        <li>✅ Casos de estudio</li>
+                    </ul>
+                </div>
+                
+                <div class="upcoming-card">
+                    <div class="upcoming-icon">🤖</div>
+                    <h3>12 de Febrero</h3>
+                    <p>Chatbots Inteligentes</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 7:00 PM (GMT-5)</li>
+                        <li>✅ 70 minutos</li>
+                        <li>✅ Setup en vivo</li>
+                        <li>✅ Código incluido</li>
+                    </ul>
+                </div>
+                
+                <div class="upcoming-card">
+                    <div class="upcoming-icon">🎁</div>
+                    <h3>19 de Febrero</h3>
+                    <p>Webinar Especial: IA 2024</p>
+                    <ul style="text-align: left;">
+                        <li>✅ 7:00 PM (GMT-5)</li>
+                        <li>✅ 120 minutos</li>
+                        <li>✅ Panel de expertos</li>
+                        <li>✅ Recursos premium</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="social-proof">
+            <h3 style="margin: 0 0 15px 0;">👥 MÁS DE 100,000 ASISTENTES</h3>
+            <p style="margin: 0; font-size: 1.2em;">Desde marketers hasta CEOs, todos aprenden con nuestros webinars gratuitos</p>
+        </div>
+
+        <section class="stats-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">📊 Estadísticas de Webinars</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">50+</div>
+                    <h3>Webinars</h3>
+                    <p>Disponibles gratuitamente</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">100,000+</div>
+                    <h3>Asistentes</h3>
+                    <p>Total acumulado</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">85%</div>
+                    <h3>Satisfacción</h3>
+                    <p>Promedio de asistentes</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">70%</div>
+                    <h3>Implementación</h3>
+                    <p>De asistentes aplican lo aprendido</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">4.8/5</div>
+                    <h3>Rating</h3>
+                    <p>Promedio de webinars</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">95%</div>
+                    <h3>Recomendación</h3>
+                    <p>De asistentes recomiendan</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="premium">
+            <h3 style="margin: 0 0 15px 0;">👑 WEBINARS PREMIUM</h3>
+            <p style="margin: 0; font-size: 1.2em;">Acceso a webinars exclusivos + grabaciones + recursos adicionales por solo $37/mes</p>
+        </div>
+
+        <div class="curiosity">
+            <h3 style="margin: 0 0 15px 0;">🔍 ¿QUÉ HACE ESPECIAL A NUESTROS WEBINARS?</h3>
+            <p style="margin: 0; font-size: 1.2em;">Descubre por qué nuestros webinars tienen 85% de satisfacción y 70% de implementación</p>
+        </div>
+
+        <div class="empathy">
+            <h3 style="margin: 0 0 15px 0;">💝 Entendemos tus Necesidades</h3>
+            <p style="margin: 0; font-size: 1.2em;">Sabemos que aprender IA puede ser complejo. Por eso nuestros webinars son prácticos y fáciles de seguir</p>
+        </div>
+    </div>
+
+    <footer style="background: #2c3e50; color: white; padding: 40px 0; text-align: center;">
+        <div class="container">
+            <p>&copy; 2024 IA Marketing Solutions. Todos los derechos reservados.</p>
+            <p>Educando sobre IA desde 2020</p>
+        </div>
+    </footer>
+
+    <script>
+        // Track webinar interactions
+        document.querySelectorAll('.webinar-card .cta-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const webinar = this.closest('.webinar-card').querySelector('.webinar-title').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'webinar_click', {
+                        'event_category': 'AI Webinars',
+                        'event_label': webinar,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track upcoming card clicks
+        document.querySelectorAll('.upcoming-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const upcoming = this.querySelector('h3').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'upcoming_click', {
+                        'event_category': 'AI Webinars',
+                        'event_label': upcoming,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track webinar preview interactions
+        document.querySelectorAll('.webinar-preview').forEach(preview => {
+            preview.addEventListener('click', function() {
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'webinar_preview_click', {
+                        'event_category': 'AI Webinars',
+                        'event_label': 'Webinar Preview',
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Animate webinar cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.webinar-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+        
+        // Animate stat numbers
+        const statObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumber = entry.target.querySelector('.stat-number');
+                    const finalValue = statNumber.textContent;
+                    const isPlus = finalValue.includes('+');
+                    const isPercentage = finalValue.includes('%');
+                    const isRating = finalValue.includes('/');
+                    const numericValue = parseFloat(finalValue.replace(/[^0-9.]/g, ''));
+                    
+                    let currentValue = 0;
+                    const increment = numericValue / 30;
+                    
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= numericValue) {
+                            currentValue = numericValue;
+                            clearInterval(timer);
+                        }
+                        
+                        if (isPlus) {
+                            statNumber.textContent = Math.round(currentValue).toLocaleString() + '+';
+                        } else if (isPercentage) {
+                            statNumber.textContent = Math.round(currentValue) + '%';
+                        } else if (isRating) {
+                            statNumber.textContent = (currentValue / 10).toFixed(1) + '/5';
+                        } else {
+                            statNumber.textContent = Math.round(currentValue).toLocaleString();
+                        }
+                    }, 30);
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.stat-card').forEach(card => {
+            statObserver.observe(card);
+        });
+    </script>
+</body>
+</html>
+
+
+

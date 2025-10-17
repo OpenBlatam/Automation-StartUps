@@ -1,0 +1,208 @@
+{
+  "version": "2.0",
+  "created": "2025-10-01T14:47:06.045374",
+  "categories": {
+    "01_Marketing": {
+      "name": "Marketing",
+      "description": "Estrategias, cursos y herramientas de marketing con IA",
+      "subcategories": [
+        "AI_Marketing_Courses",
+        "Consciousness_Marketing",
+        "Neural_Marketing",
+        "CopyAI_Integration",
+        "ABM_Strategy",
+        "Gamification",
+        "VIP_Programs",
+        "Content_Generation",
+        "Campaign_Management",
+        "Analytics_Reports"
+      ],
+      "file_patterns": [
+        "*marketing*",
+        "*campaign*",
+        "*advertising*",
+        "*promotion*",
+        "*brand*",
+        "*customer*",
+        "*conversion*",
+        "*lead*",
+        "*sales*",
+        "*social*",
+        "*content*",
+        "*email*",
+        "*seo*",
+        "*ppc*",
+        "*course*",
+        "*curso*",
+        "*workshop*",
+        "*training*",
+        "*neural*",
+        "*consciousness*",
+        "*copyai*",
+        "*abm*",
+        "*gamification*",
+        "*vip*",
+        "*premium*"
+      ]
+    },
+    "05_Technology": {
+      "name": "Technology",
+      "description": "Documentación técnica, código y arquitectura",
+      "subcategories": [
+        "API_Documentation",
+        "System_Architecture",
+        "Implementation_Guides",
+        "Technical_Specs",
+        "Code_Examples",
+        "System_Components",
+        "Utilities",
+        "Prototypes",
+        "Testing",
+        "Deployment"
+      ],
+      "file_patterns": [
+        "*api*",
+        "*architecture*",
+        "*system*",
+        "*tech*",
+        "*code*",
+        "*programming*",
+        "*development*",
+        "*software*",
+        "*implementation*",
+        "*guide*",
+        "*documentation*",
+        "*spec*",
+        "*technical*",
+        "*backend*",
+        "*frontend*",
+        "*database*",
+        "*server*",
+        "*client*"
+      ]
+    },
+    "08_AI_Artificial_Intelligence": {
+      "name": "AI & Artificial Intelligence",
+      "description": "Sistemas de IA, algoritmos y tecnologías avanzadas",
+      "subcategories": [
+        "Consciousness_Systems",
+        "Advanced_AI",
+        "Neural_Networks",
+        "Quantum_Computing",
+        "Transcendent_AI",
+        "Machine_Learning",
+        "Deep_Learning",
+        "Natural_Language_Processing",
+        "Computer_Vision",
+        "Robotics"
+      ],
+      "file_patterns": [
+        "*ai*",
+        "*artificial*",
+        "*intelligence*",
+        "*machine*",
+        "*learning*",
+        "*neural*",
+        "*deep*",
+        "*algorithm*",
+        "*model*",
+        "*prediction*",
+        "*automation*",
+        "*chatbot*",
+        "*nlp*",
+        "*computer*",
+        "*vision*",
+        "*quantum*",
+        "*consciousness*",
+        "*transcendent*",
+        "*divine*"
+      ]
+    },
+    "13_Legal_Compliance": {
+      "name": "Legal & Compliance",
+      "description": "Documentos legales, compliance y gestión de riesgos",
+      "subcategories": [
+        "Legal_Documents",
+        "Compliance_Guides",
+        "Risk_Assessments",
+        "VIP_Programs",
+        "Commission_Agreements",
+        "Privacy_Policies",
+        "Terms_Conditions",
+        "Security_Protocols"
+      ],
+      "file_patterns": [
+        "*legal*",
+        "*compliance*",
+        "*policy*",
+        "*agreement*",
+        "*contract*",
+        "*terms*",
+        "*privacy*",
+        "*security*",
+        "*risk*",
+        "*audit*",
+        "*regulation*",
+        "*governance*",
+        "*liability*",
+        "*commission*",
+        "*vip*"
+      ]
+    },
+    "06_Strategy": {
+      "name": "Business Strategy",
+      "description": "Estrategias de negocio, planes y análisis",
+      "subcategories": [
+        "Business_Plans",
+        "Competitive_Analysis",
+        "Market_Research",
+        "ROI_Calculations",
+        "Strategic_Planning",
+        "Performance_Metrics",
+        "Growth_Strategies",
+        "Innovation_Plans"
+      ],
+      "file_patterns": [
+        "*strategy*",
+        "*plan*",
+        "*business*",
+        "*management*",
+        "*process*",
+        "*workflow*",
+        "*efficiency*",
+        "*productivity*",
+        "*roi*",
+        "*kpi*",
+        "*metrics*",
+        "*analysis*",
+        "*report*",
+        "*dashboard*",
+        "*competitive*",
+        "*market*"
+      ]
+    }
+  },
+  "settings": {
+    "auto_organize": true,
+    "create_index_files": true,
+    "verify_organization": true,
+    "confidence_threshold": 0.6,
+    "file_types": [
+      ".md",
+      ".py",
+      ".js",
+      ".ts",
+      ".html",
+      ".pdf",
+      ".docx"
+    ],
+    "exclude_patterns": [
+      "*.tmp",
+      "*.temp",
+      "*.bak",
+      "*.old",
+      "*.log"
+    ],
+    "organization_threshold": 80
+  }
+}

@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌍 Expansión Global - ChatGPT Queue</title>
+    <style>
+        @page { size: A4; margin: 2cm; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea, #764ba2, #f093fb, #f5576c);
+        }
+        
+        .container {
+            background: white;
+            margin: 20px;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea, #764ba2, #f093fb, #f5576c);
+            color: white;
+            text-align: center;
+            padding: 50px;
+            margin: -40px -40px 40px -40px;
+            border-radius: 20px 20px 0 0;
+        }
+        
+        h1 {
+            font-size: 3em;
+            margin: 0;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.3em;
+            margin: 20px 0;
+            opacity: 0.9;
+        }
+        
+        .market-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border-left: 5px solid #667eea;
+        }
+        
+        .section-title {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .market-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .market-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-left: 5px solid;
+            transition: transform 0.3s ease;
+        }
+        
+        .market-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .market-card.tier1 {
+            border-left-color: #00b894;
+        }
+        
+        .market-card.tier2 {
+            border-left-color: #fdcb6e;
+        }
+        
+        .market-card.tier3 {
+            border-left-color: #fd79a8;
+        }
+        
+        .card-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2c2c54;
+        }
+        
+        .card-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+        
+        .card-description {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .market-features {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .market-features li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            color: #666;
+        }
+        
+        .market-features li:before {
+            content: "✅ ";
+            color: #00b894;
+            font-weight: bold;
+        }
+        
+        .strategy-section {
+            background: #2c2c54;
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 30px 0;
+        }
+        
+        .strategy-title {
+            font-size: 2em;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .strategy-card {
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .strategy-card-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #a29bfe;
+        }
+        
+        .strategy-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .strategy-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .strategy-list li:before {
+            content: "🌍 ";
+            color: #a29bfe;
+            font-weight: bold;
+        }
+        
+        .timeline-section {
+            background: #e8f4f8;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 30px 0;
+        }
+        
+        .timeline-title {
+            color: #0984e3;
+            font-size: 2em;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .timeline-phase {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid #0984e3;
+        }
+        
+        .phase-title {
+            color: #0984e3;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .phase-duration {
+            background: #0984e3;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        
+        .phase-tasks {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .task-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #0984e3;
+        }
+        
+        .task-title {
+            font-weight: bold;
+            color: #2c2c54;
+            margin-bottom: 5px;
+        }
+        
+        .task-description {
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .metrics-section {
+            background: #fff3cd;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border-left: 5px solid #ffc107;
+        }
+        
+        .metrics-title {
+            color: #856404;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .metric-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .metric-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        
+        .metric-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .footer {
+            background: #2d3436;
+            color: white;
+            padding: 40px;
+            text-align: center;
+            margin: 40px -40px -40px -40px;
+            border-radius: 0 0 20px 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌍 Expansión Global</h1>
+            <p class="subtitle">ChatGPT Queue - Estrategia de Expansión Internacional</p>
+        </div>
+
+        <div class="market-section">
+            <h2 class="section-title">🎯 Mercados Prioritarios</h2>
+            
+            <div class="market-grid">
+                <div class="market-card tier1">
+                    <div class="card-icon">🇺🇸</div>
+                    <div class="card-title">Estados Unidos</div>
+                    <div class="card-description">
+                        Mercado principal con alta adopción de IA y gran poder adquisitivo.
+                    </div>
+                    <ul class="market-features">
+                        <li>Población: 331M</li>
+                        <li>PIB per cápita: $63,416</li>
+                        <li>Adopción IA: 85%</li>
+                        <li>Competencia: Media</li>
+                        <li>ROI esperado: 400%</li>
+                        <li>Inversión inicial: $50K</li>
+                    </ul>
+                </div>
+
+                <div class="market-card tier1">
+                    <div class="card-icon">🇬🇧</div>
+                    <div class="card-title">Reino Unido</div>
+                    <div class="card-description">
+                        Mercado europeo líder con alta adopción tecnológica y regulaciones favorables.
+                    </div>
+                    <ul class="market-features">
+                        <li>Población: 67M</li>
+                        <li>PIB per cápita: $41,124</li>
+                        <li>Adopción IA: 78%</li>
+                        <li>Competencia: Baja</li>
+                        <li>ROI esperado: 350%</li>
+                        <li>Inversión inicial: $30K</li>
+                    </ul>
+                </div>
+
+                <div class="market-card tier1">
+                    <div class="card-icon">🇨🇦</div>
+                    <div class="card-title">Canadá</div>
+                    <div class="card-description">
+                        Mercado similar a Estados Unidos con regulaciones más flexibles.
+                    </div>
+                    <ul class="market-features">
+                        <li>Población: 38M</li>
+                        <li>PIB per cápita: $51,713</li>
+                        <li>Adopción IA: 82%</li>
+                        <li>Competencia: Baja</li>
+                        <li>ROI esperado: 380%</li>
+                        <li>Inversión inicial: $25K</li>
+                    </ul>
+                </div>
+
+                <div class="market-card tier2">
+                    <div class="card-icon">🇦🇺</div>
+                    <div class="card-title">Australia</div>
+                    <div class="card-description">
+                        Mercado de Asia-Pacífico con alta adopción tecnológica.
+                    </div>
+                    <ul class="market-features">
+                        <li>Población: 25M</li>
+                        <li>PIB per cápita: $54,825</li>
+                        <li>Adopción IA: 75%</li>
+                        <li>Competencia: Muy baja</li>
+                        <li>ROI esperado: 320%</li>
+                        <li>Inversión inicial: $20K</li>
+                    </ul>
+                </div>
+
+                <div class="market-card tier2">
+                    <div class="card-icon">🇩🇪</div>
+                    <div class="card-title">Alemania</div>
+                    <div class="card-description">
+                        Mercado europeo más grande con alta adopción empresarial de IA.
+                    </div>
+                    <ul class="market-features">
+                        <li>Población: 83M</li>
+                        <li>PIB per cápita: $46,445</li>
+                        <li>Adopción IA: 70%</li>
+                        <li>Competencia: Media</li>
+                        <li>ROI esperado: 300%</li>
+                        <li>Inversión inicial: $35K</li>
+                    </ul>
+                </div>
+
+                <div class="market-card tier2">
+                    <div class="card-icon">🇫🇷</div>
+                    <div class="card-title">Francia</div>
+                    <div class="card-description">
+                        Mercado europeo con creciente adopción de IA y regulaciones favorables.
+                    </div>
+                    <ul class="market-features">
+                        <li>Población: 67M</li>
+                        <li>PIB per cápita: $40,494</li>
+                        <li>Adopción IA: 68%</li>
+                        <li>Competencia: Baja</li>
+                        <li>ROI esperado: 280%</li>
+                        <li>Inversión inicial: $25K</li>
+                    </ul>
+                </div>
+
+                <div class="market-card tier3">
+                    <div class="card-icon">🇪🇸</div>
+                    <div class="card-title">España</div>
+                    <div class="card-description">
+                        Mercado de habla hispana con creciente adopción de IA.
+                    </div>
+                    <ul class="market-features">
+                        <li>Población: 47M</li>
+                        <li>PIB per cápita: $30,996</li>
+                        <li>Adopción IA: 65%</li>
+                        <li>Competencia: Muy baja</li>
+                        <li>ROI esperado: 250%</li>
+                        <li>Inversión inicial: $15K</li>
+                    </ul>
+                </div>
+
+                <div class="market-card tier3">
+                    <div class="card-icon">🇲🇽</div>
+                    <div class="card-title">México</div>
+                    <div class="card-description">
+                        Mercado de habla hispana más grande con creciente adopción tecnológica.
+                    </div>
+                    <ul class="market-features">
+                        <li>Población: 128M</li>
+                        <li>PIB per cápita: $9,863</li>
+                        <li>Adopción IA: 55%</li>
+                        <li>Competencia: Muy baja</li>
+                        <li>ROI esperado: 200%</li>
+                        <li>Inversión inicial: $10K</li>
+                    </ul>
+                </div>
+
+                <div class="market-card tier3">
+                    <div class="card-icon">🇧🇷</div>
+                    <div class="card-title">Brasil</div>
+                    <div class="card-description">
+                        Mercado más grande de América Latina con creciente adopción de IA.
+                    </div>
+                    <ul class="market-features">
+                        <li>Población: 213M</li>
+                        <li>PIB per cápita: $8,717</li>
+                        <li>Adopción IA: 60%</li>
+                        <li>Competencia: Muy baja</li>
+                        <li>ROI esperado: 180%</li>
+                        <li>Inversión inicial: $12K</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="strategy-section">
+            <h2 class="strategy-title">🚀 Estrategia de Expansión</h2>
+            
+            <div class="strategy-grid">
+                <div class="strategy-card">
+                    <div class="strategy-card-title">Localización</div>
+                    <ul class="strategy-list">
+                        <li>Traducción de contenido</li>
+                        <li>Adaptación cultural</li>
+                        <li>Monedas locales</li>
+                        <li>Regulaciones locales</li>
+                        <li>Horarios de soporte</li>
+                    </ul>
+                </div>
+                
+                <div class="strategy-card">
+                    <div class="strategy-card-title">Marketing Local</div>
+                    <ul class="strategy-list">
+                        <li>Partnerships locales</li>
+                        <li>Influencers regionales</li>
+                        <li>Eventos locales</li>
+                        <li>Medios regionales</li>
+                        <li>SEO local</li>
+                    </ul>
+                </div>
+                
+                <div class="strategy-card">
+                    <div class="strategy-card-title">Distribución</div>
+                    <ul class="strategy-list">
+                        <li>Canales locales</li>
+                        <li>Distribuidores</li>
+                        <li>Marketplaces locales</li>
+                        <li>Resellers</li>
+                        <li>Franquicias</li>
+                    </ul>
+                </div>
+                
+                <div class="strategy-card">
+                    <div class="strategy-card-title">Soporte</div>
+                    <ul class="strategy-list">
+                        <li>Equipos locales</li>
+                        <li>Idiomas nativos</li>
+                        <li>Horarios locales</li>
+                        <li>Centros de soporte</li>
+                        <li>Documentación local</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-section">
+            <h2 class="timeline-title">🗓️ Cronograma de Expansión</h2>
+            
+            <div class="timeline-phase">
+                <div class="phase-title">Fase 1: Mercados Tier 1 (Meses 1-6)</div>
+                <div class="phase-duration">6 meses</div>
+                <div class="phase-tasks">
+                    <div class="task-item">
+                        <div class="task-title">Estados Unidos</div>
+                        <div class="task-description">Lanzamiento completo con marketing agresivo</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-title">Reino Unido</div>
+                        <div class="task-description">Expansión europea con localización</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-title">Canadá</div>
+                        <div class="task-description">Mercado similar a Estados Unidos</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-title">Australia</div>
+                        <div class="task-description">Mercado de Asia-Pacífico</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-phase">
+                <div class="phase-title">Fase 2: Mercados Tier 2 (Meses 7-12)</div>
+                <div class="phase-duration">6 meses</div>
+                <div class="phase-tasks">
+                    <div class="task-item">
+                        <div class="task-title">Alemania</div>
+                        <div class="task-description">Mercado europeo más grande</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-title">Francia</div>
+                        <div class="task-description">Mercado europeo con regulaciones favorables</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-title">Países Bajos</div>
+                        <div class="task-description">Mercado europeo con alta adopción</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-title">Suecia</div>
+                        <div class="task-description">Mercado nórdico con alta tecnología</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-phase">
+                <div class="phase-title">Fase 3: Mercados Tier 3 (Meses 13-18)</div>
+                <div class="phase-duration">6 meses</div>
+                <div class="phase-tasks">
+                    <div class="task-item">
+                        <div class="task-title">España</div>
+                        <div class="task-description">Mercado de habla hispana</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-title">México</div>
+                        <div class="task-description">Mercado de habla hispana más grande</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-title">Brasil</div>
+                        <div class="task-description">Mercado más grande de América Latina</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-title">Argentina</div>
+                        <div class="task-description">Mercado de habla hispana</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-phase">
+                <div class="phase-title">Fase 4: Mercados Emergentes (Meses 19-24)</div>
+                <div class="phase-duration">6 meses</div>
+                <div class="phase-tasks">
+                    <div class="task-item">
+                        <div class="task-title">India</div>
+                        <div class="task-description">Mercado emergente más grande</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-title">China</div>
+                        <div class="task-description">Mercado más grande del mundo</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-title">Japón</div>
+                        <div class="task-description">Mercado asiático desarrollado</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-title">Corea del Sur</div>
+                        <div class="task-description">Mercado asiático con alta tecnología</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="metrics-section">
+            <h2 class="metrics-title">📊 Proyecciones de Expansión</h2>
+            
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-number">$2.5M</div>
+                    <div class="metric-label">Revenue Año 1</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">$8.5M</div>
+                    <div class="metric-label">Revenue Año 2</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">$25M</div>
+                    <div class="metric-label">Revenue Año 3</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">15</div>
+                    <div class="metric-label">Países Año 1</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">35</div>
+                    <div class="metric-label">Países Año 2</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">50+</div>
+                    <div class="metric-label">Países Año 3</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <h3>🌍 Expansión Global</h3>
+            <p style="font-size: 1.2em; margin: 20px 0;">
+                <strong>Estrategia de expansión internacional para dominar mercados globales</strong>
+            </p>
+            <p style="font-size: 1.1em; margin: 20px 0;">
+                Mercados Tier 1 • Tier 2 • Tier 3 • Emergentes
+            </p>
+            <p style="font-size: 0.9em; margin-top: 30px; opacity: 0.8;">
+                © 2024 - ChatGPT Queue Global Expansion. Estrategia de expansión internacional.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+Agente,Especialización,Estado,Capacidades,ROI,Prioridad
+AGENTES ESPECIALIZADOS,,,,,,
+Agente de Inversiones,Portafolio y trading,✅ Activo,Análisis, compra, venta, 25%,Alta
+Agente de Ahorro,Optimización de ahorros,✅ Activo,Transferencias, metas, 20%,Alta
+Agente de Gastos,Control de gastos,✅ Activo,Monitoreo, alertas, 15%,Media
+Agente de Impuestos,Optimización fiscal,✅ Activo,Deducciones, ahorros, 30%,Alta
+Agente de Seguros,Análisis de coberturas,✅ Activo,Comparación, optimización, 10%,Media
+Agente de Deudas,Eliminación de deudas,✅ Activo,Estrategias, pagos, 35%,Alta
+Agente de Metas,Logro de objetivos,✅ Activo,Planificación, seguimiento, 25%,Media
+Agente de Emergencias,Fondo de emergencia,✅ Activo,Construcción, mantenimiento, 20%,Alta
+,,,,,,
+AGENTES DE ANÁLISIS,,,,,,
+Agente de Mercados,Análisis de mercados,✅ Activo,Tendencias, oportunidades, 40%,Media
+Agente de Riesgo,Evaluación de riesgo,✅ Activo,Análisis, mitigación, 30%,Alta
+Agente de Liquidez,Gestión de liquidez,✅ Activo,Flujo de caja, optimización, 25%,Media
+Agente de Predicción,Forecasting financiero,✅ Activo,Proyecciones, escenarios, 35%,Media
+,,,,,,
+AGENTES DE AUTOMATIZACIÓN,,,,,,
+Agente de Pagos,Automatización de pagos,✅ Activo,Transferencias, facturas, 50%,Alta
+Agente de Reportes,Generación de reportes,✅ Activo,Análisis, presentaciones, 30%,Media
+Agente de Alertas,Notificaciones inteligentes,✅ Activo,Monitoreo, alertas, 20%,Media
+Agente de Backup,Respaldo de datos,✅ Activo,Seguridad, recuperación, 15%,Baja
+,,,,,,
+AGENTES DE NEGOCIO,,,,,,
+Agente de Marketing,ROI de marketing,✅ Activo,Análisis, optimización, 60%,Alta
+Agente de Ventas,Optimización de ventas,✅ Activo,Procesos, conversión, 45%,Media
+Agente de Clientes,Gestión de clientes,✅ Activo,CRM, satisfacción, 35%,Media
+Agente de Operaciones,Eficiencia operativa,✅ Activo,Procesos, costos, 40%,Media
+,,,,,,
+MÉTRICAS DE RENDIMIENTO,,,,,,
+Métrica,Valor,Objetivo,Estado,Tendencia
+Eficiencia Promedio,85%,>80%,✅ Cumplido,📈 Mejorando
+ROI Promedio,30%,>25%,✅ Cumplido,📈 Mejorando
+Tiempo de Respuesta,2 segundos,<5 segundos,✅ Cumplido,📈 Mejorando
+Precisión,92%,>90%,✅ Cumplido,📈 Mejorando

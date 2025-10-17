@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧠 Neural Sales Dashboard Pro - Sintra AI Marketing</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+    <script src="https://cdn.jsdelivr.net/npm/date-fns@2.29.3/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.2.1/dist/chartjs-plugin-annotation.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            color: #333;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="10" cy="60" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="90" cy="40" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .dashboard-container {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .neural-sidebar {
+            position: fixed;
+            left: -300px;
+            top: 0;
+            width: 300px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 0 25px 25px 0;
+            padding: 30px;
+            transition: left 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .neural-sidebar.open {
+            left: 0;
+        }
+
+        .sidebar-toggle {
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 1001;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .ai-chat {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .ai-chat:hover {
+            transform: scale(1.1);
+        }
+
+        .ai-chat-panel {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+        }
+
+        .ai-chat-panel.open {
+            display: flex;
+        }
+
+        .chat-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 15px;
+        }
+
+        .chat-message {
+            background: #f3f4f6;
+            padding: 10px 15px;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 25px;
+            outline: none;
+        }
+
+        .chat-send {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+        }
+
+        .sidebar-content {
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .neural-metrics {
+            margin-bottom: 30px;
+        }
+
+        .neural-metrics h4 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .metric-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .metric-item span:first-child {
+            flex: 1;
+            color: #666;
+        }
+
+        .progress-bar {
+            flex: 2;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .ai-recommendations h4 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .recommendation-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .recommendation-item i {
+            color: #667eea;
+            font-size: 1rem;
+        }
+
+        .neural-pulse {
+            animation: neuralPulse 2s infinite;
+        }
+
+        @keyframes neuralPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .advanced-chart {
+            position: relative;
+            height: 500px;
+        }
+
+        .chart-controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .chart-control-btn {
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        .chart-control-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .real-time-indicator {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .pulse-dot-small {
+            width: 6px;
+            height: 6px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse 1s infinite;
+        }
+
+        .advanced-kpi-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .advanced-kpi-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .kpi-trend {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .trend-up {
+            color: #10b981;
+        }
+
+        .trend-down {
+            color: #ef4444;
+        }
+
+        .trend-stable {
+            color: #6b7280;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .neural-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            margin-top: 15px;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .kpi-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+        }
+
+        .kpi-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .kpi-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .kpi-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+        }
+
+        .kpi-value {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #333;
+            margin-bottom: 15px;
+            line-height: 1;
+        }
+
+        .kpi-change {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+
+        .kpi-change.positive {
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+        }
+
+        .kpi-change.negative {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+        }
+
+        .kpi-change.neutral {
+            background: rgba(107, 114, 128, 0.1);
+            color: #6b7280;
+        }
+
+        .chart-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .chart-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .chart-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 450px;
+        }
+
+        .filters {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 25px;
+            align-items: end;
+            flex-wrap: wrap;
+        }
+
+        .filter-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 200px;
+        }
+
+        .filter-item label {
+            font-weight: 700;
+            color: #333;
+            font-size: 1rem;
+        }
+
+        .filter-item select,
+        .filter-item input {
+            padding: 15px 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .filter-item select:focus,
+        .filter-item input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 15px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .ai-insights {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 25px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+        }
+
+        .ai-insights h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .insight-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .insight-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .insight-title {
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .insight-description {
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .metric-label {
+            color: #666;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .alert {
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .alert.success {
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            color: #065f46;
+            border: 1px solid #10b981;
+        }
+
+        .alert.warning {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            color: #92400e;
+            border: 1px solid #f59e0b;
+        }
+
+        .alert.error {
+            background: linear-gradient(135deg, #fee2e2, #fecaca);
+            color: #991b1b;
+            border: 1px solid #ef4444;
+        }
+
+        .neural-prediction {
+            background: linear-gradient(135deg, #1f2937, #374151);
+            color: white;
+            border-radius: 25px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .prediction-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .prediction-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .prediction-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .prediction-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .prediction-value {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .prediction-label {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .kpi-value {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Partículas de fondo -->
+    <div id="particles-js"></div>
+    
+    <!-- Botón de sidebar -->
+    <button class="sidebar-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <!-- Sidebar neural -->
+    <div class="neural-sidebar" id="neuralSidebar">
+        <h3><i class="fas fa-brain"></i> Panel Neural</h3>
+        <div class="sidebar-content">
+            <div class="neural-metrics">
+                <h4>Estado del Sistema</h4>
+                <div class="metric-item">
+                    <span>Procesamiento IA:</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 87%"></div>
+                    </div>
+                    <span>87%</span>
+                </div>
+                <div class="metric-item">
+                    <span>Precisión Predicciones:</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 94%"></div>
+                    </div>
+                    <span>94%</span>
+                </div>
+                <div class="metric-item">
+                    <span>Análisis Tiempo Real:</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%"></div>
+                    </div>
+                    <span>100%</span>
+                </div>
+            </div>
+            
+            <div class="ai-recommendations">
+                <h4>Recomendaciones IA</h4>
+                <div class="recommendation-item">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>Aumentar presupuesto LinkedIn 25%</span>
+                </div>
+                <div class="recommendation-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Optimizar funnel de conversión</span>
+                </div>
+                <div class="recommendation-item">
+                    <i class="fas fa-users"></i>
+                    <span>Activar retención clientes</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Chat IA -->
+    <button class="ai-chat" onclick="toggleChat()">
+        <i class="fas fa-robot"></i>
+    </button>
+    
+    <div class="ai-chat-panel" id="aiChatPanel">
+        <div class="chat-header">
+            <i class="fas fa-robot"></i>
+            <span>Asistente IA de Ventas</span>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="chat-message">
+                ¡Hola! Soy tu asistente IA de ventas. ¿En qué puedo ayudarte hoy?
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chatInput" placeholder="Pregunta sobre tus ventas...">
+            <button class="chat-send" onclick="sendMessage()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="dashboard-container">
+        <div class="header">
+            <h1>🧠 Neural Sales Dashboard Pro</h1>
+            <p>Inteligencia Artificial avanzada aplicada al análisis de ventas en tiempo real</p>
+            <div class="neural-status">
+                <div class="pulse-dot"></div>
+                Sistema Neural Activo - Procesando 1,247 puntos de datos
+            </div>
+        </div>
+
+        <div class="filters">
+            <div class="filter-group">
+                <div class="filter-item">
+                    <label for="period"><i class="fas fa-calendar"></i> Período</label>
+                    <select id="period">
+                        <option value="7d">Últimos 7 días</option>
+                        <option value="30d" selected>Últimos 30 días</option>
+                        <option value="90d">Últimos 90 días</option>
+                        <option value="1y">Último año</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <label for="product"><i class="fas fa-box"></i> Producto/Servicio</label>
+                    <select id="product">
+                        <option value="all">Todos</option>
+                        <option value="course">Curso IA Marketing</option>
+                        <option value="saas">SaaS Copy.ai</option>
+                        <option value="consulting">Consultoría</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <label for="team"><i class="fas fa-users"></i> Equipo</label>
+                    <select id="team">
+                        <option value="all">Todos los equipos</option>
+                        <option value="sales">Ventas</option>
+                        <option value="marketing">Marketing</option>
+                        <option value="partners">Socios</option>
+                    </select>
+                </div>
+                <button class="btn" onclick="updateDashboard()">
+                    <i class="fas fa-sync-alt"></i> Actualizar Dashboard
+                </button>
+            </div>
+        </div>
+
+        <div class="ai-insights">
+            <h3><i class="fas fa-brain"></i> Insights de IA</h3>
+            <div class="insight-item">
+                <div class="insight-title">🎯 Oportunidad de Crecimiento</div>
+                <div class="insight-description">El canal de LinkedIn muestra un 40% más de conversión que el promedio. Considera aumentar el presupuesto en un 25%.</div>
+            </div>
+            <div class="insight-item">
+                <div class="insight-title">⚠️ Alerta de Churn</div>
+                <div class="insight-description">3 clientes del SaaS muestran señales de abandono. Activar secuencia de retención inmediatamente.</div>
+            </div>
+            <div class="insight-item">
+                <div class="insight-title">📈 Predicción Positiva</div>
+                <div class="insight-description">Basado en patrones históricos, se espera un crecimiento del 18% en ingresos para el próximo trimestre.</div>
+            </div>
+        </div>
+
+        <div class="kpi-grid">
+            <div class="kpi-card advanced-kpi-card">
+                <div class="kpi-header">
+                    <div class="kpi-title">
+                        <div class="kpi-icon"><i class="fas fa-dollar-sign"></i></div>
+                        Ingresos Totales
+                    </div>
+                    <i class="fas fa-chart-line" style="color: #10b981; font-size: 1.2rem;"></i>
+                </div>
+                <div class="kpi-trend trend-up">
+                    <i class="fas fa-arrow-up"></i> ↗
+                </div>
+                <div class="kpi-value" id="totalRevenue">$127,450</div>
+                <div class="kpi-change positive">
+                    <i class="fas fa-arrow-up"></i> +12.5% vs mes anterior
+                </div>
+                <div class="real-time-indicator">
+                    <div class="pulse-dot-small"></div>
+                    En vivo
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <div class="kpi-title">
+                        <div class="kpi-icon"><i class="fas fa-bullseye"></i></div>
+                        Conversión Lead a Cliente
+                    </div>
+                    <i class="fas fa-trophy" style="color: #f59e0b; font-size: 1.2rem;"></i>
+                </div>
+                <div class="kpi-value" id="conversionRate">23.4%</div>
+                <div class="kpi-change positive">
+                    <i class="fas fa-arrow-up"></i> +3.2% vs mes anterior
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <div class="kpi-title">
+                        <div class="kpi-icon"><i class="fas fa-user-plus"></i></div>
+                        Nuevos Clientes
+                    </div>
+                    <i class="fas fa-star" style="color: #8b5cf6; font-size: 1.2rem;"></i>
+                </div>
+                <div class="kpi-value" id="newCustomers">47</div>
+                <div class="kpi-change positive">
+                    <i class="fas fa-arrow-up"></i> +8 nuevos vs mes anterior
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <div class="kpi-title">
+                        <div class="kpi-icon"><i class="fas fa-chart-area"></i></div>
+                        Crecimiento MRR
+                    </div>
+                    <i class="fas fa-rocket" style="color: #06b6d4; font-size: 1.2rem;"></i>
+                </div>
+                <div class="kpi-value" id="mrrGrowth">18.7%</div>
+                <div class="kpi-change positive">
+                    <i class="fas fa-arrow-up"></i> +2.1% vs mes anterior
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <div class="kpi-title">
+                        <div class="kpi-icon"><i class="fas fa-gem"></i></div>
+                        Valor Promedio de Venta
+                    </div>
+                    <i class="fas fa-crown" style="color: #f59e0b; font-size: 1.2rem;"></i>
+                </div>
+                <div class="kpi-value" id="avgDealSize">$2,710</div>
+                <div class="kpi-change positive">
+                    <i class="fas fa-arrow-up"></i> +$340 vs mes anterior
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <div class="kpi-title">
+                        <div class="kpi-icon"><i class="fas fa-clock"></i></div>
+                        Tiempo Promedio de Cierre
+                    </div>
+                    <i class="fas fa-stopwatch" style="color: #ef4444; font-size: 1.2rem;"></i>
+                </div>
+                <div class="kpi-value" id="avgCloseTime">14 días</div>
+                <div class="kpi-change negative">
+                    <i class="fas fa-arrow-down"></i> -3 días vs mes anterior
+                </div>
+            </div>
+        </div>
+
+        <div class="neural-prediction">
+            <div class="prediction-header">
+                <div class="prediction-icon"><i class="fas fa-crystal-ball"></i></div>
+                <h3>Predicciones Neurales para Próximos 30 Días</h3>
+            </div>
+            <div class="prediction-content">
+                <div class="prediction-item">
+                    <div class="prediction-value">$145,230</div>
+                    <div class="prediction-label">Ingresos Proyectados</div>
+                </div>
+                <div class="prediction-item">
+                    <div class="prediction-value">52</div>
+                    <div class="prediction-label">Nuevos Clientes</div>
+                </div>
+                <div class="prediction-item">
+                    <div class="prediction-value">26.8%</div>
+                    <div class="prediction-label">Tasa de Conversión</div>
+                </div>
+                <div class="prediction-item">
+                    <div class="prediction-value">$2,890</div>
+                    <div class="prediction-label">Valor Promedio</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-title">Tendencia de Ventas por Canal</div>
+            <div class="advanced-chart">
+                <div class="real-time-indicator">
+                    <div class="pulse-dot-small"></div>
+                    Actualización en tiempo real
+                </div>
+                <div class="chart-controls">
+                    <button class="chart-control-btn" onclick="resetZoom('salesChannelChart')" title="Reset Zoom">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                    </button>
+                    <button class="chart-control-btn" onclick="exportChart('salesChannelChart')" title="Exportar">
+                        <i class="fas fa-download"></i>
+                    </button>
+                    <button class="chart-control-btn" onclick="toggleFullscreen('salesChannelChart')" title="Pantalla Completa">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                </div>
+                <canvas id="salesChannelChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-title">Conversión por Funnel de Marketing</div>
+            <div class="chart-wrapper">
+                <canvas id="funnelChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-title">Comparativa de Productos/Servicios</div>
+            <div class="chart-wrapper">
+                <canvas id="productComparisonChart"></canvas>
+            </div>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-value" id="leadsGenerated">1,247</div>
+                <div class="metric-label">Leads Generados</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value" id="qualifiedLeads">312</div>
+                <div class="metric-label">Leads Calificados</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value" id="demoRequests">89</div>
+                <div class="metric-label">Solicitudes de Demo</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value" id="trialConversions">34</div>
+                <div class="metric-label">Conversiones de Prueba</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value" id="churnRate">4.2%</div>
+                <div class="metric-label">Tasa de Churn</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value" id="lifetimeValue">$8,450</div>
+                <div class="metric-label">LTV Promedio</div>
+            </div>
+        </div>
+
+        <div class="alert success">
+            <i class="fas fa-check-circle"></i>
+            <div>
+                <strong>🎉 ¡Excelente rendimiento!</strong> Has superado el objetivo de ingresos del mes en un 15%. 
+                El canal de LinkedIn está generando el 40% de las conversiones.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos de ejemplo para el dashboard
+        const dashboardData = {
+            salesChannels: {
+                labels: ['LinkedIn', 'Google Ads', 'Email Marketing', 'Webinars', 'Referidos', 'SEO'],
+                datasets: [{
+                    label: 'Conversiones',
+                    data: [47, 32, 28, 19, 15, 12],
+                    backgroundColor: [
+                        'rgba(102, 126, 234, 0.8)',
+                        'rgba(118, 75, 162, 0.8)',
+                        'rgba(16, 185, 129, 0.8)',
+                        'rgba(245, 158, 11, 0.8)',
+                        'rgba(239, 68, 68, 0.8)',
+                        'rgba(139, 92, 246, 0.8)'
+                    ],
+                    borderWidth: 3,
+                    borderColor: '#fff'
+                }]
+            },
+            funnelData: {
+                labels: ['Visitas', 'Leads', 'MQL', 'SQL', 'Oportunidades', 'Clientes'],
+                datasets: [{
+                    label: 'Conversiones',
+                    data: [10000, 1247, 312, 89, 47, 23],
+                    backgroundColor: 'rgba(102, 126, 234, 0.6)',
+                    borderColor: 'rgba(102, 126, 234, 1)',
+                    borderWidth: 3
+                }]
+            },
+            productComparison: {
+                labels: ['Curso IA Marketing', 'SaaS Copy.ai', 'Consultoría', 'Certificaciones'],
+                datasets: [{
+                    label: 'Ingresos (Miles $)',
+                    data: [45, 67, 23, 12],
+                    backgroundColor: [
+                        'rgba(102, 126, 234, 0.8)',
+                        'rgba(118, 75, 162, 0.8)',
+                        'rgba(16, 185, 129, 0.8)',
+                        'rgba(245, 158, 11, 0.8)'
+                    ],
+                    borderWidth: 3,
+                    borderColor: '#fff'
+                }]
+            }
+        };
+
+        // Inicializar gráficos
+        function initializeCharts() {
+            // Gráfico de canales de ventas
+            const salesChannelCtx = document.getElementById('salesChannelChart').getContext('2d');
+            new Chart(salesChannelCtx, {
+                type: 'doughnut',
+                data: dashboardData.salesChannels,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 25,
+                                usePointStyle: true,
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            }
+                        },
+                        datalabels: {
+                            color: '#fff',
+                            font: {
+                                weight: 'bold',
+                                size: 14
+                            }
+                        }
+                    }
+                },
+                plugins: [ChartDataLabels]
+            });
+
+            // Gráfico de embudo
+            const funnelCtx = document.getElementById('funnelChart').getContext('2d');
+            new Chart(funnelCtx, {
+                type: 'bar',
+                data: dashboardData.funnelData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString();
+                                },
+                                font: {
+                                    size: 12,
+                                    weight: 'bold'
+                                }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: {
+                                    size: 12,
+                                    weight: 'bold'
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        datalabels: {
+                            color: '#333',
+                            font: {
+                                weight: 'bold',
+                                size: 12
+                            }
+                        }
+                    }
+                },
+                plugins: [ChartDataLabels]
+            });
+
+            // Gráfico de comparación de productos
+            const productCtx = document.getElementById('productComparisonChart').getContext('2d');
+            new Chart(productCtx, {
+                type: 'bar',
+                data: dashboardData.productComparison,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value + 'k';
+                                },
+                                font: {
+                                    size: 12,
+                                    weight: 'bold'
+                                }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: {
+                                    size: 12,
+                                    weight: 'bold'
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        datalabels: {
+                            color: '#fff',
+                            font: {
+                                weight: 'bold',
+                                size: 12
+                            }
+                        }
+                    }
+                },
+                plugins: [ChartDataLabels]
+            });
+        }
+
+        // Actualizar dashboard
+        function updateDashboard() {
+            const period = document.getElementById('period').value;
+            const product = document.getElementById('product').value;
+            const team = document.getElementById('team').value;
+            
+            // Simular actualización de datos
+            console.log('Actualizando dashboard con:', { period, product, team });
+            
+            // Mostrar indicador de carga
+            showAlert('🔄 Actualizando datos del dashboard...', 'warning');
+            
+            // Simular delay de API
+            setTimeout(() => {
+                showAlert('✅ Dashboard actualizado correctamente', 'success');
+            }, 2000);
+        }
+
+        // Mostrar alertas
+        function showAlert(message, type = 'info') {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert ${type}`;
+            alertDiv.innerHTML = message;
+            
+            const container = document.querySelector('.dashboard-container');
+            container.insertBefore(alertDiv, container.firstChild);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+
+        // Simular actualización de datos en tiempo real
+        function simulateRealTimeUpdates() {
+            setInterval(() => {
+                // Actualizar algunos KPIs aleatoriamente
+                const kpis = ['totalRevenue', 'newCustomers', 'conversionRate'];
+                const randomKpi = kpis[Math.floor(Math.random() * kpis.length)];
+                
+                const element = document.getElementById(randomKpi);
+                if (element) {
+                    element.style.transform = 'scale(1.05)';
+                    element.style.color = '#10b981';
+                    
+                    setTimeout(() => {
+                        element.style.transform = 'scale(1)';
+                        element.style.color = '#333';
+                    }, 1000);
+                }
+            }, 30000); // Actualizar cada 30 segundos
+        }
+
+        // Exportar datos del dashboard
+        function exportDashboard() {
+            const data = {
+                timestamp: new Date().toISOString(),
+                kpis: {
+                    totalRevenue: document.getElementById('totalRevenue').textContent,
+                    conversionRate: document.getElementById('conversionRate').textContent,
+                    newCustomers: document.getElementById('newCustomers').textContent,
+                    mrrGrowth: document.getElementById('mrrGrowth').textContent,
+                    avgDealSize: document.getElementById('avgDealSize').textContent,
+                    avgCloseTime: document.getElementById('avgCloseTime').textContent
+                },
+                filters: {
+                    period: document.getElementById('period').value,
+                    product: document.getElementById('product').value,
+                    team: document.getElementById('team').value
+                }
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `neural-dashboard-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Funciones avanzadas del dashboard
+        function toggleSidebar() {
+            const sidebar = document.getElementById('neuralSidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        function toggleChat() {
+            const chatPanel = document.getElementById('aiChatPanel');
+            chatPanel.classList.toggle('open');
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const messages = document.getElementById('chatMessages');
+            const message = input.value.trim();
+            
+            if (message) {
+                // Agregar mensaje del usuario
+                const userMessage = document.createElement('div');
+                userMessage.className = 'chat-message';
+                userMessage.style.background = '#667eea';
+                userMessage.style.color = 'white';
+                userMessage.style.marginLeft = '20px';
+                userMessage.textContent = message;
+                messages.appendChild(userMessage);
+                
+                // Simular respuesta de IA
+                setTimeout(() => {
+                    const aiMessage = document.createElement('div');
+                    aiMessage.className = 'chat-message';
+                    aiMessage.textContent = generateAIResponse(message);
+                    messages.appendChild(aiMessage);
+                    messages.scrollTop = messages.scrollHeight;
+                }, 1000);
+                
+                input.value = '';
+                messages.scrollTop = messages.scrollHeight;
+            }
+        }
+
+        function generateAIResponse(message) {
+            const responses = [
+                "Basado en tus datos actuales, te recomiendo enfocar más recursos en LinkedIn que está generando 40% más conversiones.",
+                "Tu tasa de conversión del 23.4% está por encima del promedio de la industria. ¡Excelente trabajo!",
+                "He detectado una oportunidad de optimización en el funnel de conversión. ¿Te gustaría que te explique los detalles?",
+                "Los datos muestran que el canal de email marketing tiene potencial de crecimiento. Considera aumentar el presupuesto.",
+                "Tu LTV de $8,450 es excelente. Esto indica que tus clientes están muy satisfechos con el servicio.",
+                "He identificado 3 clientes en riesgo de churn. Te recomiendo activar la secuencia de retención inmediatamente."
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+
+        function resetZoom(chartId) {
+            const chart = Chart.getChart(chartId);
+            if (chart) {
+                chart.resetZoom();
+            }
+        }
+
+        function exportChart(chartId) {
+            const chart = Chart.getChart(chartId);
+            if (chart) {
+                const url = chart.toBase64Image();
+                const link = document.createElement('a');
+                link.download = `chart-${chartId}-${new Date().toISOString().split('T')[0]}.png`;
+                link.href = url;
+                link.click();
+            }
+        }
+
+        function toggleFullscreen(chartId) {
+            const chartContainer = document.querySelector(`#${chartId}`).closest('.chart-container');
+            if (chartContainer.requestFullscreen) {
+                chartContainer.requestFullscreen();
+            }
+        }
+
+        // Inicializar partículas de fondo
+        function initParticles() {
+            if (typeof particlesJS !== 'undefined') {
+                particlesJS('particles-js', {
+                    particles: {
+                        number: { value: 80 },
+                        color: { value: '#ffffff' },
+                        shape: { type: 'circle' },
+                        opacity: { value: 0.1 },
+                        size: { value: 3 },
+                        line_linked: {
+                            enable: true,
+                            distance: 150,
+                            color: '#ffffff',
+                            opacity: 0.1,
+                            width: 1
+                        },
+                        move: {
+                            enable: true,
+                            speed: 2,
+                            direction: 'none',
+                            random: false,
+                            straight: false,
+                            out_mode: 'out',
+                            bounce: false
+                        }
+                    },
+                    interactivity: {
+                        detect_on: 'canvas',
+                        events: {
+                            onhover: { enable: true, mode: 'repulse' },
+                            onclick: { enable: true, mode: 'push' },
+                            resize: true
+                        }
+                    },
+                    retina_detect: true
+                });
+            }
+        }
+
+        // Inicializar dashboard cuando se carga la página
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCharts();
+            simulateRealTimeUpdates();
+            initParticles();
+            
+            // Agregar botón de exportación
+            const header = document.querySelector('.header');
+            const exportBtn = document.createElement('button');
+            exportBtn.className = 'btn';
+            exportBtn.innerHTML = '<i class="fas fa-download"></i> Exportar Datos';
+            exportBtn.style.marginTop = '20px';
+            exportBtn.onclick = exportDashboard;
+            header.appendChild(exportBtn);
+
+            // Permitir envío de mensaje con Enter
+            document.getElementById('chatInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            // Actualizar métricas del sidebar cada 5 segundos
+            setInterval(updateSidebarMetrics, 5000);
+        });
+
+        function updateSidebarMetrics() {
+            // Simular actualización de métricas del sidebar
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const currentWidth = parseInt(bar.style.width);
+                const newWidth = Math.min(100, currentWidth + Math.random() * 2);
+                bar.style.width = newWidth + '%';
+            });
+        }
+    </script>
+</body>
+</html>

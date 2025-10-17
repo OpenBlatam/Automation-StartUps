@@ -421,3 +421,4 @@ Saludos,
 - [ ] Planificación de próximas acciones
 - [ ] Creación de reporte final
 - [ ] Evaluación de resultados
+

@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📞 Contacto IA Marketing | IA Marketing Solutions</title>
+    <meta name="description" content="🔥 Contacta con nuestro equipo de expertos en IA para marketing. Soporte 24/7, consultoría gratuita, demos personalizados y respuestas rápidas.">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Tonos Emocionales Avanzados */
+        .excitement { background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; animation: excitement-pulse 2s infinite; text-align: center; }
+        @keyframes excitement-pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        
+        .trust { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .trust::before { content: "🛡️ "; font-size: 1.8em; }
+        
+        .success { background: linear-gradient(135deg, #28a745 0%, #198754 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .success::before { content: "🎉 "; font-size: 1.8em; }
+        
+        .premium { background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; position: relative; overflow: hidden; }
+        .premium::before { content: "👑 "; font-size: 1.8em; }
+        .premium::after { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent); animation: premium-shine 3s infinite; }
+        @keyframes premium-shine { 0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); } 100% { transform: translateX(100%) translateY(100%) rotate(45deg); } }
+        
+        .curiosity { background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .curiosity::before { content: "🔍 "; font-size: 1.8em; }
+        
+        .social-proof { background: linear-gradient(135deg, #007bff 0%, #6610f2 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .social-proof::before { content: "👥 "; font-size: 1.8em; }
+        
+        .authority { background: linear-gradient(135deg, #343a40 0%, #6c757d 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .authority::before { content: "🏆 "; font-size: 1.8em; }
+        
+        .empathy { background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .empathy::before { content: "💝 "; font-size: 1.8em; }
+        
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 0; text-align: center; }
+        .hero h1 { font-size: 3.5em; margin-bottom: 20px; font-weight: 700; }
+        .hero p { font-size: 1.3em; margin-bottom: 30px; opacity: 0.95; }
+        
+        .cta-button { background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; padding: 20px 40px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.3em; display: inline-block; margin: 20px 10px; transition: all 0.3s; box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3); }
+        .cta-button:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4); }
+        
+        .contact-section { background: white; padding: 60px 0; }
+        .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 40px; }
+        .contact-card { background: #f8f9fa; padding: 30px; border-radius: 20px; border-left: 6px solid #667eea; transition: transform 0.3s; }
+        .contact-card:hover { transform: translateY(-5px); }
+        .contact-card.priority { border-left: 6px solid #ff6b6b; background: linear-gradient(135deg, #fff5f5 0%, #f8f9fa 100%); }
+        .contact-card.priority::before { content: "⚡ RESPUESTA RÁPIDA"; position: absolute; top: -10px; right: 20px; background: #ff6b6b; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8em; font-weight: bold; }
+        .contact-title { font-size: 1.4em; font-weight: bold; color: #2c3e50; margin-bottom: 15px; }
+        .contact-stats { background: white; padding: 15px; border-radius: 10px; margin: 15px 0; }
+        .stat-item { display: flex; justify-content: space-between; margin: 8px 0; }
+        
+        .contact-form { background: #f8f9fa; padding: 40px; border-radius: 20px; margin: 40px 0; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #2c3e50; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 10px; font-size: 1em; transition: border-color 0.3s; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #667eea; }
+        .form-group textarea { height: 120px; resize: vertical; }
+        
+        .channels-section { background: #f8f9fa; padding: 60px 0; }
+        .channels-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px; }
+        .channel-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        .channel-icon { font-size: 2.5em; margin-bottom: 15px; }
+        
+        .stats-section { background: #2c3e50; color: white; padding: 60px 0; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 40px; }
+        .stat-card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; text-align: center; }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #ff6b6b; margin-bottom: 10px; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5em; }
+            .hero p { font-size: 1.1em; }
+            .contact-grid { grid-template-columns: 1fr; }
+            .channels-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>📞 Contacto IA Marketing</h1>
+            <p><strong>Contacta con nuestro equipo</strong> de expertos en IA para marketing. Soporte 24/7, consultoría gratuita, demos personalizados y respuestas rápidas</p>
+            <a href="#contact" class="cta-button">📞 Contactar Ahora</a>
+            <a href="#channels" class="cta-button" style="background: transparent; border: 2px solid white;">💬 Canales</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="excitement">
+            <h2 style="margin: 0; font-size: 2.2em;">📞 ¡CONTACTO 24/7 DISPONIBLE!</h2>
+            <p style="margin: 10px 0 0 0; font-size: 1.2em;">Expertos certificados disponibles las 24 horas del día</p>
+        </div>
+
+        <div class="success">
+            <h3 style="margin: 0 0 15px 0;">🎉 RESPUESTA GARANTIZADA</h3>
+            <p style="margin: 0; font-size: 1.2em;">Respondemos el 95% de consultas en menos de 15 minutos y el 100% en menos de 2 horas</p>
+        </div>
+
+        <section class="contact-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">📞 Formas de Contacto</h2>
+            
+            <div class="contact-grid">
+                <div class="contact-card priority">
+                    <div class="contact-title">🚨 Soporte Técnico Urgente</div>
+                    <p>Para problemas técnicos críticos que requieren resolución inmediata</p>
+                    <div class="contact-stats">
+                        <div class="stat-item">
+                            <span>Disponibilidad:</span>
+                            <span style="color: #28a745; font-weight: bold;">24/7</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Tiempo respuesta:</span>
+                            <span style="color: #28a745; font-weight: bold;">< 5 min</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Resolución:</span>
+                            <span style="color: #28a745; font-weight: bold;">99%</span>
+                        </div>
+                    </div>
+                    <a href="tel:+1-800-IA-HELP" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">📞 Llamar Ahora</a>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-title">💬 Chat en Vivo</div>
+                    <p>Conversación instantánea con expertos en IA y marketing</p>
+                    <div class="contact-stats">
+                        <div class="stat-item">
+                            <span>Disponibilidad:</span>
+                            <span style="color: #28a745; font-weight: bold;">24/7</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Tiempo respuesta:</span>
+                            <span style="color: #28a745; font-weight: bold;">< 15 seg</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Satisfacción:</span>
+                            <span style="color: #28a745; font-weight: bold;">98%</span>
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">💬 Iniciar Chat</a>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-title">📧 Consultoría Gratuita</div>
+                    <p>Consulta gratuita de 30 minutos con expertos en IA</p>
+                    <div class="contact-stats">
+                        <div class="stat-item">
+                            <span>Disponibilidad:</span>
+                            <span style="color: #28a745; font-weight: bold;">9AM-6PM</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Tiempo respuesta:</span>
+                            <span style="color: #28a745; font-weight: bold;">< 2 horas</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">30 min</span>
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">📧 Solicitar</a>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-title">🎥 Demo Personalizado</div>
+                    <p>Demo personalizado de 45 minutos adaptado a tu negocio</p>
+                    <div class="contact-stats">
+                        <div class="stat-item">
+                            <span>Disponibilidad:</span>
+                            <span style="color: #28a745; font-weight: bold;">9AM-6PM</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Tiempo respuesta:</span>
+                            <span style="color: #28a745; font-weight: bold;">< 4 horas</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">45 min</span>
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">🎥 Agendar Demo</a>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-title">📱 WhatsApp Business</div>
+                    <p>Contacto directo por WhatsApp para consultas rápidas</p>
+                    <div class="contact-stats">
+                        <div class="stat-item">
+                            <span>Disponibilidad:</span>
+                            <span style="color: #28a745; font-weight: bold;">24/7</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Tiempo respuesta:</span>
+                            <span style="color: #28a745; font-weight: bold;">< 10 min</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Multimedia:</span>
+                            <span style="color: #28a745; font-weight: bold;">✅</span>
+                        </div>
+                    </div>
+                    <a href="https://wa.me/1234567890" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">📱 WhatsApp</a>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-title">🎫 Sistema de Tickets</div>
+                    <p>Sistema avanzado de tickets para seguimiento detallado</p>
+                    <div class="contact-stats">
+                        <div class="stat-item">
+                            <span>Disponibilidad:</span>
+                            <span style="color: #28a745; font-weight: bold;">24/7</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Tiempo respuesta:</span>
+                            <span style="color: #28a745; font-weight: bold;">< 1 hora</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Seguimiento:</span>
+                            <span style="color: #28a745; font-weight: bold;">Completo</span>
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">🎫 Crear Ticket</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="authority">
+            <h3 style="margin: 0 0 15px 0;">🏆 LIDERAMOS EN ATENCIÓN AL CLIENTE</h3>
+            <p style="margin: 0; font-size: 1.2em;">El mejor soporte en IA para marketing con 98% de satisfacción y respuesta en menos de 15 minutos</p>
+        </div>
+
+        <section class="contact-form">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 30px; color: #2c3e50;">📝 Formulario de Contacto</h2>
+            
+            <form id="contactForm">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                    <div class="form-group">
+                        <label for="name">Nombre Completo *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Teléfono</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="company">Empresa</label>
+                        <input type="text" id="company" name="company">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="role">Cargo</label>
+                        <select id="role" name="role">
+                            <option value="">Seleccionar cargo</option>
+                            <option value="ceo">CEO/Director</option>
+                            <option value="cmo">CMO/Marketing Director</option>
+                            <option value="marketing-manager">Marketing Manager</option>
+                            <option value="freelancer">Freelancer</option>
+                            <option value="agency">Agencia</option>
+                            <option value="other">Otro</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="company-size">Tamaño de Empresa</label>
+                        <select id="company-size" name="company-size">
+                            <option value="">Seleccionar tamaño</option>
+                            <option value="1-10">1-10 empleados</option>
+                            <option value="11-50">11-50 empleados</option>
+                            <option value="51-200">51-200 empleados</option>
+                            <option value="201-1000">201-1000 empleados</option>
+                            <option value="1000+">1000+ empleados</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="interest">¿En qué estás interesado? *</label>
+                    <select id="interest" name="interest" required>
+                        <option value="">Seleccionar interés</option>
+                        <option value="demo">Demo personalizado</option>
+                        <option value="consultation">Consultoría gratuita</option>
+                        <option value="pricing">Información de precios</option>
+                        <option value="support">Soporte técnico</option>
+                        <option value="partnership">Partnership</option>
+                        <option value="other">Otro</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Mensaje *</label>
+                    <textarea id="message" name="message" placeholder="Cuéntanos sobre tu proyecto, necesidades o preguntas específicas..." required></textarea>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button type="submit" class="cta-button" style="font-size: 1.2em; padding: 20px 40px;">📤 Enviar Mensaje</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="channels-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">💬 Canales de Contacto</h2>
+            
+            <div class="channels-grid">
+                <div class="channel-card">
+                    <div class="channel-icon">📞</div>
+                    <h3>Teléfono</h3>
+                    <p>Línea directa 24/7</p>
+                    <ul style="text-align: left;">
+                        <li>✅ < 5 minutos respuesta</li>
+                        <li>✅ Expertos senior</li>
+                        <li>✅ Línea directa</li>
+                        <li>✅ Grabación disponible</li>
+                    </ul>
+                    <p><strong>+1 (800) IA-HELP</strong></p>
+                </div>
+                
+                <div class="channel-card">
+                    <div class="channel-icon">💬</div>
+                    <h3>Chat en Vivo</h3>
+                    <p>Conversación instantánea</p>
+                    <ul style="text-align: left;">
+                        <li>✅ < 15 segundos</li>
+                        <li>✅ Expertos certificados</li>
+                        <li>✅ Escalación automática</li>
+                        <li>✅ Historial completo</li>
+                    </ul>
+                    <p><strong>Disponible 24/7</strong></p>
+                </div>
+                
+                <div class="channel-card">
+                    <div class="channel-icon">📧</div>
+                    <h3>Email</h3>
+                    <p>Soporte por correo</p>
+                    <ul style="text-align: left;">
+                        <li>✅ < 2 horas respuesta</li>
+                        <li>✅ Tickets organizados</li>
+                        <li>✅ Archivos adjuntos</li>
+                        <li>✅ Seguimiento automático</li>
+                    </ul>
+                    <p><strong>support@iamarketing.com</strong></p>
+                </div>
+                
+                <div class="channel-card">
+                    <div class="channel-icon">📱</div>
+                    <h3>WhatsApp</h3>
+                    <p>WhatsApp Business</p>
+                    <ul style="text-align: left;">
+                        <li>✅ < 10 minutos</li>
+                        <li>✅ Multimedia</li>
+                        <li>✅ Respuesta rápida</li>
+                        <li>✅ Disponible móvil</li>
+                    </ul>
+                    <p><strong>+1 (555) 123-4567</strong></p>
+                </div>
+                
+                <div class="channel-card">
+                    <div class="channel-icon">🎥</div>
+                    <h3>Video Call</h3>
+                    <p>Soporte por videollamada</p>
+                    <ul style="text-align: left;">
+                        <li>✅ < 30 minutos</li>
+                        <li>✅ Screen sharing</li>
+                        <li>✅ Resolución visual</li>
+                        <li>✅ Grabación disponible</li>
+                    </ul>
+                    <p><strong>Agendar cita</strong></p>
+                </div>
+                
+                <div class="channel-card">
+                    <div class="channel-icon">🎫</div>
+                    <h3>Tickets</h3>
+                    <p>Sistema de tickets</p>
+                    <ul style="text-align: left;">
+                        <li>✅ < 1 hora</li>
+                        <li>✅ Priorización automática</li>
+                        <li>✅ Escalación inteligente</li>
+                        <li>✅ Métricas detalladas</li>
+                    </ul>
+                    <p><strong>Portal de tickets</strong></p>
+                </div>
+            </div>
+        </section>
+
+        <div class="social-proof">
+            <h3 style="margin: 0 0 15px 0;">👥 MÁS DE 10,000 CONSULTAS ATENDIDAS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Desde startups hasta Fortune 500, todos han recibido soporte excepcional de nuestro equipo</p>
+        </div>
+
+        <section class="stats-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">📊 Estadísticas de Contacto</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">98%</div>
+                    <h3>Satisfacción</h3>
+                    <p>Con atención al cliente</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">15</div>
+                    <h3>Minutos</h3>
+                    <p>Tiempo respuesta promedio</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">24/7</div>
+                    <h3>Disponibilidad</h3>
+                    <p>Soporte continuo</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">15+</div>
+                    <h3>Idiomas</h3>
+                    <p>De soporte disponibles</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">50+</div>
+                    <h3>Países</h3>
+                    <p>Con soporte local</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">99.9%</div>
+                    <h3>Uptime</h3>
+                    <p>Disponibilidad del sistema</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="premium">
+            <h3 style="margin: 0 0 15px 0;">👑 SOPORTE PREMIUM</h3>
+            <p style="margin: 0; font-size: 1.2em;">Soporte dedicado + account manager + SLA garantizado + consultoría estratégica por solo $297/mes</p>
+        </div>
+
+        <div class="curiosity">
+            <h3 style="margin: 0 0 15px 0;">🔍 ¿POR QUÉ NUESTRO SOPORTE ES DIFERENTE?</h3>
+            <p style="margin: 0; font-size: 1.2em;">Descubre las ventajas únicas que nos hacen líderes en atención al cliente de IA</p>
+        </div>
+
+        <div class="empathy">
+            <h3 style="margin: 0 0 15px 0;">💝 Entendemos tus Necesidades</h3>
+            <p style="margin: 0; font-size: 1.2em;">Sabemos que el soporte es crucial para tu éxito. Por eso nuestro equipo está disponible 24/7 con expertos certificados</p>
+        </div>
+    </div>
+
+    <footer style="background: #2c3e50; color: white; padding: 40px 0; text-align: center;">
+        <div class="container">
+            <p>&copy; 2024 IA Marketing Solutions. Todos los derechos reservados.</p>
+            <p>Atendiendo clientes desde 2020</p>
+        </div>
+    </footer>
+
+    <script>
+        // Contact form handling
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Simulate form submission
+            alert('¡Gracias por tu mensaje! Te responderemos en menos de 15 minutos.');
+            
+            // Track form submission
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'contact_form_submit', {
+                    'event_category': 'AI Contact',
+                    'event_label': data.interest,
+                    'value': 1
+                });
+            }
+            
+            // Reset form
+            this.reset();
+        });
+        
+        // Track contact interactions
+        document.querySelectorAll('.contact-card .cta-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const contact = this.closest('.contact-card').querySelector('.contact-title').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'contact_click', {
+                        'event_category': 'AI Contact',
+                        'event_label': contact,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track channel card clicks
+        document.querySelectorAll('.channel-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const channel = this.querySelector('h3').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'channel_click', {
+                        'event_category': 'AI Contact',
+                        'event_label': channel,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Animate contact cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.contact-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+        
+        // Animate stat numbers
+        const statObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumber = entry.target.querySelector('.stat-number');
+                    const finalValue = statNumber.textContent;
+                    const isPlus = finalValue.includes('+');
+                    const isPercentage = finalValue.includes('%');
+                    const isSlash = finalValue.includes('/');
+                    const numericValue = parseFloat(finalValue.replace(/[^0-9.]/g, ''));
+                    
+                    let currentValue = 0;
+                    const increment = numericValue / 30;
+                    
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= numericValue) {
+                            currentValue = numericValue;
+                            clearInterval(timer);
+                        }
+                        
+                        if (isPlus) {
+                            statNumber.textContent = Math.round(currentValue).toLocaleString() + '+';
+                        } else if (isPercentage) {
+                            statNumber.textContent = Math.round(currentValue) + '%';
+                        } else if (isSlash) {
+                            statNumber.textContent = Math.round(currentValue) + '/7';
+                        } else {
+                            statNumber.textContent = Math.round(currentValue).toLocaleString();
+                        }
+                    }, 30);
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.stat-card').forEach(card => {
+            statObserver.observe(card);
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤝 Servicios de Consultoría IA | IA Marketing Solutions</title>
+    <meta name="description" content="🔥 Consultoría especializada en IA para marketing. Expertos certificados que implementan IA en 90 días. ROI garantizado 300%+ con soporte 24/7.">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Tonos Emocionales Avanzados */
+        .excitement { background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; animation: excitement-pulse 2s infinite; text-align: center; }
+        @keyframes excitement-pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        
+        .trust { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .trust::before { content: "🛡️ "; font-size: 1.8em; }
+        
+        .success { background: linear-gradient(135deg, #28a745 0%, #198754 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .success::before { content: "🎉 "; font-size: 1.8em; }
+        
+        .premium { background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; position: relative; overflow: hidden; }
+        .premium::before { content: "👑 "; font-size: 1.8em; }
+        .premium::after { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent); animation: premium-shine 3s infinite; }
+        @keyframes premium-shine { 0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); } 100% { transform: translateX(100%) translateY(100%) rotate(45deg); } }
+        
+        .curiosity { background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .curiosity::before { content: "🔍 "; font-size: 1.8em; }
+        
+        .social-proof { background: linear-gradient(135deg, #007bff 0%, #6610f2 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .social-proof::before { content: "👥 "; font-size: 1.8em; }
+        
+        .authority { background: linear-gradient(135deg, #343a40 0%, #6c757d 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .authority::before { content: "🏆 "; font-size: 1.8em; }
+        
+        .empathy { background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .empathy::before { content: "💝 "; font-size: 1.8em; }
+        
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 0; text-align: center; }
+        .hero h1 { font-size: 3.5em; margin-bottom: 20px; font-weight: 700; }
+        .hero p { font-size: 1.3em; margin-bottom: 30px; opacity: 0.95; }
+        
+        .cta-button { background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; padding: 20px 40px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.3em; display: inline-block; margin: 20px 10px; transition: all 0.3s; box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3); }
+        .cta-button:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4); }
+        
+        .services-section { background: white; padding: 60px 0; }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 40px; }
+        .service-card { background: #f8f9fa; padding: 30px; border-radius: 20px; border-left: 6px solid #667eea; transition: transform 0.3s; }
+        .service-card:hover { transform: translateY(-5px); }
+        .service-title { font-size: 1.4em; font-weight: bold; color: #2c3e50; margin-bottom: 15px; }
+        .service-stats { background: white; padding: 15px; border-radius: 10px; margin: 15px 0; }
+        .stat-item { display: flex; justify-content: space-between; margin: 8px 0; }
+        
+        .service-preview { background: white; border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin: 20px 0; }
+        .service-header { border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px; }
+        .service-feature { background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #667eea; }
+        .feature-number { background: #667eea; color: white; width: 25px; height: 25px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 10px; }
+        
+        .team-section { background: #f8f9fa; padding: 60px 0; }
+        .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px; }
+        .team-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        .team-icon { font-size: 2.5em; margin-bottom: 15px; }
+        
+        .pricing-section { background: #2c3e50; color: white; padding: 60px 0; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 40px; }
+        .pricing-card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; text-align: center; }
+        .pricing-number { font-size: 2.5em; font-weight: bold; color: #ff6b6b; margin-bottom: 10px; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5em; }
+            .hero p { font-size: 1.1em; }
+            .services-grid { grid-template-columns: 1fr; }
+            .team-grid { grid-template-columns: 1fr; }
+            .pricing-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>🤝 Servicios de Consultoría IA</h1>
+            <p><strong>Expertos certificados</strong> que implementan IA en marketing en 90 días. ROI garantizado 300%+ con soporte 24/7</p>
+            <a href="#services" class="cta-button">🚀 Ver Servicios</a>
+            <a href="#team" class="cta-button" style="background: transparent; border: 2px solid white;">👥 Nuestro Equipo</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="excitement">
+            <h2 style="margin: 0; font-size: 2.2em;">🤝 ¡CONSULTORÍA ESPECIALIZADA EN IA!</h2>
+            <p style="margin: 10px 0 0 0; font-size: 1.2em;">Expertos certificados que implementan IA en marketing en 90 días con ROI garantizado</p>
+        </div>
+
+        <div class="success">
+            <h3 style="margin: 0 0 15px 0;">🎉 RESULTADOS COMPROBADOS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Hemos implementado IA exitosamente en 200+ empresas con ROI promedio de 500%</p>
+        </div>
+
+        <section class="services-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">🤝 Servicios de Consultoría</h2>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-title">🎯 Consultoría Estratégica</div>
+                    <p>Auditoría completa y estrategia personalizada para implementar IA en tu marketing</p>
+                    <div class="service-stats">
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">30 días</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Inversión:</span>
+                            <span style="color: #28a745; font-weight: bold;">$5,000</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>ROI:</span>
+                            <span style="color: #28a745; font-weight: bold;">400%</span>
+                        </div>
+                    </div>
+                    <div class="service-preview">
+                        <div class="service-header">
+                            <div class="service-title">Incluye</div>
+                        </div>
+                        <div class="service-feature">
+                            <span class="feature-number">1</span>
+                            <strong>Auditoría completa:</strong> Análisis de procesos actuales y oportunidades
+                        </div>
+                        <div class="service-feature">
+                            <span class="feature-number">2</span>
+                            <strong>Estrategia personalizada:</strong> Plan de implementación adaptado a tu negocio
+                        </div>
+                        <div class="service-feature">
+                            <span class="feature-number">3</span>
+                            <strong>Selección de herramientas:</strong> Recomendaciones específicas de IA
+                        </div>
+                        <div class="service-feature">
+                            <span class="feature-number">4</span>
+                            <strong>Roadmap detallado:</strong> Cronograma de implementación en 90 días
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Contratar Servicio</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-title">⚙️ Implementación Completa</div>
+                    <p>Implementación end-to-end de IA en marketing con soporte 24/7</p>
+                    <div class="service-stats">
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">90 días</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Inversión:</span>
+                            <span style="color: #28a745; font-weight: bold;">$15,000</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>ROI:</span>
+                            <span style="color: #28a745; font-weight: bold;">600%</span>
+                        </div>
+                    </div>
+                    <div class="service-preview">
+                        <div class="service-header">
+                            <div class="service-title">Incluye</div>
+                        </div>
+                        <div class="service-feature">
+                            <span class="feature-number">1</span>
+                            <strong>Configuración completa:</strong> Setup de todas las herramientas de IA
+                        </div>
+                        <div class="service-feature">
+                            <span class="feature-number">2</span>
+                            <strong>Integración de datos:</strong> Conexión con sistemas existentes
+                        </div>
+                        <div class="service-feature">
+                            <span class="feature-number">3</span>
+                            <strong>Automatización:</strong> Workflows personalizados
+                        </div>
+                        <div class="service-feature">
+                            <span class="feature-number">4</span>
+                            <strong>Soporte 24/7:</strong> Asistencia durante toda la implementación
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Contratar Servicio</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-title">📊 Optimización y Análisis</div>
+                    <p>Optimización continua y análisis de rendimiento para maximizar ROI</p>
+                    <div class="service-stats">
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">Ongoing</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Inversión:</span>
+                            <span style="color: #28a745; font-weight: bold;">$3,000/mes</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>ROI:</span>
+                            <span style="color: #28a745; font-weight: bold;">800%</span>
+                        </div>
+                    </div>
+                    <div class="service-preview">
+                        <div class="service-header">
+                            <div class="service-title">Incluye</div>
+                        </div>
+                        <div class="service-feature">
+                            <span class="feature-number">1</span>
+                            <strong>Análisis mensual:</strong> Reportes detallados de rendimiento
+                        </div>
+                        <div class="service-feature">
+                            <span class="feature-number">2</span>
+                            <strong>Optimización continua:</strong> Mejoras basadas en datos
+                        </div>
+                        <div class="service-feature">
+                            <span class="feature-number">3</span>
+                            <strong>A/B testing:</strong> Pruebas para maximizar conversiones
+                        </div>
+                        <div class="service-feature">
+                            <span class="feature-number">4</span>
+                            <strong>Consultas ilimitadas:</strong> Soporte para dudas y optimizaciones
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Contratar Servicio</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-title">🎓 Capacitación del Equipo</div>
+                    <p>Capacitación completa de tu equipo en herramientas y estrategias de IA</p>
+                    <div class="service-stats">
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">15 días</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Inversión:</span>
+                            <span style="color: #28a745; font-weight: bold;">$8,000</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>ROI:</span>
+                            <span style="color: #28a745; font-weight: bold;">350%</span>
+                        </div>
+                    </div>
+                    <div class="service-preview">
+                        <div class="service-header">
+                            <div class="service-title">Incluye</div>
+                        </div>
+                        <div class="service-feature">
+                            <span class="feature-number">1</span>
+                            <strong>Capacitación presencial:</strong> Sesiones de entrenamiento en vivo
+                        </div>
+                        <div class="service-feature">
+                            <span class="feature-number">2</span>
+                            <strong>Materiales de estudio:</strong> Guías y recursos exclusivos
+                        </div>
+                        <div class="service-feature">
+                            <span class="feature-number">3</span>
+                            <strong>Certificación:</strong> Certificado de competencia en IA
+                        </div>
+                        <div class="service-feature">
+                            <span class="feature-number">4</span>
+                            <strong>Soporte post-capacitación:</strong> 30 días de consultas
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Contratar Servicio</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-title">🔧 Soporte Técnico Premium</div>
+                    <p>Soporte técnico especializado para resolver cualquier problema con IA</p>
+                    <div class="service-stats">
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">24/7</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Inversión:</span>
+                            <span style="color: #28a745; font-weight: bold;">$2,000/mes</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>ROI:</span>
+                            <span style="color: #28a745; font-weight: bold;">500%</span>
+                        </div>
+                    </div>
+                    <div class="service-preview">
+                        <div class="service-header">
+                            <div class="service-title">Incluye</div>
+                        </div>
+                        <div class="service-feature">
+                            <span class="feature-number">1</span>
+                            <strong>Soporte 24/7:</strong> Asistencia técnica en tiempo real
+                        </div>
+                        <div class="service-feature">
+                            <span class="feature-number">2</span>
+                            <strong>Resolución rápida:</strong> Tiempo de respuesta < 2 horas
+                        </div>
+                        <div class="service-feature">
+                            <span class="feature-number">3</span>
+                            <strong>Acceso remoto:</strong> Solución de problemas a distancia
+                        </div>
+                        <div class="service-feature">
+                            <span class="feature-number">4</span>
+                            <strong>Actualizaciones:</strong> Mantenimiento y actualizaciones
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Contratar Servicio</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-title">🚀 Paquete Completo</div>
+                    <p>Servicio integral que incluye todo: estrategia, implementación, optimización y soporte</p>
+                    <div class="service-stats">
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">12 meses</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Inversión:</span>
+                            <span style="color: #28a745; font-weight: bold;">$50,000</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>ROI:</span>
+                            <span style="color: #28a745; font-weight: bold;">1000%</span>
+                        </div>
+                    </div>
+                    <div class="service-preview">
+                        <div class="service-header">
+                            <div class="service-title">Incluye TODO</div>
+                        </div>
+                        <div class="service-feature">
+                            <span class="feature-number">1</span>
+                            <strong>Consultoría estratégica:</strong> Auditoría y planificación completa
+                        </div>
+                        <div class="service-feature">
+                            <span class="feature-number">2</span>
+                            <strong>Implementación completa:</strong> Setup y configuración total
+                        </div>
+                        <div class="service-feature">
+                            <span class="feature-number">3</span>
+                            <strong>Optimización continua:</strong> Mejoras mensuales
+                        </div>
+                        <div class="service-feature">
+                            <span class="feature-number">4</span>
+                            <strong>Soporte 24/7:</strong> Asistencia técnica ilimitada
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Contratar Paquete</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="authority">
+            <h3 style="margin: 0 0 15px 0;">🏆 LIDERAMOS EN CONSULTORÍA IA</h3>
+            <p style="margin: 0; font-size: 1.2em;">Nuestros expertos han implementado IA en más de 200 empresas con 95% de éxito</p>
+        </div>
+
+        <section class="team-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">👥 Nuestro Equipo de Expertos</h2>
+            
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-icon">👨‍💼</div>
+                    <h3>Consultores Estratégicos</h3>
+                    <p>15+ expertos en estrategia de IA</p>
+                    <ul style="text-align: left;">
+                        <li>✅ PhD en Ciencias de la Computación</li>
+                        <li>✅ 10+ años experiencia</li>
+                        <li>✅ Certificaciones en IA</li>
+                        <li>✅ Ex-Google, Microsoft, Amazon</li>
+                    </ul>
+                </div>
+                
+                <div class="team-card">
+                    <div class="team-icon">⚙️</div>
+                    <h3>Ingenieros de Implementación</h3>
+                    <p>25+ especialistas en implementación</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Certificaciones en Machine Learning</li>
+                        <li>✅ 8+ años experiencia</li>
+                        <li>✅ Especialistas en integración</li>
+                        <li>✅ Ex-FAANG companies</li>
+                    </ul>
+                </div>
+                
+                <div class="team-card">
+                    <div class="team-icon">📊</div>
+                    <h3>Analistas de Datos</h3>
+                    <p>12+ expertos en análisis y optimización</p>
+                    <ul style="text-align: left;">
+                        <li>✅ PhD en Estadística</li>
+                        <li>✅ 7+ años experiencia</li>
+                        <li>✅ Especialistas en ROI</li>
+                        <li>✅ Ex-McKinsey, BCG</li>
+                    </ul>
+                </div>
+                
+                <div class="team-card">
+                    <div class="team-icon">🎓</div>
+                    <h3>Especialistas en Capacitación</h3>
+                    <p>8+ expertos en entrenamiento</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Certificaciones en Educación</li>
+                        <li>✅ 6+ años experiencia</li>
+                        <li>✅ Especialistas en IA</li>
+                        <li>✅ Ex-Universidades top</li>
+                    </ul>
+                </div>
+                
+                <div class="team-card">
+                    <div class="team-icon">🔧</div>
+                    <h3>Soporte Técnico</h3>
+                    <p>20+ especialistas en soporte</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Certificaciones técnicas</li>
+                        <li>✅ 5+ años experiencia</li>
+                        <li>✅ Disponibilidad 24/7</li>
+                        <li>✅ Tiempo respuesta < 2h</li>
+                    </ul>
+                </div>
+                
+                <div class="team-card">
+                    <div class="team-icon">👥</div>
+                    <h3>Gerentes de Proyecto</h3>
+                    <p>10+ PMs especializados en IA</p>
+                    <ul style="text-align: left;">
+                        <li>✅ PMP Certification</li>
+                        <li>✅ 9+ años experiencia</li>
+                        <li>✅ Especialistas en IA</li>
+                        <li>✅ Ex-consultoras top</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="social-proof">
+            <h3 style="margin: 0 0 15px 0;">👥 MÁS DE 200 EMPRESAS CONFIARON EN NOSOTROS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Desde startups hasta Fortune 500, todas han implementado IA exitosamente con nuestros servicios</p>
+        </div>
+
+        <section class="pricing-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">💰 Inversión y ROI</h2>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-number">$5K</div>
+                    <h3>Consultoría Estratégica</h3>
+                    <p>ROI: 400%</p>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="pricing-number">$15K</div>
+                    <h3>Implementación Completa</h3>
+                    <p>ROI: 600%</p>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="pricing-number">$3K/mes</div>
+                    <h3>Optimización Continua</h3>
+                    <p>ROI: 800%</p>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="pricing-number">$8K</div>
+                    <h3>Capacitación del Equipo</h3>
+                    <p>ROI: 350%</p>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="pricing-number">$2K/mes</div>
+                    <h3>Soporte Técnico</h3>
+                    <p>ROI: 500%</p>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="pricing-number">$50K</div>
+                    <h3>Paquete Completo</h3>
+                    <p>ROI: 1000%</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="premium">
+            <h3 style="margin: 0 0 15px 0;">👑 GARANTÍA DE RESULTADOS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Garantizamos ROI mínimo 300% o te devolvemos tu dinero. Sin preguntas, sin condiciones</p>
+        </div>
+
+        <div class="curiosity">
+            <h3 style="margin: 0 0 15px 0;">🔍 ¿POR QUÉ ELEGIR NUESTROS SERVICIOS?</h3>
+            <p style="margin: 0; font-size: 1.2em;">Descubre las ventajas competitivas que nos hacen líderes en consultoría de IA</p>
+        </div>
+
+        <div class="empathy">
+            <h3 style="margin: 0 0 15px 0;">💝 Entendemos tus Necesidades</h3>
+            <p style="margin: 0; font-size: 1.2em;">Sabemos que implementar IA puede ser complejo. Por eso ofrecemos servicios personalizados y soporte dedicado</p>
+        </div>
+    </div>
+
+    <footer style="background: #2c3e50; color: white; padding: 40px 0; text-align: center;">
+        <div class="container">
+            <p>&copy; 2024 IA Marketing Solutions. Todos los derechos reservados.</p>
+            <p>Consultoría especializada en IA desde 2020</p>
+        </div>
+    </footer>
+
+    <script>
+        // Track service interactions
+        document.querySelectorAll('.service-card .cta-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const service = this.closest('.service-card').querySelector('.service-title').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'service_click', {
+                        'event_category': 'AI Consulting Services',
+                        'event_label': service,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track team card clicks
+        document.querySelectorAll('.team-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const team = this.querySelector('h3').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'team_click', {
+                        'event_category': 'AI Consulting Services',
+                        'event_label': team,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track service preview interactions
+        document.querySelectorAll('.service-preview').forEach(preview => {
+            preview.addEventListener('click', function() {
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'service_preview_click', {
+                        'event_category': 'AI Consulting Services',
+                        'event_label': 'Service Preview',
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Animate service cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+        
+        // Animate pricing numbers
+        const pricingObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const pricingNumber = entry.target.querySelector('.pricing-number');
+                    const finalValue = pricingNumber.textContent;
+                    const isK = finalValue.includes('K');
+                    const isMonth = finalValue.includes('/mes');
+                    const numericValue = parseFloat(finalValue.replace(/[^0-9.]/g, ''));
+                    
+                    let currentValue = 0;
+                    const increment = numericValue / 30;
+                    
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= numericValue) {
+                            currentValue = numericValue;
+                            clearInterval(timer);
+                        }
+                        
+                        if (isK) {
+                            pricingNumber.textContent = '$' + Math.round(currentValue) + 'K';
+                        } else if (isMonth) {
+                            pricingNumber.textContent = '$' + Math.round(currentValue) + '/mes';
+                        } else {
+                            pricingNumber.textContent = '$' + Math.round(currentValue).toLocaleString();
+                        }
+                    }, 30);
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.pricing-card').forEach(card => {
+            pricingObserver.observe(card);
+        });
+    </script>
+</body>
+</html>
+
+
+

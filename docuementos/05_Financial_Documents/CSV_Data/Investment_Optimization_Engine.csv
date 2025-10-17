@@ -1,0 +1,33 @@
+Activo,Precio Actual,Precio Objetivo,Probabilidad Éxito,Retorno Esperado,Riesgo,Score,Acción
+ACCIONES INDIVIDUALES,,,,,,,
+Apple (AAPL),180,200,75%,11.1%,15%,=F2*G2*(1-H2),Comprar
+Microsoft (MSFT),350,400,80%,14.3%,12%,=F3*G3*(1-H3),Comprar
+Google (GOOGL),2800,3200,70%,14.3%,18%,=F4*G4*(1-H4),Comprar
+Tesla (TSLA),180,220,60%,22.2%,25%,=F5*G5*(1-H5),Esperar
+Amazon (AMZN),3200,3800,65%,18.8%,20%,=F6*G6*(1-H6),Comprar
+,,,,,,
+FONDOS INDEXADOS,,,,,,,
+S&P 500 ETF,320,350,85%,9.4%,10%,=F8*G8*(1-H8),Comprar
+NASDAQ ETF,150,170,80%,13.3%,12%,=F9*G9*(1-H9),Comprar
+Emerging Markets,45,55,70%,22.2%,18%,=F10*G10*(1-H10),Comprar
+Bond ETF,105,110,90%,4.8%,5%,=F11*G11*(1-H11),Comprar
+,,,,,,
+CRIPTOMONEDAS,,,,,,,
+Bitcoin,45000,60000,60%,33.3%,40%,=F13*G13*(1-H13),Esperar
+Ethereum,3000,4000,65%,33.3%,35%,=F14*G14*(1-H14),Esperar
+Cardano,0.45,0.80,50%,77.8%,45%,=F15*G15*(1-H15),Esperar
+Solana,100,150,55%,50.0%,38%,=F16*G16*(1-H16),Esperar
+,,,,,,
+OPTIMIZACIÓN DE PORTAFOLIO,,,,,,,
+Estrategia,Retorno Esperado,Riesgo,Sharpe Ratio,Max Drawdown,Recomendación
+Conservador,8%,6%,1.33,-3%,Ideal para retiro
+Moderado,12%,10%,1.20,-8%,Balanceado
+Agresivo,18%,15%,1.20,-15%,Crecimiento
+Muy Agresivo,25%,22%,1.14,-25%,Alto riesgo
+,,,,,,
+REBALANCEO AUTOMÁTICO,,,,,,,
+Activo,Allocation Actual,Allocation Target,Diferencia,Acción,Prioridad
+Acciones,65%,60%,-5%,Reducir,Media
+Bonos,25%,30%,+5%,Aumentar,Alta
+Commodities,5%,5%,0%,Mantener,Baja
+Efectivo,5%,5%,0%,Mantener,Baja

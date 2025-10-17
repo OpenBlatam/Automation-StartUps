@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 Dashboard IA Anti-Dependencia VC - Startups SaaS IA LATAM</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 30px;
+        }
+
+        .dashboard-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 1px solid #e9ecef;
+        }
+
+        .card-title {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #495057;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .metric-item {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .metric-value {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+
+        .chart-container {
+            height: 300px;
+            margin-bottom: 20px;
+        }
+
+        .ai-insights {
+            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid #28a745;
+        }
+
+        .insight-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #c3e6cb;
+        }
+
+        .insight-item:last-child {
+            border-bottom: none;
+        }
+
+        .insight-title {
+            font-weight: 600;
+            color: #155724;
+            margin-bottom: 5px;
+        }
+
+        .insight-description {
+            color: #155724;
+            font-size: 0.9em;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            border-color: #ffc107;
+            color: #856404;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .alert-danger {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .funding-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .funding-option {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s;
+        }
+
+        .funding-option:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .funding-option.selected {
+            border-color: #28a745;
+            background: #e8f5e8;
+        }
+
+        .funding-title {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 10px;
+        }
+
+        .funding-amount {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .funding-description {
+            font-size: 0.8em;
+            color: #6c757d;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 Dashboard IA Anti-Dependencia VC</h1>
+            <p>Inteligencia Artificial para optimizar tu estrategia de financiamiento</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- Métricas Clave -->
+            <div class="dashboard-card">
+                <div class="card-title">📊 Métricas Clave</div>
+                <div class="metric-grid">
+                    <div class="metric-item">
+                        <div class="metric-value" id="revenue">$1.2M</div>
+                        <div class="metric-label">ARR Actual</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value" id="growth">45%</div>
+                        <div class="metric-label">Crecimiento</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value" id="ltvCac">4.2x</div>
+                        <div class="metric-label">LTV/CAC</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value" id="runway">18</div>
+                        <div class="metric-label">Runway (meses)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Proyección de Revenue -->
+            <div class="dashboard-card">
+                <div class="card-title">📈 Proyección de Revenue</div>
+                <div class="chart-container">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Análisis de Unit Economics -->
+            <div class="dashboard-card">
+                <div class="card-title">⚡ Unit Economics</div>
+                <div class="chart-container">
+                    <canvas id="unitEconomicsChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Mix de Financiamiento -->
+            <div class="dashboard-card">
+                <div class="card-title">💰 Mix de Financiamiento</div>
+                <div class="chart-container">
+                    <canvas id="fundingMixChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Alertas Inteligentes -->
+            <div class="dashboard-card">
+                <div class="card-title">🚨 Alertas Inteligentes</div>
+                <div id="alerts-container">
+                    <div class="alert alert-success">
+                        <strong>✅ Excelente LTV/CAC:</strong> Tu ratio de 4.2x es óptimo para Revenue-Based Financing
+                    </div>
+                    <div class="alert alert-warning">
+                        <strong>⚠️ Runway Limitado:</strong> Considera diversificar fuentes de financiamiento
+                    </div>
+                    <div class="alert alert-success">
+                        <strong>🎯 Crecimiento Sostenible:</strong> Tu tasa de crecimiento del 45% es saludable
+                    </div>
+                </div>
+            </div>
+
+            <!-- Opciones de Financiamiento -->
+            <div class="dashboard-card">
+                <div class="card-title">🎯 Opciones de Financiamiento</div>
+                <div class="funding-options">
+                    <div class="funding-option selected">
+                        <div class="funding-title">Revenue-Based Financing</div>
+                        <div class="funding-amount">$1.8M</div>
+                        <div class="funding-description">Sin dilución, pago basado en revenue</div>
+                    </div>
+                    <div class="funding-option">
+                        <div class="funding-title">Strategic Partnership</div>
+                        <div class="funding-amount">$500K</div>
+                        <div class="funding-description">Acceso a recursos y mercado</div>
+                    </div>
+                    <div class="funding-option">
+                        <div class="funding-title">Government Grants</div>
+                        <div class="funding-amount">$300K</div>
+                        <div class="funding-description">Sin dilución, validación gubernamental</div>
+                    </div>
+                    <div class="funding-option">
+                        <div class="funding-title">Debt Financing</div>
+                        <div class="funding-amount">$400K</div>
+                        <div class="funding-description">Costo fijo, sin dilución</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Insights de IA -->
+            <div class="dashboard-card">
+                <div class="card-title">🧠 Insights de IA</div>
+                <div class="ai-insights">
+                    <div class="insight-item">
+                        <div class="insight-title">🎯 Recomendación Principal</div>
+                        <div class="insight-description">Tu startup es ideal para Revenue-Based Financing. Con un LTV/CAC de 4.2x y crecimiento del 45%, puedes acceder a $1.8M sin dilución.</div>
+                    </div>
+                    <div class="insight-item">
+                        <div class="insight-title">📈 Optimización Sugerida</div>
+                        <div class="insight-description">Reduce tu CAC en un 20% para mejorar aún más tu ratio LTV/CAC y acceder a mejores términos de financiamiento.</div>
+                    </div>
+                    <div class="insight-item">
+                        <div class="insight-title">🌍 Expansión Recomendada</div>
+                        <div class="insight-description">Considera expandirte a Colombia y Brasil en los próximos 12 meses para diversificar tu base de clientes.</div>
+                    </div>
+                    <div class="insight-item">
+                        <div class="insight-title">⚡ Próximos Pasos</div>
+                        <div class="insight-description">1) Aplica a Capchase para RBF, 2) Busca partnerships estratégicos, 3) Optimiza unit economics, 4) Prepara expansión internacional.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Análisis de Riesgo -->
+            <div class="dashboard-card">
+                <div class="card-title">⚠️ Análisis de Riesgo</div>
+                <div class="chart-container">
+                    <canvas id="riskChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Comparación de Escenarios -->
+            <div class="dashboard-card">
+                <div class="card-title">🔄 Comparación de Escenarios</div>
+                <div class="chart-container">
+                    <canvas id="scenarioChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Inicializar gráficos
+        window.onload = function() {
+            initializeCharts();
+            updateMetrics();
+            generateAIInsights();
+        };
+
+        function initializeCharts() {
+            // Gráfico de Revenue
+            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+            new Chart(revenueCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                    datasets: [{
+                        label: 'Revenue Actual',
+                        data: [800, 920, 1100, 1200, 1350, 1500, 1650, 1800, 1950, 2100, 2250, 2400],
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        borderWidth: 3,
+                        fill: true
+                    }, {
+                        label: 'Revenue Proyectado',
+                        data: [2400, 2600, 2800, 3000, 3200, 3400, 3600, 3800, 4000, 4200, 4400, 4600],
+                        borderColor: '#28a745',
+                        backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                        borderWidth: 3,
+                        fill: false,
+                        borderDash: [5, 5]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Proyección de Revenue (12 meses)'
+                        }
+                    }
+                }
+            });
+
+            // Gráfico de Unit Economics
+            const unitCtx = document.getElementById('unitEconomicsChart').getContext('2d');
+            new Chart(unitCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['LTV', 'CAC', 'Payback', 'Churn'],
+                    datasets: [{
+                        label: 'Valores Actuales',
+                        data: [2400, 600, 8, 3],
+                        backgroundColor: ['#667eea', '#764ba2', '#28a745', '#ffc107']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Unit Economics'
+                        }
+                    }
+                }
+            });
+
+            // Gráfico de Mix de Financiamiento
+            const fundingCtx = document.getElementById('fundingMixChart').getContext('2d');
+            new Chart(fundingCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Revenue-Based', 'Strategic', 'Grants', 'Debt', 'VC'],
+                    datasets: [{
+                        data: [40, 25, 15, 15, 5],
+                        backgroundColor: ['#667eea', '#28a745', '#ffc107', '#dc3545', '#6c757d']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Mix de Financiamiento Recomendado'
+                        }
+                    }
+                }
+            });
+
+            // Gráfico de Análisis de Riesgo
+            const riskCtx = document.getElementById('riskChart').getContext('2d');
+            new Chart(riskCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['Liquidez', 'Crecimiento', 'Mercado', 'Tecnología', 'Equipo', 'Financiero'],
+                    datasets: [{
+                        label: 'Riesgo Actual',
+                        data: [7, 8, 6, 9, 8, 7],
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.2)'
+                    }, {
+                        label: 'Riesgo Objetivo',
+                        data: [9, 9, 8, 9, 9, 8],
+                        borderColor: '#28a745',
+                        backgroundColor: 'rgba(40, 167, 69, 0.2)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Análisis de Riesgo (1-10)'
+                        }
+                    },
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 10
+                        }
+                    }
+                }
+            });
+
+            // Gráfico de Comparación de Escenarios
+            const scenarioCtx = document.getElementById('scenarioChart').getContext('2d');
+            new Chart(scenarioCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Solo VC', 'RBF + Strategic', 'Diversificado', 'Bootstrapping'],
+                    datasets: [{
+                        label: 'Dilución (%)',
+                        data: [70, 25, 15, 0],
+                        backgroundColor: '#dc3545'
+                    }, {
+                        label: 'Control (%)',
+                        data: [30, 75, 85, 100],
+                        backgroundColor: '#28a745'
+                    }, {
+                        label: 'Flexibilidad (1-10)',
+                        data: [3, 7, 8, 9],
+                        backgroundColor: '#667eea'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Comparación de Escenarios de Financiamiento'
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateMetrics() {
+            // Simular actualización de métricas en tiempo real
+            setInterval(() => {
+                const revenue = document.getElementById('revenue');
+                const growth = document.getElementById('growth');
+                const ltvCac = document.getElementById('ltvCac');
+                const runway = document.getElementById('runway');
+
+                // Simular cambios en las métricas
+                const currentRevenue = parseFloat(revenue.textContent.replace('$', '').replace('M', ''));
+                const newRevenue = currentRevenue + (Math.random() - 0.5) * 0.1;
+                revenue.textContent = '$' + newRevenue.toFixed(1) + 'M';
+
+                const currentGrowth = parseFloat(growth.textContent.replace('%', ''));
+                const newGrowth = currentGrowth + (Math.random() - 0.5) * 2;
+                growth.textContent = Math.max(0, newGrowth).toFixed(0) + '%';
+
+                const currentLtvCac = parseFloat(ltvCac.textContent.replace('x', ''));
+                const newLtvCac = currentLtvCac + (Math.random() - 0.5) * 0.2;
+                ltvCac.textContent = Math.max(0, newLtvCac).toFixed(1) + 'x';
+
+                const currentRunway = parseInt(runway.textContent);
+                const newRunway = currentRunway + (Math.random() - 0.5) * 0.5;
+                runway.textContent = Math.max(0, Math.round(newRunway));
+            }, 5000);
+        }
+
+        function generateAIInsights() {
+            // Simular generación de insights de IA
+            const insights = [
+                "Tu startup muestra un perfil ideal para Revenue-Based Financing con métricas sólidas.",
+                "Considera implementar automatización de IA para reducir costos operacionales en un 30%.",
+                "El mercado colombiano presenta oportunidades de expansión con menor competencia.",
+                "Tu equipo tiene la experiencia necesaria para escalar internacionalmente.",
+                "La integración de blockchain podría diferenciarte en el mercado LATAM."
+            ];
+
+            // Rotar insights cada 10 segundos
+            setInterval(() => {
+                const insightContainer = document.querySelector('.ai-insights .insight-item:first-child .insight-description');
+                const randomInsight = insights[Math.floor(Math.random() * insights.length)];
+                insightContainer.textContent = randomInsight;
+            }, 10000);
+        }
+
+        // Interactividad con opciones de financiamiento
+        document.querySelectorAll('.funding-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.funding-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                
+                // Simular actualización de recomendaciones
+                const title = this.querySelector('.funding-title').textContent;
+                const amount = this.querySelector('.funding-amount').textContent;
+                
+                // Actualizar insights de IA
+                const insightContainer = document.querySelector('.ai-insights .insight-item:first-child .insight-description');
+                insightContainer.textContent = `Has seleccionado ${title} por ${amount}. Esta es una excelente opción para tu perfil de startup.`;
+            });
+        });
+    </script>
+</body>
+</html>

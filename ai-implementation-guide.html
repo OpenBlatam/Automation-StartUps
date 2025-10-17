@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Guía de Implementación de IA | IA Marketing Solutions</title>
+    <meta name="description" content="🔥 Guía completa para implementar IA en marketing. 10 pasos probados para automatizar tu marketing con IA. Desde planificación hasta optimización.">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Tonos Emocionales Avanzados */
+        .excitement { background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; animation: excitement-pulse 2s infinite; text-align: center; }
+        @keyframes excitement-pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        
+        .trust { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .trust::before { content: "🛡️ "; font-size: 1.8em; }
+        
+        .success { background: linear-gradient(135deg, #28a745 0%, #198754 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .success::before { content: "🎉 "; font-size: 1.8em; }
+        
+        .premium { background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; position: relative; overflow: hidden; }
+        .premium::before { content: "👑 "; font-size: 1.8em; }
+        .premium::after { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent); animation: premium-shine 3s infinite; }
+        @keyframes premium-shine { 0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); } 100% { transform: translateX(100%) translateY(100%) rotate(45deg); } }
+        
+        .curiosity { background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .curiosity::before { content: "🔍 "; font-size: 1.8em; }
+        
+        .social-proof { background: linear-gradient(135deg, #007bff 0%, #6610f2 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .social-proof::before { content: "👥 "; font-size: 1.8em; }
+        
+        .authority { background: linear-gradient(135deg, #343a40 0%, #6c757d 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .authority::before { content: "🏆 "; font-size: 1.8em; }
+        
+        .empathy { background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .empathy::before { content: "💝 "; font-size: 1.8em; }
+        
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 0; text-align: center; }
+        .hero h1 { font-size: 3.5em; margin-bottom: 20px; font-weight: 700; }
+        .hero p { font-size: 1.3em; margin-bottom: 30px; opacity: 0.95; }
+        
+        .cta-button { background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; padding: 20px 40px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.3em; display: inline-block; margin: 20px 10px; transition: all 0.3s; box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3); }
+        .cta-button:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4); }
+        
+        .steps-section { background: white; padding: 60px 0; }
+        .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 40px; }
+        .step-card { background: #f8f9fa; padding: 30px; border-radius: 20px; border-left: 6px solid #667eea; transition: transform 0.3s; }
+        .step-card:hover { transform: translateY(-5px); }
+        .step-title { font-size: 1.4em; font-weight: bold; color: #2c3e50; margin-bottom: 15px; }
+        .step-stats { background: white; padding: 15px; border-radius: 10px; margin: 15px 0; }
+        .stat-item { display: flex; justify-content: space-between; margin: 8px 0; }
+        
+        .step-preview { background: white; border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin: 20px 0; }
+        .step-header { border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px; }
+        .step-action { background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #667eea; }
+        .action-number { background: #667eea; color: white; width: 25px; height: 25px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 10px; }
+        
+        .timeline-section { background: #f8f9fa; padding: 60px 0; }
+        .timeline-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px; }
+        .timeline-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        .timeline-icon { font-size: 2.5em; margin-bottom: 15px; }
+        
+        .tools-section { background: #2c3e50; color: white; padding: 60px 0; }
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 40px; }
+        .tool-card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; text-align: center; }
+        .tool-number { font-size: 2.5em; font-weight: bold; color: #ff6b6b; margin-bottom: 10px; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5em; }
+            .hero p { font-size: 1.1em; }
+            .steps-grid { grid-template-columns: 1fr; }
+            .timeline-grid { grid-template-columns: 1fr; }
+            .tools-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>🚀 Guía de Implementación de IA</h1>
+            <p><strong>10 pasos probados</strong> para automatizar tu marketing con IA. Desde planificación hasta optimización en 90 días</p>
+            <a href="#steps" class="cta-button">🚀 Ver Pasos</a>
+            <a href="#timeline" class="cta-button" style="background: transparent; border: 2px solid white;">⏰ Cronograma</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="excitement">
+            <h2 style="margin: 0; font-size: 2.2em;">🚀 ¡IMPLEMENTA IA EN 90 DÍAS!</h2>
+            <p style="margin: 10px 0 0 0; font-size: 1.2em;">10 pasos probados para automatizar tu marketing con IA y aumentar ROI 300%</p>
+        </div>
+
+        <div class="success">
+            <h3 style="margin: 0 0 15px 0;">🎉 RESULTADOS COMPROBADOS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Nuestra metodología ha ayudado a 200+ empresas a implementar IA exitosamente en 90 días</p>
+        </div>
+
+        <section class="steps-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">🚀 Pasos de Implementación</h2>
+            
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-title">📊 Paso 1: Auditoría y Análisis</div>
+                    <p>Evalúa tu situación actual y identifica oportunidades de automatización</p>
+                    <div class="step-stats">
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">7 días</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Inversión:</span>
+                            <span style="color: #28a745; font-weight: bold;">$0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>ROI:</span>
+                            <span style="color: #28a745; font-weight: bold;">Base</span>
+                        </div>
+                    </div>
+                    <div class="step-preview">
+                        <div class="step-header">
+                            <div class="step-title">Acciones Específicas</div>
+                        </div>
+                        <div class="step-action">
+                            <span class="action-number">1</span>
+                            <strong>Auditoría de procesos:</strong> Mapea todos los procesos de marketing actuales
+                        </div>
+                        <div class="step-action">
+                            <span class="action-number">2</span>
+                            <strong>Análisis de datos:</strong> Identifica patrones y oportunidades de mejora
+                        </div>
+                        <div class="step-action">
+                            <span class="action-number">3</span>
+                            <strong>Benchmarking:</strong> Compara con competidores y mejores prácticas
+                        </div>
+                        <div class="step-action">
+                            <span class="action-number">4</span>
+                            <strong>Identificación de cuellos de botella:</strong> Encuentra procesos que consumen más tiempo
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Comenzar Auditoría</a>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-title">🎯 Paso 2: Definición de Objetivos</div>
+                    <p>Establece objetivos SMART y métricas de éxito para tu implementación</p>
+                    <div class="step-stats">
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">3 días</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Inversión:</span>
+                            <span style="color: #28a745; font-weight: bold;">$0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>ROI:</span>
+                            <span style="color: #28a745; font-weight: bold;">Planificación</span>
+                        </div>
+                    </div>
+                    <div class="step-preview">
+                        <div class="step-header">
+                            <div class="step-title">Objetivos SMART</div>
+                        </div>
+                        <div class="step-action">
+                            <span class="action-number">1</span>
+                            <strong>Específicos:</strong> Define qué quieres automatizar exactamente
+                        </div>
+                        <div class="step-action">
+                            <span class="action-number">2</span>
+                            <strong>Medibles:</strong> Establece métricas cuantificables
+                        </div>
+                        <div class="step-action">
+                            <span class="action-number">3</span>
+                            <strong>Alcanzables:</strong> Asegúrate de que sean realistas
+                        </div>
+                        <div class="step-action">
+                            <span class="action-number">4</span>
+                            <strong>Relevantes:</strong> Alineados con objetivos de negocio
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Definir Objetivos</a>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-title">🛠️ Paso 3: Selección de Herramientas</div>
+                    <p>Elige las herramientas de IA más adecuadas para tus objetivos</p>
+                    <div class="step-stats">
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">5 días</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Inversión:</span>
+                            <span style="color: #28a745; font-weight: bold;">$500-2000</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>ROI:</span>
+                            <span style="color: #28a745; font-weight: bold;">300%</span>
+                        </div>
+                    </div>
+                    <div class="step-preview">
+                        <div class="step-header">
+                            <div class="step-title">Criterios de Selección</div>
+                        </div>
+                        <div class="step-action">
+                            <span class="action-number">1</span>
+                            <strong>Funcionalidad:</strong> ¿Cumple con tus necesidades específicas?
+                        </div>
+                        <div class="step-action">
+                            <span class="action-number">2</span>
+                            <strong>Integración:</strong> ¿Se integra con tus herramientas actuales?
+                        </div>
+                        <div class="step-action">
+                            <span class="action-number">3</span>
+                            <strong>Escalabilidad:</strong> ¿Crece con tu negocio?
+                        </div>
+                        <div class="step-action">
+                            <span class="action-number">4</span>
+                            <strong>Soporte:</strong> ¿Tiene buen soporte técnico?
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Seleccionar Herramientas</a>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-title">⚙️ Paso 4: Configuración Inicial</div>
+                    <p>Configura las herramientas seleccionadas y establece los flujos básicos</p>
+                    <div class="step-stats">
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">10 días</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Inversión:</span>
+                            <span style="color: #28a745; font-weight: bold;">$1000-3000</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>ROI:</span>
+                            <span style="color: #28a745; font-weight: bold;">150%</span>
+                        </div>
+                    </div>
+                    <div class="step-preview">
+                        <div class="step-header">
+                            <div class="step-title">Configuración Específica</div>
+                        </div>
+                        <div class="step-action">
+                            <span class="action-number">1</span>
+                            <strong>Integración de datos:</strong> Conecta todas las fuentes de datos
+                        </div>
+                        <div class="step-action">
+                            <span class="action-number">2</span>
+                            <strong>Configuración de workflows:</strong> Establece flujos de automatización
+                        </div>
+                        <div class="step-action">
+                            <span class="action-number">3</span>
+                            <strong>Personalización:</strong> Adapta a tu marca y procesos
+                        </div>
+                        <div class="step-action">
+                            <span class="action-number">4</span>
+                            <strong>Pruebas iniciales:</strong> Verifica que todo funcione correctamente
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Configurar Herramientas</a>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-title">🧪 Paso 5: Pruebas y Validación</div>
+                    <p>Prueba exhaustivamente todos los sistemas antes del lanzamiento</p>
+                    <div class="step-stats">
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">7 días</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Inversión:</span>
+                            <span style="color: #28a745; font-weight: bold;">$500-1000</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>ROI:</span>
+                            <span style="color: #28a745; font-weight: bold;">200%</span>
+                        </div>
+                    </div>
+                    <div class="step-preview">
+                        <div class="step-header">
+                            <div class="step-title">Proceso de Pruebas</div>
+                        </div>
+                        <div class="step-action">
+                            <span class="action-number">1</span>
+                            <strong>Pruebas unitarias:</strong> Verifica cada función individualmente
+                        </div>
+                        <div class="step-action">
+                            <span class="action-number">2</span>
+                            <strong>Pruebas de integración:</strong> Verifica que todo funcione junto
+                        </div>
+                        <div class="step-action">
+                            <span class="action-number">3</span>
+                            <strong>Pruebas de usuario:</strong> Verifica la experiencia del usuario
+                        </div>
+                        <div class="step-action">
+                            <span class="action-number">4</span>
+                            <strong>Pruebas de carga:</strong> Verifica el rendimiento bajo carga
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Iniciar Pruebas</a>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-title">🚀 Paso 6: Lanzamiento Gradual</div>
+                    <p>Lanza la automatización de forma gradual para minimizar riesgos</p>
+                    <div class="step-stats">
+                        <div class="stat-item">
+                            <span>Duración:</span>
+                            <span style="color: #28a745; font-weight: bold;">14 días</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Inversión:</span>
+                            <span style="color: #28a745; font-weight: bold;">$2000-5000</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>ROI:</span>
+                            <span style="color: #28a745; font-weight: bold;">250%</span>
+                        </div>
+                    </div>
+                    <div class="step-preview">
+                        <div class="step-header">
+                            <div class="step-title">Estrategia de Lanzamiento</div>
+                        </div>
+                        <div class="step-action">
+                            <span class="action-number">1</span>
+                            <strong>Lanzamiento beta:</strong> Prueba con un grupo pequeño
+                        </div>
+                        <div class="step-action">
+                            <span class="action-number">2</span>
+                            <strong>Monitoreo intensivo:</strong> Supervisa métricas en tiempo real
+                        </div>
+                        <div class="step-action">
+                            <span class="action-number">3</span>
+                            <strong>Ajustes rápidos:</strong> Corrige problemas inmediatamente
+                        </div>
+                        <div class="step-action">
+                            <span class="action-number">4</span>
+                            <strong>Expansión gradual:</strong> Aumenta el alcance progresivamente
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Lanzar Automatización</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="authority">
+            <h3 style="margin: 0 0 15px 0;">🏆 LIDERAMOS EN IMPLEMENTACIÓN</h3>
+            <p style="margin: 0; font-size: 1.2em;">Hemos implementado IA exitosamente en más de 200 empresas con 95% de éxito en 90 días</p>
+        </div>
+
+        <section class="timeline-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">⏰ Cronograma de 90 Días</h2>
+            
+            <div class="timeline-grid">
+                <div class="timeline-card">
+                    <div class="timeline-icon">📅</div>
+                    <h3>Días 1-10</h3>
+                    <p>Auditoría y Planificación</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Auditoría de procesos</li>
+                        <li>✅ Análisis de datos</li>
+                        <li>✅ Definición de objetivos</li>
+                        <li>✅ Selección de herramientas</li>
+                    </ul>
+                </div>
+                
+                <div class="timeline-card">
+                    <div class="timeline-icon">⚙️</div>
+                    <h3>Días 11-30</h3>
+                    <p>Configuración y Desarrollo</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Configuración inicial</li>
+                        <li>✅ Integración de datos</li>
+                        <li>✅ Desarrollo de workflows</li>
+                        <li>✅ Personalización</li>
+                    </ul>
+                </div>
+                
+                <div class="timeline-card">
+                    <div class="timeline-icon">🧪</div>
+                    <h3>Días 31-45</h3>
+                    <p>Pruebas y Validación</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Pruebas unitarias</li>
+                        <li>✅ Pruebas de integración</li>
+                        <li>✅ Pruebas de usuario</li>
+                        <li>✅ Optimización</li>
+                    </ul>
+                </div>
+                
+                <div class="timeline-card">
+                    <div class="timeline-icon">🚀</div>
+                    <h3>Días 46-60</h3>
+                    <p>Lanzamiento Gradual</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Lanzamiento beta</li>
+                        <li>✅ Monitoreo intensivo</li>
+                        <li>✅ Ajustes rápidos</li>
+                        <li>✅ Expansión gradual</li>
+                    </ul>
+                </div>
+                
+                <div class="timeline-card">
+                    <div class="timeline-icon">📊</div>
+                    <h3>Días 61-75</h3>
+                    <p>Optimización y Escalamiento</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Análisis de resultados</li>
+                        <li>✅ Optimización de procesos</li>
+                        <li>✅ Escalamiento</li>
+                        <li>✅ Automatización avanzada</li>
+                    </ul>
+                </div>
+                
+                <div class="timeline-card">
+                    <div class="timeline-icon">🎯</div>
+                    <h3>Días 76-90</h3>
+                    <p>Consolidación y Mejora Continua</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Consolidación</li>
+                        <li>✅ Mejora continua</li>
+                        <li>✅ Capacitación del equipo</li>
+                        <li>✅ Planificación futura</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="social-proof">
+            <h3 style="margin: 0 0 15px 0;">👥 MÁS DE 200 EMPRESAS IMPLEMENTARON CON NOSOTROS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Desde startups hasta Fortune 500, todas han implementado IA exitosamente en 90 días</p>
+        </div>
+
+        <section class="tools-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">🛠️ Herramientas Necesarias</h2>
+            
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-number">10+</div>
+                    <h3>Herramientas de IA</h3>
+                    <p>Para automatización completa</p>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-number">5+</div>
+                    <h3>Integraciones</h3>
+                    <p>Con sistemas existentes</p>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-number">15+</div>
+                    <h3>Workflows</h3>
+                    <p>Automatizados</p>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-number">20+</div>
+                    <h3>Métricas</h3>
+                    <p>De seguimiento</p>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-number">24/7</div>
+                    <h3>Soporte</h3>
+                    <p>Durante implementación</p>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-number">95%</div>
+                    <h3>Éxito</h3>
+                    <p>En implementaciones</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="premium">
+            <h3 style="margin: 0 0 15px 0;">👑 IMPLEMENTACIÓN COMPLETA CON SOPORTE</h3>
+            <p style="margin: 0; font-size: 1.2em;">Obtén implementación completa + seguimiento + optimización + soporte 24/7 por solo $2,997</p>
+        </div>
+
+        <div class="curiosity">
+            <h3 style="margin: 0 0 15px 0;">🔍 ¿POR QUÉ NUESTRA METODOLOGÍA FUNCIONA?</h3>
+            <p style="margin: 0; font-size: 1.2em;">Descubre los principios científicos detrás de nuestra metodología de implementación</p>
+        </div>
+
+        <div class="empathy">
+            <h3 style="margin: 0 0 15px 0;">💝 Entendemos tus Preocupaciones</h3>
+            <p style="margin: 0; font-size: 1.2em;">Sabemos que implementar IA puede ser abrumador. Por eso ofrecemos soporte personalizado y garantía de resultados</p>
+        </div>
+    </div>
+
+    <footer style="background: #2c3e50; color: white; padding: 40px 0; text-align: center;">
+        <div class="container">
+            <p>&copy; 2024 IA Marketing Solutions. Todos los derechos reservados.</p>
+            <p>Implementando IA con éxito desde 2020</p>
+        </div>
+    </footer>
+
+    <script>
+        // Track step interactions
+        document.querySelectorAll('.step-card .cta-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const step = this.closest('.step-card').querySelector('.step-title').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'step_click', {
+                        'event_category': 'AI Implementation Guide',
+                        'event_label': step,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track timeline card clicks
+        document.querySelectorAll('.timeline-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const timeline = this.querySelector('h3').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'timeline_click', {
+                        'event_category': 'AI Implementation Guide',
+                        'event_label': timeline,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track step preview interactions
+        document.querySelectorAll('.step-preview').forEach(preview => {
+            preview.addEventListener('click', function() {
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'step_preview_click', {
+                        'event_category': 'AI Implementation Guide',
+                        'event_label': 'Step Preview',
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Animate step cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.step-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+        
+        // Animate tool numbers
+        const toolObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const toolNumber = entry.target.querySelector('.tool-number');
+                    const finalValue = toolNumber.textContent;
+                    const isPercentage = finalValue.includes('%');
+                    const is24 = finalValue.includes('24/7');
+                    const numericValue = parseFloat(finalValue.replace(/[^0-9.]/g, ''));
+                    
+                    let currentValue = 0;
+                    const increment = numericValue / 30;
+                    
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= numericValue) {
+                            currentValue = numericValue;
+                            clearInterval(timer);
+                        }
+                        
+                        if (isPercentage) {
+                            toolNumber.textContent = Math.round(currentValue) + '%';
+                        } else if (is24) {
+                            toolNumber.textContent = '24/7';
+                        } else {
+                            toolNumber.textContent = Math.round(currentValue) + '+';
+                        }
+                    }, 30);
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.tool-card').forEach(card => {
+            toolObserver.observe(card);
+        });
+    </script>
+</body>
+</html>
+
+

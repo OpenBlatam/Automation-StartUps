@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔌 API IA Marketing | IA Marketing Solutions</title>
+    <meta name="description" content="🔥 API completa para IA en marketing. Integración nativa, documentación completa, SDKs, webhooks y soporte 24/7. Conecta tu IA con cualquier sistema.">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Tonos Emocionales Avanzados */
+        .excitement { background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; animation: excitement-pulse 2s infinite; text-align: center; }
+        @keyframes excitement-pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        
+        .trust { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .trust::before { content: "🛡️ "; font-size: 1.8em; }
+        
+        .success { background: linear-gradient(135deg, #28a745 0%, #198754 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .success::before { content: "🎉 "; font-size: 1.8em; }
+        
+        .premium { background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; position: relative; overflow: hidden; }
+        .premium::before { content: "👑 "; font-size: 1.8em; }
+        .premium::after { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent); animation: premium-shine 3s infinite; }
+        @keyframes premium-shine { 0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); } 100% { transform: translateX(100%) translateY(100%) rotate(45deg); } }
+        
+        .curiosity { background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .curiosity::before { content: "🔍 "; font-size: 1.8em; }
+        
+        .social-proof { background: linear-gradient(135deg, #007bff 0%, #6610f2 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .social-proof::before { content: "👥 "; font-size: 1.8em; }
+        
+        .authority { background: linear-gradient(135deg, #343a40 0%, #6c757d 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .authority::before { content: "🏆 "; font-size: 1.8em; }
+        
+        .empathy { background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .empathy::before { content: "💝 "; font-size: 1.8em; }
+        
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 0; text-align: center; }
+        .hero h1 { font-size: 3.5em; margin-bottom: 20px; font-weight: 700; }
+        .hero p { font-size: 1.3em; margin-bottom: 30px; opacity: 0.95; }
+        
+        .cta-button { background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; padding: 20px 40px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.3em; display: inline-block; margin: 20px 10px; transition: all 0.3s; box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3); }
+        .cta-button:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4); }
+        
+        .api-section { background: white; padding: 60px 0; }
+        .api-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 40px; }
+        .api-card { background: #f8f9fa; padding: 30px; border-radius: 20px; border-left: 6px solid #667eea; transition: transform 0.3s; }
+        .api-card:hover { transform: translateY(-5px); }
+        .api-card.featured { border-left: 6px solid #ff6b6b; background: linear-gradient(135deg, #fff5f5 0%, #f8f9fa 100%); }
+        .api-card.featured::before { content: "⭐ DESTACADO"; position: absolute; top: -10px; right: 20px; background: #ff6b6b; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8em; font-weight: bold; }
+        .api-category { color: #667eea; font-weight: bold; font-size: 0.9em; margin-bottom: 10px; }
+        .api-title { font-size: 1.4em; font-weight: bold; color: #2c3e50; margin-bottom: 15px; }
+        .api-description { color: #666; margin-bottom: 20px; line-height: 1.6; }
+        .api-features { background: white; padding: 15px; border-radius: 10px; margin: 15px 0; }
+        .feature-item { display: flex; align-items: center; margin: 8px 0; font-size: 0.9em; }
+        .feature-item::before { content: "✅ "; color: #28a745; font-weight: bold; margin-right: 8px; }
+        
+        .code-section { background: #2c3e50; color: white; padding: 60px 0; }
+        .code-example { background: #1a1a1a; padding: 30px; border-radius: 15px; margin: 20px 0; overflow-x: auto; }
+        .code-example pre { margin: 0; font-family: 'Courier New', monospace; font-size: 0.9em; }
+        .code-example .comment { color: #888; }
+        .code-example .keyword { color: #ff6b6b; }
+        .code-example .string { color: #28a745; }
+        .code-example .number { color: #ffc107; }
+        
+        .sdk-section { background: #f8f9fa; padding: 60px 0; }
+        .sdk-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px; }
+        .sdk-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        .sdk-icon { font-size: 2.5em; margin-bottom: 15px; }
+        
+        .stats-section { background: #2c3e50; color: white; padding: 60px 0; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 40px; }
+        .stat-card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; text-align: center; }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #ff6b6b; margin-bottom: 10px; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5em; }
+            .hero p { font-size: 1.1em; }
+            .api-grid { grid-template-columns: 1fr; }
+            .sdk-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>🔌 API IA Marketing</h1>
+            <p><strong>API completa</strong> para IA en marketing. Integración nativa, documentación completa, SDKs, webhooks y soporte 24/7. Conecta tu IA con cualquier sistema</p>
+            <a href="#api" class="cta-button">🔌 Ver API</a>
+            <a href="#docs" class="cta-button" style="background: transparent; border: 2px solid white;">📚 Documentación</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="excitement">
+            <h2 style="margin: 0; font-size: 2.2em;">🔌 ¡API COMPLETA DISPONIBLE!</h2>
+            <p style="margin: 10px 0 0 0; font-size: 1.2em;">Integración nativa con documentación completa y SDKs para todos los lenguajes</p>
+        </div>
+
+        <div class="success">
+            <h3 style="margin: 0 0 15px 0;">🎉 INTEGRACIÓN PERFECTA</h3>
+            <p style="margin: 0; font-size: 1.2em;">API RESTful con autenticación OAuth 2.0, rate limiting inteligente y soporte 24/7 para desarrolladores</p>
+        </div>
+
+        <section class="api-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">🔌 Endpoints de la API</h2>
+            
+            <div class="api-grid">
+                <div class="api-card featured">
+                    <div class="api-category">🤖 IA Content Generation</div>
+                    <div class="api-title">Generación de Contenido</div>
+                    <div class="api-description">
+                        Endpoint para generar contenido con IA. Emails, posts, anuncios, landing pages y más contenido personalizado.
+                    </div>
+                    <div class="api-features">
+                        <div class="feature-item">POST /api/v1/content/generate</div>
+                        <div class="feature-item">Múltiples tipos de contenido</div>
+                        <div class="feature-item">Personalización avanzada</div>
+                        <div class="feature-item">Templates predefinidos</div>
+                        <div class="feature-item">Validación automática</div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">🔌 Ver Endpoint</a>
+                </div>
+                
+                <div class="api-card">
+                    <div class="api-category">📊 Analytics</div>
+                    <div class="api-title">Análisis y Métricas</div>
+                    <div class="api-description">
+                        Endpoint para obtener métricas, análisis de rendimiento y reportes detallados de tus campañas.
+                    </div>
+                    <div class="api-features">
+                        <div class="feature-item">GET /api/v1/analytics/metrics</div>
+                        <div class="feature-item">Métricas en tiempo real</div>
+                        <div class="feature-item">Filtros avanzados</div>
+                        <div class="feature-item">Agregaciones personalizadas</div>
+                        <div class="feature-item">Exportación de datos</div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">🔌 Ver Endpoint</a>
+                </div>
+                
+                <div class="api-card">
+                    <div class="api-category">🎯 Campaigns</div>
+                    <div class="api-title">Gestión de Campañas</div>
+                    <div class="api-description">
+                        Endpoint para crear, actualizar y gestionar campañas de marketing con IA.
+                    </div>
+                    <div class="api-features">
+                        <div class="feature-item">POST /api/v1/campaigns</div>
+                        <div class="feature-item">Creación automática</div>
+                        <div class="feature-item">Optimización en tiempo real</div>
+                        <div class="feature-item">A/B testing</div>
+                        <div class="feature-item">Seguimiento de conversiones</div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">🔌 Ver Endpoint</a>
+                </div>
+                
+                <div class="api-card">
+                    <div class="api-category">👥 Leads</div>
+                    <div class="api-title">Gestión de Leads</div>
+                    <div class="api-description">
+                        Endpoint para gestionar leads, scoring automático y automatización de follow-up.
+                    </div>
+                    <div class="api-features">
+                        <div class="feature-item">POST /api/v1/leads</div>
+                        <div class="feature-item">Scoring automático</div>
+                        <div class="feature-item">Segmentación inteligente</div>
+                        <div class="feature-item">Automatización de follow-up</div>
+                        <div class="feature-item">Integración CRM</div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">🔌 Ver Endpoint</a>
+                </div>
+                
+                <div class="api-card">
+                    <div class="api-category">📧 Email</div>
+                    <div class="api-title">Email Marketing</div>
+                    <div class="api-description">
+                        Endpoint para enviar emails, gestionar listas y automatizar secuencias de email marketing.
+                    </div>
+                    <div class="api-features">
+                        <div class="feature-item">POST /api/v1/email/send</div>
+                        <div class="feature-item">Envío masivo</div>
+                        <div class="feature-item">Personalización avanzada</div>
+                        <div class="feature-item">Automatización de secuencias</div>
+                        <div class="feature-item">Tracking de aperturas</div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">🔌 Ver Endpoint</a>
+                </div>
+                
+                <div class="api-card">
+                    <div class="api-category">🔔 Webhooks</div>
+                    <div class="api-title">Notificaciones en Tiempo Real</div>
+                    <div class="api-description">
+                        Endpoint para configurar webhooks y recibir notificaciones en tiempo real sobre eventos importantes.
+                    </div>
+                    <div class="api-features">
+                        <div class="feature-item">POST /api/v1/webhooks</div>
+                        <div class="feature-item">Eventos en tiempo real</div>
+                        <div class="feature-item">Retry automático</div>
+                        <div class="feature-item">Autenticación segura</div>
+                        <div class="feature-item">Logs detallados</div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">🔌 Ver Endpoint</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="authority">
+            <h3 style="margin: 0 0 15px 0;">🏆 LIDERAMOS EN APIS DE IA</h3>
+            <p style="margin: 0; font-size: 1.2em;">La API más completa y documentada para IA en marketing con 99.9% de uptime y soporte 24/7</p>
+        </div>
+
+        <section class="code-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">💻 Ejemplos de Código</h2>
+            
+            <div class="code-example">
+                <h3 style="color: #ff6b6b; margin-bottom: 20px;">🚀 Generar Contenido con IA</h3>
+                <pre><span class="comment">// JavaScript - Generar email con IA</span>
+<span class="keyword">const</span> response = <span class="keyword">await</span> fetch(<span class="string">'https://api.iamarketing.com/v1/content/generate'</span>, {
+  <span class="keyword">method</span>: <span class="string">'POST'</span>,
+  <span class="keyword">headers</span>: {
+    <span class="string">'Authorization'</span>: <span class="string">'Bearer YOUR_API_KEY'</span>,
+    <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>
+  },
+  <span class="keyword">body</span>: JSON.stringify({
+    <span class="keyword">type</span>: <span class="string">'email'</span>,
+    <span class="keyword">industry</span>: <span class="string">'saas'</span>,
+    <span class="keyword">audience</span>: <span class="string">'small business owners'</span>,
+    <span class="keyword">tone</span>: <span class="string">'professional'</span>,
+    <span class="keyword">length</span>: <span class="string">'medium'</span>
+  })
+});
+
+<span class="keyword">const</span> content = <span class="keyword">await</span> response.json();
+console.log(content.generated_content);</pre>
+            </div>
+            
+            <div class="code-example">
+                <h3 style="color: #ff6b6b; margin-bottom: 20px;">📊 Obtener Métricas</h3>
+                <pre><span class="comment">// Python - Obtener métricas de campaña</span>
+<span class="keyword">import</span> requests
+
+<span class="keyword">def</span> get_campaign_metrics(campaign_id):
+    url = <span class="string">f'https://api.iamarketing.com/v1/analytics/metrics/{campaign_id}'</span>
+    headers = {
+        <span class="string">'Authorization'</span>: <span class="string">'Bearer YOUR_API_KEY'</span>
+    }
+    
+    response = requests.get(url, headers=headers)
+    <span class="keyword">return</span> response.json()
+
+<span class="comment"># Uso</span>
+metrics = get_campaign_metrics(<span class="string">'campaign_123'</span>)
+print(<span class="string">f"CTR: {metrics['ctr']}%"</span>)
+print(<span class="string">f"Conversions: {metrics['conversions']}"</span>)</pre>
+            </div>
+            
+            <div class="code-example">
+                <h3 style="color: #ff6b6b; margin-bottom: 20px;">🎯 Crear Campaña</h3>
+                <pre><span class="comment">// PHP - Crear campaña automatizada</span>
+<span class="keyword"><?php</span>
+<span class="keyword">$campaign_data</span> = [
+    <span class="string">'name'</span> => <span class="string">'Black Friday 2024'</span>,
+    <span class="string">'type'</span> => <span class="string">'email'</span>,
+    <span class="string">'audience'</span> => <span class="string">'existing_customers'</span>,
+    <span class="string">'budget'</span> => <span class="number">5000</span>,
+    <span class="string">'start_date'</span> => <span class="string">'2024-11-24'</span>,
+    <span class="string">'ai_optimization'</span> => <span class="keyword">true</span>
+];
+
+<span class="keyword">$ch</span> = curl_init();
+curl_setopt(<span class="keyword">$ch</span>, CURLOPT_URL, <span class="string">'https://api.iamarketing.com/v1/campaigns'</span>);
+curl_setopt(<span class="keyword">$ch</span>, CURLOPT_POST, <span class="number">1</span>);
+curl_setopt(<span class="keyword">$ch</span>, CURLOPT_POSTFIELDS, json_encode(<span class="keyword">$campaign_data</span>));
+curl_setopt(<span class="keyword">$ch</span>, CURLOPT_HTTPHEADER, [
+    <span class="string">'Authorization: Bearer YOUR_API_KEY'</span>,
+    <span class="string">'Content-Type: application/json'</span>
+]);
+
+<span class="keyword">$response</span> = curl_exec(<span class="keyword">$ch</span>);
+curl_close(<span class="keyword">$ch</span>);
+<span class="keyword">?></span></pre>
+            </div>
+        </section>
+
+        <div class="social-proof">
+            <h3 style="margin: 0 0 15px 0;">👥 MÁS DE 5,000 DESARROLLADORES</h3>
+            <p style="margin: 0; font-size: 1.2em;">Desde startups hasta Fortune 500, todos integran nuestra API para potenciar su marketing con IA</p>
+        </div>
+
+        <section class="sdk-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">🛠️ SDKs Disponibles</h2>
+            
+            <div class="sdk-grid">
+                <div class="sdk-card">
+                    <div class="sdk-icon">🟨</div>
+                    <h3>JavaScript</h3>
+                    <p>Node.js & Browser</p>
+                    <ul style="text-align: left;">
+                        <li>✅ npm install @iamarketing/js</li>
+                        <li>✅ TypeScript support</li>
+                        <li>✅ Promise-based</li>
+                        <li>✅ Error handling</li>
+                        <li>✅ Type definitions</li>
+                    </ul>
+                    <p><strong>v2.1.0</strong></p>
+                </div>
+                
+                <div class="sdk-card">
+                    <div class="sdk-icon">🐍</div>
+                    <h3>Python</h3>
+                    <p>3.7+ Support</p>
+                    <ul style="text-align: left;">
+                        <li>✅ pip install iamarketing</li>
+                        <li>✅ Async support</li>
+                        <li>✅ Type hints</li>
+                        <li>✅ Error handling</li>
+                        <li>✅ Documentation</li>
+                    </ul>
+                    <p><strong>v1.8.2</strong></p>
+                </div>
+                
+                <div class="sdk-card">
+                    <div class="sdk-icon">🐘</div>
+                    <h3>PHP</h3>
+                    <p>7.4+ Support</p>
+                    <ul style="text-align: left;">
+                        <li>✅ composer require iamarketing/api</li>
+                        <li>✅ PSR-4 autoloading</li>
+                        <li>✅ Exception handling</li>
+                        <li>✅ Guzzle HTTP</li>
+                        <li>✅ Laravel support</li>
+                    </ul>
+                    <p><strong>v1.5.1</strong></p>
+                </div>
+                
+                <div class="sdk-card">
+                    <div class="sdk-icon">☕</div>
+                    <h3>Java</h3>
+                    <p>8+ Support</p>
+                    <ul style="text-align: left;">
+                        <li>✅ Maven dependency</li>
+                        <li>✅ Spring Boot</li>
+                        <li>✅ Async support</li>
+                        <li>✅ Exception handling</li>
+                        <li>✅ Javadoc</li>
+                    </ul>
+                    <p><strong>v1.3.0</strong></p>
+                </div>
+                
+                <div class="sdk-card">
+                    <div class="sdk-icon">🔷</div>
+                    <h3>C#</h3>
+                    <p>.NET 5+ Support</p>
+                    <ul style="text-align: left;">
+                        <li>✅ NuGet package</li>
+                        <li>✅ Async/await</li>
+                        <li>✅ LINQ support</li>
+                        <li>✅ Exception handling</li>
+                        <li>✅ XML documentation</li>
+                    </ul>
+                    <p><strong>v1.2.1</strong></p>
+                </div>
+                
+                <div class="sdk-card">
+                    <div class="sdk-icon">🐹</div>
+                    <h3>Go</h3>
+                    <p>1.16+ Support</p>
+                    <ul style="text-align: left;">
+                        <li>✅ go get github.com/iamarketing/go</li>
+                        <li>✅ Context support</li>
+                        <li>✅ Error handling</li>
+                        <li>✅ Goroutines</li>
+                        <li>✅ Godoc</li>
+                    </ul>
+                    <p><strong>v1.1.0</strong></p>
+                </div>
+            </div>
+        </section>
+
+        <section class="stats-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">📊 Estadísticas de la API</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">50+</div>
+                    <h3>Endpoints</h3>
+                    <p>Disponibles</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">99.9%</div>
+                    <h3>Uptime</h3>
+                    <p>Disponibilidad</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">5,000+</div>
+                    <h3>Desarrolladores</h3>
+                    <p>Activos</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">6</div>
+                    <h3>SDKs</h3>
+                    <p>Disponibles</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">24/7</div>
+                    <h3>Soporte</h3>
+                    <p>Para desarrolladores</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">100ms</div>
+                    <h3>Latencia</h3>
+                    <p>Promedio</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="premium">
+            <h3 style="margin: 0 0 15px 0;">👑 API PREMIUM</h3>
+            <p style="margin: 0; font-size: 1.2em;">Rate limits ilimitados + soporte prioritario + webhooks avanzados por solo $297/mes</p>
+        </div>
+
+        <div class="curiosity">
+            <h3 style="margin: 0 0 15px 0;">🔍 ¿QUÉ HACE NUESTRA API DIFERENTE?</h3>
+            <p style="margin: 0; font-size: 1.2em;">Descubre por qué más de 5,000 desarrolladores confían en nuestra API para integrar IA en sus aplicaciones</p>
+        </div>
+
+        <div class="empathy">
+            <h3 style="margin: 0 0 15px 0;">💝 Entendemos tus Necesidades</h3>
+            <p style="margin: 0; font-size: 1.2em;">Sabemos que necesitas una API confiable y bien documentada. Por eso ofrecemos SDKs completos y soporte 24/7</p>
+        </div>
+    </div>
+
+    <footer style="background: #2c3e50; color: white; padding: 40px 0; text-align: center;">
+        <div class="container">
+            <p>&copy; 2024 IA Marketing Solutions. Todos los derechos reservados.</p>
+            <p>API disponible desde 2020</p>
+        </div>
+    </footer>
+
+    <script>
+        // Track API interactions
+        document.querySelectorAll('.api-card .cta-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const endpoint = this.closest('.api-card').querySelector('.api-title').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'api_endpoint_click', {
+                        'event_category': 'AI API',
+                        'event_label': endpoint,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track SDK card clicks
+        document.querySelectorAll('.sdk-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const sdk = this.querySelector('h3').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'sdk_click', {
+                        'event_category': 'AI API',
+                        'event_label': sdk,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track code example interactions
+        document.querySelectorAll('.code-example').forEach(example => {
+            example.addEventListener('click', function() {
+                const language = this.querySelector('h3').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'code_example_click', {
+                        'event_category': 'AI API',
+                        'event_label': language,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Animate API cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.api-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+        
+        // Animate stat numbers
+        const statObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumber = entry.target.querySelector('.stat-number');
+                    const finalValue = statNumber.textContent;
+                    const isPlus = finalValue.includes('+');
+                    const isPercentage = finalValue.includes('%');
+                    const isSlash = finalValue.includes('/');
+                    const isMs = finalValue.includes('ms');
+                    const numericValue = parseFloat(finalValue.replace(/[^0-9.]/g, ''));
+                    
+                    let currentValue = 0;
+                    const increment = numericValue / 30;
+                    
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= numericValue) {
+                            currentValue = numericValue;
+                            clearInterval(timer);
+                        }
+                        
+                        if (isPlus) {
+                            statNumber.textContent = Math.round(currentValue).toLocaleString() + '+';
+                        } else if (isPercentage) {
+                            statNumber.textContent = Math.round(currentValue) + '%';
+                        } else if (isSlash) {
+                            statNumber.textContent = Math.round(currentValue) + '/7';
+                        } else if (isMs) {
+                            statNumber.textContent = Math.round(currentValue) + 'ms';
+                        } else {
+                            statNumber.textContent = Math.round(currentValue).toLocaleString();
+                        }
+                    }, 30);
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.stat-card').forEach(card => {
+            statObserver.observe(card);
+        });
+    </script>
+</body>
+</html>

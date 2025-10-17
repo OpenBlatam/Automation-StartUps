@@ -1599,3 +1599,5 @@ if __name__ == "__main__":
     print("✅ Sistema de análisis de computer vision de marketing completado!")
 
 
+
+

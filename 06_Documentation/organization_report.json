@@ -1,0 +1,59 @@
+{
+  "timestamp": "2025-10-03T16:51:27.629336",
+  "organization_score": 99.36,
+  "total_files": 1246,
+  "organized_files": 1238,
+  "unorganized_files": 8,
+  "unorganized_list": [
+    "ORGANIZACION_ULTRA_MEJORADA.md",
+    "pattern_analysis_report.json",
+    "organization_report.json",
+    "COPYCAR_AI_INVESTOR_CRISIS_MANAGEMENT_SYSTEM.md",
+    "COPYCAR_AI_INVESTOR_METRICS_ANALYTICS_DASHBOARD.md",
+    "ADVANCED_SALES_IMPLEMENTATION_GUIDE.md",
+    "COPYCAR_AI_INVESTOR_MARKET_INTELLIGENCE_SYSTEM.md",
+    "COPYCAR_AI_INVESTOR_BOARD_MANAGEMENT_FRAMEWORK.md"
+  ],
+  "categories_status": {
+    "01_Marketing": {
+      "files_count": 378,
+      "has_readme": true
+    },
+    "02_Finance": {
+      "files_count": 155,
+      "has_readme": true
+    },
+    "03_Human_Resources": {
+      "files_count": 41,
+      "has_readme": true
+    },
+    "04_Business_Strategy": {
+      "files_count": 32,
+      "has_readme": true
+    },
+    "05_Technology": {
+      "files_count": 214,
+      "has_readme": true
+    },
+    "06_Documentation": {
+      "files_count": 46,
+      "has_readme": true
+    },
+    "07_Risk_Management": {
+      "files_count": 56,
+      "has_readme": true
+    },
+    "08_AI_Artificial_Intelligence": {
+      "files_count": 276,
+      "has_readme": true
+    },
+    "09_Sales": {
+      "files_count": 32,
+      "has_readme": true
+    },
+    "10_Customer_Service": {
+      "files_count": 8,
+      "has_readme": true
+    }
+  }
+}

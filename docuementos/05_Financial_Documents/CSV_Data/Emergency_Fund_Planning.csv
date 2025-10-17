@@ -1,0 +1,27 @@
+Categoría,Gasto Mensual,Esencial,Meses,Total Necesario,Ahorrado,Faltante
+GASTOS ESENCIALES,,,,,,
+Renta,15000,Sí,6,=B2*D2,50000,=E2-F2
+Servicios,3000,Sí,6,=B3*D3,15000,=E3-F3
+Alimentación,8000,Sí,6,=B4*D4,30000,=E4-F4
+Transporte,4000,Sí,6,=B5*D5,20000,=E5-F5
+Seguros,2000,Sí,6,=B6*D6,10000,=E6-F6
+Marketing Negocio,6000,Sí,6,=B7*D7,25000,=E7-F7
+TOTAL ESENCIAL,=SUM(B2:B7),,6,=SUM(E2:E7),=SUM(F2:F7),=SUM(G2:G7)
+,,,,,,
+OBJETIVOS DE FONDO,,,,,,
+Mínimo (3 meses),=B8/2,,3,=B10*D10,,
+Cómodo (6 meses),=B8,,6,=B11*D11,,
+Completo (12 meses),=B8*2,,12,=B12*D12,,
+,,,,,,
+PLAN DE AHORRO,,,,,,
+Ahorro Mensual,10000,,,,
+Meses para Mínimo,,,=E10/B15,,
+Meses para Cómodo,,,=E11/B15,,
+Meses para Completo,,,=E12/B15,,
+,,,,,,
+ANÁLISIS DE RIESGO,,,,,,
+Riesgo,Probabilidad,Impacto,Preparación,Acción
+Pérdida de empleo,15%,Alto,=IF(F8>E11,"Listo","Preparar"),Fondo emergencia
+Enfermedad,20%,Medio,=IF(F8>E10,"Listo","Preparar"),Seguro médico
+Emergencia familiar,10%,Alto,=IF(F8>E11,"Listo","Preparar"),Fondo familiar
+Crisis económica,25%,Muy Alto,=IF(F8>E12,"Listo","Preparar"),Diversificar

@@ -1405,3 +1405,4 @@ if __name__ == "__main__":
     export_data = aiei_optimizer.export_aiei_analysis()
     
     print("✅ Sistema de optimización de AI Environmental Impact de marketing completado!")
+

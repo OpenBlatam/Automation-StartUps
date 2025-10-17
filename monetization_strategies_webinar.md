@@ -267,3 +267,4 @@
 - [ ] Planificar próximos productos (más planificación = más dinero)
 - [ ] Implementar mejoras continuas (más mejoras = más dinero)
 - [ ] Reportar resultados (más reportes = más dinero)
+

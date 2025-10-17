@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📧 Secuencias de Email Automatizadas | IA Marketing</title>
+    <meta name="description" content="🔥 Secuencias de email automatizadas para maximizar conversiones. Welcome series, nurture campaigns, reactivation y más. Templates listos para usar.">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Tonos Emocionales Avanzados */
+        .excitement { background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; animation: excitement-pulse 2s infinite; text-align: center; }
+        @keyframes excitement-pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        
+        .trust { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .trust::before { content: "🛡️ "; font-size: 1.8em; }
+        
+        .success { background: linear-gradient(135deg, #28a745 0%, #198754 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .success::before { content: "🎉 "; font-size: 1.8em; }
+        
+        .premium { background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; position: relative; overflow: hidden; }
+        .premium::before { content: "👑 "; font-size: 1.8em; }
+        .premium::after { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent); animation: premium-shine 3s infinite; }
+        @keyframes premium-shine { 0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); } 100% { transform: translateX(100%) translateY(100%) rotate(45deg); } }
+        
+        .curiosity { background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .curiosity::before { content: "🔍 "; font-size: 1.8em; }
+        
+        .social-proof { background: linear-gradient(135deg, #007bff 0%, #6610f2 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .social-proof::before { content: "👥 "; font-size: 1.8em; }
+        
+        .authority { background: linear-gradient(135deg, #343a40 0%, #6c757d 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .authority::before { content: "🏆 "; font-size: 1.8em; }
+        
+        .empathy { background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%); color: white; padding: 25px; border-radius: 20px; margin: 25px 0; }
+        .empathy::before { content: "💝 "; font-size: 1.8em; }
+        
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 0; text-align: center; }
+        .hero h1 { font-size: 3.5em; margin-bottom: 20px; font-weight: 700; }
+        .hero p { font-size: 1.3em; margin-bottom: 30px; opacity: 0.95; }
+        
+        .cta-button { background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; padding: 20px 40px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.3em; display: inline-block; margin: 20px 10px; transition: all 0.3s; box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3); }
+        .cta-button:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4); }
+        
+        .sequence-section { background: white; padding: 60px 0; }
+        .sequence-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 40px; }
+        .sequence-card { background: #f8f9fa; padding: 30px; border-radius: 20px; border-left: 6px solid #667eea; }
+        .sequence-title { font-size: 1.5em; font-weight: bold; color: #2c3e50; margin-bottom: 15px; }
+        .sequence-stats { background: white; padding: 15px; border-radius: 10px; margin: 15px 0; }
+        .stat-item { display: flex; justify-content: space-between; margin: 8px 0; }
+        
+        .email-preview { background: white; border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin: 20px 0; }
+        .email-header { border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px; }
+        .email-subject { font-weight: bold; color: #2c3e50; margin-bottom: 5px; }
+        .email-from { color: #666; font-size: 0.9em; }
+        .email-content { line-height: 1.6; }
+        
+        .automation-section { background: #f8f9fa; padding: 60px 0; }
+        .automation-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
+        .automation-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .automation-icon { font-size: 2.5em; margin-bottom: 15px; text-align: center; }
+        
+        .metrics-section { background: #2c3e50; color: white; padding: 60px 0; }
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 40px; }
+        .metric-card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; text-align: center; }
+        .metric-number { font-size: 2.5em; font-weight: bold; color: #ff6b6b; margin-bottom: 10px; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5em; }
+            .hero p { font-size: 1.1em; }
+            .sequence-grid { grid-template-columns: 1fr; }
+            .automation-grid { grid-template-columns: 1fr; }
+            .metrics-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>📧 Secuencias de Email Automatizadas</h1>
+            <p><strong>Maximiza tus conversiones</strong> con secuencias de email inteligentes que nutren, educan y convierten automáticamente</p>
+            <a href="#secuencias" class="cta-button">🚀 Ver Secuencias</a>
+            <a href="#automatizacion" class="cta-button" style="background: transparent; border: 2px solid white;">⚙️ Configurar Automatización</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="excitement">
+            <h2 style="margin: 0; font-size: 2.2em;">🚀 ¡AUTOMATIZA TUS VENTAS!</h2>
+            <p style="margin: 10px 0 0 0; font-size: 1.2em;">Secuencias que convierten el 23% de leads en clientes automáticamente</p>
+        </div>
+
+        <div class="success">
+            <h3 style="margin: 0 0 15px 0;">🎉 RESULTADOS COMPROBADOS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Nuestras secuencias han generado más de $2.5M en ventas para nuestros clientes</p>
+        </div>
+
+        <section class="sequence-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">📬 Secuencias Listas para Usar</h2>
+            
+            <div class="sequence-grid">
+                <div class="sequence-card">
+                    <div class="sequence-title">🎯 Welcome Series (7 emails)</div>
+                    <p>Secuencia de bienvenida que convierte nuevos suscriptores en clientes potenciales</p>
+                    <div class="sequence-stats">
+                        <div class="stat-item">
+                            <span>Open Rate:</span>
+                            <span style="color: #28a745; font-weight: bold;">47%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Click Rate:</span>
+                            <span style="color: #28a745; font-weight: bold;">23%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Conversión:</span>
+                            <span style="color: #28a745; font-weight: bold;">8.5%</span>
+                        </div>
+                    </div>
+                    <div class="email-preview">
+                        <div class="email-header">
+                            <div class="email-subject">🎉 ¡Bienvenido! Tu guía de IA está lista</div>
+                            <div class="email-from">De: IA Marketing Solutions</div>
+                        </div>
+                        <div class="email-content">
+                            <p>Hola [NOMBRE],</p>
+                            <p>¡Gracias por unirte a nuestra comunidad de profesionales que están transformando su carrera con IA!</p>
+                            <p>Como prometimos, aquí tienes tu guía gratuita: <strong>"10 Estrategias de IA que Aumentan Ventas 300%"</strong></p>
+                            <p>En los próximos 7 días, te enviaré los secretos más poderosos que las grandes empresas no quieren que sepas...</p>
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Usar Esta Secuencia</a>
+                </div>
+                
+                <div class="sequence-card">
+                    <div class="sequence-title">🔥 Nurture Campaign (14 emails)</div>
+                    <p>Educa y nutre a tus leads con contenido de valor durante 2 semanas</p>
+                    <div class="sequence-stats">
+                        <div class="stat-item">
+                            <span>Open Rate:</span>
+                            <span style="color: #28a745; font-weight: bold;">42%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Click Rate:</span>
+                            <span style="color: #28a745; font-weight: bold;">19%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Conversión:</span>
+                            <span style="color: #28a745; font-weight: bold;">12.3%</span>
+                        </div>
+                    </div>
+                    <div class="email-preview">
+                        <div class="email-header">
+                            <div class="email-subject">🤖 Caso de Estudio: Cómo TechCorp aumentó ventas 400%</div>
+                            <div class="email-from">De: IA Marketing Solutions</div>
+                        </div>
+                        <div class="email-content">
+                            <p>Hola [NOMBRE],</p>
+                            <p>¿Te imaginas aumentar tus ventas un 400% en solo 3 meses?</p>
+                            <p>Eso es exactamente lo que logró TechCorp usando las estrategias que te voy a compartir hoy...</p>
+                            <p><strong>El secreto:</strong> Automatización inteligente de contenido personalizado.</p>
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Usar Esta Secuencia</a>
+                </div>
+                
+                <div class="sequence-card">
+                    <div class="sequence-title">⚡ Reactivation Series (5 emails)</div>
+                    <p>Reactiva suscriptores inactivos y recupera leads perdidos</p>
+                    <div class="sequence-stats">
+                        <div class="stat-item">
+                            <span>Open Rate:</span>
+                            <span style="color: #28a745; font-weight: bold;">38%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Click Rate:</span>
+                            <span style="color: #28a745; font-weight: bold;">15%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Conversión:</span>
+                            <span style="color: #28a745; font-weight: bold;">6.7%</span>
+                        </div>
+                    </div>
+                    <div class="email-preview">
+                        <div class="email-header">
+                            <div class="email-subject">😢 ¿Te estamos perdiendo?</div>
+                            <div class="email-from">De: IA Marketing Solutions</div>
+                        </div>
+                        <div class="email-content">
+                            <p>Hola [NOMBRE],</p>
+                            <p>Notamos que no has abierto nuestros últimos emails...</p>
+                            <p>¿Estamos enviando el contenido equivocado? ¿Hay algo específico que te gustaría aprender sobre IA en marketing?</p>
+                            <p>Tu opinión es importante para nosotros. Responde este email y te enviaremos contenido personalizado.</p>
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Usar Esta Secuencia</a>
+                </div>
+                
+                <div class="sequence-card">
+                    <div class="sequence-title">🎓 Post-Purchase (10 emails)</div>
+                    <p>Maximiza el valor de clientes existentes con upsells y cross-sells</p>
+                    <div class="sequence-stats">
+                        <div class="stat-item">
+                            <span>Open Rate:</span>
+                            <span style="color: #28a745; font-weight: bold;">51%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Click Rate:</span>
+                            <span style="color: #28a745; font-weight: bold;">28%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Conversión:</span>
+                            <span style="color: #28a745; font-weight: bold;">18.5%</span>
+                        </div>
+                    </div>
+                    <div class="email-preview">
+                        <div class="email-header">
+                            <div class="email-subject">🎉 ¡Felicidades! Tu curso está listo + Bonus especial</div>
+                            <div class="email-from">De: IA Marketing Solutions</div>
+                        </div>
+                        <div class="email-content">
+                            <p>¡Hola [NOMBRE]!</p>
+                            <p>¡Felicidades por dar el primer paso hacia tu transformación profesional!</p>
+                            <p>Tu acceso al curso está listo, y como bonus especial, te regalo 30 días GRATIS de nuestro SaaS premium...</p>
+                            <p>Valor: $297 | Para ti: GRATIS</p>
+                        </div>
+                    </div>
+                    <a href="#" class="cta-button" style="font-size: 1em; padding: 15px 30px; width: 100%;">Usar Esta Secuencia</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="authority">
+            <h3 style="margin: 0 0 15px 0;">🏆 LIDERAMOS LA INDUSTRIA</h3>
+            <p style="margin: 0; font-size: 1.2em;">Nuestras secuencias son utilizadas por más de 1,000 empresas y han generado $2.5M+ en ventas</p>
+        </div>
+
+        <section class="automation-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px; color: #2c3e50;">⚙️ Automatización Inteligente</h2>
+            
+            <div class="automation-grid">
+                <div class="automation-card">
+                    <div class="automation-icon">🎯</div>
+                    <h3>Segmentación Automática</h3>
+                    <p>Clasifica automáticamente a tus suscriptores según su comportamiento, intereses y nivel de engagement</p>
+                    <ul>
+                        <li>✅ Segmentación por comportamiento</li>
+                        <li>✅ Scoring automático de leads</li>
+                        <li>✅ Personalización dinámica</li>
+                        <li>✅ Triggers inteligentes</li>
+                    </ul>
+                </div>
+                
+                <div class="automation-card">
+                    <div class="automation-icon">📊</div>
+                    <h3>Analytics en Tiempo Real</h3>
+                    <p>Monitorea el rendimiento de tus secuencias con métricas detalladas y optimización automática</p>
+                    <ul>
+                        <li>✅ Métricas en tiempo real</li>
+                        <li>✅ A/B testing automático</li>
+                        <li>✅ Optimización de horarios</li>
+                        <li>✅ Reportes personalizados</li>
+                    </ul>
+                </div>
+                
+                <div class="automation-card">
+                    <div class="automation-icon">🔄</div>
+                    <h3>Integración Total</h3>
+                    <p>Conecta con CRM, herramientas de marketing y plataformas de ventas para un flujo completo</p>
+                    <ul>
+                        <li>✅ APIs nativas</li>
+                        <li>✅ Sincronización automática</li>
+                        <li>✅ Webhooks personalizados</li>
+                        <li>✅ Zapier integrado</li>
+                    </ul>
+                </div>
+                
+                <div class="automation-card">
+                    <div class="automation-icon">🤖</div>
+                    <h3>IA Personalizada</h3>
+                    <p>Usa inteligencia artificial para personalizar contenido, horarios y frecuencia de envío</p>
+                    <ul>
+                        <li>✅ Contenido personalizado</li>
+                        <li>✅ Horarios optimizados</li>
+                        <li>✅ Frecuencia inteligente</li>
+                        <li>✅ Predicción de comportamiento</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="social-proof">
+            <h3 style="margin: 0 0 15px 0;">👥 MÁS DE 1,000 EMPRESAS CONFIARON EN NOSOTROS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Desde startups hasta Fortune 500, todas han visto resultados increíbles con nuestras secuencias</p>
+        </div>
+
+        <section class="metrics-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">📈 Resultados Promedio</h2>
+            
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-number">47%</div>
+                    <h3>Open Rate</h3>
+                    <p>Promedio de apertura de emails en nuestras secuencias</p>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-number">23%</div>
+                    <h3>Click Rate</h3>
+                    <p>Tasa de clics promedio en enlaces de las secuencias</p>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-number">12%</div>
+                    <h3>Conversión</h3>
+                    <p>Porcentaje de leads que se convierten en clientes</p>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-number">$2.5M</div>
+                    <h3>Ventas Generadas</h3>
+                    <p>Total de ventas generadas por nuestras secuencias</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="premium">
+            <h3 style="margin: 0 0 15px 0;">👑 PAQUETE COMPLETO DE SECUENCIAS</h3>
+            <p style="margin: 0; font-size: 1.2em;">Obtén todas las secuencias + automatización + soporte personalizado por solo $297</p>
+        </div>
+
+        <div class="curiosity">
+            <h3 style="margin: 0 0 15px 0;">🔍 ¿CÓMO FUNCIONA LA AUTOMATIZACIÓN?</h3>
+            <p style="margin: 0; font-size: 1.2em;">Descubre la tecnología que está revolucionando el email marketing</p>
+        </div>
+
+        <div class="empathy">
+            <h3 style="margin: 0 0 15px 0;">💝 Entendemos tus Necesidades</h3>
+            <p style="margin: 0; font-size: 1.2em;">Sabemos que configurar automatizaciones puede ser complejo. Por eso incluimos setup personalizado y soporte 24/7</p>
+        </div>
+    </div>
+
+    <footer style="background: #2c3e50; color: white; padding: 40px 0; text-align: center;">
+        <div class="container">
+            <p>&copy; 2024 IA Marketing Solutions. Todos los derechos reservados.</p>
+            <p>Automatizando ventas con inteligencia artificial desde 2020</p>
+        </div>
+    </footer>
+
+    <script>
+        // Track sequence interactions
+        document.querySelectorAll('.sequence-card .cta-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const sequence = this.closest('.sequence-card').querySelector('.sequence-title').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'sequence_click', {
+                        'event_category': 'Email Sequences',
+                        'event_label': sequence,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track automation card clicks
+        document.querySelectorAll('.automation-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const feature = this.querySelector('h3').textContent;
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'automation_feature_click', {
+                        'event_category': 'Email Sequences',
+                        'event_label': feature,
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Track email preview interactions
+        document.querySelectorAll('.email-preview').forEach(preview => {
+            preview.addEventListener('click', function() {
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'email_preview_click', {
+                        'event_category': 'Email Sequences',
+                        'event_label': 'Email Preview',
+                        'value': 1
+                    });
+                }
+            });
+        });
+        
+        // Animate metrics on scroll
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px 0px -100px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const metricNumbers = entry.target.querySelectorAll('.metric-number');
+                    metricNumbers.forEach(number => {
+                        const finalValue = number.textContent;
+                        const isPercentage = finalValue.includes('%');
+                        const isMoney = finalValue.includes('$');
+                        const numericValue = parseFloat(finalValue.replace(/[^0-9.]/g, ''));
+                        
+                        let currentValue = 0;
+                        const increment = numericValue / 50;
+                        
+                        const timer = setInterval(() => {
+                            currentValue += increment;
+                            if (currentValue >= numericValue) {
+                                currentValue = numericValue;
+                                clearInterval(timer);
+                            }
+                            
+                            if (isPercentage) {
+                                number.textContent = Math.round(currentValue) + '%';
+                            } else if (isMoney) {
+                                number.textContent = '$' + (currentValue / 1000000).toFixed(1) + 'M';
+                            } else {
+                                number.textContent = Math.round(currentValue);
+                            }
+                        }, 30);
+                    });
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.metric-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
+
+

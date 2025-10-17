@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧠 Neural Sales Dashboard - Sintra AI Marketing</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+    <script src="https://cdn.jsdelivr.net/npm/date-fns@2.29.3/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            color: #333;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="10" cy="60" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="90" cy="40" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .kpi-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .kpi-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .kpi-icon {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+        }
+
+        .kpi-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .kpi-change {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .kpi-change.positive {
+            color: #10b981;
+        }
+
+        .kpi-change.negative {
+            color: #ef4444;
+        }
+
+        .kpi-change.neutral {
+            color: #6b7280;
+        }
+
+        .chart-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 400px;
+        }
+
+        .filters {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .filter-item label {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.9rem;
+        }
+
+        .filter-item select,
+        .filter-item input {
+            padding: 10px 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .filter-item select:focus,
+        .filter-item input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .alert {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            color: #92400e;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .alert.success {
+            background: #d1fae5;
+            border-color: #10b981;
+            color: #065f46;
+        }
+
+        .alert.error {
+            background: #fee2e2;
+            border-color: #ef4444;
+            color: #991b1b;
+        }
+
+        @media (max-width: 768px) {
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="header">
+            <h1>🧠 Dashboard KPI Ventas - Sintra AI</h1>
+            <p>Monitoreo en tiempo real del rendimiento de ventas para cursos de IA y SaaS de marketing</p>
+        </div>
+
+        <div class="filters">
+            <div class="filter-group">
+                <div class="filter-item">
+                    <label for="period">Período</label>
+                    <select id="period">
+                        <option value="7d">Últimos 7 días</option>
+                        <option value="30d" selected>Últimos 30 días</option>
+                        <option value="90d">Últimos 90 días</option>
+                        <option value="1y">Último año</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <label for="product">Producto/Servicio</label>
+                    <select id="product">
+                        <option value="all">Todos</option>
+                        <option value="course">Curso IA Marketing</option>
+                        <option value="saas">SaaS Copy.ai</option>
+                        <option value="consulting">Consultoría</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <label for="team">Equipo</label>
+                    <select id="team">
+                        <option value="all">Todos los equipos</option>
+                        <option value="sales">Ventas</option>
+                        <option value="marketing">Marketing</option>
+                        <option value="partners">Socios</option>
+                    </select>
+                </div>
+                <button class="btn" onclick="updateDashboard()">Actualizar Dashboard</button>
+            </div>
+        </div>
+
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-title">
+                    <div class="kpi-icon">💰</div>
+                    Ingresos Totales
+                </div>
+                <div class="kpi-value" id="totalRevenue">$127,450</div>
+                <div class="kpi-change positive">
+                    <span>↗</span> +12.5% vs mes anterior
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-title">
+                    <div class="kpi-icon">🎯</div>
+                    Conversión Lead a Cliente
+                </div>
+                <div class="kpi-value" id="conversionRate">23.4%</div>
+                <div class="kpi-change positive">
+                    <span>↗</span> +3.2% vs mes anterior
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-title">
+                    <div class="kpi-icon">👥</div>
+                    Nuevos Clientes
+                </div>
+                <div class="kpi-value" id="newCustomers">47</div>
+                <div class="kpi-change positive">
+                    <span>↗</span> +8 nuevos vs mes anterior
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-title">
+                    <div class="kpi-icon">📈</div>
+                    Crecimiento MRR
+                </div>
+                <div class="kpi-value" id="mrrGrowth">18.7%</div>
+                <div class="kpi-change positive">
+                    <span>↗</span> +2.1% vs mes anterior
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-title">
+                    <div class="kpi-icon">💎</div>
+                    Valor Promedio de Venta
+                </div>
+                <div class="kpi-value" id="avgDealSize">$2,710</div>
+                <div class="kpi-change positive">
+                    <span>↗</span> +$340 vs mes anterior
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-title">
+                    <div class="kpi-icon">⏱️</div>
+                    Tiempo Promedio de Cierre
+                </div>
+                <div class="kpi-value" id="avgCloseTime">14 días</div>
+                <div class="kpi-change negative">
+                    <span>↘</span> -3 días vs mes anterior
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-title">Tendencia de Ventas por Canal</div>
+            <div class="chart-wrapper">
+                <canvas id="salesChannelChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-title">Conversión por Funnel de Marketing</div>
+            <div class="chart-wrapper">
+                <canvas id="funnelChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-title">Comparativa de Productos/Servicios</div>
+            <div class="chart-wrapper">
+                <canvas id="productComparisonChart"></canvas>
+            </div>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-value" id="leadsGenerated">1,247</div>
+                <div class="metric-label">Leads Generados</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value" id="qualifiedLeads">312</div>
+                <div class="metric-label">Leads Calificados</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value" id="demoRequests">89</div>
+                <div class="metric-label">Solicitudes de Demo</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value" id="trialConversions">34</div>
+                <div class="metric-label">Conversiones de Prueba</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value" id="churnRate">4.2%</div>
+                <div class="metric-label">Tasa de Churn</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value" id="lifetimeValue">$8,450</div>
+                <div class="metric-label">LTV Promedio</div>
+            </div>
+        </div>
+
+        <div class="alert success">
+            <strong>🎉 ¡Excelente rendimiento!</strong> Has superado el objetivo de ingresos del mes en un 15%. 
+            El canal de LinkedIn está generando el 40% de las conversiones.
+        </div>
+    </div>
+
+    <script>
+        // Datos de ejemplo para el dashboard
+        const dashboardData = {
+            salesChannels: {
+                labels: ['LinkedIn', 'Google Ads', 'Email Marketing', 'Webinars', 'Referidos', 'SEO'],
+                datasets: [{
+                    label: 'Conversiones',
+                    data: [47, 32, 28, 19, 15, 12],
+                    backgroundColor: [
+                        'rgba(102, 126, 234, 0.8)',
+                        'rgba(118, 75, 162, 0.8)',
+                        'rgba(16, 185, 129, 0.8)',
+                        'rgba(245, 158, 11, 0.8)',
+                        'rgba(239, 68, 68, 0.8)',
+                        'rgba(139, 92, 246, 0.8)'
+                    ],
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            funnelData: {
+                labels: ['Visitas', 'Leads', 'MQL', 'SQL', 'Oportunidades', 'Clientes'],
+                datasets: [{
+                    label: 'Conversiones',
+                    data: [10000, 1247, 312, 89, 47, 23],
+                    backgroundColor: 'rgba(102, 126, 234, 0.6)',
+                    borderColor: 'rgba(102, 126, 234, 1)',
+                    borderWidth: 2
+                }]
+            },
+            productComparison: {
+                labels: ['Curso IA Marketing', 'SaaS Copy.ai', 'Consultoría', 'Certificaciones'],
+                datasets: [{
+                    label: 'Ingresos (Miles $)',
+                    data: [45, 67, 23, 12],
+                    backgroundColor: [
+                        'rgba(102, 126, 234, 0.8)',
+                        'rgba(118, 75, 162, 0.8)',
+                        'rgba(16, 185, 129, 0.8)',
+                        'rgba(245, 158, 11, 0.8)'
+                    ],
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            }
+        };
+
+        // Inicializar gráficos
+        function initializeCharts() {
+            // Gráfico de canales de ventas
+            const salesChannelCtx = document.getElementById('salesChannelChart').getContext('2d');
+            new Chart(salesChannelCtx, {
+                type: 'doughnut',
+                data: dashboardData.salesChannels,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Gráfico de embudo
+            const funnelCtx = document.getElementById('funnelChart').getContext('2d');
+            new Chart(funnelCtx, {
+                type: 'bar',
+                data: dashboardData.funnelData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            // Gráfico de comparación de productos
+            const productCtx = document.getElementById('productComparisonChart').getContext('2d');
+            new Chart(productCtx, {
+                type: 'bar',
+                data: dashboardData.productComparison,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value + 'k';
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        // Actualizar dashboard
+        function updateDashboard() {
+            const period = document.getElementById('period').value;
+            const product = document.getElementById('product').value;
+            const team = document.getElementById('team').value;
+            
+            // Simular actualización de datos
+            console.log('Actualizando dashboard con:', { period, product, team });
+            
+            // Aquí se haría la llamada a la API real
+            // fetchDashboardData(period, product, team);
+            
+            // Mostrar mensaje de actualización
+            showAlert('Dashboard actualizado correctamente', 'success');
+        }
+
+        // Mostrar alertas
+        function showAlert(message, type = 'info') {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert ${type}`;
+            alertDiv.innerHTML = `<strong>${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}</strong> ${message}`;
+            
+            const container = document.querySelector('.dashboard-container');
+            container.insertBefore(alertDiv, container.firstChild);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+
+        // Simular actualización de datos en tiempo real
+        function simulateRealTimeUpdates() {
+            setInterval(() => {
+                // Actualizar algunos KPIs aleatoriamente
+                const kpis = ['totalRevenue', 'newCustomers', 'conversionRate'];
+                const randomKpi = kpis[Math.floor(Math.random() * kpis.length)];
+                
+                const element = document.getElementById(randomKpi);
+                if (element) {
+                    element.style.transform = 'scale(1.05)';
+                    element.style.color = '#10b981';
+                    
+                    setTimeout(() => {
+                        element.style.transform = 'scale(1)';
+                        element.style.color = '#333';
+                    }, 1000);
+                }
+            }, 30000); // Actualizar cada 30 segundos
+        }
+
+        // Inicializar dashboard cuando se carga la página
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCharts();
+            simulateRealTimeUpdates();
+        });
+
+        // Exportar datos del dashboard
+        function exportDashboard() {
+            const data = {
+                timestamp: new Date().toISOString(),
+                kpis: {
+                    totalRevenue: document.getElementById('totalRevenue').textContent,
+                    conversionRate: document.getElementById('conversionRate').textContent,
+                    newCustomers: document.getElementById('newCustomers').textContent,
+                    mrrGrowth: document.getElementById('mrrGrowth').textContent,
+                    avgDealSize: document.getElementById('avgDealSize').textContent,
+                    avgCloseTime: document.getElementById('avgCloseTime').textContent
+                },
+                filters: {
+                    period: document.getElementById('period').value,
+                    product: document.getElementById('product').value,
+                    team: document.getElementById('team').value
+                }
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `dashboard-kpi-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Agregar botón de exportación
+        document.addEventListener('DOMContentLoaded', function() {
+            const header = document.querySelector('.header');
+            const exportBtn = document.createElement('button');
+            exportBtn.className = 'btn';
+            exportBtn.textContent = '📊 Exportar Datos';
+            exportBtn.style.marginTop = '15px';
+            exportBtn.onclick = exportDashboard;
+            header.appendChild(exportBtn);
+        });
+    </script>
+</body>
+</html>

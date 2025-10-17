@@ -1,0 +1,57 @@
+[2025-10-01 16:12:01] [INFO] Iniciando organización permanente...
+[2025-10-01 16:12:02] [INFO] Encontrados 30 archivos para organizar
+[2025-10-01 16:12:02] [INFO] Organizado: COPYCAR_AI_ELEVATOR_PITCH_MASTER.md → 06_Documentation (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:12:02] [INFO] Organizado: MODELO_FINANCIERO_LATAM.md → 06_Documentation (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:12:02] [INFO] Organizado: neural-marketing-deployment.yaml → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:12:02] [INFO] Organizado: ultra_organizer.py → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:12:02] [INFO] Organizado: permanent_organizer.py → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:12:02] [INFO] Organizado: ci-cd.yml → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:12:02] [INFO] Organizado: config.yaml → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:12:02] [INFO] Organizado: config.yaml → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:12:02] [INFO] Organizado: config.yaml → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:12:02] [INFO] Organizado: alert_rules.yml → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:12:02] [INFO] Organizado: prometheus.yml → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:12:02] [INFO] Organizado: neural-marketing-dashboard.json → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:12:02] [INFO] Organizado: package.json → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:12:02] [INFO] Organizado: docker-compose.yml → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:12:02] [INFO] Organizado: package.json → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:12:02] [INFO] Organizado: README.md → 06_Documentation (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:12:02] [INFO] Organizado: package.json → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:12:02] [INFO] Organizado: tsconfig.json → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:12:02] [INFO] Organizado: docker-compose.yml → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:12:02] [INFO] Organizado: app.ts → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:12:02] [INFO] Organizado: server.ts → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:12:02] [INFO] Organizado: auth.ts → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:12:02] [INFO] Organizado: feedbackMiddleware.ts → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:12:02] [INFO] Organizado: customerFeedback.ts → 01_Marketing (pattern_analysis) - Confianza: 0.63
+[2025-10-01 16:12:02] [INFO] Organizado: advancedAnalytics.ts → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:12:02] [INFO] Organizado: customerFeedbackService.ts → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:12:02] [INFO] Organizado: advancedAnalyticsService.ts → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:12:02] [INFO] Organizado: package.json → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:12:02] [INFO] Organizado: Chart.yaml → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:12:02] [INFO] Organizado: values.yaml → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:12:02] [INFO] Organización permanente completada: 30 archivos organizados
+[2025-10-01 16:12:02] [INFO] Creando archivos índice permanentes...
+[2025-10-01 16:12:02] [INFO] Archivos índice permanentes creados
+[2025-10-01 16:12:02] [INFO] Verificando organización permanente...
+[2025-10-01 16:12:02] [INFO] Verificación permanente completada: 99/100 puntos
+[2025-10-01 16:14:18] [INFO] Iniciando organización permanente...
+[2025-10-01 16:14:18] [INFO] Encontrados 13 archivos para organizar
+[2025-10-01 16:14:18] [INFO] Organizado: COPYCAR_AI_INVESTOR_ONE_LINER.md → 06_Documentation (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:14:18] [INFO] Organizado: ABM_AI_CUSTOMER_CASE_STUDIES.md → 06_Documentation (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:14:18] [INFO] Organizado: PERMANENT_ORGANIZATION_REPORT.md → 06_Strategy (pattern_analysis) - Confianza: 1.00
+[2025-10-01 16:14:18] [INFO] Organizado: ORGANIZACION_ULTIMA_MEJORA.md → 06_Documentation (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:14:18] [INFO] Organizado: permanent_organizer.py → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:14:18] [INFO] Organizado: README.md → 06_Documentation (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:14:18] [INFO] Organizado: package.json → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:14:18] [INFO] Organizado: tsconfig.json → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:14:18] [INFO] Organizado: docker-compose.yml → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:14:18] [INFO] Organizado: server.ts → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:14:18] [INFO] Organizado: feedbackMiddleware.ts → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:14:18] [INFO] Organizado: advancedAnalytics.ts → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:14:18] [INFO] Organizado: advancedAnalyticsService.ts → 05_Technology (file_type_fallback) - Confianza: 0.50
+[2025-10-01 16:14:18] [INFO] Organización permanente completada: 13 archivos organizados
+[2025-10-01 16:14:18] [INFO] Creando archivos índice permanentes...
+[2025-10-01 16:14:18] [INFO] Archivos índice permanentes creados
+[2025-10-01 16:14:38] [INFO] Verificando organización permanente...
+[2025-10-01 16:14:39] [INFO] Verificación permanente completada: 99/100 puntos

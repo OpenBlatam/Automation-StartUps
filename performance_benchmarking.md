@@ -418,3 +418,4 @@ TRIMESTRE ANTERIOR:
 - [ ] Ajustar estrategia (más ajuste = más dinero)
 - [ ] Reportar resultados (más reportes = más dinero)
 - [ ] Planificar próximo ciclo (más planificación = más dinero)
+

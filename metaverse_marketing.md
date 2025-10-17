@@ -385,3 +385,4 @@ ROI: 2.5x en 90 días (más ROI = más dinero)
 - [ ] Escalar exitosos (más escalamiento = más dinero)
 - [ ] Crear nuevos mundos (más mundos = más dinero)
 - [ ] Reportar resultados (más reportes = más dinero)
+

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>😊 Hola! ¿Sabías que puedes ahorrar 2 horas diarias?</title>
+    <style>
+        @page { size: A4; margin: 2cm; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+        }
+        
+        .container {
+            background: white;
+            margin: 20px;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        
+        .friendly-header {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            text-align: center;
+            padding: 50px;
+            margin: -40px -40px 40px -40px;
+            border-radius: 20px 20px 0 0;
+        }
+        
+        .wave {
+            font-size: 3em;
+            margin-bottom: 20px;
+            animation: wave 2s ease-in-out infinite;
+        }
+        
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(20deg); }
+            75% { transform: rotate(-10deg); }
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin: 0;
+            font-weight: 300;
+        }
+        
+        .subtitle {
+            font-size: 1.3em;
+            margin: 20px 0;
+            opacity: 0.9;
+        }
+        
+        .story-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border-left: 5px solid #74b9ff;
+        }
+        
+        .story-title {
+            color: #0984e3;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+        
+        .before-after {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .before, .after {
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .before {
+            background: #ffeaa7;
+            border: 3px solid #fdcb6e;
+        }
+        
+        .after {
+            background: #d1f2eb;
+            border: 3px solid #00b894;
+        }
+        
+        .before-title, .after-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .before-title {
+            color: #e17055;
+        }
+        
+        .after-title {
+            color: #00b894;
+        }
+        
+        .emoji {
+            font-size: 2em;
+            margin: 10px 0;
+        }
+        
+        .benefits {
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .benefits h3 {
+            text-align: center;
+            font-size: 1.8em;
+            margin-bottom: 25px;
+        }
+        
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            font-size: 1.1em;
+        }
+        
+        .benefit-emoji {
+            font-size: 1.5em;
+            margin-right: 15px;
+        }
+        
+        .cta-friendly {
+            background: linear-gradient(135deg, #00b894, #00a085);
+            color: white;
+            padding: 25px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.5em;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 30px 0;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0, 184, 148, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .cta-friendly:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 184, 148, 0.4);
+        }
+        
+        .testimonial-friendly {
+            background: #e8f4f8;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border-left: 5px solid #74b9ff;
+            position: relative;
+        }
+        
+        .testimonial-friendly::before {
+            content: '"';
+            font-size: 4em;
+            color: #74b9ff;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+        }
+        
+        .testimonial-text {
+            font-size: 1.2em;
+            font-style: italic;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+        
+        .testimonial-author {
+            text-align: right;
+            font-weight: bold;
+            color: #0984e3;
+            margin-top: 15px;
+        }
+        
+        .price-friendly {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: center;
+            border: 3px solid #74b9ff;
+        }
+        
+        .price-amount {
+            font-size: 3em;
+            font-weight: bold;
+            color: #0984e3;
+            margin: 15px 0;
+        }
+        
+        .price-comparison {
+            font-size: 1.1em;
+            color: #666;
+            margin: 15px 0;
+        }
+        
+        .guarantee-friendly {
+            background: #d1f2eb;
+            color: #00b894;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: bold;
+            border: 2px solid #00b894;
+        }
+        
+        .faq {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .faq-item {
+            margin: 20px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            border-left: 4px solid #74b9ff;
+        }
+        
+        .faq-question {
+            font-weight: bold;
+            color: #0984e3;
+            margin-bottom: 10px;
+        }
+        
+        .footer-friendly {
+            background: #2d3436;
+            color: white;
+            padding: 30px;
+            text-align: center;
+            margin: 30px -40px -40px -40px;
+            border-radius: 0 0 20px 20px;
+        }
+        
+        .social-proof {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .proof-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .proof-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #0984e3;
+        }
+        
+        .proof-label {
+            color: #666;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="friendly-header">
+            <div class="wave">👋</div>
+            <h1>¡Hola! ¿Sabías que puedes ahorrar 2 horas diarias con ChatGPT?</h1>
+            <p class="subtitle">Soy [Tu Nombre], y quiero contarte algo que cambió completamente mi productividad...</p>
+        </div>
+
+        <div class="story-section">
+            <h2 class="story-title">📖 Te cuento mi historia</h2>
+            <p style="font-size: 1.2em; line-height: 1.8;">
+                Hace 3 meses, pasaba <strong>2+ horas diarias</strong> esperando respuestas de ChatGPT. 
+                Era frustrante, ¿verdad? 😤
+            </p>
+            <p style="font-size: 1.2em; line-height: 1.8;">
+                Hasta que creé <strong>ChatGPT Queue</strong> - una extensión súper simple que hace cola 
+                automáticamente de todos mis mensajes.
+            </p>
+            <p style="font-size: 1.2em; line-height: 1.8;">
+                <strong>¿El resultado?</strong> Ahora tengo 2 horas extra cada día para lo que realmente importa. 🎉
+            </p>
+        </div>
+
+        <div class="before-after">
+            <div class="before">
+                <div class="before-title">😰 ANTES</div>
+                <div class="emoji">⏰</div>
+                <p><strong>Desperdiciaba 2h/día</strong></p>
+                <p>= 10h/semana</p>
+                <p>= 520h/año 😱</p>
+                <p>Sin tiempo para mi familia</p>
+            </div>
+            <div class="after">
+                <div class="after-title">😊 DESPUÉS</div>
+                <div class="emoji">⚡</div>
+                <p><strong>Todo automatizado</strong></p>
+                <p>2h extra cada día</p>
+                <p>Más tiempo para proyectos</p>
+                <p>¡Vida transformada! 🎉</p>
+            </div>
+        </div>
+
+        <div class="benefits">
+            <h3>🎁 Lo que obtienes con ChatGPT Queue</h3>
+            <div class="benefit-item">
+                <span class="benefit-emoji">⚡</span>
+                <span>Cola automática instantánea - ¡Sin esperas!</span>
+            </div>
+            <div class="benefit-item">
+                <span class="benefit-emoji">⏰</span>
+                <span>2 horas diarias de vuelta - ¡Tiempo real!</span>
+            </div>
+            <div class="benefit-item">
+                <span class="benefit-emoji">💰</span>
+                <span>$2,000/mes de ahorro - ¡Dinero en tu bolsillo!</span>
+            </div>
+            <div class="benefit-item">
+                <span class="benefit-emoji">🎯</span>
+                <span>Setup en 2 minutos - ¡Súper fácil!</span>
+            </div>
+            <div class="benefit-item">
+                <span class="benefit-emoji">📱</span>
+                <span>Funciona en cualquier dispositivo - ¡Siempre contigo!</span>
+            </div>
+        </div>
+
+        <div class="testimonial-friendly">
+            <div class="testimonial-text">
+                Llevaba 3 meses perdiendo 2 horas diarias con ChatGPT. ChatGPT Queue me devolvió mi vida. 
+                En 1 semana recuperé mi inversión 10 veces. ¡No dejes pasar esta oportunidad!
+            </div>
+            <div class="testimonial-author">- María González, CEO TechStart</div>
+        </div>
+
+        <div class="social-proof">
+            <div class="proof-card">
+                <div class="proof-number">10,000+</div>
+                <div class="proof-label">Usuarios felices</div>
+            </div>
+            <div class="proof-card">
+                <div class="proof-number">2.3h</div>
+                <div class="proof-label">Ahorro promedio/día</div>
+            </div>
+            <div class="proof-card">
+                <div class="proof-number">98%</div>
+                <div class="proof-label">Satisfacción</div>
+            </div>
+            <div class="proof-card">
+                <div class="proof-number">$2,000</div>
+                <div class="proof-label">Ahorro mensual</div>
+            </div>
+        </div>
+
+        <div class="price-friendly">
+            <h3>💰 ¿Te gustaría probarlo?</h3>
+            <p style="font-size: 1.2em; margin: 20px 0;">
+                Por solo <strong>$19.99</strong> (menos de lo que gastas en café en una semana), 
+                puedes tener la misma libertad que yo.
+            </p>
+            <div class="price-amount">$19.99</div>
+            <div class="price-comparison">
+                <del style="color: #e17055;">Precio normal: $99.99</del><br>
+                <strong style="color: #00b894;">¡Ahorras $80 hoy!</strong>
+            </div>
+        </div>
+
+        <div class="guarantee-friendly">
+            🛡️ Garantía de 30 días - Si no ahorras 2 horas diarias, te devolvemos el 100%
+        </div>
+
+        <div style="text-align: center; margin: 40px 0;">
+            <a href="#" class="cta-friendly">
+                😊 ¡SÍ, QUIERO MIS 2 HORAS DIARIAS DE VUELTA! 😊
+            </a>
+            <p style="font-size: 1.1em; margin-top: 20px; color: #666;">
+                <strong>Pago único • Sin suscripciones • Acceso inmediato</strong>
+            </p>
+        </div>
+
+        <div class="faq">
+            <h3>❓ Preguntas Frecuentes</h3>
+            <div class="faq-item">
+                <div class="faq-question">¿Es difícil de instalar?</div>
+                <div>¡Para nada! Solo necesitas 2 minutos y no requiere conocimientos técnicos.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">¿Funciona con cualquier plan de ChatGPT?</div>
+                <div>Sí, funciona con todos los planes de ChatGPT, incluso el gratuito.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">¿Qué pasa si no me gusta?</div>
+                <div>Te devolvemos el 100% de tu dinero en 30 días, sin preguntas.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">¿Necesito actualizaciones?</div>
+                <div>No, es un pago único. Recibes todas las actualizaciones gratis de por vida.</div>
+            </div>
+        </div>
+
+        <div class="footer-friendly">
+            <h3>🤝 ¿Listo para transformar tu productividad?</h3>
+            <p>Únete a miles de personas que ya están ahorrando tiempo y dinero con ChatGPT Queue.</p>
+            <p style="font-size: 0.9em; margin-top: 20px; opacity: 0.8;">
+                © 2024 - ChatGPT Queue. Hecho con ❤️ para hacer tu vida más fácil.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

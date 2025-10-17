@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Marketing ROI Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .input-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid #e9ecef;
+        }
+        
+        .input-section h3 {
+            color: #495057;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .results-section {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .results-section h3 {
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+        
+        .metric {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .metric-value {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .metric-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .insights {
+            background: #e3f2fd;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+        
+        .insights h3 {
+            color: #1976d2;
+            margin-bottom: 20px;
+        }
+        
+        .insight-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #1976d2;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .comparison-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        .positive {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .negative {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .calculator-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 AI Marketing ROI Calculator</h1>
+            <p>Calculate the return on investment for your AI marketing tools and strategies</p>
+        </div>
+        
+        <div class="content">
+            <div class="calculator-grid">
+                <div class="input-section">
+                    <h3>📊 Investment Inputs</h3>
+                    
+                    <div class="form-group">
+                        <label for="aiToolCost">AI Tool Monthly Cost ($)</label>
+                        <input type="number" id="aiToolCost" value="500" min="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="implementationCost">Implementation Cost ($)</label>
+                        <input type="number" id="implementationCost" value="2000" min="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="trainingCost">Training Cost ($)</label>
+                        <input type="number" id="trainingCost" value="1000" min="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="timeSaved">Hours Saved Per Month</label>
+                        <input type="number" id="timeSaved" value="40" min="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="hourlyRate">Average Hourly Rate ($)</label>
+                        <input type="number" id="hourlyRate" value="50" min="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="productivityGain">Productivity Gain (%)</label>
+                        <input type="number" id="productivityGain" value="25" min="0" max="100">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="revenueIncrease">Monthly Revenue Increase ($)</label>
+                        <input type="number" id="revenueIncrease" value="5000" min="0">
+                    </div>
+                    
+                    <button class="btn" onclick="calculateROI()">Calculate ROI</button>
+                </div>
+                
+                <div class="results-section">
+                    <h3>📈 Results</h3>
+                    
+                    <div class="metric">
+                        <div class="metric-value" id="roiPercentage">0%</div>
+                        <div class="metric-label">ROI Percentage</div>
+                    </div>
+                    
+                    <div class="metric">
+                        <div class="metric-value" id="paybackPeriod">0 months</div>
+                        <div class="metric-label">Payback Period</div>
+                    </div>
+                    
+                    <div class="metric">
+                        <div class="metric-value" id="monthlyBenefit">$0</div>
+                        <div class="metric-label">Monthly Benefit</div>
+                    </div>
+                    
+                    <div class="metric">
+                        <div class="metric-value" id="annualBenefit">$0</div>
+                        <div class="metric-label">Annual Benefit</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="insights">
+                <h3>💡 AI Marketing Insights</h3>
+                <div id="insightsContent">
+                    <div class="insight-item">
+                        <strong>Industry Average ROI:</strong> AI marketing tools typically deliver 200-400% ROI within the first year.
+                    </div>
+                    <div class="insight-item">
+                        <strong>Time to Value:</strong> Most organizations see positive ROI within 3-6 months of implementation.
+                    </div>
+                    <div class="insight-item">
+                        <strong>Key Success Factors:</strong> Proper training, change management, and gradual implementation lead to better results.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="insights">
+                <h3>📊 ROI Comparison by Tool Type</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Tool Category</th>
+                            <th>Average ROI</th>
+                            <th>Payback Period</th>
+                            <th>Key Benefits</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Content Generation (Copy.ai)</td>
+                            <td class="positive">350%</td>
+                            <td>2-4 months</td>
+                            <td>Time savings, quality consistency</td>
+                        </tr>
+                        <tr>
+                            <td>Email Marketing AI</td>
+                            <td class="positive">280%</td>
+                            <td>3-5 months</td>
+                            <td>Personalization, open rates</td>
+                        </tr>
+                        <tr>
+                            <td>Social Media AI</td>
+                            <td class="positive">220%</td>
+                            <td>4-6 months</td>
+                            <td>Engagement, content scheduling</td>
+                        </tr>
+                        <tr>
+                            <td>Performance Review AI</td>
+                            <td class="positive">180%</td>
+                            <td>6-8 months</td>
+                            <td>Process efficiency, bias reduction</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculateROI() {
+            // Get input values
+            const aiToolCost = parseFloat(document.getElementById('aiToolCost').value) || 0;
+            const implementationCost = parseFloat(document.getElementById('implementationCost').value) || 0;
+            const trainingCost = parseFloat(document.getElementById('trainingCost').value) || 0;
+            const timeSaved = parseFloat(document.getElementById('timeSaved').value) || 0;
+            const hourlyRate = parseFloat(document.getElementById('hourlyRate').value) || 0;
+            const productivityGain = parseFloat(document.getElementById('productivityGain').value) || 0;
+            const revenueIncrease = parseFloat(document.getElementById('revenueIncrease').value) || 0;
+            
+            // Calculate costs
+            const totalInitialCost = implementationCost + trainingCost;
+            const monthlyCost = aiToolCost;
+            const annualCost = (monthlyCost * 12) + totalInitialCost;
+            
+            // Calculate benefits
+            const timeValue = timeSaved * hourlyRate;
+            const productivityValue = (productivityGain / 100) * timeValue;
+            const monthlyBenefit = timeValue + productivityValue + revenueIncrease;
+            const annualBenefit = monthlyBenefit * 12;
+            
+            // Calculate ROI
+            const roi = ((annualBenefit - annualCost) / annualCost) * 100;
+            const paybackPeriod = annualCost / monthlyBenefit;
+            
+            // Update results
+            document.getElementById('roiPercentage').textContent = roi.toFixed(1) + '%';
+            document.getElementById('paybackPeriod').textContent = paybackPeriod.toFixed(1) + ' months';
+            document.getElementById('monthlyBenefit').textContent = '$' + monthlyBenefit.toLocaleString();
+            document.getElementById('annualBenefit').textContent = '$' + annualBenefit.toLocaleString();
+            
+            // Update insights based on results
+            updateInsights(roi, paybackPeriod);
+        }
+        
+        function updateInsights(roi, paybackPeriod) {
+            const insightsContent = document.getElementById('insightsContent');
+            let insights = [];
+            
+            if (roi > 300) {
+                insights.push('<div class="insight-item"><strong>🎉 Excellent ROI:</strong> Your projected ROI is above industry average. This is a strong investment opportunity.</div>');
+            } else if (roi > 200) {
+                insights.push('<div class="insight-item"><strong>✅ Good ROI:</strong> Your projected ROI is solid and aligns with industry standards.</div>');
+            } else if (roi > 100) {
+                insights.push('<div class="insight-item"><strong>⚠️ Moderate ROI:</strong> Consider optimizing your implementation strategy to improve returns.</div>');
+            } else {
+                insights.push('<div class="insight-item"><strong>❌ Low ROI:</strong> Review your assumptions and consider a phased approach.</div>');
+            }
+            
+            if (paybackPeriod < 6) {
+                insights.push('<div class="insight-item"><strong>⚡ Fast Payback:</strong> You\'ll recover your investment quickly, reducing financial risk.</div>');
+            } else if (paybackPeriod < 12) {
+                insights.push('<div class="insight-item"><strong>📅 Standard Payback:</strong> Your payback period is within normal range for AI tools.</div>');
+            } else {
+                insights.push('<div class="insight-item"><strong>⏳ Extended Payback:</strong> Consider starting with a smaller pilot to validate assumptions.</div>');
+            }
+            
+            insights.push('<div class="insight-item"><strong>💡 Pro Tip:</strong> Start with a 3-month pilot to validate your ROI assumptions before full implementation.</div>');
+            
+            insightsContent.innerHTML = insights.join('');
+        }
+        
+        // Calculate on page load
+        window.onload = function() {
+            calculateROI();
+        };
+        
+        // Recalculate when inputs change
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', calculateROI);
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
