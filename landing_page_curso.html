@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso Completo de IA para Marketing - Transforma tu Carrera</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .header .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        
+        .cta-button {
+            background: #ff6b6b;
+            color: white;
+            padding: 20px 40px;
+            font-size: 1.3rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.4);
+        }
+        
+        .urgency {
+            background: #ff4757;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .benefits {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+        
+        .benefit-card {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .benefit-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+        
+        .testimonials {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .testimonial {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border-left: 5px solid #667eea;
+        }
+        
+        .pricing {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .pricing-card {
+            background: white;
+            color: #333;
+            padding: 50px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        }
+        
+        .price {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #ff6b6b;
+            margin: 20px 0;
+        }
+        
+        .guarantee {
+            background: #2ed573;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="urgency">
+        ⚡ ÚLTIMOS 3 DÍAS - 50% DE DESCUENTO ⚡ | Solo quedan 12 cupos disponibles
+    </div>
+    
+    <header class="header">
+        <div class="container">
+            <h1>🚀 Curso Completo de IA para Marketing</h1>
+            <p class="subtitle">De Principiante a Experto en 8 Semanas</p>
+            <p style="font-size: 1.2rem; margin-bottom: 40px;">
+                Aprende a usar Inteligencia Artificial para revolucionar tu marketing digital, 
+                automatizar procesos y aumentar tus conversiones en un 200%
+            </p>
+            <a href="#pricing" class="cta-button">¡QUIERO MI CUPO AHORA!</a>
+            <p style="margin-top: 20px; font-size: 0.9rem; opacity: 0.8;">
+                ✅ Acceso inmediato ✅ Garantía de 30 días ✅ Certificación incluida
+            </p>
+        </div>
+    </header>
+
+    <section class="benefits">
+        <div class="container">
+            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 20px;">
+                ¿Por qué este curso cambiará tu carrera?
+            </h2>
+            <p style="text-align: center; font-size: 1.2rem; color: #666; margin-bottom: 50px;">
+                Más de 2,000 profesionales ya transformaron su marketing con nuestras estrategias
+            </p>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🤖</div>
+                    <h3>Herramientas de IA Reales</h3>
+                    <p>Aprende a usar ChatGPT, Midjourney, Jasper AI y más herramientas que están revolucionando el marketing digital.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">⚡</div>
+                    <h3>Resultados Inmediatos</h3>
+                    <p>Implementa lo que aprendes desde el primer día. Verás resultados en tu primera semana de curso.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">📈</div>
+                    <h3>ROI Comprobable</h3>
+                    <p>Nuestros estudiantes aumentan sus conversiones en un promedio del 200% en los primeros 3 meses.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎯</div>
+                    <h3>Casos Reales</h3>
+                    <p>No teoría aburrida. Trabajamos con casos reales de empresas que ya están usando IA exitosamente.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">👥</div>
+                    <h3>Comunidad Exclusiva</h3>
+                    <p>Acceso a nuestra comunidad privada donde compartimos estrategias avanzadas y networking.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🏆</div>
+                    <h3>Certificación</h3>
+                    <p>Recibe tu certificado oficial que puedes mostrar en LinkedIn y tu CV.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <div class="container">
+            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 50px;">
+                Lo que dicen nuestros estudiantes
+            </h2>
+            
+            <div class="testimonial">
+                <p style="font-size: 1.2rem; margin-bottom: 20px; font-style: italic;">
+                    "Este curso cambió completamente mi perspectiva del marketing. En solo 4 semanas ya había automatizado el 80% de mis procesos y aumenté mis ventas en un 150%. La inversión se pagó sola en el primer mes."
+                </p>
+                <p style="font-weight: bold; color: #667eea;">- María González, Directora de Marketing</p>
+            </div>
+            
+            <div class="testimonial">
+                <p style="font-size: 1.2rem; margin-bottom: 20px; font-style: italic;">
+                    "Como emprendedor, necesitaba herramientas que me permitieran competir con empresas grandes. Este curso me dio exactamente eso. Ahora tengo un equipo virtual de IA que trabaja 24/7 para mi negocio."
+                </p>
+                <p style="font-weight: bold; color: #667eea;">- Carlos Ruiz, CEO StartupTech</p>
+            </div>
+            
+            <div class="testimonial">
+                <p style="font-size: 1.2rem; margin-bottom: 20px; font-style: italic;">
+                    "Llevaba años luchando con la creación de contenido. Ahora genero 10x más contenido de calidad en la mitad de tiempo. Mis clientes están impresionados con la velocidad y calidad de mi trabajo."
+                </p>
+                <p style="font-weight: bold; color: #667eea;">- Ana Martínez, Consultora de Marketing</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 20px;">
+                Invierte en tu futuro profesional
+            </h2>
+            <p style="text-align: center; font-size: 1.2rem; margin-bottom: 50px;">
+                Precio regular: $1,997 | Precio especial: $997 (Solo por tiempo limitado)
+            </p>
+            
+            <div class="pricing-card">
+                <h3 style="font-size: 2rem; margin-bottom: 20px;">Curso Completo de IA para Marketing</h3>
+                <div class="price">$997</div>
+                <p style="text-decoration: line-through; color: #999; font-size: 1.2rem;">$1,997</p>
+                
+                <div style="margin: 40px 0;">
+                    <h4 style="margin-bottom: 20px; font-size: 1.3rem;">✅ Todo incluido:</h4>
+                    <ul style="text-align: left; font-size: 1.1rem; line-height: 2;">
+                        <li>32 horas de contenido en vivo</li>
+                        <li>8 módulos completos con proyectos prácticos</li>
+                        <li>Acceso a grabaciones por 6 meses</li>
+                        <li>Material descargable y plantillas</li>
+                        <li>Comunidad privada de estudiantes</li>
+                        <li>Certificado de finalización</li>
+                        <li>1 mes de mentoría post-curso</li>
+                        <li>Bonos exclusivos por valor de $1,185</li>
+                    </ul>
+                </div>
+                
+                <div class="guarantee">
+                    🛡️ GARANTÍA DE 30 DÍAS - Si no estás satisfecho, te devolvemos el 100% de tu dinero
+                </div>
+                
+                <a href="#" class="cta-button" style="font-size: 1.5rem; padding: 25px 50px;">
+                    ¡QUIERO MI CUPO AHORA!
+                </a>
+                
+                <p style="margin-top: 20px; font-size: 0.9rem; color: #666;">
+                    🔒 Pago 100% seguro | 💳 Aceptamos todas las tarjetas | 📱 Acceso inmediato
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <h3>¿Tienes preguntas?</h3>
+            <p style="margin: 20px 0;">
+                📧 Email: info@cursoia.com<br>
+                📱 WhatsApp: +1 (555) 123-4567<br>
+                🌐 Website: www.cursoia.com
+            </p>
+            <p style="font-size: 0.9rem; opacity: 0.8;">
+                © 2024 Curso IA Marketing. Todos los derechos reservados.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Contador de urgencia
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const countDownDate = new Date().getTime() + (3 * 24 * 60 * 60 * 1000); // 3 días
+            const distance = countDownDate - now;
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            
+            document.querySelector('.urgency').innerHTML = 
+                `⏰ OFERTA TERMINA EN: ${days}d ${hours}h ${minutes}m | Solo quedan 12 cupos disponibles`;
+        }
+        
+        updateCountdown();
+        setInterval(updateCountdown, 60000); // Actualizar cada minuto
+        
+        // Smooth scroll para botones
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
+
