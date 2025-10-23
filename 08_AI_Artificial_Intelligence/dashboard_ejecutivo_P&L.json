@@ -1,0 +1,300 @@
+{
+  "task": "dashboard_ejecutivo_P&L_integrado",
+  "metadata": {
+    "version": "1.0",
+    "fecha_creacion": "2025-01-27",
+    "ultima_actualizacion": "2025-01-27",
+    "tipo_dashboard": "ejecutivo_integrado",
+    "audiencia": "C-Level, Board, Investors"
+  },
+  "input": {
+    "fuentes_datos": [
+      "curso_ia_webinars_P&L_premium.json",
+      "saas_ia_marketing_P&L_enterprise.json",
+      "ia_bulk_documentos_P&L_enterprise.json",
+      "analisis_predictivo_P&L.json",
+      "automatizacion_P&L.json",
+      "benchmarking_P&L.json",
+      "analisis_escenarios_P&L.json"
+    ],
+    "frecuencia_actualizacion": "tiempo_real",
+    "nivel_detalle": "ejecutivo"
+  },
+  "output_format": {
+    "dashboard_principal": "interactive_web",
+    "reportes_automaticos": "pdf_executive",
+    "alertas_criticas": "real_time_notifications",
+    "proyecciones": "interactive_charts"
+  },
+  "kpis_principales": {
+    "metricas_financieras": {
+      "revenue_total": {
+        "valor": 15000000,
+        "crecimiento_anual": 25,
+        "tendencia": "positiva",
+        "objetivo": 20000000,
+        "progreso": 75
+      },
+      "margen_bruto": {
+        "valor": 68,
+        "benchmark_industria": 65,
+        "tendencia": "estable",
+        "objetivo": 72,
+        "progreso": 94
+      },
+      "ebitda": {
+        "valor": 28,
+        "benchmark_industria": 22,
+        "tendencia": "positiva",
+        "objetivo": 32,
+        "progreso": 87
+      },
+      "utilidad_neta": {
+        "valor": 18,
+        "benchmark_industria": 15,
+        "tendencia": "positiva",
+        "objetivo": 22,
+        "progreso": 82
+      }
+    },
+    "metricas_operativas": {
+      "usuarios_activos": {
+        "valor": 15000,
+        "crecimiento_mensual": 8,
+        "tendencia": "positiva",
+        "objetivo": 25000,
+        "progreso": 60
+      },
+      "churn_rate": {
+        "valor": 6.5,
+        "benchmark_industria": 8.2,
+        "tendencia": "mejorando",
+        "objetivo": 4.0,
+        "progreso": 38
+      },
+      "cac": {
+        "valor": 280,
+        "benchmark_industria": 320,
+        "tendencia": "mejorando",
+        "objetivo": 200,
+        "progreso": 40
+      },
+      "ltv": {
+        "valor": 4200,
+        "benchmark_industria": 3800,
+        "tendencia": "positiva",
+        "objetivo": 5000,
+        "progreso": 84
+      }
+    },
+    "metricas_innovacion": {
+      "inversion_r_d": {
+        "valor": 15,
+        "benchmark_industria": 12,
+        "tendencia": "estable",
+        "objetivo": 18,
+        "progreso": 83
+      },
+      "patentes_pendientes": {
+        "valor": 23,
+        "benchmark_industria": 15,
+        "tendencia": "positiva",
+        "objetivo": 30,
+        "progreso": 77
+      },
+      "nuevos_productos": {
+        "valor": 8,
+        "benchmark_industria": 5,
+        "tendencia": "positiva",
+        "objetivo": 12,
+        "progreso": 67
+      }
+    }
+  },
+  "segmentacion_negocios": {
+    "curso_ia_webinars": {
+      "revenue": 1200000,
+      "margen_bruto": 72,
+      "crecimiento": 18,
+      "usuarios": 5000,
+      "satisfaccion": 4.5,
+      "posicionamiento": "Líder en educación IA"
+    },
+    "saas_ia_marketing": {
+      "revenue": 8500000,
+      "margen_bruto": 68,
+      "crecimiento": 25,
+      "usuarios": 8000,
+      "satisfaccion": 4.3,
+      "posicionamiento": "Top 3 en marketing automation"
+    },
+    "ia_bulk_documentos": {
+      "revenue": 5300000,
+      "margen_bruto": 75,
+      "crecimiento": 40,
+      "usuarios": 2000,
+      "satisfaccion": 4.7,
+      "posicionamiento": "Líder en generación de documentos"
+    }
+  },
+  "analisis_competitivo": {
+    "posicionamiento_global": "Top 5 en IA Enterprise",
+    "ventajas_competitivas": [
+      "Tecnología más avanzada",
+      "Ecosistema integrado",
+      "Precio competitivo",
+      "Soporte superior",
+      "Innovación continua"
+    ],
+    "market_share": {
+      "global": 8,
+      "latinoamerica": 25,
+      "europa": 12,
+      "norteamerica": 5
+    },
+    "benchmarking": {
+      "revenue_growth": "Superior en 15%",
+      "margen_bruto": "Superior en 8%",
+      "satisfaccion": "Superior en 20%",
+      "innovacion": "Superior en 30%"
+    }
+  },
+  "proyecciones_estrategicas": {
+    "escenario_optimista": {
+      "probabilidad": 30,
+      "revenue_12_meses": 25000000,
+      "crecimiento": 40,
+      "margen_ebitda": 35,
+      "usuarios": 40000
+    },
+    "escenario_base": {
+      "probabilidad": 50,
+      "revenue_12_meses": 20000000,
+      "crecimiento": 25,
+      "margen_ebitda": 30,
+      "usuarios": 30000
+    },
+    "escenario_pesimista": {
+      "probabilidad": 20,
+      "revenue_12_meses": 15000000,
+      "crecimiento": 10,
+      "margen_ebitda": 20,
+      "usuarios": 20000
+    }
+  },
+  "alertas_criticas": {
+    "financieras": [
+      {
+        "tipo": "caida_margen",
+        "severidad": "alta",
+        "descripcion": "Margen bruto cayó 5% en Q2",
+        "accion": "Revisar costos operativos"
+      },
+      {
+        "tipo": "aumento_churn",
+        "severidad": "media",
+        "descripcion": "Churn rate aumentó 2%",
+        "accion": "Mejorar programa de retención"
+      }
+    ],
+    "operativas": [
+      {
+        "tipo": "satisfaccion_baja",
+        "severidad": "alta",
+        "descripcion": "NPS cayó a 45",
+        "accion": "Programa de mejora de experiencia"
+      }
+    ],
+    "competitivas": [
+      {
+        "tipo": "nueva_competencia",
+        "severidad": "media",
+        "descripcion": "Nuevo competidor con precios 20% menores",
+        "accion": "Revisar estrategia de precios"
+      }
+    ]
+  },
+  "oportunidades_identificadas": {
+    "corto_plazo": [
+      "Optimización de costos operativos (15% ahorro)",
+      "Mejora de retención de clientes (20% reducción churn)",
+      "Expansión a 2 nuevos mercados"
+    ],
+    "medio_plazo": [
+      "Lanzamiento de 3 nuevos productos",
+      "Partnerships estratégicos con Fortune 500",
+      "Expansión internacional a Europa"
+    ],
+    "largo_plazo": [
+      "Adquisición de competidores menores",
+      "Desarrollo de tecnología quantum",
+      "Expansión a nuevos verticales"
+    ]
+  },
+  "riesgos_principales": {
+    "tecnologicos": {
+      "probabilidad": "media",
+      "impacto": "alto",
+      "descripcion": "Disrupción por nuevas tecnologías",
+      "mitigacion": "Inversión continua en R&D"
+    },
+    "mercado": {
+      "probabilidad": "baja",
+      "impacto": "muy_alto",
+      "descripcion": "Recesión económica global",
+      "mitigacion": "Diversificación de ingresos"
+    },
+    "competitivos": {
+      "probabilidad": "alta",
+      "impacto": "medio",
+      "descripcion": "Entrada de grandes tech companies",
+      "mitigacion": "Diferenciación y ventajas competitivas"
+    }
+  },
+  "recomendaciones_estrategicas": {
+    "inmediatas": [
+      "Implementar programa de optimización de costos",
+      "Acelerar desarrollo de nuevos productos",
+      "Fortalecer programa de retención"
+    ],
+    "3_meses": [
+      "Completar expansión a 2 nuevos mercados",
+      "Lanzar 2 nuevas funcionalidades",
+      "Establecer partnerships estratégicos"
+    ],
+    "6_meses": [
+      "Preparar para ronda de financiamiento",
+      "Desarrollar estrategia de adquisiciones",
+      "Implementar tecnología quantum"
+    ],
+    "12_meses": [
+      "IPO preparation",
+      "Expansión global completa",
+      "Liderazgo en 3 verticales"
+    ]
+  },
+  "metricas_seguimiento": {
+    "frecuencia": "semanal",
+    "responsables": ["CEO", "CFO", "CTO", "CMO"],
+    "canales": ["Dashboard", "Email", "Slack", "Mobile App"],
+    "umbrales_alerta": {
+      "revenue_growth": -5,
+      "margen_bruto": 60,
+      "churn_rate": 10,
+      "satisfaccion": 4.0
+    }
+  },
+  "integraciones_dashboard": {
+    "bi_tools": ["Tableau", "Power BI", "Looker"],
+    "databases": ["PostgreSQL", "MongoDB", "Redis"],
+    "apis": ["Salesforce", "HubSpot", "Stripe", "AWS"],
+    "notifications": ["Slack", "Teams", "Email", "SMS"]
+  },
+  "seguridad_compliance": {
+    "nivel_acceso": "C-Level",
+    "encriptacion": "AES-256",
+    "auditoria": "Completa",
+    "compliance": ["SOX", "GDPR", "ISO27001"],
+    "backup": "Diario automático"
+  }
+}

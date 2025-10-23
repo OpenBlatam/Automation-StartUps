@@ -1,0 +1,225 @@
+{
+  "metadata": {
+    "total_campaigns": 1000,
+    "categories": 10,
+    "campaigns_per_category": 100,
+    "generated_date": "2024-01-01",
+    "description": "Índice completo de 1000 campañas de marketing con IA organizadas por categorías"
+  },
+  "categories": {
+    "Personalización con IA": {
+      "description": "Campañas que utilizan IA para personalizar experiencias de usuario únicas",
+      "technologies": ["Machine Learning", "Deep Learning", "Neural Networks", "Recommendation Engines"],
+      "channels": ["Redes Sociales", "Email Marketing", "E-commerce", "Mobile Marketing"],
+      "objectives": ["Aumentar conversiones", "Mejorar engagement", "Mejorar experiencia de usuario"],
+      "campaign_count": 100,
+      "avg_budget": 25000,
+      "avg_success_probability": 0.87,
+      "top_campaigns": [
+        "Smart Personalization Boost Campaign",
+        "AI-Powered Dynamic Content Personalization",
+        "Intelligent User Experience Optimization",
+        "Predictive Personalization Engine",
+        "Hyper-Personalized Marketing Automation"
+      ]
+    },
+    "Análisis Predictivo": {
+      "description": "Campañas que utilizan IA para predecir tendencias y comportamientos del consumidor",
+      "technologies": ["Deep Learning", "Predictive Analytics", "Machine Learning", "Neural Networks"],
+      "channels": ["Email Marketing", "Marketing Automation", "SEM/PPC", "Display Advertising"],
+      "objectives": ["Mejorar engagement", "Generar leads", "Optimizar ROI"],
+      "campaign_count": 100,
+      "avg_budget": 35000,
+      "avg_success_probability": 0.89,
+      "top_campaigns": [
+        "AI-Powered Predictive Analytics Strategy",
+        "Intelligent Market Trend Prediction",
+        "Customer Behavior Forecasting Engine",
+        "Predictive Lead Scoring System",
+        "Advanced Churn Prediction Model"
+      ]
+    },
+    "Chatbots y Asistentes Virtuales": {
+      "description": "Campañas que implementan chatbots inteligentes para mejorar la atención al cliente",
+      "technologies": ["NLP", "Machine Learning", "Deep Learning", "Computer Vision"],
+      "channels": ["E-commerce", "Website", "Mobile Marketing", "Social Media"],
+      "objectives": ["Generar leads", "Mejorar experiencia de usuario", "Mejorar retención"],
+      "campaign_count": 100,
+      "avg_budget": 22000,
+      "avg_success_probability": 0.88,
+      "top_campaigns": [
+        "Intelligent Chatbot Experience Initiative",
+        "Advanced Customer Service Automation",
+        "AI-Powered Sales Assistant",
+        "Multilingual Support Bot",
+        "Intelligent FAQ Resolution System"
+      ]
+    },
+    "Generación de Contenido": {
+      "description": "Campañas que utilizan IA para crear contenido automáticamente",
+      "technologies": ["Generative AI", "NLP", "Computer Vision", "Deep Learning"],
+      "channels": ["Content Marketing", "Blog", "Social Media", "Video Marketing"],
+      "objectives": ["Aumentar ventas", "Mejorar engagement", "Aumentar brand awareness"],
+      "campaign_count": 100,
+      "avg_budget": 28000,
+      "avg_success_probability": 0.85,
+      "top_campaigns": [
+        "Dynamic Content Generation Program",
+        "AI-Powered Blog Content Creator",
+        "Automated Social Media Content Engine",
+        "Intelligent Video Content Generator",
+        "Smart Email Content Optimization"
+      ]
+    },
+    "Optimización de Conversión": {
+      "description": "Campañas que utilizan IA para optimizar continuamente las tasas de conversión",
+      "technologies": ["Reinforcement Learning", "Machine Learning", "Deep Learning", "Neural Networks"],
+      "channels": ["SEM/PPC", "Landing Pages", "E-commerce", "Display Advertising"],
+      "objectives": ["Mejorar retención", "Optimizar ROI", "Aumentar conversiones"],
+      "campaign_count": 100,
+      "avg_budget": 40000,
+      "avg_success_probability": 0.91,
+      "top_campaigns": [
+        "Adaptive Conversion Optimization Solution",
+        "Real-time A/B Testing Engine",
+        "Intelligent Landing Page Optimizer",
+        "Dynamic Pricing Optimization System",
+        "Advanced Funnel Analysis Tool"
+      ]
+    },
+    "Segmentación Avanzada": {
+      "description": "Campañas que utilizan IA para crear segmentación avanzada de audiencias",
+      "technologies": ["Neural Networks", "Machine Learning", "Deep Learning", "Clustering"],
+      "channels": ["Display Advertising", "Facebook Ads", "Email Marketing", "Social Media"],
+      "objectives": ["Optimizar ROI", "Expandir alcance", "Mejorar engagement"],
+      "campaign_count": 100,
+      "avg_budget": 20000,
+      "avg_success_probability": 0.84,
+      "top_campaigns": [
+        "Neural Segmentation Enhancement Campaign",
+        "AI-Powered Audience Intelligence",
+        "Dynamic Customer Segmentation Engine",
+        "Intelligent Lookalike Audience Creator",
+        "Advanced Behavioral Segmentation System"
+      ]
+    },
+    "Automatización de Marketing": {
+      "description": "Campañas que automatizan procesos de marketing utilizando IA",
+      "technologies": ["Computer Vision", "Machine Learning", "NLP", "Deep Learning"],
+      "channels": ["Mobile Marketing", "Email Marketing", "Social Media", "Marketing Automation"],
+      "objectives": ["Reducir costos", "Mejorar retención", "Expandir alcance"],
+      "campaign_count": 100,
+      "avg_budget": 30000,
+      "avg_success_probability": 0.86,
+      "top_campaigns": [
+        "Cognitive Marketing Automation Program",
+        "Intelligent Workflow Optimization",
+        "AI-Powered Campaign Management",
+        "Automated Lead Nurturing System",
+        "Smart Marketing Orchestration Platform"
+      ]
+    },
+    "Análisis de Sentimientos": {
+      "description": "Campañas que analizan sentimientos y percepciones de la marca",
+      "technologies": ["Sentiment Analysis", "NLP", "Machine Learning", "Deep Learning"],
+      "channels": ["Influencer Marketing", "Social Media", "Review Platforms", "Community Management"],
+      "objectives": ["Mejorar experiencia de usuario", "Mejorar engagement", "Aumentar brand awareness"],
+      "campaign_count": 100,
+      "avg_budget": 18000,
+      "avg_success_probability": 0.82,
+      "top_campaigns": [
+        "Predictive Sentiment Analysis Initiative",
+        "Real-time Brand Monitoring System",
+        "Intelligent Crisis Management Tool",
+        "Advanced Social Listening Platform",
+        "Automated Reputation Management"
+      ]
+    },
+    "Recomendaciones Inteligentes": {
+      "description": "Campañas que proporcionan recomendaciones personalizadas utilizando IA",
+      "technologies": ["Recommendation Engines", "Machine Learning", "Deep Learning", "Collaborative Filtering"],
+      "channels": ["Video Marketing", "E-commerce", "Mobile Apps", "Content Platforms"],
+      "objectives": ["Mejorar retención", "Aumentar ventas", "Mejorar experiencia de usuario"],
+      "campaign_count": 100,
+      "avg_budget": 32000,
+      "avg_success_probability": 0.88,
+      "top_campaigns": [
+        "Deep Recommendation Engine Strategy",
+        "Intelligent Product Recommendation System",
+        "AI-Powered Content Discovery Engine",
+        "Smart Cross-sell Optimization",
+        "Advanced Upselling Intelligence"
+      ]
+    },
+    "Marketing Visual con IA": {
+      "description": "Campañas que optimizan y generan contenido visual utilizando IA",
+      "technologies": ["Computer Vision", "Deep Learning", "Generative AI", "Image Recognition"],
+      "channels": ["Social Media", "Instagram", "Video Marketing", "Display Advertising"],
+      "objectives": ["Aumentar brand awareness", "Mejorar engagement", "Aumentar ventas"],
+      "campaign_count": 100,
+      "avg_budget": 24000,
+      "avg_success_probability": 0.85,
+      "top_campaigns": [
+        "AI Visual Marketing Optimization",
+        "Intelligent Image Recognition System",
+        "Automated Visual Content Creator",
+        "Smart Video Optimization Engine",
+        "AI-Powered Visual Search Platform"
+      ]
+    }
+  },
+  "statistics": {
+    "total_budget": 125000000,
+    "avg_budget_per_campaign": 125000,
+    "avg_success_probability": 0.852,
+    "complexity_distribution": {
+      "Baja": 333,
+      "Media": 333,
+      "Alta": 334
+    },
+    "priority_distribution": {
+      "Baja": 250,
+      "Media": 250,
+      "Alta": 250,
+      "Crítica": 250
+    },
+    "budget_tier_distribution": {
+      "Básico": 250,
+      "Intermedio": 250,
+      "Avanzado": 250,
+      "Enterprise": 250
+    }
+  },
+  "implementation_roadmap": {
+    "phase_1": {
+      "name": "Campañas de Alto Impacto",
+      "duration": "Q1 2024",
+      "campaigns": 100,
+      "focus": "Personalización con IA, Chatbots, Optimización de Conversión",
+      "expected_roi": "6.2x"
+    },
+    "phase_2": {
+      "name": "Escalamiento Inteligente",
+      "duration": "Q2 2024",
+      "campaigns": 300,
+      "focus": "Análisis Predictivo, Generación de Contenido, Automatización",
+      "expected_roi": "5.8x"
+    },
+    "phase_3": {
+      "name": "Optimización Avanzada",
+      "duration": "Q3 2024",
+      "campaigns": 300,
+      "focus": "Segmentación Avanzada, Análisis de Sentimientos, Recomendaciones",
+      "expected_roi": "5.5x"
+    },
+    "phase_4": {
+      "name": "Innovación y Diferenciación",
+      "duration": "Q4 2024",
+      "campaigns": 300,
+      "focus": "Marketing Visual con IA, Tecnologías Emergentes",
+      "expected_roi": "5.2x"
+    }
+  }
+}
+
+

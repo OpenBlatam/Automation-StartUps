@@ -1,0 +1,101 @@
+ID,Categoria,Titulo,Subtitulo,CTA,Tipo_Hook,Urgencia,Emocion,Audiencia,ROI,Conversion
+1,Urgencia,"⏰ SOLO 24 HORAS: El secreto que transformó a 10,000+ emprendedores","Por primera vez en 3 años, revelado públicamente","RESERVAR MI LUGAR VIP - Solo 47 cupos",Urgencia,Alta,Alta,Emprendedores,500%,3.5%
+2,Escasez,"Solo 3 personas más pueden unirse a este webinar PRIVADO","El método prohibido que usan los top 1%","SOLICITAR INVITACIÓN PRIVADA",Escasez,Alta,Alta,Avanzados,600%,4.2%
+3,Oferta,"🔥 OFERTA SE CIERRA EN 6 HORAS: Acceso GRATIS al webinar de $5,000","El método que generó $2.3M en ventas","OBTENER ACCESO GRATIS AHORA",Oferta,Alta,Alta,General,400%,2.8%
+4,Urgencia Emocional,"¿Cuánto tiempo más vas a esperar para cambiar tu vida?","Cada día que esperas es un día menos de libertad","CAMBIAR MI VIDA HOY",Urgencia,Media,Alta,Empleados,350%,3.1%
+5,Resultado,"De $0 a $10,000 en 30 días: El método paso a paso","La fórmula exacta que usaron 1,247 emprendedores","GENERAR MIS PRIMEROS $10,000",Beneficio,Baja,Media,Principiantes,450%,4.5%
+6,Transformacion,"De empleado frustrado a emprendedor exitoso en 90 días","La guía completa para hacer la transición","INICIAR MI TRANSFORMACIÓN",Transformacion,Baja,Alta,Empleados,400%,3.8%
+7,Problema,"¿Cansado de trabajar 12 horas y ganar $3,000?","El método que te permite trabajar 4 horas y ganar $10,000+","APLICAR LA SOLUCIÓN",Problema,Media,Alta,Empleados,380%,3.2%
+8,Secreto,"El secreto que los millonarios no quieren que sepas","Por qué el 1% más rico mantiene sus métodos en secreto","REVELAR EL SECRETO",Curiosidad,Media,Alta,Avanzados,550%,3.9%
+9,Autoridad,"El CEO que construyó un imperio de $100M te enseña","20 años de experiencia condensados en 60 minutos","APRENDER DEL MAESTRO",Autoridad,Baja,Alta,Emprendedores,500%,4.1%
+10,Historia,"De la quiebra a los $10M: Mi historia real","Los errores que cometí y las lecciones que aprendí","ESCUCHAR MI HISTORIA",Storytelling,Baja,Alta,General,420%,3.6%
+11,Contraste,"De $3,000 a $30,000 al mes: La transformación completa","Descubre exactamente cómo lo logré","LOGRAR LA TRANSFORMACIÓN",Contraste,Baja,Alta,Emprendedores,480%,4.3%
+12,Pregunta,"¿Quieres generar $10,000 este mes?","Te muestro exactamente cómo hacerlo","SÍ, QUIERO GENERAR $10,000",Pregunta,Baja,Media,General,400%,3.4%
+13,Estadistica,"El 90% de los emprendedores fallan en el primer año","Descubre cómo ser parte del 10% que triunfa","SER PARTE DEL 10%",Estadistica,Baja,Alta,Emprendedores,450%,3.7%
+14,Inspiracion,"Despierta el emprendedor que llevas dentro","Es hora de vivir la vida que mereces","DESPERTAR MI POTENCIAL",Emocion,Baja,Alta,General,350%,2.9%
+15,Confianza,"Recupera la confianza en ti mismo","Eres más capaz de lo que crees","RECUPERAR MI CONFIANZA",Emocion,Baja,Alta,Empleados,380%,3.3%
+16,Countdown,"⏰ 12 HORAS RESTANTES: El webinar que cambió la vida de María","Su historia real + el método exacto que usó","VER LA HISTORIA COMPLETA",Urgencia,Alta,Alta,General,420%,3.8%
+17,Exclusividad,"🎯 WEBINAR VIP: Solo 15 personas selectas","El CEO de $100M comparte su fórmula secreta","UNIRME A LA LISTA VIP",Exclusividad,Media,Alta,Avanzados,600%,4.5%
+18,Multiplicacion,"Cómo multiplicar tus ingresos por 10x en 90 días","El sistema que transformó a 500+ empleados","MULTIPLICAR MIS INGRESOS",Beneficio,Baja,Media,Empleados,450%,4.0%
+19,Metodo Prohibido,"La técnica prohibida que genera millones","Lo que las grandes corporaciones no quieren que sepas","DESCUBRIR LA TÉCNICA",Curiosidad,Media,Alta,Emprendedores,520%,3.8%
+20,Experiencia,"El método que generó $50M en ventas","Comprobado en 100+ empresas","APLICAR EL MÉTODO",Autoridad,Baja,Media,Emprendedores,480%,4.2%
+21,Frustracion,"¿Frustrado porque nada funciona para generar ingresos?","No es tu culpa - Te han enseñado métodos obsoletos","DESCUBRIR EL INGREDIENTE",Problema,Media,Alta,Emprendedores,400%,3.5%
+22,Momento Decisivo,"El día que decidí cambiar mi vida para siempre","Y cómo puedes hacer lo mismo","HACER EL CAMBIO",Storytelling,Baja,Alta,General,420%,3.6%
+23,Comparacion,"Mientras otros luchan, tú puedes triunfar con este método","La diferencia entre el éxito y el fracaso","ELEGIR EL ÉXITO",Contraste,Baja,Media,General,380%,3.2%
+24,Compromiso,"¿Estás listo para cambiar tu vida para siempre?","Porque esto es lo que va a pasar","SÍ, ESTOY LISTO",Pregunta,Baja,Alta,General,450%,3.9%
+25,Prueba Social,"1,247 emprendedores ya cambiaron su vida con este método","Sus resultados hablan por sí solos","SER EL SIGUIENTE",Estadistica,Baja,Alta,Emprendedores,470%,4.1%
+26,Crecimiento,"Crecimiento del 300% en solo 6 meses","Con este método comprobado","LOGRAR EL CRECIMIENTO",Estadistica,Baja,Media,Emprendedores,500%,4.3%
+27,Esperanza,"La esperanza que estabas buscando","Tu futuro brillante comienza aquí","COMENZAR MI FUTURO",Emocion,Baja,Alta,Empleados,360%,3.0%
+28,Leccion Costosa,"El error de $50,000 que me enseñó a triunfar","Ahora te lo comparto gratis","APROVECHAR LA LECCIÓN",Storytelling,Baja,Alta,General,440%,3.7%
+29,Identificacion,"¿Te sientes atrapado en tu situación actual?","Hay una salida, y te la muestro","MOSTRARME LA SALIDA",Pregunta,Media,Alta,Empleados,390%,3.4%
+30,Motivacion,"La motivación que necesitas para triunfar","Transforma tu mentalidad hoy","TRANSFORMAR MI MENTALIDAD",Emocion,Baja,Alta,General,410%,3.5%
+31,Urgencia Temporal,"⏰ 48 HORAS RESTANTES: El método que generó $1M en 6 meses","Por tiempo limitado: Acceso exclusivo al sistema probado","ACCEDER AL SISTEMA - Tiempo limitado",Urgencia,Alta,Media,Emprendedores,450%,3.8%
+32,Ultima Oportunidad,"🔥 ÚLTIMO DÍA: Webinar que nunca se repetirá","El experto #1 en marketing digital revela sus secretos finales","ASEGURAR MI LUGAR - Última oportunidad",Urgencia,Alta,Alta,General,500%,4.0%
+33,Secreto Millonarios,"⚡ 18 HORAS RESTANTES: Descubre el secreto de los multimillonarios","La técnica que usan los top 0.1% para generar riqueza","DESCUBRIR LA TÉCNICA - Acceso inmediato",Curiosidad,Alta,Alta,Avanzados,600%,4.5%
+34,Oferta Gratis,"⏰ SOLO 8 HORAS: El webinar que vale $10,000 GRATIS","Normalmente $10,000 - Hoy completamente GRATIS","OBTENER GRATIS - Solo 100 cupos",Oferta,Alta,Alta,General,350%,2.5%
+35,Historia Personal,"🔥 36 HORAS RESTANTES: La fórmula que cambió mi vida","De $0 a $100K en 90 días - Mi historia real","CONOCER LA FÓRMULA - Historia completa",Storytelling,Alta,Alta,General,420%,3.6%
+36,Metodo Prohibido,"⚡ ÚLTIMAS 24 HORAS: El método prohibido de los millonarios","Lo que las grandes corporaciones no quieren que sepas","REVELAR EL MÉTODO - Acceso exclusivo",Curiosidad,Alta,Alta,Avanzados,550%,4.2%
+37,Webinar VIP,"⏰ 72 HORAS RESTANTES: Webinar VIP de transformación","Solo para personas selectas - Acceso por invitación","SOLICITAR INVITACIÓN - Verificación requerida",Exclusividad,Media,Alta,Avanzados,600%,4.8%
+38,Exclusividad Ultra,"🎯 WEBINAR ULTRA VIP: Solo para 5 personas en el mundo","El secreto que solo conocen los multimillonarios","SOLICITAR INVITACIÓN ULTRA VIP - Verificación especial",Exclusividad,Alta,Alta,Avanzados,700%,5.0%
+39,Acceso Diamante,"💎 ACCESO DIAMANTE: Solo 10 personas selectas","El método más exclusivo jamás revelado","OBTENER ACCESO DIAMANTE - Solo 10 cupos",Exclusividad,Alta,Alta,Avanzados,650%,4.7%
+40,Webinar Real,"👑 WEBINAR REAL: Solo para la realeza del emprendimiento","Acceso exclusivo para los emprendedores más exitosos","UNIRME A LA REALEZA - Acceso real",Exclusividad,Media,Alta,Avanzados,580%,4.3%
+41,Webinar Estrella,"⭐ WEBINAR ESTRELLA: Solo 15 personas en el planeta","El conocimiento más valioso del universo","CONVERTIRME EN ESTRELLA - Acceso estelar",Exclusividad,Media,Alta,Avanzados,620%,4.6%
+42,Webinar Cohete,"🚀 WEBINAR COHETE: Solo para los más ambiciosos","El método que te llevará a la luna","DESPEGAR CON EL COHETE - Acceso espacial",Exclusividad,Media,Alta,Avanzados,590%,4.4%
+43,Webinar Gema,"💎 WEBINAR GEMA: Solo 20 personas en la historia","El secreto más preciado de todos los tiempos","OBTENER LA GEMA - Acceso histórico",Exclusividad,Media,Alta,Avanzados,630%,4.5%
+44,Webinar Imperial,"👑 WEBINAR IMPERIAL: Solo para los emperadores del éxito","El conocimiento que construyó imperios","CONSTRUIR MI IMPERIO - Acceso imperial",Exclusividad,Media,Alta,Avanzados,610%,4.2%
+45,Webinar Celestial,"⭐ WEBINAR CELESTIAL: Solo 25 personas en el cosmos","El secreto que viene de las estrellas","ALCANZAR LAS ESTRELLAS - Acceso celestial",Exclusividad,Media,Alta,Avanzados,640%,4.4%
+46,Webinar Galactico,"🚀 WEBINAR GALÁCTICO: Solo para los conquistadores del universo","El método que conquista galaxias","CONQUISTAR GALAXIAS - Acceso galáctico",Exclusividad,Media,Alta,Avanzados,660%,4.6%
+47,Webinar Infinito,"💎 WEBINAR INFINITO: Solo 30 personas en la eternidad","El secreto que trasciende el tiempo","TRASCENDER EL TIEMPO - Acceso infinito",Exclusividad,Media,Alta,Avanzados,680%,4.8%
+48,Urgencia Social,"🔥 2,847 personas ya se unieron - ¿Serás la siguiente?","Únete a la comunidad más exitosa del mundo","UNIRME A LA COMUNIDAD - Ser la siguiente",Urgencia,Media,Alta,General,400%,3.2%
+49,Prueba Social Masiva,"⚡ 5,000+ emprendedores ya cambiaron su vida - ¿Y tú?","No te quedes atrás - Tu transformación te espera","CAMBiar MI VIDA - Unirme al cambio",Prueba Social,Media,Alta,Emprendedores,450%,3.8%
+50,Reserva Limitada,"⏰ 10,000+ personas ya reservaron su lugar - Solo quedan 50","No te quedes sin tu lugar en la historia","RESERVAR MI LUGAR - Antes de que se agote",Escasez,Alta,Alta,General,500%,4.0%
+51,Testimonios Exitosos,"🔥 15,000+ testimonios de éxito - ¿Quieres ser el siguiente?","Únete a los que ya lograron sus sueños","SER EL SIGUIENTE - Unirme al éxito",Prueba Social,Media,Alta,General,470%,3.9%
+52,Vidas Transformadas,"⚡ 20,000+ vidas transformadas - La tuya podría ser la próxima","No dejes que tu vida se quede sin transformar","TRANSFORMAR MI VIDA - Ser la próxima",Prueba Social,Media,Alta,General,480%,4.1%
+53,Emprendedores Exitosos,"⏰ 25,000+ emprendedores exitosos - ¿Eres uno de ellos?","Demuestra que perteneces a la élite","DEMOSTRAR MI ÉLITE - Unirme al grupo",Prueba Social,Media,Alta,Emprendedores,490%,4.2%
+54,Historias Exito,"🔥 30,000+ historias de éxito - ¿Cuál será la tuya?","Escribe tu propia historia de éxito","ESCRIBIR MI HISTORIA - Crear mi éxito",Prueba Social,Media,Alta,General,500%,4.3%
+55,Logros Masivos,"⚡ 35,000+ personas ya lo lograron - ¿Por qué no tú?","No hay excusas - Si ellos pudieron, tú también","LOGRARLO TAMBIÉN - Sin excusas",Prueba Social,Media,Alta,General,510%,4.4%
+56,Vidas Cambiadas,"⏰ 40,000+ vidas cambiadas - La tuya está esperando","Tu vida está esperando ser cambiada","CAMBIAR MI VIDA - No más esperas",Prueba Social,Media,Alta,General,520%,4.5%
+57,Emprendedores Triunfaron,"🔥 50,000+ emprendedores triunfaron - Tu turno es ahora","Es tu turno de triunfar - No lo dejes pasar","TRIUNFAR AHORA - Mi turno llegó",Prueba Social,Media,Alta,Emprendedores,530%,4.6%
+58,Oportunidad Unica,"💎 Esta oportunidad solo se presenta una vez en la vida","No la dejes pasar - Podrías arrepentirte para siempre","APROVECHAR LA OPORTUNIDAD - Una sola vez",Oportunidad,Alta,Alta,General,550%,4.7%
+59,Oportunidad Vida,"🔥 La oportunidad de tu vida está aquí - ¿La vas a tomar?","Esta es tu oportunidad - No hay otra igual","TOMAR MI OPORTUNIDAD - La de mi vida",Oportunidad,Alta,Alta,General,560%,4.8%
+60,Oportunidad Esperada,"⚡ Esta es la oportunidad que estabas esperando","Todo lo que necesitas está aquí - Solo actúa","ACTUAR AHORA - Mi oportunidad llegó",Oportunidad,Media,Alta,General,540%,4.6%
+61,Oportunidad Perfecta,"⏰ La oportunidad perfecta se presenta solo una vez","No busques más - Aquí está tu oportunidad","ENCONTRAR MI OPORTUNIDAD - Perfecta para mí",Oportunidad,Alta,Alta,General,570%,4.9%
+62,Oportunidad Oro,"🔥 Tu oportunidad de oro está aquí - ¿La vas a desperdiciar?","El oro no espera - Tu oportunidad tampoco","APROVECHAR EL ORO - No desperdiciar",Oportunidad,Alta,Alta,General,580%,5.0%
+63,Oportunidad Brillar,"⚡ Esta es tu oportunidad de brillar - ¿Vas a brillar?","El mundo te está esperando - Brilla ahora","BRILLAR AHORA - Mi oportunidad de brillar",Oportunidad,Media,Alta,General,550%,4.7%
+64,Oportunidad Destino,"⏰ La oportunidad de tu destino está aquí","Tu destino te está llamando - Responde ahora","RESPONDER A MI DESTINO - Oportunidad única",Oportunidad,Alta,Alta,General,590%,5.1%
+65,Oportunidad Grandeza,"🔥 Esta es tu oportunidad de ser grande - ¿Serás grande?","La grandeza te está esperando - Abrázala","SER GRANDE AHORA - Abrazar la grandeza",Oportunidad,Media,Alta,General,560%,4.8%
+66,Oportunidad Exito,"⚡ Tu oportunidad de éxito está aquí - ¿Vas a tener éxito?","El éxito está en tus manos - Tómalo","TOMAR EL ÉXITO - Mi oportunidad llegó",Oportunidad,Media,Alta,General,570%,4.9%
+67,Oportunidad Cambio,"⏰ Esta es tu oportunidad de cambiar todo - ¿Lo vas a cambiar?","Todo puede cambiar hoy - Solo necesitas decidir","CAMBIAR TODO - Decidir ahora",Oportunidad,Alta,Alta,General,600%,5.2%
+68,Perdida Dinero,"💸 Cada día que esperas pierdes $1,000 en oportunidades","No dejes que el dinero se escape de tus manos","DEJAR DE PERDER DINERO - Oportunidades ahora",Perdida,Alta,Alta,General,450%,3.8%
+69,Perdida Tiempo,"🔥 Cada hora que no actúas es dinero que se va","El dinero no espera - Actúa ahora","ACTUAR AHORA - No perder más dinero",Perdida,Alta,Alta,General,460%,3.9%
+70,Perdida Oportunidades,"⚡ Cada minuto que dudas es una oportunidad perdida","Las oportunidades no esperan - Decídete ya","DECIDIRME YA - No perder oportunidades",Perdida,Media,Alta,General,440%,3.7%
+71,Perdida Tiempo Eterno,"⏰ Cada segundo que esperas es tiempo perdido para siempre","El tiempo no se recupera - Úsalo sabiamente","USAR MI TIEMPO - Sabiamente ahora",Perdida,Alta,Alta,General,470%,4.0%
+72,Perdida Inversion,"💸 Cada día que no inviertes en ti es dinero que pierdes","Invierte en ti - Es la mejor inversión","INVERTIR EN MÍ - La mejor inversión",Perdida,Media,Alta,General,430%,3.6%
+73,Perdida Conocimiento,"🔥 Cada hora que no aprendes es conocimiento perdido","El conocimiento es poder - Adquiérelo ahora","ADQUIRIR CONOCIMIENTO - Poder ahora",Perdida,Media,Alta,General,420%,3.5%
+74,Perdida Crecimiento,"⚡ Cada minuto que no creces es crecimiento perdido","El crecimiento no espera - Crécelo ahora","CRECER AHORA - No perder crecimiento",Perdida,Media,Alta,General,410%,3.4%
+75,Perdida Mejora,"⏰ Cada segundo que no mejoras es mejora perdida","La mejora es constante - Comienza ahora","MEJORAR AHORA - Comenzar la mejora",Perdida,Media,Alta,General,400%,3.3%
+76,Perdida Progreso,"💸 Cada día que no avanzas es progreso perdido","El progreso no espera - Avanza ahora","AVANZAR AHORA - No perder progreso",Perdida,Media,Alta,General,390%,3.2%
+77,Perdida Exito,"🔥 Cada hora que no triunfas es éxito perdido","El éxito no espera - Triunfa ahora","TRIUNFAR AHORA - No perder éxito",Perdida,Media,Alta,General,380%,3.1%
+78,Competencia Avance,"🏆 Mientras otros avanzan, tú te quedas atrás","No dejes que otros te superen - Avanza ahora","AVANZAR AHORA - No quedarme atrás",Competencia,Media,Alta,General,420%,3.6%
+79,Competencia Triunfo,"🔥 Mientras otros triunfan, tú sigues luchando","Es hora de unirte a los triunfadores","UNIRME A LOS TRIUNFADORES - Dejar de luchar",Competencia,Media,Alta,General,430%,3.7%
+80,Competencia Crecimiento,"⚡ Mientras otros crecen, tú te estancas","El crecimiento no espera - Crécelo ahora","CRECER AHORA - No estancarme",Competencia,Media,Alta,General,440%,3.8%
+81,Competencia Mejora,"⏰ Mientras otros mejoran, tú te mantienes igual","La mejora es constante - Comienza ahora","MEJORAR AHORA - No mantenerme igual",Competencia,Media,Alta,General,450%,3.9%
+82,Competencia Ganar,"🏆 Mientras otros ganan, tú sigues perdiendo","Es hora de empezar a ganar - Comienza ahora","EMPEZAR A GANAR - No seguir perdiendo",Competencia,Media,Alta,General,460%,4.0%
+83,Competencia Brillar,"🔥 Mientras otros brillan, tú te mantienes opaco","Es hora de brillar - Brilla ahora","BRILLAR AHORA - No mantenerme opaco",Competencia,Media,Alta,General,470%,4.1%
+84,Competencia Volar,"⚡ Mientras otros vuelan, tú sigues caminando","Es hora de volar - Vuela ahora","VOLAR AHORA - No seguir caminando",Competencia,Media,Alta,General,480%,4.2%
+85,Competencia Correr,"⏰ Mientras otros corren, tú sigues caminando","Es hora de correr - Corre ahora","CORRER AHORA - No seguir caminando",Competencia,Media,Alta,General,490%,4.3%
+86,Competencia Liderar,"🏆 Mientras otros lideran, tú sigues siguiendo","Es hora de liderar - Lidera ahora","LIDERAR AHORA - No seguir siguiendo",Competencia,Media,Alta,General,500%,4.4%
+87,Competencia Dominar,"🔥 Mientras otros dominan, tú sigues siendo dominado","Es hora de dominar - Domina ahora","DOMINAR AHORA - No ser dominado",Competencia,Media,Alta,General,510%,4.5%
+88,Transformacion Urgente,"🔄 Tu transformación no puede esperar más","Es hora de transformarte - La transformación es ahora","TRANSFORMARME AHORA - No puede esperar",Transformacion,Alta,Alta,General,520%,4.6%
+89,Cambio Vida,"🔥 Tu cambio de vida está aquí - ¿Vas a cambiarla?","El cambio está en tus manos - Tómalo","CAMBIAR MI VIDA - Tomar el cambio",Transformacion,Media,Alta,General,530%,4.7%
+90,Evolucion Personal,"⚡ Tu evolución personal no puede esperar","Evoluciona ahora - Tu evolución te espera","EVOLUCIONAR AHORA - No puede esperar",Transformacion,Media,Alta,General,540%,4.8%
+91,Crecimiento Personal,"⏰ Tu crecimiento personal está aquí - ¿Vas a crecer?","El crecimiento personal no espera - Crécelo ahora","CRECER PERSONALMENTE - Ahora es el momento",Transformacion,Media,Alta,General,550%,4.9%
+92,Desarrollo Profesional,"🔄 Tu desarrollo profesional no puede esperar más","Desarróllate profesionalmente - El desarrollo es ahora","DESARROLLARME PROFESIONALMENTE - Ahora es el momento",Transformacion,Media,Alta,General,560%,5.0%
+93,Mejora Continua,"🔥 Tu mejora continua está aquí - ¿Vas a mejorar?","Mejora continuamente - La mejora es constante","MEJORAR CONTINUAMENTE - Ahora es el momento",Transformacion,Media,Alta,General,570%,5.1%
+94,Superacion Personal,"⚡ Tu superación personal no puede esperar","Supérate personalmente - La superación es ahora","SUPERARME PERSONALMENTE - Ahora es el momento",Transformacion,Media,Alta,General,580%,5.2%
+95,Avance Personal,"⏰ Tu avance personal está aquí - ¿Vas a avanzar?","Avanza personalmente - El avance es ahora","AVANZAR PERSONALMENTE - Ahora es el momento",Transformacion,Media,Alta,General,590%,5.3%
+96,Progreso Personal,"🔄 Tu progreso personal no puede esperar más","Progresa personalmente - El progreso es ahora","PROGRESAR PERSONALMENTE - Ahora es el momento",Transformacion,Media,Alta,General,600%,5.4%
+97,Exito Personal,"🔥 Tu éxito personal está aquí - ¿Vas a tener éxito?","Ten éxito personalmente - El éxito es ahora","TENER ÉXITO PERSONALMENTE - Ahora es el momento",Transformacion,Media,Alta,General,610%,5.5%
+98,Resultado Especifico,"De $0 a $50,000 en 60 días: El método exacto","La fórmula que usaron 2,500+ emprendedores","GENERAR $50,000 - Método exacto",Beneficio,Baja,Media,Emprendedores,500%,4.5%
+99,Libertad Financiera,"Cómo lograr la libertad financiera en 12 meses","El sistema que liberó a 1,000+ personas","LOGRAR LIBERTAD FINANCIERA - Sistema probado",Beneficio,Baja,Alta,General,550%,4.8%
+100,Ingresos Pasivos,"Genera $5,000 al mes en ingresos pasivos","El método que funciona mientras duermes","GENERAR INGRESOS PASIVOS - Mientras duermo",Beneficio,Baja,Media,Emprendedores,480%,4.2%

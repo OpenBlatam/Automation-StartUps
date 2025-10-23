@@ -1,0 +1,106 @@
+{
+  "task": "automatizacion_P&L_v2",
+  "metadata": {
+    "version": "2.0",
+    "optimizado": true,
+    "velocidad": "alta"
+  },
+  "input": {
+    "fuentes_datos": {
+      "contables": ["QuickBooks", "Xero", "SAP"],
+      "crm": ["Salesforce", "HubSpot"],
+      "marketing": ["Google Analytics", "Facebook Ads"],
+      "financiero": ["Stripe", "PayPal"]
+    },
+    "frecuencia": {
+      "financieros": "diario",
+      "operativas": "semanal",
+      "competitivo": "mensual"
+    }
+  },
+  "output_format": {
+    "reportes": {
+      "dashboard": "tiempo_real",
+      "mensual": "pdf",
+      "alertas": "notificaciones"
+    }
+  },
+  "workflows": {
+    "recopilacion": {
+      "pasos": 4,
+      "frecuencia": "4_horas",
+      "automatizado": true
+    },
+    "analisis": {
+      "pasos": 4,
+      "frecuencia": "diario",
+      "ml_enabled": true
+    },
+    "reportes": {
+      "pasos": 4,
+      "frecuencia": "semanal",
+      "personalizado": true
+    }
+  },
+  "alertas": {
+    "financieras": {
+      "caida_ingresos": -10,
+      "aumento_costos": 15,
+      "margen_critico": 20
+    },
+    "operativas": {
+      "churn_alto": 8,
+      "satisfaccion_baja": 3.5,
+      "competencia_nueva": "detectada"
+    },
+    "canales": {
+      "email": true,
+      "slack": true,
+      "dashboard": true
+    }
+  },
+  "analisis_automatico": {
+    "deteccion_anomalias": {
+      "algoritmo": "Isolation Forest",
+      "precision": 91.2
+    },
+    "clasificacion": {
+      "categorias": 5,
+      "automatico": true
+    },
+    "recomendaciones": {
+      "optimizacion_costos": "15-25%",
+      "aumento_ingresos": "20-35%",
+      "mejora_eficiencia": "30-50%"
+    }
+  },
+  "integraciones": {
+    "apis": {
+      "mercado": ["Yahoo Finance", "Alpha Vantage"],
+      "competencia": ["SimilarWeb", "SEMrush"],
+      "economia": ["FRED", "World Bank"]
+    },
+    "bi_tools": {
+      "tableau": "tiempo_real",
+      "power_bi": "cada_hora",
+      "looker": "tiempo_real"
+    }
+  },
+  "seguridad": {
+    "encriptacion": "AES-256",
+    "acceso": "multi_factor",
+    "compliance": ["GDPR", "SOX"]
+  },
+  "metricas": {
+    "eficiencia": {
+      "tiempo_ahorro": "85%",
+      "errores_reducidos": "92%",
+      "cobertura": "98%"
+    },
+    "calidad": {
+      "precision": "99.2%",
+      "disponibilidad": "99.9%",
+      "latencia": "<5s"
+    }
+  }
+}

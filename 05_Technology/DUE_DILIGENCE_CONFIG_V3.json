@@ -1,0 +1,424 @@
+{
+  "system_config": {
+    "version": "3.0",
+    "last_updated": "2024-12-19",
+    "target_investment_round": "Series A",
+    "target_funding_amount": "$5M - $15M",
+    "company_name": "Frontier AI Marketing Platform",
+    "ai_enabled": true,
+    "real_time_monitoring": true,
+    "automated_reporting": true
+  },
+  "scoring_config": {
+    "total_points": 1000,
+    "target_score": 850,
+    "minimum_score": 700,
+    "excellence_threshold": 950,
+    "weighted_scoring": true,
+    "real_time_updates": true,
+    "auto_calculation": true
+  },
+  "categories": {
+    "financial": {
+      "weight": 0.25,
+      "max_score": 250,
+      "priority": "critical",
+      "risk_level": "critical",
+      "subcategories": {
+        "revenue_projections": {
+          "weight": 0.4,
+          "max_score": 100,
+          "items": [
+            "3_year_financial_model",
+            "revenue_forecasting",
+            "scenario_analysis",
+            "market_validation"
+          ]
+        },
+        "unit_economics": {
+          "weight": 0.3,
+          "max_score": 75,
+          "items": [
+            "cac_analysis",
+            "ltv_calculation",
+            "ltv_cac_ratio",
+            "payback_period"
+          ]
+        },
+        "financial_controls": {
+          "weight": 0.3,
+          "max_score": 75,
+          "items": [
+            "accounting_systems",
+            "financial_reporting",
+            "budget_management",
+            "cash_flow_forecasting"
+          ]
+        }
+      }
+    },
+    "technology": {
+      "weight": 0.20,
+      "max_score": 200,
+      "priority": "critical",
+      "risk_level": "critical",
+      "subcategories": {
+        "technical_architecture": {
+          "weight": 0.4,
+          "max_score": 80,
+          "items": [
+            "system_architecture",
+            "scalability_design",
+            "performance_metrics",
+            "technology_stack"
+          ]
+        },
+        "ai_ml_platform": {
+          "weight": 0.3,
+          "max_score": 60,
+          "items": [
+            "ai_integration",
+            "ml_models",
+            "data_processing",
+            "model_training"
+          ]
+        },
+        "security_compliance": {
+          "weight": 0.3,
+          "max_score": 60,
+          "items": [
+            "data_security",
+            "compliance_framework",
+            "privacy_protection",
+            "security_audits"
+          ]
+        }
+      }
+    },
+    "market": {
+      "weight": 0.20,
+      "max_score": 200,
+      "priority": "critical",
+      "risk_level": "critical",
+      "subcategories": {
+        "market_analysis": {
+          "weight": 0.5,
+          "max_score": 100,
+          "items": [
+            "tam_sam_som",
+            "market_trends",
+            "growth_projections",
+            "market_validation"
+          ]
+        },
+        "competitive_intelligence": {
+          "weight": 0.4,
+          "max_score": 80,
+          "items": [
+            "competitor_analysis",
+            "competitive_advantages",
+            "market_positioning",
+            "differentiation"
+          ]
+        },
+        "customer_validation": {
+          "weight": 0.1,
+          "max_score": 20,
+          "items": [
+            "customer_interviews",
+            "product_market_fit",
+            "customer_feedback",
+            "usage_analytics"
+          ]
+        }
+      }
+    },
+    "team": {
+      "weight": 0.15,
+      "max_score": 150,
+      "priority": "high",
+      "risk_level": "high",
+      "subcategories": {
+        "leadership_assessment": {
+          "weight": 0.53,
+          "max_score": 80,
+          "items": [
+            "ceo_profile",
+            "cto_profile",
+            "cmo_profile",
+            "team_dynamics"
+          ]
+        },
+        "organizational_development": {
+          "weight": 0.47,
+          "max_score": 70,
+          "items": [
+            "hiring_plan",
+            "diversity_inclusion",
+            "performance_management",
+            "career_development"
+          ]
+        }
+      }
+    },
+    "legal": {
+      "weight": 0.10,
+      "max_score": 100,
+      "priority": "high",
+      "risk_level": "high",
+      "subcategories": {
+        "corporate_structure": {
+          "weight": 0.5,
+          "max_score": 50,
+          "items": [
+            "legal_entity",
+            "intellectual_property",
+            "board_structure",
+            "investor_relations"
+          ]
+        },
+        "regulatory_compliance": {
+          "weight": 0.5,
+          "max_score": 50,
+          "items": [
+            "gdpr_compliance",
+            "ccpa_compliance",
+            "ai_governance",
+            "regulatory_framework"
+          ]
+        }
+      }
+    },
+    "operations": {
+      "weight": 0.10,
+      "max_score": 100,
+      "priority": "medium",
+      "risk_level": "medium",
+      "subcategories": {
+        "business_operations": {
+          "weight": 0.5,
+          "max_score": 50,
+          "items": [
+            "process_optimization",
+            "vendor_management",
+            "customer_support",
+            "operational_efficiency"
+          ]
+        },
+        "risk_management": {
+          "weight": 0.5,
+          "max_score": 50,
+          "items": [
+            "risk_assessment",
+            "risk_mitigation",
+            "crisis_management",
+            "business_continuity"
+          ]
+        }
+      }
+    }
+  },
+  "ai_config": {
+    "enabled": true,
+    "analysis_frequency": "hourly",
+    "confidence_threshold": 0.8,
+    "insight_types": [
+      "opportunity",
+      "risk",
+      "warning",
+      "success",
+      "optimization",
+      "trend",
+      "predictive"
+    ],
+    "auto_insights": true,
+    "real_time_analysis": true
+  },
+  "notifications": {
+    "email": {
+      "enabled": true,
+      "smtp_server": "smtp.gmail.com",
+      "smtp_port": 587,
+      "username": "due_diligence@frontierai.com",
+      "password": "due_diligence_password",
+      "from": "Due Diligence System",
+      "to": ["team@frontierai.com", "investors@frontierai.com"],
+      "frequency": "real_time",
+      "triggers": [
+        "score_change",
+        "milestone_achieved",
+        "risk_alert",
+        "insight_generated"
+      ]
+    },
+    "slack": {
+      "enabled": false,
+      "webhook_url": "",
+      "channels": ["#due-diligence", "#updates"],
+      "frequency": "real_time",
+      "triggers": [
+        "critical_insights",
+        "milestone_achieved",
+        "risk_alerts"
+      ]
+    }
+  },
+  "export_config": {
+    "formats": ["json", "excel", "pdf"],
+    "frequency": "daily",
+    "include_insights": true,
+    "include_metrics": true,
+    "include_timeline": true,
+    "auto_export": true
+  },
+  "timeline_config": {
+    "total_weeks": 6,
+    "phases": {
+      "phase_1": {
+        "weeks": "1-2",
+        "name": "Foundation",
+        "target_score": 500,
+        "focus": "financial_modeling_technical_review"
+      },
+      "phase_2": {
+        "weeks": "3-4",
+        "name": "Deep Dive",
+        "target_score": 700,
+        "focus": "team_assessment_legal_compliance"
+      },
+      "phase_3": {
+        "weeks": "5-6",
+        "name": "Finalization",
+        "target_score": 850,
+        "focus": "risk_assessment_investment_preparation"
+      }
+    }
+  },
+  "validation_criteria": {
+    "financial": {
+      "revenue_projections": {
+        "sources": 3,
+        "time_horizon": "3_years",
+        "scenarios": ["conservative", "realistic", "optimistic"],
+        "validation": true
+      },
+      "unit_economics": {
+        "cac_threshold": 200,
+        "ltv_threshold": 2000,
+        "ltv_cac_ratio": 10,
+        "payback_period": 6
+      }
+    },
+    "technology": {
+      "technical_architecture": {
+        "uptime_sla": 99.9,
+        "response_time": 3,
+        "scalability": "auto_scaling",
+        "security": "enterprise_grade"
+      },
+      "ai_ml_platform": {
+        "response_time": 3,
+        "accuracy_threshold": 0.9,
+        "bias_detection": true,
+        "transparency": true
+      }
+    },
+    "market": {
+      "tam_validation": {
+        "sources": 3,
+        "growth_rate": 20.0,
+        "time_horizon": "5_years"
+      },
+      "customer_validation": {
+        "interviews": 100,
+        "nps_threshold": 70,
+        "adoption_rate": 0.8
+      }
+    }
+  },
+  "risk_factors": {
+    "financial": [
+      "market_volatility",
+      "competition",
+      "economic_downturn",
+      "funding_difficulty",
+      "revenue_instability"
+    ],
+    "technology": [
+      "architecture_complexity",
+      "ai_costs",
+      "security_breaches",
+      "vendor_lock_in",
+      "scalability_challenges"
+    ],
+    "market": [
+      "market_saturation",
+      "competitive_pressure",
+      "customer_churn",
+      "regulatory_changes",
+      "market_timing"
+    ],
+    "team": [
+      "key_person_dependency",
+      "hiring_difficulty",
+      "culture_issues",
+      "retention_problems",
+      "leadership_gaps"
+    ],
+    "legal": [
+      "compliance_violations",
+      "ip_disputes",
+      "regulatory_changes",
+      "contract_issues",
+      "ai_governance_risks"
+    ],
+    "operations": [
+      "process_inefficiency",
+      "vendor_dependency",
+      "scaling_challenges",
+      "crisis_management",
+      "operational_risks"
+    ]
+  },
+  "success_metrics": {
+    "minimum_requirements": {
+      "overall_score": 700,
+      "readiness_level": "Almost Ready",
+      "success_probability": 70,
+      "completion_rate": 70
+    },
+    "excellence_indicators": {
+      "overall_score": 850,
+      "readiness_level": "Investment Ready",
+      "success_probability": 85,
+      "completion_rate": 85,
+      "unit_economics": "ltv_cac_ratio > 10",
+      "competitive_advantage": "clear",
+      "team_experience": "proven",
+      "market_size": "large"
+    },
+    "revolutionary_achievements": {
+      "overall_score": 950,
+      "readiness_level": "Investment Ready",
+      "success_probability": 95,
+      "completion_rate": 95,
+      "breakthrough": true,
+      "market_leadership": true
+    }
+  },
+  "insights_config": {
+    "max_insights_per_category": 10,
+    "insight_retention_days": 30,
+    "ai_insight_priority": "high",
+    "confidence_threshold": 0.8,
+    "auto_generation": true
+  },
+  "dashboard_config": {
+    "refresh_interval_seconds": 30,
+    "ai_analysis_frequency_seconds": 120,
+    "real_time_updates": true,
+    "animations": true,
+    "responsive_design": true
+  }
+}
+

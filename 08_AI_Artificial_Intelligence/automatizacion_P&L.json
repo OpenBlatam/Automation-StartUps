@@ -1,0 +1,232 @@
+{
+  "task": "automatizacion_P&L_completa",
+  "input": {
+    "fuentes_datos": {
+      "sistemas_contables": ["QuickBooks", "Xero", "SAP"],
+      "crm": ["Salesforce", "HubSpot", "Pipedrive"],
+      "marketing": ["Google Analytics", "Facebook Ads", "LinkedIn Ads"],
+      "operaciones": ["Jira", "Asana", "Monday.com"],
+      "financiero": ["Stripe", "PayPal", "Bancos"]
+    },
+    "frecuencia_actualizacion": {
+      "datos_financieros": "diario",
+      "metricas_operativas": "semanal",
+      "analisis_competitivo": "mensual",
+      "proyecciones": "trimestral"
+    }
+  },
+  "output_format": {
+    "reportes_automaticos": {
+      "dashboard_tiempo_real": "url",
+      "reporte_mensual": "pdf",
+      "alertas_criticas": "notifications",
+      "analisis_tendencias": "interactive_chart"
+    },
+    "integraciones": {
+      "bi_tools": ["Tableau", "Power BI", "Looker"],
+      "comunicacion": ["Slack", "Teams", "Email"],
+      "almacenamiento": ["Google Drive", "Dropbox", "AWS S3"]
+    }
+  },
+  "workflows_automatizados": {
+    "recopilacion_datos": {
+      "paso_1": "Extraer datos de sistemas fuente",
+      "paso_2": "Validar y limpiar datos",
+      "paso_3": "Calcular métricas derivadas",
+      "paso_4": "Almacenar en data warehouse",
+      "frecuencia": "cada_4_horas"
+    },
+    "analisis_automatico": {
+      "paso_1": "Ejecutar modelos predictivos",
+      "paso_2": "Comparar con benchmarks",
+      "paso_3": "Identificar anomalías",
+      "paso_4": "Generar insights",
+      "frecuencia": "diario"
+    },
+    "reportes_automaticos": {
+      "paso_1": "Generar visualizaciones",
+      "paso_2": "Crear narrativa ejecutiva",
+      "paso_3": "Distribuir a stakeholders",
+      "paso_4": "Programar seguimiento",
+      "frecuencia": "semanal"
+    }
+  },
+  "alertas_inteligentes": {
+    "tipos_alertas": {
+      "financieras": {
+        "caida_ingresos": {
+          "umbral": -10,
+          "accion": "notificar_ceo",
+          "escalacion": "inmediata"
+        },
+        "aumento_costos": {
+          "umbral": 15,
+          "accion": "revisar_presupuesto",
+          "escalacion": "24_horas"
+        },
+        "margen_critico": {
+          "umbral": 20,
+          "accion": "emergencia_financiera",
+          "escalacion": "inmediata"
+        }
+      },
+      "operativas": {
+        "churn_alto": {
+          "umbral": 8,
+          "accion": "revisar_retencion",
+          "escalacion": "48_horas"
+        },
+        "satisfaccion_baja": {
+          "umbral": 3.5,
+          "accion": "mejorar_servicio",
+          "escalacion": "72_horas"
+        },
+        "competencia_agresiva": {
+          "umbral": "nueva_entrada",
+          "accion": "analizar_estrategia",
+          "escalacion": "1_semana"
+        }
+      }
+    },
+    "canales_notificacion": {
+      "email": {
+        "destinatarios": ["ceo", "cfo", "cto"],
+        "formato": "executive_summary",
+        "frecuencia": "inmediata"
+      },
+      "slack": {
+        "canales": ["#finance", "#alerts", "#executives"],
+        "formato": "bullet_points",
+        "frecuencia": "tiempo_real"
+      },
+      "dashboard": {
+        "widgets": ["kpi_cards", "charts", "tables"],
+        "actualizacion": "tiempo_real",
+        "acceso": "rol_based"
+      }
+    }
+  },
+  "analisis_automatico": {
+    "deteccion_anomalias": {
+      "algoritmo": "Isolation Forest + LSTM",
+      "precision": 91.2,
+      "tipos_detectados": [
+        "picos_inesperados",
+        "caidas_bruscas",
+        "patrones_irregulares",
+        "outliers_financieros"
+      ]
+    },
+    "clasificacion_automatica": {
+      "categorias": [
+        "excelente_rendimiento",
+        "buen_rendimiento",
+        "rendimiento_promedio",
+        "rendimiento_bajo",
+        "rendimiento_critico"
+      ],
+      "criterios": {
+        "excelente": "top_10_percentil",
+        "bueno": "top_25_percentil",
+        "promedio": "percentil_25_75",
+        "bajo": "bottom_25_percentil",
+        "critico": "bottom_10_percentil"
+      }
+    },
+    "recomendaciones_ia": {
+      "optimizacion_costos": {
+        "algoritmo": "Cost Optimization ML",
+        "ahorro_estimado": "15-25%",
+        "implementacion": "3-6_meses"
+      },
+      "aumento_ingresos": {
+        "algoritmo": "Revenue Growth ML",
+        "incremento_estimado": "20-35%",
+        "implementacion": "6-12_meses"
+      },
+      "mejora_eficiencia": {
+        "algoritmo": "Efficiency Optimization ML",
+        "mejora_estimada": "30-50%",
+        "implementacion": "1-3_meses"
+      }
+    }
+  },
+  "integraciones_avanzadas": {
+    "apis_externas": {
+      "datos_mercado": ["Yahoo Finance", "Alpha Vantage", "Quandl"],
+      "competencia": ["SimilarWeb", "SEMrush", "Ahrefs"],
+      "economia": ["FRED", "World Bank", "IMF"],
+      "tecnologia": ["GitHub", "Stack Overflow", "TechCrunch"]
+    },
+    "herramientas_bi": {
+      "visualizacion": {
+        "tableau": {
+          "conexion": "directa",
+          "actualizacion": "tiempo_real",
+          "dashboards": 15
+        },
+        "power_bi": {
+          "conexion": "api",
+          "actualizacion": "cada_hora",
+          "dashboards": 12
+        },
+        "looker": {
+          "conexion": "sql",
+          "actualizacion": "tiempo_real",
+          "dashboards": 20
+        }
+      }
+    },
+    "comunicacion_automatizada": {
+      "reportes_semanal": {
+        "destinatarios": "equipo_ejecutivo",
+        "formato": "pdf_interactivo",
+        "contenido": "resumen_ejecutivo"
+      },
+      "reportes_mensual": {
+        "destinatarios": "board_directores",
+        "formato": "presentacion_powerpoint",
+        "contenido": "analisis_completo"
+      },
+      "alertas_criticas": {
+        "destinatarios": "stakeholders_clave",
+        "formato": "notificacion_inmediata",
+        "contenido": "accion_requerida"
+      }
+    }
+  },
+  "seguridad_compliance": {
+    "encriptacion": {
+      "datos_transito": "TLS 1.3",
+      "datos_reposo": "AES-256",
+      "claves": "HSM_managed"
+    },
+    "acceso": {
+      "autenticacion": "multi_factor",
+      "autorizacion": "rbac",
+      "auditoria": "completa"
+    },
+    "compliance": {
+      "gdpr": "cumplimiento_completo",
+      "sox": "controles_internos",
+      "iso27001": "certificado"
+    }
+  },
+  "metricas_automatizacion": {
+    "eficiencia": {
+      "tiempo_ahorro": "85%",
+      "errores_reducidos": "92%",
+      "cobertura_datos": "98%"
+    },
+    "calidad": {
+      "precision_datos": "99.2%",
+      "disponibilidad": "99.9%",
+      "latencia": "< 5 segundos"
+    },
+    "adopcion": {
+      "usuarios_activos": "95%",
+      "satisfaccion": "4.7/5",
+      "tiempo_implementacion": "6 semanas"
+    }
+  }
+}

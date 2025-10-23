@@ -1,0 +1,140 @@
+{
+  "task": "benchmarking_P&L_v2",
+  "metadata": {
+    "version": "2.0",
+    "optimizado": true,
+    "velocidad": "alta"
+  },
+  "input": {
+    "empresa": {
+      "industria": "SaaS_IA",
+      "tamaño": "mediana",
+      "ubicacion": "Latinoamérica"
+    },
+    "metricas": {
+      "ventas_anuales": 8000000,
+      "margen_bruto": 68,
+      "crecimiento": 18,
+      "churn": 6.5
+    }
+  },
+  "output_format": {
+    "benchmarking": {
+      "posicionamiento": "string",
+      "percentil": "integer",
+      "brechas": "array",
+      "oportunidades": "array"
+    }
+  },
+  "benchmarking_industria": {
+    "saas_ia": {
+      "margen_promedio": 65,
+      "crecimiento_promedio": 25,
+      "churn_promedio": 5.2,
+      "cac_promedio": 280,
+      "ltv_promedio": 2200
+    },
+    "top_performers": {
+      "margen": 78,
+      "crecimiento": 45,
+      "churn": 2.1,
+      "cac": 180,
+      "ltv": 4500
+    }
+  },
+  "benchmarking_geografico": {
+    "latinoamerica": {
+      "margen": 62,
+      "crecimiento": 15,
+      "cac": 250,
+      "ltv": 1800
+    },
+    "norteamerica": {
+      "margen": 68,
+      "crecimiento": 22,
+      "cac": 400,
+      "ltv": 3200
+    },
+    "europa": {
+      "margen": 70,
+      "crecimiento": 18,
+      "cac": 350,
+      "ltv": 2800
+    }
+  },
+  "competidores": {
+    "directo_1": {
+      "ventas": 12000000,
+      "margen": 72,
+      "crecimiento": 25,
+      "market_share": 15
+    },
+    "directo_2": {
+      "ventas": 8500000,
+      "margen": 68,
+      "crecimiento": 18,
+      "market_share": 12
+    },
+    "directo_3": {
+      "ventas": 15000000,
+      "margen": 75,
+      "crecimiento": 30,
+      "market_share": 20
+    }
+  },
+  "brechas_criticas": [
+    {
+      "metrica": "margen_bruto",
+      "actual": 68,
+      "benchmark": 75,
+      "brecha": -7,
+      "impacto": "alto"
+    },
+    {
+      "metrica": "churn_rate",
+      "actual": 6.5,
+      "benchmark": 4.2,
+      "brecha": 2.3,
+      "impacto": "alto"
+    }
+  ],
+  "oportunidades": [
+    {
+      "area": "automatizacion",
+      "ahorro": 15,
+      "inversion": 100000,
+      "roi": 250
+    },
+    {
+      "area": "expansion",
+      "crecimiento": 30,
+      "inversion": 200000,
+      "roi": 180
+    }
+  ],
+  "roadmap": {
+    "corto_plazo": [
+      "Optimizar procesos",
+      "Mejorar retención",
+      "Alertas automáticas"
+    ],
+    "medio_plazo": [
+      "Automatizar 80%",
+      "Expandir mercados",
+      "Nuevas funcionalidades"
+    ],
+    "largo_plazo": [
+      "Top performers",
+      "Expansión global",
+      "Ventajas únicas"
+    ]
+  },
+  "metricas_seguimiento": {
+    "kpis": ["margen_bruto", "crecimiento", "churn", "cac", "ltv"],
+    "frecuencia": "mensual",
+    "umbrales": {
+      "desviacion_negativa": 10,
+      "desviacion_positiva": 15
+    }
+  }
+}

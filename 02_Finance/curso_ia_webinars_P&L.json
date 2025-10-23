@@ -1,0 +1,62 @@
+{
+  "task": "analizar_P&L_curso_IA",
+  "input": {
+    "periodo": "2025 Q2",
+    "datos": {
+      "ventas_principales": {
+        "curso_online_completo": 450000,
+        "webinars_premium": 180000,
+        "certificaciones": 95000,
+        "consultoria_1on1": 120000,
+        "materiales_digitales": 45000
+      },
+      "costos_directos": {
+        "produccion_contenido": 180000,
+        "plataforma_elearning": 25000,
+        "herramientas_tecnologicas": 15000,
+        "instructores_externos": 80000,
+        "marketing_digital": 120000
+      },
+      "gastos_operativos": {
+        "salarios_equipo": 200000,
+        "alquiler_oficina": 15000,
+        "servicios_utilities": 8000,
+        "software_licencias": 12000,
+        "gastos_administrativos": 25000
+      },
+      "otros_ingresos": {
+        "afiliados_comisiones": 35000,
+        "patrocinios": 20000,
+        "licencias_contenido": 15000
+      },
+      "otros_gastos": {
+        "impuestos": 45000,
+        "seguros": 8000,
+        "gastos_legales": 5000
+      }
+    }
+  },
+  "output_format": {
+    "margen_bruto": "float",
+    "EBITDA": "float",
+    "utilidad_neta": "float",
+    "margen_bruto_pct": "percentage",
+    "ROI_marketing": "percentage",
+    "costo_adquisicion_cliente": "float",
+    "valor_vida_cliente": "float",
+    "observaciones": "string"
+  },
+  "metricas_especificas_educacion": {
+    "tasa_completacion_curso": "percentage",
+    "satisfaccion_estudiantes": "rating",
+    "tasa_recomendacion": "percentage",
+    "ingresos_por_estudiante": "float",
+    "costo_produccion_contenido": "float"
+  },
+  "proyecciones_crecimiento": {
+    "crecimiento_ventas_anual": 15,
+    "expansion_mercados": ["Latinoamérica", "Europa"],
+    "nuevos_productos": ["IA Avanzada", "Machine Learning", "Deep Learning"],
+    "objetivo_estudiantes_anual": 5000
+  }
+}

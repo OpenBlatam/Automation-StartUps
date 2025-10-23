@@ -1,0 +1,111 @@
+{
+  "task": "analizar_P&L_IA_bulk_documentos",
+  "input": {
+    "periodo": "2025 Q2",
+    "datos": {
+      "ventas_por_uso": {
+        "documentos_generados": 2500000,
+        "consultas_avanzadas": 180000,
+        "templates_premium": 95000,
+        "exportaciones_masivas": 120000,
+        "integraciones_api": 75000
+      },
+      "suscripciones_empresariales": {
+        "plan_startup": 150000,
+        "plan_empresarial": 320000,
+        "plan_enterprise": 480000,
+        "licencias_ilimitadas": 200000
+      },
+      "servicios_profesionales": {
+        "consultoria_implementacion": 180000,
+        "desarrollo_personalizado": 250000,
+        "capacitacion_equipos": 80000,
+        "soporte_24_7": 120000
+      },
+      "costos_directos": {
+        "procesamiento_IA": 180000,
+        "almacenamiento_datos": 45000,
+        "infraestructura_cloud": 95000,
+        "licencias_IA_avanzada": 120000,
+        "procesamiento_nlp": 35000
+      },
+      "gastos_operativos": {
+        "salarios_ingenieros_IA": 450000,
+        "salarios_producto": 150000,
+        "salarios_ventas": 120000,
+        "salarios_soporte": 100000,
+        "investigacion_desarrollo": 200000,
+        "marketing_digital": 180000,
+        "oficina_servidores": 60000,
+        "equipos_especializados": 80000
+      },
+      "gastos_administrativos": {
+        "impuestos": 120000,
+        "seguros_cyber": 25000,
+        "gastos_legales": 30000,
+        "patentes_tecnologia": 45000,
+        "auditorias_seguridad": 20000
+      }
+    }
+  },
+  "output_format": {
+    "margen_bruto": "float",
+    "EBITDA": "float",
+    "utilidad_neta": "float",
+    "margen_bruto_pct": "percentage",
+    "ingresos_por_documento": "float",
+    "costo_por_documento": "float",
+    "eficiencia_IA": "percentage",
+    "tiempo_procesamiento_promedio": "seconds",
+    "observaciones": "string"
+  },
+  "metricas_especificas_IA": {
+    "documentos_generados_diarios": "integer",
+    "precision_IA": "percentage",
+    "satisfaccion_usuarios": "rating",
+    "tiempo_ahorro_cliente": "hours",
+    "tasa_error_generacion": "percentage",
+    "adopcion_nuevas_funciones": "percentage"
+  },
+  "segmentacion_usuarios": {
+    "freelancers": {
+      "usuarios": 2500,
+      "documentos_mensuales": 15000,
+      "ingresos_mensuales": 45000
+    },
+    "pequenas_empresas": {
+      "usuarios": 800,
+      "documentos_mensuales": 25000,
+      "ingresos_mensuales": 120000
+    },
+    "empresas_medianas": {
+      "usuarios": 200,
+      "documentos_mensuales": 50000,
+      "ingresos_mensuales": 180000
+    },
+    "grandes_corporaciones": {
+      "usuarios": 50,
+      "documentos_mensuales": 100000,
+      "ingresos_mensuales": 350000
+    }
+  },
+  "tipos_documentos_generados": {
+    "contratos_legales": 35,
+    "propuestas_comerciales": 25,
+    "reportes_tecnicos": 20,
+    "documentacion_proyectos": 15,
+    "otros": 5
+  },
+  "proyecciones_crecimiento": {
+    "crecimiento_documentos_anual": 40,
+    "expansion_mercados": ["Europa", "Asia", "Latinoamérica"],
+    "nuevas_capacidades": ["Multilingüe", "Análisis Avanzado", "Automatización Completa"],
+    "objetivo_documentos_anual": 10000000
+  },
+  "tecnologias_IA_utilizadas": {
+    "modelos_nlp": ["GPT-4", "Claude", "Llama"],
+    "procesamiento_documentos": ["OCR", "PDF Processing", "Template Matching"],
+    "aprendizaje_automatico": ["Clustering", "Classification", "Generation"],
+    "infraestructura": ["AWS", "Google Cloud", "Azure"]
+  }
+}

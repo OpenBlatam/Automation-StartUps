@@ -1,0 +1,147 @@
+{
+  "task": "analizar_P&L_curso_IA_avanzado",
+  "input": {
+    "periodo": "2025 Q2",
+    "datos": {
+      "ventas_principales": {
+        "curso_online_completo": 450000,
+        "webinars_premium": 180000,
+        "certificaciones": 95000,
+        "consultoria_1on1": 120000,
+        "materiales_digitales": 45000,
+        "bootcamps_intensivos": 200000,
+        "masterclass_exclusivas": 85000
+      },
+      "costos_directos": {
+        "produccion_contenido": 180000,
+        "plataforma_elearning": 25000,
+        "herramientas_tecnologicas": 15000,
+        "instructores_externos": 80000,
+        "marketing_digital": 120000,
+        "equipos_grabacion": 35000,
+        "licencias_software_IA": 20000
+      },
+      "gastos_operativos": {
+        "salarios_equipo": 200000,
+        "alquiler_oficina": 15000,
+        "servicios_utilities": 8000,
+        "software_licencias": 12000,
+        "gastos_administrativos": 25000,
+        "investigacion_mercado": 15000,
+        "desarrollo_tecnologico": 30000
+      },
+      "otros_ingresos": {
+        "afiliados_comisiones": 35000,
+        "patrocinios": 20000,
+        "licencias_contenido": 15000,
+        "partnerships_empresariales": 40000,
+        "eventos_presenciales": 25000
+      },
+      "otros_gastos": {
+        "impuestos": 45000,
+        "seguros": 8000,
+        "gastos_legales": 5000,
+        "gastos_bancarios": 3000,
+        "depreciacion_equipos": 12000
+      }
+    }
+  },
+  "output_format": {
+    "margen_bruto": "float",
+    "EBITDA": "float",
+    "utilidad_neta": "float",
+    "margen_bruto_pct": "percentage",
+    "ROI_marketing": "percentage",
+    "costo_adquisicion_cliente": "float",
+    "valor_vida_cliente": "float",
+    "payback_period": "months",
+    "observaciones": "string"
+  },
+  "metricas_especificas_educacion": {
+    "tasa_completacion_curso": "percentage",
+    "satisfaccion_estudiantes": "rating",
+    "tasa_recomendacion": "percentage",
+    "ingresos_por_estudiante": "float",
+    "costo_produccion_contenido": "float",
+    "tiempo_promedio_completacion": "days",
+    "tasa_abandono_por_modulo": "percentage",
+    "engagement_rate": "percentage",
+    "tasa_upselling": "percentage"
+  },
+  "analisis_cohortes": {
+    "cohorte_q1_2025": {
+      "estudiantes_iniciales": 1200,
+      "retencion_3_meses": 78,
+      "retencion_6_meses": 65,
+      "ingresos_por_cohorte": 180000
+    },
+    "cohorte_q2_2025": {
+      "estudiantes_iniciales": 1500,
+      "retencion_3_meses": 82,
+      "retencion_6_meses": 70,
+      "ingresos_por_cohorte": 220000
+    }
+  },
+  "segmentacion_estudiantes": {
+    "principiantes": {
+      "porcentaje": 45,
+      "ingresos_promedio": 450,
+      "tasa_completacion": 65,
+      "satisfaccion": 4.2
+    },
+    "intermedios": {
+      "porcentaje": 35,
+      "ingresos_promedio": 680,
+      "tasa_completacion": 78,
+      "satisfaccion": 4.5
+    },
+    "avanzados": {
+      "porcentaje": 20,
+      "ingresos_promedio": 1200,
+      "tasa_completacion": 85,
+      "satisfaccion": 4.7
+    }
+  },
+  "canales_adquisicion": {
+    "marketing_digital": {
+      "costo_adquisicion": 120,
+      "conversion_rate": 3.2,
+      "estudiantes_adquiridos": 450
+    },
+    "referidos": {
+      "costo_adquisicion": 80,
+      "conversion_rate": 8.5,
+      "estudiantes_adquiridos": 320
+    },
+    "partnerships": {
+      "costo_adquisicion": 60,
+      "conversion_rate": 12.3,
+      "estudiantes_adquiridos": 280
+    },
+    "eventos_presenciales": {
+      "costo_adquisicion": 200,
+      "conversion_rate": 15.8,
+      "estudiantes_adquiridos": 150
+    }
+  },
+  "proyecciones_crecimiento": {
+    "crecimiento_ventas_anual": 15,
+    "expansion_mercados": ["Latinoamérica", "Europa", "Asia-Pacífico"],
+    "nuevos_productos": ["IA Avanzada", "Machine Learning", "Deep Learning", "Computer Vision"],
+    "objetivo_estudiantes_anual": 5000,
+    "objetivo_ingresos_anual": 2500000,
+    "expansion_modalidades": ["Presencial", "Híbrido", "VR/AR"]
+  },
+  "analisis_competitivo": {
+    "posicionamiento_mercado": "Top 3 en IA Education",
+    "ventaja_competitiva": ["Instructores expertos", "Contenido actualizado", "Comunidad activa"],
+    "precio_vs_competencia": "Premium (15% más alto)",
+    "satisfaccion_vs_competencia": "Superior en 20%"
+  },
+  "riesgos_identificados": {
+    "tecnologicos": ["Cambios en IA", "Nuevas plataformas"],
+    "mercado": ["Saturación", "Competencia"],
+    "operacionales": ["Retención instructores", "Calidad contenido"],
+    "financieros": ["Estacionalidad", "Costos marketing"]
+  }
+}

@@ -1,0 +1,305 @@
+{
+  "task": "benchmarking_P&L_avanzado",
+  "input": {
+    "datos_empresa": {
+      "industria": "SaaS_IA",
+      "tamaño": "mediana",
+      "ubicacion": "Latinoamérica",
+      "años_operacion": 5,
+      "empleados": 150
+    },
+    "metricas_actuales": {
+      "ventas_anuales": 8000000,
+      "margen_bruto": 68,
+      "ebitda": 25,
+      "crecimiento_anual": 18,
+      "churn_rate": 6.5,
+      "cac": 320,
+      "ltv": 2400
+    }
+  },
+  "output_format": {
+    "benchmarking_industria": {
+      "posicionamiento": "string",
+      "percentil_ranking": "integer",
+      "brechas_identificadas": "array:string",
+      "oportunidades": "array:string"
+    },
+    "comparacion_competidores": {
+      "ventajas": "array:string",
+      "desventajas": "array:string",
+      "recomendaciones": "array:string"
+    }
+  },
+  "benchmarking_por_industria": {
+    "saas_ia": {
+      "metricas_promedio": {
+        "margen_bruto": 65,
+        "ebitda": 22,
+        "crecimiento_anual": 25,
+        "churn_rate": 5.2,
+        "cac": 280,
+        "ltv": 2200,
+        "ltv_cac_ratio": 7.9
+      },
+      "top_performers": {
+        "margen_bruto": 78,
+        "ebitda": 35,
+        "crecimiento_anual": 45,
+        "churn_rate": 2.1,
+        "cac": 180,
+        "ltv": 4500,
+        "ltv_cac_ratio": 25
+      },
+      "benchmarks_especificos": {
+        "startup_early": {
+          "margen_bruto": 45,
+          "crecimiento_anual": 100,
+          "churn_rate": 15,
+          "cac": 500
+        },
+        "scale_up": {
+          "margen_bruto": 65,
+          "crecimiento_anual": 30,
+          "churn_rate": 8,
+          "cac": 300
+        },
+        "mature": {
+          "margen_bruto": 75,
+          "crecimiento_anual": 15,
+          "churn_rate": 3,
+          "cac": 200
+        }
+      }
+    },
+    "educacion_online": {
+      "metricas_promedio": {
+        "margen_bruto": 70,
+        "ebitda": 28,
+        "crecimiento_anual": 20,
+        "tasa_completacion": 65,
+        "satisfaccion": 4.2,
+        "cac": 150,
+        "ltv": 1200
+      }
+    },
+    "ia_documentos": {
+      "metricas_promedio": {
+        "margen_bruto": 72,
+        "ebitda": 30,
+        "crecimiento_anual": 35,
+        "precision_ia": 88,
+        "tiempo_procesamiento": 30,
+        "costo_por_documento": 0.15,
+        "ingreso_por_documento": 0.45
+      }
+    }
+  },
+  "benchmarking_geografico": {
+    "latinoamerica": {
+      "metricas_promedio": {
+        "margen_bruto": 62,
+        "crecimiento_anual": 15,
+        "cac": 250,
+        "ltv": 1800,
+        "churn_rate": 8.5
+      },
+      "factores_regionales": {
+        "inflacion": 6.2,
+        "competencia": "media",
+        "regulaciones": "moderadas",
+        "talento": "disponible"
+      }
+    },
+    "norteamerica": {
+      "metricas_promedio": {
+        "margen_bruto": 68,
+        "crecimiento_anual": 22,
+        "cac": 400,
+        "ltv": 3200,
+        "churn_rate": 5.8
+      }
+    },
+    "europa": {
+      "metricas_promedio": {
+        "margen_bruto": 70,
+        "crecimiento_anual": 18,
+        "cac": 350,
+        "ltv": 2800,
+        "churn_rate": 6.2
+      }
+    }
+  },
+  "benchmarking_competidores": {
+    "competidor_directo_1": {
+      "nombre": "AI Marketing Pro",
+      "ventas_anuales": 12000000,
+      "margen_bruto": 72,
+      "crecimiento": 25,
+      "market_share": 15,
+      "ventajas": ["Precio competitivo", "Integración fácil"],
+      "desventajas": ["Soporte limitado", "Funciones básicas"]
+    },
+    "competidor_directo_2": {
+      "nombre": "SmartDocs AI",
+      "ventas_anuales": 8500000,
+      "margen_bruto": 68,
+      "crecimiento": 18,
+      "market_share": 12,
+      "ventajas": ["Tecnología avanzada", "Precisión alta"],
+      "desventajas": ["Precio alto", "Curva aprendizaje"]
+    },
+    "competidor_directo_3": {
+      "nombre": "EduTech Master",
+      "ventas_anuales": 15000000,
+      "margen_bruto": 75,
+      "crecimiento": 30,
+      "market_share": 20,
+      "ventajas": ["Contenido premium", "Comunidad activa"],
+      "desventajas": ["Precio premium", "Acceso limitado"]
+    }
+  },
+  "analisis_brechas": {
+    "brechas_criticas": [
+      {
+        "metrica": "margen_bruto",
+        "actual": 68,
+        "benchmark": 75,
+        "brecha": -7,
+        "impacto": "alto",
+        "accion": "optimizar_costos"
+      },
+      {
+        "metrica": "churn_rate",
+        "actual": 6.5,
+        "benchmark": 4.2,
+        "brecha": 2.3,
+        "impacto": "alto",
+        "accion": "mejorar_retencion"
+      },
+      {
+        "metrica": "crecimiento_anual",
+        "actual": 18,
+        "benchmark": 25,
+        "brecha": -7,
+        "impacto": "medio",
+        "accion": "acelerar_expansion"
+      }
+    ],
+    "oportunidades": [
+      {
+        "area": "automatizacion",
+        "potencial_ahorro": 15,
+        "inversion_requerida": 100000,
+        "roi_estimado": 250,
+        "tiempo_implementacion": "6_meses"
+      },
+      {
+        "area": "expansion_mercados",
+        "potencial_crecimiento": 30,
+        "inversion_requerida": 200000,
+        "roi_estimado": 180,
+        "tiempo_implementacion": "12_meses"
+      },
+      {
+        "area": "mejora_producto",
+        "potencial_retention": 20,
+        "inversion_requerida": 150000,
+        "roi_estimado": 300,
+        "tiempo_implementacion": "9_meses"
+      }
+    ]
+  },
+  "benchmarking_funcional": {
+    "operaciones": {
+      "eficiencia_procesos": {
+        "actual": 75,
+        "benchmark": 85,
+        "mejora_necesaria": 10
+      },
+      "automatizacion": {
+        "actual": 60,
+        "benchmark": 80,
+        "mejora_necesaria": 20
+      },
+      "calidad_datos": {
+        "actual": 90,
+        "benchmark": 95,
+        "mejora_necesaria": 5
+      }
+    },
+    "tecnologia": {
+      "infraestructura_cloud": {
+        "actual": "buena",
+        "benchmark": "excelente",
+        "mejora_necesaria": "optimizacion"
+      },
+      "seguridad": {
+        "actual": "alta",
+        "benchmark": "muy_alta",
+        "mejora_necesaria": "certificaciones"
+      },
+      "escalabilidad": {
+        "actual": "media",
+        "benchmark": "alta",
+        "mejora_necesaria": "arquitectura"
+      }
+    },
+    "talento": {
+      "retention_rate": {
+        "actual": 85,
+        "benchmark": 92,
+        "mejora_necesaria": 7
+      },
+      "productividad": {
+        "actual": 80,
+        "benchmark": 90,
+        "mejora_necesaria": 10
+      },
+      "satisfaccion": {
+        "actual": 4.2,
+        "benchmark": 4.6,
+        "mejora_necesaria": 0.4
+      }
+    }
+  },
+  "roadmap_mejoras": {
+    "corto_plazo_3_meses": [
+      "Optimizar procesos operativos",
+      "Implementar alertas automáticas",
+      "Mejorar métricas de retención"
+    ],
+    "medio_plazo_6_meses": [
+      "Automatizar 80% de procesos",
+      "Expandir a 2 nuevos mercados",
+      "Lanzar 3 nuevas funcionalidades"
+    ],
+    "largo_plazo_12_meses": [
+      "Alcanzar benchmarks de top performers",
+      "Expandir internacionalmente",
+      "Desarrollar ventajas competitivas únicas"
+    ]
+  },
+  "metricas_seguimiento": {
+    "kpis_principales": [
+      "margen_bruto",
+      "crecimiento_anual",
+      "churn_rate",
+      "cac",
+      "ltv",
+      "ltv_cac_ratio"
+    ],
+    "frecuencia_medicion": "mensual",
+    "umbrales_alerta": {
+      "desviacion_negativa": 10,
+      "desviacion_positiva": 15,
+      "tendencia_negativa": 3
+    },
+    "reportes_automaticos": {
+      "dashboard_tiempo_real": true,
+      "reporte_semanal": true,
+      "analisis_mensual": true,
+      "benchmarking_trimestral": true
+    }
+  }
+}

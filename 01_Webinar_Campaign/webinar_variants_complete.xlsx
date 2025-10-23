@@ -1,0 +1,13 @@
+ID,Categoria,Titulo,Subtitulo,CTA,Tipo_Hook,Urgencia,Emocion,Audiencia,ROI,Conversion
+1,Urgencia,"⏰ SOLO 24 HORAS: El secreto que transformó a 10,000+ emprendedores","Por primera vez en 3 años, revelado públicamente","RESERVAR MI LUGAR VIP - Solo 47 cupos",Urgencia,Alta,Alta,Emprendedores,500%,3.5%
+2,Escasez,"Solo 3 personas más pueden unirse a este webinar PRIVADO","El método prohibido que usan los top 1%","SOLICITAR INVITACIÓN PRIVADA",Escasez,Alta,Alta,Avanzados,600%,4.2%
+3,Oferta,"🔥 OFERTA SE CIERRA EN 6 HORAS: Acceso GRATIS al webinar de $5,000","El método que generó $2.3M en ventas","OBTENER ACCESO GRATIS AHORA",Oferta,Alta,Alta,General,400%,2.8%
+4,Urgencia Emocional,"¿Cuánto tiempo más vas a esperar para cambiar tu vida?","Cada día que esperas es un día menos de libertad","CAMBIAR MI VIDA HOY",Urgencia,Media,Alta,Empleados,350%,3.1%
+5,Resultado,"De $0 a $10,000 en 30 días: El método paso a paso","La fórmula exacta que usaron 1,247 emprendedores","GENERAR MIS PRIMEROS $10,000",Beneficio,Baja,Media,Principiantes,450%,4.5%
+6,Transformacion,"De empleado frustrado a emprendedor exitoso en 90 días","La guía completa para hacer la transición","INICIAR MI TRANSFORMACIÓN",Transformacion,Baja,Alta,Empleados,400%,3.8%
+7,Problema,"¿Cansado de trabajar 12 horas y ganar $3,000?","El método que te permite trabajar 4 horas y ganar $10,000+","APLICAR LA SOLUCIÓN",Problema,Media,Alta,Empleados,380%,3.2%
+8,Secreto,"El secreto que los millonarios no quieren que sepas","Por qué el 1% más rico mantiene sus métodos en secreto","REVELAR EL SECRETO",Curiosidad,Media,Alta,Avanzados,550%,3.9%
+9,Autoridad,"El CEO que construyó un imperio de $100M te enseña","20 años de experiencia condensados en 60 minutos","APRENDER DEL MAESTRO",Autoridad,Baja,Alta,Emprendedores,500%,4.1%
+10,Historia,"De la quiebra a los $10M: Mi historia real","Los errores que cometí y las lecciones que aprendí","ESCUCHAR MI HISTORIA",Storytelling,Baja,Alta,General,420%,3.6%
+
+

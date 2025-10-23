@@ -1,0 +1,285 @@
+{
+  "task": "analisis_escenarios_P&L_avanzado",
+  "input": {
+    "escenario_base": {
+      "ventas_anuales": 8000000,
+      "crecimiento_anual": 18,
+      "margen_bruto": 68,
+      "gastos_operativos": 2500000,
+      "inversion_capital": 500000
+    },
+    "factores_incertidumbre": {
+      "economicos": ["inflacion", "tipo_cambio", "recesion"],
+      "mercado": ["competencia", "demanda", "regulaciones"],
+      "tecnologicos": ["disrupcion", "adopcion", "costos"],
+      "operacionales": ["talento", "escalabilidad", "calidad"]
+    }
+  },
+  "output_format": {
+    "escenarios_detallados": {
+      "optimista": "object",
+      "base": "object",
+      "pesimista": "object",
+      "catastrofico": "object"
+    },
+    "analisis_sensibilidad": "object",
+    "recomendaciones_estrategicas": "array:string"
+  },
+  "escenarios_principales": {
+    "escenario_optimista": {
+      "probabilidad": 25,
+      "condiciones": {
+        "crecimiento_economico": "alto",
+        "adopcion_tecnologia": "rapida",
+        "competencia": "baja",
+        "regulaciones": "favorables"
+      },
+      "metricas_proyectadas": {
+        "ventas_anuales": 12000000,
+        "crecimiento_anual": 35,
+        "margen_bruto": 75,
+        "ebitda": 35,
+        "roi": 45
+      },
+      "inversiones_requeridas": {
+        "marketing": 300000,
+        "tecnologia": 200000,
+        "talento": 400000,
+        "expansion": 500000
+      },
+      "riesgos": ["sobreinversion", "escalabilidad", "competencia_futura"]
+    },
+    "escenario_base": {
+      "probabilidad": 50,
+      "condiciones": {
+        "crecimiento_economico": "moderado",
+        "adopcion_tecnologia": "estable",
+        "competencia": "media",
+        "regulaciones": "neutrales"
+      },
+      "metricas_proyectadas": {
+        "ventas_anuales": 9500000,
+        "crecimiento_anual": 20,
+        "margen_bruto": 70,
+        "ebitda": 28,
+        "roi": 25
+      },
+      "inversiones_requeridas": {
+        "marketing": 200000,
+        "tecnologia": 150000,
+        "talento": 250000,
+        "expansion": 300000
+      },
+      "riesgos": ["saturación_mercado", "costos_crecientes", "retention"]
+    },
+    "escenario_pesimista": {
+      "probabilidad": 20,
+      "condiciones": {
+        "crecimiento_economico": "bajo",
+        "adopcion_tecnologia": "lenta",
+        "competencia": "alta",
+        "regulaciones": "restrictivas"
+      },
+      "metricas_proyectadas": {
+        "ventas_anuales": 6500000,
+        "crecimiento_anual": 8,
+        "margen_bruto": 60,
+        "ebitda": 15,
+        "roi": 8
+      },
+      "inversiones_requeridas": {
+        "marketing": 100000,
+        "tecnologia": 80000,
+        "talento": 120000,
+        "expansion": 100000
+      },
+      "riesgos": ["reduccion_demanda", "aumento_costos", "churn_alto"]
+    },
+    "escenario_catastrofico": {
+      "probabilidad": 5,
+      "condiciones": {
+        "crecimiento_economico": "recesion",
+        "adopcion_tecnologia": "estancada",
+        "competencia": "muy_alta",
+        "regulaciones": "muy_restrictivas"
+      },
+      "metricas_proyectadas": {
+        "ventas_anuales": 4000000,
+        "crecimiento_anual": -15,
+        "margen_bruto": 45,
+        "ebitda": 5,
+        "roi": -10
+      },
+      "inversiones_requeridas": {
+        "marketing": 50000,
+        "tecnologia": 30000,
+        "talento": 60000,
+        "expansion": 0
+      },
+      "riesgos": ["quiebra", "pérdida_mercado", "imposibilidad_financiamiento"]
+    }
+  },
+  "analisis_sensibilidad": {
+    "variables_criticas": {
+      "crecimiento_ventas": {
+        "impacto_ebitda": "alto",
+        "elasticidad": 2.3,
+        "umbral_critico": 10
+      },
+      "margen_bruto": {
+        "impacto_ebitda": "muy_alto",
+        "elasticidad": 3.1,
+        "umbral_critico": 55
+      },
+      "churn_rate": {
+        "impacto_ebitda": "alto",
+        "elasticidad": -1.8,
+        "umbral_critico": 12
+      },
+      "costo_adquisicion": {
+        "impacto_ebitda": "medio",
+        "elasticidad": -0.9,
+        "umbral_critico": 500
+      }
+    },
+    "simulacion_monte_carlo": {
+      "iteraciones": 10000,
+      "variables_aleatorias": [
+        "crecimiento_ventas",
+        "margen_bruto",
+        "churn_rate",
+        "costo_adquisicion"
+      ],
+      "distribuciones": {
+        "crecimiento_ventas": "normal_media_18_desv_8",
+        "margen_bruto": "normal_media_68_desv_5",
+        "churn_rate": "normal_media_6.5_desv_2",
+        "costo_adquisicion": "normal_media_320_desv_50"
+      }
+    }
+  },
+  "estrategias_por_escenario": {
+    "escenario_optimista": {
+      "estrategia": "crecimiento_agresivo",
+      "acciones": [
+        "Inversión masiva en marketing",
+        "Expansión rápida de mercados",
+        "Contratación agresiva de talento",
+        "Desarrollo acelerado de productos"
+      ],
+      "recursos_requeridos": {
+        "capital": 1500000,
+        "talento": 25,
+        "tiempo": "12_meses"
+      }
+    },
+    "escenario_base": {
+      "estrategia": "crecimiento_orgánico",
+      "acciones": [
+        "Optimización de procesos existentes",
+        "Mejora de retención de clientes",
+        "Desarrollo incremental de productos",
+        "Expansión selectiva de mercados"
+      ],
+      "recursos_requeridos": {
+        "capital": 900000,
+        "talento": 15,
+        "tiempo": "18_meses"
+      }
+    },
+    "escenario_pesimista": {
+      "estrategia": "consolidación",
+      "acciones": [
+        "Reducción de costos operativos",
+        "Enfoque en clientes existentes",
+        "Optimización de eficiencia",
+        "Preservación de capital"
+      ],
+      "recursos_requeridos": {
+        "capital": 300000,
+        "talento": 5,
+        "tiempo": "24_meses"
+      }
+    },
+    "escenario_catastrofico": {
+      "estrategia": "supervivencia",
+      "acciones": [
+        "Reducción drástica de costos",
+        "Enfoque en cash flow",
+        "Reestructuración de deuda",
+        "Búsqueda de financiamiento de emergencia"
+      ],
+      "recursos_requeridos": {
+        "capital": 100000,
+        "talento": 0,
+        "tiempo": "36_meses"
+      }
+    }
+  },
+  "planes_contingencia": {
+    "trigger_points": {
+      "reduccion_ventas_15": {
+        "accion": "revisar_estrategia_marketing",
+        "tiempo_respuesta": "30_dias"
+      },
+      "aumento_churn_5": {
+        "accion": "programa_retention_urgente",
+        "tiempo_respuesta": "15_dias"
+      },
+      "margen_bruto_50": {
+        "accion": "reduccion_costos_imediata",
+        "tiempo_respuesta": "7_dias"
+      },
+      "cash_flow_negativo": {
+        "accion": "emergencia_financiera",
+        "tiempo_respuesta": "inmediato"
+      }
+    },
+    "reservas_emergencia": {
+      "cash_reserve": 500000,
+      "linea_credito": 1000000,
+      "inversionistas_backup": 3,
+      "acuerdos_financiamiento": 2
+    }
+  },
+  "metricas_seguimiento_escenarios": {
+    "indicadores_principales": [
+      "ventas_mensuales",
+      "margen_bruto",
+      "churn_rate",
+      "cash_flow",
+      "burn_rate"
+    ],
+    "frecuencia_revision": "semanal",
+    "umbrales_alerta": {
+      "desviacion_escenario": 15,
+      "tendencia_negativa": 3,
+      "riesgo_critico": 1
+    },
+    "automatizacion": {
+      "alertas_automaticas": true,
+      "reportes_automaticos": true,
+      "ajustes_automaticos": false
+    }
+  },
+  "recomendaciones_estrategicas": {
+    "corto_plazo": [
+      "Implementar monitoreo en tiempo real",
+      "Establecer reservas de emergencia",
+      "Desarrollar planes de contingencia",
+      "Mejorar flexibilidad operativa"
+    ],
+    "medio_plazo": [
+      "Diversificar fuentes de ingresos",
+      "Fortalecer ventajas competitivas",
+      "Desarrollar capacidades adaptativas",
+      "Construir relaciones estratégicas"
+    ],
+    "largo_plazo": [
+      "Crear opciones estratégicas",
+      "Desarrollar capacidades core",
+      "Construir ecosistema robusto",
+      "Preparar para múltiples futuros"
+    ]
+  }
+}

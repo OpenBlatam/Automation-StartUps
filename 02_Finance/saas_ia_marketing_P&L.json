@@ -1,0 +1,89 @@
+{
+  "task": "analizar_P&L_SaaS_IA_marketing",
+  "input": {
+    "periodo": "2025 Q2",
+    "datos": {
+      "ventas_suscripciones": {
+        "plan_basico_mensual": 120000,
+        "plan_profesional_mensual": 280000,
+        "plan_enterprise_mensual": 450000,
+        "suscripciones_anuales": 320000,
+        "upgrades_planes": 95000
+      },
+      "ingresos_adicionales": {
+        "servicios_consultoria": 180000,
+        "integraciones_personalizadas": 120000,
+        "capacitacion_usuarios": 45000,
+        "soporte_premium": 35000
+      },
+      "costos_directos": {
+        "infraestructura_cloud": 85000,
+        "licencias_IA_terceros": 45000,
+        "procesamiento_datos": 25000,
+        "almacenamiento": 15000,
+        "ancho_banda": 20000
+      },
+      "gastos_operativos": {
+        "salarios_desarrollo": 350000,
+        "salarios_marketing": 120000,
+        "salarios_soporte": 80000,
+        "salarios_ventas": 100000,
+        "oficina_alquiler": 25000,
+        "equipos_tecnologicos": 30000,
+        "marketing_digital": 150000,
+        "eventos_ferias": 40000
+      },
+      "gastos_administrativos": {
+        "impuestos": 75000,
+        "seguros": 12000,
+        "gastos_legales": 15000,
+        "contabilidad": 8000,
+        "auditorias": 10000
+      }
+    }
+  },
+  "output_format": {
+    "margen_bruto": "float",
+    "EBITDA": "float",
+    "utilidad_neta": "float",
+    "margen_bruto_pct": "percentage",
+    "ARR": "float",
+    "MRR": "float",
+    "churn_rate": "percentage",
+    "CAC": "float",
+    "LTV": "float",
+    "LTV_CAC_ratio": "float",
+    "observaciones": "string"
+  },
+  "metricas_saas_especificas": {
+    "usuarios_activos": "integer",
+    "tasa_conversion_trial": "percentage",
+    "tiempo_para_valor": "days",
+    "net_promoter_score": "rating",
+    "feature_adoption_rate": "percentage",
+    "support_tickets_resueltos": "integer"
+  },
+  "segmentacion_mercado": {
+    "pequenas_empresas": {
+      "usuarios": 1200,
+      "ingresos_mensuales": 120000,
+      "churn_rate": 8.5
+    },
+    "empresas_medianas": {
+      "usuarios": 450,
+      "ingresos_mensuales": 280000,
+      "churn_rate": 5.2
+    },
+    "grandes_empresas": {
+      "usuarios": 85,
+      "ingresos_mensuales": 450000,
+      "churn_rate": 2.8
+    }
+  },
+  "proyecciones_crecimiento": {
+    "crecimiento_mrr_anual": 25,
+    "objetivo_usuarios_12_meses": 5000,
+    "expansion_internacional": ["México", "Colombia", "Argentina"],
+    "nuevas_funcionalidades": ["IA Predictiva", "Automatización Avanzada", "Analytics Avanzados"]
+  }
+}

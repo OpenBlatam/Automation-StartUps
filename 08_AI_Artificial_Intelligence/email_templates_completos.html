@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Templates - Webinar IA 2024</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .email-template {
+            background: white;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .email-header {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .email-content {
+            padding: 30px;
+        }
+        .email-footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 15px;
+            border-left: 5px solid #ffc107;
+            margin: 20px 0;
+        }
+        .testimonial {
+            background: #e8f4f8;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #4ecdc4;
+        }
+        .social-proof {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .stat {
+            text-align: center;
+            margin: 10px;
+        }
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #4ecdc4;
+        }
+        .stat-label {
+            color: #7f8c8d;
+        }
+        .urgency {
+            background: #ff6b6b;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        @media (max-width: 768px) {
+            .social-proof {
+                flex-direction: column;
+            }
+            .email-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center; color: #2c3e50; margin-bottom: 30px;">📧 EMAIL TEMPLATES - WEBINAR IA 2024</h1>
+        
+        <!-- EMAIL 1: CONFIRMACIÓN DE REGISTRO -->
+        <div class="email-template">
+            <div class="email-header">
+                <h2>✅ EMAIL 1: CONFIRMACIÓN DE REGISTRO</h2>
+                <p>Asunto: ¡Bienvenido al Webinar IA 2024! [Tu cupo está confirmado]</p>
+            </div>
+            <div class="email-content">
+                <h3>¡Hola {NOMBRE}!</h3>
+                
+                <p>¡Excelente decisión! 🎉 Tu registro al <strong>Webinar IA 2024</strong> ha sido confirmado exitosamente.</p>
+                
+                <div class="highlight">
+                    <h4>📅 Detalles del Webinar:</h4>
+                    <ul>
+                        <li><strong>Fecha:</strong> {FECHA}</li>
+                        <li><strong>Hora:</strong> {HORA}</li>
+                        <li><strong>Duración:</strong> 60 minutos</li>
+                        <li><strong>Plataforma:</strong> Zoom (enlace enviado 1 hora antes)</li>
+                    </ul>
+                </div>
+                
+                <h4>🎁 Bonus Incluidos:</h4>
+                <ul>
+                    <li>✅ Guía PDF: "10 Herramientas de IA que Debes Conocer"</li>
+                    <li>✅ Checklist: "Implementación de IA en tu Trabajo"</li>
+                    <li>✅ Certificado de Participación</li>
+                    <li>✅ Acceso a la grabación por 30 días</li>
+                </ul>
+                
+                <div class="testimonial">
+                    <h4>💬 "El mejor webinar de IA que he tomado. Muy práctico y aplicable"</h4>
+                    <p>- Roberto Silva, Desarrollador Senior</p>
+                </div>
+                
+                <p><strong>¿Qué puedes hacer mientras tanto?</strong></p>
+                <ul>
+                    <li>📚 Descarga la guía PDF que te enviamos</li>
+                    <li>🔍 Investiga sobre las herramientas que mencionaremos</li>
+                    <li>📝 Prepara tus preguntas para la sesión de Q&A</li>
+                </ul>
+                
+                <p>¡Nos vemos en el webinar!</p>
+                <p>El equipo de IA Experts</p>
+            </div>
+            <div class="email-footer">
+                <p>¿Tienes preguntas? Responde a este email o contáctanos en <a href="mailto:support@iaexperts.com">support@iaexperts.com</a></p>
+            </div>
+        </div>
+
+        <!-- EMAIL 2: RECORDATORIO 24 HORAS ANTES -->
+        <div class="email-template">
+            <div class="email-header">
+                <h2>⏰ EMAIL 2: RECORDATORIO 24 HORAS ANTES</h2>
+                <p>Asunto: ⚡ Webinar IA mañana - No te lo pierdas</p>
+            </div>
+            <div class="email-content">
+                <h3>¡Hola {NOMBRE}!</h3>
+                
+                <p>¡Solo faltan <strong>24 horas</strong> para el Webinar IA 2024! 🚀</p>
+                
+                <div class="urgency">
+                    <h4>🔥 ÚLTIMAS HORAS</h4>
+                    <p>El webinar comienza mañana a las {HORA}. ¡Asegúrate de estar listo!</p>
+                </div>
+                
+                <h4>📋 Checklist de Preparación:</h4>
+                <ul>
+                    <li>✅ Verifica tu conexión a internet</li>
+                    <li>✅ Descarga Zoom si no lo tienes</li>
+                    <li>✅ Prepara papel y lápiz para tomar notas</li>
+                    <li>✅ Encuentra un lugar tranquilo para la sesión</li>
+                </ul>
+                
+                <div class="highlight">
+                    <h4>🎯 Lo que aprenderás mañana:</h4>
+                    <ul>
+                        <li>Las 5 herramientas de IA más demandadas del mercado</li>
+                        <li>Cómo implementar IA en tu trabajo diario</li>
+                        <li>Casos de uso reales y ejemplos prácticos</li>
+                        <li>Estrategias para aumentar tu productividad 3x</li>
+                    </ul>
+                </div>
+                
+                <div class="social-proof">
+                    <div class="stat">
+                        <div class="stat-number">2,500+</div>
+                        <div class="stat-label">Profesionales Registrados</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">95%</div>
+                        <div class="stat-label">Satisfacción</div>
+                    </div>
+                </div>
+                
+                <p><strong>¿Tienes preguntas específicas sobre IA?</strong></p>
+                <p>Responde a este email con tus preguntas y las responderemos durante la sesión de Q&A.</p>
+                
+                <p>¡Nos vemos mañana!</p>
+                <p>El equipo de IA Experts</p>
+            </div>
+            <div class="email-footer">
+                <p>¿Necesitas ayuda? Contáctanos en <a href="mailto:support@iaexperts.com">support@iaexperts.com</a></p>
+            </div>
+        </div>
+
+        <!-- EMAIL 3: RECORDATORIO 1 HORA ANTES -->
+        <div class="email-template">
+            <div class="email-header">
+                <h2>🚀 EMAIL 3: RECORDATORIO 1 HORA ANTES</h2>
+                <p>Asunto: 🎯 Webinar IA en 1 hora - Enlace de acceso incluido</p>
+            </div>
+            <div class="email-content">
+                <h3>¡Hola {NOMBRE}!</h3>
+                
+                <p>¡El momento ha llegado! 🎉 El Webinar IA 2024 comienza en <strong>1 hora</strong>.</p>
+                
+                <div class="urgency">
+                    <h4>🎯 ENLACE DE ACCESO</h4>
+                    <p><strong>Hora:</strong> {HORA}</p>
+                    <p><strong>Enlace:</strong> <a href="{ENLACE_ZOOM}" class="btn">🚀 Unirse al Webinar</a></p>
+                </div>
+                
+                <h4>📱 Instrucciones de Acceso:</h4>
+                <ol>
+                    <li>Haz clic en el enlace de arriba</li>
+                    <li>Descarga Zoom si es necesario</li>
+                    <li>Únete 5 minutos antes para verificar tu audio</li>
+                    <li>¡Disfruta del webinar!</li>
+                </ol>
+                
+                <div class="highlight">
+                    <h4>🎁 Recuerda que incluye:</h4>
+                    <ul>
+                        <li>✅ Guía PDF descargable</li>
+                        <li>✅ Checklist de implementación</li>
+                        <li>✅ Certificado de participación</li>
+                        <li>✅ Acceso a la grabación por 30 días</li>
+                    </ul>
+                </div>
+                
+                <p><strong>¿Tienes problemas técnicos?</strong></p>
+                <p>Responde a este email inmediatamente y te ayudaremos a solucionarlos.</p>
+                
+                <p>¡Nos vemos en unos minutos!</p>
+                <p>El equipo de IA Experts</p>
+            </div>
+            <div class="email-footer">
+                <p>Soporte técnico: <a href="mailto:tech@iaexperts.com">tech@iaexperts.com</a></p>
+            </div>
+        </div>
+
+        <!-- EMAIL 4: POST-WEBINAR -->
+        <div class="email-template">
+            <div class="email-header">
+                <h2>🎉 EMAIL 4: POST-WEBINAR</h2>
+                <p>Asunto: ¡Gracias por participar! Recursos y próximos pasos</p>
+            </div>
+            <div class="email-content">
+                <h3>¡Hola {NOMBRE}!</h3>
+                
+                <p>¡Gracias por participar en el Webinar IA 2024! 🎉 Esperamos que hayas disfrutado la sesión tanto como nosotros.</p>
+                
+                <div class="highlight">
+                    <h4>🎁 Recursos Prometidos:</h4>
+                    <ul>
+                        <li>✅ <a href="{ENLACE_GRABACION}">Grabación del webinar</a> (disponible por 30 días)</li>
+                        <li>✅ <a href="{ENLACE_GUIA}">Guía PDF: "10 Herramientas de IA"</a></li>
+                        <li>✅ <a href="{ENLACE_CHECKLIST}">Checklist de implementación</a></li>
+                        <li>✅ <a href="{ENLACE_CERTIFICADO}">Certificado de participación</a></li>
+                    </ul>
+                </div>
+                
+                <h4>🚀 Próximos Pasos Recomendados:</h4>
+                <ol>
+                    <li><strong>Esta semana:</strong> Implementa al menos 2 herramientas mencionadas</li>
+                    <li><strong>Próximas 2 semanas:</strong> Practica con casos de uso reales</li>
+                    <li><strong>Próximo mes:</strong> Evalúa el impacto en tu productividad</li>
+                </ol>
+                
+                <div class="testimonial">
+                    <h4>💬 "Después del webinar, implementé IA en mi empresa y aumenté las ventas 60% en 3 meses"</h4>
+                    <p>- Carlos Rodríguez, CEO de TechStart</p>
+                </div>
+                
+                <h4>🎯 ¿Quieres llevar tu conocimiento de IA al siguiente nivel?</h4>
+                <p>Tenemos un <strong>Curso Avanzado de IA</strong> que te ayudará a dominar completamente estas herramientas:</p>
+                <ul>
+                    <li>✅ 8 módulos avanzados</li>
+                    <li>✅ Proyectos prácticos</li>
+                    <li>✅ Certificación oficial</li>
+                    <li>✅ Acceso de por vida</li>
+                </ul>
+                
+                <p><a href="{ENLACE_CURSO}" class="btn">🚀 Ver Curso Avanzado</a></p>
+                
+                <p>¡Gracias por ser parte de nuestra comunidad!</p>
+                <p>El equipo de IA Experts</p>
+            </div>
+            <div class="email-footer">
+                <p>¿Tienes preguntas? Responde a este email o contáctanos en <a href="mailto:support@iaexperts.com">support@iaexperts.com</a></p>
+            </div>
+        </div>
+
+        <!-- EMAIL 5: FOLLOW-UP 3 DÍAS DESPUÉS -->
+        <div class="email-template">
+            <div class="email-header">
+                <h2>📈 EMAIL 5: FOLLOW-UP 3 DÍAS DESPUÉS</h2>
+                <p>Asunto: ¿Cómo va tu implementación de IA?</p>
+            </div>
+            <div class="email-content">
+                <h3>¡Hola {NOMBRE}!</h3>
+                
+                <p>Han pasado 3 días desde el webinar y esperamos que ya estés implementando algunas de las herramientas de IA que aprendiste. 🚀</p>
+                
+                <h4>🤔 Pregunta rápida:</h4>
+                <p><strong>¿Ya implementaste alguna de las herramientas mencionadas en el webinar?</strong></p>
+                
+                <div class="highlight">
+                    <h4>💡 Si aún no has empezado, aquí tienes un plan de 5 minutos:</h4>
+                    <ol>
+                        <li><strong>Minuto 1:</strong> Abre ChatGPT y haz una pregunta sobre tu trabajo</li>
+                        <li><strong>Minuto 2:</strong> Prueba Notion AI para organizar tus tareas</li>
+                        <li><strong>Minuto 3:</strong> Usa Canva AI para crear una imagen</li>
+                        <li><strong>Minuto 4:</strong> Experimenta con Grammarly para mejorar un texto</li>
+                        <li><strong>Minuto 5:</strong> Planifica cómo usar estas herramientas mañana</li>
+                    </ol>
+                </div>
+                
+                <h4>🎯 Casos de Uso Rápidos:</h4>
+                <ul>
+                    <li><strong>ChatGPT:</strong> Escribe emails más efectivos</li>
+                    <li><strong>Notion AI:</strong> Organiza tus proyectos automáticamente</li>
+                    <li><strong>Canva AI:</strong> Crea presentaciones profesionales</li>
+                    <li><strong>Grammarly:</strong> Mejora la calidad de tus comunicaciones</li>
+                </ul>
+                
+                <div class="testimonial">
+                    <h4>💬 "Implementé ChatGPT en mi trabajo y ya ahorro 2 horas diarias"</h4>
+                    <p>- Ana Martínez, Consultora de Marketing</p>
+                </div>
+                
+                <h4>🚀 ¿Quieres acelerar tu aprendizaje?</h4>
+                <p>Nuestro <strong>Curso Avanzado de IA</strong> te ayudará a dominar estas herramientas en solo 4 semanas:</p>
+                <ul>
+                    <li>✅ Implementación paso a paso</li>
+                    <li>✅ Casos de uso específicos para tu industria</li>
+                    <li>✅ Soporte personalizado</li>
+                    <li>✅ Certificación oficial</li>
+                </ul>
+                
+                <p><a href="{ENLACE_CURSO}" class="btn">🚀 Acelerar mi Aprendizaje</a></p>
+                
+                <p>¡Sigue implementando y nos cuentas cómo te va!</p>
+                <p>El equipo de IA Experts</p>
+            </div>
+            <div class="email-footer">
+                <p>¿Tienes preguntas sobre implementación? Responde a este email</p>
+            </div>
+        </div>
+
+        <!-- EMAIL 6: FOLLOW-UP 1 SEMANA DESPUÉS -->
+        <div class="email-template">
+            <div class="email-header">
+                <h2>📊 EMAIL 6: FOLLOW-UP 1 SEMANA DESPUÉS</h2>
+                <p>Asunto: Resultados de la semana: ¿Cómo te fue con la IA?</p>
+            </div>
+            <div class="email-content">
+                <h3>¡Hola {NOMBRE}!</h3>
+                
+                <p>¡Ya pasó una semana desde el webinar! 🎉 Esperamos que hayas tenido tiempo de experimentar con las herramientas de IA.</p>
+                
+                <h4>📊 Encuesta rápida (30 segundos):</h4>
+                <p><strong>¿Cuál de estas herramientas has usado esta semana?</strong></p>
+                <ul>
+                    <li>✅ ChatGPT</li>
+                    <li>✅ Notion AI</li>
+                    <li>✅ Canva AI</li>
+                    <li>✅ Grammarly</li>
+                    <li>✅ Otra herramienta</li>
+                </ul>
+                
+                <div class="highlight">
+                    <h4>🎯 Si ya estás usando IA, ¡felicitaciones!</h4>
+                    <p>Estás en el 20% de profesionales que ya están aprovechando esta tecnología. Sigue así y verás resultados increíbles.</p>
+                </div>
+                
+                <h4>🚀 Si aún no has empezado, no te preocupes:</h4>
+                <p>Muchos profesionales necesitan un poco más de tiempo y orientación. Por eso creamos el <strong>Curso Avanzado de IA</strong>:</p>
+                <ul>
+                    <li>✅ Implementación guiada paso a paso</li>
+                    <li>✅ Casos de uso específicos para tu industria</li>
+                    <li>✅ Soporte personalizado</li>
+                    <li>✅ Comunidad de profesionales</li>
+                </ul>
+                
+                <div class="social-proof">
+                    <div class="stat">
+                        <div class="stat-number">85%</div>
+                        <div class="stat-label">Implementan IA después del curso</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">3x</div>
+                        <div class="stat-label">Aumento en productividad</div>
+                    </div>
+                </div>
+                
+                <p><a href="{ENLACE_CURSO}" class="btn">🚀 Quiero Implementar IA Correctamente</a></p>
+                
+                <p>¡Sigue experimentando y nos cuentas tus resultados!</p>
+                <p>El equipo de IA Experts</p>
+            </div>
+            <div class="email-footer">
+                <p>¿Tienes resultados que compartir? Responde a este email</p>
+            </div>
+        </div>
+
+        <!-- EMAIL 7: FOLLOW-UP 2 SEMANAS DESPUÉS -->
+        <div class="email-template">
+            <div class="email-header">
+                <h2>🎯 EMAIL 7: FOLLOW-UP 2 SEMANAS DESPUÉS</h2>
+                <p>Asunto: Última oportunidad: Curso Avanzado de IA</p>
+            </div>
+            <div class="email-content">
+                <h3>¡Hola {NOMBRE}!</h3>
+                
+                <p>Han pasado 2 semanas desde el webinar y esta es nuestra <strong>última comunicación</strong> sobre el Curso Avanzado de IA. 🎯</p>
+                
+                <div class="urgency">
+                    <h4>⏰ OFERTA ESPECIAL TERMINA MAÑANA</h4>
+                    <p>Descuento del 50% solo para participantes del webinar</p>
+                </div>
+                
+                <h4>🎁 Lo que incluye el Curso Avanzado:</h4>
+                <ul>
+                    <li>✅ 8 módulos avanzados (valor: $800)</li>
+                    <li>✅ Proyectos prácticos (valor: $400)</li>
+                    <li>✅ Certificación oficial (valor: $200)</li>
+                    <li>✅ Acceso de por vida (valor: $300)</li>
+                    <li>✅ Soporte personalizado (valor: $500)</li>
+                    <li>✅ Comunidad exclusiva (valor: $200)</li>
+                </ul>
+                
+                <div class="highlight">
+                    <h4>💰 Valor Total: $2,400</h4>
+                    <p><strong>Precio especial para ti: $1,200 (50% de descuento)</strong></p>
+                </div>
+                
+                <div class="testimonial">
+                    <h4>💬 "El curso avanzado me ayudó a implementar IA en mi empresa. ROI del 300% en 3 meses"</h4>
+                    <p>- Carlos Rodríguez, CEO de TechStart</p>
+                </div>
+                
+                <h4>🚀 ¿Por qué deberías tomar el curso?</h4>
+                <ul>
+                    <li>✅ Implementación guiada paso a paso</li>
+                    <li>✅ Casos de uso específicos para tu industria</li>
+                    <li>✅ Soporte personalizado</li>
+                    <li>✅ Certificación oficial</li>
+                    <li>✅ Acceso de por vida</li>
+                </ul>
+                
+                <p><a href="{ENLACE_CURSO}" class="btn">🚀 Aprovechar Oferta Especial</a></p>
+                
+                <p><strong>Esta oferta termina mañana a medianoche.</strong></p>
+                <p>¡No te quedes fuera!</p>
+                <p>El equipo de IA Experts</p>
+            </div>
+            <div class="email-footer">
+                <p>¿Tienes preguntas sobre el curso? Responde a este email</p>
+            </div>
+        </div>
+
+        <!-- INSTRUCCIONES DE IMPLEMENTACIÓN -->
+        <div class="email-template">
+            <div class="email-header">
+                <h2>📋 INSTRUCCIONES DE IMPLEMENTACIÓN</h2>
+                <p>Cómo usar estos templates en tu campaña</p>
+            </div>
+            <div class="email-content">
+                <h3>🎯 Estrategia de Email Marketing</h3>
+                <ul>
+                    <li><strong>Email 1:</strong> Enviar inmediatamente después del registro</li>
+                    <li><strong>Email 2:</strong> Enviar 24 horas antes del webinar</li>
+                    <li><strong>Email 3:</strong> Enviar 1 hora antes del webinar</li>
+                    <li><strong>Email 4:</strong> Enviar inmediatamente después del webinar</li>
+                    <li><strong>Email 5:</strong> Enviar 3 días después del webinar</li>
+                    <li><strong>Email 6:</strong> Enviar 1 semana después del webinar</li>
+                    <li><strong>Email 7:</strong> Enviar 2 semanas después del webinar</li>
+                </ul>
+                
+                <h3>📊 Métricas a Seguir</h3>
+                <ul>
+                    <li><strong>Open Rate:</strong> Objetivo > 25%</li>
+                    <li><strong>Click Rate:</strong> Objetivo > 5%</li>
+                    <li><strong>Unsubscribe Rate:</strong> Objetivo < 2%</li>
+                    <li><strong>Conversion Rate:</strong> Objetivo > 3%</li>
+                </ul>
+                
+                <h3>🔧 Personalización Recomendada</h3>
+                <ul>
+                    <li><strong>{NOMBRE}:</strong> Nombre del usuario</li>
+                    <li><strong>{FECHA}:</strong> Fecha del webinar</li>
+                    <li><strong>{HORA}:</strong> Hora del webinar</li>
+                    <li><strong>{ENLACE_ZOOM}:</strong> Enlace de Zoom</li>
+                    <li><strong>{ENLACE_GRABACION}:</strong> Enlace a la grabación</li>
+                    <li><strong>{ENLACE_CURSO}:</strong> Enlace al curso avanzado</li>
+                </ul>
+                
+                <h3>📱 Optimización Mobile</h3>
+                <ul>
+                    <li>✅ Usar templates responsivos</li>
+                    <li>✅ Botones grandes y fáciles de tocar</li>
+                    <li>✅ Texto legible en pantallas pequeñas</li>
+                    <li>✅ Enlaces claros y visibles</li>
+                </ul>
+                
+                <h3>🎨 Personalización Visual</h3>
+                <ul>
+                    <li>✅ Usar colores de tu marca</li>
+                    <li>✅ Incluir logo de tu empresa</li>
+                    <li>✅ Mantener consistencia visual</li>
+                    <li>✅ Usar imágenes relevantes</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+

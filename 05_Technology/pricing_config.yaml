@@ -1,0 +1,140 @@
+# Competitive Pricing Analysis Configuration
+# ==========================================
+
+# Database configuration
+database_path: "pricing_analysis.db"
+
+# Data collection settings
+data_sources:
+  web_scraping:
+    enabled: true
+    delay_between_requests: 1  # seconds
+    user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+    timeout: 30
+    retry_attempts: 3
+    
+  api_sources:
+    enabled: true
+    rate_limit: 100  # requests per minute
+    timeout: 30
+    retry_attempts: 3
+    
+  manual_input:
+    enabled: true
+    
+  csv_import:
+    enabled: true
+    default_currency: "USD"
+
+# Products to track
+products:
+  - id: "product_001"
+    name: "Premium Software License"
+    category: "Software"
+    target_price_range: [100, 500]
+    
+  - id: "product_002"
+    name: "Basic Software License"
+    category: "Software"
+    target_price_range: [50, 150]
+    
+  - id: "product_003"
+    name: "Enterprise Software License"
+    category: "Software"
+    target_price_range: [500, 2000]
+
+# Competitors to monitor
+competitors:
+  - name: "Competitor A"
+    website: "https://competitor-a.com"
+    api_endpoint: "https://api.competitor-a.com/pricing"
+    api_key_required: true
+    
+  - name: "Competitor B"
+    website: "https://competitor-b.com"
+    api_endpoint: "https://api.competitor-b.com/prices"
+    api_key_required: false
+    
+  - name: "Competitor C"
+    website: "https://competitor-c.com"
+    api_endpoint: "https://api.competitor-c.com/products"
+    api_key_required: true
+
+# API keys for external services
+api_keys:
+  competitor_a: "your_api_key_here"
+  competitor_c: "your_api_key_here"
+  currency_conversion: "your_currency_api_key_here"
+
+# Analysis settings
+analysis_settings:
+  price_change_threshold: 0.05  # 5% change threshold
+  confidence_threshold: 0.7     # Minimum confidence for insights
+  update_frequency: "daily"     # How often to collect new data
+  price_gap_threshold: 0.2      # 20% price gap threshold
+  trend_analysis_period: 30     # Days to analyze for trends
+  
+# Alert settings
+alerts:
+  enabled: true
+  email_notifications: true
+  price_change_alerts: true
+  new_competitor_alerts: true
+  significant_gap_alerts: true
+  
+  thresholds:
+    price_increase_alert: 0.1    # 10% price increase
+    price_decrease_alert: 0.15   # 15% price decrease
+    new_competitor_threshold: 0.2 # 20% below market average
+
+# Reporting settings
+reporting:
+  export_formats: ["excel", "pdf", "json"]
+  include_charts: true
+  include_recommendations: true
+  include_historical_data: true
+  
+  dashboard:
+    enabled: true
+    port: 8080
+    auto_refresh: 300  # seconds
+
+# Web scraping selectors (example for specific websites)
+scraping_selectors:
+  competitor_a:
+    price_selector: ".price-value"
+    product_selector: ".product-title"
+    availability_selector: ".stock-status"
+    
+  competitor_b:
+    price_selector: "[data-testid='price']"
+    product_selector: "h1.product-name"
+    availability_selector: ".availability"
+
+# Data validation rules
+validation:
+  min_price: 0.01
+  max_price: 100000
+  required_fields: ["product_id", "competitor", "price", "currency"]
+  currency_codes: ["USD", "EUR", "GBP", "JPY", "CAD", "AUD"]
+
+# Performance settings
+performance:
+  max_concurrent_requests: 10
+  cache_duration: 3600  # seconds
+  batch_size: 100
+  memory_limit: "1GB"
+
+# Logging configuration
+logging:
+  level: "INFO"
+  file: "pricing_analysis.log"
+  max_size: "10MB"
+  backup_count: 5
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+
+
+
+
+

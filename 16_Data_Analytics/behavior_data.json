@@ -1,0 +1,74 @@
+{
+  "curso_ia": {
+    "downloads": 208,
+    "conversions": 31,
+    "engagement_time": 3.0643236521534876,
+    "bounce_rate": 0.28937333421999323,
+    "device_distribution": {
+      "desktop": 0.45,
+      "mobile": 0.4,
+      "tablet": 0.15
+    },
+    "audience_segments": {
+      "beginners": 0.35,
+      "intermediate": 0.45,
+      "advanced": 0.2
+    },
+    "conversion_rate": 14.903846153846153,
+    "engagement_score": 21.775900998006463,
+    "roi_score": 32.45446783356732,
+    "growth_prediction": {
+      "next_month": 261.91990126219684,
+      "next_quarter": 266.6664188732817,
+      "next_year": 413.0418499884457
+    }
+  },
+  "webinar_ia": {
+    "downloads": 298,
+    "conversions": 31,
+    "engagement_time": 3.2355123527295304,
+    "bounce_rate": 0.23504468977326373,
+    "device_distribution": {
+      "desktop": 0.5,
+      "mobile": 0.35,
+      "tablet": 0.15
+    },
+    "audience_segments": {
+      "marketing_managers": 0.4,
+      "digital_marketers": 0.35,
+      "entrepreneurs": 0.25
+    },
+    "conversion_rate": 10.40268456375839,
+    "engagement_score": 24.75022355524655,
+    "roi_score": 25.746876852773255,
+    "growth_prediction": {
+      "next_month": 379.7739481146397,
+      "next_quarter": 384.6426002642344,
+      "next_year": 572.5586091848876
+    }
+  },
+  "saas_ia": {
+    "downloads": 227,
+    "conversions": 24,
+    "engagement_time": 5.615272755592194,
+    "bounce_rate": 0.13632850008522557,
+    "device_distribution": {
+      "desktop": 0.6,
+      "mobile": 0.25,
+      "tablet": 0.15
+    },
+    "audience_segments": {
+      "ctos": 0.25,
+      "marketing_directors": 0.35,
+      "saas_founders": 0.4
+    },
+    "conversion_rate": 10.572687224669604,
+    "engagement_score": 48.49751043252879,
+    "roi_score": 51.2749008978278,
+    "growth_prediction": {
+      "next_month": 250.96388358922994,
+      "next_quarter": 328.84376213408365,
+      "next_year": 354.18210986929864
+    }
+  }
+}

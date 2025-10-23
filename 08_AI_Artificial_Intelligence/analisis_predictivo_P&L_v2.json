@@ -1,0 +1,103 @@
+{
+  "task": "analisis_predictivo_P&L_v2",
+  "metadata": {
+    "version": "2.0",
+    "optimizado": true,
+    "velocidad": "alta"
+  },
+  "input": {
+    "datos_historicos": {
+      "periodos": 8,
+      "ventas": [1200000, 1350000, 1420000, 1580000, 1650000, 1720000, 1800000, 1950000],
+      "costos": [480000, 540000, 568000, 632000, 660000, 688000, 720000, 780000],
+      "gastos_operativos": [350000, 380000, 400000, 420000, 450000, 480000, 500000, 520000]
+    },
+    "factores_externos": {
+      "inflacion": 4.5,
+      "crecimiento_mercado": 8.2,
+      "competencia": 2,
+      "regulaciones": 1
+    }
+  },
+  "output_format": {
+    "forecasting": {
+      "metodo": "ARIMA + ML",
+      "precision": 94.2,
+      "proyeccion_12_meses": "array",
+      "tendencias": "array"
+    },
+    "alertas": {
+      "umbrales": "object",
+      "notificaciones": "array",
+      "acciones": "array"
+    }
+  },
+  "modelos_predictivos": {
+    "arima": {
+      "precision": 92.5,
+      "usado_para": "tendencias"
+    },
+    "ml": {
+      "algoritmo": "XGBoost",
+      "precision": 94.2,
+      "features": ["ventas", "estacionalidad", "externos"]
+    },
+    "neural": {
+      "precision": 96.1,
+      "usado_para": "patrones_complejos"
+    }
+  },
+  "alertas_automaticas": {
+    "criticas": {
+      "caida_ventas": -15,
+      "aumento_costos": 20,
+      "margen_bruto": 30
+    },
+    "notificaciones": {
+      "email": true,
+      "slack": true,
+      "dashboard": true
+    }
+  },
+  "benchmarking_rapido": {
+    "industria": {
+      "margen_promedio": 65,
+      "crecimiento_promedio": 12,
+      "churn_promedio": 5.5
+    },
+    "posicionamiento": {
+      "ranking_margen": 2,
+      "ranking_crecimiento": 1,
+      "ranking_eficiencia": 3
+    }
+  },
+  "escenarios": {
+    "optimista": {
+      "probabilidad": 30,
+      "crecimiento": 25,
+      "margen": 75
+    },
+    "base": {
+      "probabilidad": 50,
+      "crecimiento": 15,
+      "margen": 68
+    },
+    "pesimista": {
+      "probabilidad": 20,
+      "crecimiento": 5,
+      "margen": 55
+    }
+  },
+  "recomendaciones": {
+    "inmediatas": [
+      "Optimizar costos operativos",
+      "Mejorar retención clientes",
+      "Acelerar desarrollo productos"
+    ],
+    "inversion": {
+      "r_d": 200000,
+      "marketing": 150000,
+      "tecnologia": 100000
+    }
+  }
+}

@@ -1,0 +1,343 @@
+{
+  "task": "analizar_P&L_curso_IA_premium",
+  "metadata": {
+    "version": "2.0",
+    "fecha_creacion": "2025-01-27",
+    "ultima_actualizacion": "2025-01-27",
+    "tipo_negocio": "educacion_online_ia",
+    "modelo_revenue": "subscription_plus_services"
+  },
+  "input": {
+    "periodo": "2025 Q2",
+    "datos": {
+      "ventas_principales": {
+        "curso_online_completo": 450000,
+        "webinars_premium": 180000,
+        "certificaciones": 95000,
+        "consultoria_1on1": 120000,
+        "materiales_digitales": 45000,
+        "bootcamps_intensivos": 200000,
+        "masterclass_exclusivas": 85000,
+        "licencias_empresariales": 150000,
+        "eventos_presenciales": 75000,
+        "partnerships_educativos": 100000
+      },
+      "costos_directos": {
+        "produccion_contenido": 180000,
+        "plataforma_elearning": 25000,
+        "herramientas_tecnologicas": 15000,
+        "instructores_externos": 80000,
+        "marketing_digital": 120000,
+        "equipos_grabacion": 35000,
+        "licencias_software_IA": 20000,
+        "infraestructura_cloud": 30000,
+        "soporte_tecnico": 25000
+      },
+      "gastos_operativos": {
+        "salarios_equipo": 200000,
+        "alquiler_oficina": 15000,
+        "servicios_utilities": 8000,
+        "software_licencias": 12000,
+        "gastos_administrativos": 25000,
+        "investigacion_mercado": 15000,
+        "desarrollo_tecnologico": 30000,
+        "capacitacion_equipo": 20000,
+        "eventos_networking": 15000
+      },
+      "otros_ingresos": {
+        "afiliados_comisiones": 35000,
+        "patrocinios": 20000,
+        "licencias_contenido": 15000,
+        "partnerships_empresariales": 40000,
+        "eventos_presenciales": 25000,
+        "consultoria_especializada": 30000,
+        "royalties_contenido": 20000
+      },
+      "otros_gastos": {
+        "impuestos": 45000,
+        "seguros": 8000,
+        "gastos_legales": 5000,
+        "gastos_bancarios": 3000,
+        "depreciacion_equipos": 12000,
+        "auditorias": 8000,
+        "compliance": 5000
+      }
+    }
+  },
+  "output_format": {
+    "margen_bruto": "float",
+    "EBITDA": "float",
+    "utilidad_neta": "float",
+    "margen_bruto_pct": "percentage",
+    "ROI_marketing": "percentage",
+    "costo_adquisicion_cliente": "float",
+    "valor_vida_cliente": "float",
+    "payback_period": "months",
+    "net_promoter_score": "rating",
+    "observaciones": "string"
+  },
+  "metricas_especificas_educacion": {
+    "tasa_completacion_curso": "percentage",
+    "satisfaccion_estudiantes": "rating",
+    "tasa_recomendacion": "percentage",
+    "ingresos_por_estudiante": "float",
+    "costo_produccion_contenido": "float",
+    "tiempo_promedio_completacion": "days",
+    "tasa_abandono_por_modulo": "percentage",
+    "engagement_rate": "percentage",
+    "tasa_upselling": "percentage",
+    "retention_rate_12_meses": "percentage"
+  },
+  "analisis_cohortes_avanzado": {
+    "cohorte_q1_2025": {
+      "estudiantes_iniciales": 1200,
+      "retencion_mes_1": 78,
+      "retencion_mes_3": 65,
+      "retencion_mes_6": 58,
+      "retencion_mes_12": 45,
+      "ingresos_por_cohorte": 180000,
+      "satisfaccion_promedio": 4.2,
+      "tasa_recomendacion": 68
+    },
+    "cohorte_q2_2025": {
+      "estudiantes_iniciales": 1500,
+      "retencion_mes_1": 82,
+      "retencion_mes_3": 70,
+      "retencion_mes_6": 62,
+      "retencion_mes_12": 50,
+      "ingresos_por_cohorte": 220000,
+      "satisfaccion_promedio": 4.4,
+      "tasa_recomendacion": 72
+    },
+    "cohorte_q3_2025": {
+      "estudiantes_iniciales": 1800,
+      "retencion_mes_1": 85,
+      "retencion_mes_3": 73,
+      "retencion_mes_6": 65,
+      "retencion_mes_12": 52,
+      "ingresos_por_cohorte": 260000,
+      "satisfaccion_promedio": 4.5,
+      "tasa_recomendacion": 75
+    }
+  },
+  "segmentacion_estudiantes_detallada": {
+    "principiantes": {
+      "porcentaje": 45,
+      "ingresos_promedio": 450,
+      "tasa_completacion": 65,
+      "satisfaccion": 4.2,
+      "tiempo_promedio": 45,
+      "upselling_rate": 25,
+      "churn_rate": 15
+    },
+    "intermedios": {
+      "porcentaje": 35,
+      "ingresos_promedio": 680,
+      "tasa_completacion": 78,
+      "satisfaccion": 4.5,
+      "tiempo_promedio": 35,
+      "upselling_rate": 40,
+      "churn_rate": 10
+    },
+    "avanzados": {
+      "porcentaje": 20,
+      "ingresos_promedio": 1200,
+      "tasa_completacion": 85,
+      "satisfaccion": 4.7,
+      "tiempo_promedio": 25,
+      "upselling_rate": 60,
+      "churn_rate": 5
+    }
+  },
+  "canales_adquisicion_optimizados": {
+    "marketing_digital": {
+      "costo_adquisicion": 120,
+      "conversion_rate": 3.2,
+      "estudiantes_adquiridos": 450,
+      "ltv": 1800,
+      "roi": 320,
+      "canales": ["Google Ads", "Facebook", "LinkedIn", "YouTube"]
+    },
+    "referidos": {
+      "costo_adquisicion": 80,
+      "conversion_rate": 8.5,
+      "estudiantes_adquiridos": 320,
+      "ltv": 2200,
+      "roi": 450,
+      "programa": "referidos_premium"
+    },
+    "partnerships": {
+      "costo_adquisicion": 60,
+      "conversion_rate": 12.3,
+      "estudiantes_adquiridos": 280,
+      "ltv": 2000,
+      "roi": 380,
+      "partners": ["universidades", "empresas", "influencers"]
+    },
+    "eventos_presenciales": {
+      "costo_adquisicion": 200,
+      "conversion_rate": 15.8,
+      "estudiantes_adquiridos": 150,
+      "ltv": 2500,
+      "roi": 280,
+      "eventos": ["conferencias", "workshops", "meetups"]
+    },
+    "content_marketing": {
+      "costo_adquisicion": 90,
+      "conversion_rate": 5.5,
+      "estudiantes_adquiridos": 200,
+      "ltv": 1900,
+      "roi": 350,
+      "canales": ["blog", "podcast", "webinars", "ebooks"]
+    }
+  },
+  "analisis_contenido": {
+    "tipos_contenido": {
+      "video_lectures": {
+        "produccion_costo": 50000,
+        "engagement_rate": 85,
+        "completion_rate": 70,
+        "satisfaccion": 4.3
+      },
+      "interactive_labs": {
+        "produccion_costo": 30000,
+        "engagement_rate": 92,
+        "completion_rate": 80,
+        "satisfaccion": 4.6
+      },
+      "live_sessions": {
+        "produccion_costo": 20000,
+        "engagement_rate": 95,
+        "completion_rate": 90,
+        "satisfaccion": 4.7
+      },
+      "assessments": {
+        "produccion_costo": 15000,
+        "engagement_rate": 75,
+        "completion_rate": 85,
+        "satisfaccion": 4.2
+      }
+    },
+    "optimizacion_contenido": {
+      "mejores_practicas": [
+        "Microlearning modules",
+        "Gamification elements",
+        "Personalized learning paths",
+        "Real-world projects"
+      ],
+      "tecnologias_emergentes": [
+        "VR/AR experiences",
+        "AI-powered tutoring",
+        "Adaptive learning",
+        "Blockchain certificates"
+      ]
+    }
+  },
+  "proyecciones_crecimiento_avanzadas": {
+    "crecimiento_ventas_anual": 15,
+    "expansion_mercados": ["Latinoamérica", "Europa", "Asia-Pacífico", "Norteamérica"],
+    "nuevos_productos": [
+      "IA Avanzada",
+      "Machine Learning",
+      "Deep Learning",
+      "Computer Vision",
+      "NLP Avanzado",
+      "Robotics"
+    ],
+    "objetivo_estudiantes_anual": 5000,
+    "objetivo_ingresos_anual": 2500000,
+    "expansion_modalidades": ["Presencial", "Híbrido", "VR/AR", "Metaverse"],
+    "partnerships_estrategicos": [
+      "Universidades top",
+      "Empresas Fortune 500",
+      "Gobiernos",
+      "Organizaciones internacionales"
+    ]
+  },
+  "analisis_competitivo_detallado": {
+    "posicionamiento_mercado": "Top 3 en IA Education Global",
+    "ventaja_competitiva": [
+      "Instructores expertos de FAANG",
+      "Contenido actualizado semanalmente",
+      "Comunidad activa global",
+      "Certificaciones reconocidas",
+      "Job placement assistance"
+    ],
+    "precio_vs_competencia": "Premium (15% más alto que promedio)",
+    "satisfaccion_vs_competencia": "Superior en 20%",
+    "market_share": {
+      "global": 8,
+      "latinoamerica": 25,
+      "españa": 15,
+      "mercado_objetivo": 12
+    },
+    "competidores_principales": {
+      "coursera": {
+        "ventaja": "brand_recognition",
+        "desventaja": "generic_content"
+      },
+      "udacity": {
+        "ventaja": "nanodegrees",
+        "desventaja": "high_price"
+      },
+      "edx": {
+        "ventaja": "university_partnerships",
+        "desventaja": "academic_focus"
+      }
+    }
+  },
+  "riesgos_identificados": {
+    "tecnologicos": [
+      "Cambios rápidos en IA",
+      "Nuevas plataformas de aprendizaje",
+      "Disrupción por VR/AR",
+      "Automatización de contenido"
+    ],
+    "mercado": [
+      "Saturación del mercado",
+      "Competencia agresiva",
+      "Cambios en demanda",
+      "Regulaciones educativas"
+    ],
+    "operacionales": [
+      "Retención de instructores expertos",
+      "Calidad consistente del contenido",
+      "Escalabilidad de soporte",
+      "Gestión de comunidad"
+    ],
+    "financieros": [
+      "Estacionalidad de inscripciones",
+      "Costos de marketing crecientes",
+      "Inversión en tecnología",
+      "Competencia de precios"
+    ]
+  },
+  "estrategias_mitigacion": {
+    "diversificacion_contenido": "Múltiples verticales de IA",
+    "expansion_geografica": "Mercados emergentes",
+    "inversion_tecnologia": "R&D continuo en EdTech",
+    "partnerships_estrategicos": "Alianzas con líderes de industria",
+    "retention_programs": "Programas de lealtad avanzados",
+    "quality_assurance": "Sistemas de calidad automatizados"
+  },
+  "metricas_avanzadas": {
+    "learning_analytics": {
+      "tiempo_estudio_promedio": "hours_per_week",
+      "interacciones_por_sesion": "integer",
+      "progreso_por_modulo": "percentage",
+      "tiempo_para_dominio": "days"
+    },
+    "engagement_metrics": {
+      "daily_active_users": "integer",
+      "session_duration": "minutes",
+      "content_completion_rate": "percentage",
+      "social_interactions": "integer"
+    },
+    "business_impact": {
+      "job_placement_rate": "percentage",
+      "salary_increase_avg": "percentage",
+      "career_advancement": "percentage",
+      "employer_satisfaction": "rating"
+    }
+  }
+}

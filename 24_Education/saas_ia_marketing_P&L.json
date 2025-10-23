@@ -1,0 +1,258 @@
+{
+  "task": "analizar_P&L_SaaS_IA_marketing_avanzado",
+  "input": {
+    "periodo": "2025 Q2",
+    "datos": {
+      "ventas_suscripciones": {
+        "plan_basico_mensual": 120000,
+        "plan_profesional_mensual": 280000,
+        "plan_enterprise_mensual": 450000,
+        "suscripciones_anuales": 320000,
+        "upgrades_planes": 95000,
+        "add_ons_premium": 65000,
+        "white_label_licenses": 180000
+      },
+      "ingresos_adicionales": {
+        "servicios_consultoria": 180000,
+        "integraciones_personalizadas": 120000,
+        "capacitacion_usuarios": 45000,
+        "soporte_premium": 35000,
+        "desarrollo_custom": 95000,
+        "data_analytics_services": 75000
+      },
+      "costos_directos": {
+        "infraestructura_cloud": 85000,
+        "licencias_IA_terceros": 45000,
+        "procesamiento_datos": 25000,
+        "almacenamiento": 15000,
+        "ancho_banda": 20000,
+        "apis_externas": 30000,
+        "monitoreo_seguridad": 15000
+      },
+      "gastos_operativos": {
+        "salarios_desarrollo": 350000,
+        "salarios_marketing": 120000,
+        "salarios_soporte": 80000,
+        "salarios_ventas": 100000,
+        "oficina_alquiler": 25000,
+        "equipos_tecnologicos": 30000,
+        "marketing_digital": 150000,
+        "eventos_ferias": 40000,
+        "investigacion_desarrollo": 80000,
+        "recruiting": 25000
+      },
+      "gastos_administrativos": {
+        "impuestos": 75000,
+        "seguros": 12000,
+        "gastos_legales": 15000,
+        "contabilidad": 8000,
+        "auditorias": 10000,
+        "compliance": 18000,
+        "patentes": 25000
+      }
+    }
+  },
+  "output_format": {
+    "margen_bruto": "float",
+    "EBITDA": "float",
+    "utilidad_neta": "float",
+    "margen_bruto_pct": "percentage",
+    "ARR": "float",
+    "MRR": "float",
+    "churn_rate": "percentage",
+    "CAC": "float",
+    "LTV": "float",
+    "LTV_CAC_ratio": "float",
+    "payback_period": "months",
+    "observaciones": "string"
+  },
+  "metricas_saas_especificas": {
+    "usuarios_activos": "integer",
+    "tasa_conversion_trial": "percentage",
+    "tiempo_para_valor": "days",
+    "net_promoter_score": "rating",
+    "feature_adoption_rate": "percentage",
+    "support_tickets_resueltos": "integer",
+    "expansion_revenue_rate": "percentage",
+    "contraction_revenue_rate": "percentage",
+    "net_revenue_retention": "percentage"
+  },
+  "analisis_cohortes_detallado": {
+    "cohorte_enero_2025": {
+      "usuarios_iniciales": 450,
+      "retencion_mes_1": 85,
+      "retencion_mes_3": 72,
+      "retencion_mes_6": 58,
+      "retencion_mes_12": 45,
+      "ingresos_por_cohorte": 180000
+    },
+    "cohorte_febrero_2025": {
+      "usuarios_iniciales": 520,
+      "retencion_mes_1": 88,
+      "retencion_mes_3": 75,
+      "retencion_mes_6": 62,
+      "retencion_mes_12": 48,
+      "ingresos_por_cohorte": 210000
+    },
+    "cohorte_marzo_2025": {
+      "usuarios_iniciales": 580,
+      "retencion_mes_1": 90,
+      "retencion_mes_3": 78,
+      "retencion_mes_6": 65,
+      "retencion_mes_12": 52,
+      "ingresos_por_cohorte": 240000
+    }
+  },
+  "segmentacion_mercado_avanzada": {
+    "startups": {
+      "usuarios": 800,
+      "ingresos_mensuales": 80000,
+      "churn_rate": 12.5,
+      "CAC": 150,
+      "LTV": 1200,
+      "ticket_promedio": 100
+    },
+    "pequenas_empresas": {
+      "usuarios": 1200,
+      "ingresos_mensuales": 120000,
+      "churn_rate": 8.5,
+      "CAC": 200,
+      "LTV": 2400,
+      "ticket_promedio": 100
+    },
+    "empresas_medianas": {
+      "usuarios": 450,
+      "ingresos_mensuales": 280000,
+      "churn_rate": 5.2,
+      "CAC": 400,
+      "LTV": 8000,
+      "ticket_promedio": 620
+    },
+    "grandes_empresas": {
+      "usuarios": 85,
+      "ingresos_mensuales": 450000,
+      "churn_rate": 2.8,
+      "CAC": 800,
+      "LTV": 25000,
+      "ticket_promedio": 5300
+    },
+    "enterprise": {
+      "usuarios": 25,
+      "ingresos_mensuales": 200000,
+      "churn_rate": 1.2,
+      "CAC": 1500,
+      "LTV": 50000,
+      "ticket_promedio": 8000
+    }
+  },
+  "canales_adquisicion_detallados": {
+    "marketing_digital": {
+      "costo_total": 150000,
+      "leads_generados": 2500,
+      "conversion_rate": 4.2,
+      "CAC": 142,
+      "ROI": 320
+    },
+    "ventas_directas": {
+      "costo_total": 100000,
+      "leads_generados": 800,
+      "conversion_rate": 15.5,
+      "CAC": 400,
+      "ROI": 180
+    },
+    "partnerships": {
+      "costo_total": 60000,
+      "leads_generados": 1200,
+      "conversion_rate": 8.8,
+      "CAC": 180,
+      "ROI": 250
+    },
+    "referidos": {
+      "costo_total": 30000,
+      "leads_generados": 600,
+      "conversion_rate": 12.3,
+      "CAC": 80,
+      "ROI": 450
+    }
+  },
+  "analisis_funcionalidades": {
+    "automatizacion_campanas": {
+      "adopcion": 78,
+      "satisfaccion": 4.3,
+      "impacto_ingresos": 15
+    },
+    "analytics_avanzados": {
+      "adopcion": 65,
+      "satisfaccion": 4.5,
+      "impacto_ingresos": 12
+    },
+    "integraciones_api": {
+      "adopcion": 45,
+      "satisfaccion": 4.2,
+      "impacto_ingresos": 8
+    },
+    "ia_predictiva": {
+      "adopcion": 35,
+      "satisfaccion": 4.6,
+      "impacto_ingresos": 20
+    }
+  },
+  "proyecciones_crecimiento_avanzadas": {
+    "crecimiento_mrr_anual": 25,
+    "objetivo_usuarios_12_meses": 5000,
+    "expansion_internacional": ["México", "Colombia", "Argentina", "Brasil"],
+    "nuevas_funcionalidades": ["IA Predictiva", "Automatización Avanzada", "Analytics Avanzados", "Integración IoT"],
+    "objetivo_ARR_12_meses": 15000000,
+    "objetivo_churn_rate": 5.0,
+    "objetivo_LTV_CAC_ratio": 4.0
+  },
+  "analisis_competitivo_detallado": {
+    "posicionamiento": "Líder en IA Marketing Automation",
+    "ventajas_competitivas": [
+      "IA más avanzada",
+      "Integración nativa",
+      "Precio competitivo",
+      "Soporte superior"
+    ],
+    "benchmarking_precios": {
+      "nuestro_precio": "100%",
+      "competidor_a": "120%",
+      "competidor_b": "85%",
+      "competidor_c": "110%"
+    },
+    "benchmarking_caracteristicas": {
+      "funcionalidades_unicas": 8,
+      "funcionalidades_superiores": 12,
+      "funcionalidades_paridad": 15,
+      "funcionalidades_inferiores": 3
+    }
+  },
+  "riesgos_identificados": {
+    "tecnologicos": [
+      "Cambios en APIs de IA",
+      "Nuevas regulaciones",
+      "Competencia tecnológica"
+    ],
+    "mercado": [
+      "Saturación del mercado",
+      "Cambios en comportamiento",
+      "Recesión económica"
+    ],
+    "operacionales": [
+      "Retención de talento",
+      "Escalabilidad técnica",
+      "Calidad del servicio"
+    ],
+    "financieros": [
+      "Ciclos de ventas largos",
+      "Estacionalidad",
+      "Costos de adquisición"
+    ]
+  },
+  "estrategias_mitigacion": {
+    "diversificacion_producto": "Nuevas verticales",
+    "expansion_geografica": "Mercados emergentes",
+    "inversion_tecnologia": "R&D continuo",
+    "partnerships_estrategicos": "Integraciones clave"
+  }
+}

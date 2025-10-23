@@ -1,0 +1,16 @@
+# Archivos de organización
+organization_config.json
+ORGANIZATION_REPORT.md
+WEEKLY_MAINTENANCE_REPORT.md
+MONTHLY_MAINTENANCE_REPORT.md
+logs/
+
+# Archivos temporales
+*.tmp
+*.temp
+*.bak
+*.old
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db

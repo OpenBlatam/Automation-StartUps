@@ -1,0 +1,142 @@
+{
+  "task": "analisis_predictivo_P&L_avanzado",
+  "input": {
+    "datos_historicos": {
+      "periodos": ["2023 Q1", "2023 Q2", "2023 Q3", "2023 Q4", "2024 Q1", "2024 Q2", "2024 Q3", "2024 Q4"],
+      "ventas": [1200000, 1350000, 1420000, 1580000, 1650000, 1720000, 1800000, 1950000],
+      "costos": [480000, 540000, 568000, 632000, 660000, 688000, 720000, 780000],
+      "gastos_operativos": [350000, 380000, 400000, 420000, 450000, 480000, 500000, 520000]
+    },
+    "factores_externos": {
+      "inflacion_anual": 4.5,
+      "crecimiento_mercado": 8.2,
+      "competencia_nueva": 2,
+      "cambios_regulatorios": 1,
+      "tendencias_tecnologicas": "alta"
+    }
+  },
+  "output_format": {
+    "forecasting_ventas": {
+      "metodo": "ARIMA + Machine Learning",
+      "precision": "percentage",
+      "intervalo_confianza": "percentage",
+      "proyeccion_12_meses": "array:float",
+      "tendencias_identificadas": "array:string"
+    },
+    "analisis_estacionalidad": {
+      "patrones_identificados": "array:string",
+      "impacto_por_trimestre": "array:float",
+      "recomendaciones": "array:string"
+    },
+    "escenarios_probables": {
+      "escenario_optimista": "object",
+      "escenario_base": "object",
+      "escenario_pesimista": "object",
+      "probabilidades": "object"
+    }
+  },
+  "modelos_predictivos": {
+    "arima": {
+      "parametros": "auto_optimized",
+      "precision": 92.5,
+      "usado_para": "tendencias_generales"
+    },
+    "machine_learning": {
+      "algoritmo": "Random Forest + XGBoost",
+      "features": ["ventas_historicas", "estacionalidad", "factores_externos"],
+      "precision": 89.3,
+      "usado_para": "predicciones_complejas"
+    },
+    "neural_networks": {
+      "arquitectura": "LSTM + Attention",
+      "precision": 94.1,
+      "usado_para": "patrones_no_lineales"
+    }
+  },
+  "alertas_automaticas": {
+    "umbrales_criticos": {
+      "caida_ventas": -15,
+      "aumento_costos": 20,
+      "margen_bruto": 30,
+      "churn_rate": 10
+    },
+    "notificaciones": {
+      "email": true,
+      "dashboard": true,
+      "slack": true,
+      "sms": false
+    },
+    "acciones_automaticas": {
+      "ajuste_presupuesto": true,
+      "alertas_equipo": true,
+      "reportes_automaticos": true
+    }
+  },
+  "benchmarking_automatizado": {
+    "industria_standards": {
+      "margen_bruto_promedio": 65,
+      "costo_adquisicion_promedio": 150,
+      "churn_rate_promedio": 5.5,
+      "crecimiento_anual_promedio": 12
+    },
+    "competidores_directos": {
+      "competidor_a": {
+        "margen_bruto": 68,
+        "crecimiento": 15,
+        "market_share": 25
+      },
+      "competidor_b": {
+        "margen_bruto": 62,
+        "crecimiento": 8,
+        "market_share": 18
+      },
+      "competidor_c": {
+        "margen_bruto": 70,
+        "crecimiento": 22,
+        "market_share": 12
+      }
+    },
+    "posicionamiento_relativo": {
+      "ranking_margen": 2,
+      "ranking_crecimiento": 1,
+      "ranking_eficiencia": 3
+    }
+  },
+  "analisis_escenarios": {
+    "escenario_optimista": {
+      "crecimiento_ventas": 25,
+      "reduccion_costos": 10,
+      "nuevos_mercados": 3,
+      "probabilidad": 30
+    },
+    "escenario_base": {
+      "crecimiento_ventas": 15,
+      "reduccion_costos": 5,
+      "nuevos_mercados": 1,
+      "probabilidad": 50
+    },
+    "escenario_pesimista": {
+      "crecimiento_ventas": 5,
+      "aumento_costos": 15,
+      "perdida_mercados": 1,
+      "probabilidad": 20
+    }
+  },
+  "recomendaciones_automaticas": {
+    "optimizacion_costos": [
+      "Reducir gastos marketing en 8%",
+      "Optimizar infraestructura cloud",
+      "Automatizar procesos manuales"
+    ],
+    "aumento_ingresos": [
+      "Expandir a 2 nuevos mercados",
+      "Lanzar 3 nuevos productos",
+      "Mejorar retención en 15%"
+    ],
+    "inversion_recomendada": [
+      "R&D: $200,000",
+      "Marketing: $150,000",
+      "Tecnología: $100,000"
+    ]
+  }
+}

@@ -1,0 +1,103 @@
+ID,Categoria,Titulo,Subtitulo,CTA,Tipo_Hook,Palabras_Clave,Urgencia,Nivel_Emocional
+1,Urgencia Temporal,"¡Solo quedan 24 horas! Descubre el secreto que cambió la vida de 10,000+ emprendedores","Únete a este webinar exclusivo antes de que sea demasiado tarde","Reserva tu lugar AHORA - Solo 50 cupos disponibles",Urgencia,"24 horas,secreto,10,000+,exclusivo",Alta,Alta
+2,Escasez,"Solo 3 personas más pueden unirse a este webinar privado","El método que generó $2M en 6 meses - Revelado por primera vez","Acceso inmediato - Últimos cupos",Escasez,"3 personas,privado,$2M,6 meses",Alta,Media
+3,Oferta Limitada,"Por tiempo limitado: Acceso GRATIS al webinar que vale $5,000","Normalmente $5,000 - Hoy GRATIS para los primeros 100","Obtener acceso GRATIS ahora",Oferta,"tiempo limitado,GRATIS,$5,000,primeros 100",Alta,Alta
+4,Fecha de Cierre,"Este webinar se cierra en 48 horas - No te lo pierdas","La estrategia que usan los top 1% para generar ingresos pasivos","Inscríbete antes del cierre",Urgencia,"48 horas,cierra,top 1%,ingresos pasivos",Alta,Media
+5,Última Oportunidad,"ÚLTIMA OPORTUNIDAD: Webinar que nunca se repetirá","El experto #1 en marketing digital revela sus secretos","Asegura tu lugar YA",Última Oportunidad,"ÚLTIMA OPORTUNIDAD,nunca se repetirá,experto #1",Alta,Alta
+6,Countdown,"⏰ 12 horas restantes para unirte al webinar más poderoso del año","Descubre cómo multiplicar tus ingresos por 10x","Inscríbete antes de medianoche",Countdown,"12 horas,restantes,poderoso,10x",Alta,Alta
+7,Exclusividad,"Solo para 25 personas selectas - Webinar VIP","El método exclusivo que no se enseña en ningún lado","Solicitar invitación VIP",Exclusividad,"25 personas,selectas,VIP,exclusivo",Media,Alta
+8,Primera Vez,"Por primera vez en 3 años: Webinar especial","El CEO de $50M comparte su fórmula secreta","Reservar mi lugar especial",Primera Vez,"primera vez,3 años,especial,CEO $50M",Media,Alta
+9,Fin de Semana,"Solo este fin de semana: Webinar de transformación","Cambia tu vida en 60 minutos","Inscríbete este fin de semana",Fin de Semana,"fin de semana,transformación,60 minutos",Media,Alta
+10,Último Día,"¡ÚLTIMO DÍA! Webinar que cambiará tu perspectiva","No dejes pasar esta oportunidad única","Inscríbete HOY",Último Día,"ÚLTIMO DÍA,perspectiva,oportunidad única",Alta,Alta
+11,Resultado Específico,"Cómo generar $10,000 en tu primer mes (sin experiencia previa)","El método paso a paso que funciona para cualquiera","Quiero generar $10,000 este mes",Beneficio,"$10,000,primer mes,sin experiencia,método paso a paso",Baja,Media
+12,Transformación,"De empleado a emprendedor exitoso en 90 días","La guía completa para hacer la transición","Iniciar mi transformación",Transformación,"empleado,emprendedor,90 días,transición",Baja,Alta
+13,Problema-Solución,"¿Cansado de trabajar 12 horas y ganar poco? Aquí está la solución","Descubre cómo trabajar menos y ganar más","Quiero la solución",Problema-Solución,"12 horas,ganar poco,solución,trabajar menos",Media,Alta
+14,Comparación,"Mientras otros luchan, tú puedes triunfar con este método","La diferencia entre el éxito y el fracaso","Elegir el éxito",Comparación,"otros luchan,triunfar,método,éxito vs fracaso",Baja,Media
+15,Testimonial,"De $0 a $50,000 en 6 meses - Historia real de María","Descubre exactamente cómo lo logró","Quiero replicar su éxito",Testimonial,"$0 a $50,000,6 meses,historia real,María",Baja,Alta
+16,Estadística Impactante,"El 95% falla, pero el 5% que sigue este método triunfa","¿En qué grupo quieres estar?","Ser parte del 5%",Estadística,"95% falla,5% triunfa,método,grupo",Media,Alta
+17,Promesa Clara,"Te garantizo que duplicarás tus ingresos en 60 días","O te devuelvo tu dinero - Sin preguntas","Acepto la garantía",Promesa,"garantizo,duplicar,60 días,devuelvo dinero",Baja,Alta
+18,Beneficio Emocional,"Recupera tu tiempo y libertad financiera","Vive la vida que siempre soñaste","Quiero mi libertad",Beneficio Emocional,"tiempo,libertad financiera,vida soñada",Baja,Alta
+19,Resultado Rápido,"Resultados visibles en 7 días o menos","No más esperas de meses para ver cambios","Quiero resultados rápidos",Resultado Rápido,"7 días,visibles,sin esperas,cambios",Baja,Media
+20,Exclusividad de Beneficio,"El único método que funciona en 2024","Todo lo demás está obsoleto","Aprender el método 2024",Exclusividad,"único método,2024,obsoleto",Baja,Media
+21,Secreto Revelado,"El secreto que los millonarios no quieren que sepas","Por primera vez, revelado al público","Revelar el secreto",Curiosidad,"secreto,millonarios,no quieren,revelado",Media,Alta
+22,Método Prohibido,"El método 'prohibido' que genera millones","Lo que las grandes corporaciones no quieren que sepas","Descubrir el método",Curiosidad,"método prohibido,millones,corporaciones",Media,Alta
+23,Técnica Oculta,"La técnica oculta que usan los top 1%","Nunca antes enseñada públicamente","Aprender la técnica",Curiosidad,"técnica oculta,top 1%,nunca enseñada",Media,Alta
+24,Fórmula Secreta,"La fórmula secreta de los emprendedores exitosos","Revelada por primera vez en este webinar","Obtener la fórmula",Curiosidad,"fórmula secreta,emprendedores exitosos,revelada",Media,Alta
+25,Estrategia Interna,"La estrategia interna que usan las empresas Fortune 500","Ahora disponible para emprendedores","Acceder a la estrategia",Curiosidad,"estrategia interna,Fortune 500,disponible",Media,Alta
+26,Conocimiento Exclusivo,"Conocimiento que solo tienen los multimillonarios","Por primera vez, compartido contigo","Obtener el conocimiento",Curiosidad,"conocimiento,multimillonarios,compartido",Media,Alta
+27,Método Confidencial,"El método confidencial de los inversores exitosos","Nunca antes revelado al público general","Descubrir el método",Curiosidad,"método confidencial,inversores exitosos,revelado",Media,Alta
+28,Técnica Reservada,"La técnica reservada para los CEO más exitosos","Ahora disponible para todos","Aprender la técnica",Curiosidad,"técnica reservada,CEO exitosos,disponible",Media,Alta
+29,Estrategia Privada,"La estrategia privada de los emprendedores top","Revelada exclusivamente en este webinar","Conocer la estrategia",Curiosidad,"estrategia privada,emprendedores top,exclusivamente",Media,Alta
+30,Método Exclusivo,"El método exclusivo que genera 6 cifras","Por primera vez, enseñado públicamente","Aprender el método",Curiosidad,"método exclusivo,6 cifras,enseñado públicamente",Media,Alta
+31,Experto Reconocido,"El CEO de $100M te enseña su método","Lecciones de 20 años construyendo imperios","Aprender del experto",Autoridad,"CEO $100M,método,20 años,imperios",Baja,Alta
+32,Premio/Reconocimiento,"El emprendedor del año 2023 comparte sus secretos","La metodología que lo llevó al reconocimiento","Aprender del ganador",Autoridad,"emprendedor del año,2023,secretos,metodología",Baja,Alta
+33,Experiencia Comprobada,"20 años de experiencia condensados en 60 minutos","Todo lo que necesitas saber para triunfar","Aprovechar la experiencia",Autoridad,"20 años,experiencia,60 minutos,triunfar",Baja,Media
+34,Resultados Comprobados,"El método que generó $50M en ventas","Comprobado en 100+ empresas","Aplicar el método",Autoridad,"$50M,ventas,comprobado,100+ empresas",Baja,Media
+35,Testimonios de Éxito,"Método avalado por 1,000+ emprendedores exitosos","Sus resultados hablan por sí solos","Unirme a los exitosos",Autoridad,"1,000+,emprendedores exitosos,avalado,resultados",Baja,Alta
+36,Credenciales Impresionantes,"El consultor de Fortune 500 comparte su metodología","Las mismas estrategias que usan las grandes empresas","Aprender del consultor",Autoridad,"consultor,Fortune 500,metodología,estrategias",Baja,Media
+37,Libro Bestseller,"El autor del bestseller #1 revela su método","La metodología que vendió 1M+ copias","Conocer el método",Autoridad,"bestseller #1,autor,método,1M+ copias",Baja,Alta
+38,Medios de Comunicación,"El emprendedor que apareció en Forbes te enseña","Las estrategias que lo llevaron a la fama","Aprender del famoso",Autoridad,"Forbes,emprendedor,estrategias,fama",Baja,Alta
+39,Universidad/Educación,"El profesor de Harvard comparte su investigación","Los hallazgos que cambiaron el juego","Aprender del profesor",Autoridad,"Harvard,profesor,investigación,hallazgos",Baja,Media
+40,Líder de Industria,"El líder de la industria revela sus secretos","20 años dominando el mercado","Aprender del líder",Autoridad,"líder industria,secretos,20 años,dominando",Baja,Alta
+41,Dolor Específico,"¿Cansado de trabajar 12 horas y ganar $3,000 al mes?","Hay una mejor manera de vivir","Descubrir la mejor manera",Problema,"12 horas,$3,000,mejor manera",Media,Alta
+42,Frustración Común,"¿Frustrado porque nada funciona para generar ingresos?","El problema no eres tú, es el método","Encontrar el método correcto",Problema,"frustrado,nada funciona,ingresos,método",Media,Alta
+43,Miedo/Preocupación,"¿Preocupado por tu futuro financiero?","Toma control de tu destino hoy","Tomar control ahora",Problema,"preocupado,futuro financiero,control,destino",Media,Alta
+44,Desesperación,"¿Desesperado por cambiar tu situación financiera?","La solución está aquí","Encontrar la solución",Problema,"desesperado,cambiar,situación financiera,solución",Alta,Alta
+45,Confusión,"¿Confundido por toda la información contradictoria?","Aquí está la claridad que necesitas","Obtener claridad",Problema,"confundido,información contradictoria,claridad",Media,Alta
+46,Desperdicio de Tiempo,"¿Cansado de perder tiempo con métodos que no funcionan?","Finalmente, algo que SÍ funciona","Probar lo que funciona",Problema,"perder tiempo,métodos no funcionan,SÍ funciona",Media,Alta
+47,Falta de Resultados,"¿Intentando todo pero sin resultados?","El ingrediente que te falta","Descubrir el ingrediente",Problema,"intentando todo,sin resultados,ingrediente",Media,Alta
+48,Estancamiento,"¿Atrapado en la misma situación mes tras mes?","Rompe el ciclo hoy","Romper el ciclo",Problema,"atrapado,misma situación,romper ciclo",Media,Alta
+49,Comparación Negativa,"¿Viendo a otros triunfar mientras tú te quedas atrás?","Es hora de unirte a los exitosos","Unirme a los exitosos",Problema,"otros triunfar,quedarse atrás,unirse exitosos",Media,Alta
+50,Oportunidad Perdida,"¿Perdiendo oportunidades de generar más dinero?","No pierdas más oportunidades","Aprovechar oportunidades",Problema,"perdiendo oportunidades,generar dinero",Media,Alta
+51,Historia Personal,"De la quiebra a los $10M: Mi historia real","Los errores que cometí y cómo los corregí","Escuchar mi historia",Storytelling,"quiebra,$10M,historia real,errores",Baja,Alta
+52,Transformación Dramática,"Cómo pasé de $0 a $100,000 en 6 meses","El momento que cambió todo","Conocer el momento",Storytelling,"$0 a $100,000,6 meses,momento cambió",Baja,Alta
+53,Lección Aprendida,"El error de $50,000 que me enseñó a triunfar","La lección que cambió mi perspectiva","Aprender la lección",Storytelling,"error $50,000,enseñó triunfar,lección",Baja,Alta
+54,Momento Decisivo,"El día que decidí cambiar mi vida para siempre","Y cómo puedes hacer lo mismo","Hacer el cambio",Storytelling,"día decidí,cambiar vida,para siempre",Baja,Alta
+55,Obstáculo Superado,"Cómo superé el obstáculo que casi me destruye","Y cómo puedes superar el tuyo","Superar mi obstáculo",Storytelling,"superé obstáculo,casi destruye,superar",Baja,Alta
+56,Descubrimiento,"El descubrimiento que cambió mi vida","Y por qué quiero compartirlo contigo","Conocer el descubrimiento",Storytelling,"descubrimiento,cambió vida,compartir",Baja,Alta
+57,Punto de Quiebre,"El momento en que todo cambió","Mi historia de transformación completa","Escuchar la transformación",Storytelling,"momento cambió,transformación completa",Baja,Alta
+58,Lección Costosa,"La lección que me costó $100,000 aprender","Ahora la comparto contigo gratis","Aprovechar la lección",Storytelling,"lección $100,000,comparto gratis",Baja,Alta
+59,Momento de Claridad,"El momento en que todo cobró sentido","Y cómo puede cambiar tu vida también","Encontrar el sentido",Storytelling,"momento cobró sentido,cambiar vida",Baja,Alta
+60,Historia de Éxito,"Cómo construí mi imperio desde cero","Los pasos exactos que seguí","Seguir los pasos",Storytelling,"construí imperio,desde cero,pasos exactos",Baja,Alta
+61,Antes vs Después,"De $3,000 a $30,000 al mes: La transformación completa","Descubre exactamente cómo lo logré","Lograr la transformación",Contraste,"$3,000 a $30,000,transformación completa",Baja,Alta
+62,Fracaso vs Éxito,"De 5 negocios fallidos a 1 imperio exitoso","La diferencia que marcó todo","Conocer la diferencia",Contraste,"5 negocios fallidos,1 imperio exitoso",Baja,Alta
+63,Empleado vs Emprendedor,"De empleado frustrado a emprendedor exitoso","El cambio que cambió todo","Hacer el cambio",Contraste,"empleado frustrado,emprendedor exitoso",Baja,Alta
+64,Pobre vs Rico,"De la pobreza a la riqueza en 2 años","El método que lo hizo posible","Aplicar el método",Contraste,"pobreza a riqueza,2 años,método",Baja,Alta
+65,Confusión vs Claridad,"De la confusión total a la claridad absoluta","El momento que cambió mi perspectiva","Obtener claridad",Contraste,"confusión total,claridad absoluta",Baja,Alta
+66,Estancado vs Progresando,"De estancado a progresando constantemente","El cambio que necesitabas","Hacer el cambio",Contraste,"estancado,progresando constantemente",Baja,Alta
+67,Perdiendo vs Ganando,"De perder dinero a ganar $50K al mes","La estrategia que lo cambió todo","Aplicar la estrategia",Contraste,"perder dinero,ganar $50K",Baja,Alta
+68,Desesperado vs Esperanzado,"De la desesperación a la esperanza real","El camino que te lleva al éxito","Seguir el camino",Contraste,"desesperación,esperanza real",Baja,Alta
+69,Confundido vs Enfocado,"De la confusión total al enfoque láser","La técnica que cambió mi vida","Aprender la técnica",Contraste,"confusión total,enfoque láser",Baja,Alta
+70,Fracasando vs Triunfando,"De fracaso tras fracaso a triunfo tras triunfo","El cambio de mentalidad que lo hizo posible","Cambiar mi mentalidad",Contraste,"fracaso tras fracaso,triunfo tras triunfo",Baja,Alta
+71,Pregunta Directa,"¿Quieres generar $10,000 este mes?","Te muestro exactamente cómo hacerlo","Sí, quiero generar $10,000",Pregunta,"$10,000,este mes,exactamente cómo",Baja,Media
+72,Pregunta Retórica,"¿Por qué algunos emprendedores triunfan mientras otros fallan?","La respuesta te sorprenderá","Descubrir la respuesta",Pregunta,"emprendedores triunfan,otros fallan,sorprenderá",Baja,Media
+73,Pregunta Desafiante,"¿Estás listo para cambiar tu vida para siempre?","Porque esto es lo que va a pasar","Sí, estoy listo",Pregunta,"listo,cambiar vida,para siempre",Baja,Alta
+74,Pregunta de Identificación,"¿Te sientes atrapado en tu situación actual?","Hay una salida, y te la muestro","Mostrarme la salida",Pregunta,"atrapado,situación actual,salida",Media,Alta
+75,Pregunta de Deseo,"¿Sueñas con la libertad financiera?","Hagamos que ese sueño sea realidad","Hacer realidad mi sueño",Pregunta,"sueñas,libertad financiera,realidad",Baja,Alta
+76,Pregunta de Frustración,"¿Cansado de trabajar duro sin resultados?","El problema no eres tú, es el método","Conocer el método correcto",Pregunta,"trabajar duro,sin resultados,método",Media,Alta
+77,Pregunta de Oportunidad,"¿Sabías que puedes generar ingresos pasivos?","Te muestro cómo empezar hoy","Mostrarme cómo empezar",Pregunta,"ingresos pasivos,empezar hoy",Baja,Media
+78,Pregunta de Comparación,"¿Por qué algunos ganan $100K mientras otros ganan $3K?","La diferencia está en este webinar","Descubrir la diferencia",Pregunta,"$100K vs $3K,diferencia,webinar",Baja,Media
+79,Pregunta de Tiempo,"¿Cuánto tiempo más vas a esperar para cambiar tu vida?","El momento es ahora","Cambiar mi vida ahora",Pregunta,"tiempo esperar,cambiar vida,momento",Media,Alta
+80,Pregunta de Acción,"¿Estás listo para dar el primer paso?","Te guío en cada paso del camino","Dar el primer paso",Pregunta,"listo,primer paso,guío",Baja,Alta
+81,Estadística Impactante,"El 90% de los emprendedores fallan en el primer año","Descubre cómo ser parte del 10% que triunfa","Ser parte del 10%",Estadística,"90% fallan,primer año,10% triunfa",Baja,Alta
+82,Número Específico,"1,247 emprendedores ya cambiaron su vida con este método","¿Serás el siguiente?","Ser el siguiente",Estadística,"1,247,cambiaron vida,método,siguiente",Baja,Media
+83,Porcentaje de Éxito,"El 95% de éxito con este método probado","Las estadísticas no mienten","Probar el método",Estadística,"95% éxito,método probado,estadísticas",Baja,Media
+84,Crecimiento Exponencial,"Crecimiento del 300% en solo 6 meses","Con este método comprobado","Lograr el crecimiento",Estadística,"300%,6 meses,método comprobado",Baja,Media
+85,Tiempo de Resultados,"Resultados en 30 días o menos","Garantizado o te devuelvo tu dinero","Garantizar mis resultados",Estadística,"30 días,garantizado,devuelvo dinero",Baja,Alta
+86,Inversión vs Retorno,"ROI del 1,000% en el primer año","La inversión más inteligente que puedes hacer","Hacer la inversión",Estadística,"ROI 1,000%,primer año,inversión inteligente",Baja,Media
+87,Tasa de Conversión,"Tasa de conversión del 47% con este método","3x más alta que el promedio de la industria","Aplicar el método",Estadística,"47% conversión,3x más alta,promedio",Baja,Media
+88,Número de Clientes,"10,000+ clientes satisfechos en 5 años","Sus testimonios hablan por sí solos","Unirme a los satisfechos",Estadística,"10,000+,satisfechos,5 años,testimonios",Baja,Alta
+89,Ahorro de Tiempo,"Ahorra 20 horas por semana con este sistema","Más tiempo para lo que realmente importa","Ahorrar tiempo",Estadística,"20 horas,semana,sistema,tiempo importa",Baja,Media
+90,Incremento de Ingresos,"Incremento promedio del 250% en ingresos","En solo 90 días","Incrementar mis ingresos",Estadística,"250% ingresos,90 días",Baja,Alta
+91,Inspiración,"Despierta el emprendedor que llevas dentro","Es hora de vivir la vida que mereces","Despertar mi potencial",Emoción,"emprendedor dentro,vida mereces",Baja,Alta
+92,Motivación,"La motivación que necesitas para triunfar","Transforma tu mentalidad hoy","Transformar mi mentalidad",Emoción,"motivación,triunfar,mentalidad",Baja,Alta
+93,Esperanza,"La esperanza que estabas buscando","Tu futuro brillante comienza aquí","Comenzar mi futuro",Emoción,"esperanza,buscando,futuro brillante",Baja,Alta
+94,Confianza,"Recupera la confianza en ti mismo","Eres más capaz de lo que crees","Recuperar mi confianza",Emoción,"confianza,capaz,crees",Baja,Alta
+95,Pasión,"Reaviva la pasión por tu negocio","Descubre el propósito que te mueve","Reavivar mi pasión",Emoción,"pasión,negocio,propósito",Baja,Alta
+96,Determinación,"La determinación que necesitas para triunfar","No te rindas, estás más cerca de lo que crees","Mantener la determinación",Emoción,"determinación,triunfar,no rindas",Baja,Alta
+97,Gratitud,"Agradece por la oportunidad que tienes","Muchos la desearían, tú la tienes","Aprovechar la oportunidad",Emoción,"agradece,oportunidad,desearían",Baja,Alta
+98,Valentía,"La valentía para dar el primer paso","El éxito está al otro lado del miedo","Dar el primer paso",Emoción,"valentía,primer paso,éxito,miedo",Baja,Alta
+99,Perseverancia,"La perseverancia que te llevará al éxito","Cada paso te acerca más a tu meta","Mantener la perseverancia",Emoción,"perseverancia,éxito,paso,meta",Baja,Alta
+100,Transformación,"La transformación que cambiará tu vida","Deja atrás el pasado, abraza el futuro","Empezar la transformación",Emoción,"transformación,cambiará vida,pasado,futuro",Baja,Alta
+
+

@@ -1,0 +1,133 @@
+{
+  "system_info": {
+    "version": "1.0",
+    "created": "2025-10-21T18:03:27.008649",
+    "last_updated": "2025-10-21T18:03:27.008659"
+  },
+  "pdfs": {
+    "curso_ia": {
+      "name": "Curso de IA",
+      "versions": {
+        "original": {
+          "file": "Curso_IA_Bonos_Exclusivos.pdf",
+          "size": 2574,
+          "type": "v1.0",
+          "optimized_for": "general"
+        },
+        "mejorado": {
+          "file": "Curso_IA_Bonos_Exclusivos_Mejorado.pdf",
+          "size": 4097,
+          "type": "v2.0",
+          "optimized_for": "desktop"
+        },
+        "avanzado": {
+          "file": "Curso_IA_Bonos_Exclusivos_Avanzado.pdf",
+          "size": 4238,
+          "type": "v3.0",
+          "optimized_for": "premium"
+        },
+        "mobile": {
+          "file": "Curso_IA_Bonos_Exclusivos_Mobile.pdf",
+          "size": 2784,
+          "type": "mobile",
+          "optimized_for": "mobile"
+        }
+      },
+      "metrics": {
+        "downloads": 0,
+        "conversions": 0,
+        "engagement_score": 0.0,
+        "target_audience": "general",
+        "value_proposition": "$297 USD"
+      }
+    },
+    "webinar_ia": {
+      "name": "Webinar de IA",
+      "versions": {
+        "original": {
+          "file": "Webinar_IA_Bonos_Exclusivos.pdf",
+          "size": 2578,
+          "type": "v1.0",
+          "optimized_for": "general"
+        },
+        "mejorado": {
+          "file": "Webinar_IA_Bonos_Exclusivos_Mejorado.pdf",
+          "size": 4096,
+          "type": "v2.0",
+          "optimized_for": "desktop"
+        },
+        "avanzado": {
+          "file": "Webinar_IA_Bonos_Exclusivos_Avanzado.pdf",
+          "size": 4236,
+          "type": "v3.0",
+          "optimized_for": "premium"
+        },
+        "mobile": {
+          "file": "Webinar_IA_Bonos_Exclusivos_Mobile.pdf",
+          "size": 2797,
+          "type": "mobile",
+          "optimized_for": "mobile"
+        }
+      },
+      "metrics": {
+        "downloads": 0,
+        "conversions": 0,
+        "engagement_score": 0.0,
+        "target_audience": "marketing",
+        "value_proposition": "$197 USD"
+      }
+    },
+    "saas_ia": {
+      "name": "SaaS IA Marketing",
+      "versions": {
+        "original": {
+          "file": "SaaS_IA_Marketing_Bonos_Exclusivos.pdf",
+          "size": 2582,
+          "type": "v1.0",
+          "optimized_for": "general"
+        },
+        "mejorado": {
+          "file": "SaaS_IA_Marketing_Bonos_Exclusivos_Mejorado.pdf",
+          "size": 4123,
+          "type": "v2.0",
+          "optimized_for": "desktop"
+        },
+        "avanzado": {
+          "file": "SaaS_IA_Marketing_Bonos_Exclusivos_Avanzado.pdf",
+          "size": 4243,
+          "type": "v3.0",
+          "optimized_for": "premium"
+        },
+        "mobile": {
+          "file": "SaaS_IA_Marketing_Bonos_Exclusivos_Mobile.pdf",
+          "size": 2796,
+          "type": "mobile",
+          "optimized_for": "mobile"
+        }
+      },
+      "metrics": {
+        "downloads": 0,
+        "conversions": 0,
+        "engagement_score": 0.0,
+        "target_audience": "enterprise",
+        "value_proposition": "$397 USD"
+      }
+    }
+  },
+  "analytics": {
+    "total_pdfs": 12,
+    "total_size": 41144,
+    "average_size": 3428,
+    "optimization_levels": {
+      "v1.0": 3,
+      "v2.0": 3,
+      "v3.0": 3,
+      "mobile": 3
+    },
+    "target_audiences": {
+      "general": 1,
+      "marketing": 1,
+      "enterprise": 1
+    }
+  }
+}
