@@ -1,604 +1,575 @@
-# Guía de Despliegue - Sistema de Feedback de IA Marketing
+# 🚀 IA Marketing SaaS - Deployment Guide
 
-## 🚀 Descripción General
+## Complete Setup and Deployment Instructions
 
-Esta guía proporciona instrucciones detalladas para desplegar el Sistema de Integración de Feedback de Clientes para IA Marketing en diferentes entornos (desarrollo, staging, producción).
-
-## 📋 Prerrequisitos
-
-### Requisitos del Sistema
-- **Node.js**: >= 18.0.0
-- **npm**: >= 8.0.0
-- **PostgreSQL**: >= 13.0
-- **Redis**: >= 6.0
-- **Docker**: >= 20.0 (opcional)
-- **Git**: >= 2.30
-
-### Requisitos de Hardware
-- **CPU**: 2+ cores
-- **RAM**: 4GB+ (8GB+ recomendado para producción)
-- **Almacenamiento**: 20GB+ SSD
-- **Red**: Conexión estable a internet
-
-## 🛠️ Instalación
-
-### 1. Clonar el Repositorio
-```bash
-git clone https://github.com/adan/ai-marketing-feedback-system.git
-cd ai-marketing-feedback-system
-```
-
-### 2. Instalar Dependencias
-```bash
-npm install
-```
-
-### 3. Configurar Variables de Entorno
-```bash
-cp env.example .env
-# Editar .env con tus configuraciones
-```
-
-### 4. Configurar Base de Datos
-```bash
-# Crear base de datos PostgreSQL
-createdb ai_marketing_feedback_db
-
-# Ejecutar migraciones
-npm run db:migrate
-
-# Generar cliente Prisma
-npm run db:generate
-
-# Poblar datos iniciales (opcional)
-npm run db:seed
-```
-
-### 5. Configurar Redis
-```bash
-# Instalar Redis
-# Ubuntu/Debian
-sudo apt-get install redis-server
-
-# macOS
-brew install redis
-
-# Iniciar Redis
-redis-server
-```
-
-## 🐳 Despliegue con Docker
-
-### 1. Construir Imagen
-```bash
-docker build -t ai-marketing-feedback .
-```
-
-### 2. Ejecutar con Docker Compose
-```bash
-# Desarrollo
-docker-compose -f docker-compose.dev.yml up -d
-
-# Producción
-docker-compose -f docker-compose.prod.yml up -d
-```
-
-### 3. Verificar Despliegue
-```bash
-# Verificar contenedores
-docker-compose ps
-
-# Ver logs
-docker-compose logs -f app
-
-# Verificar salud
-curl http://localhost:3001/health
-```
-
-## 🌐 Despliegue en la Nube
-
-### AWS EC2
-```bash
-# 1. Crear instancia EC2 (t3.medium o superior)
-# 2. Conectar via SSH
-ssh -i your-key.pem ubuntu@your-ec2-ip
-
-# 3. Instalar dependencias
-sudo apt update
-sudo apt install nodejs npm postgresql redis-server nginx
-
-# 4. Clonar y configurar aplicación
-git clone https://github.com/adan/ai-marketing-feedback-system.git
-cd ai-marketing-feedback-system
-npm install
-npm run build
-
-# 5. Configurar Nginx
-sudo nano /etc/nginx/sites-available/ai-marketing-feedback
-```
-
-### Google Cloud Platform
-```bash
-# 1. Crear instancia Compute Engine
-# 2. Configurar firewall
-gcloud compute firewall-rules create allow-feedback-api \
-  --allow tcp:3001 \
-  --source-ranges 0.0.0.0/0
-
-# 3. Desplegar aplicación
-gcloud compute instances create-with-container feedback-api \
-  --container-image gcr.io/your-project/ai-marketing-feedback \
-  --machine-type e2-medium \
-  --zone us-central1-a
-```
-
-### Azure
-```bash
-# 1. Crear App Service
-az webapp create \
-  --resource-group myResourceGroup \
-  --plan myAppServicePlan \
-  --name ai-marketing-feedback \
-  --deployment-local-git
-
-# 2. Configurar variables de entorno
-az webapp config appsettings set \
-  --resource-group myResourceGroup \
-  --name ai-marketing-feedback \
-  --settings NODE_ENV=production
-```
-
-## 🔧 Configuración de Producción
-
-### 1. Variables de Entorno Críticas
-```env
-# Producción
-NODE_ENV=production
-PORT=3001
-HOST=0.0.0.0
-
-# Base de datos
-DATABASE_URL=postgresql://user:password@host:5432/db
-
-# Seguridad
-JWT_SECRET=your_super_secure_jwt_secret_here
-BCRYPT_ROUNDS=12
-
-# CORS
-ALLOWED_ORIGINS=https://yourdomain.com,https://app.yourdomain.com
-
-# Rate Limiting
-RATE_LIMIT_MAX_REQUESTS=1000
-FEEDBACK_RATE_LIMIT_MAX=100
-
-# APIs Externas
-OPENAI_API_KEY=your_openai_api_key
-GOOGLE_CLOUD_API_KEY=your_google_cloud_key
-```
-
-### 2. Configuración de Nginx
-```nginx
-server {
-    listen 80;
-    server_name yourdomain.com;
-    
-    # Redireccionar HTTP a HTTPS
-    return 301 https://$server_name$request_uri;
-}
-
-server {
-    listen 443 ssl http2;
-    server_name yourdomain.com;
-    
-    # Certificados SSL
-    ssl_certificate /path/to/certificate.crt;
-    ssl_certificate_key /path/to/private.key;
-    
-    # Configuración SSL
-    ssl_protocols TLSv1.2 TLSv1.3;
-    ssl_ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512;
-    ssl_prefer_server_ciphers off;
-    
-    # Proxy a la aplicación
-    location / {
-        proxy_pass http://localhost:3001;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_cache_bypass $http_upgrade;
-    }
-    
-    # WebSocket
-    location /ws {
-        proxy_pass http://localhost:3001;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-}
-```
-
-### 3. Configuración de PM2
-```javascript
-// ecosystem.config.js
-module.exports = {
-  apps: [{
-    name: 'ai-marketing-feedback',
-    script: 'dist/server.js',
-    instances: 'max',
-    exec_mode: 'cluster',
-    env: {
-      NODE_ENV: 'development'
-    },
-    env_production: {
-      NODE_ENV: 'production',
-      PORT: 3001
-    },
-    error_file: './logs/err.log',
-    out_file: './logs/out.log',
-    log_file: './logs/combined.log',
-    time: true
-  }]
-};
-```
-
-```bash
-# Instalar PM2
-npm install -g pm2
-
-# Iniciar aplicación
-pm2 start ecosystem.config.js --env production
-
-# Configurar inicio automático
-pm2 startup
-pm2 save
-```
-
-## 📊 Monitoreo y Logging
-
-### 1. Configuración de Logs
-```bash
-# Crear directorio de logs
-mkdir -p logs
-
-# Configurar logrotate
-sudo nano /etc/logrotate.d/ai-marketing-feedback
-```
-
-```bash
-# /etc/logrotate.d/ai-marketing-feedback
-/path/to/app/logs/*.log {
-    daily
-    missingok
-    rotate 30
-    compress
-    delaycompress
-    notifempty
-    create 644 nodejs nodejs
-    postrotate
-        pm2 reloadLogs
-    endscript
-}
-```
-
-### 2. Configuración de Prometheus
-```yaml
-# prometheus.yml
-global:
-  scrape_interval: 15s
-
-scrape_configs:
-  - job_name: 'ai-marketing-feedback'
-    static_configs:
-      - targets: ['localhost:3001']
-    metrics_path: '/metrics'
-    scrape_interval: 5s
-```
-
-### 3. Configuración de Grafana
-```json
-{
-  "dashboard": {
-    "title": "AI Marketing Feedback System",
-    "panels": [
-      {
-        "title": "Request Rate",
-        "type": "graph",
-        "targets": [
-          {
-            "expr": "rate(http_requests_total[5m])",
-            "legendFormat": "{{method}} {{endpoint}}"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-## 🔒 Seguridad
-
-### 1. Configuración de Firewall
-```bash
-# UFW (Ubuntu)
-sudo ufw enable
-sudo ufw allow ssh
-sudo ufw allow 80
-sudo ufw allow 443
-sudo ufw deny 3001  # Bloquear acceso directo al puerto de la app
-```
-
-### 2. Configuración de SSL
-```bash
-# Let's Encrypt
-sudo apt install certbot python3-certbot-nginx
-sudo certbot --nginx -d yourdomain.com
-```
-
-### 3. Configuración de Base de Datos
-```sql
--- Crear usuario específico para la aplicación
-CREATE USER feedback_app WITH PASSWORD 'secure_password';
-GRANT CONNECT ON DATABASE ai_marketing_feedback_db TO feedback_app;
-GRANT USAGE ON SCHEMA public TO feedback_app;
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO feedback_app;
-GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO feedback_app;
-```
-
-## 📈 Escalabilidad
-
-### 1. Load Balancer (Nginx)
-```nginx
-upstream feedback_backend {
-    server 127.0.0.1:3001;
-    server 127.0.0.1:3002;
-    server 127.0.0.1:3003;
-}
-
-server {
-    listen 80;
-    server_name yourdomain.com;
-    
-    location / {
-        proxy_pass http://feedback_backend;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    }
-}
-```
-
-### 2. Clúster de Base de Datos
-```yaml
-# docker-compose.cluster.yml
-version: '3.8'
-services:
-  postgres-master:
-    image: postgres:15
-    environment:
-      POSTGRES_DB: ai_marketing_feedback_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-    volumes:
-      - postgres_master_data:/var/lib/postgresql/data
-  
-  postgres-slave:
-    image: postgres:15
-    environment:
-      POSTGRES_DB: ai_marketing_feedback_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-    volumes:
-      - postgres_slave_data:/var/lib/postgresql/data
-```
-
-### 3. Redis Cluster
-```yaml
-# redis-cluster.yml
-version: '3.8'
-services:
-  redis-node-1:
-    image: redis:7-alpine
-    command: redis-server --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes --port 7001
-    ports:
-      - "7001:7001"
-  
-  redis-node-2:
-    image: redis:7-alpine
-    command: redis-server --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes --port 7002
-    ports:
-      - "7002:7002"
-```
-
-## 🚀 CI/CD Pipeline
-
-### 1. GitHub Actions
-```yaml
-# .github/workflows/deploy.yml
-name: Deploy to Production
-
-on:
-  push:
-    branches: [main]
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    
-    steps:
-    - uses: actions/checkout@v2
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '18'
-        cache: 'npm'
-    
-    - name: Install dependencies
-      run: npm ci
-    
-    - name: Run tests
-      run: npm test
-    
-    - name: Build application
-      run: npm run build
-    
-    - name: Deploy to server
-      uses: appleboy/ssh-action@v0.1.5
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.SSH_KEY }}
-        script: |
-          cd /path/to/app
-          git pull origin main
-          npm ci
-          npm run build
-          pm2 restart ai-marketing-feedback
-```
-
-### 2. Docker Hub
-```bash
-# Construir y subir imagen
-docker build -t yourusername/ai-marketing-feedback .
-docker push yourusername/ai-marketing-feedback
-
-# Desplegar en servidor
-docker pull yourusername/ai-marketing-feedback
-docker run -d -p 3001:3001 yourusername/ai-marketing-feedback
-```
-
-## 🔍 Troubleshooting
-
-### Problemas Comunes
-
-#### 1. Error de Conexión a Base de Datos
-```bash
-# Verificar estado de PostgreSQL
-sudo systemctl status postgresql
-
-# Verificar conexión
-psql -h localhost -U postgres -d ai_marketing_feedback_db
-
-# Verificar logs
-sudo journalctl -u postgresql
-```
-
-#### 2. Error de Conexión a Redis
-```bash
-# Verificar estado de Redis
-sudo systemctl status redis
-
-# Verificar conexión
-redis-cli ping
-
-# Verificar logs
-sudo journalctl -u redis
-```
-
-#### 3. Error de Memoria
-```bash
-# Verificar uso de memoria
-free -h
-htop
-
-# Aumentar límite de memoria de Node.js
-export NODE_OPTIONS="--max-old-space-size=4096"
-```
-
-#### 4. Error de Puerto en Uso
-```bash
-# Verificar puerto en uso
-sudo netstat -tulpn | grep :3001
-
-# Matar proceso
-sudo kill -9 $(sudo lsof -t -i:3001)
-```
-
-### Logs de Debugging
-```bash
-# Logs de la aplicación
-pm2 logs ai-marketing-feedback
-
-# Logs de Nginx
-sudo tail -f /var/log/nginx/error.log
-
-# Logs del sistema
-sudo journalctl -f
-```
-
-## 📚 Comandos Útiles
-
-### Desarrollo
-```bash
-# Iniciar en modo desarrollo
-npm run dev
-
-# Ejecutar tests
-npm test
-
-# Linting
-npm run lint
-
-# Formateo
-npm run format
-```
-
-### Producción
-```bash
-# Iniciar aplicación
-pm2 start ecosystem.config.js --env production
-
-# Reiniciar aplicación
-pm2 restart ai-marketing-feedback
-
-# Ver estado
-pm2 status
-
-# Ver logs
-pm2 logs ai-marketing-feedback
-
-# Monitorear
-pm2 monit
-```
-
-### Base de Datos
-```bash
-# Migrar
-npm run db:migrate
-
-# Generar cliente
-npm run db:generate
-
-# Studio
-npm run db:studio
-
-# Backup
-pg_dump ai_marketing_feedback_db > backup.sql
-
-# Restore
-psql ai_marketing_feedback_db < backup.sql
-```
-
-## 📞 Soporte
-
-Para soporte técnico o preguntas sobre el despliegue:
-
-- **Email**: soporte@ai-marketing-feedback.com
-- **Documentación**: https://docs.ai-marketing-feedback.com
-- **Issues**: https://github.com/adan/ai-marketing-feedback-system/issues
-- **Discord**: https://discord.gg/ai-marketing-feedback
+This guide will help you deploy the IA Marketing SaaS platform from scratch to production.
 
 ---
 
-**¡Despliegue exitoso! 🎉**
+## 📋 Prerequisites
 
-El sistema está listo para procesar feedback de clientes en tiempo real con análisis de IA avanzado.
+### System Requirements
+- **OS**: Linux (Ubuntu 20.04+), macOS, or Windows with WSL2
+- **RAM**: Minimum 8GB, Recommended 16GB+
+- **Storage**: Minimum 50GB free space
+- **CPU**: 4+ cores recommended
+
+### Software Requirements
+- **Docker**: 20.10+
+- **Docker Compose**: 2.0+
+- **Node.js**: 18.0+ (for development)
+- **Git**: Latest version
+
+### API Keys Required
+- **OpenAI API Key**: For GPT-4 and DALL-E
+- **Google AI Key**: For Gemini models
+- **Anthropic API Key**: For Claude models
+- **Stripe Secret Key**: For payments
+- **SendGrid API Key**: For email services
+
+---
+
+## 🚀 Quick Start (5 Minutes)
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/ia-marketing/saas-platform.git
+cd saas-platform
+```
+
+### 2. Configure Environment
+```bash
+# Copy environment template
+cp env.example .env
+
+# Edit with your API keys
+nano .env
+```
+
+### 3. Deploy with Docker
+```bash
+# Make deployment script executable
+chmod +x scripts/deploy.sh
+
+# Deploy all services
+./scripts/deploy.sh
+```
+
+### 4. Access the Application
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:3001
+- **API Documentation**: http://localhost:3001/api/docs
+- **Grafana Dashboard**: http://localhost:3003 (admin/admin123)
+
+---
+
+## 🔧 Detailed Setup
+
+### Environment Configuration
+
+Edit the `.env` file with your configuration:
+
+```bash
+# Database
+DATABASE_URL=postgresql://postgres:postgres123@postgres:5432/ia_marketing
+REDIS_URL=redis://:redis123@redis:6379
+
+# AI Services
+OPENAI_API_KEY=sk-your-openai-key-here
+GOOGLE_AI_KEY=your-google-ai-key-here
+ANTHROPIC_API_KEY=sk-ant-your-anthropic-key-here
+
+# External Services
+STRIPE_SECRET_KEY=sk_test_your-stripe-key-here
+SENDGRID_API_KEY=SG.your-sendgrid-key-here
+
+# Security
+JWT_SECRET=your-super-secret-jwt-key-minimum-32-characters
+```
+
+### Database Setup
+
+The platform uses PostgreSQL with Redis for caching:
+
+```bash
+# Database will be automatically created
+# Run migrations
+docker-compose exec backend npm run migrate
+
+# Seed initial data
+docker-compose exec backend npm run seed
+```
+
+### AI Services Configuration
+
+#### OpenAI Setup
+1. Go to https://platform.openai.com/api-keys
+2. Create a new API key
+3. Add to `.env` file
+4. Ensure you have credits in your account
+
+#### Google AI Setup
+1. Go to https://makersuite.google.com/app/apikey
+2. Create a new API key
+3. Add to `.env` file
+
+#### Anthropic Setup
+1. Go to https://console.anthropic.com/
+2. Create a new API key
+3. Add to `.env` file
+
+---
+
+## 🐳 Docker Deployment
+
+### Development Environment
+
+```bash
+# Start all services
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop services
+docker-compose down
+```
+
+### Production Environment
+
+```bash
+# Use production compose file
+docker-compose -f docker-compose.prod.yml up -d
+
+# Scale services
+docker-compose up -d --scale backend=3 --scale ai-worker=2
+```
+
+### Service Management
+
+```bash
+# Check status
+./scripts/deploy.sh status
+
+# Restart services
+./scripts/deploy.sh restart
+
+# View logs
+./scripts/deploy.sh logs
+
+# Update services
+./scripts/deploy.sh update
+```
+
+---
+
+## ☁️ Cloud Deployment
+
+### AWS Deployment
+
+#### Using AWS ECS
+
+1. **Create ECS Cluster**
+```bash
+aws ecs create-cluster --cluster-name ia-marketing-cluster
+```
+
+2. **Create Task Definition**
+```json
+{
+  "family": "ia-marketing-task",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "2048",
+  "memory": "4096",
+  "executionRoleArn": "arn:aws:iam::account:role/ecsTaskExecutionRole"
+}
+```
+
+3. **Deploy Services**
+```bash
+# Create ECS service
+aws ecs create-service \
+  --cluster ia-marketing-cluster \
+  --service-name ia-marketing-service \
+  --task-definition ia-marketing-task \
+  --desired-count 2
+```
+
+#### Using AWS EKS
+
+1. **Create EKS Cluster**
+```bash
+eksctl create cluster --name ia-marketing-cluster --region us-west-2
+```
+
+2. **Deploy with Helm**
+```bash
+# Install Helm chart
+helm install ia-marketing ./helm/ia-marketing \
+  --set image.tag=latest \
+  --set ingress.enabled=true
+```
+
+### Google Cloud Platform
+
+#### Using Google Kubernetes Engine
+
+1. **Create GKE Cluster**
+```bash
+gcloud container clusters create ia-marketing-cluster \
+  --zone us-central1-a \
+  --num-nodes 3 \
+  --machine-type e2-standard-4
+```
+
+2. **Deploy Application**
+```bash
+# Apply Kubernetes manifests
+kubectl apply -f k8s/
+
+# Expose services
+kubectl expose deployment frontend --type=LoadBalancer --port=80
+```
+
+### Azure Deployment
+
+#### Using Azure Container Instances
+
+1. **Create Resource Group**
+```bash
+az group create --name ia-marketing-rg --location eastus
+```
+
+2. **Deploy Container Group**
+```bash
+az container create \
+  --resource-group ia-marketing-rg \
+  --name ia-marketing-app \
+  --image ia-marketing/frontend:latest \
+  --dns-name-label ia-marketing-app \
+  --ports 80
+```
+
+---
+
+## 🔒 Security Configuration
+
+### SSL/TLS Setup
+
+#### Using Let's Encrypt
+
+```bash
+# Install Certbot
+sudo apt-get install certbot
+
+# Generate certificates
+sudo certbot certonly --standalone -d yourdomain.com
+
+# Update nginx configuration
+cp nginx/nginx-ssl.conf nginx/nginx.conf
+```
+
+#### Using Cloudflare
+
+1. Add your domain to Cloudflare
+2. Enable SSL/TLS encryption
+3. Configure DNS records
+4. Enable security features
+
+### Database Security
+
+```bash
+# Enable SSL for PostgreSQL
+docker-compose exec postgres psql -U postgres -c "ALTER SYSTEM SET ssl = on;"
+
+# Create read-only user
+docker-compose exec postgres psql -U postgres -c "CREATE USER readonly WITH PASSWORD 'readonly123';"
+```
+
+### API Security
+
+```bash
+# Enable rate limiting
+export RATE_LIMIT_ENABLED=true
+export RATE_LIMIT_MAX=1000
+
+# Enable CORS
+export CORS_ORIGIN=https://yourdomain.com
+
+# Enable Helmet security headers
+export HELMET_ENABLED=true
+```
+
+---
+
+## 📊 Monitoring and Logging
+
+### Prometheus Setup
+
+```bash
+# Access Prometheus
+open http://localhost:9090
+
+# Configure alerts
+cp monitoring/alerts.yml monitoring/prometheus/alerts/
+```
+
+### Grafana Dashboard
+
+```bash
+# Access Grafana
+open http://localhost:3003
+
+# Login: admin/admin123
+# Import dashboards from monitoring/grafana/dashboards/
+```
+
+### Application Logs
+
+```bash
+# View all logs
+docker-compose logs -f
+
+# View specific service logs
+docker-compose logs -f backend
+docker-compose logs -f frontend
+docker-compose logs -f ai-worker
+```
+
+### Health Checks
+
+```bash
+# Check service health
+curl http://localhost:3001/health
+
+# Check database
+docker-compose exec postgres pg_isready
+
+# Check Redis
+docker-compose exec redis redis-cli ping
+```
+
+---
+
+## 🔄 Backup and Recovery
+
+### Database Backup
+
+```bash
+# Create backup
+docker-compose exec postgres pg_dump -U postgres ia_marketing > backup.sql
+
+# Restore backup
+docker-compose exec -T postgres psql -U postgres ia_marketing < backup.sql
+```
+
+### File Backup
+
+```bash
+# Backup uploads
+tar -czf uploads-backup.tar.gz server/uploads/
+
+# Restore uploads
+tar -xzf uploads-backup.tar.gz
+```
+
+### Automated Backups
+
+```bash
+# Setup cron job for daily backups
+0 2 * * * /path/to/scripts/backup.sh
+```
+
+---
+
+## 🚨 Troubleshooting
+
+### Common Issues
+
+#### Port Already in Use
+```bash
+# Find process using port
+lsof -i :3000
+lsof -i :3001
+
+# Kill process
+kill -9 PID
+```
+
+#### Database Connection Issues
+```bash
+# Check database status
+docker-compose exec postgres pg_isready
+
+# Reset database
+docker-compose down -v
+docker-compose up -d postgres
+```
+
+#### AI Service Issues
+```bash
+# Check API keys
+docker-compose exec backend node -e "console.log(process.env.OPENAI_API_KEY)"
+
+# Test AI connection
+docker-compose exec backend npm run test:ai
+```
+
+#### Memory Issues
+```bash
+# Increase Docker memory limit
+# In Docker Desktop: Settings > Resources > Memory
+
+# Or use swap
+sudo fallocate -l 2G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+```
+
+### Performance Optimization
+
+#### Database Optimization
+```sql
+-- Create indexes
+CREATE INDEX idx_campaigns_user_id ON campaigns(user_id);
+CREATE INDEX idx_content_type ON content(type);
+CREATE INDEX idx_analytics_date ON analytics(created_at);
+```
+
+#### Redis Optimization
+```bash
+# Configure Redis memory
+echo "maxmemory 1gb" >> redis.conf
+echo "maxmemory-policy allkeys-lru" >> redis.conf
+```
+
+#### Application Optimization
+```bash
+# Enable gzip compression
+export COMPRESSION_ENABLED=true
+
+# Enable caching
+export CACHE_ENABLED=true
+export CACHE_TTL=3600
+```
+
+---
+
+## 📈 Scaling
+
+### Horizontal Scaling
+
+```bash
+# Scale backend services
+docker-compose up -d --scale backend=3
+
+# Scale AI workers
+docker-compose up -d --scale ai-worker=5
+
+# Use load balancer
+docker-compose up -d nginx
+```
+
+### Vertical Scaling
+
+```bash
+# Increase memory limits
+docker-compose up -d --scale backend=1 -e NODE_OPTIONS="--max-old-space-size=4096"
+```
+
+### Database Scaling
+
+```bash
+# Use read replicas
+docker-compose up -d postgres-replica
+
+# Configure connection pooling
+export DATABASE_POOL_SIZE=20
+```
+
+---
+
+## 🔄 Updates and Maintenance
+
+### Application Updates
+
+```bash
+# Pull latest changes
+git pull origin main
+
+# Rebuild and restart
+docker-compose build --no-cache
+docker-compose up -d
+
+# Run migrations
+docker-compose exec backend npm run migrate
+```
+
+### Security Updates
+
+```bash
+# Update base images
+docker-compose pull
+
+# Scan for vulnerabilities
+docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
+  aquasec/trivy image ia-marketing/backend:latest
+```
+
+### Monitoring Updates
+
+```bash
+# Update monitoring stack
+docker-compose pull prometheus grafana
+
+# Restart monitoring
+docker-compose restart prometheus grafana
+```
+
+---
+
+## 📞 Support
+
+### Getting Help
+
+- **Documentation**: https://docs.ia-marketing.com
+- **Community**: https://community.ia-marketing.com
+- **Support Email**: support@ia-marketing.com
+- **Discord**: https://discord.gg/ia-marketing
+
+### Reporting Issues
+
+1. Check existing issues: https://github.com/ia-marketing/saas-platform/issues
+2. Create new issue with:
+   - System information
+   - Error logs
+   - Steps to reproduce
+   - Expected behavior
+
+### Contributing
+
+1. Fork the repository
+2. Create feature branch
+3. Make changes
+4. Submit pull request
+
+---
+
+## 🎯 Next Steps
+
+After successful deployment:
+
+1. **Configure Domain**: Point your domain to the server
+2. **Setup SSL**: Enable HTTPS for security
+3. **Configure Monitoring**: Set up alerts and dashboards
+4. **Create Users**: Add team members and set permissions
+5. **Import Data**: Migrate existing marketing data
+6. **Test Features**: Verify all AI features work correctly
+7. **Go Live**: Start using the platform for your marketing
+
+---
+
+**🎉 Congratulations! Your IA Marketing SaaS platform is now deployed and ready to revolutionize your marketing!**
+
