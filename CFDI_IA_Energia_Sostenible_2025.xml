@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/4" 
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://www.sat.gob.mx/cfd/4 http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd"
+                  Version="4.0"
+                  Serie="ENER"
+                  Folio="2025-004"
+                  Fecha="2025-01-15T14:20:00"
+                  Sello="[SELLO_DIGITAL]"
+                  FormaPago="03"
+                  NoCertificado="30001000000400002434"
+                  Certificado="[CERTIFICADO_DIGITAL]"
+                  SubTotal="42000.00"
+                  Moneda="MXN"
+                  Total="48720.00"
+                  TipoDeComprobante="I"
+                  Exportacion="01"
+                  MetodoPago="PUE"
+                  LugarExpedicion="01000"
+                  Confirmacion="99887766">
+  
+  <cfdi:InformacionGlobal Periodicidad="04" Meses="01" Año="2025"/>
+  
+  <cfdi:Emisor Rfc="ENE789123TEC" 
+               Nombre="ENERGÍA SOSTENIBLE IA MEXICO S.A. DE C.V."
+               RegimenFiscal="601"/>
+  
+  <cfdi:Receptor Rfc="SOL456789ABC" 
+                 Nombre="SOLAR TECH MÉXICO S.A. DE C.V."
+                 DomicilioFiscalReceptor="01000"
+                 RegimenFiscalReceptor="601"
+                 UsoCFDI="G01"/>
+  
+  <cfdi:Conceptos>
+    <cfdi:Concepto ClaveProdServ="84111506"
+                   NoIdentificacion="SMART-GRID-001"
+                   Cantidad="1"
+                   ClaveUnidad="E48"
+                   Unidad="Red"
+                   Descripcion="Red Eléctrica Inteligente (Smart Grid) con IA para Optimización de Distribución, Predicción de Demanda y Gestión de Energías Renovables"
+                   ValorUnitario="18000.00"
+                   Importe="18000.00"
+                   Descuento="0.00"
+                   ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="18000.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="2880.00"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    
+    <cfdi:Concepto ClaveProdServ="84111506"
+                   NoIdentificacion="RENEWABLE-IA-001"
+                   Cantidad="1"
+                   ClaveUnidad="E48"
+                   Unidad="Sistema"
+                   Descripcion="Sistema de Gestión de Energías Renovables con IA para Optimización de Paneles Solares, Turbinas Eólicas y Almacenamiento"
+                   ValorUnitario="12000.00"
+                   Importe="12000.00"
+                   Descuento="0.00"
+                   ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="12000.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="1920.00"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    
+    <cfdi:Concepto ClaveProdServ="84111506"
+                   NoIdentificacion="CARBON-IA-001"
+                   Cantidad="1"
+                   ClaveUnidad="E48"
+                   Unidad="Plataforma"
+                   Descripcion="Plataforma de Gestión de Huella de Carbono con IA para Monitoreo, Reducción y Compensación de Emisiones"
+                   ValorUnitario="8000.00"
+                   Importe="8000.00"
+                   Descuento="0.00"
+                   ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="8000.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="1280.00"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    
+    <cfdi:Concepto ClaveProdServ="84111506"
+                   NoIdentificacion="EFFICIENCY-IA-001"
+                   Cantidad="1"
+                   ClaveUnidad="E48"
+                   Unidad="Optimizador"
+                   Descripcion="Optimizador de Eficiencia Energética con IA para Edificios Inteligentes y Sistemas HVAC Automatizados"
+                   ValorUnitario="4000.00"
+                   Importe="4000.00"
+                   Descuento="0.00"
+                   ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="4000.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="640.00"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+  </cfdi:Conceptos>
+  
+  <cfdi:Impuestos TotalImpuestosTrasladados="6720.00">
+    <cfdi:Traslados>
+      <cfdi:Traslado Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="6720.00"/>
+    </cfdi:Traslados>
+  </cfdi:Impuestos>
+  
+  <cfdi:Complemento>
+    <tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital"
+                             xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd"
+                             Version="1.1"
+                             UUID="99887766-5544-3322-1100-998877665544"
+                             FechaTimbrado="2025-01-15T14:25:00"
+                             RfcProvCertif="ENE789123TEC"
+                             SelloCFD="[SELLO_CFD]"
+                             NoCertificadoSAT="30001000000400002434"
+                             SelloSAT="[SELLO_SAT]"/>
+  </cfdi:Complemento>
+  
+</cfdi:Comprobante>
+
+
+

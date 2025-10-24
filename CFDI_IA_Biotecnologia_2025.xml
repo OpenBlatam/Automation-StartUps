@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/4" 
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://www.sat.gob.mx/cfd/4 http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd"
+                  Version="4.0"
+                  Serie="BIO"
+                  Folio="2025-009"
+                  Fecha="2025-01-15T23:45:00"
+                  Sello="[SELLO_DIGITAL]"
+                  FormaPago="03"
+                  NoCertificado="30001000000400002434"
+                  Certificado="[CERTIFICADO_DIGITAL]"
+                  SubTotal="62000.00"
+                  Moneda="MXN"
+                  Total="71920.00"
+                  TipoDeComprobante="I"
+                  Exportacion="01"
+                  MetodoPago="PUE"
+                  LugarExpedicion="01000"
+                  Confirmacion="55667788">
+  
+  <cfdi:InformacionGlobal Periodicidad="04" Meses="01" Año="2025"/>
+  
+  <cfdi:Emisor Rfc="BIO789123TEC" 
+               Nombre="BIOTECNOLOGÍA INTELIGENTE MEXICO S.A. DE C.V."
+               RegimenFiscal="601"/>
+  
+  <cfdi:Receptor Rfc="PHM456789ABC" 
+                 Nombre="PHARMACEUTICAL RESEARCH MÉXICO S.A. DE C.V."
+                 DomicilioFiscalReceptor="01000"
+                 RegimenFiscalReceptor="601"
+                 UsoCFDI="G01"/>
+  
+  <cfdi:Conceptos>
+    <cfdi:Concepto ClaveProdServ="84111506"
+                   NoIdentificacion="SYNTHETIC-BIOLOGY-001"
+                   Cantidad="1"
+                   ClaveUnidad="E48"
+                   Unidad="Plataforma"
+                   Descripcion="Plataforma de Biología Sintética con IA para Diseño de Organismos Artificiales, Biosíntesis de Compuestos y Ingeniería Genética Avanzada"
+                   ValorUnitario="25000.00"
+                   Importe="25000.00"
+                   Descuento="0.00"
+                   ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="25000.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="4000.00"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    
+    <cfdi:Concepto ClaveProdServ="84111506"
+                   NoIdentificacion="PROTEIN-DESIGN-001"
+                   Cantidad="1"
+                   ClaveUnidad="E48"
+                   Unidad="Sistema"
+                   Descripcion="Sistema de Diseño de Proteínas con IA para Predicción de Estructuras, Optimización de Funciones y Desarrollo de Terapias Personalizadas"
+                   ValorUnitario="18000.00"
+                   Importe="18000.00"
+                   Descuento="0.00"
+                   ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="18000.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="2880.00"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    
+    <cfdi:Concepto ClaveProdServ="84111506"
+                   NoIdentificacion="CRISPR-IA-001"
+                   Cantidad="1"
+                   ClaveUnidad="E48"
+                   Unidad="Algoritmo"
+                   Descripcion="Algoritmo CRISPR Inteligente con IA para Edición Genómica de Precisión, Corrección de Mutaciones y Terapia Génica Avanzada"
+                   ValorUnitario="12000.00"
+                   Importe="12000.00"
+                   Descuento="0.00"
+                   ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="12000.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="1920.00"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    
+    <cfdi:Concepto ClaveProdServ="84111506"
+                   NoIdentificacion="BIO-MANUFACTURING-001"
+                   Cantidad="1"
+                   ClaveUnidad="E48"
+                   Unidad="Proceso"
+                   Descripcion="Proceso de Biofabricación Inteligente con IA para Producción de Biomateriales, Cultivos Celulares y Manufactura de Productos Biológicos"
+                   ValorUnitario="7000.00"
+                   Importe="7000.00"
+                   Descuento="0.00"
+                   ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="7000.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="1120.00"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+  </cfdi:Conceptos>
+  
+  <cfdi:Impuestos TotalImpuestosTrasladados="9920.00">
+    <cfdi:Traslados>
+      <cfdi:Traslado Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="9920.00"/>
+    </cfdi:Traslados>
+  </cfdi:Impuestos>
+  
+  <cfdi:Complemento>
+    <tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital"
+                             xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd"
+                             Version="1.1"
+                             UUID="55667788-9900-1122-3344-556677889900"
+                             FechaTimbrado="2025-01-15T23:50:00"
+                             RfcProvCertif="BIO789123TEC"
+                             SelloCFD="[SELLO_CFD]"
+                             NoCertificadoSAT="30001000000400002434"
+                             SelloSAT="[SELLO_SAT]"/>
+  </cfdi:Complemento>
+  
+</cfdi:Comprobante>
+
+
+

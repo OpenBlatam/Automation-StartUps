@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/4" 
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://www.sat.gob.mx/cfd/4 http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd"
+                  Version="4.0"
+                  Serie="SPACE"
+                  Folio="2025-008"
+                  Fecha="2025-01-15T22:00:00"
+                  Sello="[SELLO_DIGITAL]"
+                  FormaPago="03"
+                  NoCertificado="30001000000400002434"
+                  Certificado="[CERTIFICADO_DIGITAL]"
+                  SubTotal="75000.00"
+                  Moneda="MXN"
+                  Total="87000.00"
+                  TipoDeComprobante="I"
+                  Exportacion="01"
+                  MetodoPago="PUE"
+                  LugarExpedicion="01000"
+                  Confirmacion="99001122">
+  
+  <cfdi:InformacionGlobal Periodicidad="04" Meses="01" Año="2025"/>
+  
+  <cfdi:Emisor Rfc="SPA456789TEC" 
+               Nombre="SPACE AI TECHNOLOGY MEXICO S.A. DE C.V."
+               RegimenFiscal="601"/>
+  
+  <cfdi:Receptor Rfc="SAT123456XYZ" 
+                 Nombre="SATÉLITES MÉXICO S.A. DE C.V."
+                 DomicilioFiscalReceptor="01000"
+                 RegimenFiscalReceptor="601"
+                 UsoCFDI="G01"/>
+  
+  <cfdi:Conceptos>
+    <cfdi:Concepto ClaveProdServ="84111506"
+                   NoIdentificacion="SATELLITE-IA-001"
+                   Cantidad="1"
+                   ClaveUnidad="E48"
+                   Unidad="Constelación"
+                   Descripcion="Constelación de Satélites Inteligentes con IA para Comunicaciones Globales, Observación Terrestre y Navegación Autónoma"
+                   ValorUnitario="30000.00"
+                   Importe="30000.00"
+                   Descuento="0.00"
+                   ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="30000.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="4800.00"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    
+    <cfdi:Concepto ClaveProdServ="84111506"
+                   NoIdentificacion="SPACE-ROBOTICS-001"
+                   Cantidad="1"
+                   ClaveUnidad="E48"
+                   Unidad="Sistema"
+                   Descripcion="Sistema de Robótica Espacial con IA para Reparación y Mantenimiento de Satélites, Construcción Orbital y Exploración Planetaria"
+                   ValorUnitario="20000.00"
+                   Importe="20000.00"
+                   Descuento="0.00"
+                   ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="20000.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="3200.00"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    
+    <cfdi:Concepto ClaveProdServ="84111506"
+                   NoIdentificacion="ORBITAL-ANALYTICS-001"
+                   Cantidad="1"
+                   ClaveUnidad="E48"
+                   Unidad="Plataforma"
+                   Descripcion="Plataforma de Análisis Orbital con IA para Predicción de Colisiones, Optimización de Órbitas y Gestión de Desechos Espaciales"
+                   ValorUnitario="15000.00"
+                   Importe="15000.00"
+                   Descuento="0.00"
+                   ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="15000.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="2400.00"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    
+    <cfdi:Concepto ClaveProdServ="84111506"
+                   NoIdentificacion="DEEP-SPACE-IA-001"
+                   Cantidad="1"
+                   ClaveUnidad="E48"
+                   Unidad="Algoritmo"
+                   Descripcion="Algoritmo de Navegación de Espacio Profundo con IA para Misiones Interplanetarias, Comunicación de Larga Distancia y Exploración Autónoma"
+                   ValorUnitario="10000.00"
+                   Importe="10000.00"
+                   Descuento="0.00"
+                   ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="10000.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="1600.00"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+  </cfdi:Conceptos>
+  
+  <cfdi:Impuestos TotalImpuestosTrasladados="12000.00">
+    <cfdi:Traslados>
+      <cfdi:Traslado Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="12000.00"/>
+    </cfdi:Traslados>
+  </cfdi:Impuestos>
+  
+  <cfdi:Complemento>
+    <tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital"
+                             xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd"
+                             Version="1.1"
+                             UUID="99001122-3344-5566-7788-990011223344"
+                             FechaTimbrado="2025-01-15T22:05:00"
+                             RfcProvCertif="SPA456789TEC"
+                             SelloCFD="[SELLO_CFD]"
+                             NoCertificadoSAT="30001000000400002434"
+                             SelloSAT="[SELLO_SAT]"/>
+  </cfdi:Complemento>
+  
+</cfdi:Comprobante>
+
+
+

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/4" 
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://www.sat.gob.mx/cfd/4 http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd"
+                  Version="4.0"
+                  Serie="EDU"
+                  Folio="2025-005"
+                  Fecha="2025-01-15T16:10:00"
+                  Sello="[SELLO_DIGITAL]"
+                  FormaPago="03"
+                  NoCertificado="30001000000400002434"
+                  Certificado="[CERTIFICADO_DIGITAL]"
+                  SubTotal="19000.00"
+                  Moneda="MXN"
+                  Total="22040.00"
+                  TipoDeComprobante="I"
+                  Exportacion="01"
+                  MetodoPago="PUE"
+                  LugarExpedicion="01000"
+                  Confirmacion="55443322">
+  
+  <cfdi:InformacionGlobal Periodicidad="04" Meses="01" Año="2025"/>
+  
+  <cfdi:Emisor Rfc="EDU123456TEC" 
+               Nombre="EDUCACIÓN INTELIGENTE MEXICO S.A. DE C.V."
+               RegimenFiscal="601"/>
+  
+  <cfdi:Receptor Rfc="UNI789123ABC" 
+                 Nombre="UNIVERSIDAD DIGITAL MÉXICO S.A. DE C.V."
+                 DomicilioFiscalReceptor="01000"
+                 RegimenFiscalReceptor="601"
+                 UsoCFDI="G01"/>
+  
+  <cfdi:Conceptos>
+    <cfdi:Concepto ClaveProdServ="84111506"
+                   NoIdentificacion="ADAPTIVE-LEARNING-001"
+                   Cantidad="1"
+                   ClaveUnidad="E48"
+                   Unidad="Plataforma"
+                   Descripcion="Plataforma de Aprendizaje Adaptativo con IA para Personalización de Contenidos y Rutas de Estudio Individualizadas"
+                   ValorUnitario="8000.00"
+                   Importe="8000.00"
+                   Descuento="0.00"
+                   ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="8000.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="1280.00"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    
+    <cfdi:Concepto ClaveProdServ="84111506"
+                   NoIdentificacion="TUTOR-IA-001"
+                   Cantidad="1"
+                   ClaveUnidad="E48"
+                   Unidad="Sistema"
+                   Descripcion="Sistema de Tutoría Virtual con IA para Asistencia Académica 24/7, Evaluación Automática y Feedback Inteligente"
+                   ValorUnitario="6000.00"
+                   Importe="6000.00"
+                   Descuento="0.00"
+                   ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="6000.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="960.00"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    
+    <cfdi:Concepto ClaveProdServ="84111506"
+                   NoIdentificacion="VR-EDUCATION-001"
+                   Cantidad="1"
+                   ClaveUnidad="E48"
+                   Unidad="Experiencia"
+                   Descripcion="Experiencias Educativas Inmersivas con IA para Realidad Virtual, Simulaciones Interactivas y Laboratorios Virtuales"
+                   ValorUnitario="3000.00"
+                   Importe="3000.00"
+                   Descuento="0.00"
+                   ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="3000.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="480.00"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    
+    <cfdi:Concepto ClaveProdServ="84111506"
+                   NoIdentificacion="ANALYTICS-EDU-001"
+                   Cantidad="1"
+                   ClaveUnidad="E48"
+                   Unidad="Analytics"
+                   Descripcion="Analytics Educativo con IA para Predicción de Rendimiento, Detección Temprana de Riesgo Académico y Recomendaciones Personalizadas"
+                   ValorUnitario="2000.00"
+                   Importe="2000.00"
+                   Descuento="0.00"
+                   ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="2000.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="320.00"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+  </cfdi:Conceptos>
+  
+  <cfdi:Impuestos TotalImpuestosTrasladados="3040.00">
+    <cfdi:Traslados>
+      <cfdi:Traslado Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="3040.00"/>
+    </cfdi:Traslados>
+  </cfdi:Impuestos>
+  
+  <cfdi:Complemento>
+    <tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital"
+                             xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd"
+                             Version="1.1"
+                             UUID="55443322-1100-9988-7766-554433221100"
+                             FechaTimbrado="2025-01-15T16:15:00"
+                             RfcProvCertif="EDU123456TEC"
+                             SelloCFD="[SELLO_CFD]"
+                             NoCertificadoSAT="30001000000400002434"
+                             SelloSAT="[SELLO_SAT]"/>
+  </cfdi:Complemento>
+  
+</cfdi:Comprobante>
+
+
+

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/4" 
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://www.sat.gob.mx/cfd/4 http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd"
+                  Version="4.0"
+                  Serie="META"
+                  Folio="2025-012"
+                  Fecha="2025-01-15T21:00:00"
+                  Sello="[SELLO_DIGITAL]"
+                  FormaPago="03"
+                  NoCertificado="30001000000400002434"
+                  Certificado="[CERTIFICADO_DIGITAL]"
+                  SubTotal="28000.00"
+                  Moneda="MXN"
+                  Total="32480.00"
+                  TipoDeComprobante="I"
+                  Exportacion="01"
+                  MetodoPago="PUE"
+                  LugarExpedicion="01000"
+                  Confirmacion="33445566">
+  
+  <cfdi:InformacionGlobal Periodicidad="04" Meses="01" Año="2025"/>
+  
+  <cfdi:Emisor Rfc="MET123456TEC" 
+               Nombre="METAVERSE AI SOLUTIONS MEXICO S.A. DE C.V."
+               RegimenFiscal="601"/>
+  
+  <cfdi:Receptor Rfc="GAM789123ABC" 
+                 Nombre="GAMING & ENTERTAINMENT MÉXICO S.A. DE C.V."
+                 DomicilioFiscalReceptor="01000"
+                 RegimenFiscalReceptor="601"
+                 UsoCFDI="G01"/>
+  
+  <cfdi:Conceptos>
+    <cfdi:Concepto ClaveProdServ="84111506"
+                   NoIdentificacion="AVATAR-IA-001"
+                   Cantidad="1"
+                   ClaveUnidad="E48"
+                   Unidad="Sistema"
+                   Descripcion="Sistema de Avatares Inteligentes con IA para Interacciones Naturales en el Metaverso"
+                   ValorUnitario="10000.00"
+                   Importe="10000.00"
+                   Descuento="0.00"
+                   ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="10000.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="1600.00"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    
+    <cfdi:Concepto ClaveProdServ="84111506"
+                   NoIdentificacion="WORLD-GEN-001"
+                   Cantidad="1"
+                   ClaveUnidad="E48"
+                   Unidad="Generador"
+                   Descripcion="Generador de Mundos Virtuales con IA para Creación Automática de Entornos Inmersivos"
+                   ValorUnitario="8000.00"
+                   Importe="8000.00"
+                   Descuento="0.00"
+                   ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="8000.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="1280.00"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    
+    <cfdi:Concepto ClaveProdServ="84111506"
+                   NoIdentificacion="NFT-IA-001"
+                   Cantidad="1"
+                   ClaveUnidad="E48"
+                   Unidad="Plataforma"
+                   Descripcion="Plataforma de NFTs Inteligentes con IA para Creación y Gestión de Activos Digitales en el Metaverso"
+                   ValorUnitario="6000.00"
+                   Importe="6000.00"
+                   Descuento="0.00"
+                   ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="6000.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="960.00"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    
+    <cfdi:Concepto ClaveProdServ="84111506"
+                   NoIdentificacion="SOCIAL-IA-001"
+                   Cantidad="1"
+                   ClaveUnidad="E48"
+                   Unidad="Red"
+                   Descripcion="Red Social Virtual con IA para Conexiones Inteligentes y Experiencias Personalizadas"
+                   ValorUnitario="4000.00"
+                   Importe="4000.00"
+                   Descuento="0.00"
+                   ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="4000.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="640.00"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+  </cfdi:Conceptos>
+  
+  <cfdi:Impuestos TotalImpuestosTrasladados="4480.00">
+    <cfdi:Traslados>
+      <cfdi:Traslado Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="4480.00"/>
+    </cfdi:Traslados>
+  </cfdi:Impuestos>
+  
+  <cfdi:Complemento>
+    <tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital"
+                             xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd"
+                             Version="1.1"
+                             UUID="33445566-7788-9900-1122-334455667788"
+                             FechaTimbrado="2025-01-15T21:05:00"
+                             RfcProvCertif="MET123456TEC"
+                             SelloCFD="[SELLO_CFD]"
+                             NoCertificadoSAT="30001000000400002434"
+                             SelloSAT="[SELLO_SAT]"/>
+  </cfdi:Complemento>
+  
+</cfdi:Comprobante>
+
+
+

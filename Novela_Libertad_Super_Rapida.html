@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIBERTAD - Versión Super Rápida</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            text-align: center;
+            font-style: italic;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .quick-nav {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .quick-nav h3 {
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .quick-nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background 0.3s;
+            display: inline-block;
+            margin: 5px;
+        }
+        
+        .quick-nav a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        h2 {
+            color: #667eea;
+            margin: 30px 0 15px 0;
+            font-size: 1.5em;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 5px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+            font-size: 1.1em;
+            line-height: 1.7;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #ff6b6b;
+            font-style: italic;
+            text-align: center;
+            font-size: 1.2em;
+            color: #2c3e50;
+        }
+        
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            font-size: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .back-to-top:hover {
+            transform: scale(1.1);
+        }
+        
+        .stats {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(102, 126, 234, 0.9);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 12px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            font-size: 18px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        .audio-controls {
+            position: fixed;
+            bottom: 160px;
+            right: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            font-size: 18px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .audio-controls:hover {
+            transform: scale(1.1);
+        }
+        
+        .character-info {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #ff6b6b;
+        }
+        
+        .character-info h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .timeline {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+        
+        .timeline h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        
+        .timeline-item {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .timeline-item::before {
+            content: "●";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-size: 14px;
+        }
+        
+        /* Tema oscuro */
+        .dark-theme {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: #ecf0f1;
+        }
+        
+        .dark-theme .container {
+            background-color: #34495e;
+            color: #ecf0f1;
+        }
+        
+        .dark-theme h1, .dark-theme h2, .dark-theme h3, .dark-theme h4 {
+            color: #ecf0f1;
+        }
+        
+        .dark-theme .character-info {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            color: #ecf0f1;
+        }
+        
+        .dark-theme .timeline {
+            background: #2c3e50;
+            color: #ecf0f1;
+        }
+        
+        .dark-theme .highlight {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            color: #ecf0f1;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .quick-nav a {
+                display: block;
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="stats" id="stats">
+        <div>Progreso: <span id="progress">0%</span></div>
+        <div>Tiempo: <span id="time">0 min</span></div>
+    </div>
+    
+    <div class="container">
+        <h1>LIBERTAD</h1>
+        <div class="subtitle">Una Novela sobre Psicología y la Condición Humana - Versión Super Rápida</div>
+        
+        <div class="quick-nav">
+            <h3>Navegación Rápida</h3>
+            <a href="#cap1">1. El Umbral</a>
+            <a href="#cap2">2. La Segunda Vez</a>
+            <a href="#cap3">3. Los Recuerdos</a>
+            <a href="#cap4">4. El Diagnóstico</a>
+            <a href="#cap5">5. La Libertad Interior</a>
+            <a href="#cap6">6. La Madre</a>
+            <a href="#cap7">7. Los Medicamentos</a>
+            <a href="#cap8">8. La Esperanza</a>
+            <a href="#cap9">9. El Futuro</a>
+            <a href="#cap10">10. La Libertad</a>
+        </div>
+        
+        <div class="character-info">
+            <h4>Personajes Principales</h4>
+            <p><strong>Pablo Tiernes:</strong> Protagonista de 31 años que lucha contra la esquizofrenia. Un hombre brillante y sensible que busca encontrar libertad y propósito en medio de su enfermedad mental.</p>
+            <p><strong>María:</strong> Madre de Pablo, divorciada, que lucha por entender y apoyar a su hijo mientras lidia con la culpa y el dolor.</p>
+            <p><strong>Dr. Martínez:</strong> Psiquiatra de Pablo que lo ha tratado durante años, buscando la combinación correcta de medicamentos y terapia.</p>
+        </div>
+        
+        <div class="timeline">
+            <h4>Línea de Tiempo de la Historia</h4>
+            <div class="timeline-item">Infancia: Pablo muestra signos tempranos de ansiedad y pensamientos obsesivos</div>
+            <div class="timeline-item">17 años: Divorcio de sus padres, primer episodio psicótico</div>
+            <div class="timeline-item">22 años: Primer internamiento, diagnóstico de esquizofrenia</div>
+            <div class="timeline-item">31 años: Segundo internamiento, búsqueda de libertad interior</div>
+            <div class="timeline-item">Presente: Proceso de recuperación y búsqueda de propósito</div>
+        </div>
+        
+        <h2 id="cap1">Capítulo 1: El Umbral</h2>
+        <p>Pablo Tiernes se encontraba a punto de entrar a un pabellón de psiquiatría. Las personas que no han tenido un familiar o amigo en aquellos lugares, no entendían la angustia y desesperación que se sentía. Cada vez que una persona escuchaba sobre una persona que había estado en un psiquiátrico se creaba una especie de estigma que "ensuciaba" el habla de quien escuchaba.</p>
+        
+        <p>Esta vez Pablo había tenido un intento de suicidio lo cual entristecía a su madre, divorciada. Esto y más conductas lo llevó al pabellón donde lo esperaba personal muy cuidadoso. No era su primera vez que perdía su libertad por conductas destructivas que para él no parecían gran cosa.</p>
+        
+        <h2 id="cap2">Capítulo 2: La Segunda Vez</h2>
+        <p>"Dios está en todos lados menos aquí" – exclamó Pablo Tiernes. Su tedio incontrolable y su soberbia intelectual no le permitían estar más de una semana en estos sitios, bajo tutela, custodia o contención. Sabía que era su segunda vez que se encontraba encerrado, lo cual colmaba su paciencia hasta los límites de la locura.</p>
+        
+        <p>Irónicamente Pablo fue diagnosticado como esquizofrénico hace 9 años pero siempre pensó que era por negligencia médica, por eso el cura le terminó su sobredosis para el Trastorno Obsesivo Compulsivo.</p>
+        
+        <h2 id="cap3">Capítulo 3: Los Recuerdos</h2>
+        <p>Pablo recordaba su infancia, cuando su padre aún vivía con ellos. Su padre había sido un hombre estricto, un ingeniero que creía en el orden y la disciplina. "La mente es como una máquina", le decía, "debe funcionar perfectamente, sin errores". Pero la mente de Pablo nunca había funcionado como una máquina perfecta.</p>
+        
+        <p>Su madre, María, había intentado protegerlo de la realidad. Cuando Pablo tenía diez años y comenzó a tener pesadillas recurrentes, ella le decía que eran solo sueños. Cuando a los quince años comenzó a escuchar voces, ella le aseguraba que era su imaginación.</p>
+        
+        <h2 id="cap4">Capítulo 4: El Diagnóstico</h2>
+        <p>El doctor Martínez había sido el primero en ponerle un nombre a lo que le pasaba. "Esquizofrenia paranoide", había dicho con la seguridad de quien tiene la verdad absoluta. Pablo había luchado contra ese diagnóstico durante años, convencido de que era un error, de que su mente no estaba enferma, solo era diferente.</p>
+        
+        <p>Pero las crisis se repetían. Los episodios de paranoia, las alucinaciones auditivas, los pensamientos obsesivos que no podía controlar. Cada crisis lo llevaba de vuelta al hospital, cada internamiento lo alejaba más de la vida que quería tener.</p>
+        
+        <h2 id="cap5">Capítulo 5: La Libertad Interior</h2>
+        <p>En la soledad de su habitación, Pablo había comenzado a reflexionar sobre el concepto de libertad. Había aprendido que la libertad no era solo la ausencia de limitaciones físicas, sino también la capacidad de elegir cómo responder a las circunstancias de la vida.</p>
+        
+        <p>Había comenzado a entender que su enfermedad mental no lo definía completamente, que había aspectos de su personalidad, de su identidad, que trascendían su condición. Que podía elegir cómo vivir con su enfermedad, que podía encontrar formas de ser que fueran auténticas y significativas.</p>
+        
+        <h2 id="cap6">Capítulo 6: La Madre</h2>
+        <p>María había luchado durante años para entender y apoyar a su hijo. Había leído libros, había consultado especialistas, había buscado respuestas en lugares que nunca había imaginado. Pero nada la había preparado para la realidad de tener un hijo con esquizofrenia.</p>
+        
+        <p>Había aprendido que el amor no era suficiente, que necesitaba también comprensión, paciencia, y la capacidad de aceptar que no podía "arreglar" a su hijo. Que su papel no era curarlo, sino acompañarlo en su proceso de recuperación.</p>
+        
+        <h2 id="cap7">Capítulo 7: Los Medicamentos</h2>
+        <p>Pablo había probado diferentes medicamentos a lo largo de los años. Algunos le ayudaban con los síntomas, otros le causaban efectos secundarios que eran casi tan difíciles de manejar como la enfermedad misma. Había aprendido que la medicación no era una solución mágica, sino una herramienta que necesitaba ser combinada con terapia, apoyo familiar, y su propio compromiso con la recuperación.</p>
+        
+        <p>Había comenzado a entender que los medicamentos no lo "arreglaban", sino que le ayudaban a funcionar mejor, a tener más control sobre sus síntomas, a participar más plenamente en su propia vida.</p>
+        
+        <h2 id="cap8">Capítulo 8: La Esperanza</h2>
+        <p>Había comenzado a ver señales de esperanza. Había aprendido a reconocer los patrones en sus crisis, a identificar los desencadenantes, a desarrollar estrategias de manejo más efectivas. Había comenzado a entender que la recuperación no era un destino final, sino un proceso continuo.</p>
+        
+        <p>Había comenzado a creer que podía tener una vida plena y significativa a pesar de su enfermedad mental. Que podía encontrar formas de contribuir al mundo, de conectar con otros, de experimentar alegría y satisfacción.</p>
+        
+        <h2 id="cap9">Capítulo 9: El Futuro</h2>
+        <p>Pablo había comenzado a soñar con el futuro. Había comenzado a imaginar una vida en la que su enfermedad mental no lo definiera completamente, en la que pudiera encontrar formas de ser que fueran auténticas y significativas. Había comenzado a creer que podía tener una vida plena y satisfactoria.</p>
+        
+        <p>Había comenzado a entender que su propósito no era solo sanarse a sí mismo, sino también contribuir a la sanación de otros. Que su experiencia podía ser útil para otros que luchaban contra condiciones similares, que su dolor podía convertirse en algo positivo.</p>
+        
+        <h2 id="cap10">Capítulo 10: La Libertad</h2>
+        <p>Habían pasado cinco años desde su último internamiento. Pablo había logrado no solo mantener su estabilidad mental, sino también construir una vida plena y significativa. Había encontrado amor, propósito, comunidad, sabiduría, trascendencia. Pero sabía que la libertad no era un destino final, sino una forma de vivir que requería atención constante, cuidado continuo, compromiso permanente.</p>
+        
+        <p>Había aprendido que la verdadera libertad no era la ausencia de limitaciones, sino la capacidad de elegir cómo responder a ellas. Que la libertad no era no tener enfermedad mental, sino aprender a vivir con ella de manera que no lo definiera completamente, que no limitara su potencial, que no impidiera su crecimiento.</p>
+        
+        <div class="highlight">
+            "La libertad no es la ausencia de límites, sino la capacidad de elegir cómo vivir dentro de ellos. Que la enfermedad mental no elimina la humanidad, sino que la hace más profunda y significativa."
+        </div>
+        
+        <div style="margin-top: 40px; padding: 20px; background: #f8f9fa; border-radius: 10px; text-align: center;">
+            <h3>Nota del Autor</h3>
+            <p>Esta novela explora la complejidad de la enfermedad mental desde una perspectiva humana y empática. A través de la historia de Pablo Tiernes, se aborda el estigma social, la lucha interna, y la búsqueda de libertad y dignidad en medio de las limitaciones impuestas por la esquizofrenia.</p>
+            <p><strong>Dedicado a todas las personas que luchan contra la enfermedad mental y a sus familias que los acompañan en el camino.</strong></p>
+        </div>
+    </div>
+    
+    <button class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Volver al inicio">↑</button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Cambiar tema">🌙</button>
+    <button class="audio-controls" onclick="toggleAudio()" title="Reproducir audio">🎵</button>
+    
+    <script>
+        let startTime = Date.now();
+        
+        function updateProgress() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            
+            document.getElementById('progressBar').style.width = scrolled + '%';
+            document.getElementById('progress').textContent = Math.round(scrolled) + '%';
+            
+            const timeElapsed = Math.floor((Date.now() - startTime) / 1000 / 60);
+            document.getElementById('time').textContent = timeElapsed + ' min';
+        }
+        
+        function toggleBackToTop() {
+            const backToTop = document.querySelector('.back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTop.style.display = 'block';
+            } else {
+                backToTop.style.display = 'none';
+            }
+        }
+        
+        window.addEventListener('scroll', function() {
+            updateProgress();
+            toggleBackToTop();
+        });
+        
+        // Navegación suave
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Inicialmente oculto
+        document.querySelector('.back-to-top').style.display = 'none';
+        
+        // Efecto de escritura para el título
+        function typeWriter(element, text, speed = 100) {
+            let i = 0;
+            element.innerHTML = '';
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+        
+        // Variables globales
+        let isDarkTheme = false;
+        let isAudioPlaying = false;
+        
+        // Cambiar tema
+        function toggleTheme() {
+            isDarkTheme = !isDarkTheme;
+            const body = document.body;
+            const themeButton = document.querySelector('.theme-toggle');
+            
+            if (isDarkTheme) {
+                body.classList.add('dark-theme');
+                themeButton.textContent = '☀️';
+                themeButton.title = 'Tema claro';
+            } else {
+                body.classList.remove('dark-theme');
+                themeButton.textContent = '🌙';
+                themeButton.title = 'Tema oscuro';
+            }
+            
+            // Guardar preferencia
+            localStorage.setItem('theme', isDarkTheme ? 'dark' : 'light');
+        }
+        
+        // Control de audio (simulado)
+        function toggleAudio() {
+            isAudioPlaying = !isAudioPlaying;
+            const audioButton = document.querySelector('.audio-controls');
+            
+            if (isAudioPlaying) {
+                audioButton.textContent = '⏸️';
+                audioButton.title = 'Pausar audio';
+                console.log('Audio iniciado (simulado)');
+            } else {
+                audioButton.textContent = '🎵';
+                audioButton.title = 'Reproducir audio';
+                console.log('Audio pausado (simulado)');
+            }
+        }
+        
+        // Cargar preferencias guardadas
+        function loadPreferences() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                toggleTheme();
+            }
+        }
+        
+        // Animación de entrada para elementos
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.character-info, .timeline, .highlight');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        }
+        
+        // Configurar animaciones iniciales
+        function setupAnimations() {
+            const elements = document.querySelectorAll('.character-info, .timeline, .highlight');
+            elements.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(30px)';
+                element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            });
+        }
+        
+        // Detectar teclas de acceso rápido
+        document.addEventListener('keydown', function(e) {
+            // Ctrl + D para tema oscuro
+            if (e.ctrlKey && e.key === 'd') {
+                e.preventDefault();
+                toggleTheme();
+            }
+            // Ctrl + A para audio
+            if (e.ctrlKey && e.key === 'a') {
+                e.preventDefault();
+                toggleAudio();
+            }
+            // Escape para ocultar estadísticas
+            if (e.key === 'Escape') {
+                document.getElementById('stats').style.display = 'none';
+            }
+        });
+        
+        // Aplicar efecto de escritura al cargar la página
+        window.addEventListener('load', function() {
+            const title = document.querySelector('h1');
+            const originalText = title.textContent;
+            typeWriter(title, originalText, 150);
+            
+            // Cargar preferencias
+            loadPreferences();
+            
+            // Configurar animaciones
+            setupAnimations();
+            
+            // Efecto de bienvenida
+            setTimeout(() => {
+                console.log('¡Bienvenido a la novela "Libertad"!');
+                console.log('Usa los controles en la esquina inferior derecha para personalizar tu experiencia de lectura.');
+            }, 2000);
+        });
+        
+        // Event listeners
+        window.addEventListener('scroll', function() {
+            updateProgress();
+            toggleBackToTop();
+            animateOnScroll();
+        });
+    </script>
+</body>
+</html>

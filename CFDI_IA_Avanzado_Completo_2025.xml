@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/4" 
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xmlns:nomina12="http://www.sat.gob.mx/nomina12"
+                  xmlns:pago20="http://www.sat.gob.mx/Pagos20"
+                  xmlns:divisas="http://www.sat.gob.mx/divisas"
+                  xsi:schemaLocation="http://www.sat.gob.mx/cfd/4 http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd
+                                    http://www.sat.gob.mx/nomina12 http://www.sat.gob.mx/sitio_internet/cfd/nomina/nomina12.xsd
+                                    http://www.sat.gob.mx/Pagos20 http://www.sat.gob.mx/sitio_internet/cfd/pagos/Pagos20.xsd
+                                    http://www.sat.gob.mx/divisas http://www.sat.gob.mx/sitio_internet/cfd/divisas/divisas.xsd"
+                  Version="4.0"
+                  Serie="AI-ADV"
+                  Folio="2025-001"
+                  Fecha="2025-01-16T14:30:00"
+                  Sello="[SELLO_DIGITAL_AVANZADO]"
+                  FormaPago="03"
+                  NoCertificado="30001000000400002434"
+                  Certificado="[CERTIFICADO_DIGITAL_AVANZADO]"
+                  SubTotal="125000.00"
+                  Moneda="MXN"
+                  Total="145000.00"
+                  TipoDeComprobante="I"
+                  Exportacion="01"
+                  MetodoPago="PUE"
+                  LugarExpedicion="01000"
+                  Confirmacion="12345678">
+  
+  <cfdi:InformacionGlobal Periodicidad="04" Meses="01" Año="2025"/>
+  
+  <cfdi:CfdiRelacionados TipoRelacion="01">
+    <cfdi:CfdiRelacionado UUID="12345678-1234-1234-1234-123456789012"/>
+    <cfdi:CfdiRelacionado UUID="87654321-4321-4321-4321-210987654321"/>
+  </cfdi:CfdiRelacionados>
+  
+  <cfdi:Emisor Rfc="AI789123TEC" 
+               Nombre="INTELIGENCIA ARTIFICIAL AVANZADA MEXICO S.A. DE C.V."
+               RegimenFiscal="601"/>
+  
+  <cfdi:Receptor Rfc="TEC456789ABC" 
+                 Nombre="TECHNOLOGY ENTERPRISE MÉXICO S.A. DE C.V."
+                 DomicilioFiscalReceptor="01000"
+                 RegimenFiscalReceptor="601"
+                 UsoCFDI="G01"/>
+  
+  <cfdi:Conceptos>
+    <cfdi:Concepto ClaveProdServ="84111506"
+                   NoIdentificacion="AI-PLATFORM-001"
+                   Cantidad="1"
+                   ClaveUnidad="E48"
+                   Unidad="Plataforma"
+                   Descripcion="Plataforma Integral de Inteligencia Artificial Avanzada con Machine Learning, Deep Learning, NLP y Computer Vision para Automatización Empresarial Completa"
+                   ValorUnitario="50000.00"
+                   Importe="50000.00"
+                   Descuento="5000.00"
+                   ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="45000.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="7200.00"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    
+    <cfdi:Concepto ClaveProdServ="84111506"
+                   NoIdentificacion="AI-CONSULTING-001"
+                   Cantidad="1"
+                   ClaveUnidad="E48"
+                   Unidad="Consultoría"
+                   Descripcion="Consultoría Especializada en Implementación de IA para Transformación Digital, Optimización de Procesos y Estrategia de Datos"
+                   ValorUnitario="30000.00"
+                   Importe="30000.00"
+                   Descuento="0.00"
+                   ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="30000.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="4800.00"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    
+    <cfdi:Concepto ClaveProdServ="84111506"
+                   NoIdentificacion="AI-TRAINING-001"
+                   Cantidad="1"
+                   ClaveUnidad="E48"
+                   Unidad="Capacitación"
+                   Descripcion="Programa de Capacitación Avanzada en IA para Equipos Técnicos, Certificación en Machine Learning y Desarrollo de Habilidades en Data Science"
+                   ValorUnitario="25000.00"
+                   Importe="25000.00"
+                   Descuento="0.00"
+                   ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="25000.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="4000.00"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    
+    <cfdi:Concepto ClaveProdServ="84111506"
+                   NoIdentificacion="AI-SUPPORT-001"
+                   Cantidad="1"
+                   ClaveUnidad="E48"
+                   Unidad="Soporte"
+                   Descripcion="Soporte Técnico Premium 24/7 para Plataformas de IA, Mantenimiento Predictivo, Optimización Continua y Resolución de Incidentes"
+                   ValorUnitario="20000.00"
+                   Importe="20000.00"
+                   Descuento="0.00"
+                   ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="20000.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="3200.00"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+  </cfdi:Conceptos>
+  
+  <cfdi:Impuestos TotalImpuestosTrasladados="19200.00" TotalImpuestosRetenidos="0.00">
+    <cfdi:Traslados>
+      <cfdi:Traslado Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="19200.00"/>
+    </cfdi:Traslados>
+    <cfdi:Retenciones>
+      <!-- Sin retenciones aplicables -->
+    </cfdi:Retenciones>
+  </cfdi:Impuestos>
+  
+  <cfdi:Complemento>
+    <pago20:Pagos xmlns:pago20="http://www.sat.gob.mx/Pagos20"
+                  xsi:schemaLocation="http://www.sat.gob.mx/Pagos20 http://www.sat.gob.mx/sitio_internet/cfd/pagos/Pagos20.xsd"
+                  Version="2.0">
+      <pago20:Totales MontoTotalPagos="145000.00"/>
+      <pago20:Pago FechaPago="2025-01-16T14:30:00" 
+                   FormaDePagoP="03" 
+                   MonedaP="MXN" 
+                   TipoCambioP="1.00" 
+                   Monto="145000.00" 
+                   NumOperacion="OP-2025-001" 
+                   RfcEmisorCtaOrd="AI789123TEC" 
+                   NomBancoOrdEmisor="BANCO DIGITAL MEXICO" 
+                   CtaOrdenante="12345678901234567890" 
+                   RfcEmisorCtaBen="TEC456789ABC" 
+                   CtaBeneficiario="09876543210987654321">
+        <pago20:DoctoRelacionado IdDocumento="12345678-1234-1234-1234-123456789012" 
+                                 Serie="AI-ADV" 
+                                 Folio="2025-001" 
+                                 MonedaDR="MXN" 
+                                 TipoCambioDR="1.00" 
+                                 MetodoDePagoDR="PUE" 
+                                 NumParcialidad="1" 
+                                 ImpSaldoAnt="145000.00" 
+                                 ImpPagado="145000.00" 
+                                 ImpSaldoInsoluto="0.00"/>
+      </pago20:Pago>
+    </pago20:Pagos>
+  </cfdi:Complemento>
+  
+  <cfdi:Complemento>
+    <divisas:Divisas xmlns:divisas="http://www.sat.gob.mx/divisas"
+                     xsi:schemaLocation="http://www.sat.gob.mx/divisas http://www.sat.gob.mx/sitio_internet/cfd/divisas/divisas.xsd"
+                     Version="1.0"
+                     TipoOperacion="1"
+                     ClaveEntidad="001"
+                     DescripcionEntidad="BANCO DE MÉXICO"/>
+  </cfdi:Complemento>
+  
+  <cfdi:Complemento>
+    <tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital"
+                             xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd"
+                             Version="1.1"
+                             UUID="12345678-1234-1234-1234-123456789012"
+                             FechaTimbrado="2025-01-16T14:35:00"
+                             RfcProvCertif="AI789123TEC"
+                             SelloCFD="[SELLO_CFD_AVANZADO]"
+                             NoCertificadoSAT="30001000000400002434"
+                             SelloSAT="[SELLO_SAT_AVANZADO]"/>
+  </cfdi:Complemento>
+  
+</cfdi:Comprobante>
+
+
+

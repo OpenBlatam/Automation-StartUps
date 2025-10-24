@@ -1,0 +1,28 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://blatam.com/sitemap.xml
+
+# Disallow sensitive directories
+Disallow: /backups/
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /__pycache__/
+Disallow: /.env
+Disallow: /config/
+Disallow: /logs/
+
+# Allow important directories
+Allow: /README.md
+Allow: /INDEX.md
+Allow: /QUICK_START.md
+Allow: /08_AI_Artificial_Intelligence/
+Allow: /04_Business_Strategy/
+Allow: /01_Marketing/
+Allow: /05_Technology/
+Allow: /16_Data_Analytics/
+
+# Crawl delay
+Crawl-delay: 1
+

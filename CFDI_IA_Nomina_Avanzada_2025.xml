@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/4" 
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xmlns:nomina12="http://www.sat.gob.mx/nomina12"
+                  xmlns:pago20="http://www.sat.gob.mx/Pagos20"
+                  xsi:schemaLocation="http://www.sat.gob.mx/cfd/4 http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd
+                                    http://www.sat.gob.mx/nomina12 http://www.sat.gob.mx/sitio_internet/cfd/nomina/nomina12.xsd
+                                    http://www.sat.gob.mx/Pagos20 http://www.sat.gob.mx/sitio_internet/cfd/pagos/Pagos20.xsd"
+                  Version="4.0"
+                  Serie="NOM"
+                  Folio="2025-001"
+                  Fecha="2025-01-16T15:00:00"
+                  Sello="[SELLO_DIGITAL_NOMINA]"
+                  FormaPago="99"
+                  NoCertificado="30001000000400002434"
+                  Certificado="[CERTIFICADO_DIGITAL_NOMINA]"
+                  SubTotal="85000.00"
+                  Moneda="MXN"
+                  Total="98600.00"
+                  TipoDeComprobante="N"
+                  Exportacion="01"
+                  MetodoPago="PUE"
+                  LugarExpedicion="01000"
+                  Confirmacion="87654321">
+  
+  <cfdi:InformacionGlobal Periodicidad="04" Meses="01" Año="2025"/>
+  
+  <cfdi:Emisor Rfc="AI789123TEC" 
+               Nombre="INTELIGENCIA ARTIFICIAL AVANZADA MEXICO S.A. DE C.V."
+               RegimenFiscal="601"/>
+  
+  <cfdi:Receptor Rfc="EMP123456ABC" 
+                 Nombre="EMPLEADO IA SENIOR"
+                 DomicilioFiscalReceptor="01000"
+                 RegimenFiscalReceptor="605"
+                 UsoCFDI="P01"/>
+  
+  <cfdi:Conceptos>
+    <cfdi:Concepto ClaveProdServ="84111506"
+                   NoIdentificacion="SALARIO-IA-001"
+                   Cantidad="1"
+                   ClaveUnidad="ACT"
+                   Unidad="Actividad"
+                   Descripcion="Salario base mensual para especialista en Inteligencia Artificial"
+                   ValorUnitario="50000.00"
+                   Importe="50000.00"
+                   Descuento="0.00"
+                   ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="50000.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="8000.00"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    
+    <cfdi:Concepto ClaveProdServ="84111506"
+                   NoIdentificacion="BONO-IA-001"
+                   Cantidad="1"
+                   ClaveUnidad="ACT"
+                   Unidad="Actividad"
+                   Descripcion="Bono por desempeño en proyectos de IA y Machine Learning"
+                   ValorUnitario="15000.00"
+                   Importe="15000.00"
+                   Descuento="0.00"
+                   ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="15000.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="2400.00"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    
+    <cfdi:Concepto ClaveProdServ="84111506"
+                   NoIdentificacion="VALES-IA-001"
+                   Cantidad="1"
+                   ClaveUnidad="ACT"
+                   Unidad="Actividad"
+                   Descripcion="Vales de despensa y prestaciones adicionales"
+                   ValorUnitario="20000.00"
+                   Importe="20000.00"
+                   Descuento="0.00"
+                   ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="20000.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="3200.00"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+  </cfdi:Conceptos>
+  
+  <cfdi:Impuestos TotalImpuestosTrasladados="13600.00" TotalImpuestosRetenidos="0.00">
+    <cfdi:Traslados>
+      <cfdi:Traslado Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="13600.00"/>
+    </cfdi:Traslados>
+    <cfdi:Retenciones>
+      <!-- Sin retenciones aplicables -->
+    </cfdi:Retenciones>
+  </cfdi:Impuestos>
+  
+  <cfdi:Complemento>
+    <nomina12:Nomina xmlns:nomina12="http://www.sat.gob.mx/nomina12"
+                     xsi:schemaLocation="http://www.sat.gob.mx/nomina12 http://www.sat.gob.mx/sitio_internet/cfd/nomina/nomina12.xsd"
+                     Version="1.2"
+                     TipoNomina="O"
+                     FechaPago="2025-01-16T15:00:00"
+                     FechaInicialPago="2025-01-01T00:00:00"
+                     FechaFinalPago="2025-01-31T23:59:59"
+                     NumDiasPagados="31"
+                     TipoPercepcion="1"
+                     TipoDeduccion="1"
+                     NumEmpleado="EMP001"
+                     Curp="EMPL123456HDFABC01"
+                     NumSeguridadSocial="12345678901"
+                     FechaInicioRelLaboral="2024-01-15T00:00:00"
+                     Antigüedad="P1Y0M0D"
+                     TipoContrato="01"
+                     Sindicalizado="No"
+                     TipoJornada="01"
+                     TipoRegimen="02"
+                     NumEmpleado="EMP001"
+                     Departamento="TECNOLOGÍA"
+                     Puesto="ESPECIALISTA IA"
+                     RiesgoPuesto="1"
+                     PeriodicidadPago="04"
+                     Banco="002"
+                     CuentaBancaria="12345678901234567890"
+                     SalarioBaseCotApor="50000.00"
+                     SalarioDiarioIntegrado="1612.90">
+      
+      <nomina12:Percepciones TotalSueldos="65000.00" TotalGravado="65000.00" TotalExento="0.00">
+        <nomina12:Percepcion TipoPercepcion="001" Clave="001" Concepto="Sueldos, Salarios, Rayas y Jornales" ImporteGravado="50000.00" ImporteExento="0.00"/>
+        <nomina12:Percepcion TipoPercepcion="019" Clave="019" Concepto="Horas Extra" ImporteGravado="15000.00" ImporteExento="0.00"/>
+      </nomina12:Percepciones>
+      
+      <nomina12:Deducciones TotalOtrasDeducciones="0.00" TotalImpuestosRetenidos="0.00">
+        <!-- Sin deducciones aplicables -->
+      </nomina12:Deducciones>
+      
+      <nomina12:Incapacidades>
+        <!-- Sin incapacidades -->
+      </nomina12:Incapacidades>
+      
+    </nomina12:Nomina>
+  </cfdi:Complemento>
+  
+  <cfdi:Complemento>
+    <tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital"
+                             xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd"
+                             Version="1.1"
+                             UUID="87654321-4321-4321-4321-210987654321"
+                             FechaTimbrado="2025-01-16T15:05:00"
+                             RfcProvCertif="AI789123TEC"
+                             SelloCFD="[SELLO_CFD_NOMINA]"
+                             NoCertificadoSAT="30001000000400002434"
+                             SelloSAT="[SELLO_SAT_NOMINA]"/>
+  </cfdi:Complemento>
+  
+</cfdi:Comprobante>
+
+
+

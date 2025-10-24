@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LIBERTAD - Ultra Rápida</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui;line-height:1.4;color:#333;background:#667eea;min-height:100vh;padding:5px}
+.container{max-width:600px;margin:0 auto;background:#fff;padding:20px;border-radius:8px;box-shadow:0 5px 15px rgba(0,0,0,0.1)}
+h1{font-size:1.8em;text-align:center;color:#667eea;margin-bottom:15px}
+.nav{background:#667eea;color:#fff;padding:10px;border-radius:5px;margin-bottom:20px;text-align:center}
+.nav a{color:#fff;text-decoration:none;margin:0 5px;padding:3px 6px;border-radius:3px;display:inline-block;margin:2px}
+.nav a:hover{background:rgba(255,255,255,0.2)}
+h2{color:#667eea;margin:20px 0 8px 0;font-size:1.2em;border-bottom:1px solid #667eea;padding-bottom:2px}
+p{margin-bottom:10px;font-size:0.95em;line-height:1.5}
+.highlight{background:#ffecd2;padding:10px;border-radius:5px;margin:10px 0;border-left:3px solid #ff6b6b;font-style:italic;text-align:center;color:#2c3e50}
+.progress{position:fixed;top:0;left:0;width:0%;height:2px;background:#667eea;z-index:1000}
+.controls{position:fixed;bottom:10px;right:10px;z-index:1000}
+.btn{background:#667eea;color:#fff;border:none;border-radius:50%;width:35px;height:35px;cursor:pointer;font-size:14px;margin:3px}
+.btn:hover{transform:scale(1.1)}
+.stats{position:fixed;top:10px;right:10px;background:rgba(102,126,234,0.9);color:#fff;padding:8px;border-radius:4px;font-size:10px;z-index:1000}
+.character{background:#ffecd2;padding:10px;border-radius:5px;margin:10px 0;border-left:3px solid #ff6b6b}
+.timeline{background:#f8f9fa;padding:10px;border-radius:5px;margin:10px 0;border-left:3px solid #667eea}
+.timeline-item{margin:5px 0;padding-left:15px;position:relative}
+.timeline-item::before{content:"●";position:absolute;left:0;color:#667eea;font-size:12px}
+.dark{background:#2c3e50!important;color:#ecf0f1!important}
+.dark .container{background:#34495e!important;color:#ecf0f1!important}
+.dark h1,.dark h2{color:#ecf0f1!important}
+.dark .character{background:#34495e!important;color:#ecf0f1!important}
+.dark .timeline{background:#2c3e50!important;color:#ecf0f1!important}
+@media (max-width:768px){.container{padding:15px;margin:3px}.nav a{display:block;margin:3px 0}}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="stats" id="stats">Progreso: <span id="percent">0%</span></div>
+
+<div class="container">
+<h1>LIBERTAD</h1>
+<div style="text-align:center;color:#666;margin-bottom:20px;font-style:italic">Una Novela sobre Psicología y la Condición Humana - Ultra Rápida</div>
+
+<div class="nav">
+<a href="#cap1">1</a><a href="#cap2">2</a><a href="#cap3">3</a><a href="#cap4">4</a><a href="#cap5">5</a><a href="#cap6">6</a><a href="#cap7">7</a><a href="#cap8">8</a><a href="#cap9">9</a><a href="#cap10">10</a><a href="#cap11">11</a><a href="#cap12">12</a><a href="#cap13">13</a><a href="#cap14">14</a><a href="#cap15">15</a><a href="#cap16">16</a><a href="#cap17">17</a><a href="#cap18">18</a><a href="#cap19">19</a><a href="#cap20">20</a>
+</div>
+
+<div class="character">
+<h4>Personajes</h4>
+<p><strong>Pablo:</strong> Protagonista con esquizofrenia que busca libertad.</p>
+<p><strong>María:</strong> Madre que lucha por entender y apoyar a su hijo.</p>
+<p><strong>Dr. Martínez:</strong> Psiquiatra que busca la combinación correcta de medicamentos.</p>
+<p><strong>Sofía:</strong> Estudiante de psicología que se convierte en amiga de Pablo.</p>
+<p><strong>Elena:</strong> Trabajadora social que se convierte en el amor de Pablo.</p>
+</div>
+
+<div class="timeline">
+<h4>Línea de Tiempo</h4>
+<div class="timeline-item">Infancia: Signos tempranos de ansiedad</div>
+<div class="timeline-item">17 años: Divorcio de padres, primer episodio</div>
+<div class="timeline-item">22 años: Primer internamiento, diagnóstico</div>
+<div class="timeline-item">31 años: Segundo internamiento</div>
+<div class="timeline-item">32 años: Regreso a la vida, reintegración</div>
+<div class="timeline-item">33 años: Universidad, nuevas amistades</div>
+<div class="timeline-item">34 años: Trabajo voluntario, propósito</div>
+<div class="timeline-item">35 años: Blog personal, escritura terapéutica</div>
+<div class="timeline-item">36 años: Conoce a Elena, amor verdadero</div>
+<div class="timeline-item">37 años: Grupo de apoyo, familia extendida</div>
+<div class="timeline-item">38 años: Recaída, hospitalización con apoyo</div>
+<div class="timeline-item">39 años: Consejero de pares, propósito encontrado</div>
+<div class="timeline-item">41 años: Libertad absoluta, vida plena</div>
+</div>
+
+<h2 id="cap1">1. El Umbral</h2>
+<p>Pablo Tiernes se encontraba a punto de entrar a un pabellón de psiquiatría. Las personas que no han tenido un familiar o amigo en aquellos lugares, no entendían la angustia y desesperación que se sentía.</p>
+<p>Esta vez Pablo había tenido un intento de suicidio lo cual entristecía a su madre, divorciada. No era su primera vez que perdía su libertad por conductas destructivas.</p>
+
+<h2 id="cap2">2. La Segunda Vez</h2>
+<p>"Dios está en todos lados menos aquí" – exclamó Pablo Tiernes. Su tedio incontrolable no le permitía estar más de una semana en estos sitios, bajo tutela, custodia o contención.</p>
+<p>Pablo fue diagnosticado como esquizofrénico hace 9 años pero siempre pensó que era por negligencia médica.</p>
+
+<h2 id="cap3">3. Los Recuerdos</h2>
+<p>Pablo recordaba su infancia, cuando su padre aún vivía con ellos. Su padre había sido un hombre estricto, un ingeniero que creía en el orden y la disciplina.</p>
+<p>Su madre, María, había intentado protegerlo de la realidad. Cuando Pablo tenía diez años y comenzó a tener pesadillas recurrentes, ella le decía que eran solo sueños.</p>
+
+<h2 id="cap4">4. El Diagnóstico</h2>
+<p>El doctor Martínez había sido el primero en ponerle un nombre a lo que le pasaba. "Esquizofrenia paranoide", había dicho con la seguridad de quien tiene la verdad absoluta.</p>
+<p>Pero las crisis se repetían. Los episodios de paranoia, las alucinaciones auditivas, los pensamientos obsesivos que no podía controlar.</p>
+
+<h2 id="cap5">5. La Libertad Interior</h2>
+<p>En la soledad de su habitación, Pablo había comenzado a reflexionar sobre el concepto de libertad. Había aprendido que la libertad no era solo la ausencia de limitaciones físicas.</p>
+<p>Había comenzado a entender que su enfermedad mental no lo definía completamente, que había aspectos de su personalidad que trascendían su condición.</p>
+
+<h2 id="cap6">6. La Madre</h2>
+<p>María había luchado durante años para entender y apoyar a su hijo. Había leído libros, había consultado especialistas, había buscado respuestas.</p>
+<p>Había aprendido que el amor no era suficiente, que necesitaba también comprensión, paciencia, y la capacidad de aceptar que no podía "arreglar" a su hijo.</p>
+
+<h2 id="cap7">7. Los Medicamentos</h2>
+<p>Pablo había probado diferentes medicamentos a lo largo de los años. Algunos le ayudaban con los síntomas, otros le causaban efectos secundarios difíciles de manejar.</p>
+<p>Había aprendido que la medicación no era una solución mágica, sino una herramienta que necesitaba ser combinada con terapia y apoyo familiar.</p>
+
+<h2 id="cap8">8. La Esperanza</h2>
+<p>Había comenzado a ver señales de esperanza. Había aprendido a reconocer los patrones en sus crisis, a identificar los desencadenantes, a desarrollar estrategias de manejo más efectivas.</p>
+<p>Había comenzado a creer que podía tener una vida plena y significativa a pesar de su enfermedad mental.</p>
+
+<h2 id="cap9">9. El Futuro</h2>
+<p>Pablo había comenzado a soñar con el futuro. Había comenzado a imaginar una vida en la que su enfermedad mental no lo definiera completamente.</p>
+<p>Había comenzado a entender que su propósito no era solo sanarse a sí mismo, sino también contribuir a la sanación de otros.</p>
+
+<h2 id="cap10">10. La Libertad</h2>
+<p>Habían pasado cinco años desde su último internamiento. Pablo había logrado no solo mantener su estabilidad mental, sino también construir una vida plena y significativa.</p>
+<p>Había aprendido que la verdadera libertad no era la ausencia de limitaciones, sino la capacidad de elegir cómo responder a ellas.</p>
+
+<h2 id="cap11">11. El Regreso a la Vida</h2>
+<p>Los primeros días fuera del hospital fueron un desafío constante. Pablo había olvidado lo que era vivir en el mundo real, con sus ruidos, sus olores, sus ritmos acelerados.</p>
+<p>Su madre había preparado su habitación con especial cuidado. Había limpiado todo, había puesto flores frescas en un jarrón, había dejado sus libros favoritos en la mesa de noche.</p>
+
+<h2 id="cap12">12. Los Primeros Pasos</h2>
+<p>Pablo había decidido que quería volver a estudiar. No psicología, como había pensado inicialmente, sino literatura. Siempre había encontrado consuelo en los libros, en las palabras que otros habían escrito para expresar lo que él no podía decir.</p>
+<p>Su primer día en la universidad había sido abrumador. Había olvidado lo que era estar en un aula llena de estudiantes, lo que era tomar notas, lo que era participar en discusiones académicas.</p>
+
+<h2 id="cap13">13. Las Nuevas Amistades</h2>
+<p>En la universidad, Pablo había comenzado a hacer amigos por primera vez en años. No eran muchos, pero eran genuinos. Estaba Sofía, una estudiante de psicología que había elegido esa carrera después de que su hermano fuera diagnosticado con trastorno bipolar.</p>
+<p>Con Sofía, Pablo podía hablar abiertamente sobre su enfermedad sin sentir que lo juzgaban. Ella entendía la complejidad de la enfermedad mental, no solo desde una perspectiva académica, sino también desde la experiencia personal.</p>
+
+<h2 id="cap14">14. El Trabajo Voluntario</h2>
+<p>Pablo había comenzado a trabajar como voluntario en una organización que ayudaba a personas con enfermedades mentales. No era un trabajo remunerado, pero le daba un sentido de propósito que había estado buscando durante años.</p>
+<p>En la organización, Pablo trabajaba con otros voluntarios que también tenían experiencias personales con la enfermedad mental. Algunos eran familiares de personas afectadas, otros habían luchado contra sus propias batallas con la salud mental.</p>
+
+<h2 id="cap15">15. La Libertad Absoluta</h2>
+<p>Habían pasado diez años desde su último internamiento. Pablo había logrado no solo mantener su estabilidad mental, sino también construir una vida plena, significativa y satisfactoria. Había encontrado amor, propósito, comunidad, sabiduría, trascendencia.</p>
+<p>Había aprendido que la verdadera libertad no era la ausencia de limitaciones, sino la capacidad de elegir cómo responder a ellas. Que la libertad no era no tener enfermedad mental, sino aprender a vivir con ella de manera que no lo definiera completamente.</p>
+
+<h2 id="cap16">16. La Escritura como Terapia</h2>
+<p>Pablo había comenzado a escribir un blog sobre su experiencia con la esquizofrenia. No era fácil exponerse de esa manera, pero sentía que tenía una responsabilidad con otros que estaban pasando por lo mismo.</p>
+<p>Sus escritos habían comenzado a resonar con personas de todo el mundo. Recibía mensajes de agradecimiento de familiares que finalmente entendían lo que sus seres queridos estaban experimentando.</p>
+
+<h2 id="cap17">17. El Amor Verdadero</h2>
+<p>Había conocido a Elena en una conferencia sobre salud mental. Ella era trabajadora social y había dedicado su vida a ayudar a personas con enfermedades mentales. Con ella, Pablo había encontrado algo que nunca había experimentado: amor sin condiciones.</p>
+<p>Elena no veía su enfermedad como un obstáculo, sino como una parte de él que había contribuido a formar la persona compasiva y sabia que había llegado a ser.</p>
+
+<h2 id="cap18">18. La Familia Extendida</h2>
+<p>Pablo había comenzado a formar una familia extendida con otros sobrevivientes de enfermedades mentales. No eran familiares de sangre, pero eran personas que entendían su lucha de una manera que nadie más podía.</p>
+<p>Juntos, habían creado un grupo de apoyo que se reunía semanalmente. No era terapia formal, sino un espacio seguro donde podían compartir sus experiencias sin ser juzgados.</p>
+
+<h2 id="cap19">19. La Crisis y la Recuperación</h2>
+<p>Había tenido una recaída. Después de años de estabilidad, las voces habían regresado con una intensidad que lo había tomado por sorpresa. Había tenido que ser hospitalizado nuevamente, pero esta vez había sido diferente.</p>
+<p>Esta vez, había tenido el apoyo de su comunidad. Elena había estado a su lado durante todo el proceso. Sus amigos del grupo de apoyo habían visitado el hospital regularmente.</p>
+
+<h2 id="cap20">20. El Propósito Encontrado</h2>
+<p>Después de su recuperación, Pablo había decidido que quería dedicar su vida a ayudar a otros que estaban pasando por lo mismo que él había experimentado. Había comenzado a trabajar como consejero de pares en el mismo hospital donde había sido paciente.</p>
+<p>Su experiencia personal le daba una credibilidad que ningún título académico podía proporcionar. Los pacientes confiaban en él porque sabían que él había estado exactamente donde ellos estaban ahora.</p>
+
+<div class="highlight">
+"La libertad no es la ausencia de límites, sino la capacidad de elegir cómo vivir dentro de ellos. Que la enfermedad mental no elimina la humanidad, sino que la hace más profunda y significativa."
+</div>
+
+<div style="margin-top:25px;padding:10px;background:#f8f9fa;border-radius:5px;text-align:center">
+<h3>Nota del Autor</h3>
+<p>Esta novela explora la complejidad de la enfermedad mental desde una perspectiva humana y empática. A través de la historia de Pablo Tiernes, se aborda el estigma social, la lucha interna, y la búsqueda de libertad y dignidad.</p>
+<p><strong>Dedicado a todas las personas que luchan contra la enfermedad mental y a sus familias.</strong></p>
+</div>
+</div>
+
+<div class="controls">
+<button class="btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Inicio">↑</button>
+<button class="btn" onclick="toggleTheme()" title="Tema">🌙</button>
+<button class="btn" onclick="toggleAudio()" title="Audio">🎵</button>
+<button class="btn" onclick="highlightText()" title="Resaltar">🖍️</button>
+</div>
+
+<script>
+let start=Date.now(),dark=false,audio=false,readingTime=0;
+function update(){const s=document.body.scrollTop||document.documentElement.scrollTop,h=document.documentElement.scrollHeight-document.documentElement.clientHeight,scrolled=(s/h)*100;document.getElementById('progress').style.width=scrolled+'%';document.getElementById('percent').textContent=Math.round(scrolled)+'%'}
+function toggleTheme(){dark=!dark;document.body.classList.toggle('dark',dark);localStorage.setItem('theme',dark?'dark':'light')}
+function toggleAudio(){audio=!audio;console.log('Audio '+(audio?'iniciado':'pausado'))}
+function setup(){const t=document.querySelector('h1'),o=t.textContent;let i=0;t.innerHTML='';function type(){if(i<o.length){t.innerHTML+=o.charAt(i);i++;setTimeout(type,80)}}type();const saved=localStorage.getItem('theme');if(saved==='dark')toggleTheme();setInterval(()=>{readingTime++;if(readingTime%60===0)console.log(`Tiempo de lectura: ${Math.floor(readingTime/60)} minutos`)},1000)}
+function highlightText(){const selection=window.getSelection();if(selection.toString().length>0){const range=selection.getRangeAt(0);const span=document.createElement('span');span.style.backgroundColor='#ffeb3b';span.style.color='#000';try{range.surroundContents(span)}catch(e){console.log('Texto seleccionado:',selection.toString())}}}
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector(a.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'})})})
+document.addEventListener('keydown',e=>{if(e.ctrlKey&&e.key==='d'){e.preventDefault();toggleTheme()}if(e.ctrlKey&&e.key==='a'){e.preventDefault();toggleAudio()}if(e.ctrlKey&&e.key==='h'){e.preventDefault();highlightText()}})
+document.addEventListener('mouseup',highlightText)
+window.addEventListener('scroll',update);window.addEventListener('load',setup)
+</script>
+</body>
+</html>
