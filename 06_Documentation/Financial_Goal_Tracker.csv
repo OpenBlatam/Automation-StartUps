@@ -1,0 +1,30 @@
+Meta,Categoría,Monto Objetivo,Monto Actual,Progreso %,Fecha Límite,Días Restantes,Estado,Acción
+FONDO DE EMERGENCIA,,,,,,,,
+Fondo 3 meses,Seguridad,75000,50000,=D2/C2,2024-06-30,=F2-TODAY(),=IF(D2>=C2,"✅ Completado","🔄 En Progreso"),Ahorrar $2500/mes
+Fondo 6 meses,Seguridad,150000,50000,=D3/C3,2024-12-31,=F3-TODAY(),=IF(D3>=C3,"✅ Completado","🔄 En Progreso"),Ahorrar $5000/mes
+Fondo 12 meses,Seguridad,300000,50000,=D4/C4,2025-12-31,=F4-TODAY(),=IF(D4>=C4,"✅ Completado","🔄 En Progreso"),Ahorrar $10000/mes
+,,,,,,
+OBJETIVOS DE COMPRA,,,,,,,,
+Auto Nuevo,Transporte,300000,100000,=D6/C6,2025-06-30,=F6-TODAY(),=IF(D6>=C6,"✅ Completado","🔄 En Progreso"),Ahorrar $15000/mes
+Enganche Casa,Vivienda,500000,150000,=D7/C7,2026-12-31,=F7-TODAY(),=IF(D7>=C7,"✅ Completado","🔄 En Progreso"),Ahorrar $20000/mes
+Renovación Hogar,Mejoras,200000,50000,=D8/C8,2025-12-31,=F8-TODAY(),=IF(D8>=C8,"✅ Completado","🔄 En Progreso"),Ahorrar $10000/mes
+,,,,,,
+OBJETIVOS DE INVERSIÓN,,,,,,,,
+Portafolio $1M,Inversiones,1000000,300000,=D10/C10,2030-12-31,=F10-TODAY(),=IF(D10>=C10,"✅ Completado","🔄 En Progreso"),Invertir $15000/mes
+Portafolio $2M,Inversiones,2000000,300000,=D11/C11,2035-12-31,=F11-TODAY(),=IF(D11>=C11,"✅ Completado","🔄 En Progreso"),Invertir $20000/mes
+Portafolio $5M,Inversiones,5000000,300000,=D12/C12,2040-12-31,=F12-TODAY(),=IF(D12>=C12,"✅ Completado","🔄 En Progreso"),Invertir $25000/mes
+,,,,,,
+OBJETIVOS DE NEGOCIO,,,,,,,,
+Capital de Inicio,Negocio,800000,200000,=D14/C14,2027-12-31,=F14-TODAY(),=IF(D14>=C14,"✅ Completado","🔄 En Progreso"),Ahorrar $30000/mes
+Expansión Negocio,Negocio,1500000,200000,=D15/C15,2030-12-31,=F15-TODAY(),=IF(D15>=C15,"✅ Completado","🔄 En Progreso"),Ahorrar $40000/mes
+Franquicia,Negocio,2000000,200000,=D16/C16,2032-12-31,=F16-TODAY(),=IF(D16>=C16,"✅ Completado","🔄 En Progreso"),Ahorrar $50000/mes
+,,,,,,
+OBJETIVOS DE EDUCACIÓN,,,,,,,,
+Máster,Educación,200000,50000,=D18/C18,2026-06-30,=F18-TODAY(),=IF(D18>=C18,"✅ Completado","🔄 En Progreso"),Ahorrar $8000/mes
+Fondo Universitario,Educación,1000000,100000,=D19/C19,2040-12-31,=F19-TODAY(),=IF(D19>=C19,"✅ Completado","🔄 En Progreso"),Ahorrar $3000/mes
+Certificaciones,Educación,50000,10000,=D20/C20,2025-12-31,=F20-TODAY(),=IF(D20>=C20,"✅ Completado","🔄 En Progreso"),Ahorrar $2000/mes
+,,,,,,
+OBJETIVOS DE JUBILACIÓN,,,,,,,,
+Jubilación $10M,Jubilación,10000000,500000,=D22/C22,2055-12-31,=F22-TODAY(),=IF(D22>=C22,"✅ Completado","🔄 En Progreso"),Ahorrar $30000/mes
+Jubilación $20M,Jubilación,20000000,500000,=D23/C23,2060-12-31,=F23-TODAY(),=IF(D23>=C23,"✅ Completado","🔄 En Progreso"),Ahorrar $40000/mes
+Jubilación $50M,Jubilación,50000000,500000,=D24/C24,2065-12-31,=F24-TODAY(),=IF(D24>=C24,"✅ Completado","🔄 En Progreso"),Ahorrar $60000/mes

@@ -1,0 +1,22 @@
+Activo,Cantidad,Precio Compra,Precio Actual,Valor Inicial,Valor Actual,Ganancia/Pérdida,% del Portafolio,ROI %
+ACCIONES,,,,,,
+Apple (AAPL),100,150,180,=B2*C2,=B2*D2,=F2-E2,=F2/$F$12,=(F2-E2)/E2
+Microsoft (MSFT),50,300,350,=B3*C3,=B3*D3,=F3-E3,=F3/$F$12,=(F3-E3)/E3
+Google (GOOGL),25,2500,2800,=B4*C4,=B4*D4,=F4-E4,=F4/$F$12,=(F4-E4)/E4
+Tesla (TSLA),20,200,180,=B5*C5,=B5*D5,=F5-E5,=F5/$F$12,=(F5-E5)/E5
+,,,,,,
+BONOS,,,,,,
+Tesoro 10 años,10000,100,102,=B7*C7,=B7*D7,=F7-E7,=F7/$F$12,=(F7-E7)/E7
+Bonos Corporativos,5000,100,98,=B8*C8,=B8*D8,=F8-E8,=F8/$F$12,=(F8-E8)/E8
+,,,,,,
+FONDOS,,,,,,
+S&P 500 ETF,200,300,320,=B10*C10,=B10*D10,=F10-E10,=F10/$F$12,=(F10-E10)/E10
+Fondo Internacional,100,250,270,=B11*C11,=B11*D11,=F11-E11,=F11/$F$12,=(F11-E11)/E11
+,,,,,,
+TOTAL PORTAFOLIO,,,=SUM(E2:E11),=SUM(F2:F11),=SUM(G2:G11),=SUM(H2:H11),=AVERAGE(I2:I11)
+,,,,,,
+ANÁLISIS DE DIVERSIFICACIÓN,,,,,,
+Categoría,Valor,% del Total,Target %,Diferencia,Acción
+Acciones,=SUM(F2:F5),=B15/$F$12,60%,=C15-D15,=IF(E15>5,"Reducir",IF(E15<-5,"Aumentar","Mantener"))
+Bonos,=SUM(F7:F8),=B16/$F$12,25%,=C16-D16,=IF(E16>5,"Reducir",IF(E16<-5,"Aumentar","Mantener"))
+Fondos,=SUM(F10:F11),=B17/$F$12,15%,=C17-D17,=IF(E17>5,"Reducir",IF(E17<-5,"Aumentar","Mantener"))

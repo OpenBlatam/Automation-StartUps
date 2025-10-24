@@ -1,0 +1,84 @@
+# AI COURSE QUALITY ASSURANCE VERSION - EXCEL TEMPLATE
+# Specialized for Quality Assurance and Testing Teams
+
+## QA METRICS
+QA_Metric,Current_Value,Target_Value,Performance_Score,Formula_Used
+Test_Coverage,=95%,=90%,=B2/C2,=B2/C2
+Defect_Density,=0.5,=1.0,=C3/B3,=C3/B3
+Test_Execution_Success,=98%,=95%,=B4/C4,=B4/C4
+Automation_Rate,=85%,=80%,=B5/C5,=B5/C5
+Bug_Resolution_Time,=2_days,=3_days,=C6/B6,=C6/B6
+TOTAL,=0,=0,=AVERAGE(F2:F6),=AVERAGE(F2:F6)
+
+## TESTING TYPES
+Test_Type,Current_Coverage,Target_Coverage,Success_Rate,Formula_Used
+Unit_Tests,=98%,=95%,=B2*C2*D2,=B2*C2*D2
+Integration_Tests,=92%,=90%,=B3*C3*D3,=B3*C3*D3
+System_Tests,=88%,=85%,=B4*C4*D4,=B4*C4*D4
+User_Acceptance_Tests,=95%,=90%,=B5*C5*D5,=B5*C5*D5
+Performance_Tests,=85%,=80%,=B6*C6*D6,=B6*C6*D6
+TOTAL,=91.6%,=88%,=AVERAGE(F2:F6),=AVERAGE(F2:F6)
+
+## DEFECT MANAGEMENT
+Defect_Category,Current_Count,Resolution_Rate,Severity_Score,Formula_Used
+Critical_Defects,=2,=100%,=B2*C2*D2,=B2*C2*D2
+High_Defects,=8,=95%,=B3*C3*D3,=B3*C3*D3
+Medium_Defects,=15,=90%,=B4*C4*D4,=B4*C4*D4
+Low_Defects,=25,=85%,=B5*C5*D5,=B5*C5*D5
+TOTAL,=50,=92.5%,=AVERAGE(F2:F5),=AVERAGE(F2:F5)
+
+## TEST AUTOMATION
+Automation_Area,Automation_Level,Time_Saved,ROI,Formula_Used
+Regression_Tests,=95%,=8_hours,=B2*C2*D2,=B2*C2*D2
+Smoke_Tests,=100%,=2_hours,=B3*C3*D3,=B3*C3*D3
+API_Tests,=90%,=4_hours,=B4*C4*D4,=B4*C4*D4
+UI_Tests,=80%,=6_hours,=B5*C5*D5,=B5*C5*D5
+TOTAL,=91.25%,=20_hours,=AVERAGE(F2:F5),=AVERAGE(F2:F5)
+
+## QUALITY GATES
+Quality_Gate,Current_Status,Pass_Rate,Quality_Score,Formula_Used
+Code_Review,=Passed,=98%,=B2*C2*D2,=B2*C2*D2
+Static_Analysis,=Passed,=95%,=B3*C3*D3,=B3*C3*D3
+Security_Scan,=Passed,=92%,=B4*C4*D4,=B4*C4*D4
+Performance_Test,=Passed,=90%,=B5*C5*D5,=B5*C5*D5
+TOTAL,=0,=93.75%,=AVERAGE(F2:F5),=AVERAGE(F2:F5)
+
+## TEST ENVIRONMENT
+Environment_Metric,Current_Value,Target_Value,Stability_Score,Formula_Used
+Environment_Uptime,=99.5%,=99%,=B2/C2,=B2/C2
+Data_Consistency,=98%,=95%,=B3/C3,=B3/C3
+Test_Data_Quality,=96%,=90%,=B4/C4,=B4/C4
+Environment_Availability,=95%,=90%,=B5/C5,=B5/C5
+TOTAL,=0,=0,=AVERAGE(F2:F5),=AVERAGE(F2:F5)
+
+## PERFORMANCE TESTING
+Performance_Metric,Current_Value,Target_Value,Performance_Score,Formula_Used
+Response_Time,=150ms,=200ms,=C2/B2,=C2/B2
+Throughput,=1000_rps,=800_rps,=B3/C3,=B3/C3
+Concurrent_Users,=5000,=4000,=B4/C4,=B4/C4
+Resource_Utilization,=70%,=80%,=C5/B5,=C5/B5
+TOTAL,=0,=0,=AVERAGE(F2:F5),=AVERAGE(F2:F5)
+
+## SECURITY TESTING
+Security_Test,Current_Score,Target_Score,Security_Index,Formula_Used
+Vulnerability_Scan,=95%,=90%,=B2*C2*D2,=B2*C2*D2
+Penetration_Testing,=92%,=85%,=B3*C3*D3,=B3*C3*D3
+OWASP_Compliance,=98%,=95%,=B4*C4*D4,=B4*C4*D4
+Data_Protection,=96%,=90%,=B5*C5*D5,=B5*C5*D5
+TOTAL,=95.25%,=90%,=AVERAGE(F2:F5),=AVERAGE(F2:F5)
+
+## TEST REPORTING
+Report_Type,Frequency,Accuracy,Formula_Used
+Daily_Test_Report,=Daily,=98%,=REPORT_SCORE(B2,C2),=REPORT_SCORE(B2,C2)
+Weekly_Quality_Report,=Weekly,=95%,=REPORT_SCORE(B3,C3),=REPORT_SCORE(B3,C3)
+Release_Quality_Report,=Per_Release,=97%,=REPORT_SCORE(B4,C4),=REPORT_SCORE(B4,C4)
+Defect_Trend_Report,=Monthly,=96%,=REPORT_SCORE(B5,C5),=REPORT_SCORE(B5,C5)
+TOTAL,=0,=96.5%,=AVERAGE(F2:F5),=AVERAGE(F2:F5)
+
+## QA DASHBOARD
+KPI,Current_Value,Target_Value,Status,Formula_Used
+Test_Coverage,=95%,=90%,=IF(B2>=C2,"Exceeding","Below"),=IF(B2>=C2,"Exceeding","Below")
+Defect_Density,=0.5,=1.0,=IF(B3<=C3,"Exceeding","Below"),=IF(B3<=C3,"Exceeding","Below")
+Test_Success_Rate,=98%,=95%,=IF(B4>=C4,"Exceeding","Below"),=IF(B4>=C4,"Exceeding","Below")
+Automation_Rate,=85%,=80%,=IF(B5>=C5,"Exceeding","Below"),=IF(B5>=C5,"Exceeding","Below")
+TOTAL,=0,=0,=AVERAGE(E2:E5),=AVERAGE(E2:E5)

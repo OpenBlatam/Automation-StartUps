@@ -1,0 +1,91 @@
+# AI COURSE COMPLIANCE VERSION - EXCEL TEMPLATE
+# Specialized for Compliance Teams and Regulatory Management
+
+## COMPLIANCE METRICS
+Compliance_Metric,Current_Score,Target_Score,Compliance_Status,Formula_Used
+Data_Privacy_Compliance,=98%,=95%,=Compliant,=B2*C2*D2,=B2*C2*D2
+Financial_Regulations,=96%,=95%,=Compliant,=B3*C3*D3,=B3*C3*D3
+Security_Standards,=99%,=95%,=Compliant,=B4*C4*D4,=B4*C4*D4
+Operational_Compliance,=94%,=90%,=Compliant,=B5*C5*D5,=B5*C5*D5
+Audit_Requirements,=97%,=95%,=Compliant,=B6*C6*D6,=B6*C6*D6
+TOTAL,=96.8%,=94%,=AVERAGE(F2:F6),=AVERAGE(F2:F6)
+
+## REGULATORY FRAMEWORKS
+Framework,Compliance_Level,Last_Audit,Next_Audit,Formula_Used
+GDPR,=100%,=2024-01-15,=2024-07-15,=COMPLIANCE_SCORE(B2,C2,D2),=COMPLIANCE_SCORE(B2,C2,D2)
+CCPA,=98%,=2024-02-01,=2024-08-01,=COMPLIANCE_SCORE(B3,C3,D3),=COMPLIANCE_SCORE(B3,C3,D3)
+SOX,=96%,=2024-01-30,=2024-07-30,=COMPLIANCE_SCORE(B4,C4,D4),=COMPLIANCE_SCORE(B4,C4,D4)
+ISO_27001,=99%,=2024-03-01,=2024-09-01,=COMPLIANCE_SCORE(B5,C5,D5),=COMPLIANCE_SCORE(B5,C5,D5)
+TOTAL,=98.25%,=AVERAGE(C2:C5),=AVERAGE(D2:D5),=AVERAGE(F2:F5),=AVERAGE(F2:F5)
+
+## DATA GOVERNANCE
+Governance_Area,Current_Status,Compliance_Score,Formula_Used
+Data_Classification,=Implemented,=98%,=GOVERNANCE_SCORE(B2,C2),=GOVERNANCE_SCORE(B2,C2)
+Data_Retention,=Implemented,=96%,=GOVERNANCE_SCORE(B3,C3),=GOVERNANCE_SCORE(B3,C3)
+Data_Access_Control,=Implemented,=99%,=GOVERNANCE_SCORE(B4,C4),=GOVERNANCE_SCORE(B4,C4)
+Data_Backup_Recovery,=Implemented,=97%,=GOVERNANCE_SCORE(B5,C5),=GOVERNANCE_SCORE(B5,C5)
+TOTAL,=0,=97.5%,=AVERAGE(F2:F5),=AVERAGE(F2:F5)
+
+## SECURITY COMPLIANCE
+Security_Control,Implementation_Status,Effectiveness_Score,Formula_Used
+Access_Control,=Implemented,=98%,=SECURITY_SCORE(B2,C2),=SECURITY_SCORE(B2,C2)
+Encryption,=Implemented,=99%,=SECURITY_SCORE(B3,C3),=SECURITY_SCORE(B3,C3)
+Monitoring,=Implemented,=97%,=SECURITY_SCORE(B4,C4),=SECURITY_SCORE(B4,C4)
+Incident_Response,=Implemented,=96%,=SECURITY_SCORE(B5,C5),=SECURITY_SCORE(B5,C5)
+TOTAL,=0,=97.5%,=AVERAGE(F2:F5),=AVERAGE(F2:F5)
+
+## AUDIT TRAIL
+Audit_Event,Event_Count,Compliance_Rate,Formula_Used
+Data_Access_Logs,=15000,=99.8%,=AUDIT_SCORE(B2,C2),=AUDIT_SCORE(B2,C2)
+System_Changes,=500,=98.5%,=AUDIT_SCORE(B3,C3),=AUDIT_SCORE(B3,C3)
+User_Activities,=25000,=99.2%,=AUDIT_SCORE(B4,C4),=AUDIT_SCORE(B4,C4)
+Security_Events,=100,=100%,=AUDIT_SCORE(B5,C5),=AUDIT_SCORE(B5,C5)
+TOTAL,=40600,=99.375%,=AVERAGE(F2:F5),=AVERAGE(F2:F5)
+
+## RISK ASSESSMENT
+Risk_Category,Risk_Level,Mitigation_Status,Formula_Used
+Data_Breach_Risk,=Low,=Mitigated,=RISK_SCORE(B2,C2),=RISK_SCORE(B2,C2)
+Regulatory_Risk,=Low,=Mitigated,=RISK_SCORE(B3,C3),=RISK_SCORE(B3,C3)
+Operational_Risk,=Medium,=Partially_Mitigated,=RISK_SCORE(B4,C4),=RISK_SCORE(B4,C4)
+Technology_Risk,=Low,=Mitigated,=RISK_SCORE(B5,C5),=RISK_SCORE(B5,C5)
+TOTAL,=0,=AVERAGE(C2:C5),=AVERAGE(F2:F5),=AVERAGE(F2:F5)
+
+## COMPLIANCE TRAINING
+Training_Area,Completion_Rate,Compliance_Score,Formula_Used
+Data_Privacy_Training,=100%,=98%,=TRAINING_SCORE(B2,C2),=TRAINING_SCORE(B2,C2)
+Security_Training,=98%,=97%,=TRAINING_SCORE(B3,C3),=TRAINING_SCORE(B3,C3)
+Regulatory_Training,=95%,=96%,=TRAINING_SCORE(B4,C4),=TRAINING_SCORE(B4,C4)
+Ethics_Training,=100%,=99%,=TRAINING_SCORE(B5,C5),=TRAINING_SCORE(B5,C5)
+TOTAL,=98.25%,=97.5%,=AVERAGE(F2:F5),=AVERAGE(F2:F5)
+
+## DOCUMENTATION COMPLIANCE
+Document_Type,Current_Status,Compliance_Score,Formula_Used
+Policies_Procedures,=Updated,=98%,=DOC_SCORE(B2,C2),=DOC_SCORE(B2,C2)
+Risk_Assessments,=Updated,=96%,=DOC_SCORE(B3,C3),=DOC_SCORE(B3,C3)
+Incident_Reports,=Current,=97%,=DOC_SCORE(B4,C4),=DOC_SCORE(B4,C4)
+Training_Records,=Current,=99%,=DOC_SCORE(B5,C5),=DOC_SCORE(B5,C5)
+TOTAL,=0,=97.5%,=AVERAGE(F2:F5),=AVERAGE(F2:F5)
+
+## VENDOR COMPLIANCE
+Vendor_Category,Compliance_Status,Compliance_Score,Formula_Used
+Data_Processors,=Compliant,=98%,=VENDOR_SCORE(B2,C2),=VENDOR_SCORE(B2,C2)
+Cloud_Providers,=Compliant,=99%,=VENDOR_SCORE(B3,C3),=VENDOR_SCORE(B3,C3)
+Software_Vendors,=Compliant,=97%,=VENDOR_SCORE(B4,C4),=VENDOR_SCORE(B4,C4)
+Service_Providers,=Compliant,=96%,=VENDOR_SCORE(B5,C5),=VENDOR_SCORE(B5,C5)
+TOTAL,=0,=97.5%,=AVERAGE(F2:F5),=AVERAGE(F2:F5)
+
+## COMPLIANCE REPORTING
+Report_Type,Frequency,Compliance_Score,Formula_Used
+Monthly_Compliance_Report,=Monthly,=98%,=REPORT_SCORE(B2,C2),=REPORT_SCORE(B2,C2)
+Quarterly_Audit_Report,=Quarterly,=97%,=REPORT_SCORE(B3,C3),=REPORT_SCORE(B3,C3)
+Annual_Compliance_Report,=Annually,=99%,=REPORT_SCORE(B4,C4),=REPORT_SCORE(B4,C4)
+Incident_Reports,=As_Needed,=100%,=REPORT_SCORE(B5,C5),=REPORT_SCORE(B5,C5)
+TOTAL,=0,=98.5%,=AVERAGE(F2:F5),=AVERAGE(F2:F5)
+
+## COMPLIANCE DASHBOARD
+KPI,Current_Value,Target_Value,Status,Formula_Used
+Overall_Compliance,=96.8%,=95%,=IF(B2>=C2,"Exceeding","Below"),=IF(B2>=C2,"Exceeding","Below")
+Data_Privacy,=98%,=95%,=IF(B3>=C3,"Exceeding","Below"),=IF(B3>=C3,"Exceeding","Below")
+Security_Compliance,=99%,=95%,=IF(B4>=C4,"Exceeding","Below"),=IF(B4>=C4,"Exceeding","Below")
+Audit_Readiness,=97%,=95%,=IF(B5>=C5,"Exceeding","Below"),=IF(B5>=C5,"Exceeding","Below")
+TOTAL,=0,=0,=AVERAGE(E2:E5),=AVERAGE(E2:E5)

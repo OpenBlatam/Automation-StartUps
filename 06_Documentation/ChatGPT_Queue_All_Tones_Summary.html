@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎭 Todas las Variantes de Tono - ChatGPT Queue Marketing</title>
+    <style>
+        @page { size: A4; margin: 2cm; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+        
+        .container {
+            background: white;
+            margin: 20px;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-align: center;
+            padding: 50px;
+            margin: -40px -40px 40px -40px;
+            border-radius: 20px 20px 0 0;
+        }
+        
+        h1 {
+            font-size: 3em;
+            margin: 0;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.3em;
+            margin: 20px 0;
+            opacity: 0.9;
+        }
+        
+        .tone-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .tone-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-left: 5px solid;
+            transition: transform 0.3s ease;
+        }
+        
+        .tone-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .tone-card.urgent {
+            border-left-color: #ff4757;
+        }
+        
+        .tone-card.professional {
+            border-left-color: #2c2c54;
+        }
+        
+        .tone-card.friendly {
+            border-left-color: #74b9ff;
+        }
+        
+        .tone-card.motivational {
+            border-left-color: #ff6b6b;
+        }
+        
+        .tone-card.technical {
+            border-left-color: #00b894;
+        }
+        
+        .tone-card.directive {
+            border-left-color: #fdcb6e;
+        }
+        
+        .tone-card.premium {
+            border-left-color: #a29bfe;
+        }
+        
+        .tone-card.dynamic {
+            border-left-color: #fd79a8;
+        }
+        
+        .tone-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2c2c54;
+        }
+        
+        .tone-emoji {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .tone-description {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            color: #666;
+        }
+        
+        .tone-audience {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        
+        .tone-audience h4 {
+            margin: 0 0 10px 0;
+            color: #2c2c54;
+        }
+        
+        .tone-audience ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .tone-audience li {
+            margin: 5px 0;
+            color: #666;
+        }
+        
+        .tone-example {
+            background: #e8f4f8;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #74b9ff;
+        }
+        
+        .tone-example h4 {
+            margin: 0 0 10px 0;
+            color: #0984e3;
+        }
+        
+        .tone-example p {
+            margin: 0;
+            font-style: italic;
+            color: #2c2c54;
+        }
+        
+        .usage-guide {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 40px 0;
+        }
+        
+        .usage-guide h2 {
+            color: #2c2c54;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .usage-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .usage-table th {
+            background: #2c2c54;
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+        
+        .usage-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .usage-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, #00b894, #00a085);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 40px 0;
+            text-align: center;
+        }
+        
+        .cta-title {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        
+        .cta-text {
+            font-size: 1.3em;
+            margin: 20px 0;
+        }
+        
+        .cta-button {
+            background: white;
+            color: #00b894;
+            padding: 20px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.5em;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .footer {
+            background: #2d3436;
+            color: white;
+            padding: 40px;
+            text-align: center;
+            margin: 40px -40px -40px -40px;
+            border-radius: 0 0 20px 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎭 Todas las Variantes de Tono</h1>
+            <p class="subtitle">ChatGPT Queue Marketing Plan - 8 Tonos para Máxima Efectividad</p>
+        </div>
+
+        <div class="tone-grid">
+            <div class="tone-card urgent">
+                <div class="tone-emoji">🚨</div>
+                <div class="tone-title">URGENTE/AGRESIVO</div>
+                <div class="tone-description">
+                    "¡ALERTA! ChatGPT Queue se está agotando - Solo quedan 24 horas para el Early Bird"
+                </div>
+                <div class="tone-audience">
+                    <h4>Audiencia:</h4>
+                    <ul>
+                        <li>Compradores impulsivos</li>
+                        <li>Personas sensibles a la escasez</li>
+                        <li>Usuarios que responden a FOMO</li>
+                    </ul>
+                </div>
+                <div class="tone-example">
+                    <h4>Ejemplo:</h4>
+                    <p>"¿Estás perdiendo $2,000+ cada mes por no automatizar ChatGPT? ESTO SE TERMINA AHORA."</p>
+                </div>
+            </div>
+
+            <div class="tone-card professional">
+                <div class="tone-emoji">💼</div>
+                <div class="tone-title">PROFESIONAL/ACADÉMICO</div>
+                <div class="tone-description">
+                    "Análisis Estratégico de Mercado: ChatGPT Queue - Oportunidad de Inversión en Automatización de IA"
+                </div>
+                <div class="tone-audience">
+                    <h4>Audiencia:</h4>
+                    <ul>
+                        <li>Ejecutivos B2B</li>
+                        <li>Inversores</li>
+                        <li>Analistas de mercado</li>
+                    </ul>
+                </div>
+                <div class="tone-example">
+                    <h4>Ejemplo:</h4>
+                    <p>"La presente propuesta se fundamenta en la Teoría de Difusión de Innovaciones de Everett Rogers (1962)."</p>
+                </div>
+            </div>
+
+            <div class="tone-card friendly">
+                <div class="tone-emoji">😊</div>
+                <div class="tone-title">AMIGABLE/CONVERSACIONAL</div>
+                <div class="tone-description">
+                    "Hola! ¿Sabías que puedes ahorrar 2 horas diarias con ChatGPT?"
+                </div>
+                <div class="tone-audience">
+                    <h4>Audiencia:</h4>
+                    <ul>
+                        <li>Consumidores generales</li>
+                        <li>Usuarios de redes sociales</li>
+                        <li>Personas que valoran la conexión</li>
+                    </ul>
+                </div>
+                <div class="tone-example">
+                    <h4>Ejemplo:</h4>
+                    <p>"Soy [Tu Nombre], y quiero contarte algo que cambió completamente mi productividad..."</p>
+                </div>
+            </div>
+
+            <div class="tone-card motivational">
+                <div class="tone-emoji">🔥</div>
+                <div class="tone-title">MOTIVACIONAL/INSPIRACIONAL</div>
+                <div class="tone-description">
+                    "DESPERTA EL GIGANTE DE LA PRODUCTIVIDAD QUE LLEVAS DENTRO"
+                </div>
+                <div class="tone-audience">
+                    <h4>Audiencia:</h4>
+                    <ul>
+                        <li>Emprendedores</li>
+                        <li>Personas en busca de cambio</li>
+                        <li>Usuarios motivados por el crecimiento</li>
+                    </ul>
+                </div>
+                <div class="tone-example">
+                    <h4>Ejemplo:</h4>
+                    <p>"¿Estás listo para una transformación REAL? Tu futuro productivo te está esperando."</p>
+                </div>
+            </div>
+
+            <div class="tone-card technical">
+                <div class="tone-emoji">📊</div>
+                <div class="tone-title">TÉCNICO/DATOS</div>
+                <div class="tone-description">
+                    "Análisis Cuantitativo: ChatGPT Queue - ROI del 340% en 6 meses"
+                </div>
+                <div class="tone-audience">
+                    <h4>Audiencia:</h4>
+                    <ul>
+                        <li>Desarrolladores</li>
+                        <li>Analistas de datos</li>
+                        <li>Personas orientadas a métricas</li>
+                    </ul>
+                </div>
+                <div class="tone-example">
+                    <h4>Ejemplo:</h4>
+                    <p>"Basado en 10,000+ horas de análisis de comportamiento de usuario y 50+ A/B tests..."</p>
+                </div>
+            </div>
+
+            <div class="tone-card directive">
+                <div class="tone-emoji">🎯</div>
+                <div class="tone-title">DIRECTIVO/ACCIONABLE</div>
+                <div class="tone-description">
+                    "3 PASOS SIMPLES PARA AUTOMATIZAR CHATGPT HOY MISMO"
+                </div>
+                <div class="tone-audience">
+                    <h4>Audiencia:</h4>
+                    <ul>
+                        <li>Ejecutivos ocupados</li>
+                        <li>Personas que prefieren instrucciones claras</li>
+                        <li>Usuarios orientados a la acción</li>
+                    </ul>
+                </div>
+                <div class="tone-example">
+                    <h4>Ejemplo:</h4>
+                    <p>"PASO 1: Instala ChatGPT Queue (30 segundos) PASO 2: Configura tu cola (2 minutos)"</p>
+                </div>
+            </div>
+
+            <div class="tone-card premium">
+                <div class="tone-emoji">🌟</div>
+                <div class="tone-title">PREMIUM/LUJO</div>
+                <div class="tone-description">
+                    "ChatGPT Queue - La Exclusiva Herramienta de Productividad para Visionarios"
+                </div>
+                <div class="tone-audience">
+                    <h4>Audiencia:</h4>
+                    <ul>
+                        <li>Mercado de lujo</li>
+                        <li>Personas que valoran la exclusividad</li>
+                        <li>Usuarios de alto poder adquisitivo</li>
+                    </ul>
+                </div>
+                <div class="tone-example">
+                    <h4>Ejemplo:</h4>
+                    <p>"ChatGPT Queue no es para todos. Es para los líderes, los innovadores, los que entienden que el tiempo es el activo más valioso."</p>
+                </div>
+            </div>
+
+            <div class="tone-card dynamic">
+                <div class="tone-emoji">⚡</div>
+                <div class="tone-title">RÁPIDO/DINÁMICO</div>
+                <div class="tone-description">
+                    "2 HORAS EXTRA EN 2 MINUTOS - ChatGPT Queue"
+                </div>
+                <div class="tone-audience">
+                    <h4>Audiencia:</h4>
+                    <ul>
+                        <li>Millennials/Gen Z</li>
+                        <li>Usuarios de redes sociales</li>
+                        <li>Personas con atención limitada</li>
+                    </ul>
+                </div>
+                <div class="tone-example">
+                    <h4>Ejemplo:</h4>
+                    <p>"RÁPIDO: Sin ChatGPT Queue = Pierdes 2h/día ✅ Con ChatGPT Queue = Ganas 2h/día"</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="usage-guide">
+            <h2>📋 Guía de Uso de Tonos</h2>
+            
+            <table class="usage-table">
+                <thead>
+                    <tr>
+                        <th>Tono</th>
+                        <th>Audiencia Principal</th>
+                        <th>Mejor Uso</th>
+                        <th>Objetivo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Urgente</strong></td>
+                        <td>Compradores impulsivos</td>
+                        <td>Ofertas limitadas, flash sales</td>
+                        <td>Conversión inmediata</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Profesional</strong></td>
+                        <td>B2B, inversores</td>
+                        <td>Presentaciones, propuestas</td>
+                        <td>Credibilidad y confianza</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Amigable</strong></td>
+                        <td>Consumidores generales</td>
+                        <td>Marketing social, email</td>
+                        <td>Conexión emocional</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Motivacional</strong></td>
+                        <td>Emprendedores</td>
+                        <td>Lanzamientos, webinars</td>
+                        <td>Inspiración y acción</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Técnico</strong></td>
+                        <td>Desarrolladores</td>
+                        <td>Casos de estudio, documentación</td>
+                        <td>Validación con datos</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Directivo</strong></td>
+                        <td>Ejecutivos ocupados</td>
+                        <td>Email marketing, landing pages</td>
+                        <td>Acción rápida</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Premium</strong></td>
+                        <td>Mercado alto</td>
+                        <td>Posicionamiento, branding</td>
+                        <td>Exclusividad</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Dinámico</strong></td>
+                        <td>Millennials/Gen Z</td>
+                        <td>Redes sociales, ads</td>
+                        <td>Engagement</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="usage-guide">
+            <h2>🔄 Combinaciones Efectivas</h2>
+            
+            <h3>Email Sequence (3 emails):</h3>
+            <ol>
+                <li><strong>Email 1:</strong> Amigable → "Hola! Te cuento mi historia..."</li>
+                <li><strong>Email 2:</strong> Técnico → "Los datos hablan por sí solos..."</li>
+                <li><strong>Email 3:</strong> Urgente → "¡Solo quedan 24 horas!"</li>
+            </ol>
+
+            <h3>Landing Page (3 secciones):</h3>
+            <ol>
+                <li><strong>Header:</strong> Dinámico → "2 HORAS EXTRA EN 2 MINUTOS"</li>
+                <li><strong>Body:</strong> Técnico → "ROI del 340% en 6 meses"</li>
+                <li><strong>CTA:</strong> Directivo → "HAZ ESTO AHORA"</li>
+            </ol>
+
+            <h3>Presentación (3 slides):</h3>
+            <ol>
+                <li><strong>Slide 1:</strong> Profesional → "Análisis estratégico de mercado"</li>
+                <li><strong>Slide 2:</strong> Motivacional → "Transforma tu productividad"</li>
+                <li><strong>Slide 3:</strong> Directivo → "Próximos pasos"</li>
+            </ol>
+
+            <h3>Redes Sociales (3 posts):</h3>
+            <ol>
+                <li><strong>Post 1:</strong> Dinámico → "⚡ 2 HORAS EXTRA ⚡"</li>
+                <li><strong>Post 2:</strong> Amigable → "¿Sabías que puedes...?"</li>
+                <li><strong>Post 3:</strong> Urgente → "¡Solo quedan 24 horas!"</li>
+            </ol>
+        </div>
+
+        <div class="cta-section">
+            <h2 class="cta-title">🚀 ¿Listo para Implementar?</h2>
+            <p class="cta-text">
+                Ahora tienes 8 tonos diferentes para maximizar la efectividad de tu marketing.
+            </p>
+            <p class="cta-text">
+                <strong>Elige el tono correcto para cada audiencia y situación.</strong>
+            </p>
+            <a href="#" class="cta-button">
+                📥 DESCARGAR TODAS LAS VARIANTES
+            </a>
+        </div>
+
+        <div class="footer">
+            <h3>🎯 Recuerda</h3>
+            <p style="font-size: 1.2em; margin: 20px 0;">
+                <strong>El tono correcto puede aumentar tu conversión hasta un 300%</strong>
+            </p>
+            <p style="font-size: 1.1em; margin: 20px 0;">
+                Experimenta, mide, optimiza. Cada audiencia responde diferente.
+            </p>
+            <p style="font-size: 0.9em; margin-top: 30px; opacity: 0.8;">
+                © 2024 - ChatGPT Queue Marketing Plan. Sistema de tonos múltiples para máxima efectividad.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

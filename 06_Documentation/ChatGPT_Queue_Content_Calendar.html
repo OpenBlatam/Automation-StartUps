@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📅 Calendario de Contenido - ChatGPT Queue</title>
+    <style>
+        @page { size: A4; margin: 2cm; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #00b894, #00a085);
+        }
+        
+        .container {
+            background: white;
+            margin: 20px;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #00b894, #00a085);
+            color: white;
+            text-align: center;
+            padding: 50px;
+            margin: -40px -40px 40px -40px;
+            border-radius: 20px 20px 0 0;
+        }
+        
+        h1 {
+            font-size: 3em;
+            margin: 0;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.3em;
+            margin: 20px 0;
+            opacity: 0.9;
+        }
+        
+        .calendar-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border-left: 5px solid #00b894;
+        }
+        
+        .section-title {
+            color: #00a085;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .day-header {
+            background: #2c2c54;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        
+        .day-cell {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            min-height: 120px;
+            border-left: 4px solid #00b894;
+        }
+        
+        .day-number {
+            font-weight: bold;
+            color: #00a085;
+            margin-bottom: 10px;
+        }
+        
+        .content-item {
+            background: #e8f4f8;
+            padding: 8px;
+            border-radius: 5px;
+            margin: 5px 0;
+            font-size: 0.9em;
+            border-left: 3px solid #74b9ff;
+        }
+        
+        .content-type {
+            font-weight: bold;
+            color: #0984e3;
+            font-size: 0.8em;
+        }
+        
+        .content-title {
+            color: #2c2c54;
+            margin: 2px 0;
+        }
+        
+        .content-time {
+            color: #666;
+            font-size: 0.8em;
+        }
+        
+        .platform-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .platform-title {
+            color: #00a085;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .content-template {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #00b894;
+        }
+        
+        .template-title {
+            color: #00a085;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .template-content {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .hashtags {
+            background: #e8f4f8;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-style: italic;
+            color: #0984e3;
+        }
+        
+        .metrics-section {
+            background: #2c2c54;
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .metrics-title {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .metric-card {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .metric-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #74b9ff;
+            margin-bottom: 10px;
+        }
+        
+        .metric-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        .footer {
+            background: #2d3436;
+            color: white;
+            padding: 40px;
+            text-align: center;
+            margin: 40px -40px -40px -40px;
+            border-radius: 0 0 20px 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📅 Calendario de Contenido</h1>
+            <p class="subtitle">ChatGPT Queue - Plan de Contenido Estratégico</p>
+        </div>
+
+        <div class="calendar-section">
+            <h2 class="section-title">📅 Calendario Semanal</h2>
+            
+            <div class="calendar-grid">
+                <div class="day-header">LUNES</div>
+                <div class="day-header">MARTES</div>
+                <div class="day-header">MIÉRCOLES</div>
+                <div class="day-header">JUEVES</div>
+                <div class="day-header">VIERNES</div>
+                <div class="day-header">SÁBADO</div>
+                <div class="day-header">DOMINGO</div>
+                
+                <div class="day-cell">
+                    <div class="day-number">1</div>
+                    <div class="content-item">
+                        <div class="content-type">📘 FACEBOOK</div>
+                        <div class="content-title">Motivación Lunes</div>
+                        <div class="content-time">9:00 AM</div>
+                    </div>
+                    <div class="content-item">
+                        <div class="content-type">📧 EMAIL</div>
+                        <div class="content-title">Newsletter Semanal</div>
+                        <div class="content-time">10:00 AM</div>
+                    </div>
+                </div>
+                
+                <div class="day-cell">
+                    <div class="day-number">2</div>
+                    <div class="content-item">
+                        <div class="content-type">🐦 TWITTER</div>
+                        <div class="content-title">Tip Productividad</div>
+                        <div class="content-time">8:00 AM</div>
+                    </div>
+                    <div class="content-item">
+                        <div class="content-type">💼 LINKEDIN</div>
+                        <div class="content-title">Artículo B2B</div>
+                        <div class="content-time">2:00 PM</div>
+                    </div>
+                </div>
+                
+                <div class="day-cell">
+                    <div class="day-number">3</div>
+                    <div class="content-item">
+                        <div class="content-type">📸 INSTAGRAM</div>
+                        <div class="content-title">Caso de Éxito</div>
+                        <div class="content-time">11:00 AM</div>
+                    </div>
+                    <div class="content-item">
+                        <div class="content-type">📘 FACEBOOK</div>
+                        <div class="content-title">Testimonial Video</div>
+                        <div class="content-time">3:00 PM</div>
+                    </div>
+                </div>
+                
+                <div class="day-cell">
+                    <div class="day-number">4</div>
+                    <div class="content-item">
+                        <div class="content-type">🎥 YOUTUBE</div>
+                        <div class="content-title">Tutorial Semanal</div>
+                        <div class="content-time">12:00 PM</div>
+                    </div>
+                    <div class="content-item">
+                        <div class="content-type">🐦 TWITTER</div>
+                        <div class="content-title">Thread Educativo</div>
+                        <div class="content-time">4:00 PM</div>
+                    </div>
+                </div>
+                
+                <div class="day-cell">
+                    <div class="day-number">5</div>
+                    <div class="content-item">
+                        <div class="content-type">📘 FACEBOOK</div>
+                        <div class="content-title">Oferta Viernes</div>
+                        <div class="content-time">10:00 AM</div>
+                    </div>
+                    <div class="content-item">
+                        <div class="content-type">📧 EMAIL</div>
+                        <div class="content-title">Follow-up</div>
+                        <div class="content-time">2:00 PM</div>
+                    </div>
+                </div>
+                
+                <div class="day-cell">
+                    <div class="day-number">6</div>
+                    <div class="content-item">
+                        <div class="content-type">📸 INSTAGRAM</div>
+                        <div class="content-title">Contenido Entretenido</div>
+                        <div class="content-time">2:00 PM</div>
+                    </div>
+                    <div class="content-item">
+                        <div class="content-type">🐦 TWITTER</div>
+                        <div class="content-title">Meme ChatGPT</div>
+                        <div class="content-time">6:00 PM</div>
+                    </div>
+                </div>
+                
+                <div class="day-cell">
+                    <div class="day-number">7</div>
+                    <div class="content-item">
+                        <div class="content-type">📘 FACEBOOK</div>
+                        <div class="content-title">Reflexión Dominical</div>
+                        <div class="content-time">11:00 AM</div>
+                    </div>
+                    <div class="content-item">
+                        <div class="content-type">📧 EMAIL</div>
+                        <div class="content-title">Resumen Semanal</div>
+                        <div class="content-time">5:00 PM</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="platform-section">
+            <h2 class="platform-title">📘 FACEBOOK - Templates de Contenido</h2>
+            
+            <div class="content-template">
+                <div class="template-title">Lunes - Motivación</div>
+                <div class="template-content">
+                    <strong>Imagen:</strong> Persona trabajando eficientemente con ChatGPT<br>
+                    <strong>Texto:</strong> "¿Sabías que puedes ahorrar 2+ horas diarias con ChatGPT?<br><br>
+                    ChatGPT Queue automatiza todo el proceso de cola de mensajes.<br><br>
+                    Resultado: Más tiempo para lo que realmente importa.<br><br>
+                    ¿Listo para ser más productivo esta semana? 💪"
+                </div>
+                <div class="hashtags">#Productividad #ChatGPT #LunesMotivacional #Eficiencia #Tiempo</div>
+            </div>
+            
+            <div class="content-template">
+                <div class="template-title">Miércoles - Testimonial</div>
+                <div class="template-content">
+                    <strong>Video:</strong> Testimonial de usuario real<br>
+                    <strong>Texto:</strong> "María ahorró $2,000 en su primer mes usando ChatGPT Queue<br><br>
+                    'Antes perdía 2+ horas diarias esperando respuestas. Ahora tengo tiempo para mis proyectos y familia.'<br><br>
+                    ¿Quieres ser el próximo caso de éxito? 👇"
+                </div>
+                <div class="hashtags">#Testimonial #Éxito #ChatGPT #Productividad #CasoReal</div>
+            </div>
+            
+            <div class="content-template">
+                <div class="template-title">Viernes - Oferta</div>
+                <div class="template-content">
+                    <strong>Imagen:</strong> Antes vs Después<br>
+                    <strong>Texto:</strong> "¡OFERTA ESPECIAL DE VIERNES! 🎉<br><br>
+                    ChatGPT Queue por solo $19.99<br>
+                    (Precio normal: $99.99)<br><br>
+                    ⏰ Solo por 24 horas<br>
+                    ✅ Garantía 30 días<br>
+                    🚀 Instalación en 30 segundos<br><br>
+                    ¿Listo para recuperar tu tiempo?"
+                </div>
+                <div class="hashtags">#Oferta #Viernes #Descuento #ChatGPT #Productividad</div>
+            </div>
+        </div>
+
+        <div class="platform-section">
+            <h2 class="platform-title">🐦 TWITTER - Templates de Contenido</h2>
+            
+            <div class="content-template">
+                <div class="template-title">Tip Diario</div>
+                <div class="template-content">
+                    "💡 TIP: Usa prompts específicos con ChatGPT<br><br>
+                    ❌ 'Ayúdame con marketing'<br>
+                    ✅ 'Escribe un email de ventas para [producto] dirigido a [audiencia]'<br><br>
+                    ChatGPT Queue automatiza esto y más ⚡"
+                </div>
+                <div class="hashtags">#ChatGPT #Tips #Productividad #IA</div>
+            </div>
+            
+            <div class="content-template">
+                <div class="template-title">Thread Educativo</div>
+                <div class="template-content">
+                    "🧵 HILO: 5 formas de maximizar ChatGPT<br><br>
+                    1/ Usa prompts específicos y detallados<br>
+                    2/ Proporciona contexto relevante<br>
+                    3/ Haz preguntas de seguimiento<br>
+                    4/ Usa ejemplos concretos<br>
+                    5/ Sé iterativo y mejora gradualmente<br><br>
+                    ChatGPT Queue automatiza todo esto ⚡"
+                </div>
+                <div class="hashtags">#Hilo #ChatGPT #Productividad #IA #Tips</div>
+            </div>
+            
+            <div class="content-template">
+                <div class="template-title">Pregunta Interactiva</div>
+                <div class="template-content">
+                    "¿Cuántas horas pierdes diariamente esperando respuestas de ChatGPT? 🤔<br><br>
+                    🔘 Menos de 1 hora<br>
+                    🔘 1-2 horas<br>
+                    🔘 2-3 horas<br>
+                    🔘 Más de 3 horas<br><br>
+                    Si eliges 2+ horas, ChatGPT Queue puede ayudarte ⚡"
+                </div>
+                <div class="hashtags">#Encuesta #ChatGPT #Productividad #Tiempo</div>
+            </div>
+        </div>
+
+        <div class="platform-section">
+            <h2 class="platform-title">💼 LINKEDIN - Templates de Contenido</h2>
+            
+            <div class="content-template">
+                <div class="template-title">Artículo B2B</div>
+                <div class="template-content">
+                    "🚀 Cómo ChatGPT Queue está revolucionando la productividad empresarial<br><br>
+                    En el mundo empresarial actual, cada minuto cuenta. Sin embargo, muchos profesionales pierden 2+ horas diarias esperando respuestas de ChatGPT.<br><br>
+                    <strong>El impacto en la productividad:</strong><br>
+                    • 10 horas perdidas por semana por empleado<br>
+                    • $2,000+ en costos de productividad mensuales<br>
+                    • Proyectos retrasados y oportunidades perdidas<br><br>
+                    <strong>La solución:</strong> ChatGPT Queue automatiza el proceso de cola de mensajes, recuperando esas 2 horas diarias.<br><br>
+                    ¿Tu empresa está lista para esta transformación?"
+                </div>
+                <div class="hashtags">#Productividad #Empresas #ChatGPT #Automatización #ROI #Eficiencia</div>
+            </div>
+            
+            <div class="content-template">
+                <div class="template-title">Caso de Estudio</div>
+                <div class="template-content">
+                    "📊 Caso de Estudio: TechCorp ahorró $25,000 mensuales con ChatGPT Queue<br><br>
+                    <strong>Empresa:</strong> TechCorp (50 empleados)<br>
+                    <strong>Industria:</strong> Tecnología<br>
+                    <strong>Desafío:</strong> Pérdida de productividad por esperas de ChatGPT<br><br>
+                    <strong>Resultados (30 días):</strong><br>
+                    • 10 horas ahorradas por empleado/semana<br>
+                    • $25,000 ahorrados en productividad<br>
+                    • 40% más proyectos completados<br>
+                    • 95% de satisfacción de empleados<br><br>
+                    <strong>ROI:</strong> 2,500% en el primer mes<br><br>
+                    ¿Quieres ver resultados similares en tu empresa?"
+                </div>
+                <div class="hashtags">#CasoDeÉxito #ROI #Empresas #ChatGPT #Productividad #Tecnología</div>
+            </div>
+        </div>
+
+        <div class="platform-section">
+            <h2 class="platform-title">📸 INSTAGRAM - Templates de Contenido</h2>
+            
+            <div class="content-template">
+                <div class="template-title">Post Principal</div>
+                <div class="template-content">
+                    <strong>Imagen:</strong> Antes vs Después - Persona estresada vs Persona relajada<br>
+                    <strong>Texto:</strong> "ANTES: 😤 2+ horas esperando respuestas de ChatGPT<br><br>
+                    DESPUÉS: 😌 2 horas extra para lo que realmente importa<br><br>
+                    La diferencia: ChatGPT Queue ⚡<br><br>
+                    ¿Listo para tu transformación? 👇"
+                </div>
+                <div class="hashtags">#ChatGPT #Productividad #Transformación #AntesDespués #Tiempo #Eficiencia</div>
+            </div>
+            
+            <div class="content-template">
+                <div class="template-title">Stories (5 slides)</div>
+                <div class="template-content">
+                    <strong>Story 1:</strong> "¿Pierdes 2+ horas diarias con ChatGPT? 😱"<br>
+                    <strong>Story 2:</strong> "Eso son 10 horas a la semana"<br>
+                    <strong>Story 3:</strong> "ChatGPT Queue lo soluciona automáticamente ⚡"<br>
+                    <strong>Story 4:</strong> "Instalación en 30 segundos"<br>
+                    <strong>Story 5:</strong> "¿Listo para recuperar tu tiempo? 👇"
+                </div>
+                <div class="hashtags">#Stories #ChatGPT #Productividad #Tiempo</div>
+            </div>
+            
+            <div class="content-template">
+                <div class="template-title">Reels (30 segundos)</div>
+                <div class="template-content">
+                    <strong>Script:</strong><br>
+                    "¿Pierdes 2+ horas diarias con ChatGPT?<br>
+                    ChatGPT Queue las recupera automáticamente<br>
+                    Instalación en 30 segundos<br>
+                    ¿Listo para tu transformación?"<br><br>
+                    <strong>Música:</strong> Upbeat, energética<br>
+                    <strong>Texto en pantalla:</strong> "ChatGPT Queue - Recupera tu tiempo"
+                </div>
+                <div class="hashtags">#Reels #ChatGPT #Productividad #Video #Transformación</div>
+            </div>
+        </div>
+
+        <div class="metrics-section">
+            <h2 class="metrics-title">📊 Métricas de Contenido</h2>
+            
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-number">7</div>
+                    <div class="metric-label">Posts por semana</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">28</div>
+                    <div class="metric-label">Posts por mes</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">2.5%</div>
+                    <div class="metric-label">CTR Promedio</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">25%</div>
+                    <div class="metric-label">Engagement Rate</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">1,000</div>
+                    <div class="metric-label">Alcance Diario</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">250</div>
+                    <div class="metric-label">Interacciones Diarias</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <h3>📅 Calendario de Contenido Estratégico</h3>
+            <p style="font-size: 1.2em; margin: 20px 0;">
+                <strong>Plan de contenido optimizado para máxima engagement y conversión</strong>
+            </p>
+            <p style="font-size: 1.1em; margin: 20px 0;">
+                Facebook • Twitter • LinkedIn • Instagram • YouTube • Email
+            </p>
+            <p style="font-size: 0.9em; margin-top: 30px; opacity: 0.8;">
+                © 2024 - ChatGPT Queue Content Calendar. Sistema de contenido para crecimiento sostenible.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

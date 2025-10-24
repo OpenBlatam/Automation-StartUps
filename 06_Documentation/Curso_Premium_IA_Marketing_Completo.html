@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso Premium: Inteligencia Artificial Aplicada al Marketing</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            font-size: 2.2em;
+            text-align: center;
+        }
+        
+        h1:first-child {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            border: none;
+            margin: 0 0 30px 0;
+        }
+        
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #e74c3c;
+            padding-bottom: 8px;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+        
+        h3 {
+            color: #2980b9;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.4em;
+        }
+        
+        h4 {
+            color: #8e44ad;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            font-size: 1.2em;
+        }
+        
+        h5, h6 {
+            color: #27ae60;
+            margin-top: 12px;
+            margin-bottom: 6px;
+        }
+        
+        p {
+            margin-bottom: 12px;
+            text-align: justify;
+        }
+        
+        ul, ol {
+            margin-bottom: 15px;
+            padding-left: 25px;
+        }
+        
+        li {
+            margin-bottom: 5px;
+        }
+        
+        strong {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        em {
+            color: #8e44ad;
+            font-style: italic;
+        }
+        
+        code {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 3px;
+            padding: 2px 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        hr {
+            border: none;
+            height: 2px;
+            background-color: #3498db;
+            margin: 30px 0;
+        }
+        
+        .highlight {
+            background-color: #fff3cd;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            padding: 15px;
+            border-left: 4px solid #28a745;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .warning {
+            background-color: #f8d7da;
+            padding: 15px;
+            border-left: 4px solid #dc3545;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .info {
+            background-color: #d1ecf1;
+            padding: 15px;
+            border-left: 4px solid #17a2b8;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .module-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .module-header h2 {
+            color: white;
+            border: none;
+            margin: 0;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 3px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin: 2px;
+        }
+        
+        .badge.green {
+            background-color: #27ae60;
+        }
+        
+        .badge.blue {
+            background-color: #3498db;
+        }
+        
+        .badge.purple {
+            background-color: #8e44ad;
+        }
+        
+        .badge.orange {
+            background-color: #f39c12;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        @media print {
+            body {
+                background-color: white;
+            }
+            
+            .container {
+                box-shadow: none;
+                padding: 0;
+            }
+            
+            h1 {
+                page-break-before: always;
+            }
+            
+            h1:first-child {
+                page-break-before: avoid;
+            }
+            
+            h2 {
+                page-break-after: avoid;
+            }
+            
+            ul, ol {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 CURSO PREMIUM: INTELIGENCIA ARTIFICIAL APLICADA AL MARKETING</h1>
+        <h2>Programa de Certificación Profesional Avanzado</h2>
+        <h3>Transforma tu Carrera con IA: De Principiante a Experto en 8 Semanas</h3>
+        
+        <div class="info">
+            <h4>📋 Instrucciones para Convertir a PDF:</h4>
+            <ol>
+                <li><strong>Abre este archivo HTML</strong> en tu navegador web (Chrome, Firefox, Edge, Safari)</li>
+                <li><strong>Presiona Ctrl+P</strong> (Cmd+P en Mac) para abrir la ventana de impresión</li>
+                <li><strong>Selecciona "Guardar como PDF"</strong> como destino</li>
+                <li><strong>Ajusta la configuración:</strong>
+                    <ul>
+                        <li>Orientación: Vertical (Portrait)</li>
+                        <li>Tamaño: A4</li>
+                        <li>Márgenes: Mínimos o Personalizados</li>
+                        <li>Opciones: Incluir encabezados y pies de página</li>
+                    </ul>
+                </li>
+                <li><strong>Haz clic en "Guardar"</strong> y elige la ubicación para tu PDF</li>
+            </ol>
+        </div>
+        
+        <div class="success">
+            <h4>✅ Archivos Incluidos en este Curso:</h4>
+            <ul>
+                <li><strong>AI_Marketing_Course_Complete_Structure.md</strong> - Estructura académica completa</li>
+                <li><strong>AI_Marketing_Course_Resources_Delivery_Marketing_Feedback.md</strong> - Recursos y marketing</li>
+                <li><strong>Curso_Completo_Combinado.md</strong> - Versión combinada en Markdown</li>
+                <li><strong>Curso_Premium_IA_Marketing_Completo.html</strong> - Este archivo HTML</li>
+            </ul>
+        </div>
+        
+        <div class="highlight">
+            <h4>🎯 Contenido del Curso:</h4>
+            <ul>
+                <li><strong>8 Módulos Principales</strong> + 12 Módulos Especializados Opcionales</li>
+                <li><strong>100+ Herramientas de IA</strong> premium incluidas</li>
+                <li><strong>50+ Casos de Estudio</strong> reales por industria</li>
+                <li><strong>5 Especializaciones</strong> por industria</li>
+                <li><strong>Certificaciones</strong> verificables en blockchain</li>
+                <li><strong>Valor total:</strong> $15,000+ en herramientas y recursos</li>
+                <li><strong>Precio del curso:</strong> $497 (97% de descuento)</li>
+            </ul>
+        </div>
+        
+        <hr>
+        
+        <h2>📖 Para Leer el Contenido Completo:</h2>
+        <p>El contenido completo del curso está disponible en los archivos Markdown originales. Este archivo HTML sirve como una interfaz para convertir fácilmente el contenido a PDF.</p>
+        
+        <div class="warning">
+            <h4>⚠️ Nota Importante:</h4>
+            <p>Para obtener el contenido completo del curso, abre los archivos <code>AI_Marketing_Course_Complete_Structure.md</code> y <code>AI_Marketing_Course_Resources_Delivery_Marketing_Feedback.md</code> en un editor de Markdown o visor de texto.</p>
+        </div>
+        
+        <hr>
+        
+        <h2>🚀 Próximos Pasos:</h2>
+        <ol>
+            <li><strong>Convierte este HTML a PDF</strong> siguiendo las instrucciones arriba</li>
+            <li><strong>Revisa los archivos Markdown</strong> para el contenido completo</li>
+            <li><strong>Personaliza el contenido</strong> según tus necesidades</li>
+            <li><strong>Comparte el PDF</strong> con tu audiencia objetivo</li>
+        </ol>
+        
+        <div class="module-header">
+            <h2>🎓 ¡Felicitaciones por Crear tu Curso Premium de IA en Marketing!</h2>
+            <p>Has desarrollado un programa educativo completo y profesional que transformará la carrera de tus estudiantes.</p>
+        </div>
+        
+        <hr>
+        
+        <footer style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 2px solid #3498db; color: #666;">
+            <p><strong>© 2024 - Blatam AI Marketing. Todos los derechos reservados.</strong></p>
+            <p><em>Transformando profesionales, transformando industrias, transformando el mundo.</em></p>
+        </footer>
+    </div>
+</body>
+</html>

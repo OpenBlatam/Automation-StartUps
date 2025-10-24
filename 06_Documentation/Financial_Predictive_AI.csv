@@ -1,0 +1,30 @@
+Predicción,Valor Actual,Valor Predicho,Confianza %,Probabilidad,Acción Sugerida,Impacto,Prioridad
+PREDICCIONES DE INGRESOS,,,,,,,
+Ingresos 3 meses,57000,59000,85%,75%,Buscar oportunidades adicionales,Alto,Alta
+Ingresos 6 meses,57000,62000,80%,70%,Preparar para mayores ingresos,Alto,Alta
+Ingresos 12 meses,57000,68000,75%,65%,Planificar inversiones,Alto,Media
+Bonos Anuales,15000,18000,70%,60%,Aumentar ahorro,Medio,Media
+,,,,,,
+PREDICCIONES DE GASTOS,,,,,,,
+Gastos 3 meses,45000,46000,90%,80%,Controlar gastos variables,Medio,Media
+Gastos 6 meses,45000,48000,85%,75%,Optimizar presupuesto,Medio,Media
+Gastos 12 meses,45000,50000,80%,70%,Reducir gastos fijos,Alto,Alta
+Inflación Impacto,4%,5%,95%,90%,Ajustar presupuesto,Alto,Alta
+,,,,,,
+PREDICCIONES DE INVERSIONES,,,,,,,
+ROI Portafolio 3M,15%,16%,80%,70%,Mantener estrategia,Medio,Media
+ROI Portafolio 6M,15%,18%,75%,65%,Considerar más riesgo,Alto,Media
+ROI Portafolio 12M,15%,20%,70%,60%,Diversificar más,Alto,Alta
+Volatilidad Mercado,12%,15%,85%,80%,Preparar para volatilidad,Alto,Alta
+,,,,,,
+PREDICCIONES DE PATRIMONIO,,,,,,,
+Patrimonio 3 meses,1500000,1600000,85%,75%,Continuar ahorrando,Alto,Alta
+Patrimonio 6 meses,1500000,1750000,80%,70%,Acelerar inversiones,Alto,Alta
+Patrimonio 12 meses,1500000,2000000,75%,65%,Mantener disciplina,Alto,Media
+Patrimonio 5 años,1500000,5000000,60%,50%,Planificar a largo plazo,Alto,Media
+,,,,,,
+PREDICCIONES DE RIESGO,,,,,,,
+Probabilidad Recesión,15%,20%,90%,85%,Preparar fondo emergencia,Alto,Alta
+Probabilidad Desempleo,5%,8%,80%,70%,Diversificar ingresos,Alto,Media
+Probabilidad Crisis Salud,10%,12%,75%,65%,Mejorar seguro médico,Medio,Media
+Probabilidad Crisis Familiar,5%,7%,70%,60%,Fondo de emergencia,Medio,Media

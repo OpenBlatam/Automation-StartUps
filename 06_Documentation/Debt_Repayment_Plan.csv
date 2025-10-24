@@ -1,0 +1,13 @@
+Deudor,Saldo Inicial,Tasa % Anual,Pago Mínimo,Pago Extra,Pago Total,Saldo Final,Meses Restantes,Prioridad
+Tarjeta Visa,25000,24,2500,5000,=D2+E2,=B2-F2,=NPER(C2/12,-F2,B2),Alta
+Tarjeta Mastercard,15000,22,1500,3000,=D3+E3,=B3-F3,=NPER(C3/12,-F3,B3),Alta
+Préstamo Personal,30000,18,3000,2000,=D4+E4,=B4-F4,=NPER(C4/12,-F4,B4),Media
+Préstamo Auto,80000,12,4000,1000,=D5+E5,=B5-F5,=NPER(C5/12,-F5,B5),Media
+Hipoteca,1200000,8,12000,0,=D6+E6,=B6-F6,=NPER(C6/12,-F6,B6),Baja
+TOTAL,=SUM(B2:B6),,=SUM(D2:D6),=SUM(E2:E6),=SUM(F2:F6),=SUM(G2:G6),,
+,,,,,,
+ESTRATEGIA DE PAGO,,,,,,
+Método,Descripción,Total Intereses,Total Pagos,Tiempo Total,Recomendación
+Avalancha,Pagar primero la deuda con mayor tasa,=SUM(B2:B6)*0.15,=SUM(F2:F6)*12,=AVERAGE(H2:H6),Recomendado
+Bola de Nieve,Pagar primero la deuda más pequeña,=SUM(B2:B6)*0.18,=SUM(F2:F6)*15,=AVERAGE(H2:H6)+3,Alternativa
+Consolidación,Unificar todas las deudas,=SUM(B2:B6)*0.12,=SUM(F2:F6)*10,=AVERAGE(H2:H6)-2,Si calificas

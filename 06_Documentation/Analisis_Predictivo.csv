@@ -1,0 +1,21 @@
+Predicción,Probabilidad,Impacto,Acción Recomendada,Timeline
+PREDICCIONES DE INGRESOS,,,,,
+Ingresos +15% en 6 meses,85%,Alto,Invertir en capacitación,6 meses
+Bonos Q1 +3%,80%,Medio,Preparar para bonos,3 meses
+Incremento anual +2%,75%,Alto,Negociar aumento,12 meses
+Promoción +5%,70%,Muy Alto,Buscar promoción,6 meses
+Nuevo proyecto +3%,65%,Alto,Aplicar a proyectos,3 meses
+,,,,,,
+PREDICCIONES DE GASTOS,,,,,
+Alimentación +3%,90%,Bajo,Compras inteligentes,6 meses
+Transporte +5%,85%,Medio,Optimizar rutas,6 meses
+Servicios +8%,95%,Alto,Eficiencia energética,6 meses
+Marketing +10%,80%,Bajo,ROI positivo,6 meses
+Entretenimiento +2%,75%,Bajo,Controlar gastos,6 meses
+,,,,,,
+ANÁLISIS DE RIESGO,,,,,,
+Pérdida de empleo,15%,Alto,=B15*C15,Fondo emergencia 6M
+Enfermedad,20%,Medio,=B16*C16,Seguro de gastos médicos
+Recesión,30%,Alto,=B17*C17,Diversificar ingresos
+Inflación alta,60%,Medio,=B18*C18,Invertir en activos reales
+Devaluación,40%,Alto,=B19*C19,Diversificar monedas

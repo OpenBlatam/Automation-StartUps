@@ -1,0 +1,24 @@
+Métrica Biométrica,Sensor,Valor Actual,Valor Normal,Interpretación,Acción,Estado
+ANÁLISIS FISIOLÓGICO,,,,,,
+Frecuencia Cardíaca,Smart Watch,72 bpm,60-100 bpm,=IF(C2>D2*1.2,"Estrés Alto",IF(C2>D2*1.1,"Estrés Medio","Normal")),=IF(E2="Estrés Alto","Reducir gastos",IF(E2="Estrés Medio","Revisar presupuesto","Mantener")),✅ Activo
+Presión Arterial,Smart Watch,120/80,<140/90,=IF(C3>D3,"Hipertensión","Normal"),=IF(E3="Hipertensión","Consultar médico","Mantener"),✅ Activo
+Temperatura Corporal,Smart Watch,36.5°C,36-37°C,=IF(C4>D4,"Fiebre","Normal"),=IF(E4="Fiebre","Descansar","Mantener"),✅ Activo
+Nivel de Estrés,Smart Watch,6/10,<5/10,=IF(C5>D5,"Estrés Alto","Normal"),=IF(E5="Estrés Alto","Meditar","Mantener"),✅ Activo
+,,,,,,
+ANÁLISIS DE SUEÑO,,,,,,
+Calidad del Sueño,Smart Watch,7.5/10,>7/10,=IF(C7>D7,"Excelente","Mejorar"),=IF(E7="Mejorar","Rutina de sueño","Mantener"),✅ Activo
+Horas de Sueño,Smart Watch,7.5 horas,7-9 horas,=IF(C8>D8,"Suficiente","Insuficiente"),=IF(E8="Insuficiente","Dormir más","Mantener"),✅ Activo
+Fases del Sueño,Smart Watch,20% REM,20-25% REM,=IF(C9>D9,"Normal","Mejorar"),=IF(E9="Mejorar","Ejercicio","Mantener"),✅ Activo
+Despertares Nocturnos,Smart Watch,2 veces,<3 veces,=IF(C10<D10,"Normal","Mejorar"),=IF(E10="Mejorar","Ambiente","Mantener"),✅ Activo
+,,,,,,
+ANÁLISIS DE ACTIVIDAD,,,,,,
+Pasos Diarios,Smart Watch,8500,>10000,=IF(C12>D12,"Suficiente","Insuficiente"),=IF(E12="Insuficiente","Caminar más","Mantener"),✅ Activo
+Calorías Quemadas,Smart Watch,2200,2000-2500,=IF(C13>D13,"Alto","Normal"),=IF(E13="Alto","Descansar","Mantener"),✅ Activo
+Tiempo Activo,Smart Watch,45 min,>30 min,=IF(C14>D14,"Suficiente","Insuficiente"),=IF(E14="Insuficiente","Ejercitar","Mantener"),✅ Activo
+Frecuencia Cardíaca en Reposo,Smart Watch,65 bpm,60-100 bpm,=IF(C15>D15,"Alto","Normal"),=IF(E15="Alto","Cardio","Mantener"),✅ Activo
+,,,,,,
+ANÁLISIS EMOCIONAL,,,,,,
+Estado de Ánimo,Smart Watch,7/10,>6/10,=IF(C17>D17,"Positivo","Mejorar"),=IF(E17="Mejorar","Actividades","Mantener"),✅ Activo
+Nivel de Energía,Smart Watch,6/10,>7/10,=IF(C18>D18,"Bajo","Normal"),=IF(E18="Bajo","Descansar","Mantener"),✅ Activo
+Concentración,Smart Watch,8/10,>7/10,=IF(C19>D19,"Excelente","Mejorar"),=IF(E19="Mejorar","Meditar","Mantener"),✅ Activo
+Motivación,Smart Watch,7/10,>6/10,=IF(C20>D20,"Alta","Mejorar"),=IF(E20="Mejorar","Metas","Mantener"),✅ Activo

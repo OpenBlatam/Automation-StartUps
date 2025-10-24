@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📧 Secuencias de Email - ChatGPT Queue</title>
+    <style>
+        @page { size: A4; margin: 2cm; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+        }
+        
+        .container {
+            background: white;
+            margin: 20px;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            text-align: center;
+            padding: 50px;
+            margin: -40px -40px 40px -40px;
+            border-radius: 20px 20px 0 0;
+        }
+        
+        h1 {
+            font-size: 3em;
+            margin: 0;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.3em;
+            margin: 20px 0;
+            opacity: 0.9;
+        }
+        
+        .sequence-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border-left: 5px solid #74b9ff;
+        }
+        
+        .sequence-title {
+            color: #0984e3;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .email-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 4px solid #74b9ff;
+        }
+        
+        .email-header {
+            background: #2c2c54;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .email-subject {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .email-meta {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+        
+        .email-content {
+            line-height: 1.8;
+        }
+        
+        .email-content h3 {
+            color: #0984e3;
+            margin: 20px 0 10px 0;
+        }
+        
+        .email-content p {
+            margin: 15px 0;
+        }
+        
+        .cta-button {
+            background: linear-gradient(135deg, #00b894, #00a085);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            margin: 15px 0;
+            text-align: center;
+        }
+        
+        .metrics-box {
+            background: #e8f4f8;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #74b9ff;
+        }
+        
+        .metrics-title {
+            color: #0984e3;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .metric-item {
+            text-align: center;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+        }
+        
+        .metric-number {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #0984e3;
+        }
+        
+        .metric-label {
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .timing-guide {
+            background: #fff3cd;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .timing-title {
+            color: #856404;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .footer {
+            background: #2d3436;
+            color: white;
+            padding: 40px;
+            text-align: center;
+            margin: 40px -40px -40px -40px;
+            border-radius: 0 0 20px 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📧 Secuencias de Email Completas</h1>
+            <p class="subtitle">ChatGPT Queue - Sistema de Email Marketing Profesional</p>
+        </div>
+
+        <div class="sequence-section">
+            <h2 class="sequence-title">🎯 Secuencia 1: Welcome Series (7 emails)</h2>
+            <p><strong>Objetivo:</strong> Onboarding completo y conversión a cliente</p>
+            <p><strong>Duración:</strong> 14 días</p>
+            <p><strong>Audiencia:</strong> Nuevos suscriptores</p>
+
+            <div class="email-card">
+                <div class="email-header">
+                    <div class="email-subject">¡Bienvenido! Tu productividad está a punto de cambiar</div>
+                    <div class="email-meta">Enviado: Inmediatamente | Tono: Amigable</div>
+                </div>
+                <div class="email-content">
+                    <h3>¡Hola [NOMBRE]! 👋</h3>
+                    <p>Me da mucho gusto tenerte aquí. Soy [Tu Nombre], creador de ChatGPT Queue, y quiero contarte algo que va a cambiar completamente tu forma de trabajar con ChatGPT.</p>
+                    
+                    <p><strong>¿Sabías que el usuario promedio pierde 2+ horas diarias esperando respuestas de ChatGPT?</strong></p>
+                    
+                    <p>Eso son 10 horas a la semana. 520 horas al año. ¡Más de 21 días completos perdidos!</p>
+                    
+                    <p>ChatGPT Queue soluciona esto automáticamente. Te permite hacer cola de mensajes y recuperar esas 2 horas diarias.</p>
+                    
+                    <p>En los próximos días te voy a mostrar exactamente cómo funciona y por qué miles de personas ya no pueden vivir sin él.</p>
+                    
+                    <p>¡Bienvenido a la revolución de la productividad!</p>
+                    
+                    <p>Un abrazo,<br>[Tu Nombre]</p>
+                    
+                    <a href="#" class="cta-button">Ver Demo en Vivo</a>
+                </div>
+            </div>
+
+            <div class="email-card">
+                <div class="email-header">
+                    <div class="email-subject">Mi historia: De 2 horas perdidas a 2 horas ganadas</div>
+                    <div class="email-meta">Enviado: Día 2 | Tono: Storytelling</div>
+                </div>
+                <div class="email-content">
+                    <h3>La historia que cambió todo</h3>
+                    <p>Hace 6 meses, estaba exactamente donde tú estás ahora. Frustrado, perdiendo tiempo, sintiendo que ChatGPT me estaba consumiendo la vida.</p>
+                    
+                    <p><strong>El problema:</strong> Pasaba 2+ horas diarias esperando respuestas. Era como estar en una cola interminable.</p>
+                    
+                    <p><strong>La solución:</strong> Creé ChatGPT Queue para automatizar todo el proceso.</p>
+                    
+                    <p><strong>El resultado:</strong> Ahora tengo 2 horas extra cada día para lo que realmente importa.</p>
+                    
+                    <p>En el próximo email te muestro exactamente cómo funciona y por qué es tan poderoso.</p>
+                    
+                    <p>¿Listo para tu transformación?</p>
+                    
+                    <p>Con cariño,<br>[Tu Nombre]</p>
+                </div>
+            </div>
+
+            <div class="email-card">
+                <div class="email-header">
+                    <div class="email-subject">Demo: Cómo ChatGPT Queue ahorra 2 horas diarias</div>
+                    <div class="email-meta">Enviado: Día 3 | Tono: Educativo</div>
+                </div>
+                <div class="email-content">
+                    <h3>Mira esto en acción</h3>
+                    <p>En este video de 2 minutos te muestro exactamente cómo ChatGPT Queue funciona:</p>
+                    
+                    <p><strong>Paso 1:</strong> Instalas la extensión (30 segundos)</p>
+                    <p><strong>Paso 2:</strong> Configuras tu cola (2 minutos)</p>
+                    <p><strong>Paso 3:</strong> ¡Disfrutas de 2 horas extra cada día!</p>
+                    
+                    <p>Es así de simple. No necesitas conocimientos técnicos. No necesitas configuraciones complicadas.</p>
+                    
+                    <p>En el próximo email te cuento sobre las personas que ya están usando ChatGPT Queue y los resultados que están obteniendo.</p>
+                    
+                    <a href="#" class="cta-button">Ver Demo Completo</a>
+                </div>
+            </div>
+
+            <div class="email-card">
+                <div class="email-header">
+                    <div class="email-subject">Casos de éxito: María ahorró $2,000 en su primer mes</div>
+                    <div class="email-meta">Enviado: Día 5 | Tono: Social Proof</div>
+                </div>
+                <div class="email-content">
+                    <h3>Historias reales de personas reales</h3>
+                    <p><strong>María González, CEO de TechStart:</strong></p>
+                    <p>"Llevaba 3 meses perdiendo 2 horas diarias con ChatGPT. ChatGPT Queue me devolvió mi vida. En 1 semana recuperé mi inversión 10 veces."</p>
+                    
+                    <p><strong>Carlos Mendoza, Freelancer:</strong></p>
+                    <p>"Ahora puedo atender 3 clientes más cada mes. ChatGPT Queue me generó $2,000 adicionales en el primer mes."</p>
+                    
+                    <p><strong>Ana Rodríguez, Consultora:</strong></p>
+                    <p>"Mis clientes notan la diferencia. Respondo más rápido, con mejor calidad. ChatGPT Queue me hizo más profesional."</p>
+                    
+                    <p>¿Quieres ser el próximo caso de éxito?</p>
+                    
+                    <a href="#" class="cta-button">Quiero Mis 2 Horas Diarias</a>
+                </div>
+            </div>
+
+            <div class="email-card">
+                <div class="email-header">
+                    <div class="email-subject">Oferta especial: Solo para mis suscriptores</div>
+                    <div class="email-meta">Enviado: Día 7 | Tono: Urgente</div>
+                </div>
+                <div class="email-content">
+                    <h3>Oferta exclusiva para ti</h3>
+                    <p>Como agradecimiento por ser parte de esta comunidad, tengo una oferta especial solo para ti:</p>
+                    
+                    <p><strong>ChatGPT Queue por solo $19.99</strong><br>
+                    <del>Precio normal: $99.99</del><br>
+                    <strong>¡Ahorras $80!</strong></p>
+                    
+                    <p>Esta oferta es válida solo por 48 horas. Después vuelve al precio normal.</p>
+                    
+                    <p><strong>¿Por qué esta oferta?</strong><br>
+                    Quiero que experimentes la transformación que miles de personas ya están viviendo.</p>
+                    
+                    <p><strong>Garantía:</strong> Si no ahorras 2 horas diarias en 30 días, te devolvemos el 100%.</p>
+                    
+                    <a href="#" class="cta-button">Aprovechar Oferta - $19.99</a>
+                </div>
+            </div>
+
+            <div class="email-card">
+                <div class="email-header">
+                    <div class="email-subject">Última oportunidad: Se acaba en 24 horas</div>
+                    <div class="email-meta">Enviado: Día 9 | Tono: Urgente</div>
+                </div>
+                <div class="email-content">
+                    <h3>⏰ ÚLTIMA OPORTUNIDAD</h3>
+                    <p>Tu oferta especial se acaba en 24 horas. Después, ChatGPT Queue vuelve a su precio normal de $99.99.</p>
+                    
+                    <p>No quiero que te pierdas esta oportunidad. Miles de personas ya están ahorrando 2 horas diarias.</p>
+                    
+                    <p><strong>¿Qué pasa si no actúas ahora?</strong><br>
+                    - Pagarás $80 más mañana<br>
+                    - Seguirás perdiendo 2 horas diarias<br>
+                    - Tu competencia seguirá adelantándote</p>
+                    
+                    <p><strong>¿Qué pasa si actúas ahora?</strong><br>
+                    - Ahorras $80<br>
+                    - Recuperas 2 horas diarias<br>
+                    - Te adelantas a tu competencia</p>
+                    
+                    <a href="#" class="cta-button">COMPRAR AHORA - $19.99</a>
+                </div>
+            </div>
+
+            <div class="email-card">
+                <div class="email-header">
+                    <div class="email-subject">¡Gracias! Tu transformación comienza ahora</div>
+                    <div class="email-meta">Enviado: Día 14 | Tono: Agradecimiento</div>
+                </div>
+                <div class="email-content">
+                    <h3>¡Bienvenido a la familia!</h3>
+                    <p>Gracias por confiar en ChatGPT Queue. Tu transformación de productividad comienza ahora.</p>
+                    
+                    <p><strong>Próximos pasos:</strong></p>
+                    <p>1. Instala ChatGPT Queue (2 minutos)</p>
+                    <p>2. Configura tu primera cola (1 minuto)</p>
+                    <p>3. ¡Disfruta de 2 horas extra cada día!</p>
+                    
+                    <p>Si tienes cualquier pregunta, responde a este email. Estoy aquí para ayudarte.</p>
+                    
+                    <p>¡A por esas 2 horas extra!</p>
+                    
+                    <p>Con cariño,<br>[Tu Nombre]</p>
+                </div>
+            </div>
+
+            <div class="metrics-box">
+                <div class="metrics-title">📊 Métricas Esperadas - Welcome Series</div>
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <div class="metric-number">25%</div>
+                        <div class="metric-label">Open Rate</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-number">8%</div>
+                        <div class="metric-label">Click Rate</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-number">12%</div>
+                        <div class="metric-label">Conversión</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-number">$2,400</div>
+                        <div class="metric-label">Revenue/1000</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sequence-section">
+            <h2 class="sequence-title">🔄 Secuencia 2: Nurture Series (14 emails)</h2>
+            <p><strong>Objetivo:</strong> Educar y nutrir leads que no compraron</p>
+            <p><strong>Duración:</strong> 28 días</p>
+            <p><strong>Audiencia:</strong> Leads que no convirtieron en Welcome Series</p>
+
+            <div class="email-card">
+                <div class="email-header">
+                    <div class="email-subject">5 formas de maximizar ChatGPT (sin ChatGPT Queue)</div>
+                    <div class="email-meta">Enviado: Día 1 | Tono: Educativo</div>
+                </div>
+                <div class="email-content">
+                    <h3>Tips para optimizar ChatGPT</h3>
+                    <p>Mientras decides sobre ChatGPT Queue, aquí tienes 5 formas de optimizar tu uso actual de ChatGPT:</p>
+                    
+                    <p><strong>1. Usa prompts específicos</strong><br>
+                    En lugar de "ayúdame", escribe "escribe un email de ventas para [producto] dirigido a [audiencia]"</p>
+                    
+                    <p><strong>2. Proporciona contexto</strong><br>
+                    ChatGPT funciona mejor cuando entiende tu situación específica.</p>
+                    
+                    <p><strong>3. Haz preguntas de seguimiento</strong><br>
+                    No te conformes con la primera respuesta. Profundiza.</p>
+                    
+                    <p><strong>4. Usa ejemplos</strong><br>
+                    "Escribe como este ejemplo: [ejemplo]"</p>
+                    
+                    <p><strong>5. Sé iterativo</strong><br>
+                    Mejora gradualmente tus prompts basándote en los resultados.</p>
+                    
+                    <p>¿Quieres ver cómo ChatGPT Queue automatiza todo esto?</p>
+                    
+                    <a href="#" class="cta-button">Ver Cómo ChatGPT Queue Ayuda</a>
+                </div>
+            </div>
+
+            <div class="email-card">
+                <div class="email-header">
+                    <div class="email-subject">Caso de estudio: Cómo [Empresa] ahorró 10 horas/semana</div>
+                    <div class="email-meta">Enviado: Día 3 | Tono: Caso de Estudio</div>
+                </div>
+                <div class="email-content">
+                    <h3>Estudio de caso real</h3>
+                    <p><strong>Empresa:</strong> TechCorp (50 empleados)</p>
+                    <p><strong>Problema:</strong> Cada empleado perdía 2 horas diarias esperando respuestas de ChatGPT</p>
+                    <p><strong>Solución:</strong> Implementaron ChatGPT Queue en toda la empresa</p>
+                    
+                    <p><strong>Resultados después de 1 mes:</strong></p>
+                    <p>• 10 horas ahorradas por empleado por semana</p>
+                    <p>• $25,000 ahorrados en tiempo de productividad</p>
+                    <p>• 40% más proyectos completados</p>
+                    <p>• 95% de satisfacción de empleados</p>
+                    
+                    <p><strong>ROI:</strong> 2,500% en el primer mes</p>
+                    
+                    <p>¿Quieres ver cómo tu empresa puede obtener resultados similares?</p>
+                    
+                    <a href="#" class="cta-button">Calcular Mi ROI</a>
+                </div>
+            </div>
+
+            <div class="timing-guide">
+                <div class="timing-title">⏰ Guía de Timing</div>
+                <p><strong>Mejores horarios para enviar emails:</strong></p>
+                <p>• Martes: 10:00 AM - 12:00 PM</p>
+                <p>• Miércoles: 2:00 PM - 4:00 PM</p>
+                <p>• Jueves: 10:00 AM - 12:00 PM</p>
+                <p>• Evitar: Lunes por la mañana, Viernes por la tarde</p>
+            </div>
+        </div>
+
+        <div class="sequence-section">
+            <h2 class="sequence-title">💔 Secuencia 3: Reactivación (5 emails)</h2>
+            <p><strong>Objetivo:</strong> Reactivar usuarios inactivos</p>
+            <p><strong>Duración:</strong> 10 días</p>
+            <p><strong>Audiencia:</strong> Usuarios que no han abierto emails en 30 días</p>
+
+            <div class="email-card">
+                <div class="email-header">
+                    <div class="email-subject">¿Te extrañamos? 😢</div>
+                    <div class="email-meta">Enviado: Día 1 | Tono: Emocional</div>
+                </div>
+                <div class="email-content">
+                    <h3>Hace tiempo que no te vemos por aquí</h3>
+                    <p>Espero que estés bien. Hace un tiempo que no abres nuestros emails y me pregunto si algo pasó.</p>
+                    
+                    <p>Quizás estás muy ocupado, o tal vez nuestros emails no te están llegando correctamente.</p>
+                    
+                    <p>Si quieres seguir recibiendo nuestros consejos de productividad, solo responde "SÍ" a este email.</p>
+                    
+                    <p>Si prefieres que te deje en paz, también puedes responder "NO" y te eliminaremos de la lista.</p>
+                    
+                    <p>Tu tiempo es valioso, y respeto tu decisión.</p>
+                    
+                    <p>Con cariño,<br>[Tu Nombre]</p>
+                </div>
+            </div>
+
+            <div class="email-card">
+                <div class="email-header">
+                    <div class="email-subject">Última oportunidad: Oferta especial para ti</div>
+                    <div class="email-meta">Enviado: Día 5 | Tono: Última Oportunidad</div>
+                </div>
+                <div class="email-content">
+                    <h3>Esta es tu última oportunidad</h3>
+                    <p>Si no respondes a este email, te eliminaremos de nuestra lista para siempre.</p>
+                    
+                    <p>Pero antes de irte, quiero ofrecerte una última oportunidad:</p>
+                    
+                    <p><strong>ChatGPT Queue por solo $9.99</strong><br>
+                    <del>Precio normal: $99.99</del><br>
+                    <strong>¡90% de descuento!</strong></p>
+                    
+                    <p>Esta oferta es válida solo por 24 horas. Después, te eliminaremos de la lista.</p>
+                    
+                    <p>¿Quieres aprovechar esta última oportunidad?</p>
+                    
+                    <a href="#" class="cta-button">SÍ, QUIERO LA OFERTA</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <h3>📧 Sistema de Email Marketing Completo</h3>
+            <p style="font-size: 1.2em; margin: 20px 0;">
+                <strong>3 secuencias profesionales para maximizar conversiones</strong>
+            </p>
+            <p style="font-size: 1.1em; margin: 20px 0;">
+                Welcome Series • Nurture Series • Reactivación
+            </p>
+            <p style="font-size: 0.9em; margin-top: 30px; opacity: 0.8;">
+                © 2024 - ChatGPT Queue Email Marketing System. Templates profesionales listos para usar.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,178 @@
+{
+  "organizacion": {
+    "version": "2.0",
+    "ultima_actualizacion": "2024-10-08T15:30:00Z",
+    "descripcion": "Configuración del sistema de organización de documentos"
+  },
+  "carpetas_principales": {
+    "01_Python_Scripts": {
+      "descripcion": "Scripts de Python para automatización y procesamiento",
+      "tipos_archivos": [".py"],
+      "subcarpetas": [],
+      "archivos_importantes": [
+        "create_word_document.py",
+        "create_pdf.py",
+        "modular_ads_demo.py"
+      ]
+    },
+    "02_PowerShell_Scripts": {
+      "descripcion": "Scripts de PowerShell para optimización y automatización",
+      "tipos_archivos": [".ps1"],
+      "subcarpetas": [],
+      "archivos_importantes": [
+        "optimize_super_extreme_final.ps1",
+        "create_word_rtf.ps1",
+        "create_simple_html.ps1"
+      ]
+    },
+    "03_Marketing_Content": {
+      "descripcion": "Todo el contenido relacionado con marketing, cursos, webinars y IA",
+      "tipos_archivos": [".md", ".docx", ".pdf", ".html", ".rtf"],
+      "subcarpetas": [
+        "Cursos_IA_Marketing",
+        "Webinars_Presentaciones",
+        "Copywriting_Narrativas",
+        "Analisis_Mercado",
+        "Estrategias_Marketing",
+        "Contenido_Promocional",
+        "Documentos_Word",
+        "PDFs",
+        "HTMLs"
+      ],
+      "archivos_importantes": [
+        "Curso_IA_Marketing_Completo.md",
+        "Webinar_Curso_IA_Marketing_100_Pesos.md",
+        "ai_webinar_narratives.md"
+      ]
+    },
+    "05_Financial_Documents": {
+      "descripcion": "Documentos financieros, presupuestos y análisis económicos",
+      "tipos_archivos": [".md", ".csv"],
+      "subcarpetas": [
+        "Presupuestos",
+        "Analisis_Financieros",
+        "Plantillas",
+        "Metas_Objetivos",
+        "CSV_Data"
+      ],
+      "archivos_importantes": [
+        "Yearly_Financial_Goals_Worksheet.md",
+        "Monthly_Budget_Template.md",
+        "Dashboard_Inteligente.csv"
+      ]
+    },
+    "06_Technical_Documentation": {
+      "descripcion": "Documentación técnica, APIs, análisis y prompts",
+      "tipos_archivos": [".md"],
+      "subcarpetas": [
+        "APIs_Documentation",
+        "Prompts_IA",
+        "Resumenes_Ejecutivos",
+        "Analisis_Tecnicos",
+        "README_Files"
+      ],
+      "archivos_importantes": [
+        "API_DOCUMENTATION.md",
+        "PROMPT_ALPHA_FINANZAS.md",
+        "RESUMEN_EJECUTIVO_FINAL_COMPLETO_IA_MARKETING.md"
+      ]
+    },
+    "07_Ultimate_Systems": {
+      "descripcion": "Sistemas Ultimate y archivos de trascendencia",
+      "tipos_archivos": [".py", ".md"],
+      "subcarpetas": [],
+      "archivos_importantes": [
+        "ULTIMATE_UNIVERSAL_WISDOM_V43.py",
+        "TRASCENDENCIA_CUANTICA_DIVINA_ABSOLUTA_INFINITA_TRASCENDENTE_SUPREMA_UNIVERSAL_IA_MARKETING.md"
+      ]
+    },
+    "08_Strategic_Frameworks": {
+      "descripcion": "Marcos estratégicos y frameworks de planificación",
+      "tipos_archivos": [".md"],
+      "subcarpetas": [],
+      "archivos_importantes": [
+        "STRATEGIC_PLANNING_FRAMEWORK.md",
+        "STRATEGIC_PARTNERSHIP_FRAMEWORK.md",
+        "TECHNOLOGY_ROADMAP_STRATEGIC.md"
+      ]
+    },
+    "09_Implementation_Guides": {
+      "descripcion": "Guías de implementación y mejoras",
+      "tipos_archivos": [".md"],
+      "subcarpetas": [
+        "Mejoras_Sistema",
+        "Optimizaciones",
+        "Implementacion_Practica",
+        "Guias_Avanzadas"
+      ],
+      "archivos_importantes": [
+        "MEJORAS_ULTIMATE_AVANZADAS.md",
+        "OPTIMIZACION_CUANTICA_DIVINA_ABSOLUTA_INFINITA_TRASCENDENTE_SUPREMA_UNIVERSAL_IA_MARKETING.md"
+      ]
+    },
+    "10_Test_Files": {
+      "descripcion": "Archivos de prueba, documentación miscelánea y tests",
+      "tipos_archivos": [".md"],
+      "subcarpetas": ["tests"],
+      "archivos_importantes": []
+    }
+  },
+  "archivos_criticos": [
+    "ORGANIZACION_ARCHIVOS.md",
+    "INDICE_BUSQUEDA_GLOBAL.md",
+    "ACCESO_RAPIDO.md",
+    "config.json"
+  ],
+  "configuracion_mantenimiento": {
+    "frecuencia_automatica": "diaria",
+    "verificar_integridad": true,
+    "actualizar_indices": true,
+    "generar_reportes": true,
+    "limpiar_temporales": true,
+    "archivos_temporales": ["*.tmp", "*.temp", "*.bak", "*.backup", "*.old"]
+  },
+  "estadisticas": {
+    "total_archivos": 755,
+    "total_carpetas": 23,
+    "archivos_por_tipo": {
+      ".md": 600,
+      ".py": 63,
+      ".ps1": 8,
+      ".docx": 50,
+      ".pdf": 20,
+      ".html": 10,
+      ".csv": 4
+    }
+  },
+  "personalizacion": {
+    "favoritos": [
+      "Curso_IA_Marketing_Completo.md",
+      "Yearly_Financial_Goals_Worksheet.md",
+      "create_word_document.py",
+      "ULTIMATE_UNIVERSAL_WISDOM_V43.py"
+    ],
+    "archivos_en_progreso": [],
+    "tags_personalizados": {
+      "urgente": [],
+      "revisar": [],
+      "completado": []
+    }
+  },
+  "automatizacion": {
+    "scripts_disponibles": [
+      "mantenimiento_automatico.py",
+      "mantenimiento_automatico.ps1"
+    ],
+    "tareas_programadas": {
+      "actualizacion_indices": "diaria",
+      "limpieza_temporales": "semanal",
+      "reporte_estadisticas": "mensual"
+    }
+  }
+}
+
+
+
+
+
+

@@ -1,0 +1,83 @@
+# AI COURSE HR VERSION - EXCEL TEMPLATE
+# Specialized for Human Resources and Talent Management
+
+## HR METRICS
+HR_Metric,Current_Value,Target_Value,Performance_Score,Formula_Used
+Employee_Satisfaction,=4.7,=4.5,=B2/C2,=B2/C2
+Retention_Rate,=95%,=90%,=B3/C3,=B3/C3
+Hiring_Success_Rate,=88%,=85%,=B4/C4,=B4/C4
+Training_Completion,=92%,=90%,=B5/C5,=B5/C5
+Performance_Rating,=4.2,=4.0,=B6/C6,=B6/C6
+TOTAL,=0,=0,=AVERAGE(F2:F6),=AVERAGE(F2:F6)
+
+## TALENT ACQUISITION
+Acquisition_Metric,Current_Value,Target_Value,Success_Rate,Formula_Used
+Time_to_Hire,=25_days,=30_days,=C2/B2,=C2/B2
+Cost_per_Hire,=5000,=6000,=C3/B3,=C3/B3
+Quality_of_Hire,=8.5,=8.0,=B4/C4,=B4/C4
+Diversity_Rate,=65%,=60%,=B5/C5,=B5/C5
+TOTAL,=0,=0,=AVERAGE(F2:F5),=AVERAGE(F2:F5)
+
+## EMPLOYEE DEVELOPMENT
+Development_Area,Current_Score,Target_Score,Development_Index,Formula_Used
+Technical_Skills,=8.8,=8.5,=B2*C2*D2,=B2*C2*D2
+Leadership_Skills,=7.5,=7.0,=B3*C3*D3,=B3*C3*D3
+AI_ML_Skills,=9.2,=8.5,=B4*C4*D4,=B4*C4*D4
+Soft_Skills,=8.0,=7.5,=B5*C5*D5,=B5*C5*D5
+TOTAL,=8.375,=7.875,=AVERAGE(F2:F5),=AVERAGE(F2:F5)
+
+## PERFORMANCE MANAGEMENT
+Performance_Metric,Current_Value,Target_Value,Performance_Score,Formula_Used
+Goal_Achievement,=92%,=90%,=B2/C2,=B2/C2
+360_Feedback_Score,=4.3,=4.0,=B3/C3,=B3/C3
+Career_Development,=85%,=80%,=B4/C4,=B4/C4
+Innovation_Contribution,=8.5,=8.0,=B5/C5,=B5/C5
+TOTAL,=0,=0,=AVERAGE(F2:F5),=AVERAGE(F2:F5)
+
+## COMPENSATION & BENEFITS
+Compensation_Metric,Current_Value,Target_Value,Competitiveness_Score,Formula_Used
+Base_Salary_Ratio,=1.15,=1.10,=B2/C2,=B2/C2
+Bonus_Structure,=20%,=15%,=B3/C3,=B3/C3
+Equity_Participation,=85%,=80%,=B4/C4,=B4/C4
+Benefits_Satisfaction,=4.5,=4.0,=B5/C5,=B5/C5
+TOTAL,=0,=0,=AVERAGE(F2:F5),=AVERAGE(F2:F5)
+
+## WORKPLACE CULTURE
+Culture_Metric,Current_Score,Target_Score,Culture_Index,Formula_Used
+Team_Collaboration,=9.0,=8.5,=B2*C2*D2,=B2*C2*D2
+Innovation_Culture,=8.8,=8.0,=B3*C3*D3,=B3*C3*D3
+Work_Life_Balance,=8.5,=8.0,=B4*C4*D4,=B4*C4*D4
+Diversity_Inclusion,=8.2,=8.0,=B5*C5*D5,=B5*C5*D5
+TOTAL,=8.625,=8.125,=AVERAGE(F2:F5),=AVERAGE(F2:F5)
+
+## LEARNING & DEVELOPMENT
+L&D_Metric,Current_Value,Target_Value,Learning_Score,Formula_Used
+Training_Hours_Per_Employee,=40,=35,=B2/C2,=B2/C2
+Certification_Rate,=75%,=70%,=B3/C3,=B3/C3
+Internal_Training_Quality,=8.8,=8.5,=B4/C4,=B4/C4
+External_Training_Budget,=5000,=4000,=B5/C5,=B5/C5
+TOTAL,=0,=0,=AVERAGE(F2:F5),=AVERAGE(F2:F5)
+
+## EMPLOYEE ENGAGEMENT
+Engagement_Metric,Current_Score,Target_Score,Engagement_Index,Formula_Used
+Job_Satisfaction,=4.6,=4.5,=B2*C2*D2,=B2*C2*D2
+Company_Commitment,=4.4,=4.0,=B3*C3*D3,=B3*C3*D3
+Career_Opportunities,=4.2,=4.0,=B4*C4*D4,=B4*C4*D4
+Recognition_Programs,=4.5,=4.0,=B5*C5*D5,=B5*C5*D5
+TOTAL,=4.425,=4.125,=AVERAGE(F2:F5),=AVERAGE(F2:F5)
+
+## HR ANALYTICS
+Analytics_Metric,Current_Value,Target_Value,Predictive_Score,Formula_Used
+Turnover_Prediction,=5%,=8%,=C2/B2,=C2/B2
+Performance_Prediction,=85%,=80%,=B3/C3,=B3/C3
+Promotion_Readiness,=70%,=65%,=B4/C4,=B4/C4
+Skill_Gap_Analysis,=15%,=20%,=C5/B5,=C5/B5
+TOTAL,=0,=0,=AVERAGE(F2:F5),=AVERAGE(F2:F5)
+
+## HR DASHBOARD
+KPI,Current_Value,Target_Value,Status,Formula_Used
+Employee_Satisfaction,=4.7,=4.5,=IF(B2>=C2,"Exceeding","Below"),=IF(B2>=C2,"Exceeding","Below")
+Retention_Rate,=95%,=90%,=IF(B3>=C3,"Exceeding","Below"),=IF(B3>=C3,"Exceeding","Below")
+Hiring_Success,=88%,=85%,=IF(B4>=C4,"Exceeding","Below"),=IF(B4>=C4,"Exceeding","Below")
+Performance_Rating,=4.2,=4.0,=IF(B5>=C5,"Exceeding","Below"),=IF(B5>=C5,"Exceeding","Below")
+TOTAL,=0,=0,=AVERAGE(E2:E5),=AVERAGE(E2:E5)

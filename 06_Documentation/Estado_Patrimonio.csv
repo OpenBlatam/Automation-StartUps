@@ -1,0 +1,18 @@
+Activo/Pasivo,Descripción,Valor Actual,Valor Original,Ganancia/Pérdida,Notas
+ACTIVOS,,,,,
+Efectivo,Cuenta corriente,50000,50000,=C2-D2,Disponible inmediatamente
+Ahorros,Cuenta de ahorros,100000,80000,=C3-D3,Fondo de emergencia
+Inversiones,Portafolio diversificado,300000,250000,=C4-D4,Acciones bonos ETFs
+Casa,Valor de mercado,2000000,1800000,=C5-D5,Propiedad principal
+Auto,Valor actual,200000,300000,=C6-D6,Depreciación normal
+Joyería,Valor de mercado,50000,40000,=C7-D7,Inversión en oro
+TOTAL ACTIVOS,,=SUM(C2:C7),,=SUM(E2:E7),
+,,,,,
+PASIVOS,,,,,
+Hipoteca,Saldo pendiente,1200000,1500000,=C11-D11,15 años restantes
+Préstamo Auto,Saldo pendiente,80000,150000,=C12-D12,3 años restantes
+Tarjetas de Crédito,Saldo total,50000,0,=C13-D13,Pagar en 12 meses
+Préstamo Personal,Saldo pendiente,30000,50000,=C14-D14,2 años restantes
+TOTAL PASIVOS,,=SUM(C11:C14),,=SUM(E11:E14),
+,,,,,
+PATRIMONIO NETO,,=C8-C15,,=E8-E15,Activos - Pasivos

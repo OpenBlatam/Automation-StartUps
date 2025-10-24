@@ -1,0 +1,13 @@
+Escenario,Probabilidad,Ingresos,Gastos,Ahorros,Patrimonio 1A,Acción,Preparación
+Optimista,25%,70000,45000,25000,1800000,Invertir más,Listo
+Realista,50%,60000,50000,10000,1500000,Mantener,En curso
+Pesimista,20%,50000,55000,-5000,1200000,Reducir gastos,Preparar
+Crisis,5%,40000,60000,-20000,900000,Fondo emergencia,Urgente
+,,,,,,
+ANÁLISIS DE SENSIBILIDAD,,,,,
+Variable,Cambio,Impacto Ingresos,Impacto Gastos,Impacto Neto,Acción
+Inflación +2%,+2%,0,+4%,-2%,Ajustar presupuesto
+Salario +10%,+10%,+10%,0,+10%,Aumentar ahorros
+Desempleo,-50%,-50%,-20%,-30%,Activar fondo emergencia
+Recesión,-20%,-20%,+5%,-25%,Reducir gastos no esenciales
+Boom económico,+30%,+30%,+10%,+20%,Acelerar inversiones

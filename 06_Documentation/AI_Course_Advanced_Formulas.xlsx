@@ -1,0 +1,175 @@
+# AI COURSE ADVANCED FORMULAS - EXCEL TEMPLATE
+# Advanced Excel Formulas and Functions for Financial Analysis
+
+## REVENUE PROJECTION FORMULAS
+Month,Leads,Conversion_Rate,Average_Price,Revenue,Formula_Used
+1,=500*POWER(1.2,0),=15%,=497,=B2*C2*D2,=B2*C2*D2
+2,=500*POWER(1.2,1),=15%+0.5%,=497*1.02,=B3*C3*D3,=B3*C3*D3
+3,=500*POWER(1.2,2),=15%+1%,=497*POWER(1.02,2),=B4*C4*D4,=B4*C4*D4
+4,=500*POWER(1.2,3),=15%+1.5%,=497*POWER(1.02,3),=B5*C5*D5,=B5*C5*D5
+5,=500*POWER(1.2,4),=15%+2%,=497*POWER(1.02,4),=B6*C6*D6,=B6*C6*D6
+6,=500*POWER(1.2,5),=15%+2.5%,=497*POWER(1.02,5),=B7*C7*D7,=B7*C7*D7
+7,=500*POWER(1.2,6),=15%+3%,=497*POWER(1.02,6),=B8*C8*D8,=B8*C8*D8
+8,=500*POWER(1.2,7),=15%+3.5%,=497*POWER(1.02,7),=B9*C9*D9,=B9*C9*D9
+9,=500*POWER(1.2,8),=15%+4%,=497*POWER(1.02,8),=B10*C10*D10,=B10*C10*D10
+10,=500*POWER(1.2,9),=15%+4.5%,=497*POWER(1.02,9),=B11*C11*D11,=B11*C11*D11
+11,=500*POWER(1.2,10),=15%+5%,=497*POWER(1.02,10),=B12*C12*D12,=B12*C12*D12
+12,=500*POWER(1.2,11),=15%+5.5%,=497*POWER(1.02,11),=B13*C13*D13,=B13*C13*D13
+
+## CUSTOMER LIFETIME VALUE FORMULAS
+Cohort,Initial_Customers,Retention_Rate,Revenue_per_Customer,Churn_Rate,LTV,Formula_Used
+1,=1000,=95%,=3200,=1-B3,=B3*D3*C3,=B3*D3*C3
+2,=1200,=95%+1%,=3200*1.02,=1-B4,=B4*D4*C4,=B4*D4*C4
+3,=1500,=95%+2%,=3200*POWER(1.02,2),=1-B5,=B5*D5*C5,=B5*D5*C5
+4,=1800,=95%+3%,=3200*POWER(1.02,3),=1-B6,=B6*D6*C6,=B6*D6*C6
+5,=2200,=95%+4%,=3200*POWER(1.02,4),=1-B7,=B7*D7*C7,=B7*D7*C7
+6,=2700,=95%+5%,=3200*POWER(1.02,5),=1-B8,=B8*D8*C8,=B8*D8*C8
+7,=3300,=95%+6%,=3200*POWER(1.02,6),=1-B9,=B9*D9*C9,=B9*D9*C9
+8,=4000,=95%+7%,=3200*POWER(1.02,7),=1-B10,=B10*D10*C10,=B10*D10*C10
+9,=4900,=95%+8%,=3200*POWER(1.02,8),=1-B11,=B11*D11*C11,=B11*D11*C11
+10,=6000,=95%+9%,=3200*POWER(1.02,9),=1-B12,=B12*D12*C12,=B12*D12*C12
+
+## MONTE CARLO SIMULATION FORMULAS
+Simulation_Run,Base_Revenue,Random_Factor,Revenue_Scenario,Probability,Confidence_Interval,Formula_Used
+1,=1000000,=RAND(),=B2*C2,=NORM.DIST(D2,1000000,200000,TRUE),=NORM.INV(0.05,1000000,200000),=B2*C2
+2,=1000000,=RAND(),=B3*C3,=NORM.DIST(D3,1000000,200000,TRUE),=NORM.INV(0.95,1000000,200000),=B3*C3
+3,=1000000,=RAND(),=B4*C4,=NORM.DIST(D4,1000000,200000,TRUE),=NORM.INV(0.05,1000000,200000),=B4*C4
+4,=1000000,=RAND(),=B5*C5,=NORM.DIST(D5,1000000,200000,TRUE),=NORM.INV(0.95,1000000,200000),=B5*C5
+5,=1000000,=RAND(),=B6*C6,=NORM.DIST(D6,1000000,200000,TRUE),=NORM.INV(0.05,1000000,200000),=B6*C6
+6,=1000000,=RAND(),=B7*C7,=NORM.DIST(D7,1000000,200000,TRUE),=NORM.INV(0.95,1000000,200000),=B7*C7
+7,=1000000,=RAND(),=B8*C8,=NORM.DIST(D8,1000000,200000,TRUE),=NORM.INV(0.05,1000000,200000),=B8*C8
+8,=1000000,=RAND(),=B9*C9,=NORM.DIST(D9,1000000,200000,TRUE),=NORM.INV(0.95,1000000,200000),=B9*C9
+9,=1000000,=RAND(),=B10*C10,=NORM.DIST(D10,1000000,200000,TRUE),=NORM.INV(0.05,1000000,200000),=B10*C10
+10,=1000000,=RAND(),=B11*C11,=NORM.DIST(D11,1000000,200000,TRUE),=NORM.INV(0.95,1000000,200000),=B11*C11
+
+## FINANCIAL RATIOS FORMULAS
+Metric,Formula,Current_Value,Industry_Average,Performance_Score,Formula_Used
+Current_Ratio,=Current_Assets/Current_Liabilities,=2.7,=2.0,=B2/C2,=B2/C2
+Quick_Ratio,=(Current_Assets-Inventory)/Current_Liabilities,=2.5,=1.5,=B3/C3,=B3/C3
+Debt_to_Equity,=Total_Debt/Total_Equity,=0,=0.5,=IF(C4=0,0,B4/C4),=IF(C4=0,0,B4/C4)
+Return_on_Equity,=Net_Income/Total_Equity,=35%,=15%,=B5/C5,=B5/C5
+Return_on_Assets,=Net_Income/Total_Assets,=25%,=10%,=B6/C6,=B6/C6
+Gross_Margin,=Gross_Profit/Revenue,=67%,=50%,=B7/C7,=B7/C7
+Operating_Margin,=Operating_Income/Revenue,=62%,=20%,=B8/C8,=B8/C8
+Net_Margin,=Net_Income/Revenue,=62%,=15%,=B9/C9,=B9/C9
+Asset_Turnover,=Revenue/Total_Assets,=1.5,=1.0,=B10/C10,=B10/C10
+
+## CASH FLOW PROJECTION FORMULAS
+Month,Revenue,Operating_Expenses,EBITDA,Depreciation,EBIT,Interest,EBT,Tax,Net_Income,Formula_Used
+1,=94152,=9147,=B2-C2,=0,=D2-E2,=0,=F2-G2,=H2*0.25,=H2-I2,=B2-C2-E2-G2-I2
+2,=115346,=10346,=B3-C3,=0,=D3-E3,=0,=F3-G3,=H3*0.25,=H3-I3,=B3-C3-E3-G3-I3
+3,=144668,=12668,=B4-C4,=0,=D4-E4,=0,=F4-G4,=H4*0.25,=H4-I4,=B4-C4-E4-G4-I4
+4,=173990,=15990,=B5-C5,=0,=D5-E5,=0,=F5-G5,=H5*0.25,=H5-I5,=B5-C5-E5-G5-I5
+5,=212441,=19441,=B6-C6,=0,=D6-E6,=0,=F6-G6,=H6*0.25,=H6-I6,=B6-C6-E6-G6-I6
+6,=260904,=105904,=B7-C7,=50000,=D7-E7,=0,=F7-G7,=H7*0.25,=H7-I7,=B7-C7-E7-G7-I7
+7,=318535,=123535,=B8-C8,=25000,=D8-E8,=0,=F8-G8,=H8*0.25,=H8-I8,=B8-C8-E8-G8-I8
+8,=386166,=144166,=B9-C9,=25000,=D9-E9,=0,=F9-G9,=H9*0.25,=H9-I9,=B9-C9-E9-G9-I9
+9,=464371,=171371,=B10-C10,=50000,=D10-E10,=0,=F10-G10,=H10*0.25,=H10-I10,=B10-C10-E10-G10-I10
+10,=550446,=198446,=B11-C11,=25000,=D11-E11,=0,=F11-G11,=H11*0.25,=H11-I11,=B11-C11-E11-G11-I11
+11,=646975,=228975,=B12-C12,=25000,=D12-E12,=0,=F12-G12,=H12*0.25,=H12-I12,=B12-C12-E12-G12-I12
+12,=753370,=261370,=B13-C13,=100000,=D13-E13,=0,=F13-G13,=H13*0.25,=H13-I13,=B13-C13-E13-G13-I13
+
+## BREAK-EVEN ANALYSIS FORMULAS
+Product,Price,Variable_Cost,Contribution_Margin,Fixed_Cost,Break_Even_Units,Break_Even_Revenue,Formula_Used
+Webinar,=100,=15,=B2-C2,=5000,=D3/E2,=F2*B2,=D3/E2*B2
+Course,=497,=49.7,=B3-C3,=50000,=D3/E3,=F3*B3,=D3/E3*B3
+Mentoring,=1997,=199.7,=B4-C4,=100000,=D3/E4,=F4*B4,=D3/E4*B4
+SaaS,=97,=9.7,=B5-C5,=20000,=D3/E5,=F5*B5,=D3/E5*B5
+Certification,=1497,=149.7,=B6-C6,=30000,=D3/E6,=F6*B6,=D3/E6*B6
+Consulting,=5000,=500,=B7-C7,=50000,=D3/E7,=F7*B7,=D3/E7*B7
+
+## SENSITIVITY ANALYSIS FORMULAS
+Variable,Base_Value,Low_Value,High_Value,Revenue_Impact,Profit_Impact,Elasticity,Formula_Used
+Price,=497,=397,=597,=(D2-C2)/C2,=(D2-C2)/C2*0.8,=E2/F2,=(D2-C2)/C2
+Volume,=1000,=800,=1200,=(D3-C3)/C3,=(D3-C3)/C3*0.9,=E3/F3,=(D3-C3)/C3
+Conversion_Rate,=15%,=12%,=18%,=(D4-C4)/C4,=(D4-C4)/C4*0.7,=E4/F4,=(D4-C4)/C4
+Churn_Rate,=3%,=2%,=5%,=(D5-C5)/C5,=(D5-C5)/C5*0.6,=E5/F5,=(D5-C5)/C5
+CAC,=12.50,=10.00,=15.00,=(D6-C6)/C6,=(D6-C6)/C6*0.5,=E6/F6,=(D6-C6)/C6
+LTV,=3200,=2800,=3600,=(D7-C7)/C7,=(D7-C7)/C7*0.8,=E7/F7,=(D7-C7)/C7
+
+## CUSTOMER ACQUISITION COST FORMULAS
+Channel,Spend,Leads,Conversions,Revenue,CAC,LTV,LTV_CAC_Ratio,ROI,Formula_Used
+Facebook_Ads,=2400,=130,=20,=57000,=B2/C2,=3200,=G2/F2,=(D2-B2)/B2,=B2/C2
+Google_Ads,=1800,=98,=15,=42750,=B3/C3,=3200,=G3/F3,=(D3-B3)/B3,=B3/C3
+LinkedIn_Ads,=1200,=65,=10,=28500,=B4/C4,=3200,=G4/F4,=(D4-B4)/B4,=B4/C4
+Email_Marketing,=300,=33,=16,=45600,=B5/C5,=3200,=G5/F5,=(D5-B5)/B5,=B5/C5
+Referrals,=300,=16,=8,=22800,=B6/C6,=3200,=G6/F6,=(D6-B6)/B6,=B6/C6
+Organic_Search,=0,=50,=8,=15000,=B7/C7,=3200,=G7/F7,=(D7-B7)/B7,=B7/C7
+Direct_Traffic,=0,=30,=5,=10000,=B8/C8,=3200,=G8/F8,=(D8-B8)/B8,=B8/C8
+
+## PREDICTIVE ANALYTICS FORMULAS
+Metric,Historical_Data,Seasonal_Factor,Trend_Factor,Predicted_Value,Confidence_Interval,Formula_Used
+Revenue,=1000000,=1.1,=1.2,=B2*C2*D2,=E2*0.2,=B2*C2*D2
+Customers,=1000,=1.05,=1.15,=B3*C3*D3,=E3*0.15,=B3*C3*D3
+Churn_Rate,=3%,=0.9,=0.95,=B4*C4*D4,=E4*0.1,=B4*C4*D4
+CAC,=12.50,=0.95,=0.9,=B5*C5*D5,=E5*0.05,=B5*C5*D5
+LTV,=3200,=1.1,=1.1,=B6*C6*D6,=E6*0.1,=B6*C6*D6
+MRR,=41320,=1.05,=1.1,=B7*C7*D7,=E7*0.1,=B7*C7*D7
+
+## RISK ASSESSMENT FORMULAS
+Risk_Factor,Probability,Impact,Score,Expected_Loss,Value_at_Risk,Formula_Used
+Market_Saturation,=60%,=High,=B2*C2,=D2*1000000,=NORM.INV(0.05,0,100000),=B2*C2
+Economic_Recession,=40%,=High,=B3*C3,=D3*1000000,=NORM.INV(0.05,0,100000),=B3*C3
+Technology_Disruption,=30%,=Very_High,=B4*C4,=D4*1000000,=NORM.INV(0.05,0,100000),=B4*C4
+New_Competitors,=70%,=Medium,=B5*C5,=D5*1000000,=NORM.INV(0.05,0,100000),=B5*C5
+Key_Personnel_Loss,=25%,=High,=B6*C6,=D6*1000000,=NORM.INV(0.05,0,100000),=B6*C6
+Regulatory_Changes,=30%,=Medium,=B7*C7,=D7*1000000,=NORM.INV(0.05,0,100000),=B7*C7
+
+## VALUATION FORMULAS
+Method,Revenue,EBITDA,Multiple,Value,Assumptions,Formula_Used
+DCF_5_Year,=10000000,=7000000,=0,=NPV(0.15,B2:B6),=15%_discount_rate,=NPV(0.15,B2:B6)
+Revenue_Multiple,=10000000,=0,=6,=B2*C2,=Industry_standard,=B2*C2
+EBITDA_Multiple,=0,=7000000,=7,=B3*C3,=Conservative,=B3*C3
+Comparable_Companies,=10000000,=0,=5.3,=B2*C2,=Market_comps,=B2*C2
+Precedent_Transactions,=10000000,=0,=6.7,=B2*C2,=Recent_deals,=B2*C2
+Weighted_Average,=0,=0,=0,=AVERAGE(D2:D6),=Multiple_methods,=AVERAGE(D2:D6)
+
+## OPTIMIZATION FORMULAS
+Variable,Current_Value,Optimal_Value,Improvement_Potential,Revenue_Impact,Profit_Impact,Formula_Used
+Price,=497,=597,=(B2-A2)/A2,=C2*1000000,=C2*800000,=(B2-A2)/A2
+Conversion_Rate,=15%,=22%,=(B3-A3)/A3,=C3*1000000,=C3*800000,=(B3-A3)/A3
+Churn_Rate,=3%,=2%,=(A4-B4)/A4,=C4*1000000,=C4*800000,=(A4-B4)/A4
+CAC,=12.50,=10.00,=(A5-B5)/A5,=C5*1000000,=C5*800000,=(A5-B5)/A5
+LTV,=3200,=4000,=(B6-A6)/A6,=C6*1000000,=C6*800000,=(B6-A6)/A6
+Marketing_Budget,=6000,=8000,=(B7-A7)/A7,=C7*1000000,=C7*800000,=(B7-A7)/A7
+
+## DYNAMIC DASHBOARD FORMULAS
+Metric,Current_Value,Target_Value,Status,Performance_Score,Visual_Indicator,Formula_Used
+Monthly_Revenue,=753370,=500000,=IF(B2>=C2,"Exceeding","Below"),=B2/C2,=IF(D2>=1,"🟢","🔴"),=IF(B2>=C2,"Exceeding","Below")
+Monthly_Profit,=476211,=250000,=IF(B3>=C3,"Exceeding","Below"),=B3/C3,=IF(D3>=1,"🟢","🔴"),=IF(B3>=C3,"Exceeding","Below")
+Customer_Count,=900,=500,=IF(B4>=C4,"Exceeding","Below"),=B4/C4,=IF(D4>=1,"🟢","🔴"),=IF(B4>=C4,"Exceeding","Below")
+Churn_Rate,=3%,=5%,=IF(B5<=C5,"Exceeding","Below"),=C5/B5,=IF(D5>=1,"🟢","🔴"),=IF(B5<=C5,"Exceeding","Below")
+CAC,=12.50,=15.00,=IF(B6<=C6,"Exceeding","Below"),=C6/B6,=IF(D6>=1,"🟢","🔴"),=IF(B6<=C6,"Exceeding","Below")
+LTV,=3200,=3000,=IF(B7>=C7,"Exceeding","Below"),=B7/C7,=IF(D7>=1,"🟢","🔴"),=IF(B7>=C7,"Exceeding","Below")
+
+## AUTOMATED ALERT FORMULAS
+Alert_Condition,Current_Value,Threshold,Status,Priority,Action_Required,Formula_Used
+Revenue_Drop,=753370,=400000,=IF(B2<C2,"ALERT","OK"),=IF(D2="ALERT","HIGH","LOW"),=IF(D2="ALERT","Review","None"),=IF(B2<C2,"ALERT","OK")
+Churn_Increase,=3%,=5%,=IF(B3>C3,"ALERT","OK"),=IF(D3="ALERT","HIGH","LOW"),=IF(D3="ALERT","Review","None"),=IF(B3>C3,"ALERT","OK")
+CAC_Increase,=12.50,=20,=IF(B4>C4,"ALERT","OK"),=IF(D4="ALERT","HIGH","LOW"),=IF(D4="ALERT","Review","None"),=IF(B4>C4,"ALERT","OK")
+Cash_Flow_Negative,=476211,=0,=IF(B5<C5,"ALERT","OK"),=IF(D5="ALERT","CRITICAL","LOW"),=IF(D5="ALERT","Urgent","None"),=IF(B5<C5,"ALERT","OK")
+Support_Ticket_Spike,=8,=20,=IF(B6>C6,"ALERT","OK"),=IF(D6="ALERT","MEDIUM","LOW"),=IF(D6="ALERT","Review","None"),=IF(B6>C6,"ALERT","OK")
+
+## DATA VALIDATION FORMULAS
+Field,Validation_Rule,Error_Message,Current_Value,Is_Valid,Formula_Used
+Revenue,=B2>0,=Revenue_must_be_positive,=753370,=IF(B2>0,TRUE,FALSE),=IF(B2>0,TRUE,FALSE)
+Churn_Rate,=AND(B3>=0,B3<=1),=Churn_rate_must_be_between_0_and_1,=3%,=IF(AND(B3>=0,B3<=1),TRUE,FALSE),=IF(AND(B3>=0,B3<=1),TRUE,FALSE)
+CAC,=B4>0,=CAC_must_be_positive,=12.50,=IF(B4>0,TRUE,FALSE),=IF(B4>0,TRUE,FALSE)
+LTV,=B5>0,=LTV_must_be_positive,=3200,=IF(B5>0,TRUE,FALSE),=IF(B5>0,TRUE,FALSE)
+Conversion_Rate,=AND(B6>=0,B6<=1),=Conversion_rate_must_be_between_0_and_1,=15%,=IF(AND(B6>=0,B6<=1),TRUE,FALSE),=IF(AND(B6>=0,B6<=1),TRUE,FALSE)
+
+## TREND ANALYSIS FORMULAS
+Metric,Month_1,Month_2,Month_3,Month_4,Month_5,Trend,Formula_Used
+Revenue,=94152,=115346,=144668,=173990,=212441,=SLOPE(B2:F2,{1,2,3,4,5}),=SLOPE(B2:F2,{1,2,3,4,5})
+Customers,=75,=90,=108,=130,=156,=SLOPE(B3:F3,{1,2,3,4,5}),=SLOPE(B3:F3,{1,2,3,4,5})
+Churn_Rate,=5%,=4%,=3.5%,=3%,=2.5%,=SLOPE(B4:F4,{1,2,3,4,5}),=SLOPE(B4:F4,{1,2,3,4,5})
+CAC,=21.63,=18.75,=16.25,=14.5,=12.5,=SLOPE(B5:F5,{1,2,3,4,5}),=SLOPE(B5:F5,{1,2,3,4,5})
+LTV,=3200,=3200,=3200,=3200,=3200,=SLOPE(B6:F6,{1,2,3,4,5}),=SLOPE(B6:F6,{1,2,3,4,5})
+
+## CORRELATION ANALYSIS FORMULAS
+Variable_1,Variable_2,Correlation,Strength,Interpretation,Formula_Used
+Revenue,Marketing_Spend,=CORREL(B2:B12,C2:C12),=IF(ABS(D2)>0.7,"Strong",IF(ABS(D2)>0.5,"Medium","Weak")),=IF(D2>0,"Positive","Negative"),=CORREL(B2:B12,C2:C12)
+Churn_Rate,Support_Tickets,=CORREL(B3:B13,C3:C13),=IF(ABS(D3)>0.7,"Strong",IF(ABS(D3)>0.5,"Medium","Weak")),=IF(D3>0,"Positive","Negative"),=CORREL(B3:B13,C3:C13)
+CAC,Conversion_Rate,=CORREL(B4:B14,C4:C14),=IF(ABS(D4)>0.7,"Strong",IF(ABS(D4)>0.5,"Medium","Weak")),=IF(D4>0,"Positive","Negative"),=CORREL(B4:B14,C4:C14)
+LTV,Retention_Rate,=CORREL(B5:B15,C5:C15),=IF(ABS(D5)>0.7,"Strong",IF(ABS(D5)>0.5,"Medium","Weak")),=IF(D5>0,"Positive","Negative"),=CORREL(B5:B15,C5:C15)
+Revenue,Team_Size,=CORREL(B6:B16,C6:C16),=IF(ABS(D6)>0.7,"Strong",IF(ABS(D6)>0.5,"Medium","Weak")),=IF(D6>0,"Positive","Negative"),=CORREL(B6:B16,C6:C16)

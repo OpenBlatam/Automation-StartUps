@@ -1,0 +1,31 @@
+Dispositivo,Ubicación,Procesamiento,Latencia,Ancho de Banda,Estado,ROI
+DISPOSITIVOS EDGE,,,,,,
+Smartphone,Personal,Análisis en tiempo real,<10ms,5G,✅ Activo,200%
+Smart Watch,Personal,Monitoreo continuo,<5ms,WiFi,✅ Activo,150%
+Tablet,Home,Análisis avanzado,<20ms,WiFi,✅ Activo,180%
+Laptop,Office,Procesamiento pesado,<50ms,Ethernet,✅ Activo,250%
+,,,,,,
+SENSORES IOT,,,,,,
+Sensor de Gastos,Wallet,Detecta transacciones,<1ms,Bluetooth,✅ Activo,100%
+Sensor de Ingresos,Phone,Detecta depósitos,<1ms,NFC,✅ Activo,120%
+Sensor de Inversiones,Portfolio,Monitorea cambios,<5ms,WiFi,✅ Activo,300%
+Sensor de Emergencias,Home,Detecta gastos urgentes,<2ms,Zigbee,✅ Activo,80%
+,,,,,,
+PROCESAMIENTO LOCAL,,,,,,
+Análisis de Transacciones,Local,Clasificación automática,<5ms,Local,✅ Activo,400%
+Detección de Anomalías,Local,Alertas inmediatas,<10ms,Local,✅ Activo,350%
+Optimización de Gastos,Local,Sugerencias en tiempo real,<20ms,Local,✅ Activo,300%
+Predicción de Liquidez,Local,Forecasting local,<50ms,Local,✅ Activo,250%
+,,,,,,
+SINCRONIZACIÓN CLOUD,,,,,,
+Backup Automático,Cloud,Respaldo continuo,<100ms,Internet,✅ Activo,150%
+Sincronización Multi-dispositivo,Cloud,Consistencia de datos,<200ms,Internet,✅ Activo,200%
+Análisis Avanzado,Cloud,ML y AI,<500ms,Internet,✅ Activo,400%
+Reportes Generados,Cloud,Documentos automáticos,<1000ms,Internet,✅ Activo,300%
+,,,,,,
+MÉTRICAS DE RENDIMIENTO,,,,,,
+Métrica,Valor,Objetivo,Estado,Tendencia
+Latencia Promedio,25ms,<50ms,✅ Cumplido,📈 Mejorando
+Disponibilidad,99.9%,>99%,✅ Cumplido,📈 Mejorando
+Eficiencia Energética,85%,>80%,✅ Cumplido,📈 Mejorando
+ROI Promedio,250%,>200%,✅ Cumplido,📈 Mejorando

@@ -1,0 +1,740 @@
+# AI COURSE VBA ADVANCED MACROS - EXCEL TEMPLATE
+# Advanced VBA Macros with Complex Financial Calculations and Automation
+
+## VBA MACRO: COMPREHENSIVE FINANCIAL ANALYSIS
+Sub ComprehensiveFinancialAnalysis()
+    ' Advanced Financial Analysis with Multiple Calculations
+    Dim ws As Worksheet
+    Set ws = ActiveSheet
+    
+    ' Clear existing data
+    ws.Range("A1:Z1000").Clear
+    
+    ' Set up headers
+    ws.Cells(1, 1).Value = "Financial Analysis Report"
+    ws.Cells(1, 1).Font.Bold = True
+    ws.Cells(1, 1).Font.Size = 16
+    
+    ' Input variables
+    Dim revenue As Double, expenses As Double, profit As Double
+    Dim growthRate As Double, discountRate As Double
+    Dim years As Integer, i As Integer
+    
+    revenue = 1000000
+    expenses = 400000
+    profit = revenue - expenses
+    growthRate = 0.25
+    discountRate = 0.15
+    years = 5
+    
+    ' Calculate and display results
+    ws.Cells(3, 1).Value = "Current Revenue:"
+    ws.Cells(3, 2).Value = revenue
+    ws.Cells(3, 2).NumberFormat = "$#,##0"
+    
+    ws.Cells(4, 1).Value = "Current Expenses:"
+    ws.Cells(4, 2).Value = expenses
+    ws.Cells(4, 2).NumberFormat = "$#,##0"
+    
+    ws.Cells(5, 1).Value = "Current Profit:"
+    ws.Cells(5, 2).Value = profit
+    ws.Cells(5, 2).NumberFormat = "$#,##0"
+    
+    ws.Cells(6, 1).Value = "Growth Rate:"
+    ws.Cells(6, 2).Value = growthRate
+    ws.Cells(6, 2).NumberFormat = "0%"
+    
+    ' Project future revenue
+    ws.Cells(8, 1).Value = "Year"
+    ws.Cells(8, 2).Value = "Projected Revenue"
+    ws.Cells(8, 3).Value = "Projected Profit"
+    ws.Cells(8, 4).Value = "Present Value"
+    
+    For i = 1 To years
+        ws.Cells(8 + i, 1).Value = i
+        ws.Cells(8 + i, 2).Value = revenue * (1 + growthRate) ^ i
+        ws.Cells(8 + i, 2).NumberFormat = "$#,##0"
+        ws.Cells(8 + i, 3).Value = (revenue * (1 + growthRate) ^ i) * (profit / revenue)
+        ws.Cells(8 + i, 3).NumberFormat = "$#,##0"
+        ws.Cells(8 + i, 4).Value = ((revenue * (1 + growthRate) ^ i) * (profit / revenue)) / (1 + discountRate) ^ i
+        ws.Cells(8 + i, 4).NumberFormat = "$#,##0"
+    Next i
+    
+    ' Calculate NPV
+    Dim npv As Double
+    npv = 0
+    For i = 1 To years
+        npv = npv + ((revenue * (1 + growthRate) ^ i) * (profit / revenue)) / (1 + discountRate) ^ i
+    Next i
+    
+    ws.Cells(15, 1).Value = "Net Present Value:"
+    ws.Cells(15, 2).Value = npv
+    ws.Cells(15, 2).NumberFormat = "$#,##0"
+    
+    ' Calculate IRR (simplified)
+    Dim irr As Double
+    irr = growthRate - discountRate
+    ws.Cells(16, 1).Value = "Internal Rate of Return:"
+    ws.Cells(16, 2).Value = irr
+    ws.Cells(16, 2).NumberFormat = "0%"
+    
+    ' Format the data
+    ws.Range("A1:D20").AutoFormat xlRangeAutoFormatClassic2
+    
+    MsgBox "Comprehensive financial analysis completed successfully!"
+End Sub
+
+## VBA MACRO: MONTE CARLO SIMULATION
+Sub MonteCarloSimulation()
+    ' Monte Carlo Simulation for Revenue Forecasting
+    Dim ws As Worksheet
+    Set ws = ActiveSheet
+    
+    ' Clear existing data
+    ws.Range("A1:Z1000").Clear
+    
+    ' Set up headers
+    ws.Cells(1, 1).Value = "Monte Carlo Simulation Results"
+    ws.Cells(1, 1).Font.Bold = True
+    ws.Cells(1, 1).Font.Size = 16
+    
+    ws.Cells(3, 1).Value = "Simulation Run"
+    ws.Cells(3, 2).Value = "Revenue Scenario"
+    ws.Cells(3, 3).Value = "Probability"
+    ws.Cells(3, 4).Value = "Cumulative Probability"
+    
+    ' Simulation parameters
+    Dim baseRevenue As Double, volatility As Double
+    Dim numSimulations As Integer, i As Integer
+    Dim revenue As Double, probability As Double
+    
+    baseRevenue = 1000000
+    volatility = 0.2
+    numSimulations = 1000
+    
+    ' Run simulations
+    For i = 1 To numSimulations
+        ' Generate random revenue using normal distribution
+        revenue = baseRevenue * (1 + Application.WorksheetFunction.NormInv(Rnd(), 0, volatility))
+        
+        ws.Cells(3 + i, 1).Value = i
+        ws.Cells(3 + i, 2).Value = revenue
+        ws.Cells(3 + i, 2).NumberFormat = "$#,##0"
+        
+        ' Calculate probability
+        probability = Application.WorksheetFunction.NormDist(revenue, baseRevenue, baseRevenue * volatility, True)
+        ws.Cells(3 + i, 3).Value = probability
+        ws.Cells(3 + i, 3).NumberFormat = "0.00%"
+        
+        ' Calculate cumulative probability
+        ws.Cells(3 + i, 4).Value = i / numSimulations
+        ws.Cells(3 + i, 4).NumberFormat = "0.00%"
+    Next i
+    
+    ' Calculate statistics
+    Dim meanRevenue As Double, stdDev As Double
+    Dim minRevenue As Double, maxRevenue As Double
+    Dim var95 As Double, var99 As Double
+    
+    meanRevenue = Application.WorksheetFunction.Average(ws.Range("B4:B1003"))
+    stdDev = Application.WorksheetFunction.StDev(ws.Range("B4:B1003"))
+    minRevenue = Application.WorksheetFunction.Min(ws.Range("B4:B1003"))
+    maxRevenue = Application.WorksheetFunction.Max(ws.Range("B4:B1003"))
+    
+    ' Calculate Value at Risk
+    var95 = Application.WorksheetFunction.Percentile(ws.Range("B4:B1003"), 0.05)
+    var99 = Application.WorksheetFunction.Percentile(ws.Range("B4:B1003"), 0.01)
+    
+    ' Display statistics
+    ws.Cells(1010, 1).Value = "Statistics:"
+    ws.Cells(1011, 1).Value = "Mean Revenue:"
+    ws.Cells(1011, 2).Value = meanRevenue
+    ws.Cells(1011, 2).NumberFormat = "$#,##0"
+    
+    ws.Cells(1012, 1).Value = "Standard Deviation:"
+    ws.Cells(1012, 2).Value = stdDev
+    ws.Cells(1012, 2).NumberFormat = "$#,##0"
+    
+    ws.Cells(1013, 1).Value = "Minimum Revenue:"
+    ws.Cells(1013, 2).Value = minRevenue
+    ws.Cells(1013, 2).NumberFormat = "$#,##0"
+    
+    ws.Cells(1014, 1).Value = "Maximum Revenue:"
+    ws.Cells(1014, 2).Value = maxRevenue
+    ws.Cells(1014, 2).NumberFormat = "$#,##0"
+    
+    ws.Cells(1015, 1).Value = "VaR 95%:"
+    ws.Cells(1015, 2).Value = var95
+    ws.Cells(1015, 2).NumberFormat = "$#,##0"
+    
+    ws.Cells(1016, 1).Value = "VaR 99%:"
+    ws.Cells(1016, 2).Value = var99
+    ws.Cells(1016, 2).NumberFormat = "$#,##0"
+    
+    ' Format the data
+    ws.Range("A1:D1020").AutoFormat xlRangeAutoFormatClassic2
+    
+    MsgBox "Monte Carlo simulation completed with " & numSimulations & " iterations!"
+End Sub
+
+## VBA MACRO: CUSTOMER LIFETIME VALUE CALCULATION
+Sub CalculateCustomerLifetimeValue()
+    ' Advanced Customer Lifetime Value Calculation
+    Dim ws As Worksheet
+    Set ws = ActiveSheet
+    
+    ' Clear existing data
+    ws.Range("A1:Z1000").Clear
+    
+    ' Set up headers
+    ws.Cells(1, 1).Value = "Customer Lifetime Value Analysis"
+    ws.Cells(1, 1).Font.Bold = True
+    ws.Cells(1, 1).Font.Size = 16
+    
+    ' Input parameters
+    Dim avgOrderValue As Double, purchaseFrequency As Double
+    Dim customerLifespan As Double, grossMargin As Double
+    Dim discountRate As Double, retentionRate As Double
+    
+    avgOrderValue = 497
+    purchaseFrequency = 12 ' per year
+    customerLifespan = 3 ' years
+    grossMargin = 0.67
+    discountRate = 0.15
+    retentionRate = 0.95
+    
+    ' Calculate CLV
+    Dim clv As Double, annualValue As Double
+    annualValue = avgOrderValue * purchaseFrequency * grossMargin
+    clv = 0
+    
+    Dim i As Integer
+    For i = 1 To customerLifespan
+        clv = clv + (annualValue * (retentionRate ^ i)) / ((1 + discountRate) ^ i)
+    Next i
+    
+    ' Display results
+    ws.Cells(3, 1).Value = "Average Order Value:"
+    ws.Cells(3, 2).Value = avgOrderValue
+    ws.Cells(3, 2).NumberFormat = "$#,##0"
+    
+    ws.Cells(4, 1).Value = "Purchase Frequency (per year):"
+    ws.Cells(4, 2).Value = purchaseFrequency
+    
+    ws.Cells(5, 1).Value = "Customer Lifespan (years):"
+    ws.Cells(5, 2).Value = customerLifespan
+    
+    ws.Cells(6, 1).Value = "Gross Margin:"
+    ws.Cells(6, 2).Value = grossMargin
+    ws.Cells(6, 2).NumberFormat = "0%"
+    
+    ws.Cells(7, 1).Value = "Discount Rate:"
+    ws.Cells(7, 2).Value = discountRate
+    ws.Cells(7, 2).NumberFormat = "0%"
+    
+    ws.Cells(8, 1).Value = "Retention Rate:"
+    ws.Cells(8, 2).Value = retentionRate
+    ws.Cells(8, 2).NumberFormat = "0%"
+    
+    ws.Cells(10, 1).Value = "Customer Lifetime Value:"
+    ws.Cells(10, 2).Value = clv
+    ws.Cells(10, 2).NumberFormat = "$#,##0"
+    
+    ' Calculate annual value
+    ws.Cells(11, 1).Value = "Annual Value:"
+    ws.Cells(11, 2).Value = annualValue
+    ws.Cells(11, 2).NumberFormat = "$#,##0"
+    
+    ' Calculate CLV by year
+    ws.Cells(13, 1).Value = "Year"
+    ws.Cells(13, 2).Value = "Annual Value"
+    ws.Cells(13, 3).Value = "Present Value"
+    ws.Cells(13, 4).Value = "Cumulative CLV"
+    
+    Dim cumulativeCLV As Double
+    cumulativeCLV = 0
+    
+    For i = 1 To customerLifespan
+        Dim yearValue As Double, presentValue As Double
+        yearValue = annualValue * (retentionRate ^ i)
+        presentValue = yearValue / ((1 + discountRate) ^ i)
+        cumulativeCLV = cumulativeCLV + presentValue
+        
+        ws.Cells(13 + i, 1).Value = i
+        ws.Cells(13 + i, 2).Value = yearValue
+        ws.Cells(13 + i, 2).NumberFormat = "$#,##0"
+        ws.Cells(13 + i, 3).Value = presentValue
+        ws.Cells(13 + i, 3).NumberFormat = "$#,##0"
+        ws.Cells(13 + i, 4).Value = cumulativeCLV
+        ws.Cells(13 + i, 4).NumberFormat = "$#,##0"
+    Next i
+    
+    ' Format the data
+    ws.Range("A1:D20").AutoFormat xlRangeAutoFormatClassic2
+    
+    MsgBox "Customer Lifetime Value calculation completed! CLV = $" & Format(clv, "#,##0")
+End Sub
+
+## VBA MACRO: BREAK-EVEN ANALYSIS
+Sub BreakEvenAnalysis()
+    ' Comprehensive Break-Even Analysis
+    Dim ws As Worksheet
+    Set ws = ActiveSheet
+    
+    ' Clear existing data
+    ws.Range("A1:Z1000").Clear
+    
+    ' Set up headers
+    ws.Cells(1, 1).Value = "Break-Even Analysis"
+    ws.Cells(1, 1).Font.Bold = True
+    ws.Cells(1, 1).Font.Size = 16
+    
+    ' Product data
+    Dim products(1 To 6) As String
+    Dim prices(1 To 6) As Double
+    Dim variableCosts(1 To 6) As Double
+    Dim fixedCosts(1 To 6) As Double
+    
+    products(1) = "Webinar"
+    products(2) = "Course"
+    products(3) = "Mentoring"
+    products(4) = "SaaS"
+    products(5) = "Certification"
+    products(6) = "Consulting"
+    
+    prices(1) = 100
+    prices(2) = 497
+    prices(3) = 1997
+    prices(4) = 97
+    prices(5) = 1497
+    prices(6) = 5000
+    
+    variableCosts(1) = 15
+    variableCosts(2) = 49.7
+    variableCosts(3) = 199.7
+    variableCosts(4) = 9.7
+    variableCosts(5) = 149.7
+    variableCosts(6) = 500
+    
+    fixedCosts(1) = 5000
+    fixedCosts(2) = 50000
+    fixedCosts(3) = 100000
+    fixedCosts(4) = 20000
+    fixedCosts(5) = 30000
+    fixedCosts(6) = 50000
+    
+    ' Set up table headers
+    ws.Cells(3, 1).Value = "Product"
+    ws.Cells(3, 2).Value = "Price"
+    ws.Cells(3, 3).Value = "Variable Cost"
+    ws.Cells(3, 4).Value = "Contribution Margin"
+    ws.Cells(3, 5).Value = "Fixed Cost"
+    ws.Cells(3, 6).Value = "Break-Even Units"
+    ws.Cells(3, 7).Value = "Break-Even Revenue"
+    
+    ' Calculate break-even for each product
+    Dim i As Integer
+    For i = 1 To 6
+        Dim contributionMargin As Double, breakEvenUnits As Double, breakEvenRevenue As Double
+        
+        contributionMargin = prices(i) - variableCosts(i)
+        breakEvenUnits = fixedCosts(i) / contributionMargin
+        breakEvenRevenue = breakEvenUnits * prices(i)
+        
+        ws.Cells(3 + i, 1).Value = products(i)
+        ws.Cells(3 + i, 2).Value = prices(i)
+        ws.Cells(3 + i, 2).NumberFormat = "$#,##0"
+        ws.Cells(3 + i, 3).Value = variableCosts(i)
+        ws.Cells(3 + i, 3).NumberFormat = "$#,##0"
+        ws.Cells(3 + i, 4).Value = contributionMargin
+        ws.Cells(3 + i, 4).NumberFormat = "$#,##0"
+        ws.Cells(3 + i, 5).Value = fixedCosts(i)
+        ws.Cells(3 + i, 5).NumberFormat = "$#,##0"
+        ws.Cells(3 + i, 6).Value = breakEvenUnits
+        ws.Cells(3 + i, 6).NumberFormat = "0"
+        ws.Cells(3 + i, 7).Value = breakEvenRevenue
+        ws.Cells(3 + i, 7).NumberFormat = "$#,##0"
+    Next i
+    
+    ' Calculate total break-even
+    Dim totalFixedCost As Double, totalContributionMargin As Double
+    Dim totalBreakEvenUnits As Double, totalBreakEvenRevenue As Double
+    
+    totalFixedCost = Application.WorksheetFunction.Sum(ws.Range("E4:E9"))
+    totalContributionMargin = Application.WorksheetFunction.Sum(ws.Range("D4:D9"))
+    totalBreakEvenUnits = totalFixedCost / (totalContributionMargin / 6) ' Average contribution margin
+    totalBreakEvenRevenue = totalBreakEvenUnits * Application.WorksheetFunction.Average(ws.Range("B4:B9"))
+    
+    ws.Cells(11, 1).Value = "Total Fixed Cost:"
+    ws.Cells(11, 2).Value = totalFixedCost
+    ws.Cells(11, 2).NumberFormat = "$#,##0"
+    
+    ws.Cells(12, 1).Value = "Average Contribution Margin:"
+    ws.Cells(12, 2).Value = totalContributionMargin / 6
+    ws.Cells(12, 2).NumberFormat = "$#,##0"
+    
+    ws.Cells(13, 1).Value = "Total Break-Even Units:"
+    ws.Cells(13, 2).Value = totalBreakEvenUnits
+    ws.Cells(13, 2).NumberFormat = "0"
+    
+    ws.Cells(14, 1).Value = "Total Break-Even Revenue:"
+    ws.Cells(14, 2).Value = totalBreakEvenRevenue
+    ws.Cells(14, 2).NumberFormat = "$#,##0"
+    
+    ' Format the data
+    ws.Range("A1:G15").AutoFormat xlRangeAutoFormatClassic2
+    
+    MsgBox "Break-even analysis completed successfully!"
+End Sub
+
+## VBA MACRO: SENSITIVITY ANALYSIS
+Sub SensitivityAnalysis()
+    ' Sensitivity Analysis for Key Variables
+    Dim ws As Worksheet
+    Set ws = ActiveSheet
+    
+    ' Clear existing data
+    ws.Range("A1:Z1000").Clear
+    
+    ' Set up headers
+    ws.Cells(1, 1).Value = "Sensitivity Analysis"
+    ws.Cells(1, 1).Font.Bold = True
+    ws.Cells(1, 1).Font.Size = 16
+    
+    ' Base case variables
+    Dim basePrice As Double, baseVolume As Double, baseConversion As Double
+    Dim baseChurn As Double, baseCAC As Double, baseLTV As Double
+    
+    basePrice = 497
+    baseVolume = 1000
+    baseConversion = 0.15
+    baseChurn = 0.03
+    baseCAC = 12.5
+    baseLTV = 3200
+    
+    ' Sensitivity ranges
+    Dim priceRange(1 To 3) As Double
+    Dim volumeRange(1 To 3) As Double
+    Dim conversionRange(1 To 3) As Double
+    
+    priceRange(1) = 0.8 ' -20%
+    priceRange(2) = 1.0 ' Base case
+    priceRange(3) = 1.2 ' +20%
+    
+    volumeRange(1) = 0.8 ' -20%
+    volumeRange(2) = 1.0 ' Base case
+    volumeRange(3) = 1.2 ' +20%
+    
+    conversionRange(1) = 0.8 ' -20%
+    conversionRange(2) = 1.0 ' Base case
+    conversionRange(3) = 1.2 ' +20%
+    
+    ' Set up table headers
+    ws.Cells(3, 1).Value = "Variable"
+    ws.Cells(3, 2).Value = "Low (-20%)"
+    ws.Cells(3, 3).Value = "Base Case"
+    ws.Cells(3, 4).Value = "High (+20%)"
+    ws.Cells(3, 5).Value = "Revenue Impact"
+    ws.Cells(3, 6).Value = "Profit Impact"
+    
+    ' Price sensitivity
+    Dim priceLow As Double, priceBase As Double, priceHigh As Double
+    Dim revenueLow As Double, revenueBase As Double, revenueHigh As Double
+    
+    priceLow = basePrice * priceRange(1)
+    priceBase = basePrice * priceRange(2)
+    priceHigh = basePrice * priceRange(3)
+    
+    revenueLow = priceLow * baseVolume * baseConversion
+    revenueBase = priceBase * baseVolume * baseConversion
+    revenueHigh = priceHigh * baseVolume * baseConversion
+    
+    ws.Cells(4, 1).Value = "Price"
+    ws.Cells(4, 2).Value = priceLow
+    ws.Cells(4, 2).NumberFormat = "$#,##0"
+    ws.Cells(4, 3).Value = priceBase
+    ws.Cells(4, 3).NumberFormat = "$#,##0"
+    ws.Cells(4, 4).Value = priceHigh
+    ws.Cells(4, 4).NumberFormat = "$#,##0"
+    ws.Cells(4, 5).Value = (revenueHigh - revenueLow) / revenueBase
+    ws.Cells(4, 5).NumberFormat = "0%"
+    ws.Cells(4, 6).Value = (revenueHigh - revenueLow) / revenueBase * 0.8
+    ws.Cells(4, 6).NumberFormat = "0%"
+    
+    ' Volume sensitivity
+    Dim volumeLow As Double, volumeBase As Double, volumeHigh As Double
+    
+    volumeLow = baseVolume * volumeRange(1)
+    volumeBase = baseVolume * volumeRange(2)
+    volumeHigh = baseVolume * volumeRange(3)
+    
+    revenueLow = basePrice * volumeLow * baseConversion
+    revenueBase = basePrice * volumeBase * baseConversion
+    revenueHigh = basePrice * volumeHigh * baseConversion
+    
+    ws.Cells(5, 1).Value = "Volume"
+    ws.Cells(5, 2).Value = volumeLow
+    ws.Cells(5, 2).NumberFormat = "0"
+    ws.Cells(5, 3).Value = volumeBase
+    ws.Cells(5, 3).NumberFormat = "0"
+    ws.Cells(5, 4).Value = volumeHigh
+    ws.Cells(5, 4).NumberFormat = "0"
+    ws.Cells(5, 5).Value = (revenueHigh - revenueLow) / revenueBase
+    ws.Cells(5, 5).NumberFormat = "0%"
+    ws.Cells(5, 6).Value = (revenueHigh - revenueLow) / revenueBase * 0.8
+    ws.Cells(5, 6).NumberFormat = "0%"
+    
+    ' Conversion sensitivity
+    Dim conversionLow As Double, conversionBase As Double, conversionHigh As Double
+    
+    conversionLow = baseConversion * conversionRange(1)
+    conversionBase = baseConversion * conversionRange(2)
+    conversionHigh = baseConversion * conversionRange(3)
+    
+    revenueLow = basePrice * baseVolume * conversionLow
+    revenueBase = basePrice * baseVolume * conversionBase
+    revenueHigh = basePrice * baseVolume * conversionHigh
+    
+    ws.Cells(6, 1).Value = "Conversion Rate"
+    ws.Cells(6, 2).Value = conversionLow
+    ws.Cells(6, 2).NumberFormat = "0%"
+    ws.Cells(6, 3).Value = conversionBase
+    ws.Cells(6, 3).NumberFormat = "0%"
+    ws.Cells(6, 4).Value = conversionHigh
+    ws.Cells(6, 4).NumberFormat = "0%"
+    ws.Cells(6, 5).Value = (revenueHigh - revenueLow) / revenueBase
+    ws.Cells(6, 5).NumberFormat = "0%"
+    ws.Cells(6, 6).Value = (revenueHigh - revenueLow) / revenueBase * 0.8
+    ws.Cells(6, 6).NumberFormat = "0%"
+    
+    ' Format the data
+    ws.Range("A1:F10").AutoFormat xlRangeAutoFormatClassic2
+    
+    MsgBox "Sensitivity analysis completed successfully!"
+End Sub
+
+## VBA MACRO: AUTOMATED REPORT GENERATION
+Sub GenerateAutomatedReport()
+    ' Automated Financial Report Generation
+    Dim ws As Worksheet
+    Set ws = ActiveSheet
+    
+    ' Clear existing data
+    ws.Range("A1:Z1000").Clear
+    
+    ' Create report header
+    ws.Cells(1, 1).Value = "AI COURSE FINANCIAL REPORT"
+    ws.Cells(1, 1).Font.Bold = True
+    ws.Cells(1, 1).Font.Size = 18
+    
+    ws.Cells(2, 1).Value = "Generated on: " & Format(Now, "MMMM DD, YYYY HH:MM")
+    ws.Cells(3, 1).Value = "Report Period: " & Format(Date, "MMMM YYYY")
+    
+    ' Key metrics section
+    ws.Cells(5, 1).Value = "KEY FINANCIAL METRICS"
+    ws.Cells(5, 1).Font.Bold = True
+    ws.Cells(5, 1).Font.Size = 14
+    
+    ' Calculate and display key metrics
+    Dim monthlyRevenue As Double, monthlyProfit As Double, customerCount As Double
+    Dim churnRate As Double, cac As Double, ltv As Double
+    
+    monthlyRevenue = 753370
+    monthlyProfit = 476211
+    customerCount = 900
+    churnRate = 0.03
+    cac = 12.5
+    ltv = 3200
+    
+    ws.Cells(7, 1).Value = "Monthly Revenue:"
+    ws.Cells(7, 2).Value = monthlyRevenue
+    ws.Cells(7, 2).NumberFormat = "$#,##0"
+    
+    ws.Cells(8, 1).Value = "Monthly Profit:"
+    ws.Cells(8, 2).Value = monthlyProfit
+    ws.Cells(8, 2).NumberFormat = "$#,##0"
+    
+    ws.Cells(9, 1).Value = "Customer Count:"
+    ws.Cells(9, 2).Value = customerCount
+    ws.Cells(9, 2).NumberFormat = "0"
+    
+    ws.Cells(10, 1).Value = "Churn Rate:"
+    ws.Cells(10, 2).Value = churnRate
+    ws.Cells(10, 2).NumberFormat = "0%"
+    
+    ws.Cells(11, 1).Value = "Customer Acquisition Cost:"
+    ws.Cells(11, 2).Value = cac
+    ws.Cells(11, 2).NumberFormat = "$#,##0.00"
+    
+    ws.Cells(12, 1).Value = "Customer Lifetime Value:"
+    ws.Cells(12, 2).Value = ltv
+    ws.Cells(12, 2).NumberFormat = "$#,##0"
+    
+    ' Calculate additional metrics
+    Dim grossMargin As Double, netMargin As Double, roi As Double
+    Dim ltvCacRatio As Double, paybackPeriod As Double
+    
+    grossMargin = monthlyProfit / monthlyRevenue
+    netMargin = monthlyProfit / monthlyRevenue
+    roi = (monthlyProfit - (cac * customerCount)) / (cac * customerCount)
+    ltvCacRatio = ltv / cac
+    paybackPeriod = cac / (monthlyRevenue / customerCount)
+    
+    ws.Cells(14, 1).Value = "Gross Margin:"
+    ws.Cells(14, 2).Value = grossMargin
+    ws.Cells(14, 2).NumberFormat = "0%"
+    
+    ws.Cells(15, 1).Value = "Net Margin:"
+    ws.Cells(15, 2).Value = netMargin
+    ws.Cells(15, 2).NumberFormat = "0%"
+    
+    ws.Cells(16, 1).Value = "ROI:"
+    ws.Cells(16, 2).Value = roi
+    ws.Cells(16, 2).NumberFormat = "0%"
+    
+    ws.Cells(17, 1).Value = "LTV/CAC Ratio:"
+    ws.Cells(17, 2).Value = ltvCacRatio
+    ws.Cells(17, 2).NumberFormat = "0.0"
+    
+    ws.Cells(18, 1).Value = "Payback Period (months):"
+    ws.Cells(18, 2).Value = paybackPeriod
+    ws.Cells(18, 2).NumberFormat = "0.0"
+    
+    ' Performance analysis section
+    ws.Cells(20, 1).Value = "PERFORMANCE ANALYSIS"
+    ws.Cells(20, 1).Font.Bold = True
+    ws.Cells(20, 1).Font.Size = 14
+    
+    ' Determine performance status
+    Dim revenueStatus As String, profitStatus As String, churnStatus As String
+    
+    If monthlyRevenue >= 500000 Then
+        revenueStatus = "Exceeding Target"
+    Else
+        revenueStatus = "Below Target"
+    End If
+    
+    If monthlyProfit >= 250000 Then
+        profitStatus = "Exceeding Target"
+    Else
+        profitStatus = "Below Target"
+    End If
+    
+    If churnRate <= 0.05 Then
+        churnStatus = "Exceeding Target"
+    Else
+        churnStatus = "Below Target"
+    End If
+    
+    ws.Cells(22, 1).Value = "Revenue Status:"
+    ws.Cells(22, 2).Value = revenueStatus
+    ws.Cells(22, 2).Font.Color = RGB(0, 128, 0)
+    
+    ws.Cells(23, 1).Value = "Profit Status:"
+    ws.Cells(23, 2).Value = profitStatus
+    ws.Cells(23, 2).Font.Color = RGB(0, 128, 0)
+    
+    ws.Cells(24, 1).Value = "Churn Status:"
+    ws.Cells(24, 2).Value = churnStatus
+    ws.Cells(24, 2).Font.Color = RGB(0, 128, 0)
+    
+    ' Recommendations section
+    ws.Cells(26, 1).Value = "RECOMMENDATIONS"
+    ws.Cells(26, 1).Font.Bold = True
+    ws.Cells(26, 1).Font.Size = 14
+    
+    ws.Cells(28, 1).Value = "1. Continue current growth trajectory"
+    ws.Cells(29, 1).Value = "2. Focus on customer retention to reduce churn"
+    ws.Cells(30, 1).Value = "3. Optimize marketing spend to improve CAC"
+    ws.Cells(31, 1).Value = "4. Consider price optimization opportunities"
+    ws.Cells(32, 1).Value = "5. Scale team to support growth"
+    
+    ' Format the report
+    ws.Range("A1:B35").AutoFormat xlRangeAutoFormatClassic2
+    
+    ' Add borders and formatting
+    ws.Range("A1:B35").Borders.LineStyle = xlContinuous
+    ws.Range("A1:B1").Merge
+    ws.Range("A1:B1").HorizontalAlignment = xlCenter
+    
+    MsgBox "Automated report generated successfully!"
+End Sub
+
+## VBA MACRO: DATA VALIDATION AND ERROR CHECKING
+Sub DataValidationAndErrorChecking()
+    ' Comprehensive Data Validation and Error Checking
+    Dim ws As Worksheet
+    Set ws = ActiveSheet
+    
+    ' Clear existing data
+    ws.Range("A1:Z1000").Clear
+    
+    ' Set up headers
+    ws.Cells(1, 1).Value = "Data Validation Report"
+    ws.Cells(1, 1).Font.Bold = True
+    ws.Cells(1, 1).Font.Size = 16
+    
+    ' Sample data for validation
+    Dim data(1 To 10, 1 To 5) As Variant
+    Dim i As Integer, j As Integer
+    Dim errorCount As Integer
+    
+    ' Initialize sample data
+    data(1, 1) = "Revenue": data(1, 2) = 753370: data(1, 3) = "Valid": data(1, 4) = "Positive": data(1, 5) = "None"
+    data(2, 1) = "Profit": data(2, 2) = 476211: data(2, 3) = "Valid": data(2, 4) = "Positive": data(2, 5) = "None"
+    data(3, 1) = "Churn Rate": data(3, 2) = 0.03: data(3, 3) = "Valid": data(3, 4) = "0-1": data(3, 5) = "None"
+    data(4, 1) = "CAC": data(4, 2) = 12.5: data(4, 3) = "Valid": data(4, 4) = "Positive": data(4, 5) = "None"
+    data(5, 1) = "LTV": data(5, 2) = 3200: data(5, 3) = "Valid": data(5, 4) = "Positive": data(5, 5) = "None"
+    data(6, 1) = "Conversion Rate": data(6, 2) = 0.15: data(6, 3) = "Valid": data(6, 4) = "0-1": data(6, 5) = "None"
+    data(7, 1) = "Price": data(7, 2) = 497: data(7, 3) = "Valid": data(7, 4) = "Positive": data(7, 5) = "None"
+    data(8, 1) = "Volume": data(8, 2) = 1000: data(8, 3) = "Valid": data(8, 4) = "Positive": data(8, 5) = "None"
+    data(9, 1) = "Invalid Data": data(9, 2) = -100: data(9, 3) = "Invalid": data(9, 4) = "Negative": data(9, 5) = "Fix Required"
+    data(10, 1) = "Out of Range": data(10, 2) = 1.5: data(10, 3) = "Invalid": data(10, 4) = ">1": data(10, 5) = "Fix Required"
+    
+    ' Set up table headers
+    ws.Cells(3, 1).Value = "Metric"
+    ws.Cells(3, 2).Value = "Value"
+    ws.Cells(3, 3).Value = "Status"
+    ws.Cells(3, 4).Value = "Validation Rule"
+    ws.Cells(3, 5).Value = "Action Required"
+    
+    ' Display data and validation results
+    For i = 1 To 10
+        ws.Cells(3 + i, 1).Value = data(i, 1)
+        ws.Cells(3 + i, 2).Value = data(i, 2)
+        ws.Cells(3 + i, 2).NumberFormat = "0.00"
+        ws.Cells(3 + i, 3).Value = data(i, 3)
+        ws.Cells(3 + i, 4).Value = data(i, 4)
+        ws.Cells(3 + i, 5).Value = data(i, 5)
+        
+        ' Color code based on status
+        If data(i, 3) = "Invalid" Then
+            ws.Cells(3 + i, 3).Font.Color = RGB(255, 0, 0)
+            ws.Cells(3 + i, 5).Font.Color = RGB(255, 0, 0)
+            errorCount = errorCount + 1
+        Else
+            ws.Cells(3 + i, 3).Font.Color = RGB(0, 128, 0)
+        End If
+    Next i
+    
+    ' Summary section
+    ws.Cells(15, 1).Value = "Validation Summary:"
+    ws.Cells(16, 1).Value = "Total Records:"
+    ws.Cells(16, 2).Value = 10
+    ws.Cells(17, 1).Value = "Valid Records:"
+    ws.Cells(17, 2).Value = 10 - errorCount
+    ws.Cells(18, 1).Value = "Invalid Records:"
+    ws.Cells(18, 2).Value = errorCount
+    ws.Cells(19, 1).Value = "Error Rate:"
+    ws.Cells(19, 2).Value = errorCount / 10
+    ws.Cells(19, 2).NumberFormat = "0%"
+    
+    ' Format the data
+    ws.Range("A1:F20").AutoFormat xlRangeAutoFormatClassic2
+    
+    If errorCount > 0 Then
+        MsgBox "Data validation completed with " & errorCount & " errors found. Please review highlighted cells."
+    Else
+        MsgBox "Data validation completed successfully! No errors found."
+    End If
+End Sub

@@ -1,0 +1,21 @@
+Parámetro,Valor,Unidad,Notas
+INFORMACIÓN PERSONAL,,,
+Edad Actual,30,años,Edad del usuario
+Edad de Jubilación,65,años,Meta de jubilación
+Años para Jubilarse,=C3-C2,años,Tiempo restante
+,,,
+INGRESOS Y GASTOS,,,
+Ingreso Anual Actual,600000,pesos,Salario anual
+Gastos Anuales Actuales,400000,pesos,Gastos anuales
+Inflación Anual,4,%,Inflación esperada
+,,,
+AHORROS ACTUALES,,,
+Ahorros Actuales,500000,pesos,Dinero ya ahorrado
+Ahorro Mensual Actual,20000,pesos,Cantidad que ahorra mensualmente
+,,,
+CÁLCULOS DE JUBILACIÓN,,,
+Gastos Anuales en Jubilación,=C7*(1+C8/100)^C4,pesos,Gastos ajustados por inflación
+Necesidad Total,=C14*25,pesos,25 veces los gastos anuales
+Ahorros Necesarios,=C15-C11,pesos,Cantidad adicional necesaria
+Ahorro Mensual Necesario,=PMT(C8/12,C4*12,0,C16),pesos,Cantidad mensual a ahorrar
+Diferencia,=C17-C12,pesos,Cantidad adicional mensual

@@ -1,0 +1,24 @@
+Escenario,Probabilidad,Ingresos,Gastos,Ahorros,Patrimonio,ROI,Recomendación
+ESCENARIOS BASE,,,,,,,
+Optimista,25%,70000,40000,30000,2000000,20%,Aumentar inversiones
+Realista,50%,60000,45000,15000,1500000,15%,Mantener estrategia
+Pesimista,25%,50000,50000,0,1000000,10%,Reducir gastos
+,,,,,,
+ESCENARIOS DE CRISIS,,,,,,,
+Recesión Económica,15%,45000,55000,-10000,800000,5%,Fondo emergencia
+Pérdida de Empleo,10%,30000,45000,-15000,600000,0%,Buscar ingresos
+Crisis de Salud,5%,40000,60000,-20000,500000,-5%,Seguro médico
+Crisis Familiar,5%,35000,50000,-15000,400000,0%,Apoyo familiar
+,,,,,,
+ESCENARIOS DE OPORTUNIDAD,,,,,,,
+Promoción Laboral,20%,80000,45000,35000,2500000,25%,Invertir más
+Negocio Exitoso,15%,100000,50000,50000,3000000,30%,Expandir negocio
+Herencia,5%,60000,40000,20000,5000000,15%,Diversificar
+Inversión Exitosa,10%,65000,45000,20000,2000000,35%,Reinvertir
+,,,,,,
+ANÁLISIS DE SENSIBILIDAD,,,,,,,
+Variable,Impacto Alto,Impacto Medio,Impacto Bajo,Recomendación
+Inflación +2%,-5% patrimonio,-2% patrimonio,0% patrimonio,Proteger contra inflación
+Tasa Interés +1%,-3% inversiones,-1% inversiones,0% inversiones,Diversificar portafolio
+Mercado -20%,-15% patrimonio,-8% patrimonio,-3% patrimonio,Fondo emergencia
+Desempleo +5%,-10% ingresos,-5% ingresos,-2% ingresos,Reducir gastos

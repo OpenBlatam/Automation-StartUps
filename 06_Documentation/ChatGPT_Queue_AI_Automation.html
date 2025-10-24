@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 Automatización con IA - ChatGPT Queue</title>
+    <style>
+        @page { size: A4; margin: 2cm; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+        }
+        
+        .container {
+            background: white;
+            margin: 20px;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+            color: white;
+            text-align: center;
+            padding: 50px;
+            margin: -40px -40px 40px -40px;
+            border-radius: 20px 20px 0 0;
+        }
+        
+        h1 {
+            font-size: 3em;
+            margin: 0;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.3em;
+            margin: 20px 0;
+            opacity: 0.9;
+        }
+        
+        .automation-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border-left: 5px solid #a29bfe;
+        }
+        
+        .section-title {
+            color: #6c5ce7;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .automation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .automation-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-left: 5px solid;
+            transition: transform 0.3s ease;
+        }
+        
+        .automation-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .automation-card.email {
+            border-left-color: #74b9ff;
+        }
+        
+        .automation-card.social {
+            border-left-color: #fd79a8;
+        }
+        
+        .automation-card.ads {
+            border-left-color: #fdcb6e;
+        }
+        
+        .automation-card.content {
+            border-left-color: #00b894;
+        }
+        
+        .automation-card.analytics {
+            border-left-color: #ff6b6b;
+        }
+        
+        .automation-card.support {
+            border-left-color: #a29bfe;
+        }
+        
+        .card-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2c2c54;
+        }
+        
+        .card-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+        
+        .card-description {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .automation-features {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .automation-features li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            color: #666;
+        }
+        
+        .automation-features li:before {
+            content: "🤖 ";
+            color: #a29bfe;
+            font-weight: bold;
+        }
+        
+        .workflow-section {
+            background: #2c2c54;
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 30px 0;
+        }
+        
+        .workflow-title {
+            font-size: 2em;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .workflow-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .workflow-step {
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .step-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #a29bfe;
+            margin-bottom: 15px;
+        }
+        
+        .step-title {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .step-description {
+            font-size: 0.9em;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+        
+        .ai-tools {
+            background: #e8f4f8;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .tools-title {
+            color: #0984e3;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .tool-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .tool-name {
+            color: #0984e3;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .tool-description {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+        
+        .tool-cost {
+            color: #00b894;
+            font-weight: bold;
+        }
+        
+        .automation-benefits {
+            background: #fff3cd;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border-left: 5px solid #ffc107;
+        }
+        
+        .benefits-title {
+            color: #856404;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .benefit-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .benefit-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        
+        .benefit-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .footer {
+            background: #2d3436;
+            color: white;
+            padding: 40px;
+            text-align: center;
+            margin: 40px -40px -40px -40px;
+            border-radius: 0 0 20px 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 Automatización con IA</h1>
+            <p class="subtitle">ChatGPT Queue - Sistema de Automatización Inteligente</p>
+        </div>
+
+        <div class="automation-section">
+            <h2 class="section-title">🚀 Módulos de Automatización</h2>
+            
+            <div class="automation-grid">
+                <div class="automation-card email">
+                    <div class="card-icon">📧</div>
+                    <div class="card-title">Email Marketing Automatizado</div>
+                    <div class="card-description">
+                        Sistema inteligente de email marketing que personaliza mensajes basado en comportamiento del usuario.
+                    </div>
+                    <ul class="automation-features">
+                        <li>Segmentación automática por comportamiento</li>
+                        <li>Personalización de contenido con IA</li>
+                        <li>Optimización de horarios de envío</li>
+                        <li>Predicción de abandono de carrito</li>
+                        <li>Reactivación automática de usuarios inactivos</li>
+                        <li>A/B testing automático de subject lines</li>
+                    </ul>
+                </div>
+
+                <div class="automation-card social">
+                    <div class="card-title">Redes Sociales Inteligentes</div>
+                    <div class="card-description">
+                        Automatización completa de redes sociales con contenido generado por IA y optimización de horarios.
+                    </div>
+                    <ul class="automation-features">
+                        <li>Generación automática de contenido</li>
+                        <li>Optimización de horarios de publicación</li>
+                        <li>Respuestas automáticas a comentarios</li>
+                        <li>Análisis de sentimientos en tiempo real</li>
+                        <li>Identificación automática de influencers</li>
+                        <li>Programación inteligente de posts</li>
+                    </ul>
+                </div>
+
+                <div class="automation-card ads">
+                    <div class="card-title">Publicidad Automatizada</div>
+                    <div class="card-description">
+                        Optimización automática de campañas publicitarias con IA para maximizar ROI.
+                    </div>
+                    <ul class="automation-features">
+                        <li>Optimización automática de pujas</li>
+                        <li>Creación automática de anuncios</li>
+                        <li>Segmentación dinámica de audiencias</li>
+                        <li>Predicción de rendimiento de campañas</li>
+                        <li>Pausa automática de anuncios de bajo rendimiento</li>
+                        <li>Escalado automático de campañas exitosas</li>
+                    </ul>
+                </div>
+
+                <div class="automation-card content">
+                    <div class="card-title">Generación de Contenido</div>
+                    <div class="card-description">
+                        Creación automática de contenido personalizado para diferentes canales y audiencias.
+                    </div>
+                    <ul class="automation-features">
+                        <li>Generación de artículos de blog</li>
+                        <li>Creación automática de posts para redes sociales</li>
+                        <li>Generación de emails personalizados</li>
+                        <li>Creación de landing pages dinámicas</li>
+                        <li>Generación de descripciones de productos</li>
+                        <li>Creación de contenido multimedia</li>
+                    </ul>
+                </div>
+
+                <div class="automation-card analytics">
+                    <div class="card-title">Analytics Inteligente</div>
+                    <div class="card-description">
+                        Análisis automático de datos con insights y recomendaciones de optimización.
+                    </div>
+                    <ul class="automation-features">
+                        <li>Análisis automático de tendencias</li>
+                        <li>Detección de anomalías en métricas</li>
+                        <li>Predicción de rendimiento futuro</li>
+                        <li>Recomendaciones automáticas de optimización</li>
+                        <li>Alertas inteligentes de cambios significativos</li>
+                        <li>Reportes automáticos personalizados</li>
+                    </ul>
+                </div>
+
+                <div class="automation-card support">
+                    <div class="card-title">Soporte Automatizado</div>
+                    <div class="card-description">
+                        Sistema de soporte al cliente con IA para respuestas instantáneas y escalación inteligente.
+                    </div>
+                    <ul class="automation-features">
+                        <li>Chatbot inteligente 24/7</li>
+                        <li>Respuestas automáticas a preguntas frecuentes</li>
+                        <li>Escalación automática de casos complejos</li>
+                        <li>Análisis de sentimientos del cliente</li>
+                        <li>Predicción de problemas potenciales</li>
+                        <li>Integración con sistemas de tickets</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="workflow-section">
+            <h2 class="workflow-title">🔄 Flujo de Automatización Completo</h2>
+            
+            <div class="workflow-steps">
+                <div class="workflow-step">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Captura de Datos</div>
+                    <div class="step-description">
+                        Recolección automática de datos de comportamiento, interacciones y preferencias del usuario
+                    </div>
+                </div>
+                
+                <div class="workflow-step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Análisis con IA</div>
+                    <div class="step-description">
+                        Procesamiento inteligente de datos para identificar patrones, preferencias y oportunidades
+                    </div>
+                </div>
+                
+                <div class="workflow-step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Segmentación Automática</div>
+                    <div class="step-description">
+                        Clasificación automática de usuarios en segmentos basados en comportamiento y características
+                    </div>
+                </div>
+                
+                <div class="workflow-step">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Personalización</div>
+                    <div class="step-description">
+                        Creación automática de contenido y mensajes personalizados para cada segmento
+                    </div>
+                </div>
+                
+                <div class="workflow-step">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Ejecución Automática</div>
+                    <div class="step-description">
+                        Envío automático de mensajes, publicaciones y campañas en el momento óptimo
+                    </div>
+                </div>
+                
+                <div class="workflow-step">
+                    <div class="step-number">6</div>
+                    <div class="step-title">Optimización Continua</div>
+                    <div class="step-description">
+                        Ajuste automático de estrategias basado en resultados y feedback en tiempo real
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ai-tools">
+            <h2 class="tools-title">🛠️ Herramientas de IA Integradas</h2>
+            
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-name">OpenAI GPT-4</div>
+                    <div class="tool-description">Generación de contenido, respuestas de soporte y análisis de texto</div>
+                    <div class="tool-cost">$0.03/1K tokens</div>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-name">Claude 3</div>
+                    <div class="tool-description">Análisis de documentos, resúmenes y generación de contenido técnico</div>
+                    <div class="tool-cost">$0.015/1K tokens</div>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-name">Midjourney</div>
+                    <div class="tool-description">Generación de imágenes para redes sociales y marketing</div>
+                    <div class="tool-cost">$30/mes</div>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-name">Runway ML</div>
+                    <div class="tool-description">Generación de videos y contenido multimedia</div>
+                    <div class="tool-cost">$12/mes</div>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-name">Zapier AI</div>
+                    <div class="tool-description">Automatización de workflows y integración entre herramientas</div>
+                    <div class="tool-cost">$20/mes</div>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-name">Jasper AI</div>
+                    <div class="tool-description">Generación de copy publicitario y contenido de marketing</div>
+                    <div class="tool-cost">$49/mes</div>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-name">Copy.ai</div>
+                    <div class="tool-description">Generación de emails, posts y landing pages</div>
+                    <div class="tool-cost">$36/mes</div>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-name">Surfer SEO</div>
+                    <div class="tool-description">Optimización de contenido para SEO con IA</div>
+                    <div class="tool-cost">$89/mes</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="automation-benefits">
+            <h2 class="benefits-title">📈 Beneficios de la Automatización</h2>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-number">85%</div>
+                    <div class="benefit-label">Reducción de Tiempo</div>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-number">60%</div>
+                    <div class="benefit-label">Aumento de Conversión</div>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-number">40%</div>
+                    <div class="benefit-label">Reducción de Costos</div>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-number">95%</div>
+                    <div class="benefit-label">Precisión en Segmentación</div>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-number">24/7</div>
+                    <div class="benefit-label">Operación Continua</div>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-number">300%</div>
+                    <div class="benefit-label">ROI Mejorado</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="automation-section">
+            <h2 class="section-title">🎯 Casos de Uso Específicos</h2>
+            
+            <div class="automation-grid">
+                <div class="automation-card">
+                    <div class="card-title">📧 Email de Abandono Inteligente</div>
+                    <div class="card-description">
+                        <strong>Trigger:</strong> Usuario abandona checkout<br>
+                        <strong>Acción:</strong> Email personalizado con descuento basado en comportamiento<br>
+                        <strong>Timing:</strong> 1 hora, 24 horas, 72 horas<br>
+                        <strong>Resultado:</strong> 35% de recuperación de carritos abandonados
+                    </div>
+                </div>
+                
+                <div class="automation-card">
+                    <div class="card-title">📱 Post de Redes Sociales</div>
+                    <div class="card-description">
+                        <strong>Trigger:</strong> Nuevo usuario se registra<br>
+                        <strong>Acción:</strong> Post automático de bienvenida personalizado<br>
+                        <strong>Timing:</strong> Inmediato<br>
+                        <strong>Resultado:</strong> 25% más engagement en posts de bienvenida
+                    </div>
+                </div>
+                
+                <div class="automation-card">
+                    <div class="card-title">🎯 Optimización de Anuncios</div>
+                    <div class="card-description">
+                        <strong>Trigger:</strong> CPA > $50 en 24 horas<br>
+                        <strong>Acción:</strong> Pausa automática y reasignación de presupuesto<br>
+                        <strong>Timing:</strong> Tiempo real<br>
+                        <strong>Resultado:</strong> 20% reducción en CPA promedio
+                    </div>
+                </div>
+                
+                <div class="automation-card">
+                    <div class="card-title">💬 Soporte Inteligente</div>
+                    <div class="card-description">
+                        <strong>Trigger:</strong> Pregunta en chat<br>
+                        <strong>Acción:</strong> Respuesta automática con IA + escalación si es necesario<br>
+                        <strong>Timing:</strong> < 30 segundos<br>
+                        <strong>Resultado:</strong> 90% de preguntas resueltas automáticamente
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <h3>🤖 Sistema de Automatización con IA</h3>
+            <p style="font-size: 1.2em; margin: 20px 0;">
+                <strong>Automatización inteligente para maximizar eficiencia y ROI</strong>
+            </p>
+            <p style="font-size: 1.1em; margin: 20px 0;">
+                Email • Social • Ads • Contenido • Analytics • Soporte
+            </p>
+            <p style="font-size: 0.9em; margin-top: 30px; opacity: 0.8;">
+                © 2024 - ChatGPT Queue AI Automation. Automatización inteligente para crecimiento exponencial.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

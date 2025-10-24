@@ -1,0 +1,31 @@
+Red Neuronal,Entrada,Salida,Capas,Neuronas,Precisión %,Estado
+REDES DE PREDICCIÓN,,,,,,
+Predicción de Ingresos,36 meses datos,Ingresos futuros,5,128,87%,✅ Activo
+Predicción de Gastos,24 meses datos,Gastos futuros,4,64,92%,✅ Activo
+Predicción de ROI,48 meses datos,ROI futuro,6,256,78%,✅ Activo
+Predicción de Volatilidad,60 meses datos,Volatilidad futura,5,128,85%,✅ Activo
+,,,,,,
+REDES DE CLASIFICACIÓN,,,,,,
+Clasificación de Gastos,Transacciones,Gastos por categoría,3,32,95%,✅ Activo
+Detección de Fraude,Transacciones,Probabilidad fraude,4,64,88%,✅ Activo
+Clasificación de Riesgo,Portafolio,Nivel de riesgo,5,128,82%,✅ Activo
+Clasificación de Oportunidades,Market data,Oportunidad de inversión,4,64,90%,✅ Activo
+,,,,,,
+REDES DE RECOMENDACIÓN,,,,,,
+Recomendación de Inversiones,Perfil usuario,Inversiones recomendadas,6,256,85%,✅ Activo
+Recomendación de Ahorro,Historial ahorro,Estrategias ahorro,4,64,90%,✅ Activo
+Recomendación de Seguros,Perfil riesgo,Seguros recomendados,5,128,88%,✅ Activo
+Recomendación de Metas,Objetivos actuales,Metas sugeridas,4,64,92%,✅ Activo
+,,,,,,
+REDES DE OPTIMIZACIÓN,,,,,,
+Optimización de Portafolio,Activos actuales,Portafolio óptimo,7,512,90%,✅ Activo
+Optimización de Gastos,Presupuesto actual,Gastos optimizados,5,128,85%,✅ Activo
+Optimización de Impuestos,Deducciones actuales,Optimización fiscal,6,256,88%,✅ Activo
+Optimización de Liquidez,Flujo actual,Liquidez óptima,4,64,87%,✅ Activo
+,,,,,,
+MÉTRICAS DE RENDIMIENTO,,,,,,
+Métrica,Valor,Objetivo,Estado,Tendencia
+Precisión Promedio,87.5%,>85%,✅ Cumplido,📈 Mejorando
+Tiempo de Entrenamiento,2 horas,<4 horas,✅ Cumplido,📈 Mejorando
+Tiempo de Inferencia,50ms,<100ms,✅ Cumplido,📈 Mejorando
+Uso de Memoria,2GB,<4GB,✅ Cumplido,📈 Mejorando

@@ -1,0 +1,24 @@
+Métrica,Valor Actual,Valor Anterior,Cambio %,Tendencia,Proyección 3M,Proyección 6M,Proyección 12M,Acción
+ANÁLISIS DE RENDIMIENTO,,,,,,,
+ROI Total Portafolio,15.2%,12.8%,=C2-B2,📈,16.5%,18.1%,20.3%,Mantener estrategia
+ROI Marketing,350%,280%,=C3-B3,📈,375%,400%,450%,Aumentar presupuesto
+Tasa de Ahorro,25%,22%,=C4-B4,📈,28%,30%,35%,Excelente progreso
+Ratio Deuda/Ingresos,0.30,0.35,=C5-B5,📉,0.28,0.25,0.20,Reducir deudas
+,,,,,,
+ANÁLISIS DE RIESGO,,,,,,,
+Volatilidad Portafolio,12%,15%,=C7-B7,📉,11%,10%,9%,Reducir riesgo
+Beta de Mercado,1.2,1.4,=C8-B8,📉,1.1,1.0,0.9,Menos volátil
+Sharpe Ratio,1.8,1.5,=C9-B9,📈,1.9,2.0,2.2,Mejor retorno/riesgo
+VaR (95%),-5%,-8%,=C10-B10,📈,-4%,-3%,-2%,Menor pérdida máxima
+,,,,,,
+ANÁLISIS DE LIQUIDEZ,,,,,,,
+Ratio de Liquidez,2.5,2.2,=C12-B12,📈,2.7,3.0,3.5,Excelente liquidez
+Efectivo Disponible,75000,60000,=C13-B13,📈,85000,100000,120000,Construir reservas
+Flujo de Caja Libre,12000,8000,=C14-B14,📈,15000,20000,25000,Aumentar flujo
+Margen de Seguridad,21%,18%,=C15-B15,📈,24%,27%,30%,Mejorar margen
+,,,,,,
+ANÁLISIS DE CRECIMIENTO,,,,,,,
+Crecimiento Patrimonio,8.5%,6.2%,=C17-B17,📈,10%,12%,15%,Acelerar crecimiento
+Crecimiento Ingresos,5%,3%,=C18-B18,📈,7%,9%,12%,Diversificar fuentes
+Crecimiento Ahorros,15%,12%,=C19-B19,📈,18%,22%,25%,Mantener disciplina
+Crecimiento Inversiones,18%,15%,=C20-B20,📈,20%,22%,25%,Optimizar portafolio

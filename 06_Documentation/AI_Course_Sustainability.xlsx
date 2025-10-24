@@ -1,0 +1,58 @@
+# AI COURSE SUSTAINABILITY VERSION - EXCEL TEMPLATE
+# Specialized for Sustainability and Environmental Impact
+
+## SUSTAINABILITY METRICS
+Sustainability_Metric,Current_Value,Target_Value,Impact_Score,Formula_Used
+Carbon_Footprint,=100_tonnes,=80_tonnes,=B2*C2*D2,=B2*C2*D2
+Energy_Efficiency,=85%,=90%,=B3*C3*D3,=B3*C3*D3
+Waste_Reduction,=20%,=30%,=B4*C4*D4,=B4*C4*D4
+Renewable_Energy,=60%,=80%,=B5*C5*D5,=B5*C5*D5
+ESG_Score,=8.8,=9.0,=B6*C6*D6,=B6*C6*D6
+TOTAL,=0,=0,=AVERAGE(F2:F6),=AVERAGE(F2:F6)
+
+## ENVIRONMENTAL IMPACT
+Impact_Category,Current_Level,Target_Level,Improvement_Score,Formula_Used
+Energy_Consumption,=5000_kWh,=4000_kWh,=B2*C2*D2,=B2*C2*D2
+Water_Usage,=1000_liters,=800_liters,=B3*C3*D3,=B3*C3*D3
+Paper_Usage,=500_sheets,=300_sheets,=B4*C4*D4,=B4*C4*D4
+Electronic_Waste,=50_kg,=30_kg,=B5*C5*D5,=B5*C5*D5
+TOTAL,=0,=0,=AVERAGE(F2:F5),=AVERAGE(F2:F5)
+
+## GREEN TECHNOLOGY
+Technology_Type,Adoption_Rate,Environmental_Benefit,Formula_Used
+Cloud_Computing,=90%,=B2*C2,=B2*C2
+Virtual_Meetings,=95%,=B3*C3,=B3*C3
+Digital_Documents,=85%,=B4*C4,=B4*C4
+Energy_Efficient_Devices,=80%,=B5*C5,=B5*C5
+TOTAL,=87.5%,=AVERAGE(F2:F5),=AVERAGE(F2:F5)
+
+## SUSTAINABLE PRACTICES
+Practice_Type,Implementation_Level,Effectiveness_Score,Formula_Used
+Remote_Work,=80%,=B2*C2,=B2*C2
+Paperless_Office,=90%,=B3*C3,=B3*C3
+Energy_Conservation,=75%,=B4*C4,=B4*C4
+Waste_Recycling,=85%,=B5*C5,=B5*C5
+TOTAL,=82.5%,=AVERAGE(F2:F5),=AVERAGE(F2:F5)
+
+## CARBON OFFSETTING
+Offset_Type,Current_Amount,Target_Amount,Offset_Value,Formula_Used
+Tree_Planting,=100_trees,=150_trees,=B2*C2*D2,=B2*C2*D2
+Renewable_Energy_Credits,=50_MWh,=80_MWh,=B3*C3*D3,=B3*C3*D3
+Carbon_Credits,=25_tonnes,=40_tonnes,=B4*C4*D4,=B4*C4*D4
+TOTAL,=0,=0,=AVERAGE(F2:F4),=AVERAGE(F2:F4)
+
+## SUSTAINABILITY REPORTING
+Report_Type,Frequency,Compliance_Score,Formula_Used
+Carbon_Footprint_Report,=Quarterly,=B2*C2,=B2*C2
+ESG_Report,=Annually,=B3*C3,=B3*C3
+Sustainability_Dashboard,=Monthly,=B4*C4,=B4*C4
+Environmental_Audit,=Bi_annually,=B5*C5,=B5*C5
+TOTAL,=0,=AVERAGE(F2:F5),=AVERAGE(F2:F5)
+
+## SUSTAINABILITY DASHBOARD
+KPI,Current_Value,Target_Value,Status,Formula_Used
+Carbon_Footprint,=100_tonnes,=80_tonnes,=IF(B2<=C2,"Exceeding","Below"),=IF(B2<=C2,"Exceeding","Below")
+Energy_Efficiency,=85%,=90%,=IF(B3>=C3,"Exceeding","Below"),=IF(B3>=C3,"Exceeding","Below")
+Waste_Reduction,=20%,=30%,=IF(B4>=C4,"Exceeding","Below"),=IF(B4>=C4,"Exceeding","Below")
+ESG_Score,=8.8,=9.0,=IF(B5>=C5,"Exceeding","Below"),=IF(B5>=C5,"Exceeding","Below")
+TOTAL,=0,=0,=AVERAGE(E2:E5),=AVERAGE(E2:E5)

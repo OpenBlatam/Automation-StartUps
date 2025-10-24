@@ -1,0 +1,25 @@
+Consulta,Respuesta,Confianza,Acción Sugerida,Prioridad,Estado
+ANÁLISIS DE SITUACIÓN,,,,,
+¿Cuál es mi salud financiera actual?,Score: 85/100 - Excelente. Fortalezas: Liquidez alta, deudas controladas. Áreas de mejora: Diversificación de inversiones,=B2*0.9,Revisar portafolio de inversiones,Alta,✅ Completado
+¿Debo aumentar mi presupuesto de marketing?,Sí, tu ROI de marketing es 350% vs 300% objetivo. El presupuesto de $6000 es eficiente,=B3*0.95,Mantener o aumentar ligeramente,Alta,✅ Completado
+¿Cuál es la mejor estrategia de inversión?,Portafolio 60% acciones, 30% bonos, 10% commodities. Considera fondos indexados,=B4*0.85,Diversificar más en fondos indexados,Media,✅ Completado
+,,,,,,
+RECOMENDACIONES PERSONALIZADAS,,,,,
+¿Cuándo puedo comprar una casa?,Con tu ahorro actual de $150K, necesitas $350K más. En 18 meses con $20K/mes,=B6*0.9,Acelerar ahorro a $25K/mes,Alta,✅ Completado
+¿Debo consolidar mis deudas?,Sí, puedes ahorrar $500/mes consolidando tarjetas de crédito,=B7*0.8,Buscar préstamo de consolidación,Media,✅ Completado
+¿Cuál es mi meta de jubilación realista?,Con $30K/mes de ahorro, puedes alcanzar $10M en 25 años,=B8*0.95,Mantener disciplina de ahorro,Alta,✅ Completado
+,,,,,,
+ALERTAS INTELIGENTES,,,,,,
+Gasto excesivo en entretenimiento,Has gastado $3000 vs $2000 presupuestado,=B10*0.9,Reducir gastos de ocio,Media,⚠️ Pendiente
+Oportunidad de inversión,El mercado está en corrección, buen momento para comprar,=B11*0.8,Considerar compra adicional,Alta,✅ Completado
+Vencimiento de seguro,Tu seguro de auto vence en 30 días,=B12*0.95,Renovar o comparar opciones,Alta,⚠️ Pendiente
+,,,,,,
+PREDICCIONES FINANCIERAS,,,,,,
+Proyección de patrimonio 1 año,Con tendencia actual: $1.8M (+20%),=B14*0.85,Mantener estrategia actual,Media,✅ Completado
+Proyección de ingresos 2 años,Con crecimiento del 5%: $63K/mes,=B15*0.8,Preparar para mayores ingresos,Media,✅ Completado
+Proyección de gastos 1 año,Con inflación del 4%: $47K/mes,=B16*0.9,Ajustar presupuesto,Media,✅ Completado
+,,,,,,
+OPTIMIZACIÓN DE IMPUESTOS,,,,,,
+Maximizar deducciones 2024,Contribuye $60K a AFORE, $50K en donaciones,=B18*0.9,Implementar estrategia,Alta,✅ Completado
+Ahorro fiscal estimado,Con optimización: $33K de ahorro,=B19*0.85,Documentar gastos,Alta,✅ Completado
+Timing de inversiones,Mejor momento: fin de año para pérdidas fiscales,=B20*0.8,Planificar ventas,Media,✅ Completado
