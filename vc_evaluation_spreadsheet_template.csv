@@ -1,0 +1,87 @@
+# VC Startup Evaluation Spreadsheet Template
+
+## Company Information
+Company Name,	Sector,	Stage,	Location,	Founded,	Team Size,	Deal Lead,	Review Date
+[Company Name],	AI/Climate/Fintech,	Pre-Seed/Seed/Series A,	[Location],	[Year],	[Number],	[Name],	[Date]
+
+## Scoring Matrix (1-10 scale)
+Criteria,	Score,	Weight,	Weighted Score,	Notes
+Problem Assessment,	,	25%,	,	
+- Market Pain Intensity,	,	,	,	
+- Market Size,	,	,	,	
+- Market Timing,	,	,	,	
+Solution Analysis,	,	20%,	,	
+- Technical Moat,	,	,	,	
+- Network Effects,	,	,	,	
+- Data Moat,	,	,	,	
+- Switching Costs,	,	,	,	
+Traction Metrics,	,	20%,	,	
+- MRR Growth,	,	,	,	
+- User Growth,	,	,	,	
+- Revenue Quality,	,	,	,	
+- Market Validation,	,	,	,	
+Team Evaluation,	,	15%,	,	
+- Domain Expertise,	,	,	,	
+- Execution Track Record,	,	,	,	
+- Team Completeness,	,	,	,	
+- Leadership Quality,	,	,	,	
+Unit Economics,	,	10%,	,	
+- CAC,	,	,	,	
+- LTV,	,	,	,	
+- LTV/CAC Ratio,	,	,	,	
+- Burn Rate,	,	,	,	
+Funding Ask,	,	5%,	,	
+- Valuation Reasonableness,	,	,	,	
+- Use of Funds,	,	,	,	
+- Runway,	,	,	,	
+Red Flags Assessment,	,	5%,	,	
+- Legal/Regulatory,	,	,	,	
+- Competition,	,	,	,	
+- Technology Risk,	,	,	,	
+- Market Risk,	,	,	,	
+
+## Financial Metrics
+Metric,	Value,	Benchmark,	Status
+Current MRR,	$,	,	
+MoM Growth Rate,	%,	>10%,	
+Total Users,	,	,	
+User Growth Rate,	%,	>20%,	
+CAC,	$,	<500,	
+LTV,	$,	>2000,	
+LTV/CAC Ratio,	x,	>5x,	
+Monthly Burn,	$,	<200K,	
+Runway (months),	,	>12,	
+Retention Rate,	%,	>80%,	
+Churn Rate,	%,	<5%,	
+
+## Decision Framework
+Overall Score,	Recommendation,	Next Steps
+9-10,	PASS,	Schedule IC meeting
+7-8,	DEEP DIVE,	Conduct due diligence
+5-6,	DEEP DIVE (Caution),	Limited due diligence
+3-4,	REJECT,	Decline politely
+1-2,	REJECT,	Decline immediately
+
+## Due Diligence Checklist
+Item,	Status,	Owner,	Due Date,	Notes
+Customer References,	,	,	,	
+Technical Review,	,	,	,	
+Financial Audit,	,	,	,	
+Legal Review,	,	,	,	
+Market Validation,	,	,	,	
+Competitive Analysis,	,	,	,	
+IP Review,	,	,	,	
+Team References,	,	,	,	
+
+## Investment Committee Notes
+Committee Members,	Vote,	Comments
+[Name],	Pass/Deep Dive/Reject,	[Comments]
+[Name],	Pass/Deep Dive/Reject,	[Comments]
+[Name],	Pass/Deep Dive/Reject,	[Comments]
+
+## Final Decision
+Decision,	Investment Amount,	Valuation,	Ownership %,	Lead Partner
+[Pass/Deep Dive/Reject],	$,	$,	%,	[Name]
+
+
+

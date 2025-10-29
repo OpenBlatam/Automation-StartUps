@@ -5,43 +5,66 @@
 - **Última actualización**: 29 de septiembre de 2024
 - **Área principal**: Estrategias de marketing digital, contenido, SEO, análisis
 
-## 📁 **Categorías de Documentos**
+## 📁 **10 Áreas Especializadas de Marketing**
 
-### 🎯 **Estrategias de Marketing**
-- Estrategias de crecimiento y viralización
-- Planes de marketing digital
-- Estrategias por sector e industria
-- Estrategias de posicionamiento
+### 01. 📱 **Digital Marketing** (`/01_Digital_Marketing/`)
+- Marketing en múltiples plataformas
+- Estrategias digitales integrales
+- Conversión y ROI
 
-### 📝 **Contenido y Copywriting**
-- Guías de creación de contenido
-- Ejemplos de copy efectivo
-- Plantillas de contenido
-- Estrategias de storytelling
+### 02. 📝 **Content Marketing** (`/02_Content_Marketing/`)
+- Estrategias de contenido
+- Copywriting y storytelling
+- Producción y distribución
+- Optimización de contenido
 
-### 🔍 **SEO y SEM**
-- Optimización de motores de búsqueda
-- Análisis de anchor texts
-- Estrategias de palabras clave
-- Análisis de competencia
+### 03. 🎨 **Social Media** (`/03_Social_Media/`)
+- Facebook, Instagram, LinkedIn
+- Twitter, TikTok, YouTube
+- Community management
+- Social media advertising
 
-### 📊 **Análisis y Métricas**
-- Análisis de sentimientos
-- Análisis de tendencias
-- Métricas de rendimiento
-- Dashboards de marketing
+### 04. ✉️ **Email Marketing** (`/04_Email_Marketing/`)
+- Campañas automatizadas
+- Drip campaigns
+- Newsletters y promociones
+- Segmentation y personalización
 
-### 🎨 **Redes Sociales**
-- Estrategias para redes sociales
-- Scripts para videos
-- Contenido para plataformas
-- Análisis de engagement
+### 05. 🎯 **Lead Generation** (`/05_Lead_Generation/`)
+- Captura de leads
+- Landing pages
+- Lead magnets y webinars
+- Qualificación y nurturing
 
-### 🤖 **Marketing con IA**
-- Automatización de marketing
-- Personalización con IA
-- Herramientas de IA para marketing
-- Análisis predictivo
+### 06. 📊 **Analytics** (`/06_Analytics/`)
+- Dashboards y reporting
+- Métricas y KPIs
+- Data analysis
+- Attribution tracking
+
+### 07. 🎪 **Campaign Management** (`/07_Campaign_Management/`)
+- Planning y ejecución
+- Multi-channel campaigns
+- Performance tracking
+- Optimization
+
+### 08. 🤖 **AI Marketing** (`/08_AI_Marketing/`)
+- Marketing automation
+- AI-powered personalization
+- Predictive analytics
+- Machine learning applications
+
+### 09. 🎨 **Brand Management** (`/09_Brand_Management/`)
+- Brand identity
+- Positioning y messaging
+- Reputation management
+- Brand guidelines
+
+### 10. 👥 **Team Management** (`/10_Team_Management/`)
+- Organizational structure
+- Processes y workflows
+- Team development
+- Performance management
 
 ## 🚀 **Documentos Destacados**
 

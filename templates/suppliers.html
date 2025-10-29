@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% block title %}Proveedores - Sistema de Gestión de Inventario{% endblock %}
+{% block page_title %}Gestión de Proveedores{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>
+        <i class="fas fa-truck me-2"></i>Proveedores
+    </h2>
+    <button class="btn btn-primary btn-action" data-bs-toggle="modal" data-bs-target="#supplierModal">
+        <i class="fas fa-plus me-2"></i>Agregar Proveedor
+    </button>
+</div>
+
+<!-- Tabla de Proveedores -->
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Contacto</th>
+                        <th>Email</th>
+                        <th>Teléfono</th>
+                        <th>Tiempo de Entrega</th>
+                        <th>Productos</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for supplier in suppliers %}
+                    <tr>
+                        <td>
+                            <strong>{{ supplier.name }}</strong>
+                            {% if supplier.address %}
+                                <br><small class="text-muted">{{ supplier.address[:50] }}{% if supplier.address|length > 50 %}...{% endif %}</small>
+                            {% endif %}
+                        </td>
+                        <td>{{ supplier.contact_person or 'No especificado' }}</td>
+                        <td>{{ supplier.email or 'No especificado' }}</td>
+                        <td>{{ supplier.phone or 'No especificado' }}</td>
+                        <td>
+                            <span class="badge bg-info">{{ supplier.lead_time_days }} días</span>
+                        </td>
+                        <td>
+                            <span class="badge bg-secondary">{{ supplier.products.count() }} productos</span>
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <button class="btn btn-outline-primary" onclick="editSupplier({{ supplier.id }})">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-outline-danger" onclick="deleteSupplier({{ supplier.id }})">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Agregar/Editar Proveedor -->
+<div class="modal fade" id="supplierModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Agregar Proveedor</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="supplierForm">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nombre del Proveedor</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="contact_person" class="form-label">Persona de Contacto</label>
+                        <input type="text" class="form-control" id="contact_person" name="contact_person">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Teléfono</label>
+                        <input type="tel" class="form-control" id="phone" name="phone">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Dirección</label>
+                        <textarea class="form-control" id="address" name="address" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="lead_time_days" class="form-label">Tiempo de Entrega (días)</label>
+                        <input type="number" class="form-control" id="lead_time_days" name="lead_time_days" min="1" value="7">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Proveedor</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function editSupplier(supplierId) {
+    // Implementar edición de proveedor
+    console.log('Editar proveedor:', supplierId);
+}
+
+function deleteSupplier(supplierId) {
+    if (confirm('¿Estás seguro de que deseas eliminar este proveedor?')) {
+        // Implementar eliminación de proveedor
+        console.log('Eliminar proveedor:', supplierId);
+    }
+}
+
+// Manejar formulario de proveedor
+document.getElementById('supplierForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData);
+    
+    // Aquí implementarías la llamada a la API
+    console.log('Datos del proveedor:', data);
+    
+    // Cerrar modal
+    const modal = bootstrap.Modal.getInstance(document.getElementById('supplierModal'));
+    modal.hide();
+    
+    // Mostrar mensaje de éxito
+    alert('Proveedor guardado exitosamente');
+    
+    // Recargar página
+    location.reload();
+});
+</script>
+{% endblock %}
+
+
+

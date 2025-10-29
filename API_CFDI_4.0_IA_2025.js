@@ -684,19 +684,10 @@ class APICFDI4IA {
         }
     }
 
-    start() {
-        this.app.listen(this.port, () => {
-            console.log(`🚀 API CFDI 4.0 IA iniciada en puerto ${this.port}`);
-            console.log(`📊 Estadísticas: ${JSON.stringify(this.stats)}`);
-            console.log(`🔐 Autenticación JWT habilitada`);
-            console.log(`🛡️  Seguridad avanzada activada`);
-        });
+    listen(port, callback) {
+        this.app.listen(port || this.port, callback);
     }
 }
-
-// Inicializar API
-const api = new APICFDI4IA();
-api.start();
 
 module.exports = APICFDI4IA;
 

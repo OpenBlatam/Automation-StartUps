@@ -1,544 +1,376 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
-Optimizador Automático de Presupuestos para Campañas de Marketing con IA
-=======================================================================
-Utiliza algoritmos de optimización para distribuir presupuestos de manera óptima.
+Budget Optimizer
+AI-powered budget optimization and recommendations
+Version: 2.0.0
 """
 
-import json
 import pandas as pd
 import numpy as np
-from datetime import datetime
-from typing import Dict, List, Any, Tuple
-from scipy.optimize import minimize, differential_evolution
-import warnings
-warnings.filterwarnings('ignore')
+from datetime import datetime, timedelta
+from typing import Dict, List, Tuple, Optional
+import json
+from dataclasses import dataclass
+
+
+@dataclass
+class BudgetRecommendation:
+    """Represents a budget optimization recommendation"""
+    category: str
+    current_budget: float
+    recommended_budget: float
+    adjustment: float
+    adjustment_percentage: float
+    reason: str
+    potential_savings: float
+    priority: str  # high, medium, low
+    confidence: float
+    
+    def to_dict(self):
+        return {
+            'category': self.category,
+            'current_budget': self.current_budget,
+            'recommended_budget': self.recommended_budget,
+            'adjustment': self.adjustment,
+            'adjustment_percentage': self.adjustment_percentage,
+            'reason': self.reason,
+            'potential_savings': self.potential_savings,
+            'priority': self.priority,
+            'confidence': self.confidence
+        }
+
 
 class BudgetOptimizer:
-    def __init__(self, campaigns_file='enhanced_1000_ai_marketing_campaigns.json'):
-        """Inicializa el optimizador de presupuestos"""
-        with open(campaigns_file, 'r', encoding='utf-8') as f:
-            self.campaigns = json.load(f)
-        
-        self.df = pd.DataFrame(self.campaigns)
-        
-        # Parámetros de optimización
-        self.optimization_methods = {
-            'maximize_roi': self._maximize_roi,
-            'maximize_conversions': self._maximize_conversions,
-            'minimize_risk': self._minimize_risk,
-            'balanced_approach': self._balanced_approach
-        }
+    """
+    AI-powered budget optimization system
+    """
     
-    def optimize_portfolio_budget(self, total_budget: float, 
-                                campaign_ids: List[int] = None,
-                                optimization_method: str = 'balanced_approach',
-                                constraints: Dict = None) -> Dict[str, Any]:
-        """Optimiza la distribución de presupuesto en un portafolio de campañas"""
-        
-        if campaign_ids is None:
-            # Usar todas las campañas si no se especifican
-            campaign_ids = list(range(1, len(self.campaigns) + 1))
-        
-        # Filtrar campañas válidas
-        valid_campaigns = []
-        for campaign_id in campaign_ids:
-            campaign = next((c for c in self.campaigns if c['id'] == campaign_id), None)
-            if campaign:
-                valid_campaigns.append(campaign)
-        
-        if not valid_campaigns:
-            return {"error": "No se encontraron campañas válidas"}
-        
-        # Preparar datos para optimización
-        campaign_data = self._prepare_campaign_data(valid_campaigns)
-        
-        # Aplicar restricciones
-        if constraints:
-            campaign_data = self._apply_constraints(campaign_data, constraints)
-        
-        # Ejecutar optimización
-        optimization_func = self.optimization_methods.get(optimization_method, self._balanced_approach)
-        result = optimization_func(campaign_data, total_budget)
-        
-        # Generar reporte de optimización
-        optimization_report = self._generate_optimization_report(
-            campaign_data, result, total_budget, optimization_method
-        )
-        
-        return optimization_report
+    def __init__(self):
+        self.transactions = []
+        self.budgets = {}
+        self.optimization_history = []
     
-    def _prepare_campaign_data(self, campaigns: List[Dict]) -> pd.DataFrame:
-        """Prepara los datos de campañas para optimización"""
-        data = []
+    def analyze_budget_performance(self, transactions_df: pd.DataFrame) -> Dict:
+        """Analyze how well budgets are being utilized"""
         
-        for campaign in campaigns:
-            metrics = campaign['metrics']
+        analysis = {}
+        
+        for category, budget_amount in self.budgets.items():
+            category_transactions = transactions_df[transactions_df['category'] == category]
             
-            # Calcular métricas de eficiencia
-            roi = metrics.get('return_on_ad_spend', 0)
-            conversion_rate = metrics.get('conversion_rate', 0)
-            cost_per_acquisition = metrics.get('cost_per_acquisition', 0)
-            success_probability = campaign['success_probability']
+            if category_transactions.empty:
+                continue
             
-            # Calcular score de eficiencia
-            efficiency_score = (roi * success_probability) / 10
+            spent = abs(category_transactions['amount'].sum())
+            utilization_rate = (spent / budget_amount * 100) if budget_amount > 0 else 0
             
-            # Calcular riesgo (inverso de probabilidad de éxito)
-            risk_score = 1 - success_probability
+            # Analyze spending patterns
+            avg_monthly_spending = spent / (category_transactions['date'].max() - category_transactions['date'].min()).days * 30
             
-            data.append({
-                'id': campaign['id'],
-                'name': campaign['name'],
-                'category': campaign['category'],
-                'vertical': campaign['vertical'],
-                'current_budget': campaign['budget']['amount'],
-                'min_budget': campaign['budget']['amount'] * 0.5,  # Mínimo 50% del presupuesto actual
-                'max_budget': campaign['budget']['amount'] * 2.0,  # Máximo 200% del presupuesto actual
-                'roi': roi,
-                'conversion_rate': conversion_rate,
-                'cost_per_acquisition': cost_per_acquisition,
-                'success_probability': success_probability,
-                'efficiency_score': efficiency_score,
-                'risk_score': risk_score,
-                'complexity': campaign['complexity'],
-                'priority': campaign['priority']
-            })
-        
-        return pd.DataFrame(data)
-    
-    def _apply_constraints(self, campaign_data: pd.DataFrame, constraints: Dict) -> pd.DataFrame:
-        """Aplica restricciones a los datos de campañas"""
-        # Filtrar por categoría
-        if 'categories' in constraints:
-            campaign_data = campaign_data[campaign_data['category'].isin(constraints['categories'])]
-        
-        # Filtrar por vertical
-        if 'verticals' in constraints:
-            campaign_data = campaign_data[campaign_data['vertical'].isin(constraints['verticals'])]
-        
-        # Filtrar por complejidad
-        if 'complexities' in constraints:
-            campaign_data = campaign_data[campaign_data['complexity'].isin(constraints['complexities'])]
-        
-        # Filtrar por prioridad
-        if 'priorities' in constraints:
-            campaign_data = campaign_data[campaign_data['priority'].isin(constraints['priorities'])]
-        
-        # Filtrar por ROI mínimo
-        if 'min_roi' in constraints:
-            campaign_data = campaign_data[campaign_data['roi'] >= constraints['min_roi']]
-        
-        # Filtrar por probabilidad de éxito mínima
-        if 'min_success_probability' in constraints:
-            campaign_data = campaign_data[campaign_data['success_probability'] >= constraints['min_success_probability']]
-        
-        return campaign_data
-    
-    def _maximize_roi(self, campaign_data: pd.DataFrame, total_budget: float) -> Dict[str, Any]:
-        """Optimiza para maximizar ROI total"""
-        n_campaigns = len(campaign_data)
-        
-        # Función objetivo: maximizar ROI total
-        def objective(budgets):
-            total_roi = 0
-            for i, budget in enumerate(budgets):
-                if i < n_campaigns:
-                    roi = campaign_data.iloc[i]['roi']
-                    success_prob = campaign_data.iloc[i]['success_probability']
-                    # ROI esperado = ROI * Probabilidad de éxito
-                    expected_roi = roi * success_prob
-                    total_roi += budget * expected_roi
-            return -total_roi  # Minimizar el negativo para maximizar
-        
-        # Restricciones
-        constraints = [
-            {'type': 'eq', 'fun': lambda x: sum(x) - total_budget}  # Presupuesto total
-        ]
-        
-        # Límites de presupuesto por campaña
-        bounds = []
-        for i in range(n_campaigns):
-            min_budget = campaign_data.iloc[i]['min_budget']
-            max_budget = campaign_data.iloc[i]['max_budget']
-            bounds.append((min_budget, max_budget))
-        
-        # Punto inicial (distribución uniforme)
-        x0 = [total_budget / n_campaigns] * n_campaigns
-        
-        # Optimizar
-        result = minimize(objective, x0, method='SLSQP', bounds=bounds, constraints=constraints)
-        
-        return {
-            'method': 'maximize_roi',
-            'success': result.success,
-            'optimized_budgets': result.x.tolist(),
-            'total_roi': -result.fun,
-            'optimization_details': result
-        }
-    
-    def _maximize_conversions(self, campaign_data: pd.DataFrame, total_budget: float) -> Dict[str, Any]:
-        """Optimiza para maximizar conversiones totales"""
-        n_campaigns = len(campaign_data)
-        
-        # Función objetivo: maximizar conversiones totales
-        def objective(budgets):
-            total_conversions = 0
-            for i, budget in enumerate(budgets):
-                if i < n_campaigns:
-                    conversion_rate = campaign_data.iloc[i]['conversion_rate']
-                    success_prob = campaign_data.iloc[i]['success_probability']
-                    # Conversiones esperadas = (Presupuesto / CPA) * Tasa de conversión * Probabilidad de éxito
-                    cpa = campaign_data.iloc[i]['cost_per_acquisition']
-                    if cpa > 0:
-                        expected_conversions = (budget / cpa) * (conversion_rate / 100) * success_prob
-                        total_conversions += expected_conversions
-            return -total_conversions  # Minimizar el negativo para maximizar
-        
-        # Restricciones
-        constraints = [
-            {'type': 'eq', 'fun': lambda x: sum(x) - total_budget}  # Presupuesto total
-        ]
-        
-        # Límites de presupuesto por campaña
-        bounds = []
-        for i in range(n_campaigns):
-            min_budget = campaign_data.iloc[i]['min_budget']
-            max_budget = campaign_data.iloc[i]['max_budget']
-            bounds.append((min_budget, max_budget))
-        
-        # Punto inicial (distribución uniforme)
-        x0 = [total_budget / n_campaigns] * n_campaigns
-        
-        # Optimizar
-        result = minimize(objective, x0, method='SLSQP', bounds=bounds, constraints=constraints)
-        
-        return {
-            'method': 'maximize_conversions',
-            'success': result.success,
-            'optimized_budgets': result.x.tolist(),
-            'total_conversions': -result.fun,
-            'optimization_details': result
-        }
-    
-    def _minimize_risk(self, campaign_data: pd.DataFrame, total_budget: float) -> Dict[str, Any]:
-        """Optimiza para minimizar riesgo total"""
-        n_campaigns = len(campaign_data)
-        
-        # Función objetivo: minimizar riesgo total (maximizar probabilidad de éxito)
-        def objective(budgets):
-            total_risk = 0
-            for i, budget in enumerate(budgets):
-                if i < n_campaigns:
-                    risk_score = campaign_data.iloc[i]['risk_score']
-                    # Riesgo ponderado por presupuesto
-                    weighted_risk = budget * risk_score
-                    total_risk += weighted_risk
-            return total_risk
-        
-        # Restricciones
-        constraints = [
-            {'type': 'eq', 'fun': lambda x: sum(x) - total_budget}  # Presupuesto total
-        ]
-        
-        # Límites de presupuesto por campaña
-        bounds = []
-        for i in range(n_campaigns):
-            min_budget = campaign_data.iloc[i]['min_budget']
-            max_budget = campaign_data.iloc[i]['max_budget']
-            bounds.append((min_budget, max_budget))
-        
-        # Punto inicial (distribución uniforme)
-        x0 = [total_budget / n_campaigns] * n_campaigns
-        
-        # Optimizar
-        result = minimize(objective, x0, method='SLSQP', bounds=bounds, constraints=constraints)
-        
-        return {
-            'method': 'minimize_risk',
-            'success': result.success,
-            'optimized_budgets': result.x.tolist(),
-            'total_risk': result.fun,
-            'optimization_details': result
-        }
-    
-    def _balanced_approach(self, campaign_data: pd.DataFrame, total_budget: float) -> Dict[str, Any]:
-        """Optimiza usando un enfoque balanceado (ROI, conversiones y riesgo)"""
-        n_campaigns = len(campaign_data)
-        
-        # Función objetivo: balancear ROI, conversiones y riesgo
-        def objective(budgets):
-            total_score = 0
-            for i, budget in enumerate(budgets):
-                if i < n_campaigns:
-                    roi = campaign_data.iloc[i]['roi']
-                    conversion_rate = campaign_data.iloc[i]['conversion_rate']
-                    success_prob = campaign_data.iloc[i]['success_probability']
-                    risk_score = campaign_data.iloc[i]['risk_score']
-                    
-                    # Score balanceado: ROI * Conversiones * Probabilidad de éxito - Riesgo
-                    roi_score = roi * success_prob
-                    conversion_score = (conversion_rate / 100) * success_prob
-                    risk_penalty = risk_score * 0.5  # Penalización por riesgo
-                    
-                    balanced_score = (roi_score + conversion_score - risk_penalty) * budget
-                    total_score += balanced_score
-            return -total_score  # Minimizar el negativo para maximizar
-        
-        # Restricciones
-        constraints = [
-            {'type': 'eq', 'fun': lambda x: sum(x) - total_budget}  # Presupuesto total
-        ]
-        
-        # Límites de presupuesto por campaña
-        bounds = []
-        for i in range(n_campaigns):
-            min_budget = campaign_data.iloc[i]['min_budget']
-            max_budget = campaign_data.iloc[i]['max_budget']
-            bounds.append((min_budget, max_budget))
-        
-        # Punto inicial (distribución uniforme)
-        x0 = [total_budget / n_campaigns] * n_campaigns
-        
-        # Optimizar
-        result = minimize(objective, x0, method='SLSQP', bounds=bounds, constraints=constraints)
-        
-        return {
-            'method': 'balanced_approach',
-            'success': result.success,
-            'optimized_budgets': result.x.tolist(),
-            'total_score': -result.fun,
-            'optimization_details': result
-        }
-    
-    def _generate_optimization_report(self, campaign_data: pd.DataFrame, 
-                                    result: Dict, total_budget: float, 
-                                    method: str) -> Dict[str, Any]:
-        """Genera un reporte detallado de la optimización"""
-        
-        if not result['success']:
-            return {
-                'error': 'La optimización no convergió exitosamente',
-                'method': method,
-                'total_budget': total_budget
+            analysis[category] = {
+                'budget': budget_amount,
+                'spent': spent,
+                'remaining': budget_amount - spent,
+                'utilization_rate': utilization_rate,
+                'average_monthly_spending': avg_monthly_spending,
+                'variance': abs(budget_amount - avg_monthly_spending),
+                'efficiency': self.calculate_efficiency(category_transactions),
+                'trend': self.analyze_trend(category_transactions)
             }
         
-        optimized_budgets = result['optimized_budgets']
+        return analysis
+    
+    def calculate_efficiency(self, category_df: pd.DataFrame) -> float:
+        """Calculate spending efficiency (transactions per dollar)"""
+        if category_df.empty or len(category_df) == 0:
+            return 0.0
         
-        # Calcular métricas de la optimización
-        total_allocated = sum(optimized_budgets)
-        budget_utilization = (total_allocated / total_budget) * 100
+        total_spent = abs(category_df['amount'].sum())
+        num_transactions = len(category_df)
         
-        # Calcular ROI total esperado
-        total_expected_roi = 0
-        total_expected_conversions = 0
-        total_expected_revenue = 0
+        # Efficiency: transactions per $100 spent
+        efficiency = (num_transactions / total_spent * 100) if total_spent > 0 else 0
         
-        campaign_results = []
+        return efficiency
+    
+    def analyze_trend(self, category_df: pd.DataFrame) -> Dict:
+        """Analyze spending trend over time"""
+        if category_df.empty or len(category_df) < 2:
+            return {'direction': 'stable', 'strength': 0.0}
         
-        for i, budget in enumerate(optimized_budgets):
-            if i < len(campaign_data):
-                campaign = campaign_data.iloc[i]
-                
-                # Métricas esperadas
-                roi = campaign['roi']
-                success_prob = campaign['success_probability']
-                conversion_rate = campaign['conversion_rate']
-                cpa = campaign['cost_per_acquisition']
-                
-                expected_roi = roi * success_prob
-                expected_revenue = budget * expected_roi
-                expected_conversions = (budget / cpa) * (conversion_rate / 100) * success_prob if cpa > 0 else 0
-                
-                total_expected_roi += expected_roi
-                total_expected_conversions += expected_conversions
-                total_expected_revenue += expected_revenue
-                
-                # Cambio en presupuesto
-                budget_change = ((budget - campaign['current_budget']) / campaign['current_budget']) * 100
-                
-                campaign_results.append({
-                    'campaign_id': campaign['id'],
-                    'campaign_name': campaign['name'],
-                    'category': campaign['category'],
-                    'vertical': campaign['vertical'],
-                    'current_budget': campaign['current_budget'],
-                    'optimized_budget': budget,
-                    'budget_change_percent': budget_change,
-                    'expected_roi': expected_roi,
-                    'expected_revenue': expected_revenue,
-                    'expected_conversions': expected_conversions,
-                    'efficiency_score': campaign['efficiency_score'],
-                    'risk_score': campaign['risk_score']
-                })
+        # Group by month
+        category_df['year_month'] = pd.to_datetime(category_df['date']).dt.to_period('M')
+        monthly_spending = category_df.groupby('year_month')['amount'].sum().abs()
         
-        # Ordenar por presupuesto optimizado
-        campaign_results.sort(key=lambda x: x['optimized_budget'], reverse=True)
+        if len(monthly_spending) < 2:
+            return {'direction': 'stable', 'strength': 0.0}
         
-        # Generar recomendaciones
-        recommendations = self._generate_optimization_recommendations(campaign_results, method)
+        # Calculate trend using linear regression
+        x = np.arange(len(monthly_spending))
+        y = monthly_spending.values
+        
+        if len(y) > 1:
+            slope = np.polyfit(x, y, 1)[0]
+            
+            direction = 'increasing' if slope > 0 else 'decreasing' if slope < 0 else 'stable'
+            strength = abs(slope) / np.std(y) if np.std(y) > 0 else 0
+        else:
+            direction = 'stable'
+            strength = 0.0
         
         return {
-            'optimization_method': method,
-            'total_budget': total_budget,
-            'total_allocated': total_allocated,
-            'budget_utilization_percent': budget_utilization,
-            'total_expected_roi': total_expected_roi,
-            'total_expected_conversions': total_expected_conversions,
-            'total_expected_revenue': total_expected_revenue,
-            'campaign_results': campaign_results,
-            'recommendations': recommendations,
-            'optimization_timestamp': datetime.now().isoformat()
+            'direction': direction,
+            'strength': float(strength),
+            'slope': float(slope) if 'slope' in locals() else 0.0
         }
     
-    def _generate_optimization_recommendations(self, campaign_results: List[Dict], method: str) -> List[str]:
-        """Genera recomendaciones basadas en los resultados de optimización"""
+    def optimize_budgets(
+        self,
+        transactions_df: pd.DataFrame,
+        target_total: Optional[float] = None
+    ) -> List[BudgetRecommendation]:
+        """
+        Generate budget optimization recommendations
+        """
         recommendations = []
         
-        # Análisis de distribución de presupuesto
-        high_budget_campaigns = [c for c in campaign_results if c['optimized_budget'] > 50000]
-        low_budget_campaigns = [c for c in campaign_results if c['optimized_budget'] < 10000]
+        # Analyze current performance
+        performance = self.analyze_budget_performance(transactions_df)
         
-        if high_budget_campaigns:
-            recommendations.append(f"💰 **{len(high_budget_campaigns)} campañas de alto presupuesto**: Priorizar implementación y monitoreo")
+        for category, data in performance.items():
+            # Identify optimization opportunities
+            if data['utilization_rate'] < 20:
+                # Underutilized budget
+                recommendation = BudgetRecommendation(
+                    category=category,
+                    current_budget=data['budget'],
+                    recommended_budget=data['budget'] * 0.8,  # Reduce by 20%
+                    adjustment=-data['budget'] * 0.2,
+                    adjustment_percentage=-20.0,
+                    reason=f"Underutilized (only {data['utilization_rate']:.1f}% used)",
+                    potential_savings=data['budget'] * 0.2,
+                    priority='medium',
+                    confidence=0.85
+                )
+                recommendations.append(recommendation)
+            
+            elif data['utilization_rate'] > 90:
+                # Overutilized budget
+                avg_spending = data['average_monthly_spending']
+                
+                if avg_spending > data['budget']:
+                    # Consistently over budget
+                    recommended_increase = avg_spending * 1.1  # 10% buffer
+                    
+                    recommendation = BudgetRecommendation(
+                        category=category,
+                        current_budget=data['budget'],
+                        recommended_budget=recommended_increase,
+                        adjustment=recommended_increase - data['budget'],
+                        adjustment_percentage=((recommended_increase - data['budget']) / data['budget'] * 100),
+                        reason=f"Consistently over budget (avg: ${avg_spending:.2f}/month)",
+                        potential_savings=0,  # Actually an increase needed
+                        priority='high',
+                        confidence=0.90
+                    )
+                    recommendations.append(recommendation)
+            
+            # Efficiency optimization
+            if data['efficiency'] > 5:  # Many small transactions
+                # Opportunity to consolidate
+                recommendation = BudgetRecommendation(
+                    category=category,
+                    current_budget=data['budget'],
+                    recommended_budget=data['budget'] * 0.95,  # Reduce by 5%
+                    adjustment=-data['budget'] * 0.05,
+                    adjustment_percentage=-5.0,
+                    reason=f"High transaction count ({data['efficiency']:.1f} tx per $100)",
+                    potential_savings=data['budget'] * 0.05,
+                    priority='low',
+                    confidence=0.70
+                )
+                recommendations.append(recommendation)
         
-        if low_budget_campaigns:
-            recommendations.append(f"🔍 **{len(low_budget_campaigns)} campañas de bajo presupuesto**: Considerar si el presupuesto es suficiente")
+        # If target total specified, normalize budgets
+        if target_total and recommendations:
+            current_total = sum(data['budget'] for data in performance.values())
+            scale_factor = target_total / current_total
+            
+            for rec in recommendations:
+                rec.recommended_budget *= scale_factor
+                rec.adjustment *= scale_factor
         
-        # Análisis de cambios de presupuesto
-        increased_budget = [c for c in campaign_results if c['budget_change_percent'] > 20]
-        decreased_budget = [c for c in campaign_results if c['budget_change_percent'] < -20]
-        
-        if increased_budget:
-            recommendations.append(f"📈 **{len(increased_budget)} campañas con aumento significativo**: Aprovechar el potencial identificado")
-        
-        if decreased_budget:
-            recommendations.append(f"📉 **{len(decreased_budget)} campañas con reducción significativa**: Revisar viabilidad con presupuesto reducido")
-        
-        # Recomendaciones específicas por método
-        if method == 'maximize_roi':
-            recommendations.append("🎯 **Enfoque en ROI**: La optimización prioriza el retorno de inversión")
-        elif method == 'maximize_conversions':
-            recommendations.append("🔄 **Enfoque en conversiones**: La optimización prioriza el volumen de conversiones")
-        elif method == 'minimize_risk':
-            recommendations.append("🛡️ **Enfoque en riesgo**: La optimización prioriza campañas de bajo riesgo")
-        else:
-            recommendations.append("⚖️ **Enfoque balanceado**: La optimización considera múltiples factores")
-        
-        # Recomendaciones de implementación
-        total_expected_revenue = sum(c['expected_revenue'] for c in campaign_results)
-        total_budget = sum(c['optimized_budget'] for c in campaign_results)
-        overall_roi = total_expected_revenue / total_budget if total_budget > 0 else 0
-        
-        if overall_roi > 5:
-            recommendations.append("✅ **ROI excelente**: El portafolio optimizado ofrece un retorno excepcional")
-        elif overall_roi > 3:
-            recommendations.append("👍 **ROI bueno**: El portafolio optimizado es rentable")
-        else:
-            recommendations.append("⚠️ **ROI moderado**: Considerar revisar la selección de campañas")
+        # Sort by priority and potential savings
+        recommendations.sort(
+            key=lambda x: (
+                {'high': 3, 'medium': 2, 'low': 1}[x.priority],
+                x.potential_savings
+            ),
+            reverse=True
+        )
         
         return recommendations
     
-    def compare_optimization_methods(self, total_budget: float, 
-                                   campaign_ids: List[int] = None) -> Dict[str, Any]:
-        """Compara diferentes métodos de optimización"""
+    def suggest_budget_allocation(
+        self,
+        total_budget: float,
+        historical_spending: Dict[str, float],
+        strategic_priorities: Optional[Dict[str, float]] = None
+    ) -> Dict[str, float]:
+        """
+        Suggest optimal budget allocation using historical data and priorities
+        """
+        total_historical = sum(historical_spending.values())
         
-        if campaign_ids is None:
-            campaign_ids = list(range(1, min(51, len(self.campaigns) + 1)))  # Límite a 50 campañas para comparación
+        if total_historical == 0:
+            # Equal distribution if no historical data
+            num_categories = len(historical_spending)
+            return {cat: total_budget / num_categories for cat in historical_spending.keys()}
         
-        comparison_results = {}
-        
-        for method_name in self.optimization_methods.keys():
-            result = self.optimize_portfolio_budget(
-                total_budget=total_budget,
-                campaign_ids=campaign_ids,
-                optimization_method=method_name
-            )
+        # Base allocation on historical spending
+        allocation = {}
+        for category, spent in historical_spending.items():
+            # Proportional allocation based on historical spending
+            proportion = spent / total_historical
             
-            if 'error' not in result:
-                comparison_results[method_name] = {
-                    'total_expected_roi': result['total_expected_roi'],
-                    'total_expected_conversions': result['total_expected_conversions'],
-                    'total_expected_revenue': result['total_expected_revenue'],
-                    'budget_utilization_percent': result['budget_utilization_percent'],
-                    'campaign_count': len(result['campaign_results'])
-                }
+            # Apply strategic priority if provided
+            if strategic_priorities and category in strategic_priorities:
+                priority_factor = strategic_priorities[category]
+                proportion *= priority_factor
+            
+            allocation[category] = total_budget * proportion
         
-        # Encontrar mejor método para cada métrica
-        best_methods = {}
-        if comparison_results:
-            best_methods['highest_roi'] = max(comparison_results.keys(), 
-                                            key=lambda x: comparison_results[x]['total_expected_roi'])
-            best_methods['highest_conversions'] = max(comparison_results.keys(), 
-                                                    key=lambda x: comparison_results[x]['total_expected_conversions'])
-            best_methods['highest_revenue'] = max(comparison_results.keys(), 
-                                                key=lambda x: comparison_results[x]['total_expected_revenue'])
+        # Normalize to ensure total equals target
+        actual_total = sum(allocation.values())
+        scale_factor = total_budget / actual_total if actual_total > 0 else 1.0
+        
+        allocation = {cat: amount * scale_factor for cat, amount in allocation.items()}
+        
+        return allocation
+    
+    def analyze_variance(self, transactions_df: pd.DataFrame) -> Dict:
+        """Analyze budget variances"""
+        variances = {}
+        
+        for category in self.budgets.keys():
+            category_df = transactions_df[transactions_df['category'] == category]
+            
+            if category_df.empty:
+                continue
+            
+            budget = self.budgets[category]
+            spent = abs(category_df['amount'].sum())
+            
+            variance = spent - budget
+            variance_percentage = (variance / budget * 100) if budget > 0 else 0
+            
+            variances[category] = {
+                'budget': budget,
+                'spent': spent,
+                'variance': variance,
+                'variance_percentage': variance_percentage,
+                'status': 'over' if variance > 0 else 'under' if variance < 0 else 'met'
+            }
+        
+        return variances
+    
+    def generate_budget_report(self, transactions_df: pd.DataFrame) -> Dict:
+        """Generate comprehensive budget report"""
+        performance = self.analyze_budget_performance(transactions_df)
+        variances = self.analyze_variance(transactions_df)
+        recommendations = self.optimize_budgets(transactions_df)
+        
+        total_budget = sum(data['budget'] for data in performance.values())
+        total_spent = sum(data['spent'] for data in performance.values())
+        total_savings = sum(rec.potential_savings for rec in recommendations if rec.potential_savings > 0)
         
         return {
-            'comparison_results': comparison_results,
-            'best_methods': best_methods,
-            'total_budget': total_budget,
-            'campaign_count': len(campaign_ids),
-            'comparison_timestamp': datetime.now().isoformat()
+            'timestamp': datetime.now().isoformat(),
+            'summary': {
+                'total_budget': total_budget,
+                'total_spent': total_spent,
+                'total_remaining': total_budget - total_spent,
+                'utilization_rate': (total_spent / total_budget * 100) if total_budget > 0 else 0,
+                'potential_savings': total_savings,
+                'num_categories': len(performance)
+            },
+            'performance': performance,
+            'variances': variances,
+            'recommendations': [rec.to_dict() for rec in recommendations],
+            'optimized_allocation': self._calculate_optimized_allocation(recommendations)
         }
-
-def main():
-    """Función principal de demostración"""
-    print("=== OPTIMIZADOR AUTOMÁTICO DE PRESUPUESTOS ===")
     
-    # Inicializar optimizador
+    def _calculate_optimized_allocation(self, recommendations: List[BudgetRecommendation]) -> Dict:
+        """Calculate optimized budget allocation"""
+        optimized = {}
+        
+        for rec in recommendations:
+            optimized[rec.category] = rec.recommended_budget
+        
+        return optimized
+
+
+# Example usage
+if __name__ == "__main__":
+    print("=" * 60)
+    print("💰 Budget Optimizer v2.0.0")
+    print("=" * 60)
+    
+    # Create optimizer
     optimizer = BudgetOptimizer()
     
-    # Ejemplo de optimización
-    total_budget = 500000
-    campaign_ids = [1, 2, 3, 4, 5, 10, 15, 20, 25, 30]
+    # Set budgets
+    budgets = {
+        'Food & Dining': 500.0,
+        'Transportation': 200.0,
+        'Bills & Utilities': 300.0,
+        'Shopping': 250.0,
+        'Entertainment': 150.0
+    }
     
-    print(f"Optimizando presupuesto de ${total_budget:,} para {len(campaign_ids)} campañas...")
+    for category, amount in budgets.items():
+        optimizer.budgets[category] = amount
     
-    # Optimización balanceada
-    result = optimizer.optimize_portfolio_budget(
-        total_budget=total_budget,
-        campaign_ids=campaign_ids,
-        optimization_method='balanced_approach'
-    )
+    # Create sample transactions
+    dates = pd.date_range(start='2024-01-01', end='2024-12-31', freq='D')
     
-    if 'error' not in result:
-        print(f"\n📊 RESULTADOS DE OPTIMIZACIÓN")
-        print(f"Método: {result['optimization_method']}")
-        print(f"Presupuesto total: ${result['total_budget']:,}")
-        print(f"Presupuesto asignado: ${result['total_allocated']:,.2f}")
-        print(f"Utilización: {result['budget_utilization_percent']:.1f}%")
-        print(f"ROI total esperado: {result['total_expected_roi']:.2f}")
-        print(f"Conversiones esperadas: {result['total_expected_conversions']:.0f}")
-        print(f"Ingresos esperados: ${result['total_expected_revenue']:,.2f}")
-        
-        print(f"\n💰 TOP 5 CAMPAÑAS POR PRESUPUESTO")
-        for i, campaign in enumerate(result['campaign_results'][:5], 1):
-            print(f"{i}. {campaign['campaign_name']}")
-            print(f"   Presupuesto: ${campaign['optimized_budget']:,.2f} ({campaign['budget_change_percent']:+.1f}%)")
-            print(f"   ROI esperado: {campaign['expected_roi']:.2f}")
-            print(f"   Conversiones: {campaign['expected_conversions']:.0f}")
-        
-        print(f"\n💡 RECOMENDACIONES")
-        for recommendation in result['recommendations']:
-            print(f"• {recommendation}")
+    np.random.seed(42)
+    transactions_data = []
     
-    # Comparar métodos de optimización
-    print(f"\n🔄 COMPARANDO MÉTODOS DE OPTIMIZACIÓN...")
-    comparison = optimizer.compare_optimization_methods(total_budget, campaign_ids)
+    for date in dates:
+        if np.random.random() < 0.3:
+            category = np.random.choice(list(budgets.keys()))
+            amount = -np.random.uniform(10, budgets[category] / 30)
+            transactions_data.append({
+                'date': date,
+                'amount': amount,
+                'category': category
+            })
     
-    print(f"\n📈 COMPARACIÓN DE MÉTODOS")
-    for method, metrics in comparison['comparison_results'].items():
-        print(f"{method}:")
-        print(f"  ROI: {metrics['total_expected_roi']:.2f}")
-        print(f"  Conversiones: {metrics['total_expected_conversions']:.0f}")
-        print(f"  Ingresos: ${metrics['total_expected_revenue']:,.2f}")
+    transactions_df = pd.DataFrame(transactions_data)
     
-    print(f"\n🏆 MEJORES MÉTODOS")
-    for metric, method in comparison['best_methods'].items():
-        print(f"• {metric}: {method}")
-
-if __name__ == "__main__":
-    main()
-
+    # Analyze
+    print("\n📊 Generating budget report...\n")
+    report = optimizer.generate_budget_report(transactions_df)
+    
+    print("📈 Summary:")
+    print(f"  Total Budget: ${report['summary']['total_budget']:,.2f}")
+    print(f"  Total Spent: ${report['summary']['total_spent']:,.2f}")
+    print(f"  Utilization: {report['summary']['utilization_rate']:.1f}%")
+    print(f"  Potential Savings: ${report['summary']['potential_savings']:,.2f}")
+    
+    print(f"\n🎯 Top Recommendations ({len(report['recommendations'])}):")
+    for i, rec in enumerate(report['recommendations'][:5], 1):
+        print(f"  {i}. [{rec['priority'].upper()}] {rec['category']}")
+        print(f"     {rec['reason']}")
+        print(f"     Adjustment: {rec['adjustment_percentage']:+.1f}%")
+        if rec['potential_savings'] > 0:
+            print(f"     Potential savings: ${rec['potential_savings']:.2f}")
+    
+    print("\n✅ Budget optimization complete!")
+    
+    # Save report
+    with open('budget_optimization_report.json', 'w') as f:
+        json.dump(report, f, indent=2, default=str)
+    
+    print("\nReport saved to: budget_optimization_report.json")

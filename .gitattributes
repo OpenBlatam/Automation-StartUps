@@ -1,0 +1,50 @@
+# .gitattributes - CFDI 4.0 IA 2025
+
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# JavaScript
+*.js text eol=lf
+
+# JSON
+*.json text eol=lf
+
+# Markdown
+*.md text eol=lf
+
+# YAML
+*.{yml,yaml} text eol=lf
+
+# Config files
+*.config.js text eol=lf
+
+# Scripts
+*.sh text eol=lf
+
+# Package files
+package.json text eol=lf
+package-lock.json text eol=lf
+
+# Documentation
+*.txt text eol=lf
+
+# Binaries
+*.cer binary
+*.key binary
+*.pem binary
+
+# Archives
+*.zip binary
+*.tar.gz binary
+*.tgz binary
+
+# Images
+*.{jpg,jpeg,png,gif,webp} binary
+
+# Certificates (never track)
+*.cer filter=lfs diff=lfs merge=lfs -text
+*.key filter=lfs diff=lfs merge=lfs -text
+*.pem filter=lfs diff=lfs merge=lfs -text
+
+
+

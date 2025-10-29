@@ -1,0 +1,53 @@
+#!/usr/bin/env node
+/**
+ * Test Runner Script
+ * Ejecuta todos los tests con opciones avanzadas
+ */
+
+const { execSync } = require('child_process');
+const path = require('path');
+
+console.log('🧪 Ejecutando tests...\n');
+
+// Determinar modo
+const args = process.argv.slice(2);
+const mode = args[0] || 'default';
+
+try {
+  let command = 'npm test --';
+  
+  switch (mode) {
+    case 'watch':
+      command = 'npm run test:watch';
+      break;
+    case 'coverage':
+      command = 'npm run test:coverage';
+      break;
+    case 'ci':
+      command = 'npm run test:ci';
+      break;
+    case 'verbose':
+      command = 'npm test -- --verbose';
+      break;
+    case 'silent':
+      command = 'npm test -- --silent';
+      break;
+    case 'only':
+      command = `npm test -- --testNamePattern="${args[1] || 'test'}"`;
+      break;
+    default:
+      command = 'npm test';
+  }
+  
+  console.log(`📝 Ejecutando: ${command}\n`);
+  execSync(command, { stdio: 'inherit' });
+  
+  console.log('\n✅ Tests completados exitosamente!');
+  
+} catch (error) {
+  console.error('\n❌ Tests fallaron');
+  process.exit(1);
+}
+
+
+

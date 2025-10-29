@@ -1,0 +1,720 @@
+{% extends "base.html" %}
+
+{% block title %}Análisis Avanzado{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h3 mb-0">Análisis Avanzado</h1>
+                    <p class="text-muted">Análisis inteligente con machine learning y insights automáticos</p>
+                </div>
+                <div>
+                    <button class="btn btn-primary" onclick="refreshAnalysis()">
+                        <i class="fas fa-sync-alt"></i> Actualizar Análisis
+                    </button>
+                    <button class="btn btn-success" onclick="exportAnalysis()">
+                        <i class="fas fa-download"></i> Exportar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Insights Automáticos -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-lightbulb text-warning"></i> Insights Automáticos
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div id="insightsContainer">
+                        <div class="text-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="sr-only">Cargando insights...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Análisis ABC -->
+    <div class="row mb-4">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-chart-pie text-info"></i> Análisis ABC
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div id="abcChartContainer">
+                        <div class="text-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="sr-only">Cargando análisis ABC...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Resumen ABC</h5>
+                </div>
+                <div class="card-body">
+                    <div id="abcSummary">
+                        <div class="text-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="sr-only">Cargando resumen...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Análisis de Estacionalidad -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-calendar-alt text-success"></i> Análisis de Estacionalidad
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <h6>Ventas por Mes</h6>
+                            <canvas id="monthlyChart"></canvas>
+                        </div>
+                        <div class="col-lg-4">
+                            <h6>Ventas por Día de la Semana</h6>
+                            <canvas id="weeklyChart"></canvas>
+                        </div>
+                        <div class="col-lg-4">
+                            <h6>Ventas por Trimestre</h6>
+                            <canvas id="quarterlyChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Clustering de Productos -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-project-diagram text-purple"></i> Segmentación de Productos
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div id="clusteringContainer">
+                        <div class="text-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="sr-only">Cargando clustering...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Predicción de Demanda -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-crystal-ball text-danger"></i> Predicción de Demanda
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div id="forecastContainer">
+                        <div class="text-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="sr-only">Cargando predicciones...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Análisis de Correlaciones -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-link text-warning"></i> Análisis de Correlaciones
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div id="correlationsContainer">
+                        <div class="text-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="sr-only">Cargando correlaciones...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para detalles de análisis -->
+<div class="modal fade" id="analysisModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detalles del Análisis</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="analysisModalBody">
+                <!-- Contenido dinámico -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.insight-card {
+    border-left: 4px solid;
+    margin-bottom: 1rem;
+}
+
+.insight-high {
+    border-left-color: #dc3545;
+}
+
+.insight-medium {
+    border-left-color: #ffc107;
+}
+
+.insight-low {
+    border-left-color: #28a745;
+}
+
+.priority-badge {
+    font-size: 0.8rem;
+}
+
+.cluster-card {
+    border: 2px solid;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.cluster-0 {
+    border-color: #007bff;
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+.cluster-1 {
+    border-color: #28a745;
+    background-color: rgba(40, 167, 69, 0.1);
+}
+
+.cluster-2 {
+    border-color: #ffc107;
+    background-color: rgba(255, 193, 7, 0.1);
+}
+
+.correlation-item {
+    padding: 0.5rem;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+}
+
+.correlation-strong {
+    background-color: rgba(220, 53, 69, 0.1);
+    border-left: 3px solid #dc3545;
+}
+
+.correlation-moderate {
+    background-color: rgba(255, 193, 7, 0.1);
+    border-left: 3px solid #ffc107;
+}
+</style>
+
+<script>
+let analysisData = {};
+
+// Cargar análisis al inicializar la página
+document.addEventListener('DOMContentLoaded', function() {
+    loadAdvancedAnalysis();
+});
+
+async function loadAdvancedAnalysis() {
+    try {
+        // Cargar insights
+        await loadInsights();
+        
+        // Cargar análisis ABC
+        await loadABCAnalysis();
+        
+        // Cargar estacionalidad
+        await loadSeasonality();
+        
+        // Cargar clustering
+        await loadClustering();
+        
+        // Cargar predicciones
+        await loadForecast();
+        
+        // Cargar correlaciones
+        await loadCorrelations();
+        
+    } catch (error) {
+        console.error('Error cargando análisis:', error);
+        showAlert('Error cargando análisis avanzado', 'error');
+    }
+}
+
+async function loadInsights() {
+    try {
+        const response = await fetch('/api/analytics/insights');
+        const data = await response.json();
+        
+        if (data.error) {
+            throw new Error(data.error);
+        }
+        
+        displayInsights(data.insights);
+    } catch (error) {
+        console.error('Error cargando insights:', error);
+        document.getElementById('insightsContainer').innerHTML = 
+            '<div class="alert alert-warning">No se pudieron cargar los insights</div>';
+    }
+}
+
+function displayInsights(insights) {
+    const container = document.getElementById('insightsContainer');
+    
+    if (!insights || insights.length === 0) {
+        container.innerHTML = '<div class="alert alert-info">No hay insights disponibles en este momento</div>';
+        return;
+    }
+    
+    let html = '';
+    insights.forEach(insight => {
+        const priorityClass = `insight-${insight.priority}`;
+        const priorityBadge = getPriorityBadge(insight.priority);
+        
+        html += `
+            <div class="insight-card ${priorityClass}">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="flex-grow-1">
+                        <h6 class="mb-1">${insight.title}</h6>
+                        <p class="mb-2">${insight.message}</p>
+                        <small class="text-muted">${insight.recommendation}</small>
+                    </div>
+                    <div>
+                        ${priorityBadge}
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+function getPriorityBadge(priority) {
+    const badges = {
+        'high': '<span class="badge badge-danger priority-badge">Alta</span>',
+        'medium': '<span class="badge badge-warning priority-badge">Media</span>',
+        'low': '<span class="badge badge-success priority-badge">Baja</span>'
+    };
+    return badges[priority] || '<span class="badge badge-secondary priority-badge">N/A</span>';
+}
+
+async function loadABCAnalysis() {
+    try {
+        const response = await fetch('/api/analytics/abc-analysis');
+        const data = await response.json();
+        
+        if (data.error) {
+            throw new Error(data.error);
+        }
+        
+        displayABCAnalysis(data);
+    } catch (error) {
+        console.error('Error cargando análisis ABC:', error);
+        document.getElementById('abcChartContainer').innerHTML = 
+            '<div class="alert alert-warning">No se pudo cargar el análisis ABC</div>';
+    }
+}
+
+function displayABCAnalysis(data) {
+    // Mostrar resumen
+    const summaryContainer = document.getElementById('abcSummary');
+    if (data.summary) {
+        let summaryHtml = '';
+        Object.keys(data.summary).forEach(className => {
+            const classData = data.summary[className];
+            const color = className === 'A' ? 'danger' : className === 'B' ? 'warning' : 'success';
+            summaryHtml += `
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between">
+                        <span class="font-weight-bold">Clase ${className}</span>
+                        <span class="badge badge-${color}">${classData.product_id} productos</span>
+                    </div>
+                    <div class="progress mt-1" style="height: 8px;">
+                        <div class="progress-bar bg-${color}" style="width: ${classData.product_id / data.total_products * 100}%"></div>
+                    </div>
+                    <small class="text-muted">$${classData.total_amount.toLocaleString()}</small>
+                </div>
+            `;
+        });
+        summaryContainer.innerHTML = summaryHtml;
+    }
+    
+    // Crear gráfico ABC
+    if (data.products && data.products.length > 0) {
+        createABCChart(data.products);
+    }
+}
+
+function createABCChart(products) {
+    const ctx = document.createElement('canvas');
+    ctx.id = 'abcChart';
+    document.getElementById('abcChartContainer').innerHTML = '';
+    document.getElementById('abcChartContainer').appendChild(ctx);
+    
+    const labels = products.slice(0, 20).map(p => p.product_name);
+    const data = products.slice(0, 20).map(p => p.total_amount);
+    const colors = products.slice(0, 20).map(p => 
+        p.abc_class === 'A' ? '#dc3545' : 
+        p.abc_class === 'B' ? '#ffc107' : '#28a745'
+    );
+    
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Ventas ($)',
+                data: data,
+                backgroundColor: colors,
+                borderColor: colors,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return '$' + value.toLocaleString();
+                        }
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+}
+
+async function loadSeasonality() {
+    try {
+        const response = await fetch('/api/analytics/seasonality');
+        const data = await response.json();
+        
+        if (data.error) {
+            throw new Error(data.error);
+        }
+        
+        displaySeasonality(data);
+    } catch (error) {
+        console.error('Error cargando estacionalidad:', error);
+    }
+}
+
+function displaySeasonality(data) {
+    // Gráfico mensual
+    if (data.monthly) {
+        createSeasonalityChart('monthlyChart', data.monthly, 'Mes', 'Ventas Mensuales');
+    }
+    
+    // Gráfico semanal
+    if (data.weekly) {
+        createSeasonalityChart('weeklyChart', data.weekly, 'Día', 'Ventas por Día');
+    }
+    
+    // Gráfico trimestral
+    if (data.quarterly) {
+        createSeasonalityChart('quarterlyChart', data.quarterly, 'Trimestre', 'Ventas Trimestrales');
+    }
+}
+
+function createSeasonalityChart(canvasId, data, labelKey, title) {
+    const ctx = document.getElementById(canvasId);
+    if (!ctx) return;
+    
+    const labels = data.map(item => item[labelKey.toLowerCase()]);
+    const values = data.map(item => item.total_amount);
+    
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: title,
+                data: values,
+                borderColor: '#007bff',
+                backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+async function loadClustering() {
+    try {
+        const response = await fetch('/api/analytics/performance');
+        const data = await response.json();
+        
+        if (data.error) {
+            throw new Error(data.error);
+        }
+        
+        if (data.clusters && data.clusters.products) {
+            displayClustering(data.clusters);
+        }
+    } catch (error) {
+        console.error('Error cargando clustering:', error);
+    }
+}
+
+function displayClustering(data) {
+    const container = document.getElementById('clusteringContainer');
+    
+    // Agrupar productos por cluster
+    const clusters = {};
+    data.products.forEach(product => {
+        if (!clusters[product.cluster]) {
+            clusters[product.cluster] = [];
+        }
+        clusters[product.cluster].push(product);
+    });
+    
+    let html = '<div class="row">';
+    Object.keys(clusters).forEach(clusterId => {
+        const clusterProducts = clusters[clusterId];
+        const clusterSize = clusterProducts.length;
+        
+        html += `
+            <div class="col-lg-4 mb-3">
+                <div class="cluster-card cluster-${clusterId}">
+                    <h6>Cluster ${clusterId} (${clusterSize} productos)</h6>
+                    <div class="mb-2">
+                        <small class="text-muted">Ventas promedio: $${(clusterProducts.reduce((sum, p) => sum + p.total_amount, 0) / clusterSize).toFixed(2)}</small>
+                    </div>
+                    <div class="mb-2">
+                        <small class="text-muted">Cantidad promedio: ${(clusterProducts.reduce((sum, p) => sum + p.quantity_sold, 0) / clusterSize).toFixed(0)}</small>
+                    </div>
+                    <button class="btn btn-sm btn-outline-primary" onclick="showClusterDetails(${clusterId})">
+                        Ver Detalles
+                    </button>
+                </div>
+            </div>
+        `;
+    });
+    
+    html += '</div>';
+    container.innerHTML = html;
+}
+
+async function loadForecast() {
+    try {
+        const response = await fetch('/api/analytics/performance');
+        const data = await response.json();
+        
+        if (data.error) {
+            throw new Error(data.error);
+        }
+        
+        if (data.demand_forecast) {
+            displayForecast(data.demand_forecast);
+        }
+    } catch (error) {
+        console.error('Error cargando predicciones:', error);
+    }
+}
+
+function displayForecast(forecast) {
+    const container = document.getElementById('forecastContainer');
+    
+    let html = '<div class="row">';
+    
+    Object.keys(forecast.forecasts).forEach(method => {
+        const value = forecast.forecasts[method];
+        const methodName = method.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
+        
+        html += `
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">${methodName}</h5>
+                        <h3 class="text-primary">${value}</h3>
+                        <small class="text-muted">unidades</small>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+    
+    html += `
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Nivel de Confianza</h5>
+                    <h3 class="text-success">${(forecast.confidence_level * 100).toFixed(0)}%</h3>
+                    <small class="text-muted">${forecast.forecast_horizon}</small>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    html += '</div>';
+    container.innerHTML = html;
+}
+
+async function loadCorrelations() {
+    try {
+        const response = await fetch('/api/analytics/performance');
+        const data = await response.json();
+        
+        if (data.error) {
+            throw new Error(data.error);
+        }
+        
+        if (data.correlations && data.correlations.strong_correlations) {
+            displayCorrelations(data.correlations.strong_correlations);
+        }
+    } catch (error) {
+        console.error('Error cargando correlaciones:', error);
+    }
+}
+
+function displayCorrelations(correlations) {
+    const container = document.getElementById('correlationsContainer');
+    
+    if (!correlations || correlations.length === 0) {
+        container.innerHTML = '<div class="alert alert-info">No se encontraron correlaciones significativas</div>';
+        return;
+    }
+    
+    let html = '<h6>Correlaciones Fuertes Detectadas:</h6>';
+    
+    correlations.forEach(corr => {
+        const strength = Math.abs(corr.correlation);
+        const strengthClass = strength > 0.7 ? 'correlation-strong' : 'correlation-moderate';
+        const direction = corr.correlation > 0 ? 'positiva' : 'negativa';
+        
+        html += `
+            <div class="correlation-item ${strengthClass}">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>${corr.variable1}</strong> ↔ <strong>${corr.variable2}</strong>
+                        <br>
+                        <small class="text-muted">Correlación ${direction} (${corr.correlation})</small>
+                    </div>
+                    <span class="badge badge-${strength > 0.7 ? 'danger' : 'warning'}">
+                        ${strength > 0.7 ? 'Fuerte' : 'Moderada'}
+                    </span>
+                </div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+function refreshAnalysis() {
+    // Mostrar spinner
+    const containers = ['insightsContainer', 'abcChartContainer', 'abcSummary', 'clusteringContainer', 'forecastContainer', 'correlationsContainer'];
+    containers.forEach(containerId => {
+        const container = document.getElementById(containerId);
+        if (container) {
+            container.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="sr-only">Cargando...</span></div></div>';
+        }
+    });
+    
+    // Recargar análisis
+    loadAdvancedAnalysis();
+}
+
+function exportAnalysis() {
+    // Crear enlace de descarga
+    const link = document.createElement('a');
+    link.href = '/api/export/analytics?format=excel';
+    link.download = `analisis_avanzado_${new Date().toISOString().split('T')[0]}.xlsx`;
+    link.click();
+}
+
+function showClusterDetails(clusterId) {
+    // Implementar modal con detalles del cluster
+    alert(`Detalles del Cluster ${clusterId} - Funcionalidad en desarrollo`);
+}
+
+function showAlert(message, type) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+    alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="close" data-dismiss="alert">
+            <span>&times;</span>
+        </button>
+    `;
+    
+    document.body.insertBefore(alertDiv, document.body.firstChild);
+    
+    setTimeout(() => {
+        alertDiv.remove();
+    }, 5000);
+}
+</script>
+{% endblock %}
+
+
+

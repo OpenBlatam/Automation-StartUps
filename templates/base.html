@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sistema de Gestión de Inventario{% endblock %}</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        .sidebar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+        
+        .sidebar .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 12px 20px;
+            margin: 2px 0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            color: white;
+            background: rgba(255,255,255,0.1);
+            transform: translateX(5px);
+        }
+        
+        .main-content {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        
+        .kpi-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .kpi-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .kpi-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .alert-card {
+            border-left: 4px solid;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 5px;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .alert-critical { border-left-color: #dc3545; }
+        .alert-high { border-left-color: #fd7e14; }
+        .alert-medium { border-left-color: #ffc107; }
+        .alert-low { border-left-color: #28a745; }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-good { background-color: #28a745; }
+        .status-warning { background-color: #ffc107; }
+        .status-danger { background-color: #dc3545; }
+        
+        .btn-action {
+            border-radius: 25px;
+            padding: 8px 20px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+    </style>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-2 sidebar p-0">
+                <div class="p-3">
+                    <h4 class="text-white mb-4">
+                        <i class="fas fa-warehouse me-2"></i>Inventario
+                    </h4>
+                </div>
+                
+                <ul class="nav flex-column px-3">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'main.dashboard' %}active{% endif %}" 
+                           href="{{ url_for('main.dashboard') }}">
+                            <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'main.products' %}active{% endif %}" 
+                           href="{{ url_for('main.products') }}">
+                            <i class="fas fa-boxes me-2"></i>Productos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'main.inventory' %}active{% endif %}" 
+                           href="{{ url_for('main.inventory') }}">
+                            <i class="fas fa-warehouse me-2"></i>Inventario
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'main.analytics' %}active{% endif %}" 
+                           href="{{ url_for('main.analytics') }}">
+                            <i class="fas fa-chart-line me-2"></i>Análisis Avanzado
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'main.ml_optimization' %}active{% endif %}" 
+                           href="{{ url_for('main.ml_optimization') }}">
+                            <i class="fas fa-brain me-2"></i>ML & Optimización
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'main.realtime_dashboard' %}active{% endif %}" 
+                           href="{{ url_for('main.realtime_dashboard') }}">
+                            <i class="fas fa-broadcast-tower me-2"></i>Tiempo Real
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'main.admin_monitoring' %}active{% endif %}" 
+                           href="{{ url_for('main.admin_monitoring') }}">
+                            <i class="fas fa-cogs me-2"></i>Administración
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'main.ai_blockchain' %}active{% endif %}" 
+                           href="{{ url_for('main.ai_blockchain') }}">
+                            <i class="fas fa-brain me-2"></i>IA & Blockchain
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'main.iot_ar' %}active{% endif %}" 
+                           href="{{ url_for('main.iot_ar') }}">
+                            <i class="fas fa-wifi me-2"></i>IoT & AR
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'main.predictive_logistics' %}active{% endif %}" 
+                           href="{{ url_for('main.predictive_logistics') }}">
+                            <i class="fas fa-chart-line me-2"></i>Predictivo & Logística
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'main.quality_sustainability' %}active{% endif %}" 
+                           href="{{ url_for('main.quality_sustainability') }}">
+                            <i class="fas fa-check-circle me-2"></i>Calidad & Sostenibilidad
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'main.suppliers' %}active{% endif %}" 
+                           href="{{ url_for('main.suppliers') }}">
+                            <i class="fas fa-truck me-2"></i>Proveedores
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'main.sales' %}active{% endif %}" 
+                           href="{{ url_for('main.sales') }}">
+                            <i class="fas fa-cash-register me-2"></i>Ventas
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'main.alerts' %}active{% endif %}" 
+                           href="{{ url_for('main.alerts') }}">
+                            <i class="fas fa-bell me-2"></i>Alertas
+                            {% if active_alerts_count and active_alerts_count > 0 %}
+                                <span class="badge bg-danger ms-2">{{ active_alerts_count }}</span>
+                            {% endif %}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'main.replenishment' %}active{% endif %}" 
+                           href="{{ url_for('main.replenishment') }}">
+                            <i class="fas fa-shopping-cart me-2"></i>Reabastecimiento
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'main.reports' %}active{% endif %}" 
+                           href="{{ url_for('main.reports') }}">
+                            <i class="fas fa-chart-bar me-2"></i>Reportes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'main.kpis' %}active{% endif %}" 
+                           href="{{ url_for('main.kpis') }}">
+                            <i class="fas fa-chart-line me-2"></i>KPIs
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="mt-auto p-3">
+                    <div class="text-center">
+                        <small class="text-white-50">
+                            <i class="fas fa-clock me-1"></i>
+                            <span id="current-time"></span>
+                        </small>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="col-md-10 main-content">
+                <!-- Top Navigation -->
+                <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
+                    <div class="container-fluid">
+                        <div class="d-flex align-items-center">
+                            <button class="btn btn-outline-secondary me-3" onclick="toggleSidebar()">
+                                <i class="fas fa-bars"></i>
+                            </button>
+                            <h5 class="mb-0">{% block page_title %}Dashboard{% endblock %}</h5>
+                        </div>
+                        
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">
+                                <small class="text-muted">Última actualización:</small>
+                                <span id="last-update" class="text-muted"></span>
+                            </div>
+                            <button class="btn btn-outline-primary btn-sm" onclick="refreshData()">
+                                <i class="fas fa-sync-alt me-1"></i>Actualizar
+                            </button>
+                        </div>
+                    </div>
+                </nav>
+
+                <!-- Page Content -->
+                <div class="container-fluid">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                    {% block content %}{% endblock %}
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Update current time
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('current-time').textContent = now.toLocaleTimeString();
+        }
+        
+        // Update last refresh time
+        function updateLastRefresh() {
+            const now = new Date();
+            document.getElementById('last-update').textContent = now.toLocaleTimeString();
+        }
+        
+        // Toggle sidebar
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('d-none');
+        }
+        
+        // Refresh data
+        function refreshData() {
+            updateLastRefresh();
+            location.reload();
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateTime();
+            updateLastRefresh();
+            setInterval(updateTime, 1000);
+        });
+        
+        // Auto-refresh every 5 minutes
+        setInterval(function() {
+            if (document.visibilityState === 'visible') {
+                updateLastRefresh();
+            }
+        }, 300000);
+    </script>
+    
+    {% block scripts %}{% endblock %}
+</body>
+</html>

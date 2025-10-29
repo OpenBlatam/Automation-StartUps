@@ -1,0 +1,46 @@
+{
+  "fecha_analisis": "2025-10-24 17:37:13",
+  "sentimiento_general": {
+    "score": -0.017,
+    "interpretacion": "Negativo",
+    "palabras_positivas": 20,
+    "palabras_negativas": 40,
+    "palabras_neutrales": 34,
+    "total_palabras": 1165
+  },
+  "emociones_detectadas": {
+    "miedo": 2,
+    "amor": 4,
+    "tristeza": 3,
+    "alegría": 0,
+    "ira": 1,
+    "sorpresa": 1,
+    "nostalgia": 3
+  },
+  "intensidad_emocional": {
+    "palabras_intensidad": 11,
+    "nivel_intensidad": "Alto"
+  },
+  "dialogos_emocionales": {
+    "total_dialogos": 13,
+    "dialogos_emocionales": 9,
+    "porcentaje_emocional": 69.23
+  },
+  "oraciones_emocionales": {
+    "total_oraciones": 87,
+    "oraciones_emocionales": 41,
+    "porcentaje_emocional": 47.13
+  },
+  "palabras_mas_emocionales": {
+    "emoción": 3,
+    "nada": 2,
+    "lucha": 2,
+    "melancolía": 2,
+    "miedo": 2,
+    "restricción": 1,
+    "restringida": 1,
+    "calidez": 1,
+    "entusiasmo": 1,
+    "breve": 1
+  }
+}

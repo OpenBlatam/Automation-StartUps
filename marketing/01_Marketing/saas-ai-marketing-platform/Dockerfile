@@ -1,58 +1,60 @@
-# Multi-stage build for production optimization
+# Multi-stage build for AI Marketing SaaS Platform
 FROM node:18-alpine AS base
 
-# Install dependencies only when needed
-FROM base AS deps
-RUN apk add --no-cache libc6-compat
+# Install dependencies
+RUN apk add --no-cache \
+    python3 \
+    make \
+    g++ \
+    git
+
+# Set working directory
 WORKDIR /app
 
-# Install dependencies based on the preferred package manager
-COPY package.json package-lock.json* ./
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
 RUN npm ci --only=production
 
-# Rebuild the source code only when needed
-FROM base AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+# Development stage
+FROM base AS development
+
+ENV NODE_ENV=development
+
+# Copy application files
 COPY . .
-
-# Build the application
-RUN npm run build
-
-# Production image, copy all the files and run the app
-FROM base AS runner
-WORKDIR /app
-
-ENV NODE_ENV production
-
-# Create a non-root user
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-
-# Copy the built application
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
-
-# Copy client build
-COPY --from=builder /app/client/build ./client/build
-
-# Set proper permissions
-RUN chown -R nextjs:nodejs /app
-USER nextjs
 
 EXPOSE 5000
 
-ENV PORT 5000
-ENV HOSTNAME "0.0.0.0"
+CMD ["node", "server.js"]
 
-# Start the application
-CMD ["npm", "start"]
+# Production stage
+FROM base AS production
 
+ENV NODE_ENV=production
 
+# Copy application files
+COPY . .
 
+# Create non-root user
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nodejs -u 1001
 
+# Create necessary directories
+RUN mkdir -p logs uploads && \
+    chown -R nodejs:nodejs /app
 
+USER nodejs
 
+EXPOSE 5000
 
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:5000/api/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
 
+CMD ["node", "server.js"]
+
+# Start orchestrator in background
+COPY --from=base /app/system_orchestrator.js /app/system_orchestrator.js
+CMD ["sh", "-c", "node system_orchestrator.js & node server.js"]

@@ -1,0 +1,77 @@
+# Docker ignore file - CFDI 4.0 IA 2025
+
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Testing
+coverage/
+.nyc_output/
+*.test.js
+tests/
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+.github/
+
+# Build tools
+Makefile
+*.config.js
+jest.config.js
+.eslintrc.js
+.prettierrc.js
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Development files
+.editorconfig
+.nvmrc
+
+# Certificate files (sensitive)
+*.cer
+*.key
+*.pem
+certificados/
+
+# Backup files
+*.bak
+backup/
+*.backup
+
+# Cache
+.cache/
+.parcel-cache/
+
+
+

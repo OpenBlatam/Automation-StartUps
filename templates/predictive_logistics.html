@@ -1,0 +1,1087 @@
+{% extends "base.html" %}
+
+{% block title %}Análisis Predictivo & Logística{% endblock %}
+
+{% block extra_css %}
+<style>
+    .predictive-card {
+        border: 2px solid #e9ecef;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+        background: white;
+    }
+    
+    .predictive-card:hover {
+        border-color: #007bff;
+        box-shadow: 0 4px 15px rgba(0,123,255,0.1);
+    }
+    
+    .logistics-card {
+        border: 2px solid #e9ecef;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+        background: white;
+    }
+    
+    .logistics-card:hover {
+        border-color: #28a745;
+        box-shadow: 0 4px 15px rgba(40,167,69,0.1);
+    }
+    
+    .model-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 20px;
+        text-align: center;
+        margin-bottom: 15px;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+    
+    .model-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .model-card.trained {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    }
+    
+    .forecast-item {
+        border-left: 4px solid;
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        background: white;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .forecast-high { border-left-color: #dc3545; }
+    .forecast-medium { border-left-color: #ffc107; }
+    .forecast-low { border-left-color: #28a745; }
+    
+    .route-item {
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 10px;
+        background: white;
+    }
+    
+    .vehicle-item {
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 10px;
+        background: white;
+    }
+    
+    .chart-container {
+        position: relative;
+        height: 300px;
+        margin-bottom: 20px;
+    }
+    
+    .status-indicator {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-right: 8px;
+    }
+    
+    .status-pending { background-color: #ffc107; }
+    .status-in-transit { background-color: #17a2b8; }
+    .status-delivered { background-color: #28a745; }
+    .status-failed { background-color: #dc3545; }
+    .status-available { background-color: #28a745; }
+    .status-busy { background-color: #dc3545; }
+    
+    .pulse {
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+    
+    .map-container {
+        width: 100%;
+        height: 400px;
+        border: 2px dashed #dee2e6;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(45deg, #f8f9fa 25%, transparent 25%), 
+                    linear-gradient(-45deg, #f8f9fa 25%, transparent 25%), 
+                    linear-gradient(45deg, transparent 75%, #f8f9fa 75%), 
+                    linear-gradient(-45deg, transparent 75%, #f8f9fa 75%);
+        background-size: 20px 20px;
+        background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    }
+    
+    .route-visualization {
+        width: 100%;
+        height: 300px;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        background: #f8f9fa;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .location-marker {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 2px solid white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        font-weight: bold;
+        color: white;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+    
+    .depot-marker { background-color: #dc3545; }
+    .customer-marker { background-color: #007bff; }
+    .route-line {
+        position: absolute;
+        height: 2px;
+        background-color: #28a745;
+        opacity: 0.7;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h3 mb-0">
+                        <i class="fas fa-chart-line text-primary"></i> Análisis Predictivo & 
+                        <i class="fas fa-truck text-success"></i> Logística
+                    </h1>
+                    <p class="text-muted">Pronósticos avanzados y optimización de rutas</p>
+                </div>
+                <div>
+                    <button class="btn btn-primary" onclick="trainPredictiveModels()">
+                        <i class="fas fa-cogs"></i> Entrenar Modelos
+                    </button>
+                    <button class="btn btn-success" onclick="optimizeRoutes()">
+                        <i class="fas fa-route"></i> Optimizar Rutas
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Predictivo & Logística -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="predictive-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-tachometer-alt text-primary"></i> Dashboard Predictivo & Logística
+                    <span class="badge badge-primary pulse" id="dashboardStatus">Actualizando...</span>
+                </h5>
+                <div class="row" id="dashboardContainer">
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="model-card">
+                            <div class="metric-value" id="modelsTrained">-</div>
+                            <div class="metric-label">Modelos Entrenados</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="model-card" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%);">
+                            <div class="metric-value" id="totalVehicles">-</div>
+                            <div class="metric-label">Vehículos Totales</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="model-card" style="background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);">
+                            <div class="metric-value" id="pendingOrders">-</div>
+                            <div class="metric-label">Órdenes Pendientes</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="model-card" style="background: linear-gradient(135deg, #dc3545 0%, #e83e8c 100%);">
+                            <div class="metric-value" id="activeRoutes">-</div>
+                            <div class="metric-label">Rutas Activas</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Análisis Predictivo -->
+    <div class="row mb-4">
+        <div class="col-lg-8">
+            <div class="predictive-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-crystal-ball text-primary"></i> Análisis Predictivo
+                </h5>
+                <div class="row" id="predictiveModelsContainer">
+                    <div class="col-lg-4 col-md-6 mb-3">
+                        <div class="model-card" onclick="trainModel('Random Forest')">
+                            <h6>Random Forest</h6>
+                            <div class="status-indicator status-pending"></div>
+                            <small>No entrenado</small>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 mb-3">
+                        <div class="model-card" onclick="trainModel('Gradient Boosting')">
+                            <h6>Gradient Boosting</h6>
+                            <div class="status-indicator status-pending"></div>
+                            <small>No entrenado</small>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 mb-3">
+                        <div class="model-card" onclick="trainModel('SVR')">
+                            <h6>Support Vector Regression</h6>
+                            <div class="status-indicator status-pending"></div>
+                            <small>No entrenado</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <button class="btn btn-primary" onclick="trainPredictiveModels()">
+                        <i class="fas fa-cogs"></i> Entrenar Todos los Modelos
+                    </button>
+                    <button class="btn btn-info" onclick="analyzePatterns()">
+                        <i class="fas fa-search"></i> Analizar Patrones
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="predictive-card">
+                <h5 class="mb-3">Generar Pronóstico</h5>
+                <div class="mb-3">
+                    <label for="productSelect" class="form-label">Producto</label>
+                    <select class="form-select" id="productSelect">
+                        <option value="">Seleccionar producto...</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="periodsSelect" class="form-label">Períodos</label>
+                    <select class="form-select" id="periodsSelect">
+                        <option value="7">7 días</option>
+                        <option value="14">14 días</option>
+                        <option value="30" selected>30 días</option>
+                        <option value="60">60 días</option>
+                        <option value="90">90 días</option>
+                    </select>
+                </div>
+                <button class="btn btn-success" onclick="generateForecast()">
+                    <i class="fas fa-crystal-ball"></i> Generar Pronóstico
+                </button>
+                <div id="forecastResults" class="mt-3">
+                    <div class="text-center text-muted">
+                        <i class="fas fa-chart-line fa-3x mb-3"></i>
+                        <p>Selecciona un producto para pronosticar</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Patrones y Anomalías -->
+    <div class="row mb-4">
+        <div class="col-lg-6">
+            <div class="predictive-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-search text-info"></i> Patrones de Demanda
+                </h5>
+                <div id="patternsContainer">
+                    <div class="text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Cargando patrones...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="predictive-card">
+                <h5 class="mb-3">Gráfico de Pronósticos</h5>
+                <div class="chart-container">
+                    <canvas id="forecastChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logística -->
+    <div class="row mb-4">
+        <div class="col-lg-6">
+            <div class="logistics-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-truck text-success"></i> Gestión de Vehículos
+                </h5>
+                <div id="vehiclesContainer">
+                    <div class="text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Cargando vehículos...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="logistics-card">
+                <h5 class="mb-3">Crear Orden de Entrega</h5>
+                <div class="mb-3">
+                    <label for="customerId" class="form-label">ID Cliente</label>
+                    <input type="text" class="form-control" id="customerId" placeholder="Cliente ID">
+                </div>
+                <div class="mb-3">
+                    <label for="deliveryLocation" class="form-label">Ubicación de Entrega</label>
+                    <select class="form-select" id="deliveryLocation">
+                        <option value="">Seleccionar ubicación...</option>
+                        <option value="CUSTOMER_001">Cliente Centro</option>
+                        <option value="CUSTOMER_002">Cliente Norte</option>
+                        <option value="CUSTOMER_003">Cliente Sur</option>
+                        <option value="CUSTOMER_004">Cliente Este</option>
+                        <option value="CUSTOMER_005">Cliente Oeste</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="deliveryDate" class="form-label">Fecha de Entrega</label>
+                    <input type="date" class="form-control" id="deliveryDate">
+                </div>
+                <div class="mb-3">
+                    <label for="priority" class="form-label">Prioridad</label>
+                    <select class="form-select" id="priority">
+                        <option value="1">Baja</option>
+                        <option value="2">Media-Baja</option>
+                        <option value="3" selected>Media</option>
+                        <option value="4">Media-Alta</option>
+                        <option value="5">Alta</option>
+                    </select>
+                </div>
+                <button class="btn btn-success" onclick="createDeliveryOrder()">
+                    <i class="fas fa-plus"></i> Crear Orden
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rutas y Optimización -->
+    <div class="row mb-4">
+        <div class="col-lg-8">
+            <div class="logistics-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-route text-warning"></i> Rutas Optimizadas
+                </h5>
+                <div class="mb-3">
+                    <label for="routeDate" class="form-label">Fecha para Optimización</label>
+                    <input type="date" class="form-control" id="routeDate">
+                </div>
+                <button class="btn btn-warning" onclick="optimizeRoutes()">
+                    <i class="fas fa-route"></i> Optimizar Rutas
+                </button>
+                <div id="routesContainer" class="mt-3">
+                    <div class="text-center text-muted">
+                        <i class="fas fa-route fa-3x mb-3"></i>
+                        <p>Optimiza rutas para ver resultados</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="logistics-card">
+                <h5 class="mb-3">Visualización de Rutas</h5>
+                <div class="map-container" id="routeMap">
+                    <div class="text-center text-muted">
+                        <i class="fas fa-map fa-3x mb-3"></i>
+                        <h5>Mapa de Rutas</h5>
+                        <p>Selecciona una ruta para visualizar</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Análisis Avanzado -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="predictive-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-microscope text-purple"></i> Análisis Avanzado Combinado
+                </h5>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="analysisType" class="form-label">Tipo de Análisis</label>
+                        <select class="form-select" id="analysisType">
+                            <option value="comprehensive">Completo</option>
+                            <option value="predictive">Solo Predictivo</option>
+                            <option value="logistics">Solo Logística</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-primary mt-4" onclick="runAdvancedAnalysis()">
+                            <i class="fas fa-microscope"></i> Ejecutar Análisis
+                        </button>
+                    </div>
+                </div>
+                <div id="advancedAnalysisResults">
+                    <div class="text-center text-muted">
+                        <i class="fas fa-chart-bar fa-3x mb-3"></i>
+                        <p>Ejecuta un análisis avanzado para ver resultados</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Log de Actividad -->
+    <div class="row">
+        <div class="col-12">
+            <div class="predictive-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-history text-secondary"></i> Log de Actividad Predictivo & Logística
+                </h5>
+                <div id="activityLog" style="height: 200px; overflow-y: auto; background: #f8f9fa; padding: 15px; border-radius: 8px;">
+                    <div class="text-muted">Esperando actividad...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let charts = {};
+let autoRefreshInterval;
+
+// Cargar datos al inicializar
+document.addEventListener('DOMContentLoaded', function() {
+    loadDashboard();
+    loadProducts();
+    loadVehicles();
+    loadPatterns();
+    
+    // Iniciar actualización automática
+    startAutoRefresh();
+});
+
+function loadDashboard() {
+    fetch('/api/predictive-logistics/predictive-logistics/dashboard')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                updateDashboard(data.dashboard);
+            }
+        })
+        .catch(error => console.error('Error cargando dashboard:', error));
+}
+
+function updateDashboard(dashboard) {
+    // Actualizar métricas combinadas
+    document.getElementById('modelsTrained').textContent = dashboard.combined.total_models;
+    document.getElementById('totalVehicles').textContent = dashboard.combined.total_vehicles;
+    document.getElementById('pendingOrders').textContent = dashboard.combined.pending_orders;
+    document.getElementById('activeRoutes').textContent = dashboard.combined.active_routes;
+    
+    document.getElementById('dashboardStatus').textContent = 'Actualizado';
+    document.getElementById('dashboardStatus').className = 'badge badge-success';
+}
+
+function loadProducts() {
+    fetch('/api/products')
+        .then(response => response.json())
+        .then(data => {
+            const select = document.getElementById('productSelect');
+            
+            if (data.products) {
+                data.products.forEach(product => {
+                    const option = new Option(product.name, product.id);
+                    select.add(option);
+                });
+            }
+        })
+        .catch(error => console.error('Error cargando productos:', error));
+}
+
+function trainPredictiveModels() {
+    const button = event.target;
+    const originalText = button.innerHTML;
+    
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Entrenando...';
+    button.disabled = true;
+    
+    fetch('/api/predictive-logistics/predictive/train-models', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showAlert('Modelos predictivos entrenados exitosamente', 'success');
+            updateModelStatus(data);
+            addActivityLog('Predictivo', `Modelos entrenados: ${data.models_trained}`, 'success');
+        } else {
+            showAlert('Error entrenando modelos: ' + data.error, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showAlert('Error entrenando modelos', 'error');
+    })
+    .finally(() => {
+        button.innerHTML = originalText;
+        button.disabled = false;
+    });
+}
+
+function updateModelStatus(data) {
+    const container = document.getElementById('predictiveModelsContainer');
+    const cards = container.querySelectorAll('.model-card');
+    
+    cards.forEach(card => {
+        const modelName = card.querySelector('h6').textContent;
+        const statusIndicator = card.querySelector('.status-indicator');
+        const statusText = card.querySelector('small');
+        
+        if (data.models_trained > 0) {
+            card.classList.add('trained');
+            statusIndicator.className = 'status-indicator status-delivered';
+            statusText.textContent = `Entrenado`;
+        }
+    });
+}
+
+function generateForecast() {
+    const productId = document.getElementById('productSelect').value;
+    const periods = document.getElementById('periodsSelect').value;
+    
+    if (!productId) {
+        showAlert('Selecciona un producto', 'warning');
+        return;
+    }
+    
+    const button = event.target;
+    const originalText = button.innerHTML;
+    
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Pronosticando...';
+    button.disabled = true;
+    
+    fetch(`/api/predictive-logistics/predictive/forecast/${productId}?periods=${periods}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                displayForecast(data.forecast);
+                updateForecastChart(data.forecast);
+                addActivityLog('Predictivo', `Pronóstico generado para producto ${productId}`, 'success');
+            } else {
+                showAlert('Error generando pronóstico: ' + data.error, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert('Error generando pronóstico', 'error');
+        })
+        .finally(() => {
+            button.innerHTML = originalText;
+            button.disabled = false;
+        });
+}
+
+function displayForecast(forecast) {
+    const container = document.getElementById('forecastResults');
+    
+    container.innerHTML = `
+        <div class="row">
+            <div class="col-md-6">
+                <div class="text-center">
+                    <div class="metric-value text-primary">${forecast.total_predicted_demand.toFixed(0)}</div>
+                    <div class="metric-label">Demanda Total (${forecast.forecast_periods} días)</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="text-center">
+                    <div class="metric-value text-success">${forecast.average_daily_demand.toFixed(1)}</div>
+                    <div class="metric-label">Demanda Promedio Diaria</div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-3">
+            <small class="text-muted">
+                Modelo: ${forecast.model_used} | 
+                Precisión: ${(forecast.accuracy * 100).toFixed(1)}%
+            </small>
+        </div>
+    `;
+}
+
+function updateForecastChart(forecast) {
+    const ctx = document.getElementById('forecastChart');
+    if (!ctx) return;
+    
+    if (charts.forecast) {
+        charts.forecast.destroy();
+    }
+    
+    const labels = [];
+    for (let i = 1; i <= forecast.forecast_periods; i++) {
+        labels.push(`Día ${i}`);
+    }
+    
+    charts.forecast = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Pronóstico',
+                data: forecast.predictions,
+                borderColor: '#007bff',
+                backgroundColor: '#007bff20',
+                fill: true
+            }, {
+                label: 'Intervalo de Confianza Superior',
+                data: forecast.confidence_intervals.map(ci => ci[1]),
+                borderColor: '#dc3545',
+                backgroundColor: '#dc354520',
+                fill: '+1'
+            }, {
+                label: 'Intervalo de Confianza Inferior',
+                data: forecast.confidence_intervals.map(ci => ci[0]),
+                borderColor: '#dc3545',
+                backgroundColor: '#dc354520',
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+function analyzePatterns() {
+    const button = event.target;
+    const originalText = button.innerHTML;
+    
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analizando...';
+    button.disabled = true;
+    
+    fetch('/api/predictive-logistics/predictive/analyze-patterns', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            displayPatterns(data.analysis);
+            addActivityLog('Predictivo', `Patrones analizados: ${data.analysis.total_products} productos`, 'success');
+        } else {
+            showAlert('Error analizando patrones: ' + data.error, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showAlert('Error analizando patrones', 'error');
+    })
+    .finally(() => {
+        button.innerHTML = originalText;
+        button.disabled = false;
+    });
+}
+
+function displayPatterns(analysis) {
+    const container = document.getElementById('patternsContainer');
+    
+    if (!analysis.analysis || Object.keys(analysis.analysis).length === 0) {
+        container.innerHTML = '<div class="text-center text-muted"><p>No hay patrones detectados</p></div>';
+        return;
+    }
+    
+    let html = '';
+    Object.keys(analysis.analysis).forEach(productId => {
+        const productAnalysis = analysis.analysis[productId];
+        
+        html += `
+            <div class="forecast-item">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h6>Producto ${productId}</h6>
+                        <p class="mb-2">Tendencia: ${productAnalysis.trend_change > 0 ? 'Creciente' : 'Decreciente'} (${(productAnalysis.trend_change * 100).toFixed(1)}%)</p>
+                        <p class="mb-2">Estacionalidad: ${productAnalysis.seasonality_ratio.toFixed(1)}x</p>
+                        <p class="mb-2">Volatilidad: ${productAnalysis.volatility.toFixed(2)}</p>
+                        ${productAnalysis.patterns.length > 0 ? `
+                            <div class="mb-2">
+                                <strong>Patrones detectados:</strong>
+                                <ul class="mb-0">
+                                    ${productAnalysis.patterns.map(pattern => `<li>${pattern.description}</li>`).join('')}
+                                </ul>
+                            </div>
+                        ` : ''}
+                    </div>
+                    <div class="text-end">
+                        <span class="badge badge-info">${productAnalysis.data_points} puntos</span>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+function loadVehicles() {
+    fetch('/api/predictive-logistics/logistics/vehicles/status')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                displayVehicles(data.vehicles);
+            }
+        })
+        .catch(error => console.error('Error cargando vehículos:', error));
+}
+
+function displayVehicles(vehicles) {
+    const container = document.getElementById('vehiclesContainer');
+    
+    if (!vehicles || vehicles.length === 0) {
+        container.innerHTML = '<div class="text-center text-muted"><p>No hay vehículos disponibles</p></div>';
+        return;
+    }
+    
+    let html = '';
+    vehicles.forEach(vehicle => {
+        const statusClass = vehicle.is_available ? 'status-available' : 'status-busy';
+        const statusText = vehicle.is_available ? 'Disponible' : 'Ocupado';
+        
+        html += `
+            <div class="vehicle-item">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h6>${vehicle.id}</h6>
+                        <p class="mb-1">Tipo: ${vehicle.vehicle_type.replace('_', ' ').toUpperCase()}</p>
+                        <p class="mb-1">Capacidad: ${vehicle.capacity_kg}kg / ${vehicle.capacity_volume}m³</p>
+                        <p class="mb-1">Eficiencia: ${vehicle.fuel_efficiency} km/L</p>
+                        <p class="mb-1">Conductor: ${vehicle.driver_id}</p>
+                    </div>
+                    <div>
+                        <span class="status-indicator ${statusClass}"></span>
+                        ${statusText}
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+function createDeliveryOrder() {
+    const customerId = document.getElementById('customerId').value;
+    const deliveryLocation = document.getElementById('deliveryLocation').value;
+    const deliveryDate = document.getElementById('deliveryDate').value;
+    const priority = document.getElementById('priority').value;
+    
+    if (!customerId || !deliveryLocation || !deliveryDate) {
+        showAlert('Completa todos los campos requeridos', 'warning');
+        return;
+    }
+    
+    const products = [
+        {'product_id': 1, 'quantity': 10, 'weight': 1.0, 'volume': 0.1}
+    ];
+    
+    fetch('/api/predictive-logistics/logistics/create-order', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            customer_id: customerId,
+            products: products,
+            delivery_location_id: deliveryLocation,
+            delivery_date: deliveryDate,
+            priority: parseInt(priority)
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showAlert('Orden de entrega creada exitosamente', 'success');
+            addActivityLog('Logística', `Orden creada: ${data.order.id}`, 'success');
+            
+            // Limpiar formulario
+            document.getElementById('customerId').value = '';
+            document.getElementById('deliveryLocation').value = '';
+            document.getElementById('deliveryDate').value = '';
+            document.getElementById('priority').value = '3';
+        } else {
+            showAlert('Error creando orden: ' + data.error, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showAlert('Error creando orden', 'error');
+    });
+}
+
+function optimizeRoutes() {
+    const routeDate = document.getElementById('routeDate').value;
+    
+    const button = event.target;
+    const originalText = button.innerHTML;
+    
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Optimizando...';
+    button.disabled = true;
+    
+    fetch('/api/predictive-logistics/logistics/optimize-routes', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            date: routeDate
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            displayRoutes(data.optimization);
+            addActivityLog('Logística', `Rutas optimizadas: ${data.optimization.routes_created}`, 'success');
+        } else {
+            showAlert('Error optimizando rutas: ' + data.error, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showAlert('Error optimizando rutas', 'error');
+    })
+    .finally(() => {
+        button.innerHTML = originalText;
+        button.disabled = false;
+    });
+}
+
+function displayRoutes(optimization) {
+    const container = document.getElementById('routesContainer');
+    
+    if (!optimization.routes || optimization.routes.length === 0) {
+        container.innerHTML = '<div class="text-center text-muted"><p>No se pudieron crear rutas</p></div>';
+        return;
+    }
+    
+    let html = '';
+    optimization.routes.forEach(route => {
+        html += `
+            <div class="route-item">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h6>${route.id}</h6>
+                        <p class="mb-1">Vehículo: ${route.vehicle_id}</p>
+                        <p class="mb-1">Conductor: ${route.driver_id}</p>
+                        <p class="mb-1">Órdenes: ${route.orders_count}</p>
+                        <p class="mb-1">Distancia: ${route.total_distance.toFixed(1)} km</p>
+                        <p class="mb-1">Duración: ${route.total_duration} min</p>
+                        <p class="mb-1">Costo combustible: $${route.fuel_cost.toFixed(2)}</p>
+                    </div>
+                    <div>
+                        <button class="btn btn-sm btn-info" onclick="showRouteDetails('${route.id}')">
+                            <i class="fas fa-info-circle"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+function showRouteDetails(routeId) {
+    fetch(`/api/predictive-logistics/logistics/route/${routeId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                displayRouteDetails(data.route);
+            } else {
+                showAlert('Error obteniendo detalles de ruta: ' + data.error, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert('Error obteniendo detalles de ruta', 'error');
+        });
+}
+
+function displayRouteDetails(route) {
+    const mapContainer = document.getElementById('routeMap');
+    
+    mapContainer.innerHTML = `
+        <div class="text-center text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 10px;">
+            <h5>${route.id}</h5>
+            <p>Vehículo: ${route.vehicle.id}</p>
+            <p>Órdenes: ${route.orders.length}</p>
+            <p>Distancia: ${route.total_distance.toFixed(1)} km</p>
+            <p>Duración: ${route.total_duration} min</p>
+            <p>Costo: $${route.fuel_cost.toFixed(2)}</p>
+            <div class="mt-3">
+                <small>Utilización: ${route.efficiency.weight_utilization.toFixed(1)}% peso, ${route.efficiency.volume_utilization.toFixed(1)}% volumen</small>
+            </div>
+        </div>
+    `;
+}
+
+function runAdvancedAnalysis() {
+    const analysisType = document.getElementById('analysisType').value;
+    
+    const button = event.target;
+    const originalText = button.innerHTML;
+    
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analizando...';
+    button.disabled = true;
+    
+    fetch('/api/predictive-logistics/predictive-logistics/advanced-analysis', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            analysis_type: analysisType
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            displayAdvancedAnalysis(data.results);
+            addActivityLog('Análisis', `Análisis ${analysisType} completado`, 'success');
+        } else {
+            showAlert('Error en análisis: ' + data.error, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showAlert('Error en análisis', 'error');
+    })
+    .finally(() => {
+        button.innerHTML = originalText;
+        button.disabled = false;
+    });
+}
+
+function displayAdvancedAnalysis(results) {
+    const container = document.getElementById('advancedAnalysisResults');
+    
+    let html = '<div class="row">';
+    
+    if (results.predictive_analysis) {
+        html += `
+            <div class="col-md-6">
+                <h6>Análisis Predictivo</h6>
+                <div class="mb-3">
+                    <strong>Patrones:</strong> ${results.predictive_analysis.total_patterns}
+                </div>
+                <div class="mb-3">
+                    <strong>Anomalías:</strong> ${results.predictive_analysis.total_anomalies}
+                </div>
+            </div>
+        `;
+    }
+    
+    if (results.logistics_analysis) {
+        html += `
+            <div class="col-md-6">
+                <h6>Análisis de Logística</h6>
+                <div class="mb-3">
+                    <strong>Vehículos:</strong> ${results.logistics_analysis.total_vehicles}
+                </div>
+                <div class="mb-3">
+                    <strong>Disponibles:</strong> ${results.logistics_analysis.available_vehicles}
+                </div>
+            </div>
+        `;
+    }
+    
+    html += '</div>';
+    
+    container.innerHTML = html;
+}
+
+function startAutoRefresh() {
+    autoRefreshInterval = setInterval(() => {
+        loadDashboard();
+        loadVehicles();
+    }, 30000); // Actualizar cada 30 segundos
+}
+
+function addActivityLog(source, message, type) {
+    const logContainer = document.getElementById('activityLog');
+    const timestamp = new Date().toLocaleTimeString();
+    const typeClass = type === 'success' ? 'text-success' : 
+                     type === 'error' ? 'text-danger' : 
+                     type === 'warning' ? 'text-warning' : 'text-info';
+    
+    const logEntry = document.createElement('div');
+    logEntry.className = 'mb-2';
+    logEntry.innerHTML = `
+        <small class="text-muted">[${timestamp}]</small>
+        <span class="${typeClass}"><strong>${source}:</strong></span>
+        <span>${message}</span>
+    `;
+    
+    logContainer.insertBefore(logEntry, logContainer.firstChild);
+    
+    // Mantener solo los últimos 50 logs
+    while (logContainer.children.length > 50) {
+        logContainer.removeChild(logContainer.lastChild);
+    }
+}
+
+function showAlert(message, type) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+    alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="close" data-dismiss="alert">
+            <span>&times;</span>
+        </button>
+    `;
+    
+    document.body.insertBefore(alertDiv, document.body.firstChild);
+    
+    setTimeout(() => {
+        alertDiv.remove();
+    }, 5000);
+}
+
+// Limpiar intervalos al salir
+window.addEventListener('beforeunload', function() {
+    if (autoRefreshInterval) {
+        clearInterval(autoRefreshInterval);
+    }
+});
+</script>
+{% endblock %}
+
+
+

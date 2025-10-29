@@ -1,0 +1,1048 @@
+{% extends "base.html" %}
+
+{% block title %}IA Avanzada & Blockchain{% endblock %}
+
+{% block extra_css %}
+<style>
+    .ai-card {
+        border: 2px solid #e9ecef;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+        background: white;
+    }
+    
+    .ai-card:hover {
+        border-color: #007bff;
+        box-shadow: 0 4px 15px rgba(0,123,255,0.1);
+    }
+    
+    .blockchain-card {
+        border: 2px solid #e9ecef;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+        background: white;
+    }
+    
+    .blockchain-card:hover {
+        border-color: #28a745;
+        box-shadow: 0 4px 15px rgba(40,167,69,0.1);
+    }
+    
+    .model-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 20px;
+        text-align: center;
+        margin-bottom: 15px;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+    
+    .model-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .model-card.trained {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    }
+    
+    .insight-item {
+        border-left: 4px solid;
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        background: white;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .insight-high { border-left-color: #dc3545; }
+    .insight-medium { border-left-color: #ffc107; }
+    .insight-low { border-left-color: #28a745; }
+    
+    .block-item {
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 10px;
+        background: white;
+    }
+    
+    .transaction-item {
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 10px;
+        background: white;
+    }
+    
+    .chart-container {
+        position: relative;
+        height: 300px;
+        margin-bottom: 20px;
+    }
+    
+    .status-indicator {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-right: 8px;
+    }
+    
+    .status-active { background-color: #28a745; }
+    .status-inactive { background-color: #dc3545; }
+    .status-pending { background-color: #ffc107; }
+    
+    .pulse {
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+    
+    .blockchain-hash {
+        font-family: 'Courier New', monospace;
+        font-size: 0.8rem;
+        background: #f8f9fa;
+        padding: 5px;
+        border-radius: 3px;
+        word-break: break-all;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h3 mb-0">
+                        <i class="fas fa-brain text-primary"></i> IA Avanzada & 
+                        <i class="fas fa-link text-success"></i> Blockchain
+                    </h1>
+                    <p class="text-muted">Inteligencia artificial avanzada y trazabilidad con blockchain</p>
+                </div>
+                <div>
+                    <button class="btn btn-primary" onclick="trainAllModels()">
+                        <i class="fas fa-cogs"></i> Entrenar Modelos IA
+                    </button>
+                    <button class="btn btn-success" onclick="mineBlock()">
+                        <i class="fas fa-hammer"></i> Minar Bloque
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard IA & Blockchain -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="ai-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-tachometer-alt text-primary"></i> Dashboard IA & Blockchain
+                    <span class="badge badge-primary pulse" id="dashboardStatus">Actualizando...</span>
+                </h5>
+                <div class="row" id="dashboardContainer">
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="model-card">
+                            <div class="metric-value" id="modelsTrained">-</div>
+                            <div class="metric-label">Modelos IA Entrenados</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="model-card" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%);">
+                            <div class="metric-value" id="chainLength">-</div>
+                            <div class="metric-label">Bloques en Cadena</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="model-card" style="background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);">
+                            <div class="metric-value" id="totalTransactions">-</div>
+                            <div class="metric-label">Total Transacciones</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="model-card" style="background: linear-gradient(135deg, #dc3545 0%, #e83e8c 100%);">
+                            <div class="metric-value" id="pendingTransactions">-</div>
+                            <div class="metric-label">Transacciones Pendientes</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modelos de IA -->
+    <div class="row mb-4">
+        <div class="col-lg-8">
+            <div class="ai-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-robot text-primary"></i> Modelos de Inteligencia Artificial
+                </h5>
+                <div class="row" id="aiModelsContainer">
+                    <div class="col-lg-4 col-md-6 mb-3">
+                        <div class="model-card" onclick="trainModel('neural_network_regression')">
+                            <h6>Red Neuronal Regresión</h6>
+                            <div class="status-indicator status-inactive"></div>
+                            <small>No entrenado</small>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 mb-3">
+                        <div class="model-card" onclick="trainModel('neural_network_classification')">
+                            <h6>Red Neuronal Clasificación</h6>
+                            <div class="status-indicator status-inactive"></div>
+                            <small>No entrenado</small>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 mb-3">
+                        <div class="model-card" onclick="trainModel('anomaly_detection')">
+                            <h6>Detección de Anomalías</h6>
+                            <div class="status-indicator status-inactive"></div>
+                            <small>No entrenado</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <button class="btn btn-primary" onclick="trainAllModels()">
+                        <i class="fas fa-cogs"></i> Entrenar Todos los Modelos
+                    </button>
+                    <button class="btn btn-info" onclick="generateInsights()">
+                        <i class="fas fa-lightbulb"></i> Generar Insights
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="ai-card">
+                <h5 class="mb-3">Predicciones IA</h5>
+                <div class="mb-3">
+                    <label for="productSelect" class="form-label">Producto</label>
+                    <select class="form-select" id="productSelect">
+                        <option value="">Seleccionar producto...</option>
+                    </select>
+                </div>
+                <button class="btn btn-success" onclick="predictWithAI()">
+                    <i class="fas fa-crystal-ball"></i> Predecir con IA
+                </button>
+                <div id="aiPredictions" class="mt-3">
+                    <div class="text-center text-muted">
+                        <i class="fas fa-chart-line fa-3x mb-3"></i>
+                        <p>Selecciona un producto para predecir</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Insights de IA -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="ai-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-lightbulb text-warning"></i> Insights Generados por IA
+                </h5>
+                <div id="aiInsightsContainer">
+                    <div class="text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Cargando insights...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Blockchain -->
+    <div class="row mb-4">
+        <div class="col-lg-6">
+            <div class="blockchain-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-link text-success"></i> Cadena de Bloques
+                </h5>
+                <div class="mb-3">
+                    <button class="btn btn-success" onclick="mineBlock()">
+                        <i class="fas fa-hammer"></i> Minar Bloque
+                    </button>
+                    <button class="btn btn-info" onclick="verifyChain()">
+                        <i class="fas fa-check-circle"></i> Verificar Cadena
+                    </button>
+                    <button class="btn btn-warning" onclick="exportChain()">
+                        <i class="fas fa-download"></i> Exportar
+                    </button>
+                </div>
+                <div id="blockchainInfo">
+                    <div class="text-center text-muted">
+                        <i class="fas fa-link fa-3x mb-3"></i>
+                        <p>Información de la cadena de bloques</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="blockchain-card">
+                <h5 class="mb-3">Transacciones Recientes</h5>
+                <div id="recentTransactions">
+                    <div class="text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Cargando transacciones...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trazabilidad -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="blockchain-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-search text-info"></i> Trazabilidad de Productos
+                </h5>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="traceProductSelect" class="form-label">Producto</label>
+                        <select class="form-select" id="traceProductSelect">
+                            <option value="">Seleccionar producto...</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="traceSupplierSelect" class="form-label">Proveedor</label>
+                        <select class="form-select" id="traceSupplierSelect">
+                            <option value="">Seleccionar proveedor...</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-primary" onclick="traceProduct()">
+                        <i class="fas fa-search"></i> Rastrear Producto
+                    </button>
+                    <button class="btn btn-success" onclick="traceSupplier()">
+                        <i class="fas fa-truck"></i> Rastrear Proveedor
+                    </button>
+                </div>
+                <div id="traceabilityResults">
+                    <div class="text-center text-muted">
+                        <i class="fas fa-history fa-3x mb-3"></i>
+                        <p>Selecciona un producto o proveedor para rastrear</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Análisis Avanzado -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="ai-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-chart-line text-purple"></i> Análisis Avanzado Combinado
+                </h5>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="analysisProductSelect" class="form-label">Producto</label>
+                        <select class="form-select" id="analysisProductSelect">
+                            <option value="">Seleccionar producto...</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="analysisType" class="form-label">Tipo de Análisis</label>
+                        <select class="form-select" id="analysisType">
+                            <option value="comprehensive">Completo</option>
+                            <option value="ai">Solo IA</option>
+                            <option value="blockchain">Solo Blockchain</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-primary mt-4" onclick="runAdvancedAnalysis()">
+                            <i class="fas fa-chart-line"></i> Ejecutar Análisis
+                        </button>
+                    </div>
+                </div>
+                <div id="advancedAnalysisResults">
+                    <div class="text-center text-muted">
+                        <i class="fas fa-microscope fa-3x mb-3"></i>
+                        <p>Ejecuta un análisis avanzado para ver resultados</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Log de Actividad -->
+    <div class="row">
+        <div class="col-12">
+            <div class="ai-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-history text-secondary"></i> Log de Actividad IA & Blockchain
+                </h5>
+                <div id="activityLog" style="height: 200px; overflow-y: auto; background: #f8f9fa; padding: 15px; border-radius: 8px;">
+                    <div class="text-muted">Esperando actividad...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let charts = {};
+let autoRefreshInterval;
+
+// Cargar datos al inicializar
+document.addEventListener('DOMContentLoaded', function() {
+    loadDashboard();
+    loadProducts();
+    loadBlockchainInfo();
+    loadRecentTransactions();
+    
+    // Iniciar actualización automática
+    startAutoRefresh();
+});
+
+function loadDashboard() {
+    fetch('/api/ai-blockchain/dashboard')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                updateDashboard(data.dashboard);
+            }
+        })
+        .catch(error => console.error('Error cargando dashboard:', error));
+}
+
+function updateDashboard(dashboard) {
+    // Actualizar métricas de IA
+    document.getElementById('modelsTrained').textContent = dashboard.ai.models_trained;
+    document.getElementById('recentInsights').textContent = dashboard.ai.recent_insights;
+    
+    // Actualizar métricas de blockchain
+    document.getElementById('chainLength').textContent = dashboard.blockchain.chain_length;
+    document.getElementById('totalTransactions').textContent = dashboard.blockchain.total_transactions;
+    document.getElementById('pendingTransactions').textContent = dashboard.blockchain.pending_transactions;
+    
+    document.getElementById('dashboardStatus').textContent = 'Actualizado';
+    document.getElementById('dashboardStatus').className = 'badge badge-success';
+}
+
+function loadProducts() {
+    fetch('/api/products')
+        .then(response => response.json())
+        .then(data => {
+            const selects = ['productSelect', 'traceProductSelect', 'analysisProductSelect'];
+            
+            selects.forEach(selectId => {
+                const select = document.getElementById(selectId);
+                
+                if (data.products) {
+                    data.products.forEach(product => {
+                        const option = new Option(product.name, product.id);
+                        select.add(option);
+                    });
+                }
+            });
+        })
+        .catch(error => console.error('Error cargando productos:', error));
+}
+
+function trainAllModels() {
+    const button = event.target;
+    const originalText = button.innerHTML;
+    
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Entrenando...';
+    button.disabled = true;
+    
+    fetch('/api/ai-blockchain/ai/train-deep-models', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showAlert('Modelos de IA entrenados exitosamente', 'success');
+            updateModelStatus(data.models);
+            addActivityLog('IA', `Modelos entrenados: ${data.models_trained}`, 'success');
+        } else {
+            showAlert('Error entrenando modelos: ' + data.error, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showAlert('Error entrenando modelos', 'error');
+    })
+    .finally(() => {
+        button.innerHTML = originalText;
+        button.disabled = false;
+    });
+}
+
+function updateModelStatus(models) {
+    const container = document.getElementById('aiModelsContainer');
+    const cards = container.querySelectorAll('.model-card');
+    
+    cards.forEach(card => {
+        const modelName = card.querySelector('h6').textContent.toLowerCase().replace(/\s+/g, '_');
+        const statusIndicator = card.querySelector('.status-indicator');
+        const statusText = card.querySelector('small');
+        
+        if (models[modelName]) {
+            card.classList.add('trained');
+            statusIndicator.className = 'status-indicator status-active';
+            statusText.textContent = `Precisión: ${(models[modelName].accuracy * 100).toFixed(1)}%`;
+        }
+    });
+}
+
+function generateInsights() {
+    const button = event.target;
+    const originalText = button.innerHTML;
+    
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generando...';
+    button.disabled = true;
+    
+    fetch('/api/ai-blockchain/ai/generate-insights', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            displayInsights(data.insights);
+            addActivityLog('IA', `${data.total_insights} insights generados`, 'success');
+        } else {
+            showAlert('Error generando insights: ' + data.error, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showAlert('Error generando insights', 'error');
+    })
+    .finally(() => {
+        button.innerHTML = originalText;
+        button.disabled = false;
+    });
+}
+
+function displayInsights(insights) {
+    const container = document.getElementById('aiInsightsContainer');
+    
+    if (!insights || insights.length === 0) {
+        container.innerHTML = '<div class="text-center text-muted"><p>No hay insights disponibles</p></div>';
+        return;
+    }
+    
+    let html = '';
+    insights.forEach(insight => {
+        const impactClass = `insight-${insight.impact}`;
+        
+        html += `
+            <div class="insight-item ${impactClass}">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h6>${insight.title}</h6>
+                        <p class="mb-2">${insight.description}</p>
+                        <div class="mb-2">
+                            <strong>Recomendaciones:</strong>
+                            <ul class="mb-0">
+                                ${insight.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <span class="badge badge-${insight.impact === 'high' ? 'danger' : insight.impact === 'medium' ? 'warning' : 'success'}">
+                            ${insight.impact === 'high' ? 'Alto' : insight.impact === 'medium' ? 'Medio' : 'Bajo'}
+                        </span>
+                        <br>
+                        <small class="text-muted">Confianza: ${(insight.confidence * 100).toFixed(1)}%</small>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+function predictWithAI() {
+    const productId = document.getElementById('productSelect').value;
+    
+    if (!productId) {
+        showAlert('Selecciona un producto', 'warning');
+        return;
+    }
+    
+    const button = event.target;
+    const originalText = button.innerHTML;
+    
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Prediciendo...';
+    button.disabled = true;
+    
+    fetch(`/api/ai-blockchain/ai/predict/${productId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                displayPredictions(data.prediction);
+                addActivityLog('IA', `Predicción generada para producto ${productId}`, 'success');
+            } else {
+                showAlert('Error prediciendo: ' + data.error, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert('Error prediciendo', 'error');
+        })
+        .finally(() => {
+            button.innerHTML = originalText;
+            button.disabled = false;
+        });
+}
+
+function displayPredictions(prediction) {
+    const container = document.getElementById('aiPredictions');
+    
+    container.innerHTML = `
+        <div class="row">
+            <div class="col-md-6">
+                <div class="text-center">
+                    <div class="metric-value text-primary">${prediction.total_predicted_demand.toFixed(0)}</div>
+                    <div class="metric-label">Demanda Total (30 días)</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="text-center">
+                    <div class="metric-value text-success">${prediction.average_daily_demand.toFixed(1)}</div>
+                    <div class="metric-label">Demanda Promedio Diaria</div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-3">
+            <small class="text-muted">
+                Modelo: ${prediction.model_used} | 
+                Precisión: ${(prediction.model_accuracy * 100).toFixed(1)}%
+            </small>
+        </div>
+    `;
+}
+
+function mineBlock() {
+    const button = event.target;
+    const originalText = button.innerHTML;
+    
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Minando...';
+    button.disabled = true;
+    
+    fetch('/api/ai-blockchain/blockchain/mine', { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showAlert('Bloque minado exitosamente', 'success');
+                loadBlockchainInfo();
+                loadRecentTransactions();
+                addActivityLog('Blockchain', `Bloque ${data.block.index} minado`, 'success');
+            } else {
+                showAlert('Error minando bloque: ' + data.error, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert('Error minando bloque', 'error');
+        })
+        .finally(() => {
+            button.innerHTML = originalText;
+            button.disabled = false;
+        });
+}
+
+function loadBlockchainInfo() {
+    fetch('/api/ai-blockchain/blockchain/info')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                displayBlockchainInfo(data.blockchain_info);
+            }
+        })
+        .catch(error => console.error('Error cargando info de blockchain:', error));
+}
+
+function displayBlockchainInfo(info) {
+    const container = document.getElementById('blockchainInfo');
+    
+    container.innerHTML = `
+        <div class="row">
+            <div class="col-md-6">
+                <div class="text-center">
+                    <div class="metric-value text-success">${info.chain_length}</div>
+                    <div class="metric-label">Bloques en Cadena</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="text-center">
+                    <div class="metric-value text-warning">${info.pending_transactions}</div>
+                    <div class="metric-label">Transacciones Pendientes</div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-3">
+            <div class="blockchain-hash">
+                <strong>Último Hash:</strong><br>
+                ${info.last_block_hash || 'N/A'}
+            </div>
+            <div class="mt-2">
+                <span class="badge badge-${info.chain_valid ? 'success' : 'danger'}">
+                    ${info.chain_valid ? 'Cadena Válida' : 'Cadena Inválida'}
+                </span>
+            </div>
+        </div>
+    `;
+}
+
+function loadRecentTransactions() {
+    fetch('/api/ai-blockchain/blockchain/recent-transactions?limit=5')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                displayRecentTransactions(data.transactions);
+            }
+        })
+        .catch(error => console.error('Error cargando transacciones:', error));
+}
+
+function displayRecentTransactions(transactions) {
+    const container = document.getElementById('recentTransactions');
+    
+    if (!transactions || transactions.length === 0) {
+        container.innerHTML = '<div class="text-center text-muted"><p>No hay transacciones recientes</p></div>';
+        return;
+    }
+    
+    let html = '';
+    transactions.forEach(tx => {
+        const transaction = tx.transaction;
+        const typeBadge = getTransactionTypeBadge(transaction.transaction_type);
+        
+        html += `
+            <div class="transaction-item">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h6>${transaction.transaction_type.replace('_', ' ').toUpperCase()}</h6>
+                        <small class="text-muted">
+                            Producto: ${transaction.product_id} | 
+                            Cantidad: ${transaction.quantity}
+                        </small>
+                        <br>
+                        <small class="text-muted">${new Date(tx.timestamp).toLocaleString()}</small>
+                    </div>
+                    <div>
+                        <span class="badge ${typeBadge.class}">${typeBadge.text}</span>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+function getTransactionTypeBadge(type) {
+    const badges = {
+        'product_created': { class: 'badge-primary', text: 'Creación' },
+        'inventory_in': { class: 'badge-success', text: 'Entrada' },
+        'inventory_out': { class: 'badge-warning', text: 'Salida' },
+        'sale_recorded': { class: 'badge-info', text: 'Venta' },
+        'price_change': { class: 'badge-secondary', text: 'Precio' }
+    };
+    
+    return badges[type] || { class: 'badge-light', text: 'Otro' };
+}
+
+function traceProduct() {
+    const productId = document.getElementById('traceProductSelect').value;
+    
+    if (!productId) {
+        showAlert('Selecciona un producto', 'warning');
+        return;
+    }
+    
+    fetch(`/api/ai-blockchain/blockchain/product-history/${productId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                displayTraceabilityResults(data.history, 'producto');
+                addActivityLog('Blockchain', `Historial del producto ${productId} consultado`, 'info');
+            } else {
+                showAlert('Error obteniendo historial: ' + data.error, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert('Error obteniendo historial', 'error');
+        });
+}
+
+function traceSupplier() {
+    const supplierId = document.getElementById('traceSupplierSelect').value;
+    
+    if (!supplierId) {
+        showAlert('Selecciona un proveedor', 'warning');
+        return;
+    }
+    
+    fetch(`/api/ai-blockchain/blockchain/supplier-history/${supplierId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                displayTraceabilityResults(data.history, 'proveedor');
+                addActivityLog('Blockchain', `Historial del proveedor ${supplierId} consultado`, 'info');
+            } else {
+                showAlert('Error obteniendo historial: ' + data.error, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert('Error obteniendo historial', 'error');
+        });
+}
+
+function displayTraceabilityResults(history, type) {
+    const container = document.getElementById('traceabilityResults');
+    
+    if (!history || history.length === 0) {
+        container.innerHTML = `<div class="text-center text-muted"><p>No hay historial para este ${type}</p></div>`;
+        return;
+    }
+    
+    let html = `<h6>Historial del ${type} (${history.length} transacciones)</h6>`;
+    
+    history.slice(0, 10).forEach(item => {
+        const transaction = item.transaction;
+        const typeBadge = getTransactionTypeBadge(transaction.transaction_type);
+        
+        html += `
+            <div class="block-item">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h6>${transaction.transaction_type.replace('_', ' ').toUpperCase()}</h6>
+                        <small class="text-muted">
+                            Cantidad: ${transaction.quantity} | 
+                            Precio: $${transaction.unit_price} |
+                            Ubicación: ${transaction.location}
+                        </small>
+                        <br>
+                        <small class="text-muted">${new Date(item.timestamp).toLocaleString()}</small>
+                    </div>
+                    <div>
+                        <span class="badge ${typeBadge.class}">${typeBadge.text}</span>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+function runAdvancedAnalysis() {
+    const productId = document.getElementById('analysisProductSelect').value;
+    const analysisType = document.getElementById('analysisType').value;
+    
+    if (!productId) {
+        showAlert('Selecciona un producto', 'warning');
+        return;
+    }
+    
+    const button = event.target;
+    const originalText = button.innerHTML;
+    
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analizando...';
+    button.disabled = true;
+    
+    fetch('/api/ai-blockchain/ai-blockchain/advanced-analysis', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            product_id: productId,
+            analysis_type: analysisType
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            displayAdvancedAnalysisResults(data.results);
+            addActivityLog('Análisis', `Análisis ${analysisType} completado`, 'success');
+        } else {
+            showAlert('Error en análisis: ' + data.error, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showAlert('Error en análisis', 'error');
+    })
+    .finally(() => {
+        button.innerHTML = originalText;
+        button.disabled = false;
+    });
+}
+
+function displayAdvancedAnalysisResults(results) {
+    const container = document.getElementById('advancedAnalysisResults');
+    
+    let html = '<div class="row">';
+    
+    if (results.ai_analysis) {
+        html += `
+            <div class="col-md-6">
+                <h6>Análisis de IA</h6>
+                <div class="mb-3">
+                    <strong>Insights:</strong> ${results.ai_analysis.insights.length}
+                </div>
+                <div class="mb-3">
+                    <strong>Predicciones:</strong> ${results.ai_analysis.predictions.success ? 'Disponibles' : 'No disponibles'}
+                </div>
+                <div class="mb-3">
+                    <strong>Anomalías:</strong> ${results.ai_analysis.anomalies.anomalies_detected || 0}
+                </div>
+            </div>
+        `;
+    }
+    
+    if (results.blockchain_analysis) {
+        html += `
+            <div class="col-md-6">
+                <h6>Análisis de Blockchain</h6>
+                <div class="mb-3">
+                    <strong>Transacciones:</strong> ${results.blockchain_analysis.total_transactions}
+                </div>
+                <div class="mb-3">
+                    <strong>Cadena Válida:</strong> ${results.blockchain_analysis.chain_info.chain_valid ? 'Sí' : 'No'}
+                </div>
+                <div class="mb-3">
+                    <strong>Bloques:</strong> ${results.blockchain_analysis.chain_info.chain_length}
+                </div>
+            </div>
+        `;
+    }
+    
+    html += '</div>';
+    
+    container.innerHTML = html;
+}
+
+function verifyChain() {
+    fetch('/api/ai-blockchain/blockchain/verify')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showAlert(data.message, data.chain_valid ? 'success' : 'error');
+                addActivityLog('Blockchain', `Verificación: ${data.message}`, data.chain_valid ? 'success' : 'error');
+            } else {
+                showAlert('Error verificando cadena: ' + data.error, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert('Error verificando cadena', 'error');
+        });
+}
+
+function exportChain() {
+    fetch('/api/ai-blockchain/blockchain/export')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Crear y descargar archivo JSON
+                const blob = new Blob([JSON.stringify(data.blockchain_data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `blockchain_export_${new Date().toISOString().split('T')[0]}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+                
+                showAlert('Cadena exportada exitosamente', 'success');
+                addActivityLog('Blockchain', 'Cadena exportada', 'success');
+            } else {
+                showAlert('Error exportando cadena: ' + data.error, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert('Error exportando cadena', 'error');
+        });
+}
+
+function startAutoRefresh() {
+    autoRefreshInterval = setInterval(() => {
+        loadDashboard();
+        loadBlockchainInfo();
+        loadRecentTransactions();
+    }, 30000); // Actualizar cada 30 segundos
+}
+
+function addActivityLog(source, message, type) {
+    const logContainer = document.getElementById('activityLog');
+    const timestamp = new Date().toLocaleTimeString();
+    const typeClass = type === 'success' ? 'text-success' : 
+                     type === 'error' ? 'text-danger' : 
+                     type === 'warning' ? 'text-warning' : 'text-info';
+    
+    const logEntry = document.createElement('div');
+    logEntry.className = 'mb-2';
+    logEntry.innerHTML = `
+        <small class="text-muted">[${timestamp}]</small>
+        <span class="${typeClass}"><strong>${source}:</strong></span>
+        <span>${message}</span>
+    `;
+    
+    logContainer.insertBefore(logEntry, logContainer.firstChild);
+    
+    // Mantener solo los últimos 50 logs
+    while (logContainer.children.length > 50) {
+        logContainer.removeChild(logContainer.lastChild);
+    }
+}
+
+function showAlert(message, type) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+    alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="close" data-dismiss="alert">
+            <span>&times;</span>
+        </button>
+    `;
+    
+    document.body.insertBefore(alertDiv, document.body.firstChild);
+    
+    setTimeout(() => {
+        alertDiv.remove();
+    }, 5000);
+}
+
+// Limpiar intervalos al salir
+window.addEventListener('beforeunload', function() {
+    if (autoRefreshInterval) {
+        clearInterval(autoRefreshInterval);
+    }
+});
+</script>
+{% endblock %}
+
+
+

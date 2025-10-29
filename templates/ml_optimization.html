@@ -1,0 +1,826 @@
+{% extends "base.html" %}
+
+{% block title %}Machine Learning & Optimización{% endblock %}
+
+{% block extra_css %}
+<style>
+    .ml-card {
+        border: 2px solid #e9ecef;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+        background: white;
+    }
+    
+    .ml-card:hover {
+        border-color: #007bff;
+        box-shadow: 0 4px 15px rgba(0,123,255,0.1);
+    }
+    
+    .algorithm-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 20px;
+        text-align: center;
+        margin-bottom: 15px;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+    
+    .algorithm-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .algorithm-card.selected {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    }
+    
+    .metric-card {
+        background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 20px;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+    
+    .metric-value {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    
+    .metric-label {
+        font-size: 0.9rem;
+        opacity: 0.9;
+    }
+    
+    .optimization-result {
+        border-left: 4px solid #28a745;
+        padding: 15px;
+        margin-bottom: 15px;
+        background: #f8f9fa;
+        border-radius: 5px;
+    }
+    
+    .recommendation-item {
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 10px;
+        background: white;
+    }
+    
+    .recommendation-high {
+        border-left: 4px solid #dc3545;
+    }
+    
+    .recommendation-medium {
+        border-left: 4px solid #ffc107;
+    }
+    
+    .chart-container {
+        position: relative;
+        height: 300px;
+        margin-bottom: 20px;
+    }
+    
+    .progress-bar-custom {
+        height: 20px;
+        border-radius: 10px;
+        background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
+    }
+    
+    .status-indicator {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-right: 8px;
+    }
+    
+    .status-training { background-color: #ffc107; }
+    .status-ready { background-color: #28a745; }
+    .status-error { background-color: #dc3545; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h3 mb-0">
+                        <i class="fas fa-brain text-primary"></i> Machine Learning & Optimización
+                    </h1>
+                    <p class="text-muted">Predicción de demanda y optimización inteligente de inventario</p>
+                </div>
+                <div>
+                    <button class="btn btn-primary" onclick="trainAllModels()">
+                        <i class="fas fa-cogs"></i> Entrenar Modelos
+                    </button>
+                    <button class="btn btn-success" onclick="runOptimization()">
+                        <i class="fas fa-magic"></i> Optimizar Inventario
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Estado de Modelos ML -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="ml-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-robot text-primary"></i> Estado de Modelos de Machine Learning
+                </h5>
+                <div class="row" id="mlModelsStatus">
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="algorithm-card" onclick="selectAlgorithm('RandomForest')">
+                            <h6>Random Forest</h6>
+                            <div class="status-indicator status-training"></div>
+                            <small>No entrenado</small>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="algorithm-card" onclick="selectAlgorithm('GradientBoosting')">
+                            <h6>Gradient Boosting</h6>
+                            <div class="status-indicator status-training"></div>
+                            <small>No entrenado</small>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="algorithm-card" onclick="selectAlgorithm('LinearRegression')">
+                            <h6>Linear Regression</h6>
+                            <div class="status-indicator status-training"></div>
+                            <small>No entrenado</small>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="algorithm-card" onclick="selectAlgorithm('SVR')">
+                            <h6>Support Vector</h6>
+                            <div class="status-indicator status-training"></div>
+                            <small>No entrenado</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Predicción de Demanda -->
+    <div class="row mb-4">
+        <div class="col-lg-8">
+            <div class="ml-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-crystal-ball text-info"></i> Predicción de Demanda
+                </h5>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="productSelect" class="form-label">Producto</label>
+                        <select class="form-select" id="productSelect">
+                            <option value="">Seleccionar producto...</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="daysAhead" class="form-label">Días a Predecir</label>
+                        <select class="form-select" id="daysAhead">
+                            <option value="7">7 días</option>
+                            <option value="30" selected>30 días</option>
+                            <option value="90">90 días</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="predictDemand()">
+                    <i class="fas fa-chart-line"></i> Predecir Demanda
+                </button>
+                <div id="predictionResults" class="mt-3">
+                    <!-- Resultados de predicción -->
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="ml-card">
+                <h5 class="mb-3">Métricas del Mejor Modelo</h5>
+                <div id="modelMetrics">
+                    <div class="text-center text-muted">
+                        <i class="fas fa-chart-bar fa-3x mb-3"></i>
+                        <p>Entrena un modelo para ver las métricas</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optimización de Inventario -->
+    <div class="row mb-4">
+        <div class="col-lg-6">
+            <div class="ml-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-magic text-success"></i> Optimización de Inventario
+                </h5>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="budgetConstraint" class="form-label">Presupuesto Máximo ($)</label>
+                        <input type="number" class="form-control" id="budgetConstraint" value="100000">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="warehouseCapacity" class="form-label">Capacidad de Almacén</label>
+                        <input type="number" class="form-control" id="warehouseCapacity" value="1000">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="serviceLevelTarget" class="form-label">Nivel de Servicio Objetivo (%)</label>
+                    <input type="range" class="form-range" id="serviceLevelTarget" min="80" max="99" value="95">
+                    <div class="d-flex justify-content-between">
+                        <small>80%</small>
+                        <span id="serviceLevelValue">95%</span>
+                        <small>99%</small>
+                    </div>
+                </div>
+                <button class="btn btn-success" onclick="runOptimization()">
+                    <i class="fas fa-magic"></i> Ejecutar Optimización
+                </button>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="ml-card">
+                <h5 class="mb-3">Resultados de Optimización</h5>
+                <div id="optimizationResults">
+                    <div class="text-center text-muted">
+                        <i class="fas fa-chart-pie fa-3x mb-3"></i>
+                        <p>Ejecuta una optimización para ver los resultados</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recomendaciones de Optimización -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="ml-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-lightbulb text-warning"></i> Recomendaciones de Optimización
+                </h5>
+                <div id="optimizationRecommendations">
+                    <div class="text-center text-muted">
+                        <i class="fas fa-list fa-3x mb-3"></i>
+                        <p>Ejecuta una optimización para ver las recomendaciones</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Análisis de Rendimiento -->
+    <div class="row mb-4">
+        <div class="col-lg-6">
+            <div class="ml-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-chart-line text-info"></i> Rendimiento de Modelos
+                </h5>
+                <div class="chart-container">
+                    <canvas id="modelPerformanceChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="ml-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-project-diagram text-purple"></i> Importancia de Características
+                </h5>
+                <div class="chart-container">
+                    <canvas id="featureImportanceChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Configuración Avanzada -->
+    <div class="row">
+        <div class="col-12">
+            <div class="ml-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-cogs text-secondary"></i> Configuración Avanzada
+                </h5>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="populationSize" class="form-label">Tamaño de Población</label>
+                        <input type="number" class="form-control" id="populationSize" value="50">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="generations" class="form-label">Generaciones</label>
+                        <input type="number" class="form-control" id="generations" value="100">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="mutationRate" class="form-label">Tasa de Mutación</label>
+                        <input type="number" class="form-control" id="mutationRate" step="0.01" value="0.1">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="crossoverRate" class="form-label">Tasa de Crossover</label>
+                        <input type="number" class="form-control" id="crossoverRate" step="0.01" value="0.8">
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <button class="btn btn-outline-primary" onclick="updateConfig()">
+                        <i class="fas fa-save"></i> Actualizar Configuración
+                    </button>
+                    <button class="btn btn-outline-secondary" onclick="resetConfig()">
+                        <i class="fas fa-undo"></i> Restaurar Valores
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let selectedAlgorithm = null;
+let charts = {};
+
+// Cargar datos al inicializar
+document.addEventListener('DOMContentLoaded', function() {
+    loadProducts();
+    loadMLConfig();
+    updateServiceLevelDisplay();
+    
+    // Event listeners
+    document.getElementById('serviceLevelTarget').addEventListener('input', updateServiceLevelDisplay);
+});
+
+function loadProducts() {
+    fetch('/api/products')
+        .then(response => response.json())
+        .then(data => {
+            const productSelect = document.getElementById('productSelect');
+            
+            if (data.products) {
+                data.products.forEach(product => {
+                    const option = new Option(product.name, product.id);
+                    productSelect.add(option);
+                });
+            }
+        })
+        .catch(error => console.error('Error cargando productos:', error));
+}
+
+function loadMLConfig() {
+    fetch('/api/ml/config')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const config = data.config.optimization_parameters;
+                document.getElementById('populationSize').value = config.population_size;
+                document.getElementById('generations').value = config.generations;
+                document.getElementById('mutationRate').value = config.mutation_rate;
+                document.getElementById('crossoverRate').value = config.crossover_rate;
+            }
+        })
+        .catch(error => console.error('Error cargando configuración ML:', error));
+}
+
+function updateServiceLevelDisplay() {
+    const slider = document.getElementById('serviceLevelTarget');
+    const display = document.getElementById('serviceLevelValue');
+    display.textContent = slider.value + '%';
+}
+
+function selectAlgorithm(algorithm) {
+    // Remover selección anterior
+    document.querySelectorAll('.algorithm-card').forEach(card => {
+        card.classList.remove('selected');
+    });
+    
+    // Seleccionar nuevo algoritmo
+    event.target.closest('.algorithm-card').classList.add('selected');
+    selectedAlgorithm = algorithm;
+}
+
+function trainAllModels() {
+    const button = event.target;
+    const originalText = button.innerHTML;
+    
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Entrenando...';
+    button.disabled = true;
+    
+    fetch('/api/ml/train-models', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            test_size: 0.2
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showAlert('Modelos entrenados exitosamente', 'success');
+            updateModelStatus(data.results);
+            updateModelMetrics(data.results);
+            createModelPerformanceChart(data.results);
+        } else {
+            showAlert('Error entrenando modelos: ' + data.error, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showAlert('Error entrenando modelos', 'error');
+    })
+    .finally(() => {
+        button.innerHTML = originalText;
+        button.disabled = false;
+    });
+}
+
+function updateModelStatus(results) {
+    const container = document.getElementById('mlModelsStatus');
+    const cards = container.querySelectorAll('.algorithm-card');
+    
+    cards.forEach(card => {
+        const algorithm = card.querySelector('h6').textContent;
+        const statusIndicator = card.querySelector('.status-indicator');
+        const statusText = card.querySelector('small');
+        
+        if (results[algorithm]) {
+            statusIndicator.className = 'status-indicator status-ready';
+            statusText.textContent = `R² = ${results[algorithm].r2_score.toFixed(3)}`;
+        } else {
+            statusIndicator.className = 'status-indicator status-error';
+            statusText.textContent = 'Error';
+        }
+    });
+}
+
+function updateModelMetrics(results) {
+    const container = document.getElementById('modelMetrics');
+    
+    // Encontrar el mejor modelo
+    let bestModel = null;
+    let bestR2 = 0;
+    
+    Object.keys(results).forEach(model => {
+        if (results[model].r2_score > bestR2) {
+            bestR2 = results[model].r2_score;
+            bestModel = model;
+        }
+    });
+    
+    if (bestModel) {
+        const metrics = results[bestModel];
+        container.innerHTML = `
+            <div class="metric-card">
+                <div class="metric-value">${metrics.r2_score.toFixed(3)}</div>
+                <div class="metric-label">R² Score</div>
+            </div>
+            <div class="metric-card" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%);">
+                <div class="metric-value">${metrics.mae.toFixed(2)}</div>
+                <div class="metric-label">MAE</div>
+            </div>
+            <div class="metric-card" style="background: linear-gradient(135deg, #dc3545 0%, #e83e8c 100%);">
+                <div class="metric-value">${metrics.rmse.toFixed(2)}</div>
+                <div class="metric-label">RMSE</div>
+            </div>
+            <div class="text-center mt-3">
+                <small class="text-muted">Mejor modelo: ${bestModel}</small>
+            </div>
+        `;
+    }
+}
+
+function predictDemand() {
+    const productId = document.getElementById('productSelect').value;
+    const daysAhead = document.getElementById('daysAhead').value;
+    
+    if (!productId) {
+        showAlert('Selecciona un producto', 'warning');
+        return;
+    }
+    
+    const button = event.target;
+    const originalText = button.innerHTML;
+    
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Prediciendo...';
+    button.disabled = true;
+    
+    fetch(`/api/ml/predict-demand/${productId}?days=${daysAhead}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                displayPredictionResults(data);
+            } else {
+                showAlert('Error prediciendo demanda: ' + data.error, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert('Error prediciendo demanda', 'error');
+        })
+        .finally(() => {
+            button.innerHTML = originalText;
+            button.disabled = false;
+        });
+}
+
+function displayPredictionResults(data) {
+    const container = document.getElementById('predictionResults');
+    
+    container.innerHTML = `
+        <div class="row">
+            <div class="col-md-6">
+                <div class="metric-card">
+                    <div class="metric-value">${data.total_predicted_demand.toFixed(0)}</div>
+                    <div class="metric-label">Demanda Total (${data.dates.length} días)</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="metric-card" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%);">
+                    <div class="metric-value">${data.average_daily_demand.toFixed(1)}</div>
+                    <div class="metric-label">Demanda Promedio Diaria</div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-3">
+            <div class="chart-container">
+                <canvas id="predictionChart"></canvas>
+            </div>
+        </div>
+        <div class="mt-3">
+            <small class="text-muted">
+                Modelo usado: ${data.model_used} | 
+                Confianza: ${(data.confidence * 100).toFixed(1)}%
+            </small>
+        </div>
+    `;
+    
+    // Crear gráfico de predicción
+    createPredictionChart(data);
+}
+
+function createPredictionChart(data) {
+    const ctx = document.getElementById('predictionChart');
+    if (!ctx) return;
+    
+    if (charts.prediction) {
+        charts.prediction.destroy();
+    }
+    
+    charts.prediction = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: data.dates,
+            datasets: [{
+                label: 'Demanda Predicha',
+                data: data.predictions,
+                borderColor: '#007bff',
+                backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+function runOptimization() {
+    const budgetConstraint = parseFloat(document.getElementById('budgetConstraint').value);
+    const warehouseCapacity = parseFloat(document.getElementById('warehouseCapacity').value);
+    const serviceLevelTarget = parseInt(document.getElementById('serviceLevelTarget').value) / 100;
+    
+    const button = event.target;
+    const originalText = button.innerHTML;
+    
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Optimizando...';
+    button.disabled = true;
+    
+    fetch('/api/ml/optimization/recommendations', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            budget_constraint: budgetConstraint,
+            warehouse_capacity: warehouseCapacity,
+            service_level_target: serviceLevelTarget
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            displayOptimizationResults(data.optimization_result);
+            displayOptimizationRecommendations(data.recommendations);
+        } else {
+            showAlert('Error ejecutando optimización: ' + data.error, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showAlert('Error ejecutando optimización', 'error');
+    })
+    .finally(() => {
+        button.innerHTML = originalText;
+        button.disabled = false;
+    });
+}
+
+function displayOptimizationResults(result) {
+    const container = document.getElementById('optimizationResults');
+    
+    container.innerHTML = `
+        <div class="optimization-result">
+            <h6>Resultados de Optimización</h6>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <div class="metric-value text-success">$${result.total_cost.toFixed(2)}</div>
+                        <div class="metric-label">Costo Total</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <div class="metric-value text-info">$${result.total_value.toFixed(2)}</div>
+                        <div class="metric-label">Valor Total</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <div class="metric-value text-warning">${(result.service_level * 100).toFixed(1)}%</div>
+                        <div class="metric-label">Nivel de Servicio</div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-3">
+                <small class="text-muted">
+                    Iteraciones: ${result.iterations} | 
+                    Tiempo: ${result.convergence_time.toFixed(2)}s
+                </small>
+            </div>
+        </div>
+    `;
+}
+
+function displayOptimizationRecommendations(recommendations) {
+    const container = document.getElementById('optimizationRecommendations');
+    
+    if (!recommendations || recommendations.length === 0) {
+        container.innerHTML = '<div class="text-center text-muted"><p>No hay recomendaciones disponibles</p></div>';
+        return;
+    }
+    
+    let html = '';
+    recommendations.forEach(rec => {
+        const priorityClass = `recommendation-${rec.priority}`;
+        const actionIcon = rec.action === 'increase' ? 'fa-arrow-up' : 'fa-arrow-down';
+        const actionColor = rec.action === 'increase' ? 'text-success' : 'text-danger';
+        
+        html += `
+            <div class="recommendation-item ${priorityClass}">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h6>${rec.product_name}</h6>
+                        <p class="mb-1">${rec.reason}</p>
+                        <small class="text-muted">
+                            Stock actual: ${rec.current_stock} → 
+                            Stock óptimo: ${rec.optimal_stock} 
+                            <i class="fas ${actionIcon} ${actionColor}"></i>
+                        </small>
+                    </div>
+                    <div class="text-end">
+                        <span class="badge badge-${rec.priority === 'high' ? 'danger' : 'warning'}">
+                            ${rec.priority === 'high' ? 'Alta' : 'Media'}
+                        </span>
+                        <br>
+                        <small class="text-muted">$${rec.estimated_cost.toFixed(2)}</small>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+function createModelPerformanceChart(results) {
+    const ctx = document.getElementById('modelPerformanceChart');
+    if (!ctx) return;
+    
+    if (charts.performance) {
+        charts.performance.destroy();
+    }
+    
+    const models = Object.keys(results);
+    const r2Scores = models.map(model => results[model].r2_score);
+    
+    charts.performance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: models,
+            datasets: [{
+                label: 'R² Score',
+                data: r2Scores,
+                backgroundColor: [
+                    '#007bff',
+                    '#28a745',
+                    '#ffc107',
+                    '#dc3545',
+                    '#6f42c1',
+                    '#17a2b8'
+                ],
+                borderColor: [
+                    '#007bff',
+                    '#28a745',
+                    '#ffc107',
+                    '#dc3545',
+                    '#6f42c1',
+                    '#17a2b8'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 1
+                }
+            }
+        }
+    });
+}
+
+function updateConfig() {
+    const config = {
+        optimization_parameters: {
+            population_size: parseInt(document.getElementById('populationSize').value),
+            generations: parseInt(document.getElementById('generations').value),
+            mutation_rate: parseFloat(document.getElementById('mutationRate').value),
+            crossover_rate: parseFloat(document.getElementById('crossoverRate').value)
+        }
+    };
+    
+    fetch('/api/ml/config', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(config)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showAlert('Configuración actualizada exitosamente', 'success');
+        } else {
+            showAlert('Error actualizando configuración: ' + data.error, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showAlert('Error actualizando configuración', 'error');
+    });
+}
+
+function resetConfig() {
+    document.getElementById('populationSize').value = 50;
+    document.getElementById('generations').value = 100;
+    document.getElementById('mutationRate').value = 0.1;
+    document.getElementById('crossoverRate').value = 0.8;
+    document.getElementById('serviceLevelTarget').value = 95;
+    updateServiceLevelDisplay();
+}
+
+function showAlert(message, type) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+    alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="close" data-dismiss="alert">
+            <span>&times;</span>
+        </button>
+    `;
+    
+    document.body.insertBefore(alertDiv, document.body.firstChild);
+    
+    setTimeout(() => {
+        alertDiv.remove();
+    }, 5000);
+}
+</script>
+{% endblock %}
+
+
+

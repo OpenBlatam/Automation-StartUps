@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Avanzado - Sistema de Inventario</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Socket.IO -->
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --info-color: #17a2b8;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .metric-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 4px solid;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .metric-card.primary { border-left-color: var(--primary-color); }
+        .metric-card.success { border-left-color: var(--success-color); }
+        .metric-card.warning { border-left-color: var(--warning-color); }
+        .metric-card.danger { border-left-color: var(--danger-color); }
+        .metric-card.info { border-left-color: var(--info-color); }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .metric-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .metric-change {
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        
+        .metric-change.positive { color: var(--success-color); }
+        .metric-change.negative { color: var(--danger-color); }
+        
+        .chart-container {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .chart-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .alert-item {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid;
+            transition: transform 0.2s ease;
+        }
+        
+        .alert-item:hover {
+            transform: translateX(5px);
+        }
+        
+        .alert-critical { border-left-color: var(--danger-color); }
+        .alert-high { border-left-color: var(--warning-color); }
+        .alert-medium { border-left-color: var(--info-color); }
+        .alert-low { border-left-color: var(--success-color); }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+        
+        .status-online { background-color: var(--success-color); }
+        .status-warning { background-color: var(--warning-color); }
+        .status-offline { background-color: var(--danger-color); }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .real-time-badge {
+            background: linear-gradient(45deg, var(--success-color), #20c997);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.7; }
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .notification-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            min-width: 300px;
+        }
+        
+        .sidebar {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .sidebar .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 12px 20px;
+            margin: 2px 0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            color: white;
+            background: rgba(255,255,255,0.1);
+            transform: translateX(5px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-warehouse me-2"></i>
+                Sistema de Inventario Avanzado
+            </a>
+            
+            <div class="d-flex align-items-center">
+                <span class="real-time-badge me-3" id="connection-status">
+                    <i class="fas fa-circle me-1"></i>Conectado
+                </span>
+                <span class="text-white-50" id="last-update">
+                    Última actualización: <span id="update-time">--:--:--</span>
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-2 sidebar p-0">
+                <div class="p-3">
+                    <h5 class="text-white mb-4">
+                        <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                    </h5>
+                </div>
+                
+                <ul class="nav flex-column px-3">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#overview" onclick="showSection('overview')">
+                            <i class="fas fa-chart-line me-2"></i>Resumen
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#inventory" onclick="showSection('inventory')">
+                            <i class="fas fa-boxes me-2"></i>Inventario
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#alerts" onclick="showSection('alerts')">
+                            <i class="fas fa-bell me-2"></i>Alertas
+                            <span class="badge bg-danger ms-2" id="alert-count">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#analytics" onclick="showSection('analytics')">
+                            <i class="fas fa-chart-bar me-2"></i>Análisis
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#forecast" onclick="showSection('forecast')">
+                            <i class="fas fa-crystal-ball me-2"></i>Predicciones
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#system" onclick="showSection('system')">
+                            <i class="fas fa-cogs me-2"></i>Sistema
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="col-md-10 p-4">
+                <!-- Overview Section -->
+                <div id="overview-section">
+                    <!-- Métricas Principales -->
+                    <div class="row mb-4">
+                        <div class="col-lg-3 col-md-6">
+                            <div class="metric-card primary">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="metric-value text-primary" id="total-inventory-value">$0</div>
+                                        <div class="metric-label">Valor Total Inventario</div>
+                                        <div class="metric-change positive" id="inventory-change">
+                                            <i class="fas fa-arrow-up me-1"></i>+2.5%
+                                        </div>
+                                    </div>
+                                    <div class="text-primary">
+                                        <i class="fas fa-dollar-sign fa-2x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-3 col-md-6">
+                            <div class="metric-card danger">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="metric-value text-danger" id="active-alerts">0</div>
+                                        <div class="metric-label">Alertas Activas</div>
+                                        <div class="metric-change negative" id="alerts-change">
+                                            <i class="fas fa-arrow-down me-1"></i>-1
+                                        </div>
+                                    </div>
+                                    <div class="text-danger">
+                                        <i class="fas fa-exclamation-triangle fa-2x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-3 col-md-6">
+                            <div class="metric-card warning">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="metric-value text-warning" id="low-stock-products">0</div>
+                                        <div class="metric-label">Stock Bajo</div>
+                                        <div class="metric-change negative" id="low-stock-change">
+                                            <i class="fas fa-arrow-up me-1"></i>+3
+                                        </div>
+                                    </div>
+                                    <div class="text-warning">
+                                        <i class="fas fa-box-open fa-2x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-3 col-md-6">
+                            <div class="metric-card success">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="metric-value text-success" id="sales-velocity">0</div>
+                                        <div class="metric-label">Velocidad Ventas</div>
+                                        <div class="metric-change positive" id="sales-change">
+                                            <i class="fas fa-arrow-up me-1"></i>+5.2%
+                                        </div>
+                                    </div>
+                                    <div class="text-success">
+                                        <i class="fas fa-chart-line fa-2x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gráficos Principales -->
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="chart-container">
+                                <div class="chart-title">
+                                    <i class="fas fa-chart-line me-2"></i>Tendencia de Inventario
+                                </div>
+                                <canvas id="inventoryTrendChart" height="100"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-4">
+                            <div class="chart-container">
+                                <div class="chart-title">
+                                    <i class="fas fa-chart-pie me-2"></i>Distribución ABC
+                                </div>
+                                <canvas id="abcChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Alertas Críticas -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="chart-container">
+                                <div class="chart-title">
+                                    <i class="fas fa-exclamation-circle me-2"></i>Alertas Críticas
+                                </div>
+                                <div id="critical-alerts">
+                                    <div class="text-center text-muted">
+                                        <div class="loading-spinner"></div>
+                                        <p class="mt-2">Cargando alertas...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Inventory Section -->
+                <div id="inventory-section" style="display: none;">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <i class="fas fa-boxes me-2"></i>Niveles de Stock por Producto
+                        </div>
+                        <canvas id="stockLevelsChart" height="100"></canvas>
+                    </div>
+                </div>
+
+                <!-- Alerts Section -->
+                <div id="alerts-section" style="display: none;">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <i class="fas fa-bell me-2"></i>Centro de Alertas
+                        </div>
+                        <div id="alerts-list">
+                            <div class="text-center text-muted">
+                                <div class="loading-spinner"></div>
+                                <p class="mt-2">Cargando alertas...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analytics Section -->
+                <div id="analytics-section" style="display: none;">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="chart-container">
+                                <div class="chart-title">
+                                    <i class="fas fa-chart-bar me-2"></i>Análisis de Rendimiento
+                                </div>
+                                <canvas id="performanceChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-6">
+                            <div class="chart-container">
+                                <div class="chart-title">
+                                    <i class="fas fa-chart-area me-2"></i>Métricas del Sistema
+                                </div>
+                                <canvas id="systemMetricsChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Forecast Section -->
+                <div id="forecast-section" style="display: none;">
+                    <div class="chart-container">
+                        <div class="chart-title">
+                            <i class="fas fa-crystal-ball me-2"></i>Predicción de Ventas
+                        </div>
+                        <canvas id="forecastChart" height="100"></canvas>
+                    </div>
+                </div>
+
+                <!-- System Section -->
+                <div id="system-section" style="display: none;">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="chart-container">
+                                <div class="chart-title">
+                                    <i class="fas fa-server me-2"></i>Estado del Sistema
+                                </div>
+                                <div id="system-status">
+                                    <div class="text-center text-muted">
+                                        <div class="loading-spinner"></div>
+                                        <p class="mt-2">Cargando estado del sistema...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-6">
+                            <div class="chart-container">
+                                <div class="chart-title">
+                                    <i class="fas fa-chart-line me-2"></i>Métricas en Tiempo Real
+                                </div>
+                                <canvas id="realtimeChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Variables globales
+        let socket;
+        let charts = {};
+        let currentSection = 'overview';
+        let isConnected = false;
+
+        // Inicializar aplicación
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeSocket();
+            loadDashboardData();
+            initializeCharts();
+            startPeriodicUpdates();
+        });
+
+        // Inicializar WebSocket
+        function initializeSocket() {
+            socket = io();
+            
+            socket.on('connect', function() {
+                isConnected = true;
+                updateConnectionStatus(true);
+                console.log('Conectado al servidor');
+            });
+            
+            socket.on('disconnect', function() {
+                isConnected = false;
+                updateConnectionStatus(false);
+                console.log('Desconectado del servidor');
+            });
+            
+            socket.on('metrics_update', function(data) {
+                updateRealTimeMetrics(data);
+            });
+            
+            socket.on('new_alert', function(alert) {
+                showNotification('Nueva Alerta', alert.message, 'warning');
+                loadAlerts();
+            });
+            
+            socket.on('data_update', function(data) {
+                updateDashboardData(data);
+            });
+            
+            socket.on('error', function(error) {
+                showNotification('Error', error.message, 'danger');
+            });
+        }
+
+        // Actualizar estado de conexión
+        function updateConnectionStatus(connected) {
+            const statusElement = document.getElementById('connection-status');
+            if (connected) {
+                statusElement.innerHTML = '<i class="fas fa-circle me-1"></i>Conectado';
+                statusElement.className = 'real-time-badge me-3';
+            } else {
+                statusElement.innerHTML = '<i class="fas fa-circle me-1"></i>Desconectado';
+                statusElement.className = 'real-time-badge me-3 bg-danger';
+            }
+        }
+
+        // Cargar datos del dashboard
+        async function loadDashboardData() {
+            try {
+                const response = await fetch('/api/dashboard/overview');
+                const data = await response.json();
+                updateDashboardData(data);
+            } catch (error) {
+                console.error('Error cargando datos del dashboard:', error);
+                showNotification('Error', 'No se pudieron cargar los datos', 'danger');
+            }
+        }
+
+        // Actualizar datos del dashboard
+        function updateDashboardData(data) {
+            // Actualizar métricas principales
+            if (data.kpis) {
+                document.getElementById('total-inventory-value').textContent = 
+                    '$' + data.kpis.total_inventory_value.toLocaleString();
+                document.getElementById('active-alerts').textContent = data.kpis.active_alerts;
+                document.getElementById('low-stock-products').textContent = data.kpis.low_stock_products;
+            }
+
+            // Actualizar alertas críticas
+            if (data.critical_alerts) {
+                updateCriticalAlerts(data.critical_alerts);
+            }
+
+            // Actualizar contador de alertas en sidebar
+            document.getElementById('alert-count').textContent = data.kpis.active_alerts;
+
+            // Actualizar tiempo de última actualización
+            document.getElementById('update-time').textContent = 
+                new Date().toLocaleTimeString();
+        }
+
+        // Actualizar métricas en tiempo real
+        function updateRealTimeMetrics(data) {
+            // Actualizar gráfico de tiempo real
+            if (charts.realtimeChart && data.system_performance) {
+                const latest = data.system_performance[data.system_performance.length - 1];
+                if (latest) {
+                    updateRealtimeChart(latest);
+                }
+            }
+
+            // Actualizar velocidad de ventas
+            if (data.sales_velocity) {
+                const latest = data.sales_velocity[data.sales_velocity.length - 1];
+                if (latest) {
+                    document.getElementById('sales-velocity').textContent = latest.value.toFixed(1);
+                }
+            }
+        }
+
+        // Actualizar alertas críticas
+        function updateCriticalAlerts(alerts) {
+            const container = document.getElementById('critical-alerts');
+            
+            if (alerts.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center text-success">
+                        <i class="fas fa-check-circle fa-3x mb-3"></i>
+                        <p>No hay alertas críticas</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = alerts.map(alert => `
+                <div class="alert-item alert-${alert.severity}">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h6 class="mb-1">${alert.product_name}</h6>
+                            <p class="mb-1">${alert.message}</p>
+                            <small class="text-muted">
+                                <i class="fas fa-clock me-1"></i>
+                                ${new Date(alert.created_at).toLocaleString()}
+                            </small>
+                        </div>
+                        <span class="badge bg-${alert.severity === 'critical' ? 'danger' : 'warning'}">
+                            ${alert.severity.toUpperCase()}
+                        </span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Inicializar gráficos
+        function initializeCharts() {
+            // Gráfico de tendencia de inventario
+            const inventoryCtx = document.getElementById('inventoryTrendChart').getContext('2d');
+            charts.inventoryTrendChart = new Chart(inventoryCtx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Valor del Inventario',
+                        data: [],
+                        borderColor: 'rgb(75, 192, 192)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value.toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            // Gráfico ABC
+            const abcCtx = document.getElementById('abcChart').getContext('2d');
+            charts.abcChart = new Chart(abcCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Categoría A', 'Categoría B', 'Categoría C'],
+                    datasets: [{
+                        data: [0, 0, 0],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.8)',
+                            'rgba(54, 162, 235, 0.8)',
+                            'rgba(255, 205, 86, 0.8)'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+
+            // Gráfico de niveles de stock
+            const stockCtx = document.getElementById('stockLevelsChart').getContext('2d');
+            charts.stockLevelsChart = new Chart(stockCtx, {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: []
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            stacked: true
+                        },
+                        y: {
+                            stacked: true,
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Gráfico de predicción
+            const forecastCtx = document.getElementById('forecastChart').getContext('2d');
+            charts.forecastChart = new Chart(forecastCtx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: []
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Gráfico de tiempo real
+            const realtimeCtx = document.getElementById('realtimeChart').getContext('2d');
+            charts.realtimeChart = new Chart(realtimeCtx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'CPU %',
+                        data: [],
+                        borderColor: 'rgb(255, 99, 132)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        yAxisID: 'y'
+                    }, {
+                        label: 'Memoria %',
+                        data: [],
+                        borderColor: 'rgb(54, 162, 235)',
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        yAxisID: 'y'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            max: 100
+                        }
+                    }
+                }
+            });
+        }
+
+        // Cargar datos de gráficos
+        async function loadChartData() {
+            try {
+                // Cargar tendencia de inventario
+                const inventoryResponse = await fetch('/api/dashboard/charts/inventory-trend');
+                const inventoryData = await inventoryResponse.json();
+                charts.inventoryTrendChart.data.labels = inventoryData.labels;
+                charts.inventoryTrendChart.data.datasets[0].data = inventoryData.datasets[0].data;
+                charts.inventoryTrendChart.update();
+
+                // Cargar niveles de stock
+                const stockResponse = await fetch('/api/dashboard/charts/stock-levels');
+                const stockData = await stockResponse.json();
+                charts.stockLevelsChart.data.labels = stockData.labels;
+                charts.stockLevelsChart.data.datasets = stockData.datasets;
+                charts.stockLevelsChart.update();
+
+                // Cargar predicción de ventas
+                const forecastResponse = await fetch('/api/dashboard/charts/sales-forecast');
+                const forecastData = await forecastResponse.json();
+                charts.forecastChart.data.labels = forecastData.labels;
+                charts.forecastChart.data.datasets = forecastData.datasets;
+                charts.forecastChart.update();
+
+            } catch (error) {
+                console.error('Error cargando datos de gráficos:', error);
+            }
+        }
+
+        // Actualizar gráfico de tiempo real
+        function updateRealtimeChart(data) {
+            const now = new Date().toLocaleTimeString();
+            
+            // Agregar nuevos datos
+            charts.realtimeChart.data.labels.push(now);
+            charts.realtimeChart.data.datasets[0].data.push(data.cpu_usage);
+            charts.realtimeChart.data.datasets[1].data.push(data.memory_usage);
+            
+            // Mantener solo los últimos 20 puntos
+            if (charts.realtimeChart.data.labels.length > 20) {
+                charts.realtimeChart.data.labels.shift();
+                charts.realtimeChart.data.datasets[0].data.shift();
+                charts.realtimeChart.data.datasets[1].data.shift();
+            }
+            
+            charts.realtimeChart.update('none');
+        }
+
+        // Mostrar sección
+        function showSection(section) {
+            // Ocultar todas las secciones
+            document.querySelectorAll('[id$="-section"]').forEach(el => {
+                el.style.display = 'none';
+            });
+            
+            // Mostrar sección seleccionada
+            document.getElementById(section + '-section').style.display = 'block';
+            
+            // Actualizar navegación
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            currentSection = section;
+            
+            // Cargar datos específicos de la sección
+            switch(section) {
+                case 'inventory':
+                    loadChartData();
+                    break;
+                case 'alerts':
+                    loadAlerts();
+                    break;
+                case 'analytics':
+                    loadAnalytics();
+                    break;
+                case 'forecast':
+                    loadChartData();
+                    break;
+                case 'system':
+                    loadSystemStatus();
+                    break;
+            }
+        }
+
+        // Cargar alertas
+        async function loadAlerts() {
+            try {
+                const response = await fetch('/api/alerts');
+                const data = await response.json();
+                
+                const container = document.getElementById('alerts-list');
+                if (data.alerts.length === 0) {
+                    container.innerHTML = `
+                        <div class="text-center text-success">
+                            <i class="fas fa-check-circle fa-3x mb-3"></i>
+                            <p>No hay alertas activas</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                container.innerHTML = data.alerts.map(alert => `
+                    <div class="alert-item alert-${alert.severity}">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h6 class="mb-1">${alert.product_name}</h6>
+                                <p class="mb-1">${alert.message}</p>
+                                <small class="text-muted">
+                                    <i class="fas fa-clock me-1"></i>
+                                    ${new Date(alert.created_at).toLocaleString()}
+                                </small>
+                            </div>
+                            <div>
+                                <button class="btn btn-sm btn-outline-success" onclick="resolveAlert('${alert.id}')">
+                                    <i class="fas fa-check"></i> Resolver
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+                
+            } catch (error) {
+                console.error('Error cargando alertas:', error);
+            }
+        }
+
+        // Resolver alerta
+        async function resolveAlert(alertId) {
+            try {
+                const response = await fetch(`/api/alerts/${alertId}/resolve`, {
+                    method: 'POST'
+                });
+                
+                if (response.ok) {
+                    showNotification('Éxito', 'Alerta resuelta correctamente', 'success');
+                    loadAlerts();
+                    loadDashboardData();
+                } else {
+                    showNotification('Error', 'No se pudo resolver la alerta', 'danger');
+                }
+            } catch (error) {
+                console.error('Error resolviendo alerta:', error);
+                showNotification('Error', 'Error de conexión', 'danger');
+            }
+        }
+
+        // Cargar análisis
+        async function loadAnalytics() {
+            // Implementar carga de análisis
+            console.log('Cargando análisis...');
+        }
+
+        // Cargar estado del sistema
+        async function loadSystemStatus() {
+            try {
+                const response = await fetch('/api/system/status');
+                const data = await response.json();
+                
+                const container = document.getElementById('system-status');
+                container.innerHTML = `
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Estado del Sistema</h6>
+                            <p><span class="status-indicator status-online"></span>${data.status}</p>
+                            <p><strong>Uptime:</strong> ${data.uptime}</p>
+                            <p><strong>Último Respaldo:</strong> ${data.last_backup}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Métricas</h6>
+                            <p><strong>Tareas Programadas:</strong> ${data.scheduled_tasks}</p>
+                            <p><strong>Versión Config:</strong> ${data.config_version}</p>
+                        </div>
+                    </div>
+                `;
+                
+            } catch (error) {
+                console.error('Error cargando estado del sistema:', error);
+            }
+        }
+
+        // Iniciar actualizaciones periódicas
+        function startPeriodicUpdates() {
+            // Actualizar datos cada 30 segundos
+            setInterval(() => {
+                if (currentSection === 'overview') {
+                    loadDashboardData();
+                }
+            }, 30000);
+            
+            // Cargar datos de gráficos inicialmente
+            setTimeout(loadChartData, 1000);
+        }
+
+        // Mostrar notificación
+        function showNotification(title, message, type) {
+            const toast = document.createElement('div');
+            toast.className = `alert alert-${type} alert-dismissible fade show notification-toast`;
+            toast.innerHTML = `
+                <strong>${title}</strong><br>
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // Remover después de 5 segundos
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.parentNode.removeChild(toast);
+                }
+            }, 5000);
+        }
+
+        // Solicitar actualización manual
+        function requestUpdate() {
+            if (socket && isConnected) {
+                socket.emit('request_update');
+            } else {
+                loadDashboardData();
+            }
+        }
+
+        // Manejar errores de conexión
+        window.addEventListener('online', function() {
+            showNotification('Conexión', 'Conexión restaurada', 'success');
+        });
+
+        window.addEventListener('offline', function() {
+            showNotification('Conexión', 'Conexión perdida', 'warning');
+        });
+    </script>
+</body>
+</html>
+
+
+

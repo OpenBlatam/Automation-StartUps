@@ -1,0 +1,421 @@
+{% extends "base.html" %}
+
+{% block title %}Ventas{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h3 mb-0">Gestión de Ventas</h1>
+                    <p class="text-muted">Registro y análisis de ventas</p>
+                </div>
+                <div>
+                    <button class="btn btn-primary" onclick="showAddSaleModal()">
+                        <i class="fas fa-plus"></i> Nueva Venta
+                    </button>
+                    <button class="btn btn-success" onclick="exportSales()">
+                        <i class="fas fa-download"></i> Exportar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <form method="GET" class="row g-3">
+                        <div class="col-md-3">
+                            <label for="days" class="form-label">Período</label>
+                            <select class="form-select" id="days" name="days" onchange="this.form.submit()">
+                                <option value="7" {% if days == 7 %}selected{% endif %}>Últimos 7 días</option>
+                                <option value="30" {% if days == 30 %}selected{% endif %}>Últimos 30 días</option>
+                                <option value="90" {% if days == 90 %}selected{% endif %}>Últimos 90 días</option>
+                                <option value="365" {% if days == 365 %}selected{% endif %}>Último año</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="category" class="form-label">Categoría</label>
+                            <select class="form-select" id="category" name="category">
+                                <option value="">Todas las categorías</option>
+                                <!-- Categorías dinámicas -->
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="product" class="form-label">Producto</label>
+                            <select class="form-select" id="product" name="product">
+                                <option value="">Todos los productos</option>
+                                <!-- Productos dinámicos -->
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">&nbsp;</label>
+                            <div>
+                                <button type="submit" class="btn btn-outline-primary">
+                                    <i class="fas fa-filter"></i> Filtrar
+                                </button>
+                                <a href="{{ url_for('main.sales') }}" class="btn btn-outline-secondary">
+                                    <i class="fas fa-times"></i> Limpiar
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Resumen de Ventas -->
+    <div class="row mb-4">
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="kpi-card">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="kpi-value">{{ sales|length }}</div>
+                        <div class="kpi-label">Total Ventas</div>
+                    </div>
+                    <div class="text-center">
+                        <i class="fas fa-receipt fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="kpi-card" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%);">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="kpi-value">${{ "%.0f"|format(sales|sum(attribute='total_amount')) }}</div>
+                        <div class="kpi-label">Ingresos Totales</div>
+                    </div>
+                    <div class="text-center">
+                        <i class="fas fa-dollar-sign fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="kpi-card" style="background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%);">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="kpi-value">{{ "%.0f"|format(sales|sum(attribute='quantity_sold')) }}</div>
+                        <div class="kpi-label">Unidades Vendidas</div>
+                    </div>
+                    <div class="text-center">
+                        <i class="fas fa-boxes fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="kpi-card" style="background: linear-gradient(135deg, #fd7e14 0%, #e83e8c 100%);">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="kpi-value">${{ "%.2f"|format(sales|sum(attribute='total_amount') / sales|length if sales|length > 0 else 0) }}</div>
+                        <div class="kpi-label">Ticket Promedio</div>
+                    </div>
+                    <div class="text-center">
+                        <i class="fas fa-chart-line fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabla de Ventas -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-list"></i> Registro de Ventas
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="salesTable">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Producto</th>
+                                    <th>SKU</th>
+                                    <th>Categoría</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio Unitario</th>
+                                    <th>Total</th>
+                                    <th>Cliente</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for sale in sales %}
+                                <tr>
+                                    <td>{{ sale.sale_date.strftime('%Y-%m-%d %H:%M') }}</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                <strong>{{ sale.product.name }}</strong>
+                                                {% if sale.product.description %}
+                                                    <br><small class="text-muted">{{ sale.product.description[:50] }}{% if sale.product.description|length > 50 %}...{% endif %}</small>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><code>{{ sale.product.sku }}</code></td>
+                                    <td>
+                                        <span class="badge bg-secondary">{{ sale.product.category }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-info">{{ sale.quantity_sold }}</span>
+                                    </td>
+                                    <td>${{ "%.2f"|format(sale.unit_price) }}</td>
+                                    <td>
+                                        <strong class="text-success">${{ "%.2f"|format(sale.total_amount) }}</strong>
+                                    </td>
+                                    <td>{{ sale.customer.name if sale.customer else 'No especificado' }}</td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <button class="btn btn-outline-primary" onclick="showSaleDetails({{ sale.id }})" title="Ver Detalles">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn btn-outline-warning" onclick="editSale({{ sale.id }})" title="Editar">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-outline-danger" onclick="deleteSale({{ sale.id }})" title="Eliminar">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para nueva venta -->
+<div class="modal fade" id="addSaleModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nueva Venta</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addSaleForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="productSelect">Producto</label>
+                                <select class="form-control" id="productSelect" required>
+                                    <option value="">Seleccionar producto...</option>
+                                    <!-- Productos dinámicos -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="quantity">Cantidad</label>
+                                <input type="number" class="form-control" id="quantity" min="1" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="unitPrice">Precio Unitario</label>
+                                <input type="number" class="form-control" id="unitPrice" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="totalAmount">Total</label>
+                                <input type="number" class="form-control" id="totalAmount" step="0.01" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="customer">Cliente</label>
+                        <input type="text" class="form-control" id="customer" placeholder="Nombre del cliente (opcional)">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="saveSale()">Guardar Venta</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Cargar datos al inicializar
+document.addEventListener('DOMContentLoaded', function() {
+    loadProducts();
+    loadCategories();
+});
+
+function loadProducts() {
+    // Cargar productos para los selects
+    fetch('/api/products')
+        .then(response => response.json())
+        .then(data => {
+            const productSelect = document.getElementById('productSelect');
+            const productFilter = document.getElementById('product');
+            
+            if (data.products) {
+                data.products.forEach(product => {
+                    const option1 = new Option(product.name, product.id);
+                    const option2 = new Option(product.name, product.id);
+                    productSelect.add(option1);
+                    productFilter.add(option2);
+                });
+            }
+        })
+        .catch(error => console.error('Error cargando productos:', error));
+}
+
+function loadCategories() {
+    // Cargar categorías
+    fetch('/api/products')
+        .then(response => response.json())
+        .then(data => {
+            const categorySelect = document.getElementById('category');
+            const categories = new Set();
+            
+            if (data.products) {
+                data.products.forEach(product => {
+                    if (product.category) {
+                        categories.add(product.category);
+                    }
+                });
+                
+                categories.forEach(category => {
+                    const option = new Option(category, category);
+                    categorySelect.add(option);
+                });
+            }
+        })
+        .catch(error => console.error('Error cargando categorías:', error));
+}
+
+function showAddSaleModal() {
+    $('#addSaleModal').modal('show');
+}
+
+function calculateTotal() {
+    const quantity = parseFloat(document.getElementById('quantity').value) || 0;
+    const unitPrice = parseFloat(document.getElementById('unitPrice').value) || 0;
+    const total = quantity * unitPrice;
+    document.getElementById('totalAmount').value = total.toFixed(2);
+}
+
+// Event listeners
+document.getElementById('quantity').addEventListener('input', calculateTotal);
+document.getElementById('unitPrice').addEventListener('input', calculateTotal);
+
+function saveSale() {
+    const formData = {
+        product_id: document.getElementById('productSelect').value,
+        quantity_sold: document.getElementById('quantity').value,
+        unit_price: document.getElementById('unitPrice').value,
+        total_amount: document.getElementById('totalAmount').value,
+        customer_name: document.getElementById('customer').value
+    };
+    
+    fetch('/api/sales', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showAlert('Venta registrada exitosamente', 'success');
+            $('#addSaleModal').modal('hide');
+            location.reload();
+        } else {
+            showAlert('Error registrando venta: ' + data.error, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showAlert('Error registrando venta', 'error');
+    });
+}
+
+function showSaleDetails(saleId) {
+    // Implementar modal con detalles de la venta
+    alert(`Detalles de venta ${saleId} - Funcionalidad en desarrollo`);
+}
+
+function editSale(saleId) {
+    // Implementar edición de venta
+    alert(`Editar venta ${saleId} - Funcionalidad en desarrollo`);
+}
+
+function deleteSale(saleId) {
+    if (confirm('¿Estás seguro de que quieres eliminar esta venta?')) {
+        fetch(`/api/sales/${saleId}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showAlert('Venta eliminada exitosamente', 'success');
+                location.reload();
+            } else {
+                showAlert('Error eliminando venta: ' + data.error, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert('Error eliminando venta', 'error');
+        });
+    }
+}
+
+function exportSales() {
+    const days = document.getElementById('days').value;
+    const link = document.createElement('a');
+    link.href = `/api/export/sales?format=excel&days=${days}`;
+    link.download = `ventas_${days}_dias.xlsx`;
+    link.click();
+}
+
+function showAlert(message, type) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+    alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="close" data-dismiss="alert">
+            <span>&times;</span>
+        </button>
+    `;
+    
+    document.body.insertBefore(alertDiv, document.body.firstChild);
+    
+    setTimeout(() => {
+        alertDiv.remove();
+    }, 5000);
+}
+</script>
+{% endblock %}
+
+
+

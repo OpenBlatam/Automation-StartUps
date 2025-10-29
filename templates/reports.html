@@ -1,0 +1,389 @@
+{% extends "base.html" %}
+
+{% block title %}Reportes - Sistema de Gestión de Inventario{% endblock %}
+{% block page_title %}Reportes y Análisis{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>
+                <i class="fas fa-chart-bar me-2"></i>Reportes y Análisis
+            </h2>
+            <div class="btn-group">
+                <button class="btn btn-outline-primary btn-action" onclick="exportReport('pdf')">
+                    <i class="fas fa-file-pdf me-2"></i>Exportar PDF
+                </button>
+                <button class="btn btn-outline-success btn-action" onclick="exportReport('excel')">
+                    <i class="fas fa-file-excel me-2"></i>Exportar Excel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Filtros de Reporte -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h5 class="mb-0">
+            <i class="fas fa-filter me-2"></i>Filtros de Reporte
+        </h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-3">
+                <label for="dateFrom" class="form-label">Fecha Desde</label>
+                <input type="date" class="form-control" id="dateFrom">
+            </div>
+            <div class="col-md-3">
+                <label for="dateTo" class="form-label">Fecha Hasta</label>
+                <input type="date" class="form-control" id="dateTo">
+            </div>
+            <div class="col-md-3">
+                <label for="category" class="form-label">Categoría</label>
+                <select class="form-select" id="category">
+                    <option value="">Todas las categorías</option>
+                    <option value="Electrónicos">Electrónicos</option>
+                    <option value="Accesorios">Accesorios</option>
+                    <option value="Monitores">Monitores</option>
+                    <option value="Cables">Cables</option>
+                    <option value="Almacenamiento">Almacenamiento</option>
+                    <option value="Audio">Audio</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">&nbsp;</label>
+                <div>
+                    <button class="btn btn-primary btn-action" onclick="generateReport()">
+                        <i class="fas fa-chart-line me-2"></i>Generar Reporte
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- KPIs del Sistema -->
+{% if kpis %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h4>KPIs del Sistema</h4>
+    </div>
+</div>
+
+<!-- Métricas de Inventario -->
+{% if kpis.inventory %}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-warehouse me-2"></i>Métricas de Inventario
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <h3 class="text-primary">{{ kpis.inventory.total_products }}</h3>
+                            <p class="text-muted">Total Productos</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <h3 class="text-success">${{ "%.0f"|format(kpis.inventory.total_inventory_value) }}</h3>
+                            <p class="text-muted">Valor Total Inventario</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <h3 class="text-warning">{{ kpis.inventory.low_stock_products }}</h3>
+                            <p class="text-muted">Productos Stock Bajo</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <h3 class="text-info">{{ "%.1f"|format(kpis.inventory.inventory_turnover) }}</h3>
+                            <p class="text-muted">Rotación Inventario</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Métricas de Ventas -->
+{% if kpis.sales %}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-cash-register me-2"></i>Métricas de Ventas
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <h3 class="text-success">${{ "%.0f"|format(kpis.sales.total_sales_revenue) }}</h3>
+                            <p class="text-muted">Ingresos Totales</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <h3 class="text-primary">{{ kpis.sales.total_sales_volume }}</h3>
+                            <p class="text-muted">Volumen de Ventas</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <h3 class="text-info">${{ "%.2f"|format(kpis.sales.avg_order_value) }}</h3>
+                            <p class="text-muted">Valor Promedio Pedido</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <h3 class="text-{{ 'success' if kpis.sales.sales_growth_percentage > 0 else 'danger' }}">
+                                {{ "%.1f"|format(kpis.sales.sales_growth_percentage) }}%
+                            </h3>
+                            <p class="text-muted">Crecimiento Ventas</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Métricas Financieras -->
+{% if kpis.financial %}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-dollar-sign me-2"></i>Métricas Financieras
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <h3 class="text-success">{{ "%.1f"|format(kpis.financial.gross_margin_percentage) }}%</h3>
+                            <p class="text-muted">Margen Bruto</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <h3 class="text-primary">{{ "%.1f"|format(kpis.financial.inventory_roi) }}%</h3>
+                            <p class="text-muted">ROI Inventario</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <h3 class="text-info">${{ "%.0f"|format(kpis.financial.profit_potential) }}</h3>
+                            <p class="text-muted">Potencial de Ganancia</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <h3 class="text-warning">${{ "%.0f"|format(kpis.financial.estimated_storage_cost) }}</h3>
+                            <p class="text-muted">Costo Almacenamiento</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Gráficos de Análisis -->
+<div class="row">
+    <div class="col-lg-8 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-chart-line me-2"></i>Tendencias de Ventas
+                </h5>
+            </div>
+            <div class="card-body">
+                <canvas id="salesTrendChart" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-chart-pie me-2"></i>Distribución por Categoría
+                </h5>
+            </div>
+            <div class="card-body">
+                <canvas id="categoryChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tabla de Productos Top -->
+{% if kpis.sales and kpis.sales.top_products_revenue %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-trophy me-2"></i>Top Productos por Ingresos
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Posición</th>
+                                <th>Producto</th>
+                                <th>Ingresos</th>
+                                <th>Participación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for product in kpis.sales.top_products_revenue %}
+                            <tr>
+                                <td>
+                                    <span class="badge bg-primary">{{ loop.index }}</span>
+                                </td>
+                                <td>{{ product.product_name }}</td>
+                                <td>${{ "%.2f"|format(product.revenue) }}</td>
+                                <td>
+                                    <div class="progress" style="height: 20px;">
+                                        <div class="progress-bar" role="progressbar" 
+                                             style="width: {{ (product.revenue / kpis.sales.total_sales_revenue * 100)|round(1) }}%">
+                                            {{ "%.1f"|format(product.revenue / kpis.sales.total_sales_revenue * 100) }}%
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% else %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body text-center py-5">
+                <i class="fas fa-chart-bar fa-3x text-muted mb-3"></i>
+                <h4 class="text-muted">No hay datos disponibles</h4>
+                <p class="text-muted">Los KPIs se generarán automáticamente cuando haya datos suficientes.</p>
+                <button class="btn btn-primary btn-action" onclick="generateReport()">
+                    <i class="fas fa-sync me-2"></i>Generar Reporte
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Configurar fechas por defecto
+document.addEventListener('DOMContentLoaded', function() {
+    const today = new Date();
+    const thirtyDaysAgo = new Date(today.getTime() - (30 * 24 * 60 * 60 * 1000));
+    
+    document.getElementById('dateTo').value = today.toISOString().split('T')[0];
+    document.getElementById('dateFrom').value = thirtyDaysAgo.toISOString().split('T')[0];
+    
+    // Inicializar gráficos si hay datos
+    {% if kpis %}
+    initializeCharts();
+    {% endif %}
+});
+
+function generateReport() {
+    const dateFrom = document.getElementById('dateFrom').value;
+    const dateTo = document.getElementById('dateTo').value;
+    const category = document.getElementById('category').value;
+    
+    console.log('Generando reporte:', { dateFrom, dateTo, category });
+    
+    // Aquí implementarías la generación del reporte
+    alert('Reporte generado exitosamente');
+}
+
+function exportReport(format) {
+    console.log('Exportando reporte en formato:', format);
+    alert(`Exportando reporte en formato ${format.toUpperCase()}`);
+}
+
+function initializeCharts() {
+    // Gráfico de tendencias de ventas
+    const salesCtx = document.getElementById('salesTrendChart');
+    if (salesCtx) {
+        new Chart(salesCtx.getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Ventas',
+                    data: [12000, 15000, 18000, 16000, 20000, 22000],
+                    borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+    
+    // Gráfico de distribución por categoría
+    const categoryCtx = document.getElementById('categoryChart');
+    if (categoryCtx) {
+        new Chart(categoryCtx.getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Electrónicos', 'Accesorios', 'Monitores', 'Cables', 'Audio'],
+                datasets: [{
+                    data: [35, 25, 20, 15, 5],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.8)',
+                        'rgba(54, 162, 235, 0.8)',
+                        'rgba(255, 205, 86, 0.8)',
+                        'rgba(75, 192, 192, 0.8)',
+                        'rgba(153, 102, 255, 0.8)'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+    }
+}
+</script>
+{% endblock %}
+
+
+

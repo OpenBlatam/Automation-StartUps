@@ -1,0 +1,1051 @@
+{% extends "base.html" %}
+
+{% block title %}IoT & Realidad Aumentada{% endblock %}
+
+{% block extra_css %}
+<style>
+    .iot-card {
+        border: 2px solid #e9ecef;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+        background: white;
+    }
+    
+    .iot-card:hover {
+        border-color: #007bff;
+        box-shadow: 0 4px 15px rgba(0,123,255,0.1);
+    }
+    
+    .ar-card {
+        border: 2px solid #e9ecef;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+        background: white;
+    }
+    
+    .ar-card:hover {
+        border-color: #28a745;
+        box-shadow: 0 4px 15px rgba(40,167,69,0.1);
+    }
+    
+    .device-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 20px;
+        text-align: center;
+        margin-bottom: 15px;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+    
+    .device-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .device-card.online {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    }
+    
+    .device-card.offline {
+        background: linear-gradient(135deg, #dc3545 0%, #e83e8c 100%);
+    }
+    
+    .device-card.error {
+        background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+    }
+    
+    .sensor-item {
+        border-left: 4px solid;
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        background: white;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .sensor-temperature { border-left-color: #ff6b6b; }
+    .sensor-humidity { border-left-color: #4ecdc4; }
+    .sensor-pressure { border-left-color: #45b7d1; }
+    .sensor-motion { border-left-color: #96ceb4; }
+    .sensor-light { border-left-color: #feca57; }
+    .sensor-weight { border-left-color: #ff9ff3; }
+    
+    .marker-item {
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 10px;
+        background: white;
+    }
+    
+    .ar-session {
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 10px;
+        background: white;
+    }
+    
+    .chart-container {
+        position: relative;
+        height: 300px;
+        margin-bottom: 20px;
+    }
+    
+    .status-indicator {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-right: 8px;
+    }
+    
+    .status-online { background-color: #28a745; }
+    .status-offline { background-color: #dc3545; }
+    .status-error { background-color: #ffc107; }
+    .status-maintenance { background-color: #6c757d; }
+    
+    .pulse {
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+    
+    .ar-viewport {
+        width: 100%;
+        height: 400px;
+        border: 2px dashed #dee2e6;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(45deg, #f8f9fa 25%, transparent 25%), 
+                    linear-gradient(-45deg, #f8f9fa 25%, transparent 25%), 
+                    linear-gradient(45deg, transparent 75%, #f8f9fa 75%), 
+                    linear-gradient(-45deg, transparent 75%, #f8f9fa 75%);
+        background-size: 20px 20px;
+        background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    }
+    
+    .warehouse-3d {
+        width: 100%;
+        height: 300px;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        background: #f8f9fa;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .zone {
+        position: absolute;
+        border: 2px solid;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: white;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+    
+    .zone-a { background-color: #FF6B6B; border-color: #FF5252; }
+    .zone-b { background-color: #4ECDC4; border-color: #26A69A; }
+    .zone-c { background-color: #45B7D1; border-color: #2196F3; }
+    .zone-d { background-color: #96CEB4; border-color: #66BB6A; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h3 mb-0">
+                        <i class="fas fa-wifi text-primary"></i> IoT & 
+                        <i class="fas fa-cube text-success"></i> Realidad Aumentada
+                    </h1>
+                    <p class="text-muted">Monitoreo IoT y visualización con realidad aumentada</p>
+                </div>
+                <div>
+                    <button class="btn btn-primary" onclick="startIoTMonitoring()">
+                        <i class="fas fa-play"></i> Iniciar IoT
+                    </button>
+                    <button class="btn btn-success" onclick="startARSession()">
+                        <i class="fas fa-cube"></i> Iniciar AR
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard IoT & AR -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="iot-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-tachometer-alt text-primary"></i> Dashboard IoT & AR
+                    <span class="badge badge-primary pulse" id="dashboardStatus">Actualizando...</span>
+                </h5>
+                <div class="row" id="dashboardContainer">
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="device-card">
+                            <div class="metric-value" id="totalDevices">-</div>
+                            <div class="metric-label">Dispositivos IoT</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="device-card" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%);">
+                            <div class="metric-value" id="totalMarkers">-</div>
+                            <div class="metric-label">Marcadores AR</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="device-card" style="background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);">
+                            <div class="metric-value" id="activeSessions">-</div>
+                            <div class="metric-label">Sesiones AR Activas</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="device-card" style="background: linear-gradient(135deg, #dc3545 0%, #e83e8c 100%);">
+                            <div class="metric-value" id="recentAlerts">-</div>
+                            <div class="metric-label">Alertas Recientes</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dispositivos IoT -->
+    <div class="row mb-4">
+        <div class="col-lg-8">
+            <div class="iot-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-microchip text-primary"></i> Dispositivos IoT
+                </h5>
+                <div class="row" id="iotDevicesContainer">
+                    <div class="text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Cargando dispositivos...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="iot-card">
+                <h5 class="mb-3">Datos de Sensores</h5>
+                <div class="mb-3">
+                    <label for="sensorSelect" class="form-label">Sensor</label>
+                    <select class="form-select" id="sensorSelect">
+                        <option value="">Todos los sensores...</option>
+                    </select>
+                </div>
+                <button class="btn btn-info" onclick="loadSensorData()">
+                    <i class="fas fa-chart-line"></i> Cargar Datos
+                </button>
+                <div id="sensorDataContainer" class="mt-3">
+                    <div class="text-center text-muted">
+                        <i class="fas fa-thermometer-half fa-3x mb-3"></i>
+                        <p>Selecciona un sensor para ver datos</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sensores y Alertas -->
+    <div class="row mb-4">
+        <div class="col-lg-6">
+            <div class="iot-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-exclamation-triangle text-warning"></i> Alertas IoT
+                </h5>
+                <div id="iotAlertsContainer">
+                    <div class="text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Cargando alertas...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="iot-card">
+                <h5 class="mb-3">Gráfico de Sensores</h5>
+                <div class="chart-container">
+                    <canvas id="sensorsChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Realidad Aumentada -->
+    <div class="row mb-4">
+        <div class="col-lg-6">
+            <div class="ar-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-cube text-success"></i> Marcadores AR
+                </h5>
+                <div class="mb-3">
+                    <label for="zoneSelect" class="form-label">Zona</label>
+                    <select class="form-select" id="zoneSelect">
+                        <option value="">Todas las zonas...</option>
+                        <option value="ZONE_A">Zona A - Electrónicos</option>
+                        <option value="ZONE_B">Zona B - Oficina</option>
+                        <option value="ZONE_C">Zona C - Hogar</option>
+                        <option value="ZONE_D">Zona D - Varios</option>
+                    </select>
+                </div>
+                <button class="btn btn-success" onclick="loadARMarkers()">
+                    <i class="fas fa-search"></i> Cargar Marcadores
+                </button>
+                <div id="arMarkersContainer" class="mt-3">
+                    <div class="text-center text-muted">
+                        <i class="fas fa-qrcode fa-3x mb-3"></i>
+                        <p>Selecciona una zona para ver marcadores</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="ar-card">
+                <h5 class="mb-3">Layout del Almacén</h5>
+                <div class="warehouse-3d" id="warehouse3D">
+                    <div class="zone zone-a" style="left: 5%; top: 5%; width: 20%; height: 40%;">
+                        Zona A
+                    </div>
+                    <div class="zone zone-b" style="left: 30%; top: 5%; width: 20%; height: 40%;">
+                        Zona B
+                    </div>
+                    <div class="zone zone-c" style="left: 55%; top: 5%; width: 20%; height: 40%;">
+                        Zona C
+                    </div>
+                    <div class="zone zone-d" style="left: 80%; top: 5%; width: 15%; height: 40%;">
+                        Zona D
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <button class="btn btn-primary" onclick="loadWarehouseLayout()">
+                        <i class="fas fa-map"></i> Cargar Layout
+                    </button>
+                    <button class="btn btn-info" onclick="startARSession()">
+                        <i class="fas fa-cube"></i> Iniciar Sesión AR
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sesiones AR -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="ar-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-vr-cardboard text-info"></i> Sesiones de Realidad Aumentada
+                </h5>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="sessionUser" class="form-label">Usuario</label>
+                        <input type="text" class="form-control" id="sessionUser" placeholder="ID de usuario">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="sessionType" class="form-label">Tipo de Sesión</label>
+                        <select class="form-select" id="sessionType">
+                            <option value="inventory_check">Verificación de Inventario</option>
+                            <option value="product_search">Búsqueda de Productos</option>
+                            <option value="warehouse_navigation">Navegación del Almacén</option>
+                            <option value="maintenance">Mantenimiento</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-success mt-4" onclick="createARSession()">
+                            <i class="fas fa-plus"></i> Crear Sesión
+                        </button>
+                    </div>
+                </div>
+                <div id="arSessionsContainer">
+                    <div class="text-center text-muted">
+                        <i class="fas fa-vr-cardboard fa-3x mb-3"></i>
+                        <p>Crea una sesión AR para comenzar</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Visualizador AR -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="ar-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-eye text-purple"></i> Visualizador AR
+                </h5>
+                <div class="ar-viewport" id="arViewport">
+                    <div class="text-center text-muted">
+                        <i class="fas fa-mobile-alt fa-3x mb-3"></i>
+                        <h5>Visualizador de Realidad Aumentada</h5>
+                        <p>Inicia una sesión AR para comenzar a visualizar</p>
+                        <button class="btn btn-primary" onclick="startARSession()">
+                            <i class="fas fa-play"></i> Iniciar AR
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Log de Actividad -->
+    <div class="row">
+        <div class="col-12">
+            <div class="iot-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-history text-secondary"></i> Log de Actividad IoT & AR
+                </h5>
+                <div id="activityLog" style="height: 200px; overflow-y: auto; background: #f8f9fa; padding: 15px; border-radius: 8px;">
+                    <div class="text-muted">Esperando actividad...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let charts = {};
+let currentARSession = null;
+let autoRefreshInterval;
+
+// Cargar datos al inicializar
+document.addEventListener('DOMContentLoaded', function() {
+    loadDashboard();
+    loadIoTDevices();
+    loadIoTAlerts();
+    loadSensors();
+    
+    // Iniciar actualización automática
+    startAutoRefresh();
+});
+
+function loadDashboard() {
+    fetch('/api/iot-ar/iot-ar/dashboard')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                updateDashboard(data.dashboard);
+            }
+        })
+        .catch(error => console.error('Error cargando dashboard:', error));
+}
+
+function updateDashboard(dashboard) {
+    // Actualizar métricas combinadas
+    document.getElementById('totalDevices').textContent = dashboard.combined.total_devices;
+    document.getElementById('totalMarkers').textContent = dashboard.combined.total_markers;
+    document.getElementById('activeSessions').textContent = dashboard.combined.active_sessions;
+    document.getElementById('recentAlerts').textContent = dashboard.combined.recent_alerts;
+    
+    document.getElementById('dashboardStatus').textContent = 'Actualizado';
+    document.getElementById('dashboardStatus').className = 'badge badge-success';
+}
+
+function loadIoTDevices() {
+    fetch('/api/iot-ar/iot/devices/status')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                displayIoTDevices(data.devices);
+            }
+        })
+        .catch(error => console.error('Error cargando dispositivos IoT:', error));
+}
+
+function displayIoTDevices(devices) {
+    const container = document.getElementById('iotDevicesContainer');
+    
+    if (!devices || devices.length === 0) {
+        container.innerHTML = '<div class="text-center text-muted"><p>No hay dispositivos IoT disponibles</p></div>';
+        return;
+    }
+    
+    let html = '';
+    devices.forEach(device => {
+        const statusClass = device.status === 'online' ? 'online' : 
+                           device.status === 'offline' ? 'offline' : 'error';
+        const statusIndicator = device.status === 'online' ? 'status-online' : 
+                               device.status === 'offline' ? 'status-offline' : 'status-error';
+        
+        html += `
+            <div class="col-lg-6 col-md-12 mb-3">
+                <div class="device-card ${statusClass}" onclick="showDeviceDetails('${device.device_id}')">
+                    <h6>${device.name}</h6>
+                    <div class="mb-2">
+                        <span class="status-indicator ${statusIndicator}"></span>
+                        ${device.status === 'online' ? 'En Línea' : 
+                          device.status === 'offline' ? 'Desconectado' : 'Error'}
+                    </div>
+                    <small class="text-muted">
+                        ${device.location} | 
+                        ${device.sensors.length} sensores
+                    </small>
+                    ${device.battery_level ? `<br><small>Batería: ${device.battery_level.toFixed(1)}%</small>` : ''}
+                </div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+function loadSensors() {
+    fetch('/api/iot-ar/iot/sensors/data')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                populateSensorSelect(data.sensor_data);
+            }
+        })
+        .catch(error => console.error('Error cargando sensores:', error));
+}
+
+function populateSensorSelect(sensorData) {
+    const select = document.getElementById('sensorSelect');
+    
+    // Obtener sensores únicos
+    const sensors = [...new Set(sensorData.map(d => d.sensor_id))];
+    
+    sensors.forEach(sensorId => {
+        const option = new Option(sensorId, sensorId);
+        select.add(option);
+    });
+}
+
+function loadSensorData() {
+    const sensorId = document.getElementById('sensorSelect').value;
+    
+    fetch(`/api/iot-ar/iot/sensors/data?sensor_id=${sensorId}&hours=24`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                displaySensorData(data.sensor_data);
+                updateSensorsChart(data.sensor_data);
+            }
+        })
+        .catch(error => console.error('Error cargando datos de sensores:', error));
+}
+
+function displaySensorData(sensorData) {
+    const container = document.getElementById('sensorDataContainer');
+    
+    if (!sensorData || sensorData.length === 0) {
+        container.innerHTML = '<div class="text-center text-muted"><p>No hay datos disponibles</p></div>';
+        return;
+    }
+    
+    // Agrupar por tipo de sensor
+    const groupedData = {};
+    sensorData.forEach(data => {
+        if (!groupedData[data.sensor_type]) {
+            groupedData[data.sensor_type] = [];
+        }
+        groupedData[data.sensor_type].push(data);
+    });
+    
+    let html = '';
+    Object.keys(groupedData).forEach(sensorType => {
+        const data = groupedData[sensorType];
+        const latestValue = data[data.length - 1];
+        
+        html += `
+            <div class="sensor-item sensor-${sensorType}">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6>${sensorType.toUpperCase()}</h6>
+                        <div class="metric-value text-primary">${latestValue.value.toFixed(2)} ${latestValue.unit}</div>
+                        <small class="text-muted">${new Date(latestValue.timestamp).toLocaleString()}</small>
+                    </div>
+                    <div>
+                        <span class="badge badge-info">${data.length} lecturas</span>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+function updateSensorsChart(sensorData) {
+    const ctx = document.getElementById('sensorsChart');
+    if (!ctx) return;
+    
+    if (charts.sensors) {
+        charts.sensors.destroy();
+    }
+    
+    // Agrupar por tipo de sensor
+    const groupedData = {};
+    sensorData.forEach(data => {
+        if (!groupedData[data.sensor_type]) {
+            groupedData[data.sensor_type] = [];
+        }
+        groupedData[data.sensor_type].push(data);
+    });
+    
+    // Preparar datos para el gráfico
+    const labels = [];
+    const datasets = [];
+    const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FECA57', '#FF9FF3'];
+    
+    Object.keys(groupedData).forEach((sensorType, index) => {
+        const data = groupedData[sensorType];
+        const values = data.map(d => d.value);
+        const timestamps = data.map(d => new Date(d.timestamp).toLocaleTimeString());
+        
+        if (index === 0) {
+            labels.push(...timestamps);
+        }
+        
+        datasets.push({
+            label: sensorType.toUpperCase(),
+            data: values,
+            borderColor: colors[index % colors.length],
+            backgroundColor: colors[index % colors.length] + '20',
+            fill: false
+        });
+    });
+    
+    charts.sensors = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+function loadIoTAlerts() {
+    fetch('/api/iot-ar/iot/alerts')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                displayIoTAlerts(data.alerts);
+            }
+        })
+        .catch(error => console.error('Error cargando alertas IoT:', error));
+}
+
+function displayIoTAlerts(alerts) {
+    const container = document.getElementById('iotAlertsContainer');
+    
+    if (!alerts || alerts.length === 0) {
+        container.innerHTML = '<div class="text-center text-muted"><p>No hay alertas IoT</p></div>';
+        return;
+    }
+    
+    let html = '';
+    alerts.slice(0, 10).forEach(alert => {
+        const severityClass = alert.severity === 'high' ? 'danger' : 
+                             alert.severity === 'medium' ? 'warning' : 'info';
+        
+        html += `
+            <div class="alert alert-${severityClass} alert-dismissible fade show">
+                <strong>${alert.device_name || alert.sensor_type || 'Sistema'}:</strong>
+                ${alert.message}
+                <br>
+                <small class="text-muted">${new Date(alert.timestamp).toLocaleString()}</small>
+                <button type="button" class="close" data-dismiss="alert">
+                    <span>&times;</span>
+                </button>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+function loadARMarkers() {
+    const zoneId = document.getElementById('zoneSelect').value;
+    
+    fetch(`/api/iot-ar/ar/markers?zone_id=${zoneId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                displayARMarkers(data.markers);
+            }
+        })
+        .catch(error => console.error('Error cargando marcadores AR:', error));
+}
+
+function displayARMarkers(markers) {
+    const container = document.getElementById('arMarkersContainer');
+    
+    if (!markers || markers.length === 0) {
+        container.innerHTML = '<div class="text-center text-muted"><p>No hay marcadores AR disponibles</p></div>';
+        return;
+    }
+    
+    let html = '';
+    markers.forEach(marker => {
+        html += `
+            <div class="marker-item">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h6>${marker.marker_id}</h6>
+                        <small class="text-muted">
+                            Producto: ${marker.product_id} | 
+                            Posición: (${marker.position[0].toFixed(1)}, ${marker.position[1].toFixed(1)}, ${marker.position[2].toFixed(1)})
+                        </small>
+                        <br>
+                        <small class="text-muted">Tipo: ${marker.marker_type.toUpperCase()}</small>
+                    </div>
+                    <div>
+                        <button class="btn btn-sm btn-success" onclick="scanMarker('${marker.marker_id}')">
+                            <i class="fas fa-qrcode"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+function loadWarehouseLayout() {
+    fetch('/api/iot-ar/ar/warehouse/layout')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                displayWarehouseLayout(data.layout);
+            }
+        })
+        .catch(error => console.error('Error cargando layout:', error));
+}
+
+function displayWarehouseLayout(layout) {
+    // El layout ya está visualizado en el HTML
+    addActivityLog('AR', `Layout del almacén cargado: ${layout.name}`, 'success');
+}
+
+function createARSession() {
+    const userId = document.getElementById('sessionUser').value || 'anonymous';
+    const sessionType = document.getElementById('sessionType').value;
+    
+    fetch('/api/iot-ar/ar/session/create', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            user_id: userId,
+            session_type: sessionType
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            currentARSession = data.session_id;
+            showARSession(data.session);
+            addActivityLog('AR', `Sesión AR creada: ${data.session_id}`, 'success');
+        } else {
+            showAlert('Error creando sesión AR: ' + data.error, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showAlert('Error creando sesión AR', 'error');
+    });
+}
+
+function showARSession(session) {
+    const container = document.getElementById('arSessionsContainer');
+    
+    container.innerHTML = `
+        <div class="ar-session">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h6>Sesión AR Activa</h6>
+                    <small class="text-muted">
+                        ID: ${session.session_id} | 
+                        Usuario: ${session.user_id} | 
+                        Tipo: ${session.session_type}
+                    </small>
+                </div>
+                <div>
+                    <button class="btn btn-sm btn-danger" onclick="endARSession()">
+                        <i class="fas fa-stop"></i> Terminar
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function scanMarker(markerId) {
+    if (!currentARSession) {
+        showAlert('No hay sesión AR activa', 'warning');
+        return;
+    }
+    
+    fetch(`/api/iot-ar/ar/session/${currentARSession}/scan`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            marker_id: markerId
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showMarkerContent(data);
+            addActivityLog('AR', `Marcador escaneado: ${markerId}`, 'success');
+        } else {
+            showAlert('Error escaneando marcador: ' + data.error, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showAlert('Error escaneando marcador', 'error');
+    });
+}
+
+function showMarkerContent(scanData) {
+    const viewport = document.getElementById('arViewport');
+    
+    if (scanData.content) {
+        viewport.innerHTML = `
+            <div class="text-center text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 10px;">
+                <h5>${scanData.content.metadata.product_name}</h5>
+                <p>SKU: ${scanData.content.metadata.product_sku}</p>
+                <p>Categoría: ${scanData.content.metadata.category}</p>
+                <p>Precio: $${scanData.content.metadata.unit_price}</p>
+                <p>Stock: ${scanData.content.metadata.stock_level} unidades</p>
+                <div class="mt-3">
+                    <button class="btn btn-light" onclick="performARAction('update_stock')">
+                        <i class="fas fa-edit"></i> Actualizar Stock
+                    </button>
+                    <button class="btn btn-light" onclick="performARAction('add_note')">
+                        <i class="fas fa-sticky-note"></i> Añadir Nota
+                    </button>
+                </div>
+            </div>
+        `;
+    } else {
+        viewport.innerHTML = `
+            <div class="text-center text-muted">
+                <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
+                <h5>Marcador sin contenido</h5>
+                <p>Este marcador no tiene contenido AR asociado</p>
+            </div>
+        `;
+    }
+}
+
+function performARAction(action) {
+    if (!currentARSession) {
+        showAlert('No hay sesión AR activa', 'warning');
+        return;
+    }
+    
+    let actionData = {};
+    
+    if (action === 'update_stock') {
+        const newStock = prompt('Ingresa el nuevo nivel de stock:');
+        if (newStock) {
+            actionData = {
+                product_id: 1, // En un sistema real, esto vendría del marcador escaneado
+                quantity: parseInt(newStock),
+                notes: 'Actualizado desde AR'
+            };
+        } else {
+            return;
+        }
+    } else if (action === 'add_note') {
+        const note = prompt('Ingresa la nota:');
+        if (note) {
+            actionData = {
+                product_id: 1, // En un sistema real, esto vendría del marcador escaneado
+                note: note
+            };
+        } else {
+            return;
+        }
+    }
+    
+    fetch(`/api/iot-ar/ar/session/${currentARSession}/action`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            action: action,
+            data: actionData
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showAlert(data.message, 'success');
+            addActivityLog('AR', `Acción ${action} realizada`, 'success');
+        } else {
+            showAlert('Error realizando acción: ' + data.error, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showAlert('Error realizando acción', 'error');
+    });
+}
+
+function endARSession() {
+    if (!currentARSession) {
+        showAlert('No hay sesión AR activa', 'warning');
+        return;
+    }
+    
+    fetch(`/api/iot-ar/ar/session/${currentARSession}/end`, {
+        method: 'POST'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showAlert('Sesión AR terminada exitosamente', 'success');
+            addActivityLog('AR', `Sesión AR terminada: ${data.session.duration_seconds}s`, 'info');
+            currentARSession = null;
+            
+            // Limpiar visualizador
+            document.getElementById('arViewport').innerHTML = `
+                <div class="text-center text-muted">
+                    <i class="fas fa-mobile-alt fa-3x mb-3"></i>
+                    <h5>Visualizador de Realidad Aumentada</h5>
+                    <p>Inicia una sesión AR para comenzar a visualizar</p>
+                    <button class="btn btn-primary" onclick="startARSession()">
+                        <i class="fas fa-play"></i> Iniciar AR
+                    </button>
+                </div>
+            `;
+            
+            // Limpiar sesiones
+            document.getElementById('arSessionsContainer').innerHTML = `
+                <div class="text-center text-muted">
+                    <i class="fas fa-vr-cardboard fa-3x mb-3"></i>
+                    <p>Crea una sesión AR para comenzar</p>
+                </div>
+            `;
+        } else {
+            showAlert('Error terminando sesión: ' + data.error, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showAlert('Error terminando sesión', 'error');
+    });
+}
+
+function startARSession() {
+    createARSession();
+}
+
+function startIoTMonitoring() {
+    fetch('/api/iot-ar/iot/monitoring/start', { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showAlert('Monitoreo IoT iniciado', 'success');
+                addActivityLog('IoT', 'Monitoreo IoT iniciado', 'success');
+            } else {
+                showAlert('Error iniciando monitoreo: ' + data.error, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert('Error iniciando monitoreo', 'error');
+        });
+}
+
+function startAutoRefresh() {
+    autoRefreshInterval = setInterval(() => {
+        loadDashboard();
+        loadIoTDevices();
+        loadIoTAlerts();
+    }, 30000); // Actualizar cada 30 segundos
+}
+
+function addActivityLog(source, message, type) {
+    const logContainer = document.getElementById('activityLog');
+    const timestamp = new Date().toLocaleTimeString();
+    const typeClass = type === 'success' ? 'text-success' : 
+                     type === 'error' ? 'text-danger' : 
+                     type === 'warning' ? 'text-warning' : 'text-info';
+    
+    const logEntry = document.createElement('div');
+    logEntry.className = 'mb-2';
+    logEntry.innerHTML = `
+        <small class="text-muted">[${timestamp}]</small>
+        <span class="${typeClass}"><strong>${source}:</strong></span>
+        <span>${message}</span>
+    `;
+    
+    logContainer.insertBefore(logEntry, logContainer.firstChild);
+    
+    // Mantener solo los últimos 50 logs
+    while (logContainer.children.length > 50) {
+        logContainer.removeChild(logContainer.lastChild);
+    }
+}
+
+function showAlert(message, type) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+    alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="close" data-dismiss="alert">
+            <span>&times;</span>
+        </button>
+    `;
+    
+    document.body.insertBefore(alertDiv, document.body.firstChild);
+    
+    setTimeout(() => {
+        alertDiv.remove();
+    }, 5000);
+}
+
+function showDeviceDetails(deviceId) {
+    showAlert(`Detalles del dispositivo ${deviceId}`, 'info');
+}
+
+// Limpiar intervalos al salir
+window.addEventListener('beforeunload', function() {
+    if (autoRefreshInterval) {
+        clearInterval(autoRefreshInterval);
+    }
+});
+</script>
+{% endblock %}
+
+
+

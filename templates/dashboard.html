@@ -1,0 +1,344 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Sistema de Gestión de Inventario{% endblock %}
+{% block page_title %}Dashboard Principal{% endblock %}
+
+{% block content %}
+<!-- Métricas Principales -->
+<div class="row mb-4">
+    <div class="col-lg-3 col-md-6 mb-3">
+        <div class="kpi-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="kpi-value">{{ total_products }}</div>
+                    <div class="kpi-label">Total Productos</div>
+                </div>
+                <div class="text-center">
+                    <i class="fas fa-boxes fa-2x"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-3 col-md-6 mb-3">
+        <div class="kpi-card" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="kpi-value">{{ active_alerts_count }}</div>
+                    <div class="kpi-label">Alertas Activas</div>
+                </div>
+                <div class="text-center">
+                    <i class="fas fa-bell fa-2x"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-3 col-md-6 mb-3">
+        <div class="kpi-card" style="background: linear-gradient(135deg, #feca57 0%, #ff9ff3 100%);">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="kpi-value">{{ pending_recommendations }}</div>
+                    <div class="kpi-label">Recomendaciones Pendientes</div>
+                </div>
+                <div class="text-center">
+                    <i class="fas fa-shopping-cart fa-2x"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-3 col-md-6 mb-3">
+        <div class="kpi-card" style="background: linear-gradient(135deg, #48dbfb 0%, #0abde3 100%);">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="kpi-value">${{ "%.0f"|format(today_revenue) }}</div>
+                    <div class="kpi-label">Ingresos Hoy</div>
+                </div>
+                <div class="text-center">
+                    <i class="fas fa-dollar-sign fa-2x"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Alertas Críticas -->
+    <div class="col-lg-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-exclamation-circle me-2"></i>Alertas Críticas
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if critical_alerts %}
+                    <div class="list-group list-group-flush">
+                        {% for alert in critical_alerts %}
+                        <div class="alert-card alert-critical">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">{{ alert.product.name }}</h6>
+                                <small class="text-muted">{{ alert.created_at.strftime('%H:%M') }}</small>
+                            </div>
+                            <p class="mb-1">{{ alert.message }}</p>
+                            <small class="text-danger">
+                                <i class="fas fa-tag me-1"></i>{{ alert.alert_type.replace('_', ' ').title() }}
+                            </small>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="mt-3">
+                        <a href="{{ url_for('main.alerts') }}" class="btn btn-outline-danger btn-action">
+                            Ver Todas las Alertas
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="text-center text-muted py-4">
+                        <i class="fas fa-check-circle fa-3x mb-3 text-success"></i>
+                        <p>No hay alertas críticas</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Recomendaciones Urgentes -->
+    <div class="col-lg-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0">
+                    <i class="fas fa-shopping-cart me-2"></i>Recomendaciones Urgentes
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if urgent_recommendations %}
+                    <div class="list-group list-group-flush">
+                        {% for rec in urgent_recommendations %}
+                        <div class="alert-card alert-{{ rec.urgency }}">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">{{ rec.product.name }}</h6>
+                                <span class="badge bg-{{ 'danger' if rec.urgency == 'critical' else 'warning' }}">
+                                    {{ rec.urgency.title() }}
+                                </span>
+                            </div>
+                            <p class="mb-1">Cantidad recomendada: {{ rec.recommended_quantity }}</p>
+                            <small class="text-muted">
+                                <i class="fas fa-dollar-sign me-1"></i>Costo estimado: ${{ "%.2f"|format(rec.estimated_cost) }}
+                            </small>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="mt-3">
+                        <a href="{{ url_for('main.replenishment') }}" class="btn btn-outline-warning btn-action">
+                            Ver Todas las Recomendaciones
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="text-center text-muted py-4">
+                        <i class="fas fa-check-circle fa-3x mb-3 text-success"></i>
+                        <p>No hay recomendaciones urgentes</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Gráficos -->
+<div class="row">
+    <div class="col-lg-8 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-chart-line me-2"></i>Tendencias de Ventas (Últimos 30 días)
+                </h5>
+            </div>
+            <div class="card-body">
+                <canvas id="salesChart" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-chart-pie me-2"></i>Estado del Inventario
+                </h5>
+            </div>
+            <div class="card-body">
+                <canvas id="inventoryChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Acciones Rápidas -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-bolt me-2"></i>Acciones Rápidas
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 mb-2">
+                        <a href="{{ url_for('main.inventory') }}" class="btn btn-outline-primary btn-action w-100">
+                            <i class="fas fa-plus me-2"></i>Registrar Movimiento
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{{ url_for('main.sales') }}" class="btn btn-outline-success btn-action w-100">
+                            <i class="fas fa-cash-register me-2"></i>Registrar Venta
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <button class="btn btn-outline-warning btn-action w-100" onclick="checkAlerts()">
+                            <i class="fas fa-sync me-2"></i>Verificar Alertas
+                        </button>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <button class="btn btn-outline-info btn-action w-100" onclick="generateRecommendations()">
+                            <i class="fas fa-magic me-2"></i>Generar Recomendaciones
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Gráfico de ventas
+const salesCtx = document.getElementById('salesChart').getContext('2d');
+const salesChart = new Chart(salesCtx, {
+    type: 'line',
+    data: {
+        labels: [],
+        datasets: [{
+            label: 'Ventas Diarias',
+            data: [],
+            borderColor: 'rgb(75, 192, 192)',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            tension: 0.1
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+// Gráfico de inventario
+const inventoryCtx = document.getElementById('inventoryChart').getContext('2d');
+const inventoryChart = new Chart(inventoryCtx, {
+    type: 'doughnut',
+    data: {
+        labels: ['Stock Normal', 'Stock Bajo', 'Sin Stock'],
+        datasets: [{
+            data: [{{ total_products - active_alerts }}, {{ active_alerts }}, 0],
+            backgroundColor: [
+                'rgba(40, 167, 69, 0.8)',
+                'rgba(255, 193, 7, 0.8)',
+                'rgba(220, 53, 69, 0.8)'
+            ]
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false
+    }
+});
+
+// Cargar datos de ventas
+fetch('/api/sales')
+    .then(response => response.json())
+    .then(data => {
+        // Procesar datos para el gráfico
+        const salesData = {};
+        data.forEach(sale => {
+            const date = new Date(sale.sale_date).toLocaleDateString();
+            if (!salesData[date]) {
+                salesData[date] = 0;
+            }
+            salesData[date] += sale.total_amount;
+        });
+        
+        const labels = Object.keys(salesData).sort();
+        const values = labels.map(label => salesData[label]);
+        
+        salesChart.data.labels = labels;
+        salesChart.data.datasets[0].data = values;
+        salesChart.update();
+    })
+    .catch(error => console.error('Error cargando datos de ventas:', error));
+
+// Funciones de acciones rápidas
+function checkAlerts() {
+    fetch('/api/check_alerts', { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                showAlert('success', data.message);
+                setTimeout(() => location.reload(), 2000);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert('error', 'Error verificando alertas');
+        });
+}
+
+function generateRecommendations() {
+    fetch('/api/replenishment/recommendations')
+        .then(response => response.json())
+        .then(data => {
+            showAlert('success', `Se generaron ${data.length} recomendaciones`);
+            setTimeout(() => location.href = '/replenishment', 2000);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert('error', 'Error generando recomendaciones');
+        });
+}
+
+function refreshKPIs() {
+    fetch('/api/kpis')
+        .then(response => response.json())
+        .then(data => {
+            showAlert('success', 'KPIs actualizados');
+            setTimeout(() => location.href = '/kpis', 2000);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert('error', 'Error actualizando KPIs');
+        });
+}
+
+function showAlert(type, message) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show`;
+    alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    const container = document.querySelector('.container-fluid');
+    container.insertBefore(alertDiv, container.firstChild);
+    
+    setTimeout(() => {
+        alertDiv.remove();
+    }, 5000);
+}
+</script>
+{% endblock %}

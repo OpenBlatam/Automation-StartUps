@@ -1,0 +1,33 @@
+{
+  "setupTasks": [
+    {
+      "name": "Install Dependencies",
+      "command": "npm install"
+    },
+    {
+      "name": "Setup Environment",
+      "command": "cp env.example .env"
+    }
+  ],
+  "tasks": {
+    "dev": {
+      "name": "Development",
+      "runAtStart": true,
+      "command": "npm run dev",
+      "previewUrl": "http://localhost:3000"
+    },
+    "test": {
+      "name": "Test",
+      "command": "npm test",
+      "runAtStart": false
+    },
+    "lint": {
+      "name": "Lint",
+      "command": "npm run lint",
+      "runAtStart": false
+    }
+  }
+}
+
+
+

@@ -1,0 +1,68 @@
+#!/usr/bin/env node
+/**
+ * Build Script
+ * Construye el proyecto para producción
+ */
+
+const { execSync } = require('child_process');
+const fs = require('fs');
+const path = require('path');
+
+console.log('🔨 Construyendo proyecto para producción...\n');
+
+try {
+  // Limpiar builds anteriores
+  console.log('🧹 Limpiando builds anteriores...');
+  if (fs.existsSync('dist')) {
+    execSync('rm -rf dist', { stdio: 'inherit' });
+  }
+  if (fs.existsSync('build')) {
+    execSync('rm -rf build', { stdio: 'inherit' });
+  }
+  
+  // Crear directorio dist
+  console.log('📁 Creando directorio dist...');
+  if (!fs.existsSync('dist')) {
+    fs.mkdirSync('dist', { recursive: true });
+  }
+  
+  // Copiar archivos necesarios
+  console.log('📋 Copiando archivos necesarios...');
+  const filesToCopy = [
+    'server.js',
+    'API_CFDI_4.0_IA_2025.js',
+    'Validador_CFDI_4.0_IA_2025.js',
+    'Automatizacion_IA_CFDI_2025.js',
+    'Integracion_ERP_CFDI_2025.js',
+    'package.json',
+    'package-lock.json'
+  ];
+  
+  filesToCopy.forEach(file => {
+    if (fs.existsSync(file)) {
+      execSync(`cp ${file} dist/`, { stdio: 'inherit' });
+      console.log(`✅ Copiado: ${file}`);
+    }
+  });
+  
+  // Copiar directorios necesarios
+  console.log('📂 Copiando directorios...');
+  const dirsToCopy = ['certificados', 'logs'];
+  
+  dirsToCopy.forEach(dir => {
+    if (fs.existsSync(dir)) {
+      execSync(`cp -r ${dir} dist/`, { stdio: 'inherit' });
+      console.log(`✅ Copiado directorio: ${dir}`);
+    }
+  });
+  
+  console.log('\n✅ Build completado exitosamente!');
+  console.log('📦 Archivos en: ./dist');
+  
+} catch (error) {
+  console.error('❌ Error en build:', error.message);
+  process.exit(1);
+}
+
+
+

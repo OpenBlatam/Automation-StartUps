@@ -1,0 +1,620 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard en Tiempo Real{% endblock %}
+
+{% block extra_css %}
+<style>
+    .realtime-card {
+        border: 2px solid #e9ecef;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+        background: white;
+    }
+    
+    .realtime-card:hover {
+        border-color: #007bff;
+        box-shadow: 0 4px 15px rgba(0,123,255,0.1);
+    }
+    
+    .metric-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 20px;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+    
+    .metric-value {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    
+    .metric-label {
+        font-size: 0.9rem;
+        opacity: 0.9;
+    }
+    
+    .status-indicator {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-right: 8px;
+    }
+    
+    .status-online { background-color: #28a745; }
+    .status-offline { background-color: #dc3545; }
+    .status-warning { background-color: #ffc107; }
+    
+    .alert-item {
+        border-left: 4px solid;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        background: white;
+    }
+    
+    .alert-critical { border-left-color: #dc3545; }
+    .alert-high { border-left-color: #fd7e14; }
+    .alert-medium { border-left-color: #ffc107; }
+    .alert-low { border-left-color: #28a745; }
+    
+    .chart-container {
+        position: relative;
+        height: 300px;
+        margin-bottom: 20px;
+    }
+    
+    .connection-status {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+        padding: 10px 15px;
+        border-radius: 25px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+    
+    .connection-online {
+        background-color: #28a745;
+        color: white;
+    }
+    
+    .connection-offline {
+        background-color: #dc3545;
+        color: white;
+    }
+    
+    .pulse {
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Connection Status -->
+    <div id="connectionStatus" class="connection-status connection-offline">
+        <i class="fas fa-circle"></i> Desconectado
+    </div>
+
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h3 mb-0">
+                        <i class="fas fa-tachometer-alt text-primary"></i> Dashboard en Tiempo Real
+                    </h1>
+                    <p class="text-muted">Monitoreo en vivo del sistema de inventario</p>
+                </div>
+                <div>
+                    <button class="btn btn-primary" onclick="refreshAllData()">
+                        <i class="fas fa-sync-alt"></i> Actualizar Todo
+                    </button>
+                    <button class="btn btn-success" onclick="toggleAutoRefresh()">
+                        <i class="fas fa-play" id="autoRefreshIcon"></i> 
+                        <span id="autoRefreshText">Auto Actualizar</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- KPIs en Tiempo Real -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="realtime-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-chart-line text-primary"></i> KPIs en Tiempo Real
+                    <span class="badge badge-primary pulse" id="kpisStatus">Actualizando...</span>
+                </h5>
+                <div class="row" id="kpisContainer">
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="metric-card">
+                            <div class="metric-value" id="totalProducts">-</div>
+                            <div class="metric-label">Total Productos</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="metric-card" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%);">
+                            <div class="metric-value" id="totalRevenue">-</div>
+                            <div class="metric-label">Ingresos Totales</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="metric-card" style="background: linear-gradient(135deg, #dc3545 0%, #e83e8c 100%);">
+                            <div class="metric-value" id="activeAlerts">-</div>
+                            <div class="metric-label">Alertas Activas</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="metric-card" style="background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);">
+                            <div class="metric-value" id="pendingRecommendations">-</div>
+                            <div class="metric-label">Recomendaciones Pendientes</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Estado del Inventario -->
+    <div class="row mb-4">
+        <div class="col-lg-8">
+            <div class="realtime-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-warehouse text-success"></i> Estado del Inventario
+                    <span class="badge badge-success pulse" id="inventoryStatus">Actualizando...</span>
+                </h5>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="text-center">
+                            <div class="metric-value text-success" id="normalStock">-</div>
+                            <div class="metric-label">Stock Normal</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="text-center">
+                            <div class="metric-value text-warning" id="lowStock">-</div>
+                            <div class="metric-label">Stock Bajo</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="text-center">
+                            <div class="metric-value text-danger" id="outOfStock">-</div>
+                            <div class="metric-label">Sin Stock</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="inventoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="realtime-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-bell text-warning"></i> Alertas Recientes
+                    <span class="badge badge-warning pulse" id="alertsStatus">Actualizando...</span>
+                </h5>
+                <div id="alertsContainer">
+                    <div class="text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Cargando alertas...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Resumen de Ventas -->
+    <div class="row mb-4">
+        <div class="col-lg-6">
+            <div class="realtime-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-cash-register text-info"></i> Resumen de Ventas (30 días)
+                    <span class="badge badge-info pulse" id="salesStatus">Actualizando...</span>
+                </h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="text-center">
+                            <div class="metric-value text-info" id="totalSales">-</div>
+                            <div class="metric-label">Total Ventas</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-center">
+                            <div class="metric-value text-success" id="averageTicket">-</div>
+                            <div class="metric-label">Ticket Promedio</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="salesChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="realtime-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-chart-pie text-purple"></i> Análisis ABC
+                    <span class="badge badge-purple pulse" id="analyticsStatus">Actualizando...</span>
+                </h5>
+                <div id="abcContainer">
+                    <div class="text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Cargando análisis...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Log de Actividad -->
+    <div class="row">
+        <div class="col-12">
+            <div class="realtime-card">
+                <h5 class="mb-3">
+                    <i class="fas fa-history text-secondary"></i> Log de Actividad en Tiempo Real
+                </h5>
+                <div id="activityLog" style="height: 200px; overflow-y: auto; background: #f8f9fa; padding: 15px; border-radius: 8px;">
+                    <div class="text-muted">Esperando actividad...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Socket.IO -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
+
+<script>
+let socket;
+let autoRefreshInterval;
+let isAutoRefresh = false;
+let charts = {};
+
+// Inicializar conexión WebSocket
+function initSocket() {
+    socket = io();
+    
+    socket.on('connect', function() {
+        console.log('Conectado al servidor');
+        updateConnectionStatus(true);
+        socket.emit('join_dashboard');
+        addActivityLog('Sistema', 'Conectado al dashboard en tiempo real', 'success');
+    });
+    
+    socket.on('disconnect', function() {
+        console.log('Desconectado del servidor');
+        updateConnectionStatus(false);
+        addActivityLog('Sistema', 'Desconectado del servidor', 'error');
+    });
+    
+    socket.on('kpis_update', function(data) {
+        updateKPIs(data);
+        document.getElementById('kpisStatus').textContent = 'Actualizado';
+        document.getElementById('kpisStatus').className = 'badge badge-success';
+        addActivityLog('KPIs', 'Datos actualizados', 'info');
+    });
+    
+    socket.on('alerts_update', function(data) {
+        updateAlerts(data);
+        document.getElementById('alertsStatus').textContent = 'Actualizado';
+        document.getElementById('alertsStatus').className = 'badge badge-success';
+        addActivityLog('Alertas', `${data.length} alertas activas`, 'warning');
+    });
+    
+    socket.on('inventory_status_update', function(data) {
+        updateInventoryStatus(data);
+        document.getElementById('inventoryStatus').textContent = 'Actualizado';
+        document.getElementById('inventoryStatus').className = 'badge badge-success';
+        addActivityLog('Inventario', 'Estado actualizado', 'info');
+    });
+    
+    socket.on('sales_summary_update', function(data) {
+        updateSalesSummary(data);
+        document.getElementById('salesStatus').textContent = 'Actualizado';
+        document.getElementById('salesStatus').className = 'badge badge-success';
+        addActivityLog('Ventas', `$${data.total_revenue.toLocaleString()} en ingresos`, 'success');
+    });
+    
+    socket.on('analytics_update', function(data) {
+        updateAnalytics(data);
+        document.getElementById('analyticsStatus').textContent = 'Actualizado';
+        document.getElementById('analyticsStatus').className = 'badge badge-success';
+        addActivityLog('Análisis', 'Datos de análisis actualizados', 'info');
+    });
+    
+    socket.on('new_alert', function(data) {
+        addActivityLog('Alerta', `Nueva alerta: ${data.message}`, 'warning');
+        showNotification('Nueva Alerta', data.message, 'warning');
+    });
+    
+    socket.on('inventory_update', function(data) {
+        addActivityLog('Inventario', `Stock de ${data.product_name} cambió de ${data.old_stock} a ${data.new_stock}`, 'info');
+    });
+    
+    socket.on('system_status', function(data) {
+        addActivityLog('Sistema', data.message, data.status === 'healthy' ? 'success' : 'error');
+    });
+    
+    socket.on('error', function(data) {
+        addActivityLog('Error', data.message, 'error');
+    });
+}
+
+function updateConnectionStatus(isOnline) {
+    const statusEl = document.getElementById('connectionStatus');
+    if (isOnline) {
+        statusEl.className = 'connection-status connection-online';
+        statusEl.innerHTML = '<i class="fas fa-circle"></i> Conectado';
+    } else {
+        statusEl.className = 'connection-status connection-offline';
+        statusEl.innerHTML = '<i class="fas fa-circle"></i> Desconectado';
+    }
+}
+
+function updateKPIs(data) {
+    if (data.inventory) {
+        document.getElementById('totalProducts').textContent = data.inventory.total_products || '-';
+    }
+    if (data.sales) {
+        document.getElementById('totalRevenue').textContent = '$' + (data.sales.total_revenue || 0).toLocaleString();
+    }
+    if (data.alerts) {
+        document.getElementById('activeAlerts').textContent = data.alerts.total_alerts || '-';
+    }
+    if (data.replenishment) {
+        document.getElementById('pendingRecommendations').textContent = data.replenishment.pending_recommendations || '-';
+    }
+}
+
+function updateAlerts(data) {
+    const container = document.getElementById('alertsContainer');
+    
+    if (!data || data.length === 0) {
+        container.innerHTML = '<div class="text-muted">No hay alertas activas</div>';
+        return;
+    }
+    
+    let html = '';
+    data.slice(0, 5).forEach(alert => {
+        const severityClass = `alert-${alert.severity}`;
+        html += `
+            <div class="alert-item ${severityClass}">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <strong>${alert.product_name}</strong>
+                        <br>
+                        <small>${alert.message}</small>
+                    </div>
+                    <small class="text-muted">${new Date(alert.created_at).toLocaleTimeString()}</small>
+                </div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+function updateInventoryStatus(data) {
+    document.getElementById('normalStock').textContent = data.normal_stock || '-';
+    document.getElementById('lowStock').textContent = data.low_stock || '-';
+    document.getElementById('outOfStock').textContent = data.out_of_stock || '-';
+    
+    // Actualizar gráfico
+    updateInventoryChart(data);
+}
+
+function updateSalesSummary(data) {
+    document.getElementById('totalSales').textContent = data.total_sales || '-';
+    document.getElementById('averageTicket').textContent = '$' + (data.average_ticket || 0).toFixed(2);
+    
+    // Actualizar gráfico de ventas
+    updateSalesChart(data);
+}
+
+function updateAnalytics(data) {
+    if (data.abc_analysis && data.abc_analysis.summary) {
+        const container = document.getElementById('abcContainer');
+        let html = '<div class="row">';
+        
+        Object.keys(data.abc_analysis.summary).forEach(className => {
+            const classData = data.abc_analysis.summary[className];
+            const color = className === 'A' ? 'danger' : className === 'B' ? 'warning' : 'success';
+            
+            html += `
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <div class="metric-value text-${color}">${classData.product_id}</div>
+                        <div class="metric-label">Clase ${className}</div>
+                        <small class="text-muted">$${classData.total_amount.toLocaleString()}</small>
+                    </div>
+                </div>
+            `;
+        });
+        
+        html += '</div>';
+        container.innerHTML = html;
+    }
+}
+
+function updateInventoryChart(data) {
+    const ctx = document.getElementById('inventoryChart');
+    if (!ctx) return;
+    
+    if (charts.inventory) {
+        charts.inventory.destroy();
+    }
+    
+    charts.inventory = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Stock Normal', 'Stock Bajo', 'Sin Stock'],
+            datasets: [{
+                data: [data.normal_stock, data.low_stock, data.out_of_stock],
+                backgroundColor: ['#28a745', '#ffc107', '#dc3545'],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+}
+
+function updateSalesChart(data) {
+    const ctx = document.getElementById('salesChart');
+    if (!ctx) return;
+    
+    if (charts.sales) {
+        charts.sales.destroy();
+    }
+    
+    // Datos simulados para el gráfico
+    const labels = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
+    const salesData = labels.map(() => Math.floor(Math.random() * 1000) + 500);
+    
+    charts.sales = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Ventas Diarias',
+                data: salesData,
+                borderColor: '#007bff',
+                backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+function addActivityLog(source, message, type) {
+    const logContainer = document.getElementById('activityLog');
+    const timestamp = new Date().toLocaleTimeString();
+    const typeClass = type === 'success' ? 'text-success' : 
+                     type === 'error' ? 'text-danger' : 
+                     type === 'warning' ? 'text-warning' : 'text-info';
+    
+    const logEntry = document.createElement('div');
+    logEntry.className = 'mb-2';
+    logEntry.innerHTML = `
+        <small class="text-muted">[${timestamp}]</small>
+        <span class="${typeClass}"><strong>${source}:</strong></span>
+        <span>${message}</span>
+    `;
+    
+    logContainer.insertBefore(logEntry, logContainer.firstChild);
+    
+    // Mantener solo los últimos 50 logs
+    while (logContainer.children.length > 50) {
+        logContainer.removeChild(logContainer.lastChild);
+    }
+}
+
+function refreshAllData() {
+    if (socket && socket.connected) {
+        socket.emit('request_kpis');
+        socket.emit('request_alerts');
+        socket.emit('request_inventory_status');
+        socket.emit('request_sales_summary');
+        socket.emit('request_analytics');
+        
+        addActivityLog('Sistema', 'Solicitando actualización de todos los datos', 'info');
+    }
+}
+
+function toggleAutoRefresh() {
+    isAutoRefresh = !isAutoRefresh;
+    const icon = document.getElementById('autoRefreshIcon');
+    const text = document.getElementById('autoRefreshText');
+    
+    if (isAutoRefresh) {
+        icon.className = 'fas fa-pause';
+        text.textContent = 'Pausar Auto';
+        autoRefreshInterval = setInterval(refreshAllData, 30000); // Cada 30 segundos
+        addActivityLog('Sistema', 'Auto-actualización activada', 'success');
+    } else {
+        icon.className = 'fas fa-play';
+        text.textContent = 'Auto Actualizar';
+        clearInterval(autoRefreshInterval);
+        addActivityLog('Sistema', 'Auto-actualización pausada', 'info');
+    }
+}
+
+function showNotification(title, message, type) {
+    // Crear notificación toast
+    const notification = document.createElement('div');
+    notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+    notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    notification.innerHTML = `
+        <strong>${title}</strong><br>
+        ${message}
+        <button type="button" class="close" data-dismiss="alert">
+            <span>&times;</span>
+        </button>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.remove();
+    }, 5000);
+}
+
+// Inicializar cuando se carga la página
+document.addEventListener('DOMContentLoaded', function() {
+    initSocket();
+    
+    // Solicitar datos iniciales
+    setTimeout(() => {
+        refreshAllData();
+    }, 1000);
+});
+
+// Limpiar intervalos al salir
+window.addEventListener('beforeunload', function() {
+    if (autoRefreshInterval) {
+        clearInterval(autoRefreshInterval);
+    }
+    if (socket) {
+        socket.disconnect();
+    }
+});
+</script>
+{% endblock %}
+
+
+

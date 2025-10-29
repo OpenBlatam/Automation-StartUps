@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Cost Support - ROI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #764ba2;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .result-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .result-box h3 {
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        
+        .result-item {
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 5px;
+        }
+        
+        .result-value {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        .positive {
+            color: #4ade80;
+        }
+        
+        .negative {
+            color: #f87171;
+        }
+        
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        button:hover {
+            transform: scale(1.02);
+        }
+        
+        button:active {
+            transform: scale(0.98);
+        }
+        
+        .info-box {
+            background: #dbeafe;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+        
+        .info-box h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .recommendation {
+            background: #f0fdf4;
+            border-left: 4px solid #4ade80;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+        
+        .recommendation h4 {
+            color: #059669;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💰 Calculadora de ROI - Cost Support</h1>
+        
+        <div class="section">
+            <h2>📊 Información de Entrada</h2>
+            
+            <div class="input-group">
+                <label for="investment">Inversión Mensual ($)</label>
+                <input type="number" id="investment" placeholder="Ejemplo: 500" value="500">
+            </div>
+            
+            <div class="input-group">
+                <label for="savings">Ahorro Mensual Estimado ($)</label>
+                <input type="number" id="savings" placeholder="Ejemplo: 300" value="300">
+            </div>
+            
+            <div class="input-group">
+                <label for="revenue">Ingresos Adicionales Mensuales ($)</label>
+                <input type="number" id="revenue" placeholder="Ejemplo: 400" value="400">
+            </div>
+            
+            <div class="input-group">
+                <label for="timeSaved">Tiempo Ahorrado (horas/semana)</label>
+                <input type="number" id="timeSaved" placeholder="Ejemplo: 10" value="10">
+            </div>
+            
+            <div class="input-group">
+                <label for="hourlyRate">Valor de Hora ($/hora)</label>
+                <input type="number" id="hourlyRate" placeholder="Ejemplo: 25" value="25">
+            </div>
+            
+            <button onclick="calculateROI()">Calcular ROI</button>
+        </div>
+        
+        <div id="results" class="result-box" style="display: none;">
+            <h3>📈 Resultados del Análisis de ROI</h3>
+            <div id="resultContent"></div>
+        </div>
+        
+        <div id="info" class="info-box" style="display: none;">
+            <h4>💡 Interpretación de Resultados</h4>
+            <div id="infoContent"></div>
+        </div>
+        
+        <div id="recommendation" class="recommendation" style="display: none;">
+            <h4>✅ Recomendación</h4>
+            <div id="recommendationContent"></div>
+        </div>
+    </div>
+    
+    <script>
+        function calculateROI() {
+            const investment = parseFloat(document.getElementById('investment').value) || 0;
+            const savings = parseFloat(document.getElementById('savings').value) || 0;
+            const revenue = parseFloat(document.getElementById('revenue').value) || 0;
+            const timeSaved = parseFloat(document.getElementById('timeSaved').value) || 0;
+            const hourlyRate = parseFloat(document.getElementById('hourlyRate').value) || 0;
+            
+            const timeValue = timeSaved * hourlyRate * 4.33; // horas/semana * $/hora * semanas/mes
+            const totalReturn = savings + revenue + timeValue;
+            const netGain = totalReturn - investment;
+            const roiPercentage = investment > 0 ? ((totalReturn - investment) / investment) * 100 : 0;
+            const paybackMonths = totalReturn > 0 ? investment / totalReturn : 0;
+            const yearlyROI = roiPercentage * 12;
+            const yearlyNetGain = netGain * 12;
+            
+            const resultsDiv = document.getElementById('results');
+            const infoDiv = document.getElementById('info');
+            const recommendationDiv = document.getElementById('recommendation');
+            
+            let resultHTML = `
+                <div class="result-item">
+                    <span>Inversión Mensual:</span>
+                    <span class="result-value">$${investment.toFixed(2)}</span>
+                </div>
+                <div class="result-item">
+                    <span>Retorno Mensual Total:</span>
+                    <span class="result-value positive">$${totalReturn.toFixed(2)}</span>
+                </div>
+                <div class="result-item">
+                    <span>Ganancia Neta Mensual:</span>
+                    <span class="result-value ${netGain >= 0 ? 'positive' : 'negative'}">$${netGain.toFixed(2)}</span>
+                </div>
+                <div class="result-item">
+                    <span>ROI Mensual:</span>
+                    <span class="result-value ${roiPercentage >= 0 ? 'positive' : 'negative'}">${roiPercentage.toFixed(2)}%</span>
+                </div>
+                <div class="result-item">
+                    <span>Payback Period:</span>
+                    <span class="result-value">${paybackMonths.toFixed(2)} meses</span>
+                </div>
+                <div class="result-item">
+                    <span>ROI Anual Proyectado:</span>
+                    <span class="result-value ${yearlyROI >= 0 ? 'positive' : 'negative'}">${yearlyROI.toFixed(2)}%</span>
+                </div>
+                <div class="result-item">
+                    <span>Ganancia Neta Anual:</span>
+                    <span class="result-value ${yearlyNetGain >= 0 ? 'positive' : 'negative'}">$${yearlyNetGain.toFixed(2)}</span>
+                </div>
+            `;
+            
+            let infoHTML = `
+                <p><strong>Ahorro Directo:</strong> $${savings.toFixed(2)}</p>
+                <p><strong>Ingresos Adicionales:</strong> $${revenue.toFixed(2)}</p>
+                <p><strong>Valor del Tiempo Ahorrado:</strong> $${timeValue.toFixed(2)} (${timeSaved}h/semana × $${hourlyRate}/hora)</p>
+                <p><strong>Retorno Total:</strong> $${totalReturn.toFixed(2)}</p>
+            `;
+            
+            let recommendationHTML = '';
+            
+            if (roiPercentage > 100) {
+                recommendationHTML = `
+                    <p>🎉 <strong>Excelente inversión!</strong> El ROI supera el 100%, lo que significa que por cada dólar invertido, estás recibiendo más de $2 en retorno.</p>
+                    <p>✅ <strong>Recomendación:</strong> Implementar inmediatamente. El payback period de ${paybackMonths.toFixed(2)} meses es excepcional.</p>
+                `;
+            } else if (roiPercentage > 50) {
+                recommendationHTML = `
+                    <p>👍 <strong>Buena inversión.</strong> El ROI del ${roiPercentage.toFixed(2)}% muestra un retorno sólido.</p>
+                    <p>✅ <strong>Recomendación:</strong> Proceder con la inversión. El payback en ${paybackMonths.toFixed(2)} meses es razonable.</p>
+                `;
+            } else if (roiPercentage > 0) {
+                recommendationHTML = `
+                    <p>⚠️ <strong>Inversión marginal.</strong> ROI del ${roiPercentage.toFixed(2)}% es bajo pero positivo.</p>
+                    <p>✅ <strong>Recomendación:</strong> Considerar si hay otras opciones o si los beneficios intangibles justifican la inversión.</p>
+                `;
+            } else {
+                recommendationHTML = `
+                    <p>❌ <strong>ROI negativo.</strong> La inversión actual no es rentable con estos números.</p>
+                    <p>⚠️ <strong>Recomendación:</strong> Revisar presupuesto, explorar opciones más económicas, o revaluar si esta inversión es necesaria ahora.</p>
+                `;
+            }
+            
+            document.getElementById('resultContent').innerHTML = resultHTML;
+            document.getElementById('infoContent').innerHTML = infoHTML;
+            document.getElementById('recommendationContent').innerHTML = recommendationHTML;
+            
+            resultsDiv.style.display = 'block';
+            infoDiv.style.display = 'block';
+            recommendationDiv.style.display = 'block';
+        }
+        
+        // Calculate on page load with default values
+        window.onload = function() {
+            calculateROI();
+        };
+    </script>
+</body>
+</html>
+
+

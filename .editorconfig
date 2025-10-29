@@ -1,0 +1,57 @@
+# EditorConfig - CFDI 4.0 IA 2025
+# https://editorconfig.org
+
+root = true
+
+# Configuración para todos los archivos
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+# Archivos JavaScript
+[*.{js,jsx,ts,tsx,mjs}]
+indent_size = 2
+quote_type = single
+
+# Archivos JSON
+[*.json]
+indent_size = 2
+
+# Archivos Markdown
+[*.md]
+trim_trailing_whitespace = false
+indent_size = 2
+max_line_length = off
+
+# Archivos YAML
+[*.{yml,yaml}]
+indent_size = 2
+
+# Archivos Python
+[*.py]
+indent_size = 4
+
+# Archivos SQL
+[*.sql]
+indent_size = 4
+
+# Archivos XML
+[*.{xml,xsl}]
+indent_size = 2
+
+# Archivos Makefile
+[Makefile]
+indent_style = tab
+
+# Archivos de configuración
+[.editorconfig]
+indent_size = 2
+[{package.json,.prettierrc.js,.eslintrc.js}]
+indent_size = 2
+
+
+

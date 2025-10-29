@@ -1,0 +1,52 @@
+#!/usr/bin/env node
+/**
+ * Development Server Script
+ * Inicia el servidor en modo desarrollo con hot reload
+ */
+
+const { spawn } = require('child_process');
+const path = require('path');
+
+console.log('🚀 Iniciando servidor en modo desarrollo...\n');
+
+// Configurar variables de entorno
+process.env.NODE_ENV = 'development';
+
+// Usar nodemon para hot reload
+const server = spawn('nodemon', [
+  'server.js',
+  '--watch',
+  '*.js',
+  '--ext',
+  'js'
+], {
+  stdio: 'inherit',
+  shell: true,
+  cwd: path.join(__dirname, '..')
+});
+
+server.on('error', (err) => {
+  console.error('❌ Error al iniciar servidor:', err);
+  process.exit(1);
+});
+
+server.on('exit', (code) => {
+  console.log(`\n⚠️  Servidor finalizado con código: ${code}`);
+  process.exit(code);
+});
+
+// Capturar señales
+process.on('SIGINT', () => {
+  console.log('\n🛑 Deteniendo servidor...');
+  server.kill('SIGINT');
+  process.exit(0);
+});
+
+process.on('SIGTERM', () => {
+  console.log('\n🛑 Deteniendo servidor...');
+  server.kill('SIGTERM');
+  process.exit(0);
+});
+
+
+

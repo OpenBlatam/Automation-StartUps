@@ -1,0 +1,291 @@
+{% extends "base.html" %}
+
+{% block title %}Inventario - Sistema de Gestión de Inventario{% endblock %}
+{% block page_title %}Control de Inventario{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>
+        <i class="fas fa-warehouse me-2"></i>Control de Inventario
+    </h2>
+    <button class="btn btn-primary btn-action" data-bs-toggle="modal" data-bs-target="#movementModal">
+        <i class="fas fa-plus me-2"></i>Registrar Movimiento
+    </button>
+</div>
+
+<!-- Filtros -->
+<div class="card mb-4">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <label for="statusFilter" class="form-label">Estado</label>
+                <select class="form-select" id="statusFilter" onchange="filterInventory()">
+                    <option value="">Todos los Estados</option>
+                    <option value="normal">Stock Normal</option>
+                    <option value="low">Stock Bajo</option>
+                    <option value="critical">Stock Crítico</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="searchFilter" class="form-label">Buscar Producto</label>
+                <input type="text" class="form-control" id="searchFilter" placeholder="Nombre o SKU..." onkeyup="filterInventory()">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">&nbsp;</label>
+                <div>
+                    <button class="btn btn-outline-secondary btn-action" onclick="clearFilters()">
+                        <i class="fas fa-times me-2"></i>Limpiar Filtros
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tabla de Inventario -->
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover" id="inventoryTable">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Producto</th>
+                        <th>SKU</th>
+                        <th>Stock Actual</th>
+                        <th>Stock Mínimo</th>
+                        <th>Stock Máximo</th>
+                        <th>Punto de Reorden</th>
+                        <th>Estado</th>
+                        <th>Valor Total</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in inventory_data %}
+                    <tr data-status="{{ item.status }}">
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <span class="status-indicator status-{{ item.status }}"></span>
+                                <div>
+                                    <strong>{{ item.product.name }}</strong>
+                                    {% if item.product.description %}
+                                        <br><small class="text-muted">{{ item.product.description[:50] }}{% if item.product.description|length > 50 %}...{% endif %}</small>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </td>
+                        <td><code>{{ item.product.sku }}</code></td>
+                        <td>
+                            <span class="badge bg-{{ 'danger' if item.current_stock <= 0 else 'warning' if item.current_stock <= item.product.min_stock_level else 'success' }}">
+                                {{ item.current_stock }}
+                            </span>
+                        </td>
+                        <td>{{ item.product.min_stock_level }}</td>
+                        <td>{{ item.product.max_stock_level }}</td>
+                        <td>{{ item.product.reorder_point }}</td>
+                        <td>
+                            {% if item.current_stock <= 0 %}
+                                <span class="badge bg-danger">Sin Stock</span>
+                            {% elif item.current_stock <= item.product.min_stock_level %}
+                                <span class="badge bg-warning">Stock Bajo</span>
+                            {% else %}
+                                <span class="badge bg-success">Normal</span>
+                            {% endif %}
+                        </td>
+                        <td>${{ "%.2f"|format(item.current_stock * item.product.unit_price) }}</td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <button class="btn btn-outline-primary" onclick="showProductDetails({{ item.product.id }})" title="Ver Detalles">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn btn-outline-success" onclick="addStock({{ item.product.id }})" title="Agregar Stock">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                                <button class="btn btn-outline-warning" onclick="adjustStock({{ item.product.id }})" title="Ajustar Stock">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Registrar Movimiento -->
+<div class="modal fade" id="movementModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Registrar Movimiento de Inventario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="{{ url_for('main.add_inventory_movement') }}">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="product_id" class="form-label">Producto</label>
+                        <select class="form-select" id="product_id" name="product_id" required>
+                            <option value="">Seleccionar producto...</option>
+                            {% for item in inventory_data %}
+                            <option value="{{ item.product.id }}">{{ item.product.name }} ({{ item.product.sku }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="movement_type" class="form-label">Tipo de Movimiento</label>
+                        <select class="form-select" id="movement_type" name="movement_type" required>
+                            <option value="">Seleccionar tipo...</option>
+                            <option value="in">Entrada</option>
+                            <option value="out">Salida</option>
+                            <option value="adjustment">Ajuste</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="quantity" class="form-label">Cantidad</label>
+                        <input type="number" class="form-control" id="quantity" name="quantity" min="1" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="reference" class="form-label">Referencia</label>
+                        <input type="text" class="form-control" id="reference" name="reference" placeholder="Número de factura, orden, etc.">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="notes" class="form-label">Notas</label>
+                        <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Registrar Movimiento</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Detalles del Producto -->
+<div class="modal fade" id="productDetailsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detalles del Producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="productDetailsContent">
+                <!-- Contenido cargado dinámicamente -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function filterInventory() {
+    const statusFilter = document.getElementById('statusFilter').value;
+    const searchFilter = document.getElementById('searchFilter').value.toLowerCase();
+    const rows = document.querySelectorAll('#inventoryTable tbody tr');
+    
+    rows.forEach(row => {
+        const status = row.getAttribute('data-status');
+        const productName = row.cells[0].textContent.toLowerCase();
+        
+        const statusMatch = !statusFilter || status === statusFilter;
+        const searchMatch = !searchFilter || productName.includes(searchFilter);
+        
+        row.style.display = (statusMatch && searchMatch) ? '' : 'none';
+    });
+}
+
+function clearFilters() {
+    document.getElementById('statusFilter').value = '';
+    document.getElementById('searchFilter').value = '';
+    filterInventory();
+}
+
+function showProductDetails(productId) {
+    // Cargar detalles del producto via AJAX
+    fetch(`/api/products/${productId}`)
+        .then(response => response.json())
+        .then(data => {
+            const content = `
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Información General</h6>
+                        <p><strong>Nombre:</strong> ${data.name}</p>
+                        <p><strong>SKU:</strong> ${data.sku}</p>
+                        <p><strong>Categoría:</strong> ${data.category || 'Sin categoría'}</p>
+                        <p><strong>Descripción:</strong> ${data.description || 'Sin descripción'}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Información de Inventario</h6>
+                        <p><strong>Stock Actual:</strong> ${data.current_stock}</p>
+                        <p><strong>Stock Mínimo:</strong> ${data.min_stock_level}</p>
+                        <p><strong>Stock Máximo:</strong> ${data.max_stock_level}</p>
+                        <p><strong>Punto de Reorden:</strong> ${data.reorder_point}</p>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <h6>Información Financiera</h6>
+                        <p><strong>Precio Unitario:</strong> $${data.unit_price}</p>
+                        <p><strong>Precio de Costo:</strong> $${data.cost_price}</p>
+                        <p><strong>Valor Total:</strong> $${(data.current_stock * data.unit_price).toFixed(2)}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Proveedor</h6>
+                        <p><strong>Proveedor:</strong> ${data.supplier_name || 'Sin proveedor'}</p>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('productDetailsContent').innerHTML = content;
+            new bootstrap.Modal(document.getElementById('productDetailsModal')).show();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert('error', 'Error cargando detalles del producto');
+        });
+}
+
+function addStock(productId) {
+    // Pre-llenar el modal con el producto seleccionado
+    document.getElementById('product_id').value = productId;
+    document.getElementById('movement_type').value = 'in';
+    new bootstrap.Modal(document.getElementById('movementModal')).show();
+}
+
+function adjustStock(productId) {
+    // Pre-llenar el modal con el producto seleccionado
+    document.getElementById('product_id').value = productId;
+    document.getElementById('movement_type').value = 'adjustment';
+    new bootstrap.Modal(document.getElementById('movementModal')).show();
+}
+
+function showAlert(type, message) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show`;
+    alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    const container = document.querySelector('.container-fluid');
+    container.insertBefore(alertDiv, container.firstChild);
+    
+    setTimeout(() => {
+        alertDiv.remove();
+    }, 5000);
+}
+
+// Inicializar filtros
+document.addEventListener('DOMContentLoaded', function() {
+    filterInventory();
+});
+</script>
+{% endblock %}

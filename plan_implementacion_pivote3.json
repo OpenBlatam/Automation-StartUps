@@ -1,0 +1,234 @@
+{
+  "pivote": "Pivote 3: Licensing Technology",
+  "start_date": "2025-10-27",
+  "end_date": "2026-01-25",
+  "phases": [
+    {
+      "name": "Fundaci\u00f3n y Estructura",
+      "start_day": 1,
+      "end_day": 30,
+      "tasks": [
+        {
+          "id": "F1",
+          "name": "Setup de infraestructura",
+          "days": 3,
+          "priority": "high"
+        },
+        {
+          "id": "F2",
+          "name": "Contrataci\u00f3n de VP de Licensing",
+          "days": 7,
+          "priority": "high"
+        },
+        {
+          "id": "F3",
+          "name": "Desarrollo de 4 algoritmos patentables",
+          "days": 15,
+          "priority": "high"
+        },
+        {
+          "id": "F4",
+          "name": "Arquitectura de microservicios",
+          "days": 5,
+          "priority": "high"
+        },
+        {
+          "id": "F5",
+          "name": "Creaci\u00f3n de 20+ APIs",
+          "days": 12,
+          "priority": "medium"
+        },
+        {
+          "id": "F6",
+          "name": "Desarrollo de 5+ SDKs",
+          "days": 10,
+          "priority": "medium"
+        },
+        {
+          "id": "F7",
+          "name": "Setup de CRM y analytics",
+          "days": 2,
+          "priority": "high"
+        },
+        {
+          "id": "F8",
+          "name": "Outreach a 25 prospectos Fortune 500",
+          "days": 3,
+          "priority": "high"
+        },
+        {
+          "id": "F9",
+          "name": "Pricing strategy por tipo de licencia",
+          "days": 4,
+          "priority": "medium"
+        },
+        {
+          "id": "F10",
+          "name": "Documentaci\u00f3n t\u00e9cnica completa",
+          "days": 5,
+          "priority": "medium"
+        }
+      ]
+    },
+    {
+      "name": "Validaci\u00f3n y Pilotos",
+      "start_day": 31,
+      "end_day": 60,
+      "tasks": [
+        {
+          "id": "V1",
+          "name": "Lanzamiento de 10 pilotos con clientes",
+          "days": 5,
+          "priority": "high"
+        },
+        {
+          "id": "V2",
+          "name": "Demos con 15 prospectos prioritarios",
+          "days": 7,
+          "priority": "high"
+        },
+        {
+          "id": "V3",
+          "name": "Feedback session con early adopters",
+          "days": 3,
+          "priority": "high"
+        },
+        {
+          "id": "V4",
+          "name": "An\u00e1lisis de feedback de pilotos",
+          "days": 3,
+          "priority": "high"
+        },
+        {
+          "id": "V5",
+          "name": "Iteraci\u00f3n r\u00e1pida de productos",
+          "days": 5,
+          "priority": "medium"
+        },
+        {
+          "id": "V6",
+          "name": "Optimizaci\u00f3n de pricing",
+          "days": 2,
+          "priority": "medium"
+        },
+        {
+          "id": "V7",
+          "name": "Cierre de primeros 3 deals",
+          "days": 10,
+          "priority": "high"
+        },
+        {
+          "id": "V8",
+          "name": "Aplicaci\u00f3n de patentes prioritarias",
+          "days": 7,
+          "priority": "medium"
+        }
+      ]
+    },
+    {
+      "name": "Escalamiento",
+      "start_day": 61,
+      "end_day": 90,
+      "tasks": [
+        {
+          "id": "S1",
+          "name": "Lanzamiento p\u00fablico de productos",
+          "days": 3,
+          "priority": "high"
+        },
+        {
+          "id": "S2",
+          "name": "Campa\u00f1as de marketing digital",
+          "days": 7,
+          "priority": "high"
+        },
+        {
+          "id": "S3",
+          "name": "Webinars y eventos",
+          "days": 5,
+          "priority": "medium"
+        },
+        {
+          "id": "S4",
+          "name": "Outreach masivo (100+ prospectos)",
+          "days": 10,
+          "priority": "high"
+        },
+        {
+          "id": "S5",
+          "name": "An\u00e1lisis de m\u00e9tricas de adopci\u00f3n",
+          "days": 3,
+          "priority": "medium"
+        },
+        {
+          "id": "S6",
+          "name": "Optimizaci\u00f3n de conversi\u00f3n",
+          "days": 5,
+          "priority": "medium"
+        },
+        {
+          "id": "S7",
+          "name": "Iteraci\u00f3n de features",
+          "days": 7,
+          "priority": "medium"
+        },
+        {
+          "id": "S8",
+          "name": "Expansion de pilotos a producci\u00f3n",
+          "days": 10,
+          "priority": "high"
+        },
+        {
+          "id": "S9",
+          "name": "Crecimiento de sales team",
+          "days": 14,
+          "priority": "high"
+        },
+        {
+          "id": "S10",
+          "name": "Preparaci\u00f3n para Serie A",
+          "days": 7,
+          "priority": "medium"
+        }
+      ]
+    }
+  ],
+  "milestones": [
+    {
+      "day": 30,
+      "name": "Producto MVP Funcional",
+      "date": "2025-11-26"
+    },
+    {
+      "day": 45,
+      "name": "Primeras Ventas Cerradas",
+      "date": "2025-12-11"
+    },
+    {
+      "day": 60,
+      "name": "Product-Market Fit Validado",
+      "date": "2025-12-26"
+    },
+    {
+      "day": 90,
+      "name": "Escalamiento Operacional",
+      "date": "2026-01-25"
+    }
+  ],
+  "resources": {
+    "budget": 200000,
+    "team_size": 8,
+    "tools": [
+      "Salesforce",
+      "GitHub",
+      "AWS",
+      "Mixpanel"
+    ],
+    "inventory": {
+      "algorithms": 4,
+      "apis": 20,
+      "sdks": 5,
+      "datasets": 10
+    }
+  }
+}
