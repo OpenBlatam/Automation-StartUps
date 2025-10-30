@@ -1,0 +1,168 @@
+id: stripe_payments_to_sheets_db_ai
+namespace: workflows
+
+labels:
+  app: payments
+  source: stripe
+
+inputs:
+  - name: jdbc_url
+    type: STRING
+    required: true
+  - name: jdbc_user
+    type: STRING
+    required: true
+  - name: jdbc_password
+    type: STRING
+    required: true
+  - name: sheets_webhook_url
+    type: STRING
+    required: true
+  - name: openai_api_key
+    type: STRING
+    required: true
+  - name: stripe_signing_secret
+    type: STRING
+    required: false
+
+triggers:
+  - id: stripe_webhook
+    type: io.kestra.plugin.core.trigger.Webhook
+    key: stripe
+
+variables:
+  openai_endpoint: "https://api.openai.com/v1/chat/completions"
+
+tasks:
+  - id: verify_signature
+    type: io.kestra.plugin.scripts.python.Script
+    inputFiles:
+      payload.raw: "{{ trigger.rawBody }}"
+      headers.json: "{{ trigger.headers | toJson }}"
+      verify.py: |
+        import os, hmac, hashlib, time, json, sys
+        secret = os.getenv('STRIPE_SIGNING_SECRET')
+        if not secret:
+            # allow if not provided
+            sys.exit(0)
+        headers = json.load(open('headers.json'))
+        sig = headers.get('Stripe-Signature') or headers.get('stripe-signature')
+        if not sig:
+            print('missing signature header')
+            sys.exit(1)
+        # Stripe signature header: t=timestamp,v1=signature
+        parts = dict([p.split('=',1) for p in sig.split(',') if '=' in p])
+        ts = parts.get('t'); v1 = parts.get('v1')
+        payload = open('payload.raw','rb').read()
+        signed_payload = f"{ts}.".encode('utf-8') + payload
+        digest = hmac.new(secret.encode('utf-8'), signed_payload, hashlib.sha256).hexdigest()
+        if not hmac.compare_digest(digest, v1 or ''):
+            print('invalid signature')
+            sys.exit(1)
+    env:
+      STRIPE_SIGNING_SECRET: "{{ inputs.stripe_signing_secret }}"
+
+  - id: parse_stripe
+    type: io.kestra.plugin.scripts.python.Script
+    inputFiles:
+      payload.json: "{{ trigger.body | toJson }}"
+      parse.py: |
+        import json, datetime
+        p = json.load(open('payload.json'))
+        # Stripe event summary (payment_intent.succeeded or charge.succeeded)
+        obj = p.get('data', {}).get('object', {})
+        amount = (obj.get('amount_received') or obj.get('amount') or 0) / 100.0
+        currency = obj.get('currency', '').upper()
+        customer = obj.get('customer') or obj.get('billing_details', {}).get('email')
+        created = obj.get('created') or p.get('created')
+        created_at = datetime.datetime.utcfromtimestamp(created).isoformat() if isinstance(created, (int, float)) else str(created)
+        payment_id = obj.get('id') or p.get('id')
+        status = obj.get('status') or p.get('type')
+        method = (obj.get('payment_method_types') or obj.get('payment_method_details', {}).get('type'))
+        meta = obj.get('metadata') or {}
+        out = {
+          'payment_id': payment_id,
+          'amount': amount,
+          'currency': currency,
+          'customer': customer,
+          'status': status,
+          'method': method if isinstance(method, str) else ','.join(method or []),
+          'metadata': meta,
+          'created_at': created_at
+        }
+        open('parsed.json', 'w').write(json.dumps(out))
+    outputFiles:
+      - parsed.json
+
+  - id: db_upsert_payment
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    sql: |
+      {% set p = (taskrun.outputs['parse_stripe']['files']['parsed.json'] | readFile | fromJson) %}
+      INSERT INTO payments (
+        payment_id, amount, currency, customer, status, method, metadata, created_at, updated_at
+      ) VALUES (
+        '{{ p.payment_id }}', {{ p.amount }}, '{{ p.currency }}', '{{ p.customer }}', '{{ p.status }}', '{{ p.method }}', '{{ p.metadata | toJson | escapeJson }}', '{{ p.created_at }}', NOW()
+      )
+      ON CONFLICT (payment_id) DO UPDATE SET
+        amount = EXCLUDED.amount,
+        currency = EXCLUDED.currency,
+        customer = EXCLUDED.customer,
+        status = EXCLUDED.status,
+        method = EXCLUDED.method,
+        metadata = EXCLUDED.metadata,
+        updated_at = NOW();
+
+  - id: sheets_append
+    type: io.kestra.plugin.core.http.Request
+    uri: "{{ inputs.sheets_webhook_url }}"
+    method: POST
+    headers:
+      Content-Type: application/json
+    body: |
+      {% set p = (taskrun.outputs['parse_stripe']['files']['parsed.json'] | readFile | fromJson) %}
+      {
+        "payment_id": "{{ p.payment_id }}",
+        "amount": {{ p.amount }},
+        "currency": "{{ p.currency }}",
+        "customer": "{{ p.customer }}",
+        "status": "{{ p.status }}",
+        "method": "{{ p.method }}",
+        "created_at": "{{ p.created_at }}"
+      }
+
+  - id: revenue_last_30d
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    sql: |
+      SELECT date_trunc('day', created_at) AS day, SUM(amount) AS revenue
+      FROM payments
+      WHERE created_at >= NOW() - interval '30 days' AND status IN ('succeeded','paid','payment_intent.succeeded')
+      GROUP BY 1
+      ORDER BY 1;
+
+  - id: ai_insight
+    type: io.kestra.plugin.core.http.Request
+    uri: "{{ vars.openai_endpoint }}"
+    method: POST
+    headers:
+      Content-Type: application/json
+      Authorization: "Bearer {{ inputs.openai_api_key }}"
+    body: |
+      {% set p = (taskrun.outputs['parse_stripe']['files']['parsed.json'] | readFile | fromJson) %}
+      {% set rows = (taskrun.outputs['revenue_last_30d']['rows']) %}
+      {
+        "model": "gpt-4o-mini",
+        "messages": [
+          {"role": "system", "content": "Eres analista de ingresos. Resume y pronostica tendencias."},
+          {"role": "user", "content": "Evento: {{ p | toJson }}\nSerie últimos 30d: {{ rows | toJson }}\n\n1) Interpreta el pago actual en contexto.\n2) Indica señales (crece/estable/cae).\n3) Pronóstico simple 7 días (ingreso total y rango)."}
+        ]
+      }
+    retry:
+      type: constant
+      interval: PT10S
+      maxAttempt: 2

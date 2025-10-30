@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kestra
+  namespace: workflows
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kestra
+  template:
+    metadata:
+      labels:
+        app: kestra
+    spec:
+      containers:
+        - name: kestra
+          image: kestra/kestra:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: KESTRA_CONFIGURATION
+              value: |
+                kestra:
+                  server:
+                    port: 8080
+                  repository:
+                    type: memory
+                  storage:
+                    type: local
+                  queue:
+                    type: inmemory
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kestra
+  namespace: workflows
+spec:
+  selector:
+    app: kestra
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080

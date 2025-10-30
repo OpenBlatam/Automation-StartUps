@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC"
+             xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI"
+             xmlns:zeebe="http://camunda.org/schema/zeebe/1.0"
+             id="Definitions_EmployeeOnboarding"
+             targetNamespace="http://example.com/bpmn">
+  <process id="employee_onboarding" name="Employee Onboarding" isExecutable="true">
+    <startEvent id="StartEvent_Onboarding" name="New hire received"/>
+
+    <sequenceFlow id="Flow_Start_CreateAccounts" sourceRef="StartEvent_Onboarding" targetRef="Task_CreateAccounts"/>
+
+    <serviceTask id="Task_CreateAccounts" name="Create accounts (IdP/Email/Apps)">
+      <extensionElements>
+        <zeebe:taskDefinition type="create-accounts" retries="3"/>
+      </extensionElements>
+    </serviceTask>
+
+    <sequenceFlow id="Flow_Create_Assign" sourceRef="Task_CreateAccounts" targetRef="Task_AssignTasks"/>
+
+    <serviceTask id="Task_AssignTasks" name="Assign onboarding tasks (PM/IT)">
+      <extensionElements>
+        <zeebe:taskDefinition type="assign-onboarding-tasks" retries="3"/>
+      </extensionElements>
+    </serviceTask>
+
+    <sequenceFlow id="Flow_Assign_SendDocs" sourceRef="Task_AssignTasks" targetRef="Task_SendDocs"/>
+
+    <serviceTask id="Task_SendDocs" name="Send docs and welcome email">
+      <extensionElements>
+        <zeebe:taskDefinition type="send-onboarding-docs" retries="3"/>
+      </extensionElements>
+    </serviceTask>
+
+    <sequenceFlow id="Flow_Send_Checkpoint" sourceRef="Task_SendDocs" targetRef="UserTask_Day1Checklist"/>
+
+    <userTask id="UserTask_Day1Checklist" name="Day 1 checklist review"/>
+
+    <sequenceFlow id="Flow_Checkpoint_Track" sourceRef="UserTask_Day1Checklist" targetRef="Task_TrackProgress"/>
+
+    <serviceTask id="Task_TrackProgress" name="Track progress and notify">
+      <extensionElements>
+        <zeebe:taskDefinition type="track-progress" retries="3"/>
+      </extensionElements>
+    </serviceTask>
+
+    <sequenceFlow id="Flow_Track_End" sourceRef="Task_TrackProgress" targetRef="EndEvent_Onboarding"/>
+    <endEvent id="EndEvent_Onboarding" name="Onboarding initialized"/>
+  </process>
+
+  <bpmndi:BPMNDiagram id="BPMNDiagram_Onboarding">
+    <bpmndi:BPMNPlane id="BPMNPlane_Onboarding" bpmnElement="employee_onboarding">
+      <!-- Minimal DI to render in Modeler; coordinates are approximate -->
+      <bpmndi:BPMNShape id="Shape_Start" bpmnElement="StartEvent_Onboarding">
+        <omgdc:Bounds x="120" y="150" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Create" bpmnElement="Task_CreateAccounts">
+        <omgdc:Bounds x="200" y="130" width="180" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Assign" bpmnElement="Task_AssignTasks">
+        <omgdc:Bounds x="420" y="130" width="200" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Send" bpmnElement="Task_SendDocs">
+        <omgdc:Bounds x="660" y="130" width="200" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_User" bpmnElement="UserTask_Day1Checklist">
+        <omgdc:Bounds x="900" y="130" width="200" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Track" bpmnElement="Task_TrackProgress">
+        <omgdc:Bounds x="1140" y="130" width="200" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_End" bpmnElement="EndEvent_Onboarding">
+        <omgdc:Bounds x="1380" y="150" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_F1" bpmnElement="Flow_Start_CreateAccounts">
+        <omgdi:waypoint x="156" y="168"/>
+        <omgdi:waypoint x="200" y="168"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_F2" bpmnElement="Flow_Create_Assign">
+        <omgdi:waypoint x="380" y="168"/>
+        <omgdi:waypoint x="420" y="168"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_F3" bpmnElement="Flow_Assign_SendDocs">
+        <omgdi:waypoint x="620" y="168"/>
+        <omgdi:waypoint x="660" y="168"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_F4" bpmnElement="Flow_Send_Checkpoint">
+        <omgdi:waypoint x="860" y="168"/>
+        <omgdi:waypoint x="900" y="168"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_F5" bpmnElement="Flow_Checkpoint_Track">
+        <omgdi:waypoint x="1100" y="168"/>
+        <omgdi:waypoint x="1140" y="168"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_F6" bpmnElement="Flow_Track_End">
+        <omgdi:waypoint x="1340" y="168"/>
+        <omgdi:waypoint x="1380" y="168"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
+
+

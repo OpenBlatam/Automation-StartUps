@@ -1,0 +1,11 @@
+opencost:
+  prometheus:
+    external:
+      enabled: false
+    internal:
+      enabled: true
+      serviceName: kube-prometheus-stack-prometheus
+      namespaceName: observability
+  exporter:
+    defaultClusterId: biz-automation
+    cloudProviderApiKeySecretName: ""

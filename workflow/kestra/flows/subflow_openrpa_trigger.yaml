@@ -1,0 +1,28 @@
+id: subflow_openrpa_trigger
+namespace: workflows
+
+description: Reusable subflow to trigger an OpenRPA bot via webhook
+
+inputs:
+  - name: openrpa_webhook_url
+    type: STRING
+    required: true
+  - name: bot
+    type: STRING
+    required: true
+  - name: context
+    type: JSON
+    required: false
+
+tasks:
+  - id: trigger
+    type: io.kestra.plugin.core.http.Request
+    uri: "{{ inputs.openrpa_webhook_url }}"
+    method: POST
+    headers:
+      Content-Type: application/json
+    body: |
+      {
+        "bot": "{{ inputs.bot }}",
+        "context": {{ (inputs.context or {}) | toJson }}
+      }

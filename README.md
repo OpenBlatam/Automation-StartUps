@@ -210,6 +210,16 @@ Qué hace:
 - Envía datos a Google Sheets mediante un webhook externo.
 - Llama a OpenAI para una interpretación y pronóstico simple usando los últimos 30 días.
 
+## Automatización: WhatsApp Ticket → Sheets + Documento (Kestra)
+
+- Flujo: `workflow/kestra/flows/whatsapp_ticket_to_sheet_doc.yaml`.
+- Secrets: `security/secrets/externalsecrets-whatsapp-ocr.yaml` (WhatsApp token, OpenAI, Sheets, Docs).
+
+Pasos:
+1) Exponga Kestra por Ingress y configure el webhook `whatsapp_webhook` como endpoint en su proveedor (WhatsApp Cloud/Twilio). Asegure autenticación/verificación básica.
+2) Provea inputs (por ejecución/namespace): `openai_api_key`, `sheets_webhook_url`, `docs_webhook_url` (puede mapearse desde secretos). Opcional: `whatsapp_token`.
+3) Envíe una foto de un ticket al WhatsApp configurado. El flujo extrae proveedor, fecha, total, moneda, items, etc., agrega a Google Sheets y genera un documento para contabilidad vía webhook.
+
 ## Orquestación BPM + RPA (Kestra)
 
 - Flujo de ejemplo: `workflow/kestra/flows/bpm_rpa_example.yaml`
@@ -275,18 +285,4 @@ DAGs añadidos en `data/airflow/dags/`:
 - `kpi_aggregate_daily.py`: consolida métricas diarias en `kpi_daily`.
 - `leads_sync_hubspot.py`: sincroniza contactos de HubSpot a `leads` (requiere `HUBSPOT_TOKEN`, `KPIS_PG_DSN`).
 
-Configure conexiones/variables vía External Secrets o env vars del chart de Airflow (`data/airflow/values.yaml`).
-
-## Optimización aplicada
-
-- Base de datos: índices para consultas de KPIs (`data/db/indexes.sql`) en `payments(created_at,status)` y `leads(created_at,priority)`.
-- Next.js: pool Postgres configurable (`KPIS_PG_POOL`, `KPIS_PG_STMT_TIMEOUT_MS`) en `web/kpis-next/lib/db.ts`.
-- Airflow (Stripe): paginación completa con `starting_after` y `requests.Session()` para reusar conexiones.
-
-Recomendado en prod: autovacuum tuning, `work_mem` adecuado, y limitar columnas en select de tablas grandes.
-
-## Robustez
-
-- Materialized Views: `data/db/materialized_views.sql` + DAG `refresh_kpi_materialized.py` (cada 15m, CONCURRENTLY) para aislar picos y acelerar KPIs.
-- Ingress: compresión gzip y buffering habilitados en `kubernetes/ingress/nginx-ingress.yaml`.
-# Automation-StartUps
+Configure conexiones/variables vía External Secrets o env vars del chart de Airflow (`

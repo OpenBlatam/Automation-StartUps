@@ -1,0 +1,17 @@
+{
+	"extends": ["config:recommended"],
+	"labels": ["dependencies"],
+	"rangeStrategy": "bump",
+	"packageRules": [
+		{
+			"matchManagers": ["npm"],
+			"matchPackagePatterns": ["^next$", "^react$", "^react-dom$"],
+			"groupName": "next-react"
+		},
+		{
+			"matchManagers": ["pip_requirements"],
+			"groupName": "python-deps"
+		}
+	]
+}
+

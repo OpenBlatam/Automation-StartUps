@@ -1,0 +1,23 @@
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-select = [
+  "E",  # pycodestyle errors
+  "F",  # pyflakes
+  "I",  # isort
+  "B",  # flake8-bugbear
+]
+extend-ignore = [
+  "E203",  # whitespace before ':' (black compatibility)
+]
+exclude = [
+  "**/.venv/**",
+  "**/node_modules/**",
+  "**/dist/**",
+]
+
+

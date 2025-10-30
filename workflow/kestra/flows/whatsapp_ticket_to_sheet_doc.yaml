@@ -1,0 +1,199 @@
+id: whatsapp_ticket_to_sheet_doc
+namespace: workflows
+
+labels:
+  app: expenses
+  source: whatsapp
+
+description: Procesa fotos de tickets vía WhatsApp, extrae datos con IA, agrega a Google Sheets y genera documento para contabilidad.
+
+inputs:
+  - name: openai_api_key
+    type: STRING
+    required: true
+  - name: sheets_webhook_url
+    type: STRING
+    required: true
+  - name: docs_webhook_url
+    type: STRING
+    required: true
+  - name: whatsapp_app_secret
+    type: STRING
+    required: false
+  - name: files_webhook_url
+    type: STRING
+    required: false
+  - name: slack_webhook_url
+    type: STRING
+    required: false
+
+triggers:
+  - id: whatsapp_webhook
+    type: io.kestra.plugin.core.trigger.Webhook
+    key: whatsapp
+
+variables:
+  openai_endpoint: "https://api.openai.com/v1/chat/completions"
+
+# Pasos: verificar firma HMAC (opcional), obtener URL media, subir a lake (opcional), extraer con IA, validar esquema, escribir a Sheets (con retry), generar doc (con retry) y notificar (opcional)
+
+tasks:
+  - id: verify_signature
+    type: io.kestra.plugin.scripts.python.Script
+    inputFiles:
+      raw.bin: "{{ trigger.rawBody }}"
+      headers.json: "{{ trigger.headers | toJson }}"
+      verify.py: |
+        import os, hmac, hashlib, json, sys
+        secret = os.getenv('WA_APP_SECRET')
+        if not secret:
+            sys.exit(0)
+        headers = json.load(open('headers.json'))
+        sig = headers.get('X-Hub-Signature-256') or headers.get('x-hub-signature-256')
+        if not sig or not sig.startswith('sha256='):
+            print('missing or invalid signature header')
+            sys.exit(1)
+        provided = sig.split('=')[1]
+        body = open('raw.bin','rb').read()
+        calc = hmac.new(secret.encode('utf-8'), body, hashlib.sha256).hexdigest()
+        if not hmac.compare_digest(calc, provided):
+            print('invalid signature')
+            sys.exit(1)
+    env:
+      WA_APP_SECRET: "{{ inputs.whatsapp_app_secret }}"
+
+  - id: parse_incoming
+    type: io.kestra.plugin.scripts.python.Script
+    inputFiles:
+      payload.json: "{{ trigger.body | toJson }}"
+      parse.py: |
+        import json, sys
+        p = json.load(open('payload.json'))
+        url = None
+        if isinstance(p, dict) and p.get('MediaUrl0'):
+            url = p['MediaUrl0']
+        elif isinstance(p, dict) and p.get('media', {}).get('url'):
+            url = p['media']['url']
+        elif isinstance(p, dict) and p.get('image_url'):
+            url = p['image_url']
+        if not url:
+            print('no media url')
+            sys.exit(1)
+        out = { 'media_url': url, 'note': p.get('Body') or p.get('message') }
+        open('incoming.json','w').write(json.dumps(out))
+    outputFiles:
+      - incoming.json
+
+  - id: upload_media
+    type: io.kestra.plugin.core.http.Request
+    disabled: "{{ inputs.files_webhook_url is not defined }}"
+    uri: "{{ inputs.files_webhook_url }}"
+    method: POST
+    headers:
+      Content-Type: application/json
+    body: |
+      {% set inc = (taskrun.outputs['parse_incoming']['files']['incoming.json'] | readFile | fromJson) %}
+      {"source_url": "{{ inc.media_url }}", "type": "ticket", "tags": ["whatsapp","expense"]}
+
+  - id: extract_fields
+    type: io.kestra.plugin.core.http.Request
+    uri: "{{ vars.openai_endpoint }}"
+    method: POST
+    headers:
+      Content-Type: application/json
+      Authorization: "Bearer {{ inputs.openai_api_key }}"
+    body: |
+      {% set inc = (taskrun.outputs['parse_incoming']['files']['incoming.json'] | readFile | fromJson) %}
+      {
+        "model": "gpt-4o-mini",
+        "response_format": {"type": "json_object"},
+        "messages": [
+          {"role": "system", "content": "Eres un extractor de datos de tickets/recibos. Devuelve JSON estructurado."},
+          {"role": "user", "content": [
+            {"type": "text", "text": "Extrae: proveedor, fecha, total, moneda, impuestos, items (descripcion,cantidad,precio), metodo_pago, nro_ticket. Responde JSON con esas claves."},
+            {"type": "image_url", "image_url": {"url": "{{ inc.media_url }}"}}
+          ]}
+        ]
+      }
+
+  - id: validate_schema
+    type: io.kestra.plugin.scripts.python.Script
+    inputFiles:
+      data.json: "{{ taskrun.outputs['extract_fields']['body'] }}"
+      validate.py: |
+        import json, sys
+        d = json.load(open('data.json'))
+        required = ['proveedor','fecha','total','moneda']
+        missing = [k for k in required if not d.get(k)]
+        if missing:
+            print('missing fields:', ','.join(missing))
+            sys.exit(1)
+        open('validated.json','w').write(json.dumps(d))
+    outputFiles:
+      - validated.json
+
+  - id: to_sheet
+    type: io.kestra.plugin.core.http.Request
+    uri: "{{ inputs.sheets_webhook_url }}"
+    method: POST
+    headers:
+      Content-Type: application/json
+    body: |
+      {% set data = (taskrun.outputs['validate_schema']['files']['validated.json'] | readFile | fromJson) %}
+      {
+        "proveedor": "{{ data.proveedor }}",
+        "fecha": "{{ data.fecha }}",
+        "total": "{{ data.total }}",
+        "moneda": "{{ data.moneda }}",
+        "metodo_pago": "{{ data.metodo_pago | default('') }}",
+        "nro_ticket": "{{ data.nro_ticket | default('') }}"
+      }
+    retry:
+      type: exponential
+      interval: PT5S
+      maxDuration: PT2M
+
+  - id: build_markdown
+    type: io.kestra.plugin.scripts.python.Script
+    inputFiles:
+      data.json: "{{ taskrun.outputs['validate_schema']['files']['validated.json'] | readFile }}"
+      build.py: |
+        import json
+        d = json.loads(open('data.json').read())
+        md = f"""# Comprobante de Gasto\n\n- Proveedor: {d.get('proveedor','')}\n- Fecha: {d.get('fecha','')}\n- Total: {d.get('total','')} {d.get('moneda','')}\n- Método de pago: {d.get('metodo_pago','')}\n- Nº Ticket: {d.get('nro_ticket','')}\n\n## Ítems\n\n"""
+        for it in d.get('items',[]) or []:
+            md += f"- {it.get('descripcion','')} x{it.get('cantidad','')} @ {it.get('precio','')}\n"
+        open('doc.md','w').write(md)
+    outputFiles:
+      - doc.md
+
+  - id: build_doc
+    type: io.kestra.plugin.core.http.Request
+    uri: "{{ inputs.docs_webhook_url }}"
+    method: POST
+    headers:
+      Content-Type: application/json
+    body: |
+      {% set md = (taskrun.outputs['build_markdown']['files']['doc.md'] | readFile) %}
+      {
+        "title": "Comprobante de Gasto",
+        "content_type": "text/markdown",
+        "content": {{ md | toJson }},
+        "render_pdf": true,
+        "metadata": {"categoria": "gasto", "fuente": "whatsapp"}
+      }
+    retry:
+      type: exponential
+      interval: PT5S
+      maxDuration: PT2M
+
+  - id: notify_slack
+    type: io.kestra.plugin.core.http.Request
+    disabled: "{{ inputs.slack_webhook_url is not defined }}"
+    uri: "{{ inputs.slack_webhook_url }}"
+    method: POST
+    headers:
+      Content-Type: application/json
+    body: |
+      {% set data = (taskrun.outputs['validate_schema']['files']['validated.json'] | readFile | fromJson) %}
+      {"text": "Gasto procesado: {{ data.proveedor }} {{ data.total }} {{ data.moneda }} ({{ data.fecha }})"}

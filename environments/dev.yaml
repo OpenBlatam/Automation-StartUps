@@ -1,0 +1,16 @@
+domains:
+  api: api.dev.example.com
+  auth: auth.dev.example.com
+  grafana: grafana.dev.example.com
+  mlflow: mlflow.dev.example.com
+  kibana: kibana.dev.example.com
+oidc:
+  issuer: https://login.dev.example.com/realms/myrealm
+  clientIdSecretRef: oauth2-client-id
+  clientSecretSecretRef: oauth2-client-secret
+certManager:
+  clusterIssuer: letsencrypt-staging
+storage:
+  s3:
+    bucket: biz-datalake-dev
+    region: us-east-1

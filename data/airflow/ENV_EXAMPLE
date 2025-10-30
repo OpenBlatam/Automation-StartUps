@@ -1,0 +1,11 @@
+AIRFLOW_UID=50000
+AIRFLOW_GID=0
+_AIRFLOW_WWW_USER_USERNAME=admin
+_AIRFLOW_WWW_USER_PASSWORD=admin
+
+# Database (internal to compose)
+AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
+AIRFLOW__CELERY__BROKER_URL=redis://redis:6379/0
+AIRFLOW__CELERY__RESULT_BACKEND=db+postgresql://airflow:airflow@postgres:5432/airflow
+
+

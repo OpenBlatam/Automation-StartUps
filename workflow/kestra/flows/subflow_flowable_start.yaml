@@ -1,0 +1,36 @@
+id: subflow_flowable_start
+namespace: workflows
+
+description: Reusable subflow to start a Flowable process
+
+inputs:
+  - name: flowable_base_url
+    type: STRING
+    required: true
+  - name: flowable_token
+    type: STRING
+    required: true
+  - name: processDefinitionKey
+    type: STRING
+    required: true
+  - name: businessKey
+    type: STRING
+    required: false
+  - name: variables
+    type: JSON
+    required: false
+
+tasks:
+  - id: start
+    type: io.kestra.plugin.core.http.Request
+    uri: "{{ inputs.flowable_base_url }}/runtime/process-instances"
+    method: POST
+    headers:
+      Content-Type: application/json
+      Authorization: "Bearer {{ inputs.flowable_token }}"
+    body: |
+      {
+        "processDefinitionKey": "{{ inputs.processDefinitionKey }}",
+        "businessKey": "{{ inputs.businessKey or uuid() }}",
+        "variables": {{ (inputs.variables or []) | toJson }}
+      }

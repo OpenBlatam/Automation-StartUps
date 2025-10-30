@@ -1,0 +1,57 @@
+version: 0.1.0
+metadata:
+  owner: platform-team
+  environment: dev
+
+cloud:
+  provider: aws # opciones: aws | azure | openshift
+  region: us-east-1
+
+kubernetes:
+  distribution: eks # opciones: eks | aks | openshift
+  clusterName: biz-automation-dev
+  dnsBaseDomain: example.com
+  ingress:
+    controller: nginx # opciones: nginx | haproxy | istio-gateway
+    className: nginx
+
+networking:
+  vpcCidr: 10.20.0.0/16
+  privateSubnets:
+    - 10.20.1.0/24
+    - 10.20.2.0/24
+  publicSubnets:
+    - 10.20.11.0/24
+    - 10.20.12.0/24
+
+security:
+  enableGatekeeper: true
+  enableNetworkPolicies: true
+
+components:
+  dataLake:
+    type: s3 # opciones: s3 | adls
+    bucketName: biz-datalake-dev
+  analytics:
+    engine: databricks # opciones: databricks | snowflake | other
+  pipelines:
+    orchestrator: airflow # opciones: airflow | mage | other
+  integration:
+    apiGateway: nginx # opciones: apigee | nginx
+    eventBus: kafka # opciones: kafka | eventbridge | servicebus
+    workflowEngine: camunda # opciones: camunda | temporal
+  automation:
+    rpa: uipath # opciones: uipath | automation-anywhere | none
+    iac: terraform # terraform + ansible opcional
+  ml:
+    framework: pytorch # opciones: tensorflow | pytorch | both
+    mlops: mlflow # opciones: mlflow | sagemaker | vertexai
+    serving: kserve # opciones: kserve | seldon
+  observability:
+    metrics: prometheus
+    dashboards: grafana
+    logging: elk # opciones: elk | opensearch
+
+notes:
+  - Ajuste valores por entorno (dev/stg/prod) con overlays o Helm values.
+  - Este archivo guía módulos de Terraform y plantillas de Kubernetes.

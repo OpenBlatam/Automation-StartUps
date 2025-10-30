@@ -1,0 +1,151 @@
+id: leads_manychats_to_hubspot
+namespace: workflows
+
+labels:
+  app: leads
+  source: manychat
+
+inputs:
+  - name: hubspot_token
+    type: STRING
+    required: true
+  - name: jdbc_url
+    type: STRING
+    required: true
+  - name: jdbc_user
+    type: STRING
+    required: true
+  - name: jdbc_password
+    type: STRING
+    required: true
+
+triggers:
+  - id: manychat_webhook
+    type: io.kestra.plugin.core.trigger.Webhook
+    key: manychat
+    conditions:
+      - type: io.kestra.plugin.core.condition.types.DayWeekCondition
+        dayOfWeeks: [MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY]
+    
+variables:
+  hubspot_base: "https://api.hubapi.com"
+
+tasks:
+  - id: parse_payload
+    type: io.kestra.plugin.scripts.python.Script
+    inputFiles:
+      payload.json: "{{ trigger.body | toJson }}"
+      score.py: |
+        import json
+        p = json.load(open('payload.json'))
+        # Extract basic fields with safe defaults
+        lead = {
+            'id': p.get('id') or p.get('user', {}).get('id'),
+            'first_name': p.get('first_name') or p.get('user', {}).get('first_name'),
+            'last_name': p.get('last_name') or p.get('user', {}).get('last_name'),
+            'email': p.get('email') or (p.get('user', {}).get('custom_fields', {}) or {}).get('email'),
+            'phone': (p.get('user', {}).get('custom_fields', {}) or {}).get('phone'),
+            'source': 'manychat',
+            'tags': p.get('tags') or [],
+            'events': p.get('events') or [],
+            'utm_source': (p.get('utm') or {}).get('source'),
+            'utm_campaign': (p.get('utm') or {}).get('campaign')
+        }
+        # Simple behavior-based scoring rules
+        clicks = sum(1 for e in lead['events'] if (e or {}).get('type') == 'click')
+        replies = sum(1 for e in lead['events'] if (e or {}).get('type') == 'reply')
+        has_email = 10 if lead['email'] else 0
+        tag_score = 5 if 'hot' in [t.lower() for t in lead['tags']] else 0
+        score = 20 + 2*clicks + 3*replies + has_email + tag_score
+        priority = 'high' if score >= 40 else ('medium' if score >= 30 else 'low')
+        out = {
+            'lead': lead,
+            'score': score,
+            'priority': priority
+        }
+        open('parsed.json', 'w').write(json.dumps(out))
+    outputFiles:
+      - parsed.json
+
+  - id: hubspot_upsert
+    type: io.kestra.plugin.core.http.Request
+    uri: "{{ vars.hubspot_base }}/crm/v3/objects/contacts"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ inputs.hubspot_token }}"
+      Content-Type: application/json
+    body: |
+      {% set p = (taskrun.outputs['parse_payload']['files']['parsed.json'] | readFile | fromJson) %}
+      {
+        "properties": {
+          "email": "{{ p.lead.email }}",
+          "firstname": "{{ p.lead.first_name }}",
+          "lastname": "{{ p.lead.last_name }}",
+          "phone": "{{ p.lead.phone }}",
+          "source": "{{ p.lead.source }}",
+          "lead_score__c": "{{ p.score }}",
+          "lead_priority": "{{ p.priority }}",
+          "utm_source": "{{ p.lead.utm_source }}",
+          "utm_campaign": "{{ p.lead.utm_campaign }}"
+        }
+      }
+    retry:
+      type: constant
+      interval: PT5S
+      maxAttempt: 3
+
+  - id: db_upsert
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    sql: |
+      {% set p = (taskrun.outputs['parse_payload']['files']['parsed.json'] | readFile | fromJson) %}
+      INSERT INTO leads (
+        ext_id, source, first_name, last_name, email, phone, score, priority, utm_source, utm_campaign, created_at
+      ) VALUES (
+        '{{ p.lead.id }}', '{{ p.lead.source }}', '{{ p.lead.first_name }}', '{{ p.lead.last_name }}',
+        '{{ p.lead.email }}', '{{ p.lead.phone }}', {{ p.score }}, '{{ p.priority }}',
+        '{{ p.lead.utm_source }}', '{{ p.lead.utm_campaign }}', NOW()
+      )
+      ON CONFLICT (ext_id) DO UPDATE SET
+        first_name = EXCLUDED.first_name,
+        last_name = EXCLUDED.last_name,
+        email = EXCLUDED.email,
+        phone = EXCLUDED.phone,
+        score = EXCLUDED.score,
+        priority = EXCLUDED.priority,
+        utm_source = EXCLUDED.utm_source,
+        utm_campaign = EXCLUDED.utm_campaign,
+        updated_at = NOW();
+
+  - id: mark_qualified
+    type: io.kestra.plugin.core.http.Request
+    uri: "{{ vars.hubspot_base }}/crm/v3/objects/contacts/search"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ inputs.hubspot_token }}"
+      Content-Type: application/json
+    body: |
+      {% set p = (taskrun.outputs['parse_payload']['files']['parsed.json'] | readFile | fromJson) %}
+      {
+        "filterGroups": [{
+          "filters": [{"propertyName": "email", "operator": "EQ", "value": "{{ p.lead.email }}"}]
+        }],
+        "properties": ["id"]
+      }
+    then:
+      - id: update_status
+        type: io.kestra.plugin.core.http.Request
+        uri: "{{ vars.hubspot_base }}/crm/v3/objects/contacts/{{ taskrun.parent.outputs.body | fromJson | get('results', [])[0] | get('id') }}"
+        method: PATCH
+        headers:
+          Authorization: "Bearer {{ inputs.hubspot_token }}"
+          Content-Type: application/json
+        body: |
+          {% set p = (taskrun.outputs['parse_payload']['files']['parsed.json'] | readFile | fromJson) %}
+          {
+            "properties": {
+              "lifecycle_stage": "{{ 'opportunity' if p.priority == 'high' else 'lead' }}"
+            }
+          }

@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flowable
+  namespace: workflows
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flowable
+  template:
+    metadata:
+      labels:
+        app: flowable
+    spec:
+      containers:
+        - name: flowable
+          image: flowable/flowable-rest:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+              value: org.h2.Driver
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:h2:mem:flowable;DB_CLOSE_DELAY=-1
+            - name: SPRING_DATASOURCE_USERNAME
+              value: sa
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: ""
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flowable
+  namespace: workflows
+spec:
+  selector:
+    app: flowable
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080

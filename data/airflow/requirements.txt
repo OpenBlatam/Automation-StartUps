@@ -1,0 +1,15 @@
+# Airflow core and providers
+apache-airflow==2.10.2
+apache-airflow-providers-postgres==5.12.0
+apache-airflow-providers-http==4.9.1
+
+# DB and data tools
+psycopg2-binary==2.9.9
+pandas==2.2.3
+requests==2.32.3
+python-dotenv==1.0.1
+
+# Notes:
+# - Use official constraints when installing Airflow:
+#   pip install -r requirements.txt --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.10.2/constraints-3.11.txt"
+

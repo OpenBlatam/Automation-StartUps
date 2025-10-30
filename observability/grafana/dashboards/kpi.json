@@ -1,0 +1,136 @@
+{
+	"id": null,
+	"uid": "kpi-main",
+	"title": "KPIs en Tiempo Real",
+	"tags": ["kpi", "realtime"],
+	"timezone": "browser",
+	"schemaVersion": 38,
+	"version": 1,
+	"refresh": "10s",
+	"templating": {
+		"list": [
+			{
+				"name": "__interval",
+				"type": "interval",
+				"query": "10s,30s,1m,5m"
+			}
+		]
+	},
+	"panels": [
+		{
+			"type": "stat",
+			"title": "Ingresos (última hora)",
+			"gridPos": {"x":0,"y":0,"w":6,"h":4},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "table",
+					"rawSql": "SELECT COALESCE(SUM(amount),0) AS revenue FROM payments WHERE created_at >= NOW() - interval '1 hour' AND status IN ('succeeded','paid','payment_intent.succeeded');",
+					"refId": "A"
+				}
+			]
+		},
+		{
+			"type": "stat",
+			"title": "Ingresos (24h)",
+			"gridPos": {"x":6,"y":0,"w":6,"h":4},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "table",
+					"rawSql": "SELECT COALESCE(SUM(amount),0) AS revenue FROM payments WHERE created_at >= NOW() - interval '24 hours' AND status IN ('succeeded','paid','payment_intent.succeeded');",
+					"refId": "A"
+				}
+			]
+		},
+		{
+			"type": "timeseries",
+			"title": "Ingresos por hora (24h)",
+			"gridPos": {"x":12,"y":0,"w":12,"h":8},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "time_series",
+					"rawSql": "SELECT date_trunc('hour', created_at) AS time, SUM(amount) AS revenue FROM payments WHERE created_at >= NOW() - interval '24 hours' AND status IN ('succeeded','paid','payment_intent.succeeded') GROUP BY 1 ORDER BY 1;",
+					"refId": "A"
+				}
+			]
+		},
+		{
+			"type": "piechart",
+			"title": "Leads por prioridad (hoy)",
+			"gridPos": {"x":0,"y":4,"w":8,"h":8},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "table",
+					"rawSql": "SELECT priority, COUNT(*)::int AS count FROM leads WHERE created_at::date = CURRENT_DATE GROUP BY 1;",
+					"refId": "A"
+				}
+			]
+		},
+		{
+			"type": "stat",
+			"title": "Conversión (leads→pagos, 7d)",
+			"gridPos": {"x":8,"y":4,"w":4,"h":4},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "table",
+					"rawSql": "WITH l AS (SELECT COUNT(*)::numeric AS c FROM leads WHERE created_at >= NOW() - interval '7 days'), p AS (SELECT COUNT(DISTINCT customer)::numeric AS c FROM payments WHERE created_at >= NOW() - interval '7 days' AND status IN ('succeeded','paid','payment_intent.succeeded')) SELECT CASE WHEN l.c=0 THEN 0 ELSE ROUND((p.c/l.c)*100,2) END AS conversion_pct FROM l,p;",
+					"refId": "A"
+				}
+			]
+		},
+		{
+			"type": "table",
+			"title": "Pagos recientes",
+			"gridPos": {"x":12,"y":8,"w":12,"h":8},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "table",
+					"rawSql": "SELECT created_at, payment_id, amount, currency, customer, status, method FROM payments ORDER BY created_at DESC LIMIT 50;",
+					"refId": "A"
+				}
+			]
+		},
+		{
+			"type": "table",
+			"title": "Leads recientes",
+			"gridPos": {"x":0,"y":12,"w":12,"h":8},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "table",
+					"rawSql": "SELECT created_at, ext_id, first_name, last_name, email, score, priority FROM leads ORDER BY created_at DESC LIMIT 50;",
+					"refId": "A"
+				}
+			]
+		},
+		{
+			"type": "timeseries",
+			"title": "Tasa 5xx (NGINX Ingress)",
+			"gridPos": {"x":0,"y":20,"w":12,"h":8},
+			"datasource": {"type":"prometheus","uid":"prometheus"},
+			"targets": [
+				{
+					"expr": "sum(rate(nginx_ingress_controller_requests{status=~\"5..\"}[5m])) / sum(rate(nginx_ingress_controller_requests[5m]))",
+					"refId": "A"
+				}
+			]
+		},
+		{
+			"type": "timeseries",
+			"title": "Reinicios de pods (10m)",
+			"gridPos": {"x":12,"y":20,"w":12,"h":8},
+			"datasource": {"type":"prometheus","uid":"prometheus"},
+			"targets": [
+				{
+					"expr": "increase(kube_pod_container_status_restarts_total[10m])",
+					"refId": "A"
+				}
+			]
+		}
+	]
+}

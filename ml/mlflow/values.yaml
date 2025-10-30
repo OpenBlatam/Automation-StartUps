@@ -1,0 +1,31 @@
+backendStore:
+  databaseMigration: true
+  postgres:
+    enabled: true
+    auth:
+      username: mlflow
+      password: mlflow
+      database: mlflow
+artifactStore:
+  s3:
+    enabled: true
+    bucket: biz-datalake-dev
+    createBucket: false
+    s3Endpoint: s3.amazonaws.com
+mlflow:
+  extraEnv:
+    - name: AWS_REGION
+      value: us-east-1
+    - name: AWS_DEFAULT_REGION
+      value: us-east-1
+service:
+  type: ClusterIP
+  port: 5000
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: mlflow.example.com
+      paths:
+        - path: /
+          pathType: Prefix

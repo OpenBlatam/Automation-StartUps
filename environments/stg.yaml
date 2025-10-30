@@ -1,0 +1,16 @@
+domains:
+  api: api.stg.example.com
+  auth: auth.stg.example.com
+  grafana: grafana.stg.example.com
+  mlflow: mlflow.stg.example.com
+  kibana: kibana.stg.example.com
+oidc:
+  issuer: https://login.stg.example.com/realms/myrealm
+  clientIdSecretRef: oauth2-client-id
+  clientSecretSecretRef: oauth2-client-secret
+certManager:
+  clusterIssuer: letsencrypt-prod
+storage:
+  s3:
+    bucket: biz-datalake-stg
+    region: us-east-1

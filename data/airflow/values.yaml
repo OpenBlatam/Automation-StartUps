@@ -1,0 +1,38 @@
+flower:
+  enabled: true
+web:
+  port: 8080
+redis:
+  enabled: true
+executor: CeleryExecutor
+config:
+  AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+  AIRFLOW__WEBSERVER__RBAC: "True"
+logs:
+  persistence:
+    enabled: false
+workers:
+  replicas: 2
+  env:
+    - name: ENABLE_SLACK
+      value: "true"
+    - name: ENABLE_EMAIL
+      value: "false"
+    - name: SLACK_WEBHOOK_URL
+      valueFrom:
+        secretKeyRef:
+          name: airflow-secrets
+          key: slack-webhook-url
+    - name: ALERT_EMAILS
+      valueFrom:
+        secretKeyRef:
+          name: airflow-secrets
+          key: alert-emails
+    - name: ETL_POOL
+      value: "etl_pool"
+    - name: MAX_ACTIVE_TASKS
+      value: "32"
+pools:
+  - name: etl_pool
+    slots: 16
+    description: Pool for ETL tasks

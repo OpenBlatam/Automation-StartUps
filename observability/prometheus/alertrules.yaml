@@ -1,0 +1,27 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: platform-alerts
+  namespace: observability
+spec:
+  groups:
+    - name: ingress.rules
+      rules:
+        - alert: High5xxRate
+          expr: sum(rate(nginx_ingress_controller_requests{status=~"5.."}[5m])) / sum(rate(nginx_ingress_controller_requests[5m])) > 0.05
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            description: "Más del 5% de respuestas 5xx en los últimos 10m"
+            summary: "Tasa de 5xx elevada en NGINX"
+    - name: pods.rules
+      rules:
+        - alert: PodCrashLooping
+          expr: increase(kube_pod_container_status_restarts_total[10m]) > 3
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            description: "Reinicios repetidos detectados en contenedores"
+            summary: "CrashLoopBackOff potencial"
