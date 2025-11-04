@@ -1,0 +1,108 @@
+---
+- name: Setup Airflow Server
+  hosts: airflow
+  become: true
+  vars:
+    airflow_user: airflow
+    airflow_version: "2.8.0"
+    airflow_home: /opt/airflow
+    
+  tasks:
+    - name: Create airflow user
+      user:
+        name: "{{ airflow_user }}"
+        shell: /bin/bash
+        home: "{{ airflow_home }}"
+        create_home: true
+        system: false
+
+    - name: Install Python and dependencies
+      apt:
+        name:
+          - python3
+          - python3-pip
+          - python3-venv
+          - build-essential
+          - libssl-dev
+          - libffi-dev
+          - python3-dev
+        state: present
+
+    - name: Create virtual environment
+      command: python3 -m venv {{ airflow_home }}/venv
+      args:
+        creates: "{{ airflow_home }}/venv"
+
+    - name: Install Airflow
+      pip:
+        name:
+          - apache-airflow=={{ airflow_version }}
+          - apache-airflow-providers-postgres
+          - apache-airflow-providers-docker
+          - apache-airflow-providers-kubernetes
+        virtualenv: "{{ airflow_home }}/venv"
+        state: present
+
+    - name: Create Airflow directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ airflow_user }}"
+        group: "{{ airflow_user }}"
+        mode: '0755'
+      loop:
+        - "{{ airflow_home }}/dags"
+        - "{{ airflow_home }}/logs"
+        - "{{ airflow_home }}/plugins"
+        - "{{ airflow_home }}/config"
+
+    - name: Copy Airflow configuration
+      template:
+        src: templates/airflow.cfg.j2
+        dest: "{{ airflow_home }}/config/airflow.cfg"
+        owner: "{{ airflow_user }}"
+        group: "{{ airflow_user }}"
+        mode: '0644'
+
+    - name: Initialize Airflow database
+      command: "{{ airflow_home }}/venv/bin/airflow db init"
+      become_user: "{{ airflow_user }}"
+      args:
+        creates: "{{ airflow_home }}/airflow.db"
+
+    - name: Create systemd service for Airflow webserver
+      template:
+        src: templates/airflow-webserver.service.j2
+        dest: /etc/systemd/system/airflow-webserver.service
+        mode: '0644'
+      notify:
+        - reload systemd
+        - restart airflow-webserver
+
+    - name: Create systemd service for Airflow scheduler
+      template:
+        src: templates/airflow-scheduler.service.j2
+        dest: /etc/systemd/system/airflow-scheduler.service
+        mode: '0644'
+      notify:
+        - reload systemd
+        - restart airflow-scheduler
+
+  handlers:
+    - name: reload systemd
+      systemd:
+        daemon_reload: true
+
+    - name: restart airflow-webserver
+      systemd:
+        name: airflow-webserver
+        enabled: true
+        state: started
+
+    - name: restart airflow-scheduler
+      systemd:
+        name: airflow-scheduler
+        enabled: true
+        state: started
+
+

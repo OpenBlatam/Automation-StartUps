@@ -1,0 +1,67 @@
+elasticsearch:
+  replicas: 3
+  minimumMasterNodes: 2
+  resources:
+    requests:
+      memory: "2Gi"
+      cpu: "1000m"
+    limits:
+      memory: "4Gi"
+      cpu: "2000m"
+  persistence:
+    enabled: true
+    size: 50Gi
+  # Configuración de índice lifecycle management (ILM)
+  indices:
+    lifecycle:
+      policies:
+        - name: logs-policy
+          phases:
+            hot:
+              actions:
+                rollover:
+                  max_size: "10GB"
+                  max_age: "7d"
+            warm:
+              min_age: "7d"
+              actions:
+                allocate:
+                  number_of_replicas: 1
+            delete:
+              min_age: "30d"
+
+kibana:
+  service:
+    type: ClusterIP
+  ingress:
+    enabled: true
+    className: nginx
+    hosts:
+      - host: kibana.example.com
+        paths:
+          - path: /
+            pathType: Prefix
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "250m"
+    limits:
+      memory: "1Gi"
+      cpu: "500m"
+
+logstash:
+  enabled: true
+  replicas: 2
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "500m"
+    limits:
+      memory: "1Gi"
+      cpu: "1000m"
+  # Configuración de pipelines para procesar logs de automatizaciones
+  pipelines:
+    - pipeline.id: automation-logs
+      path.config: "/usr/share/logstash/pipeline/automation.conf"
+      pipeline.workers: 2
+

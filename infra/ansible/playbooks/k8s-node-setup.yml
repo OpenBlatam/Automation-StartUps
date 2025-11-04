@@ -1,0 +1,155 @@
+---
+- name: Configure Kubernetes Node
+  hosts: kubernetes
+  become: true
+  vars:
+    kubernetes_version: "{{ kubernetes.version | default('1.29.0-00') }}"
+    containerd_version: "{{ containerd.version | default('1.7.0') }}"
+    
+  pre_tasks:
+    - name: Validate OS compatibility
+      assert:
+        that:
+          - ansible_os_family == "Debian" or ansible_os_family == "RedHat"
+        fail_msg: "Unsupported OS family: {{ ansible_os_family }}"
+        success_msg: "OS family {{ ansible_os_family }} is supported"
+      tags: always
+
+    - name: Check required kernel modules
+      command: lsmod
+      register: loaded_modules
+      changed_when: false
+      tags: always
+
+    - name: Verify kernel version >= 4.15
+      assert:
+        that:
+          - ansible_kernel | version_compare('4.15', '>=')
+        fail_msg: "Kernel version {{ ansible_kernel }} is too old. Minimum required: 4.15"
+        success_msg: "Kernel version {{ ansible_kernel }} meets requirements"
+      tags: always
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: true
+        cache_valid_time: 3600
+      when: ansible_os_family == "Debian"
+
+    - name: Install required packages
+      apt:
+        name:
+          - curl
+          - apt-transport-https
+          - ca-certificates
+          - gnupg
+          - lsb-release
+          - software-properties-common
+        state: present
+        update_cache: true
+      when: ansible_os_family == "Debian"
+      tags: [packages, common]
+
+    - name: Detect OS codename
+      set_fact:
+        os_codename: "{{ ansible_lsb.codename | default('xenial') }}"
+      when: ansible_os_family == "Debian"
+      tags: [repository, common]
+
+    - name: Add Kubernetes apt repository
+      apt_repository:
+        repo: "deb https://apt.kubernetes.io/ kubernetes-{{ os_codename | default('xenial') }} main"
+        state: present
+        filename: "kubernetes"
+        update_cache: true
+      when: ansible_os_family == "Debian"
+      tags: [repository, kubernetes]
+
+    - name: Add Kubernetes GPG key
+      apt_key:
+        url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+        state: present
+        keyring: /usr/share/keyrings/kubernetes-archive-keyring.gpg
+      when: ansible_os_family == "Debian"
+      tags: [repository, kubernetes]
+
+    - name: Install containerd
+      apt:
+        name: containerd.io
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Configure containerd
+      template:
+        src: templates/containerd.toml.j2
+        dest: /etc/containerd/config.toml
+        owner: root
+        group: root
+        mode: '0644'
+      notify: restart containerd
+
+    - name: Install kubelet, kubeadm, kubectl
+      apt:
+        name:
+          - kubelet={{ kubernetes_version }}-00
+          - kubeadm={{ kubernetes_version }}-00
+          - kubectl={{ kubernetes_version }}-00
+        state: present
+        update_cache: true
+
+    - name: Set kubelet to start on boot
+      systemd:
+        name: kubelet
+        enabled: true
+        state: started
+
+    - name: Configure sysctl for Kubernetes
+      sysctl:
+        name: "{{ item.key }}"
+        value: "{{ item.value | string }}"
+        state: present
+        sysctl_set: true
+        reload: true
+      loop: "{{ network.sysctl | dict2items }}"
+      tags: [networking, kubernetes]
+
+    - name: Load kernel modules
+      modprobe:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - br_netfilter
+        - overlay
+
+    - name: Make kernel modules persistent
+      lineinfile:
+        path: /etc/modules-load.d/k8s.conf
+        line: "{{ item }}"
+        create: true
+      loop:
+        - br_netfilter
+        - overlay
+
+    - name: Disable swap
+      command: swapoff -a
+      changed_when: false
+
+    - name: Comment out swap entries in fstab
+      lineinfile:
+        path: /etc/fstab
+        regexp: '^([^#].*?\sswap\s)'
+        line: '#\1'
+        backup: true
+
+    - name: Create kubelet config directory
+      file:
+        path: /var/lib/kubelet
+        state: directory
+        mode: '0755'
+
+  handlers:
+    - name: restart containerd
+      systemd:
+        name: containerd
+        state: restarted
+

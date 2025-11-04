@@ -1,0 +1,111 @@
+# ============================================================================
+# Terraform Variables Example File
+# Copy this file to terraform.tfvars and customize for your environment
+# NEVER commit terraform.tfvars to version control (contains sensitive data)
+# ============================================================================
+
+# Project Configuration
+project_name = "biz-automation"
+environment  = "dev" # Options: dev, stg, prod
+
+# AWS Configuration (for AWS deployments)
+aws_region = "us-east-1"
+
+# Azure Configuration (for Azure deployments)
+location = "eastus"
+
+# Network Configuration
+vpc_cidr        = "10.20.0.0/16"           # AWS VPC CIDR
+vnet_cidr       = "10.30.0.0/16"           # Azure VNet CIDR
+private_subnets = ["10.20.1.0/24", "10.20.2.0/24"]  # AWS private subnets
+public_subnets  = ["10.20.11.0/24", "10.20.12.0/24"] # AWS public subnets
+subnet_cidrs    = ["10.30.1.0/24", "10.30.2.0/24"]   # Azure subnets
+
+# Kubernetes Configuration
+kubernetes_version = "1.29"
+cluster_name       = ""  # Auto-generated if empty
+
+# AWS EKS Node Groups Configuration
+eks_node_groups = {
+  default = {
+    min_size      = 1
+    max_size      = 3
+    desired_size  = 2
+    instance_types = ["m5.large"]
+    disk_size     = 50
+    capacity_type = "ON_DEMAND"
+    labels        = {}
+    taints        = []
+  }
+}
+
+# Azure AKS Node Pools Configuration
+aks_node_pools = {
+  default = {
+    node_count        = 2
+    vm_size           = "Standard_D4s_v5"
+    os_disk_size_gb   = 50
+    enable_auto_scaling = false
+    node_labels       = {}
+    node_taints       = []
+  }
+}
+
+# Storage Configuration
+datalake_bucket    = ""  # AWS S3 bucket name (auto-generated if empty)
+adls_account_name  = null  # Azure storage account name (auto-generated if null)
+datalake_fs_name   = "datalake"
+acr_name           = null  # Azure Container Registry (auto-generated if null)
+
+# Security Configuration
+enable_encryption = true
+kms_key_id       = null  # AWS KMS key for encryption (optional)
+
+# Storage Account Settings (Azure)
+storage_account_tier             = "Standard"
+storage_account_replication_type = "LRS"
+acr_sku                          = "Basic"
+
+# Network Features
+enable_nat_gateway   = true
+single_nat_gateway   = true
+enable_vpc_flow_logs = false  # Enable for production
+
+# Additional Tags
+additional_tags = {
+  Team        = "Platform"
+  CostCenter  = "Engineering"
+  ProjectCode = "BA-001"
+}
+
+# ============================================================================
+# Environment-Specific Overrides
+# ============================================================================
+
+# Development Environment Example:
+# environment         = "dev"
+# eks_node_groups = {
+#   default = {
+#     min_size = 1
+#     max_size = 2
+#     desired_size = 1
+#     instance_types = ["t3.medium"]
+#   }
+# }
+
+# Production Environment Example:
+# environment         = "prod"
+# enable_vpc_flow_logs = true
+# enable_encryption    = true
+# eks_node_groups = {
+#   default = {
+#     min_size = 3
+#     max_size = 10
+#     desired_size = 5
+#     instance_types = ["m5.xlarge"]
+#   }
+# }
+# kms_key_id = "arn:aws:kms:us-east-1:ACCOUNT_ID:key/KEY_ID"
+
+
+

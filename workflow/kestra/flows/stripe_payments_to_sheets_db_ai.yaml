@@ -1,0 +1,254 @@
+id: stripe_payments_to_sheets_db_ai
+namespace: workflows
+
+labels:
+  app: payments
+  source: stripe
+
+inputs:
+  - name: jdbc_url
+    type: STRING
+    required: true
+  - name: jdbc_user
+    type: STRING
+    required: true
+  - name: jdbc_password
+    type: STRING
+    required: true
+  - name: sheets_webhook_url
+    type: STRING
+    required: true
+  - name: openai_api_key
+    type: STRING
+    required: true
+  - name: stripe_signing_secret
+    type: STRING
+    required: false
+
+triggers:
+  - id: stripe_webhook
+    type: io.kestra.plugin.core.trigger.Webhook
+    key: stripe
+
+variables:
+  openai_endpoint: "https://api.openai.com/v1/chat/completions"
+
+tasks:
+  - id: verify_signature
+    type: io.kestra.plugin.scripts.python.Script
+    inputFiles:
+      payload.raw: "{{ trigger.rawBody }}"
+      headers.json: "{{ trigger.headers | toJson }}"
+      verify.py: |
+        import os, hmac, hashlib, time, json, sys
+        secret = os.getenv('STRIPE_SIGNING_SECRET')
+        if not secret:
+            # allow if not provided
+            sys.exit(0)
+        headers = json.load(open('headers.json'))
+        sig = headers.get('Stripe-Signature') or headers.get('stripe-signature')
+        if not sig:
+            print('missing signature header')
+            sys.exit(1)
+        # Stripe signature header: t=timestamp,v1=signature
+        parts = dict([p.split('=',1) for p in sig.split(',') if '=' in p])
+        ts = parts.get('t'); v1 = parts.get('v1')
+        payload = open('payload.raw','rb').read()
+        signed_payload = f"{ts}.".encode('utf-8') + payload
+        digest = hmac.new(secret.encode('utf-8'), signed_payload, hashlib.sha256).hexdigest()
+        if not hmac.compare_digest(digest, v1 or ''):
+            print('invalid signature')
+            sys.exit(1)
+    env:
+      STRIPE_SIGNING_SECRET: "{{ inputs.stripe_signing_secret }}"
+
+  - id: parse_stripe
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    inputFiles:
+      payload.json: "{{ trigger.body | toJson }}"
+      parse.py: |
+        import json, datetime, sys
+        
+        try:
+            p = json.load(open('payload.json'))
+        except Exception as e:
+            print(f'ERROR: Failed to parse Stripe payload JSON: {e}', file=sys.stderr)
+            sys.exit(1)
+        
+        if not isinstance(p, dict):
+            print(f'ERROR: Expected dict payload, got {type(p).__name__}', file=sys.stderr)
+            sys.exit(1)
+        
+        # Stripe event summary (payment_intent.succeeded or charge.succeeded)
+        obj = p.get('data', {}).get('object', {})
+        
+        if not obj:
+            print('ERROR: Missing data.object in Stripe payload', file=sys.stderr)
+            sys.exit(1)
+        
+        # Extract and validate amount
+        amount_raw = obj.get('amount_received') or obj.get('amount') or 0
+        try:
+            amount = float(amount_raw) / 100.0
+            if amount < 0:
+                print(f'WARNING: Negative amount detected: {amount}', file=sys.stderr)
+        except (ValueError, TypeError):
+            print(f'ERROR: Invalid amount value: {amount_raw}', file=sys.stderr)
+            sys.exit(1)
+        
+        currency = str(obj.get('currency', 'usd')).upper()[:3]
+        customer = obj.get('customer') or obj.get('billing_details', {}).get('email') or ''
+        
+        # Parse timestamp safely
+        created = obj.get('created') or p.get('created')
+        try:
+            if isinstance(created, (int, float)):
+                created_at = datetime.datetime.utcfromtimestamp(created).isoformat() + 'Z'
+            else:
+                created_at = str(created)
+        except Exception:
+            created_at = datetime.datetime.utcnow().isoformat() + 'Z'
+        
+        payment_id = obj.get('id') or p.get('id') or ''
+        if not payment_id:
+            print('ERROR: Missing payment ID in Stripe payload', file=sys.stderr)
+            sys.exit(1)
+        
+        status = obj.get('status') or p.get('type') or 'unknown'
+        method = obj.get('payment_method_types') or obj.get('payment_method_details', {})
+        if isinstance(method, dict):
+            method = method.get('type', '')
+        method = method if isinstance(method, str) else ','.join(method or [])
+        
+        meta = obj.get('metadata') or {}
+        
+        out = {
+          'payment_id': str(payment_id),
+          'amount': round(amount, 2),
+          'currency': currency,
+          'customer': str(customer),
+          'status': str(status),
+          'method': str(method),
+          'metadata': meta,
+          'created_at': created_at
+        }
+        
+        try:
+            with open('parsed.json', 'w', encoding='utf-8') as f:
+                json.dump(out, f, indent=2, ensure_ascii=False)
+            print(f'INFO: Stripe payment parsed - payment_id={out["payment_id"]}, amount={out["amount"]}, currency={out["currency"]}')
+        except Exception as e:
+            print(f'ERROR: Failed to write parsed data: {e}', file=sys.stderr)
+            sys.exit(1)
+    outputFiles:
+      - parsed.json
+    allowFailure: false
+
+  - id: db_upsert_payment
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    sql: |
+      {% set p = (taskrun.outputs['parse_stripe']['files']['parsed.json'] | readFile | fromJson) %}
+      INSERT INTO payments (
+        payment_id, amount, currency, customer, status, method, metadata, created_at, updated_at
+      ) VALUES (
+        $1, $2, $3, $4, $5, $6, $7, $8, NOW()
+      )
+      ON CONFLICT (payment_id) DO UPDATE SET
+        amount = EXCLUDED.amount,
+        currency = EXCLUDED.currency,
+        customer = EXCLUDED.customer,
+        status = EXCLUDED.status,
+        method = EXCLUDED.method,
+        metadata = EXCLUDED.metadata,
+        updated_at = NOW();
+    args:
+      - "{{ (taskrun.outputs['parse_stripe']['files']['parsed.json'] | readFile | fromJson).payment_id }}"
+      - "{{ (taskrun.outputs['parse_stripe']['files']['parsed.json'] | readFile | fromJson).amount }}"
+      - "{{ (taskrun.outputs['parse_stripe']['files']['parsed.json'] | readFile | fromJson).currency }}"
+      - "{{ (taskrun.outputs['parse_stripe']['files']['parsed.json'] | readFile | fromJson).customer or '' }}"
+      - "{{ (taskrun.outputs['parse_stripe']['files']['parsed.json'] | readFile | fromJson).status }}"
+      - "{{ (taskrun.outputs['parse_stripe']['files']['parsed.json'] | readFile | fromJson).method or '' }}"
+      - "{{ (taskrun.outputs['parse_stripe']['files']['parsed.json'] | readFile | fromJson).metadata | toJson }}"
+      - "{{ (taskrun.outputs['parse_stripe']['files']['parsed.json'] | readFile | fromJson).created_at }}"
+    timeout: PT30S
+    retry:
+      type: exponential
+      interval: PT3S
+      maxAttempt: 3
+      multiplier: 2.0
+    allowFailure: false
+
+  - id: sheets_append
+    type: io.kestra.plugin.core.http.Request
+    uri: "{{ inputs.sheets_webhook_url }}"
+    method: POST
+    timeout: PT30S
+    headers:
+      Content-Type: application/json
+    body: |
+      {% set p = (taskrun.outputs['parse_stripe']['files']['parsed.json'] | readFile | fromJson) %}
+      {
+        "payment_id": "{{ p.payment_id }}",
+        "amount": {{ p.amount }},
+        "currency": "{{ p.currency }}",
+        "customer": "{{ p.customer }}",
+        "status": "{{ p.status }}",
+        "method": "{{ p.method }}",
+        "created_at": "{{ p.created_at }}"
+      }
+    retry:
+      type: exponential
+      interval: PT5S
+      maxAttempt: 3
+      multiplier: 2.0
+    response:
+      status:
+        - 200
+        - 201
+    allowFailure: false
+
+  - id: revenue_last_30d
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    sql: |
+      SELECT date_trunc('day', created_at) AS day, SUM(amount) AS revenue
+      FROM payments
+      WHERE created_at >= NOW() - interval '30 days' AND status IN ('succeeded','paid','payment_intent.succeeded')
+      GROUP BY 1
+      ORDER BY 1;
+
+  - id: ai_insight
+    type: io.kestra.plugin.core.http.Request
+    uri: "{{ vars.openai_endpoint }}"
+    method: POST
+    timeout: PT60S
+    headers:
+      Content-Type: application/json
+      Authorization: "Bearer {{ inputs.openai_api_key }}"
+    body: |
+      {% set p = (taskrun.outputs['parse_stripe']['files']['parsed.json'] | readFile | fromJson) %}
+      {% set rows = (taskrun.outputs['revenue_last_30d']['rows'] or []) %}
+      {
+        "model": "gpt-4o-mini",
+        "temperature": 0.3,
+        "max_tokens": 500,
+        "messages": [
+          {"role": "system", "content": "Eres analista de ingresos. Resume y pronostica tendencias. Responde de forma concisa."},
+          {"role": "user", "content": "Evento: {{ p | toJson }}\nSerie últimos 30d: {{ rows | toJson }}\n\n1) Interpreta el pago actual en contexto.\n2) Indica señales (crece/estable/cae).\n3) Pronóstico simple 7 días (ingreso total y rango)."}
+        ]
+      }
+    retry:
+      type: exponential
+      interval: PT10S
+      maxAttempt: 2
+      multiplier: 2.0
+    response:
+      status:
+        - 200
+    allowFailure: true

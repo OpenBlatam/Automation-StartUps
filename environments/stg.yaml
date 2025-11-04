@@ -1,0 +1,29 @@
+domains:
+  api: api.stg.example.com
+  auth: auth.stg.example.com
+  grafana: grafana.stg.example.com
+  mlflow: mlflow.stg.example.com
+  kibana: kibana.stg.example.com
+oidc:
+  issuer: https://login.stg.example.com/realms/myrealm
+  clientIdSecretRef: oauth2-client-id
+  clientSecretSecretRef: oauth2-client-secret
+certManager:
+  clusterIssuer: letsencrypt-prod
+storage:
+  s3:
+    bucket: biz-datalake-stg
+    region: us-east-1
+
+# KPI Thresholds (staging - similar to prod)
+kpi:
+  thresholds:
+    leads_critical: 45
+    leads_warning: 75
+    revenue_vs_avg7d_critical: 0.65
+    revenue_vs_avg7d_warning: 0.8
+    payment_success_critical: 90
+    payment_success_warning: 93
+  refresh_schedule: "0 */4 * * *"
+  dq_health_schedule: "0 */8 * * *"
+

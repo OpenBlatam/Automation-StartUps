@@ -1,0 +1,44 @@
+# ServiceMonitor para Airbyte - Métricas de sincronizaciones y conectores
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: airbyte-server
+  namespace: integration
+  labels:
+    app: airbyte
+    component: server
+spec:
+  selector:
+    matchLabels:
+      app: airbyte
+      component: server
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 30s
+      scrapeTimeout: 10s
+---
+# ServiceMonitor para Airbyte Workers
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: airbyte-worker
+  namespace: integration
+  labels:
+    app: airbyte
+    component: worker
+spec:
+  selector:
+    matchLabels:
+      app: airbyte
+      component: worker
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 30s
+      scrapeTimeout: 10s
+
+
+
+
+

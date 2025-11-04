@@ -1,0 +1,78 @@
+# HashiCorp Vault Configuration
+# Instalación: helm install vault hashicorp/vault -n security --create-namespace -f security/vault/values.yaml
+
+global:
+  enabled: true
+  
+server:
+  enabled: true
+  extraEnvironmentVars:
+    VAULT_DEV_ROOT_TOKEN_ID: ""
+    VAULT_DEV_LISTEN_ADDRESS: "0.0.0.0:8200"
+  
+  # Configuración de almacenamiento
+  dataStorage:
+    enabled: true
+    size: 10Gi
+    storageClass: ""
+  
+  # Configuración de HA (High Availability)
+  ha:
+    enabled: true
+    replicas: 3
+    
+  # Configuración de servicio
+  service:
+    type: ClusterIP
+    port: 8200
+    
+  # Ingress (opcional)
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - host: vault.example.com
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: vault-tls
+        hosts:
+          - vault.example.com
+  
+  # Recursos
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+  
+  # ServiceAccount para Vault
+  serviceAccount:
+    create: true
+    name: vault
+  
+  # Configuración de auditoría
+  auditStorage:
+    enabled: true
+    size: 5Gi
+
+# CSI Driver para inyección de secretos en pods
+csi:
+  enabled: true
+  
+# UI
+ui:
+  enabled: true
+  service:
+    type: ClusterIP
+    port: 8200
+
+# Configuración de inicialización automática (para desarrollo)
+# Para producción, inicializar manualmente
+dev:
+  enabled: false  # Cambiar a false en producción
+
+

@@ -1,0 +1,46 @@
+# Checkov Configuration
+# See: https://www.checkov.io/
+
+framework:
+  - terraform
+
+# Skip checks that are too restrictive for our use case
+skip-check:
+  # Allow missing versions in some cases
+  - CKV_AWS_145  # Ensure S3 bucket has cross-region replication enabled
+  - CKV_AWS_21  # Ensure the S3 bucket has versioning enabled (we enable it via resource)
+  - CKV_AWS_57  # Ensure S3 bucket has object lock enabled (not needed for state)
+  
+# Include additional checks
+check:
+  - CKV_AWS_1     # Ensure IAM policies allow least privilege
+  - CKV_AWS_8     # Ensure all data stored in S3 is server-side encrypted
+  - CKV_AWS_18    # Ensure S3 bucket has logging enabled
+  - CKV_AWS_19    # Ensure S3 bucket versioning is enabled
+  - CKV_AWS_144   # Ensure S3 bucket has cross-region replication enabled
+  - CKV_AWS_145   # Ensure S3 bucket has cross-region replication enabled
+  - CKV_AWS_79    # Ensure Instance is using latest EKS optimized AMI
+  - CKV_AWS_38    # Ensure no hard-coded secrets exist in provider
+  - CKV_AWS_39    # Ensure no hard-coded secrets exist in variables
+  - CKV_AZURE_1   # Azure Storage accounts should not allow insecure access
+  - CKV_AZURE_2   # Azure Storage accounts should enable encryption
+  - CKV_AZURE_35  # Azure Storage accounts should enable secure transfer
+
+# Soft fail mode - report but don't fail build
+soft-fail: true
+
+# Output format
+output: cli,json
+output-file-path: checkov-report.json
+
+# Include external checks
+external-checks-dir:
+  - .checkov
+
+# Exclude paths
+exclude-path:
+  - .terraform
+  - .git
+
+
+

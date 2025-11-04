@@ -1,0 +1,245 @@
+id: support_feedback_collection
+namespace: workflows
+
+labels:
+  app: support
+  process: feedback
+  category: automation
+
+description: |
+  📝 Sistema de Recolección de Feedback de Clientes
+  
+  Envía encuestas de satisfacción automáticamente después de resolver tickets:
+  - Email de feedback después de 24 horas de resolución
+  - Recordatorio si no responde en 3 días
+  - Análisis de feedback recibido
+  - Notificaciones a agentes sobre feedback negativo
+
+inputs:
+  - name: jdbc_url
+    type: STRING
+    required: true
+  - name: jdbc_user
+    type: STRING
+    required: true
+  - name: jdbc_password
+    type: STRING
+    required: true
+  - name: email_api_url
+    type: STRING
+    required: false
+  - name: email_api_key
+    type: STRING
+    required: false
+  - name: slack_webhook_url
+    type: STRING
+    required: false
+
+triggers:
+  - id: schedule_feedback_check
+    type: io.kestra.plugin.core.trigger.Schedule
+    cron: "0 */6 * * *"  # Cada 6 horas
+    description: Verificar tickets resueltos que necesitan feedback
+
+tasks:
+  # ========================================================================
+  # FASE 1: Encontrar Tickets Resueltos sin Feedback
+  # ========================================================================
+  - id: find_tickets_for_feedback
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    description: Encuentra tickets resueltos que necesitan feedback
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    fetch: true
+    sql: |
+      SELECT 
+        t.ticket_id,
+        t.customer_email,
+        t.customer_name,
+        t.subject,
+        t.resolved_at,
+        t.assigned_agent_name,
+        CASE 
+          WHEN t.resolved_at < NOW() - INTERVAL '24 hours' 
+            AND t.resolved_at >= NOW() - INTERVAL '25 hours'
+            AND NOT EXISTS (
+              SELECT 1 FROM support_ticket_feedback f 
+              WHERE f.ticket_id = t.ticket_id
+            )
+            AND NOT EXISTS (
+              SELECT 1 FROM support_satisfaction_surveys s 
+              WHERE s.ticket_id = t.ticket_id AND s.sent_at IS NOT NULL
+            ) THEN 'initial'
+          WHEN t.resolved_at < NOW() - INTERVAL '3 days'
+            AND NOT EXISTS (
+              SELECT 1 FROM support_ticket_feedback f 
+              WHERE f.ticket_id = t.ticket_id
+            )
+            AND EXISTS (
+              SELECT 1 FROM support_satisfaction_surveys s 
+              WHERE s.ticket_id = t.ticket_id 
+              AND s.sent_at < NOW() - INTERVAL '3 days'
+              AND s.submitted_at IS NULL
+            ) THEN 'reminder'
+          ELSE NULL
+        END as feedback_type
+      FROM support_tickets t
+      WHERE t.status = 'resolved'
+      AND t.resolved_at IS NOT NULL
+      AND (
+        (t.resolved_at < NOW() - INTERVAL '24 hours' 
+         AND t.resolved_at >= NOW() - INTERVAL '25 hours'
+         AND NOT EXISTS (
+           SELECT 1 FROM support_ticket_feedback f WHERE f.ticket_id = t.ticket_id
+         )
+         AND NOT EXISTS (
+           SELECT 1 FROM support_satisfaction_surveys s 
+           WHERE s.ticket_id = t.ticket_id AND s.sent_at IS NOT NULL
+         ))
+        OR
+        (t.resolved_at < NOW() - INTERVAL '3 days'
+         AND NOT EXISTS (
+           SELECT 1 FROM support_ticket_feedback f WHERE f.ticket_id = t.ticket_id
+         )
+         AND EXISTS (
+           SELECT 1 FROM support_satisfaction_surveys s 
+           WHERE s.ticket_id = t.ticket_id 
+           AND s.sent_at < NOW() - INTERVAL '3 days'
+           AND s.submitted_at IS NULL
+         ))
+      )
+      LIMIT 50
+
+  # ========================================================================
+  # FASE 2: Enviar Encuestas de Feedback
+  # ========================================================================
+  - id: send_feedback_surveys
+    type: io.kestra.core.tasks.flows.Http
+    description: Envía encuestas de feedback por email
+    uri: "{{ inputs.email_api_url }}/send"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ inputs.email_api_key }}"
+      Content-Type: "application/json"
+    body: |
+      {% for ticket in outputs.find_tickets_for_feedback %}
+      {% if ticket.feedback_type == 'initial' %}
+      {
+        "to": "{{ ticket.customer_email }}",
+        "subject": "¿Cómo fue tu experiencia? - Ticket #{{ ticket.ticket_id }}",
+        "template": "support_feedback",
+        "template_data": {
+          "customer_name": "{{ ticket.customer_name }}",
+          "ticket_id": "{{ ticket.ticket_id }}",
+          "ticket_subject": "{{ ticket.subject }}",
+          "feedback_url": "{{ vars.feedback_base_url }}/feedback/{{ ticket.ticket_id }}"
+        }
+      }
+      {% endif %}
+      {% endfor %}
+    disabled: "{{ not inputs.email_api_url or outputs.find_tickets_for_feedback | length == 0 }}"
+
+  # ========================================================================
+  # FASE 3: Registrar Encuestas Enviadas
+  # ========================================================================
+  - id: log_surveys_sent
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    description: Registra que se enviaron encuestas
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    sql: |
+      {% for ticket in outputs.find_tickets_for_feedback %}
+      {% if ticket.feedback_type == 'initial' %}
+      INSERT INTO support_satisfaction_surveys (
+        ticket_id,
+        customer_email,
+        survey_type,
+        sent_at
+      ) VALUES (
+        '{{ ticket.ticket_id }}',
+        '{{ ticket.customer_email }}',
+        'post_resolution',
+        NOW()
+      )
+      ON CONFLICT (ticket_id) DO UPDATE SET
+        sent_at = NOW();
+      {% endif %}
+      {% endfor %}
+
+  # ========================================================================
+  # FASE 4: Analizar Feedback Recibido
+  # ========================================================================
+  - id: analyze_feedback
+    type: io.kestra.core.tasks.scripts.Python
+    description: Analiza feedback recibido y notifica si es negativo
+    runner: DOCKER
+    docker:
+      image: python:3.11-slim
+    script: |
+      import psycopg2
+      import os
+      import json
+      
+      # Conectar a BD
+      conn = psycopg2.connect(
+          host=os.getenv("DB_HOST"),
+          database=os.getenv("DB_NAME"),
+          user=os.getenv("DB_USER"),
+          password=os.getenv("DB_PASSWORD")
+      )
+      
+      cur = conn.cursor()
+      
+      # Buscar feedback negativo reciente (últimas 24h)
+      cur.execute("""
+        SELECT 
+          f.ticket_id,
+          f.customer_email,
+          f.satisfaction_score,
+          f.feedback_text,
+          t.assigned_agent_name,
+          t.subject
+        FROM support_ticket_feedback f
+        INNER JOIN support_tickets t ON f.ticket_id = t.ticket_id
+        WHERE f.submitted_at >= NOW() - INTERVAL '24 hours'
+        AND f.satisfaction_score <= 2
+        ORDER BY f.submitted_at DESC
+      """)
+      
+      negative_feedback = cur.fetchall()
+      
+      if negative_feedback:
+          # Notificar a Slack si hay feedback negativo
+          import requests
+          webhook_url = os.getenv("SLACK_WEBHOOK_URL")
+          
+          if webhook_url:
+              blocks = [{
+                  "type": "header",
+                  "text": {
+                      "type": "plain_text",
+                      "text": "⚠️ Feedback Negativo Recibido"
+                  }
+              }]
+              
+              for fb in negative_feedback[:5]:  # Máximo 5
+                  blocks.append({
+                      "type": "section",
+                      "text": {
+                          "type": "mrkdwn",
+                          "text": f"*Ticket:* {fb[0]}\n*Cliente:* {fb[1]}\n*Score:* {fb[2]}/5\n*Agente:* {fb[4]}\n*Feedback:* {fb[3][:200] if fb[3] else 'Sin comentarios'}"
+                      }
+                  })
+              
+              requests.post(webhook_url, json={"blocks": blocks})
+      
+      cur.close()
+      conn.close()
+      
+      print(json.dumps({
+          "negative_feedback_count": len(negative_feedback),
+          "analyzed": True
+      }))
+

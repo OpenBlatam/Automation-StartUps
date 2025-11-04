@@ -1,0 +1,133 @@
+id: subflow_retry_with_backoff
+namespace: workflows
+
+description: Subflow reutilizable para ejecutar tareas con retry exponencial y manejo robusto de errores
+
+inputs:
+  - name: task_to_execute
+    type: STRING
+    required: true
+    description: Identificador del task a ejecutar con retry
+  - name: max_attempts
+    type: INT
+    required: false
+    default: 3
+  - name: initial_interval
+    type: DURATION
+    required: false
+    default: PT5S
+  - name: max_interval
+    type: DURATION
+    required: false
+    default: PT2M
+  - name: multiplier
+    type: NUMBER
+    required: false
+    default: 2.0
+  - name: error_context
+    type: STRING
+    required: false
+    description: Contexto adicional para logs de error
+
+tasks:
+  - id: log_retry_start
+    type: io.kestra.plugin.scripts.javascript.Script
+    script: |
+      logger.info("Starting task with retry", {
+        task: inputs.task_to_execute,
+        max_attempts: inputs.max_attempts,
+        initial_interval: inputs.initial_interval,
+        context: inputs.error_context || ""
+      });
+
+  - id: execute_with_retry
+    type: io.kestra.plugin.scripts.python.Script
+    description: Simula retry logic (en uso real, este sería el task que necesita retry)
+    inputFiles:
+      retry_wrapper.py: |
+        import os, time, json, sys
+        from datetime import datetime
+        
+        task_id = os.getenv('TASK_ID')
+        max_attempts = int(os.getenv('MAX_ATTEMPTS', '3'))
+        initial_interval = float(os.getenv('INITIAL_INTERVAL_SECONDS', '5'))
+        max_interval = float(os.getenv('MAX_INTERVAL_SECONDS', '120'))
+        multiplier = float(os.getenv('MULTIPLIER', '2.0'))
+        context = os.getenv('ERROR_CONTEXT', '')
+        
+        attempt = 0
+        last_error = None
+        current_interval = initial_interval
+        
+        while attempt < max_attempts:
+            attempt += 1
+            try:
+                # Simular ejecución del task
+                print(f"[Attempt {attempt}/{max_attempts}] Executing task: {task_id}")
+                if context:
+                    print(f"  Context: {context}")
+                
+                # Aquí se ejecutaría el task real
+                # Por ahora simulamos éxito después de algunos intentos
+                if attempt >= max_attempts - 1:
+                    print(f"✓ Task {task_id} succeeded on attempt {attempt}")
+                    sys.exit(0)
+                else:
+                    # Simular error transitorio
+                    raise Exception(f"Transient error (simulated) on attempt {attempt}")
+                    
+            except Exception as e:
+                last_error = str(e)
+                if attempt < max_attempts:
+                    print(f"⚠ Attempt {attempt} failed: {e}")
+                    print(f"  Retrying in {current_interval:.1f}s...")
+                    time.sleep(min(current_interval, max_interval))
+                    current_interval *= multiplier
+                else:
+                    # Último intento falló
+                    error_msg = {
+                        "error": "Max retries exceeded",
+                        "task": task_id,
+                        "attempts": attempt,
+                        "last_error": last_error,
+                        "context": context,
+                        "timestamp": datetime.utcnow().isoformat() + "Z"
+                    }
+                    print(json.dumps(error_msg, indent=2))
+                    sys.exit(1)
+        
+        sys.exit(0)
+    
+    env:
+      TASK_ID: "{{ inputs.task_to_execute }}"
+      MAX_ATTEMPTS: "{{ inputs.max_attempts }}"
+      INITIAL_INTERVAL_SECONDS: "5"
+      MAX_INTERVAL_SECONDS: "120"
+      MULTIPLIER: "{{ inputs.multiplier }}"
+      ERROR_CONTEXT: "{{ inputs.error_context | default('') }}"
+    
+    retry:
+      type: exponential
+      interval: "{{ inputs.initial_interval }}"
+      maxAttempt: "{{ inputs.max_attempts }}"
+      maxInterval: "{{ inputs.max_interval }}"
+      multiplier: "{{ inputs.multiplier }}"
+
+  - id: log_result
+    type: io.kestra.plugin.scripts.javascript.Script
+    script: |
+      const exitCode = taskrun.outputs['execute_with_retry'].value.exitCode;
+      if (exitCode === 0) {
+        logger.info("Task completed successfully", {
+          task: inputs.task_to_execute,
+          attempts: taskrun.attemptNumber
+        });
+      } else {
+        logger.error("Task failed after all retries", {
+          task: inputs.task_to_execute,
+          attempts: taskrun.attemptNumber,
+          context: inputs.error_context || ""
+        });
+      }
+
+

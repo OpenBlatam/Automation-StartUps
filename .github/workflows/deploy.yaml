@@ -1,0 +1,29 @@
+name: deploy-k8s
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment (dev/stg/prod)"
+        required: true
+        default: dev
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: 'v1.29.0'
+      - name: Kubeconfig (from secret)
+        run: |
+          mkdir -p ~/.kube
+          echo "$KUBECONFIG_B64" | base64 -d > ~/.kube/config
+        env:
+          KUBECONFIG_B64: ${{ secrets.KUBECONFIG_B64 }}
+      - name: Apply overlay
+        run: |
+          env_dir="kubernetes/overlays/${{ github.event.inputs.environment }}"
+          kubectl apply -k "$env_dir"
+
+

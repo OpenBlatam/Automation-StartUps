@@ -1,0 +1,244 @@
+id: hubspot_update_estado_interes
+namespace: workflows
+
+labels:
+  app: hubspot
+  source: crm
+  type: contact_update
+
+description: |
+  Actualiza la propiedad 'estado_interés' de un contacto en HubSpot.
+  Puede ejecutarse manualmente, por webhook, o programado.
+
+inputs:
+  - name: hubspot_token
+    type: STRING
+    required: true
+    description: Token de autenticación de HubSpot
+  - name: hubspot_contact_id
+    type: STRING
+    required: true
+    description: ID del contacto en HubSpot
+  - name: nuevo_estado
+    type: STRING
+    required: true
+    description: Nuevo valor para la propiedad 'estado_interés'
+  - name: hubspot_base
+    type: STRING
+    required: false
+    default: "https://api.hubapi.com"
+    description: URL base de la API de HubSpot
+
+triggers:
+  # Trigger por webhook (para integraciones externas)
+  - id: webhook_trigger
+    type: io.kestra.plugin.core.trigger.Webhook
+    key: hubspot_update_estado_interes
+    description: Webhook para actualizar estado_interés desde sistemas externos
+    conditions:
+      - type: io.kestra.plugin.core.condition.types.DayWeekCondition
+        dayOfWeeks: [MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY]
+
+variables:
+  hubspot_base_url: "{{ inputs.hubspot_base | default('https://api.hubapi.com') }}"
+
+tasks:
+  # Parsear payload si viene de webhook
+  - id: parse_webhook_payload
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    conditions:
+      - type: io.kestra.plugin.core.condition.ExpressionCondition
+        expression: "{{ trigger.type == 'webhook' }}"
+    inputFiles:
+      payload.json: "{{ trigger.body | toJson }}"
+      parse.py: |
+        import json
+        import sys
+        
+        try:
+            body = json.load(open('payload.json'))
+            
+            # Extraer parámetros del webhook
+            # Soporta formato: {"hubspot_contact_id": "...", "nuevo_estado": "..."}
+            contact_id = body.get('hubspot_contact_id') or body.get('contact_id')
+            nuevo_estado = body.get('nuevo_estado') or body.get('estado_interes') or body.get('estado')
+            
+            if not contact_id:
+                print("ERROR: hubspot_contact_id no encontrado en el payload del webhook")
+                sys.exit(1)
+            
+            if not nuevo_estado:
+                print("ERROR: nuevo_estado no encontrado en el payload del webhook")
+                sys.exit(1)
+            
+            with open('parsed_payload.json', 'w') as f:
+                json.dump({
+                    'hubspot_contact_id': contact_id,
+                    'nuevo_estado': nuevo_estado
+                }, f)
+            
+            print(f"✓ Payload parseado: contacto={contact_id}, estado={nuevo_estado}")
+            
+        except Exception as e:
+            print(f"ERROR al parsear payload: {e}")
+            sys.exit(1)
+    outputFiles:
+      - parsed_payload.json
+
+  # Preparar parámetros (extraer de webhook si aplica)
+  - id: prepare_params
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    conditions:
+      - type: io.kestra.plugin.core.condition.ExpressionCondition
+        expression: "{{ trigger.type != 'webhook' }}"
+    inputFiles:
+      prepare.py: |
+        import json
+        import os
+        
+        # Usar inputs directos (para ejecución manual o programada)
+        contact_id = "{{ inputs.hubspot_contact_id }}"
+        nuevo_estado = "{{ inputs.nuevo_estado }}"
+        
+        params = {
+            'hubspot_contact_id': contact_id,
+            'nuevo_estado': nuevo_estado
+        }
+        
+        with open('params.json', 'w') as f:
+            json.dump(params, f)
+        
+        print(f"Parámetros preparados: contacto={contact_id}, estado={nuevo_estado}")
+    outputFiles:
+      - params.json
+
+  # Preparar parámetros desde webhook
+  - id: prepare_params_webhook
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    conditions:
+      - type: io.kestra.plugin.core.condition.ExpressionCondition
+        expression: "{{ trigger.type == 'webhook' }}"
+    inputFiles:
+      parsed_payload.json: "{{ taskrun.outputs['parse_webhook_payload']['files']['parsed_payload.json'] }}"
+      prepare.py: |
+        import json
+        
+        # Usar payload parseado del webhook
+        with open('parsed_payload.json', 'r') as f:
+            parsed = json.load(f)
+        
+        params = {
+            'hubspot_contact_id': parsed['hubspot_contact_id'],
+            'nuevo_estado': parsed['nuevo_estado']
+        }
+        
+        with open('params.json', 'w') as f:
+            json.dump(params, f)
+        
+        print(f"Parámetros preparados desde webhook: contacto={params['hubspot_contact_id']}, estado={params['nuevo_estado']}")
+    outputFiles:
+      - params.json
+
+  # Actualizar contacto en HubSpot (usando script para manejar ambas fuentes)
+  - id: update_contact_estado_interes
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT1M
+    inputFiles:
+      params_manual.json: "{{ taskrun.outputs['prepare_params']['files']['params.json'] if trigger.type != 'webhook' else '' }}"
+      params_webhook.json: "{{ taskrun.outputs['prepare_params_webhook']['files']['params.json'] if trigger.type == 'webhook' else '' }}"
+      update_contact.py: |
+        import json
+        import requests
+        import os
+        import sys
+        
+        # Determinar fuente de parámetros
+        if os.path.exists('params_webhook.json') and os.path.getsize('params_webhook.json') > 0:
+            with open('params_webhook.json', 'r') as f:
+                params = json.load(f)
+        elif os.path.exists('params_manual.json') and os.path.getsize('params_manual.json') > 0:
+            with open('params_manual.json', 'r') as f:
+                params = json.load(f)
+        else:
+            print("ERROR: No se encontraron parámetros")
+            sys.exit(1)
+        
+        contact_id = params['hubspot_contact_id']
+        nuevo_estado = params['nuevo_estado']
+        hubspot_token = "{{ inputs.hubspot_token }}"
+        hubspot_base = "{{ vars.hubspot_base_url }}"
+        
+        # Realizar actualización
+        url = f"{hubspot_base}/crm/v3/objects/contacts/{contact_id}"
+        headers = {
+            "Authorization": f"Bearer {hubspot_token}",
+            "Content-Type": "application/json"
+        }
+        payload = {
+            "properties": {
+                "estado_interés": nuevo_estado
+            }
+        }
+        
+        print(f"🔄 Actualizando contacto {contact_id} a estado '{nuevo_estado}'...")
+        
+        try:
+            response = requests.patch(url, headers=headers, json=payload, timeout=30)
+            status_code = response.status_code
+            
+            result = {
+                'success': status_code in [200, 204],
+                'status_code': status_code,
+                'contact_id': contact_id,
+                'nuevo_estado': nuevo_estado,
+                'message': ''
+            }
+            
+            if result['success']:
+                result['message'] = 'Éxito'
+                print(f"✅ Contacto {contact_id} actualizado exitosamente a estado '{nuevo_estado}'")
+            else:
+                try:
+                    error_data = response.json()
+                    error_msg = error_data.get('message', response.text)
+                except:
+                    error_msg = response.text or "Error desconocido"
+                
+                result['message'] = f"{status_code}: {error_msg}"
+                print(f"❌ Error al actualizar contacto {contact_id}: {result['message']}")
+                sys.exit(1)
+            
+            with open('result.json', 'w') as f:
+                json.dump(result, f, indent=2)
+            
+            # Guardar respuesta de HubSpot
+            try:
+                response_data = response.json()
+            except:
+                response_data = response.text
+            
+            with open('hubspot_response.json', 'w') as f:
+                json.dump({
+                    'code': status_code,
+                    'body': response_data
+                }, f, indent=2)
+                
+        except requests.exceptions.RequestException as e:
+            error_msg = f"ERROR_REQUEST: {str(e)}"
+            print(f"❌ {error_msg}")
+            with open('result.json', 'w') as f:
+                json.dump({
+                    'success': False,
+                    'status_code': 0,
+                    'contact_id': contact_id,
+                    'nuevo_estado': nuevo_estado,
+                    'message': error_msg
+                }, f, indent=2)
+            sys.exit(1)
+    outputFiles:
+      - result.json
+      - hubspot_response.json
+

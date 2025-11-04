@@ -1,0 +1,39 @@
+---
+# Variables para entorno de producción
+environment: prod
+cluster_name: biz-automation-prod
+
+kubernetes:
+  version: "1.29.0-00"
+  pod_cidr: "10.244.0.0/16"
+  service_cidr: "10.96.0.0/12"
+
+airflow:
+  version: "2.8.0"
+  user: airflow
+  home: /opt/airflow
+  executor: KubernetesExecutor
+  database:
+    type: postgresql
+    connection: "postgresql://airflow:{{ vault_airflow_db_password }}@db-prod:5432/airflow"
+
+containerd:
+  version: "1.7.0"
+  config_path: /etc/containerd/config.toml
+
+packages:
+  common:
+    - curl
+    - wget
+    - vim
+    - htop
+    - git
+    - unzip
+
+network:
+  sysctl:
+    net.bridge.bridge-nf-call-iptables: 1
+    net.bridge.bridge-nf-call-ip6tables: 1
+    net.ipv4.ip_forward: 1
+
+

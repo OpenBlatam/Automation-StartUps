@@ -1,0 +1,81 @@
+repositories:
+  - name: ingress-nginx
+    url: https://kubernetes.github.io/ingress-nginx
+  - name: strimzi
+    url: https://strimzi.io/charts/
+  - name: apache-airflow
+    url: https://airflow.apache.org
+  - name: prometheus-community
+    url: https://prometheus-community.github.io/helm-charts
+  - name: elastic
+    url: https://helm.elastic.co
+  - name: camunda
+    url: https://helm.camunda.io
+  - name: jetstack
+    url: https://charts.jetstack.io
+  - name: opencost
+    url: https://opencost.github.io/opencost-helm-chart
+  - name: vmware-tanzu
+    url: https://vmware-tanzu.github.io/helm-charts
+  - name: grafana
+    url: https://grafana.github.io/helm-charts
+  - name: airbytehq
+    url: https://airbytehq.github.io/helm-charts
+
+releases:
+  - name: ingress-nginx
+    namespace: ingress-nginx
+    chart: ingress-nginx/ingress-nginx
+    values:
+      - controller:
+          ingressClassResource:
+            name: nginx
+            default: false
+          service:
+            type: LoadBalancer
+  - name: cert-manager
+    namespace: security
+    chart: jetstack/cert-manager
+    version: v1.15.1
+    values:
+      - installCRDs: true
+  - name: airflow
+    namespace: data
+    chart: apache-airflow/airflow
+    values:
+      - data/airflow/values.yaml
+  - name: kube-prometheus-stack
+    namespace: observability
+    chart: prometheus-community/kube-prometheus-stack
+    values:
+      - observability/prometheus/values.yaml
+  - name: camunda-platform
+    namespace: workflows
+    chart: camunda/camunda-platform
+    values:
+      - workflow/camunda/values.yaml
+  - name: strimzi-kafka-operator
+    namespace: integration
+    chart: strimzi/strimzi-kafka-operator
+    version: 0.41.0
+  - name: opencost
+    namespace: observability
+    chart: opencost/opencost
+    values:
+      - observability/opencost/values.yaml
+  - name: velero
+    namespace: backup
+    chart: vmware-tanzu/velero
+    values:
+      - backup/velero/values.yaml
+  - name: loki
+    namespace: observability
+    chart: grafana/loki-stack
+    values:
+      - observability/loki/values.yaml
+  - name: airbyte
+    namespace: integration
+    chart: airbytehq/airbyte
+    version: 0.56.0
+    values:
+      - kubernetes/integration/airbyte.yaml

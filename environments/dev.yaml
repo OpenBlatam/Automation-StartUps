@@ -1,0 +1,28 @@
+domains:
+  api: api.dev.example.com
+  auth: auth.dev.example.com
+  grafana: grafana.dev.example.com
+  mlflow: mlflow.dev.example.com
+  kibana: kibana.dev.example.com
+oidc:
+  issuer: https://login.dev.example.com/realms/myrealm
+  clientIdSecretRef: oauth2-client-id
+  clientSecretSecretRef: oauth2-client-secret
+certManager:
+  clusterIssuer: letsencrypt-staging
+storage:
+  s3:
+    bucket: biz-datalake-dev
+    region: us-east-1
+
+# KPI Thresholds (development - more lenient)
+kpi:
+  thresholds:
+    leads_critical: 30  # Lower threshold for dev
+    leads_warning: 50
+    revenue_vs_avg7d_critical: 0.5  # 50% in dev
+    revenue_vs_avg7d_warning: 0.7
+    payment_success_critical: 85
+    payment_success_warning: 90
+  refresh_schedule: "0 */6 * * *"  # Less frequent in dev
+  dq_health_schedule: "0 */12 * * *"  # Less frequent checks

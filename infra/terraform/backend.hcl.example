@@ -1,0 +1,25 @@
+# Backend Configuration Example
+# Copy this file to backend.hcl and customize with your values
+# Use with: terraform init -backend-config=backend.hcl
+
+# For AWS S3 Backend:
+bucket         = "tf-state-biz-automation-ACCOUNT-ID"
+key            = "environments/dev/terraform.tfstate"
+region         = "us-east-1"
+dynamodb_table = "terraform-state-lock"
+encrypt        = true
+# kms_key_id     = "arn:aws:kms:us-east-1:ACCOUNT:key/KEY_ID"  # Optional: customer-managed key
+
+# For Azure Storage Backend:
+# resource_group_name  = "rg-tfstate"
+# storage_account_name = "sttfstateUNIQUEID"
+# container_name       = "tfstate"
+# key                  = "environments/dev/terraform.tfstate"
+
+# For GCS Backend:
+# bucket = "tf-state-biz-automation-PROJECT-ID"
+# prefix = "environments/dev/terraform.tfstate"
+# # encryption_key = "projects/PROJECT_ID/locations/LOCATION/keyRings/RING/cryptoKeys/KEY"
+
+
+

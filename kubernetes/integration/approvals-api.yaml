@@ -1,0 +1,382 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: approvals-api
+  namespace: workflows
+  labels:
+    app: approvals-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: approvals-api
+  template:
+    metadata:
+      labels:
+        app: approvals-api
+    spec:
+      containers:
+        - name: approvals-api
+          image: python:3.11-slim
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              pip install fastapi uvicorn psycopg2-binary python-dotenv pydantic && \
+              python -m uvicorn main:app --host 0.0.0.0 --port 8000
+          ports:
+            - containerPort: 8000
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: approvals-db-secret
+                  key: url
+            - name: FLOWABLE_BASE_URL
+              value: "http://flowable.workflows.svc.cluster.local:8080/flowable-rest"
+            - name: FLOWABLE_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: flowable-token
+                  key: token
+            - name: KESTRA_BASE_URL
+              value: "http://kestra.workflows.svc.cluster.local:8080"
+          volumeMounts:
+            - name: app-code
+              mountPath: /app
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 5
+      volumes:
+        - name: app-code
+          configMap:
+            name: approvals-api-code
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: approvals-api-code
+  namespace: workflows
+data:
+  main.py: |
+    from fastapi import FastAPI, HTTPException, Depends
+    from fastapi.middleware.cors import CORSMiddleware
+    from pydantic import BaseModel, EmailStr
+    from typing import Optional, List, Dict, Any
+    from datetime import date, datetime
+    from enum import Enum
+    import os
+    import psycopg2
+    import psycopg2.extras
+    import httpx
+    import uuid
+    from contextlib import contextmanager
+
+    app = FastAPI(title="Approvals API", version="1.0.0")
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
+    # Database connection
+    @contextmanager
+    def get_db():
+        conn = psycopg2.connect(
+            os.getenv("DATABASE_URL"),
+            cursor_factory=psycopg2.extras.RealDictCursor
+        )
+        try:
+            yield conn
+            conn.commit()
+        except Exception:
+            conn.rollback()
+            raise
+        finally:
+            conn.close()
+
+    # Enums
+    class RequestType(str, Enum):
+        vacation = "vacation"
+        expense = "expense"
+        document = "document"
+
+    class RequestStatus(str, Enum):
+        draft = "draft"
+        pending = "pending"
+        auto_approved = "auto_approved"
+        approved = "approved"
+        rejected = "rejected"
+        cancelled = "cancelled"
+
+    # Models
+    class VacationRequest(BaseModel):
+        start_date: date
+        end_date: date
+        vacation_type: str = "annual"
+
+    class ExpenseRequest(BaseModel):
+        amount: float
+        currency: str = "USD"
+        category: str
+        expense_date: Optional[date] = None
+        receipt_url: Optional[str] = None
+
+    class DocumentRequest(BaseModel):
+        document_url: str
+        document_category: str
+        document_version: Optional[str] = "1.0"
+        requires_review: bool = True
+
+    class ApprovalRequestCreate(BaseModel):
+        request_type: RequestType
+        requester_email: EmailStr
+        title: str
+        description: Optional[str] = None
+        vacation: Optional[VacationRequest] = None
+        expense: Optional[ExpenseRequest] = None
+        document: Optional[DocumentRequest] = None
+        priority: str = "normal"
+        metadata: Optional[Dict[str, Any]] = None
+
+    class ApprovalRequestResponse(BaseModel):
+        id: str
+        request_type: str
+        requester_email: str
+        title: str
+        status: str
+        created_at: datetime
+        submitted_at: Optional[datetime] = None
+        auto_approved: bool
+
+    @app.get("/health")
+    async def health():
+        return {"status": "healthy"}
+
+    @app.post("/requests", response_model=ApprovalRequestResponse)
+    async def create_request(request: ApprovalRequestCreate):
+        """Create a new approval request"""
+        request_id = str(uuid.uuid4())
+        
+        # Validate request type specific data
+        if request.request_type == RequestType.vacation and not request.vacation:
+            raise HTTPException(status_code=400, detail="vacation data required for vacation requests")
+        if request.request_type == RequestType.expense and not request.expense:
+            raise HTTPException(status_code=400, detail="expense data required for expense requests")
+        if request.request_type == RequestType.document and not request.document:
+            raise HTTPException(status_code=400, detail="document data required for document requests")
+        
+        with get_db() as db:
+            cursor = db.cursor()
+            
+            # Calculate vacation days if needed
+            vacation_days = None
+            if request.vacation:
+                delta = request.vacation.end_date - request.vacation.start_date
+                vacation_days = delta.days + 1
+            
+            # Insert request
+            cursor.execute("""
+                INSERT INTO approval_requests (
+                    id, request_type, requester_email, title, description,
+                    vacation_start_date, vacation_end_date, vacation_days, vacation_type,
+                    expense_amount, expense_currency, expense_category, expense_date, expense_receipt_url,
+                    document_category, document_url, document_version, requires_review,
+                    metadata, priority, status
+                ) VALUES (
+                    %s, %s, %s, %s, %s,
+                    %s, %s, %s, %s,
+                    %s, %s, %s, %s, %s,
+                    %s, %s, %s, %s,
+                    %s, %s, 'draft'
+                )
+                RETURNING id, request_type, requester_email, title, status, created_at, submitted_at, auto_approved
+            """, (
+                request_id,
+                request.request_type.value,
+                request.requester_email,
+                request.title,
+                request.description,
+                request.vacation.start_date if request.vacation else None,
+                request.vacation.end_date if request.vacation else None,
+                vacation_days,
+                request.vacation.vacation_type if request.vacation else None,
+                request.expense.amount if request.expense else None,
+                request.expense.currency if request.expense else None,
+                request.expense.category if request.expense else None,
+                request.expense.expense_date if request.expense else None,
+                request.expense.receipt_url if request.expense else None,
+                request.document.document_category if request.document else None,
+                request.document.document_url if request.document else None,
+                request.document.document_version if request.document else None,
+                request.document.requires_review if request.document else True,
+                request.metadata or {},
+                request.priority
+            ))
+            
+            result = cursor.fetchone()
+            
+            # Trigger Kestra flow for auto-evaluation
+            kestra_url = os.getenv("KESTRA_BASE_URL")
+            if kestra_url:
+                try:
+                    async with httpx.AsyncClient() as client:
+                        await client.post(
+                            f"{kestra_url}/api/v1/executions/trigger/webhook/approval_webhook_handler",
+                            json={
+                                "request_type": request.request_type.value,
+                                "requester_email": request.requester_email,
+                                "title": request.title,
+                                "description": request.description,
+                                "vacation_start_date": request.vacation.start_date.isoformat() if request.vacation else None,
+                                "vacation_end_date": request.vacation.end_date.isoformat() if request.vacation else None,
+                                "vacation_days": vacation_days,
+                                "vacation_type": request.vacation.vacation_type if request.vacation else None,
+                                "expense_amount": request.expense.amount if request.expense else None,
+                                "expense_currency": request.expense.currency if request.expense else None,
+                                "expense_category": request.expense.category if request.expense else None,
+                                "expense_date": request.expense.expense_date.isoformat() if request.expense and request.expense.expense_date else None,
+                                "expense_receipt_url": request.expense.receipt_url if request.expense else None,
+                                "document_category": request.document.document_category if request.document else None,
+                                "document_url": request.document.document_url if request.document else None,
+                                "document_version": request.document.document_version if request.document else None,
+                                "requires_review": request.document.requires_review if request.document else None,
+                                "priority": request.priority
+                            },
+                            timeout=30.0
+                        )
+                except Exception as e:
+                    # Log error but don't fail the request creation
+                    print(f"Failed to trigger Kestra flow: {e}")
+            
+            return ApprovalRequestResponse(**result)
+
+    @app.get("/requests/{request_id}", response_model=ApprovalRequestResponse)
+    async def get_request(request_id: str):
+        """Get an approval request by ID"""
+        with get_db() as db:
+            cursor = db.cursor()
+            cursor.execute("""
+                SELECT id, request_type, requester_email, title, status, 
+                       created_at, submitted_at, auto_approved
+                FROM approval_requests
+                WHERE id = %s
+            """, (request_id,))
+            
+            result = cursor.fetchone()
+            if not result:
+                raise HTTPException(status_code=404, detail="Request not found")
+            
+            return ApprovalRequestResponse(**result)
+
+    @app.get("/requests", response_model=List[ApprovalRequestResponse])
+    async def list_requests(
+        requester_email: Optional[str] = None,
+        status: Optional[str] = None,
+        request_type: Optional[str] = None,
+        limit: int = 50,
+        offset: int = 0
+    ):
+        """List approval requests with optional filters"""
+        with get_db() as db:
+            cursor = db.cursor()
+            
+            query = "SELECT id, request_type, requester_email, title, status, created_at, submitted_at, auto_approved FROM approval_requests WHERE 1=1"
+            params = []
+            
+            if requester_email:
+                query += " AND requester_email = %s"
+                params.append(requester_email)
+            
+            if status:
+                query += " AND status = %s"
+                params.append(status)
+            
+            if request_type:
+                query += " AND request_type = %s"
+                params.append(request_type)
+            
+            query += " ORDER BY created_at DESC LIMIT %s OFFSET %s"
+            params.extend([limit, offset])
+            
+            cursor.execute(query, params)
+            results = cursor.fetchall()
+            
+            return [ApprovalRequestResponse(**r) for r in results]
+
+    @app.get("/pending-approvals/{approver_email}")
+    async def get_pending_approvals(approver_email: str):
+        """Get pending approvals for an approver"""
+        with get_db() as db:
+            cursor = db.cursor()
+            cursor.execute("""
+                SELECT * FROM v_pending_approvals
+                WHERE approver_email = %s
+                ORDER BY request_created_at DESC
+            """, (approver_email,))
+            
+            results = cursor.fetchall()
+            return [dict(r) for r in results]
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: approvals-api
+  namespace: workflows
+spec:
+  selector:
+    app: approvals-api
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+  type: ClusterIP
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: approvals-api-ingress
+  namespace: workflows
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: approvals.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: approvals-api
+                port:
+                  number: 8000
+  tls:
+    - hosts:
+        - approvals.example.com
+      secretName: approvals-api-tls
+
+

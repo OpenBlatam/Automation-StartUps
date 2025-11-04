@@ -1,0 +1,210 @@
+id: approval_metrics_report
+namespace: workflows
+
+labels:
+  app: approvals
+  type: reporting
+  category: analytics
+
+description: |
+  📊 Reporte de Métricas de Aprobaciones
+  
+  Genera reportes periódicos de métricas de aprobaciones para análisis y monitoreo.
+
+schedule:
+  - id: weekly_report
+    type: io.kestra.core.models.triggers.types.Schedule
+    cron: "0 8 * * 1"  # Lunes a las 8 AM
+    timezone: "America/Mexico_City"
+
+inputs:
+  - name: jdbc_url
+    type: STRING
+    required: true
+    description: URL JDBC de PostgreSQL
+  - name: jdbc_user
+    type: STRING
+    required: true
+    description: Usuario de PostgreSQL
+  - name: jdbc_password
+    type: SECRET
+    required: true
+    description: Contraseña de PostgreSQL
+  - name: slack_webhook_url
+    type: SECRET
+    required: false
+    description: URL del webhook de Slack
+  - name: report_period_days
+    type: INTEGER
+    required: false
+    default: 7
+    description: Días hacia atrás para el reporte
+
+tasks:
+  - id: get_metrics_summary
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    sql: |
+      WITH period_stats AS (
+        SELECT 
+          request_type,
+          status,
+          COUNT(*) AS count,
+          AVG(EXTRACT(EPOCH FROM (completed_at - submitted_at)) / 3600) AS avg_hours_to_complete,
+          COUNT(*) FILTER (WHERE auto_approved = true) AS auto_approved_count,
+          COUNT(*) FILTER (WHERE auto_approved = false) AS manual_approved_count
+        FROM approval_requests
+        WHERE submitted_at >= NOW() - INTERVAL '{{ inputs.report_period_days }} days'
+        GROUP BY request_type, status
+      ),
+      pending_stats AS (
+        SELECT 
+          COUNT(*) AS total_pending,
+          COUNT(*) FILTER (WHERE timeout_date < NOW()) AS overdue,
+          COUNT(*) FILTER (WHERE timeout_date BETWEEN NOW() AND NOW() + INTERVAL '2 days') AS due_soon
+        FROM approval_chains ac
+        JOIN approval_requests ar ON ac.request_id = ar.id
+        WHERE ac.status = 'pending' AND ar.status = 'pending'
+      ),
+      approval_time_stats AS (
+        SELECT 
+          AVG(EXTRACT(EPOCH FROM (approved_at - created_at)) / 3600) AS avg_approval_hours,
+          AVG(EXTRACT(EPOCH FROM (approved_at - created_at)) / 3600) FILTER (WHERE level = 1) AS avg_level1_hours,
+          AVG(EXTRACT(EPOCH FROM (approved_at - created_at)) / 3600) FILTER (WHERE level = 2) AS avg_level2_hours,
+          AVG(EXTRACT(EPOCH FROM (approved_at - created_at)) / 3600) FILTER (WHERE level >= 3) AS avg_level3plus_hours
+        FROM approval_chains
+        WHERE status = 'approved' 
+          AND approved_at >= NOW() - INTERVAL '{{ inputs.report_period_days }} days'
+      )
+      SELECT 
+        jsonb_build_object(
+          'period_stats', (SELECT jsonb_agg(row_to_json(period_stats)) FROM period_stats),
+          'pending_stats', (SELECT row_to_json(pending_stats) FROM pending_stats),
+          'approval_time_stats', (SELECT row_to_json(approval_time_stats) FROM approval_time_stats),
+          'report_period_days', {{ inputs.report_period_days }},
+          'report_date', NOW()
+        ) AS metrics
+    fetchOne: true
+
+  - id: format_report
+    type: io.kestra.plugin.scripts.javascript.Script
+    script: |
+      const metrics = taskrun.outputs['get_metrics_summary'].metrics;
+      const periodStats = metrics.period_stats || [];
+      const pendingStats = metrics.pending_stats || {};
+      const approvalTimeStats = metrics.approval_time_stats || {};
+      
+      // Calcular totales
+      let totalRequests = 0;
+      let totalAutoApproved = 0;
+      let totalManualApproved = 0;
+      
+      periodStats.forEach(stat => {
+        totalRequests += stat.count || 0;
+        totalAutoApproved += stat.auto_approved_count || 0;
+        totalManualApproved += stat.manual_approved_count || 0;
+      });
+      
+      const autoApprovalRate = totalRequests > 0 ? 
+        ((totalAutoApproved / totalRequests) * 100).toFixed(1) : 0;
+      
+      // Formatear texto del reporte
+      let reportText = `*📊 Reporte de Aprobaciones - Últimos ${metrics.report_period_days} días*\n\n`;
+      
+      reportText += `*📈 Resumen General:*\n`;
+      reportText += `• Total de solicitudes: ${totalRequests}\n`;
+      reportText += `• Auto-aprobadas: ${totalAutoApproved} (${autoApprovalRate}%)\n`;
+      reportText += `• Manuales: ${totalManualApproved}\n\n`;
+      
+      reportText += `*⏳ Aprobaciones Pendientes:*\n`;
+      reportText += `• Total pendientes: ${pendingStats.total_pending || 0}\n`;
+      reportText += `• Vencidas: ${pendingStats.overdue || 0}\n`;
+      reportText += `• Por vencer (2 días): ${pendingStats.due_soon || 0}\n\n`;
+      
+      if (approvalTimeStats.avg_approval_hours) {
+        reportText += `*⏱️ Tiempo Promedio de Aprobación:*\n`;
+        reportText += `• General: ${approvalTimeStats.avg_approval_hours.toFixed(1)} horas\n`;
+        if (approvalTimeStats.avg_level1_hours) {
+          reportText += `• Nivel 1 (Manager): ${approvalTimeStats.avg_level1_hours.toFixed(1)} horas\n`;
+        }
+        if (approvalTimeStats.avg_level2_hours) {
+          reportText += `• Nivel 2 (Finance/HR): ${approvalTimeStats.avg_level2_hours.toFixed(1)} horas\n`;
+        }
+        if (approvalTimeStats.avg_level3plus_hours) {
+          reportText += `• Nivel 3+ (Director/CEO): ${approvalTimeStats.avg_level3plus_hours.toFixed(1)} horas\n`;
+        }
+        reportText += `\n`;
+      }
+      
+      // Desglose por tipo
+      if (periodStats.length > 0) {
+        reportText += `*📋 Por Tipo de Solicitud:*\n`;
+        periodStats.forEach(stat => {
+          reportText += `• ${stat.request_type}: ${stat.count} solicitudes\n`;
+          if (stat.avg_hours_to_complete) {
+            reportText += `  - Tiempo promedio: ${stat.avg_hours_to_complete.toFixed(1)} horas\n`;
+          }
+        });
+      }
+      
+      return {
+        report_text: reportText,
+        metrics: metrics
+      };
+
+  - id: send_slack_report
+    type: io.kestra.plugin.core.http.Request
+    disabled: "{{ not inputs.slack_webhook_url }}"
+    allowFailure: true
+    uri: "{{ inputs.slack_webhook_url }}"
+    method: POST
+    headers:
+      Content-Type: application/json
+    body: |
+      {
+        "text": "📊 Reporte de Métricas de Aprobaciones",
+        "blocks": [
+          {
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": "{{ taskrun.outputs['format_report'].report_text }}"
+            }
+          },
+          {
+            "type": "divider"
+          },
+          {
+            "type": "context",
+            "elements": [
+              {
+                "type": "mrkdwn",
+                "text": "Generado automáticamente por el sistema de aprobaciones"
+              }
+            ]
+          }
+        ]
+      }
+    timeout: PT10S
+
+  - id: save_report_to_file
+    type: io.kestra.plugin.core.tasks.Log
+    message: |
+      📊 REPORTE DE MÉTRICAS DE APROBACIONES
+      ======================================
+      
+      {{ taskrun.outputs['format_report'].report_text }}
+      
+      Métricas completas:
+      {{ taskrun.outputs['format_report'].metrics | toJson }}
+
+outputs:
+  report_text:
+    type: STRING
+    value: "{{ taskrun.outputs['format_report'].report_text }}"
+  total_requests:
+    type: INTEGER
+    value: "{{ taskrun.outputs['format_report'].metrics.period_stats | map(attribute='count') | sum }}"
+

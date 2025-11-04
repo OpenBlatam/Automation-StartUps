@@ -1,0 +1,199 @@
+{
+	"id": null,
+	"uid": "etl-improved",
+	"title": "ETL Improved Metrics",
+	"tags": ["etl", "airflow"],
+	"timezone": "browser",
+	"schemaVersion": 38,
+	"version": 1,
+	"refresh": "30s",
+	"templating": {
+		"list": [
+			{
+				"name": "__interval",
+				"type": "interval",
+				"query": "1m,5m,15m,30m,1h"
+			}
+		]
+	},
+	"panels": [
+		{
+			"type": "stat",
+			"title": "Runs Today",
+			"gridPos": {"x":0,"y":0,"w":4,"h":4},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "table",
+					"rawSql": "SELECT COALESCE(SUM(num_runs),0) AS runs FROM mv_etl_metrics_daily WHERE day = CURRENT_DATE;",
+					"refId": "A"
+				}
+			],
+			"fieldConfig": {
+				"defaults": {
+					"color": {"mode": "thresholds"},
+					"thresholds": {"mode": "absolute", "steps": [{"value": null, "color": "green"}]}
+				}
+			}
+		},
+		{
+			"type": "stat",
+			"title": "Avg Ratio Today",
+			"gridPos": {"x":4,"y":0,"w":4,"h":4},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "table",
+					"rawSql": "SELECT COALESCE(ratio_avg,0) AS ratio FROM mv_etl_metrics_daily WHERE day = CURRENT_DATE;",
+					"refId": "A"
+				}
+			],
+			"fieldConfig": {
+				"defaults": {
+					"decimals": 3,
+					"color": {"mode": "thresholds"},
+					"thresholds": {
+						"mode": "absolute",
+						"steps": [
+							{"value": null, "color": "red"},
+							{"value": 0.95, "color": "yellow"},
+							{"value": 1.0, "color": "green"}
+						]
+					}
+				}
+			}
+		},
+		{
+			"type": "stat",
+			"title": "Low Ratio Count Today",
+			"gridPos": {"x":8,"y":0,"w":4,"h":4},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "table",
+					"rawSql": "SELECT COALESCE(SUM(low_ratio_count),0) AS count FROM mv_etl_metrics_daily WHERE day = CURRENT_DATE;",
+					"refId": "A"
+				}
+			},
+			"fieldConfig": {
+				"defaults": {
+					"color": {"mode": "thresholds"},
+					"thresholds": {
+						"mode": "absolute",
+						"steps": [
+							{"value": null, "color": "green"},
+							{"value": 1, "color": "yellow"},
+							{"value": 5, "color": "red"}
+						]
+					}
+				}
+			}
+		},
+		{
+			"type": "stat",
+			"title": "Total Rows Today",
+			"gridPos": {"x":12,"y":0,"w":4,"h":4},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "table",
+					"rawSql": "SELECT COALESCE(SUM(total_rows_sum),0) AS rows FROM mv_etl_metrics_daily WHERE day = CURRENT_DATE;",
+					"refId": "A"
+				}
+			}
+		},
+		{
+			"type": "timeseries",
+			"title": "Ratio Average Over Time",
+			"gridPos": {"x":0,"y":4,"w":8,"h":6},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "table",
+					"rawSql": "SELECT day AS time, ratio_avg AS ratio FROM mv_etl_metrics_daily ORDER BY day DESC LIMIT 30;",
+					"refId": "A"
+				}
+			],
+			"fieldConfig": {
+				"defaults": {
+					"decimals": 3,
+					"custom": {"drawStyle": "line", "lineInterpolation": "linear"},
+					"color": {"mode": "palette-classic"},
+					"thresholds": {
+						"mode": "absolute",
+						"steps": [
+							{"value": null, "color": "red"},
+							{"value": 0.95, "color": "yellow"},
+							{"value": 1.0, "color": "green"}
+						]
+					}
+				}
+			}
+		},
+		{
+			"type": "timeseries",
+			"title": "Runs & Rows Per Day",
+			"gridPos": {"x":8,"y":4,"w":8,"h":6},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "table",
+					"rawSql": "SELECT day AS time, num_runs AS runs, total_rows_sum::float / NULLIF(num_runs,0) AS avg_rows_per_run FROM mv_etl_metrics_daily ORDER BY day DESC LIMIT 30;",
+					"refId": "A"
+				}
+			],
+			"fieldConfig": {
+				"defaults": {
+					"custom": {"drawStyle": "bars", "barAlignment": 0}
+				}
+			}
+		},
+		{
+			"type": "timeseries",
+			"title": "Ratio Min/Max Range",
+			"gridPos": {"x":0,"y":10,"w":8,"h":6},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "table",
+					"rawSql": "SELECT day AS time, ratio_min AS min, ratio_max AS max, ratio_avg AS avg FROM mv_etl_metrics_daily ORDER BY day DESC LIMIT 30;",
+					"refId": "A"
+				}
+			],
+			"fieldConfig": {
+				"defaults": {
+					"decimals": 3,
+					"custom": {"drawStyle": "line", "fillOpacity": 10}
+				}
+			}
+		},
+		{
+			"type": "table",
+			"title": "Alerts by Type (Last 7 Days)",
+			"gridPos": {"x":8,"y":10,"w":8,"h":6},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "table",
+					"rawSql": "SELECT day, kind, alert_count FROM mv_etl_alerts_daily WHERE day >= CURRENT_DATE - INTERVAL '7 days' ORDER BY day DESC, kind;",
+					"refId": "A"
+				}
+			]
+		},
+		{
+			"type": "table",
+			"title": "Latest Metrics Details",
+			"gridPos": {"x":0,"y":16,"w":16,"h":6},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "table",
+					"rawSql": "SELECT run_label, total_rows, expected_rows, ratio, num_chunks, dry_run, at FROM public.etl_improved_metrics ORDER BY at DESC LIMIT 20;",
+					"refId": "A"
+				}
+			]
+		}
+	]
+}
+
+

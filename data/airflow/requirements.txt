@@ -1,0 +1,25 @@
+apache-airflow-providers-mysql
+apache-airflow-providers-postgres
+apache-airflow-providers-http
+great_expectations
+boto3
+pandas
+psycopg2
+kafka-python
+# Airbyte integration - para orquestar sincronizaciones de datos
+# Usamos HTTP provider para llamar a la API de Airbyte
+
+# Payroll Processing - OCR dependencies
+pytesseract  # OCR con Tesseract
+Pillow  # Procesamiento de imágenes para Tesseract
+google-cloud-vision  # OCR con Google Cloud Vision (opcional)
+
+# Payroll Processing - Additional features
+cachetools  # Sistema de caché para optimización
+pandas  # Exportación a Excel
+openpyxl  # Soporte Excel para pandas
+requests  # Para notificaciones y webhooks
+cryptography  # Para funciones de seguridad (opcional)
+
+
+

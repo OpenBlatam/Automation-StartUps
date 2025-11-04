@@ -1,0 +1,51 @@
+# Staging Environment Configuration
+# Copy this file to staging.tfvars and customize as needed
+
+project_name = "biz-automation"
+environment  = "stg"
+
+# AWS Configuration
+aws_region   = "us-east-1"
+cluster_name = "biz-automation-stg"
+
+# Networking
+vpc_cidr = "10.21.0.0/16"
+private_subnets = ["10.21.1.0/24", "10.21.2.0/24"]
+public_subnets  = ["10.21.11.0/24", "10.21.12.0/24"]
+
+# NAT Gateway (can use single NAT for cost savings)
+enable_nat_gateway = true
+single_nat_gateway = true
+
+# Data Lake
+datalake_bucket = "biz-datalake-stg"
+
+# EKS Configuration
+kubernetes_version = "1.29"
+
+eks_node_groups = {
+  default = {
+    min_size      = 2
+    max_size      = 5
+    desired_size  = 3
+    instance_types = ["m5.large", "m5.xlarge"]
+    disk_size     = 100
+    capacity_type = "ON_DEMAND"
+    labels        = {}
+    taints        = []
+  }
+}
+
+# Features
+enable_vpc_flow_logs = true
+enable_encryption    = true
+
+# Additional Tags
+additional_tags = {
+  Team        = "platform"
+  CostCenter  = "qa"
+  Backup      = "daily"
+}
+
+
+

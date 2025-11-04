@@ -1,0 +1,78 @@
+id: subflow_metrics_logger
+namespace: workflows
+
+description: Subflow para logging estructurado y métricas en workflows de Kestra
+
+inputs:
+  - name: metric_name
+    type: STRING
+    required: true
+  - name: value
+    type: NUMBER
+    required: false
+  - name: labels
+    type: JSON
+    required: false
+    default: {}
+  - name: log_level
+    type: STRING
+    required: false
+    default: INFO
+  - name: message
+    type: STRING
+    required: false
+
+tasks:
+  - id: log_metric
+    type: io.kestra.plugin.scripts.python.Script
+    description: Logs métricas estructuradas para observabilidad
+    inputFiles:
+      metric.py: |
+        import json, os, sys
+        from datetime import datetime
+        
+        metric_name = os.getenv('METRIC_NAME')
+        value = float(os.getenv('VALUE', '0'))
+        labels = json.loads(os.getenv('LABELS', '{}'))
+        log_level = os.getenv('LOG_LEVEL', 'INFO')
+        message = os.getenv('MESSAGE', '')
+        
+        log_entry = {
+            "timestamp": datetime.utcnow().isoformat() + "Z",
+            "level": log_level,
+            "metric": metric_name,
+            "value": value,
+            "labels": labels
+        }
+        
+        if message:
+            log_entry["message"] = message
+        
+        # Output structured log (can be consumed by ELK/Prometheus)
+        print(json.dumps(log_entry, ensure_ascii=False))
+        
+        # Also print human-readable
+        label_str = ", ".join([f"{k}={v}" for k, v in labels.items()]) if labels else ""
+        print(f"[{log_level}] {metric_name}={value} {label_str}")
+        if message:
+            print(f"  {message}")
+    
+    env:
+      METRIC_NAME: "{{ inputs.metric_name }}"
+      VALUE: "{{ inputs.value | default(0) }}"
+      LABELS: "{{ inputs.labels | toJson }}"
+      LOG_LEVEL: "{{ inputs.log_level }}"
+      MESSAGE: "{{ inputs.message | default('') }}"
+
+  - id: return_metric
+    type: io.kestra.plugin.core.debug.Return
+    format: json
+    value: |
+      {
+        "metric": "{{ inputs.metric_name }}",
+        "value": {{ inputs.value | default(0) }},
+        "labels": {{ inputs.labels | toJson }},
+        "logged_at": "{{ now() }}"
+      }
+
+

@@ -1,0 +1,88 @@
+loki:
+  enabled: true
+  
+  # Configuración de almacenamiento
+  storage:
+    type: filesystem  # Para producción, usar S3 o GCS
+    bucketNames:
+      chunks: loki-chunks
+      ruler: loki-ruler
+  
+  # Configuración de retención
+  retention:
+    enabled: true
+    days: 30  # Retener logs por 30 días
+  
+  # Recursos
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  
+  # Configuración de compresión
+  compactor:
+    retentionEnabled: true
+    retentionDeleteDelay: "2h"
+    retentionDeleteWorkerCount: 150
+
+# Promtail para recolectar logs
+promtail:
+  enabled: true
+  
+  # Configuración para scrapear logs de pods
+  config:
+    clients:
+      - url: http://loki:3100/loki/api/v1/push
+    
+    scrapeConfigs:
+      - jobName: kubernetes-pods
+        kubernetes_sd_configs:
+          - role: pod
+        relabel_configs:
+          - source_labels:
+              - __meta_kubernetes_pod_node_name
+            target_label: __host__
+          - action: labelmap
+            regex: __meta_kubernetes_pod_label_(.+)
+          - action: replace
+            replacement: $1
+            separator: /
+            source_labels:
+              - __meta_kubernetes_namespace
+              - __meta_kubernetes_pod_name
+            target_label: job
+          - action: replace
+            source_labels:
+              - __meta_kubernetes_namespace
+            target_label: namespace
+          - action: replace
+            source_labels:
+              - __meta_kubernetes_pod_name
+            target_label: pod
+          - action: replace
+            source_labels:
+              - __meta_kubernetes_pod_container_name
+            target_label: container
+          - replacement: /var/log/pods/*$1/*.log
+            separator: /
+            source_labels:
+              - __meta_kubernetes_pod_uid
+              - __meta_kubernetes_pod_container_name
+            target_label: __path__
+          - action: replace
+            regex: true/(.*)
+            replacement: /var/log/pods/*$1/*.log
+            separator: /
+            source_labels:
+              - __meta_kubernetes_pod_container_name
+              - __meta_kubernetes_pod_uid
+            target_label: __path__
+
+# Gateway (opcional, para routing)
+gateway:
+  enabled: false
+
+

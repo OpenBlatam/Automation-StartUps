@@ -1,0 +1,210 @@
+id: approval_webhook_handler
+namespace: workflows
+
+labels:
+  app: approvals
+  type: webhook
+  category: workflow
+
+description: |
+  🎯 Webhook Handler para Solicitudes de Aprobación
+  
+  Este flujo recibe solicitudes de aprobación vía webhook y las procesa automáticamente:
+  1. Valida la solicitud
+  2. Crea el registro en la base de datos
+  3. Evalúa reglas automáticas
+  4. Inicia proceso en Flowable si es necesario
+
+triggers:
+  - id: webhook
+    type: io.kestra.core.models.triggers.types.Webhook
+    path: /approvals/submit
+
+inputs:
+  - name: request_type
+    type: STRING
+    required: true
+    description: Tipo de solicitud (vacation, expense, document)
+  - name: requester_email
+    type: STRING
+    required: true
+    description: Email del solicitante
+  - name: title
+    type: STRING
+    required: true
+    description: Título de la solicitud
+  - name: description
+    type: STRING
+    required: false
+    description: Descripción de la solicitud
+  - name: jdbc_url
+    type: STRING
+    required: true
+    description: URL JDBC de PostgreSQL
+  - name: jdbc_user
+    type: STRING
+    required: true
+    description: Usuario de PostgreSQL
+  - name: jdbc_password
+    type: SECRET
+    required: true
+    description: Contraseña de PostgreSQL
+  - name: flowable_base_url
+    type: STRING
+    required: false
+    description: URL base de Flowable REST API
+  - name: flowable_token
+    type: SECRET
+    required: false
+    description: Token de autenticación de Flowable
+
+tasks:
+  - id: validate_request
+    type: io.kestra.plugin.scripts.javascript.Script
+    script: |
+      const validTypes = ['vacation', 'expense', 'document'];
+      
+      if (!validTypes.includes(inputs.request_type)) {
+        throw new Error(`Invalid request_type: ${inputs.request_type}. Must be one of: ${validTypes.join(', ')}`);
+      }
+      
+      if (!inputs.requester_email || !inputs.requester_email.includes('@')) {
+        throw new Error("Invalid requester_email");
+      }
+      
+      if (!inputs.title || inputs.title.trim().length === 0) {
+        throw new Error("Title is required");
+      }
+      
+      // Validaciones específicas por tipo
+      if (inputs.request_type === 'vacation') {
+        if (!inputs.vacation_start_date || !inputs.vacation_end_date) {
+          throw new Error("vacation_start_date and vacation_end_date are required for vacation requests");
+        }
+        if (inputs.vacation_days <= 0) {
+          throw new Error("vacation_days must be greater than 0");
+        }
+      }
+      
+      if (inputs.request_type === 'expense') {
+        if (!inputs.expense_amount || inputs.expense_amount <= 0) {
+          throw new Error("expense_amount must be greater than 0");
+        }
+        if (!inputs.expense_category) {
+          throw new Error("expense_category is required for expense requests");
+        }
+      }
+      
+      if (inputs.request_type === 'document') {
+        if (!inputs.document_url) {
+          throw new Error("document_url is required for document requests");
+        }
+      }
+      
+      logger.info("Request validation passed");
+      return { valid: true };
+
+  - id: create_request
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    sql: |
+      INSERT INTO approval_requests (
+        request_type,
+        requester_email,
+        title,
+        description,
+        vacation_start_date,
+        vacation_end_date,
+        vacation_days,
+        vacation_type,
+        expense_amount,
+        expense_currency,
+        expense_category,
+        expense_date,
+        expense_receipt_url,
+        document_category,
+        document_url,
+        document_version,
+        requires_review,
+        metadata,
+        priority,
+        status
+      ) VALUES (
+        '{{ inputs.request_type }}'::approval_request_type,
+        '{{ inputs.requester_email }}',
+        '{{ inputs.title }}',
+        {{ inputs.description ? "'" + inputs.description.replace(/'/g, "''") + "'" : "NULL" }},
+        {{ inputs.vacation_start_date ? "'" + inputs.vacation_start_date + "'::date" : "NULL" }},
+        {{ inputs.vacation_end_date ? "'" + inputs.vacation_end_date + "'::date" : "NULL" }},
+        {{ inputs.vacation_days or "NULL" }},
+        {{ inputs.vacation_type ? "'" + inputs.vacation_type + "'" : "NULL" }},
+        {{ inputs.expense_amount or "NULL" }},
+        {{ inputs.expense_currency ? "'" + inputs.expense_currency + "'" : "'USD'" }},
+        {{ inputs.expense_category ? "'" + inputs.expense_category + "'" : "NULL" }},
+        {{ inputs.expense_date ? "'" + inputs.expense_date + "'::date" : "NULL" }},
+        {{ inputs.expense_receipt_url ? "'" + inputs.expense_receipt_url + "'" : "NULL" }},
+        {{ inputs.document_category ? "'" + inputs.document_category + "'::document_category" : "NULL" }},
+        {{ inputs.document_url ? "'" + inputs.document_url + "'" : "NULL" }},
+        {{ inputs.document_version ? "'" + inputs.document_version + "'" : "'1.0'" }},
+        {{ inputs.requires_review !== false }},
+        jsonb_build_object(
+          'submitted_via', 'webhook',
+          'kestra_execution_id', '{{ execution.id }}',
+          {% if inputs.request_type == 'document' %}
+          'document_version', '{{ inputs.document_version or "1.0" }}',
+          {% endif %}
+          'receipt_url', {{ inputs.expense_receipt_url ? "'" + inputs.expense_receipt_url + "'" : "NULL" }}
+        ),
+        '{{ inputs.priority or "normal" }}',
+        'draft'::approval_request_status
+      )
+      RETURNING id, request_type, status, created_at
+
+  - id: evaluate_auto_rules
+    type: io.kestra.plugin.core.flow.Subflow
+    namespace: workflows
+    flowId: approval_auto_evaluate_rules
+    inputs:
+      request_id: "{{ taskrun.outputs['create_request'].id }}"
+      request_type: "{{ taskrun.outputs['create_request'].request_type }}"
+      jdbc_url: "{{ inputs.jdbc_url }}"
+      jdbc_user: "{{ inputs.jdbc_user }}"
+      jdbc_password: "{{ inputs.jdbc_password }}"
+      flowable_base_url: "{{ inputs.flowable_base_url }}"
+      flowable_token: "{{ inputs.flowable_token }}"
+      enable_flowable_integration: true
+
+  - id: return_result
+    type: io.kestra.plugin.scripts.javascript.Script
+    script: |
+      return {
+        request_id: taskrun.outputs['create_request'].id,
+        request_type: taskrun.outputs['create_request'].request_type,
+        status: taskrun.outputs['evaluate_auto_rules'].status,
+        auto_approved: taskrun.outputs['evaluate_auto_rules'].auto_approved,
+        flowable_process_instance_id: taskrun.outputs['evaluate_auto_rules'].flowable_process_instance_id,
+        message: taskrun.outputs['evaluate_auto_rules'].auto_approved ? 
+          "Request auto-approved successfully" : 
+          "Request submitted for manual approval"
+      };
+
+outputs:
+  request_id:
+    type: STRING
+    value: "{{ taskrun.outputs['return_result'].request_id }}"
+  status:
+    type: STRING
+    value: "{{ taskrun.outputs['return_result'].status }}"
+  auto_approved:
+    type: BOOLEAN
+    value: "{{ taskrun.outputs['return_result'].auto_approved }}"
+  message:
+    type: STRING
+    value: "{{ taskrun.outputs['return_result'].message }}"
+
+
+
+
+

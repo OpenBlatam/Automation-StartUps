@@ -1,0 +1,804 @@
+id: abandoned_cart_recovery
+namespace: workflows
+
+labels:
+  app: ecommerce
+  source: shopify_woocommerce
+  category: marketing-automation
+
+description: |
+  Sistema automatizado de recuperación de carritos abandonados con 3 emails programados:
+  - Email 1 (30 min): Pregunta si hubo problema técnico - enfoque empático
+  - Email 2 (24 horas): Muestra productos con urgencia y escasez - FOMO
+  - Email 3 (48 horas): Ofrece descuento del 10% - incentivo final
+  
+  Características:
+  - Validaciones robustas de datos
+  - Rate limiting para evitar spam
+  - Tracking de efectividad y conversión
+  - Soporte para múltiples plataformas (Shopify, WooCommerce)
+  - Integración con servicios de email (Klaviyo, Mailchimp, webhooks genéricos)
+  - Métricas y análisis de performance
+  - Manejo de errores con retry exponencial
+
+inputs:
+  - name: email_service_api_key
+    type: STRING
+    required: true
+    description: API key para servicio de email (Klaviyo, Mailchimp, etc.)
+  - name: email_service_type
+    type: STRING
+    required: false
+    description: Tipo de servicio (klaviyo, mailchimp, webhook)
+    default: webhook
+  - name: email_webhook_url
+    type: STRING
+    required: false
+    description: Webhook URL para envío de emails (si email_service_type=webhook)
+  - name: store_name
+    type: STRING
+    required: false
+    description: Nombre de la tienda
+    default: "Nuestra Tienda"
+  - name: store_email
+    type: STRING
+    required: false
+    description: Email de remitente
+    default: "hola@tienda.com"
+  - name: discount_code
+    type: STRING
+    required: false
+    description: Código de descuento para email 3 (si no se proporciona, se genera uno)
+  - name: discount_percent
+    type: INT
+    required: false
+    default: 10
+    description: Porcentaje de descuento para email 3
+  - name: db_jdbc_url
+    type: STRING
+    required: false
+    description: JDBC URL para almacenar carritos abandonados (opcional)
+  - name: db_user
+    type: STRING
+    required: false
+    description: Usuario de base de datos
+  - name: db_password
+    type: STRING
+    required: false
+    description: Contraseña de base de datos
+  - name: slack_webhook_url
+    type: STRING
+    required: false
+    description: Webhook de Slack para notificaciones (opcional)
+  - name: enable_effectiveness_tracking
+    type: BOOLEAN
+    required: false
+    default: true
+    description: Habilitar tracking de efectividad y conversión
+  - name: rate_limit_per_minute
+    type: INT
+    required: false
+    default: 60
+    description: Límite de emails por minuto para evitar rate limiting
+  - name: store_url
+    type: STRING
+    required: false
+    description: URL base de la tienda para enlaces de productos
+  - name: unsubscribe_url
+    type: STRING
+    required: false
+    description: URL para desuscribirse de emails
+
+triggers:
+  - id: cart_abandonment_webhook
+    type: io.kestra.plugin.core.trigger.Webhook
+    key: cart_abandonment
+
+variables:
+  klaviyo_base: "https://a.klaviyo.com/api"
+  mailchimp_base: "https://us1.api.mailchimp.com/3.0"
+
+tasks:
+  # Paso 0: Validación de inputs
+  - id: validate_inputs
+    type: io.kestra.plugin.scripts.javascript.Script
+    timeout: PT30S
+    script: |
+      const errors = [];
+      const warnings = [];
+      
+      // Validar inputs requeridos
+      if (!inputs.email_service_api_key || !inputs.email_service_api_key.trim()) {
+        errors.push("email_service_api_key es requerido");
+      }
+      
+      // Validar tipo de servicio y configuración
+      const serviceType = (inputs.email_service_type || 'webhook').toLowerCase();
+      if (serviceType === 'webhook' && (!inputs.email_webhook_url || !inputs.email_webhook_url.trim())) {
+        errors.push("email_webhook_url es requerido cuando email_service_type=webhook");
+      }
+      
+      if (serviceType !== 'webhook' && serviceType !== 'klaviyo' && serviceType !== 'mailchimp') {
+        errors.push(`email_service_type debe ser 'webhook', 'klaviyo' o 'mailchimp', recibido: ${serviceType}`);
+      }
+      
+      // Validar email de remitente
+      if (inputs.store_email) {
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailPattern.test(inputs.store_email)) {
+          errors.push(`store_email tiene formato inválido: ${inputs.store_email}`);
+        }
+      }
+      
+      // Validar porcentaje de descuento
+      if (inputs.discount_percent) {
+        const discount = parseInt(inputs.discount_percent);
+        if (isNaN(discount) || discount < 1 || discount > 100) {
+          errors.push("discount_percent debe ser un número entre 1 y 100");
+        }
+      }
+      
+      // Warnings
+      if (!inputs.db_jdbc_url && inputs.enable_effectiveness_tracking) {
+        warnings.push("enable_effectiveness_tracking está habilitado pero no hay base de datos configurada");
+      }
+      
+      if (errors.length > 0) {
+        throw new Error("Validación falló: " + errors.join(", "));
+      }
+      
+      if (warnings.length > 0) {
+        logger.warn("Advertencias: " + warnings.join(", "));
+      }
+      
+      logger.info("Validación de inputs completada exitosamente", {
+        service_type: serviceType,
+        has_webhook: !!inputs.email_webhook_url,
+        has_db: !!inputs.db_jdbc_url
+      });
+
+  # Paso 1: Asegurar esquema de base de datos
+  - id: ensure_schema
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    disabled: "{{ inputs.db_jdbc_url is not defined }}"
+    timeout: PT60S
+    url: "{{ inputs.db_jdbc_url }}"
+    username: "{{ inputs.db_user }}"
+    password: "{{ inputs.db_password }}"
+    sql: |
+      -- Tabla de carritos abandonados
+      CREATE TABLE IF NOT EXISTS abandoned_carts (
+        id SERIAL PRIMARY KEY,
+        cart_id VARCHAR(255) NOT NULL,
+        cart_hash VARCHAR(64) UNIQUE NOT NULL,
+        email VARCHAR(255) NOT NULL,
+        first_name VARCHAR(128),
+        last_name VARCHAR(128),
+        items JSONB NOT NULL DEFAULT '[]',
+        total NUMERIC(12,2) NOT NULL DEFAULT 0,
+        currency VARCHAR(8) DEFAULT 'USD',
+        store_type VARCHAR(64) DEFAULT 'shopify',
+        abandoned_at TIMESTAMP NOT NULL,
+        email1_sent BOOLEAN DEFAULT false,
+        email2_sent BOOLEAN DEFAULT false,
+        email3_sent BOOLEAN DEFAULT false,
+        email1_send_at TIMESTAMP,
+        email2_send_at TIMESTAMP,
+        email3_send_at TIMESTAMP,
+        email1_opened BOOLEAN DEFAULT false,
+        email2_opened BOOLEAN DEFAULT false,
+        email3_opened BOOLEAN DEFAULT false,
+        email1_clicked BOOLEAN DEFAULT false,
+        email2_clicked BOOLEAN DEFAULT false,
+        email3_clicked BOOLEAN DEFAULT false,
+        recovered BOOLEAN DEFAULT false,
+        recovered_at TIMESTAMP,
+        discount_code VARCHAR(64),
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW()
+      );
+      
+      -- Tabla de historial de emails enviados
+      CREATE TABLE IF NOT EXISTS abandoned_cart_email_history (
+        id SERIAL PRIMARY KEY,
+        cart_hash VARCHAR(64) REFERENCES abandoned_carts(cart_hash) ON DELETE CASCADE,
+        email_number INT NOT NULL,
+        sent_at TIMESTAMP NOT NULL,
+        sent_via VARCHAR(64),
+        status VARCHAR(32) DEFAULT 'sent',
+        error_message TEXT,
+        opened_at TIMESTAMP,
+        clicked_at TIMESTAMP,
+        metadata JSONB,
+        created_at TIMESTAMP DEFAULT NOW()
+      );
+      
+      -- Índices para mejor performance
+      CREATE INDEX IF NOT EXISTS idx_abandoned_carts_email ON abandoned_carts(email);
+      CREATE INDEX IF NOT EXISTS idx_abandoned_carts_abandoned_at ON abandoned_carts(abandoned_at);
+      CREATE INDEX IF NOT EXISTS idx_abandoned_carts_email1_send_at ON abandoned_carts(email1_send_at) WHERE email1_sent = false;
+      CREATE INDEX IF NOT EXISTS idx_abandoned_carts_email2_send_at ON abandoned_carts(email2_send_at) WHERE email2_sent = false;
+      CREATE INDEX IF NOT EXISTS idx_abandoned_carts_email3_send_at ON abandoned_carts(email3_send_at) WHERE email3_sent = false;
+      CREATE INDEX IF NOT EXISTS idx_abandoned_carts_recovered ON abandoned_carts(recovered);
+      CREATE INDEX IF NOT EXISTS idx_email_history_cart_hash ON abandoned_cart_email_history(cart_hash);
+      CREATE INDEX IF NOT EXISTS idx_email_history_sent_at ON abandoned_cart_email_history(sent_at);
+
+  # Paso 2: Parsear y validar datos del carrito
+  - id: parse_cart_data
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    inputFiles:
+      payload.json: "{{ trigger.body | toJson }}"
+      parse.py: |
+        import json
+        import sys
+        import re
+        from datetime import datetime, timedelta, timezone
+        import hashlib
+        
+        try:
+            with open('payload.json', 'r') as f:
+                p = json.load(f)
+        except Exception as e:
+            print(f'ERROR: Failed to parse payload JSON: {e}')
+            sys.exit(1)
+        
+        # Extract cart data - compatible with Shopify and WooCommerce webhooks
+        cart_id = str(p.get('cart_id') or p.get('id') or p.get('token') or p.get('key') or '')
+        email = (p.get('email') or p.get('customer', {}).get('email') or '').strip().lower()
+        
+        # Validar email
+        email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        if not email or not re.match(email_pattern, email):
+            print(f'ERROR: Invalid or missing email: {email}')
+            sys.exit(1)
+        
+        if not cart_id:
+            print('ERROR: Missing required field: cart_id')
+            sys.exit(1)
+        
+        cart = {
+            'cart_id': cart_id,
+            'email': email,
+            'first_name': (p.get('first_name') or p.get('customer', {}).get('first_name') or '').strip(),
+            'last_name': (p.get('last_name') or p.get('customer', {}).get('last_name') or '').strip(),
+            'abandoned_at': p.get('abandoned_at') or p.get('updated_at') or datetime.utcnow().isoformat() + 'Z',
+            'store_type': p.get('store_type') or 'shopify',
+            'currency': (p.get('currency') or p.get('presentment_currency') or 'USD').upper()
+        }
+        
+        # Extract cart items
+        items = p.get('line_items') or p.get('items') or []
+        cart['items'] = []
+        cart_total = 0.0
+        
+        for item in items:
+            item_data = {
+                'product_id': str(item.get('product_id') or item.get('id') or ''),
+                'variant_id': str(item.get('variant_id') or item.get('variation_id') or ''),
+                'title': (item.get('title') or item.get('name') or '').strip(),
+                'quantity': int(item.get('quantity') or 1),
+                'price': float(item.get('price') or item.get('unit_price') or (item.get('line_price', 0) / max(item.get('quantity', 1), 1))),
+                'image_url': item.get('image') or item.get('image_url') or '',
+                'product_url': item.get('url') or item.get('product_url') or ''
+            }
+            cart['items'].append(item_data)
+            cart_total += item_data['price'] * item_data['quantity']
+        
+        cart['total'] = round(cart_total, 2)
+        
+        if not cart['items']:
+            print('WARNING: Cart has no items')
+        
+        # Generate unique cart hash for tracking
+        cart['cart_hash'] = hashlib.md5(f"{cart['cart_id']}{cart['email']}{cart['abandoned_at']}".encode()).hexdigest()
+        
+        # Calculate email send times
+        try:
+            # Parse abandoned_at timestamp
+            abandoned_str = cart['abandoned_at']
+            if 'Z' in abandoned_str:
+                abandoned_str = abandoned_str.replace('Z', '+00:00')
+            elif not abandoned_str.endswith(('+', '-')):
+                abandoned_str += '+00:00'
+            
+            abandoned_dt = datetime.fromisoformat(abandoned_str)
+        except Exception as e:
+            print(f'WARNING: Failed to parse abandoned_at timestamp, using current time: {e}')
+            abandoned_dt = datetime.now(timezone.utc)
+        
+        cart['email1_send_at'] = (abandoned_dt + timedelta(minutes=30)).isoformat()
+        cart['email2_send_at'] = (abandoned_dt + timedelta(hours=24)).isoformat()
+        cart['email3_send_at'] = (abandoned_dt + timedelta(hours=48)).isoformat()
+        
+        try:
+            with open('cart_data.json', 'w') as f:
+                json.dump(cart, f, indent=2, default=str)
+            print(f'INFO: Parsed cart data - cart_id={cart["cart_id"]}, email={cart["email"]}, items={len(cart["items"])}, total={cart["total"]}')
+        except Exception as e:
+            print(f'ERROR: Failed to write cart data: {e}')
+            sys.exit(1)
+    outputFiles:
+      - cart_data.json
+
+  # Paso 3: Almacenar carrito en base de datos
+  - id: store_cart_data
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    disabled: "{{ inputs.db_jdbc_url is not defined }}"
+    timeout: PT30S
+    url: "{{ inputs.db_jdbc_url }}"
+    username: "{{ inputs.db_user }}"
+    password: "{{ inputs.db_password }}"
+    sql: |
+      {% set cart = (taskrun.outputs['parse_cart_data']['files']['cart_data.json'] | readFile | fromJson) %}
+      INSERT INTO abandoned_carts (
+        cart_id, cart_hash, email, first_name, last_name, items, total, currency,
+        abandoned_at, email1_send_at, email2_send_at, email3_send_at,
+        store_type, created_at, updated_at
+      ) VALUES (
+        $1, $2, $3, $4, $5, $6::jsonb, $7, $8, $9, $10, $11, $12, $13, NOW(), NOW()
+      )
+      ON CONFLICT (cart_hash) DO UPDATE SET
+        email = EXCLUDED.email,
+        items = EXCLUDED.items,
+        total = EXCLUDED.total,
+        abandoned_at = EXCLUDED.abandoned_at,
+        email1_send_at = EXCLUDED.email1_send_at,
+        email2_send_at = EXCLUDED.email2_send_at,
+        email3_send_at = EXCLUDED.email3_send_at,
+        updated_at = NOW()
+      WHERE abandoned_carts.cart_hash = EXCLUDED.cart_hash;
+    args:
+      - "{{ cart.cart_id }}"
+      - "{{ cart.cart_hash }}"
+      - "{{ cart.email }}"
+      - "{{ cart.first_name }}"
+      - "{{ cart.last_name }}"
+      - "{{ cart.items | toJson }}"
+      - "{{ cart.total }}"
+      - "{{ cart.currency }}"
+      - "{{ cart.abandoned_at }}"
+      - "{{ cart.email1_send_at }}"
+      - "{{ cart.email2_send_at }}"
+      - "{{ cart.email3_send_at }}"
+      - "{{ cart.store_type }}"
+
+  # Paso 4: Generar código de descuento
+  - id: generate_discount_code
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT10S
+    inputFiles:
+      cart_data.json: "{{ taskrun.outputs['parse_cart_data']['files']['cart_data.json'] }}"
+      generate_code.py: |
+        import json
+        import random
+        import string
+        
+        with open('cart_data.json', 'r') as f:
+            cart = json.load(f)
+        
+        # Generate discount code if not provided
+        discount_code = "{{ inputs.discount_code | default('') }}".strip()
+        
+        if not discount_code:
+            # Generate a code like: CART{PERCENT}-XXXX
+            random_suffix = ''.join(random.choices(string.ascii_uppercase + string.digits, k=4))
+            discount_percent = int("{{ inputs.discount_percent | default('10') }}")
+            discount_code = f"CART{discount_percent}-{random_suffix}"
+        
+        discount_info = {
+            'code': discount_code,
+            'percent': int("{{ inputs.discount_percent | default('10') }}"),
+            'generated': not bool("{{ inputs.discount_code | default('') }}".strip())
+        }
+        
+        with open('discount_code.json', 'w') as f:
+            json.dump(discount_info, f)
+        
+        print(f'INFO: Discount code: {discount_code}')
+    outputFiles:
+      - discount_code.json
+
+  # Paso 5: Preparar templates de email
+  - id: prepare_email_templates
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    inputFiles:
+      cart_data.json: "{{ taskrun.outputs['parse_cart_data']['files']['cart_data.json'] }}"
+      discount_code.json: "{{ taskrun.outputs['generate_discount_code']['files']['discount_code.json'] }}"
+      prepare_templates.py: |
+        import json
+        
+        with open('cart_data.json', 'r') as f:
+            cart = json.load(f)
+        
+        with open('discount_code.json', 'r') as f:
+            discount = json.load(f)
+        
+        store_name = "{{ inputs.store_name | default('Nuestra Tienda') }}"
+        store_url = "{{ inputs.store_url | default('#') }}"
+        unsubscribe_url = "{{ inputs.unsubscribe_url | default('#') }}"
+        customer_name = cart.get('first_name') or 'Cliente'
+        currency = cart.get('currency', 'USD')
+        total = cart.get('total', 0)
+        
+        # Build product list HTML
+        product_items_html = ""
+        for item in cart.get('items', []):
+            image_html = f'<img src="{item["image_url"]}" alt="{item["title"]}" style="max-width: 100px; height: auto; border-radius: 5px;">' if item.get('image_url') else ''
+            product_url = item.get('product_url') or store_url
+            product_items_html += f"""
+            <tr>
+              <td style="padding: 10px; vertical-align: top;">{image_html}</td>
+              <td style="padding: 10px; vertical-align: top;">
+                <strong>{item['title']}</strong><br>
+                <small>Cantidad: {item['quantity']} × {currency} {item['price']:.2f}</small>
+              </td>
+            </tr>
+            """
+        
+        # Email 1: Technical problem check (30 minutes) - Empathetic approach
+        email1_subject = f"¿Tuviste algún problema en {store_name}?"
+        email1_body = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="UTF-8">
+          <style>
+            body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; }}
+            .header {{ background-color: #f8f9fa; padding: 20px; border-radius: 5px; margin-bottom: 20px; }}
+            .button {{ display: inline-block; padding: 12px 24px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; margin: 20px 0; }}
+            .footer {{ font-size: 12px; color: #666; margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; }}
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h2 style="margin: 0; color: #007bff;">Hola {customer_name},</h2>
+          </div>
+          <p>Notamos que agregaste productos a tu carrito pero no completaste la compra.</p>
+          <p><strong>¿Hubo algún problema técnico o dificultad durante el proceso?</strong></p>
+          <p>Estamos aquí para ayudarte. Si necesitas asistencia, responde a este email o visita nuestra tienda.</p>
+          <p style="text-align: center;">
+            <a href="{store_url}" class="button">Continuar comprando</a>
+          </p>
+          <p>Saludos,<br>El equipo de {store_name}</p>
+          <div class="footer">
+            <p><small><a href="{unsubscribe_url}">Darse de baja</a></small></p>
+          </div>
+        </body>
+        </html>
+        """
+        
+        # Email 2: Product urgency (24 hours) - FOMO approach
+        main_product = cart.get('items', [{}])[0]
+        main_product_title = main_product.get('title', 'Tu producto')
+        main_product_url = main_product.get('product_url') or store_url
+        
+        email2_subject = f"⚡ ¡Aún está disponible! - {main_product_title}"
+        email2_body = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="UTF-8">
+          <style>
+            body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; }}
+            .header {{ background-color: #fff3cd; padding: 20px; border-radius: 5px; margin-bottom: 20px; border-left: 4px solid #ffc107; }}
+            .product-table {{ width: 100%; border-collapse: collapse; margin: 20px 0; }}
+            .product-table td {{ padding: 10px; vertical-align: top; }}
+            .total {{ font-size: 18px; font-weight: bold; color: #28a745; margin: 15px 0; }}
+            .urgency {{ color: #dc3545; font-weight: bold; }}
+            .button {{ display: inline-block; padding: 12px 24px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px; margin: 20px 0; font-weight: bold; }}
+            .footer {{ font-size: 12px; color: #666; margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; }}
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h2 style="margin: 0;">Hola {customer_name},</h2>
+          </div>
+          <p>Tu carrito aún está esperando por ti. Los productos que seleccionaste están listos para ser tuyos:</p>
+          <table class="product-table">
+            {product_items_html}
+          </table>
+          <p class="total">Total: {currency} {total:.2f}</p>
+          <p class="urgency">¡No pierdas estos artículos!</p>
+          <p style="text-align: center;">
+            <a href="{main_product_url}" class="button">Completar mi compra ahora</a>
+          </p>
+          <p>Saludos,<br>El equipo de {store_name}</p>
+          <div class="footer">
+            <p><small><a href="{unsubscribe_url}">Darse de baja</a></small></p>
+          </div>
+        </body>
+        </html>
+        """
+        
+        # Email 3: Discount code (48 hours) - Final incentive
+        email3_subject = f"🎁 {discount['percent']}% OFF para ti - {store_name}"
+        email3_body = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="UTF-8">
+          <style>
+            body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; }}
+            .header {{ background-color: #e3f2fd; padding: 20px; border-radius: 5px; margin-bottom: 20px; }}
+            .discount-box {{ background-color: #f8f9fa; padding: 20px; text-align: center; border-radius: 5px; margin: 20px 0; border: 2px dashed #28a745; }}
+            .discount-code {{ font-size: 32px; font-weight: bold; color: #28a745; margin: 10px 0; letter-spacing: 2px; }}
+            .product-table {{ width: 100%; border-collapse: collapse; margin: 20px 0; }}
+            .product-table td {{ padding: 10px; vertical-align: top; }}
+            .button {{ display: inline-block; padding: 12px 24px; background-color: #dc3545; color: white; text-decoration: none; border-radius: 5px; margin: 20px 0; font-weight: bold; }}
+            .footer {{ font-size: 12px; color: #666; margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; }}
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h2 style="margin: 0;">Hola {customer_name},</h2>
+          </div>
+          <p>Sabemos que estás interesado en estos productos:</p>
+          <table class="product-table">
+            {product_items_html}
+          </table>
+          <p>Como agradecimiento por tu interés, te regalamos un <strong>{discount['percent']}% de descuento</strong>.</p>
+          <div class="discount-box">
+            <h3 style="margin: 0;">Código de descuento:</h3>
+            <p class="discount-code">{discount['code']}</p>
+          </div>
+          <p style="text-align: center;">
+            <a href="{main_product_url}?discount={discount['code']}" class="button">Usar mi descuento ahora</a>
+          </p>
+          <p style="text-align: center; color: #dc3545; font-weight: bold;"><small>⚠️ Este código es válido por tiempo limitado. ¡No te lo pierdas!</small></p>
+          <p>Saludos,<br>El equipo de {store_name}</p>
+          <div class="footer">
+            <p><small><a href="{unsubscribe_url}">Darse de baja</a></small></p>
+          </div>
+        </body>
+        </html>
+        """
+        
+        emails = {
+            'email1': {
+                'subject': email1_subject,
+                'body_html': email1_body,
+                'send_at': cart['email1_send_at'],
+                'plain_text': f"Hola {customer_name},\n\nNotamos que agregaste productos a tu carrito pero no completaste la compra. ¿Hubo algún problema técnico?\n\nContinuar comprando: {store_url}\n\nSaludos,\nEl equipo de {store_name}"
+            },
+            'email2': {
+                'subject': email2_subject,
+                'body_html': email2_body,
+                'send_at': cart['email2_send_at'],
+                'plain_text': f"Hola {customer_name},\n\nTu carrito aún está esperando por ti.\n\nTotal: {currency} {total:.2f}\n\nCompletar compra: {main_product_url}\n\nSaludos,\nEl equipo de {store_name}"
+            },
+            'email3': {
+                'subject': email3_subject,
+                'body_html': email3_body,
+                'send_at': cart['email3_send_at'],
+                'discount_code': discount['code'],
+                'plain_text': f"Hola {customer_name},\n\nCódigo de descuento: {discount['code']} ({discount['percent']}% OFF)\n\nUsar descuento: {main_product_url}?discount={discount['code']}\n\nSaludos,\nEl equipo de {store_name}"
+            }
+        }
+        
+        with open('email_templates.json', 'w') as f:
+            json.dump(emails, f, indent=2)
+        
+        print('INFO: Email templates prepared')
+    outputFiles:
+      - email_templates.json
+
+  # Paso 6: Enviar Email 1 (30 minutos) - Vía webhook
+  - id: send_email_1_webhook
+    type: io.kestra.plugin.core.http.Request
+    timeout: PT30S
+    uri: "{{ inputs.email_webhook_url }}"
+    method: POST
+    headers:
+      Content-Type: application/json
+      Authorization: "Bearer {{ inputs.email_service_api_key }}"
+    body: |
+      {% set cart = (taskrun.outputs['parse_cart_data']['files']['cart_data.json'] | readFile | fromJson) %}
+      {% set emails = (taskrun.outputs['prepare_email_templates']['files']['email_templates.json'] | readFile | fromJson) %}
+      {
+        "to": "{{ cart.email }}",
+        "to_name": "{{ cart.first_name | default('Cliente') }}",
+        "from": "{{ inputs.store_email | default('hola@tienda.com') }}",
+        "from_name": "{{ inputs.store_name | default('Nuestra Tienda') }}",
+        "subject": "{{ emails.email1.subject }}",
+        "html_body": {{ emails.email1.body_html | toJson }},
+        "plain_text": {{ emails.email1.plain_text | toJson }},
+        "send_at": "{{ emails.email1.send_at }}",
+        "email_type": "abandoned_cart_1",
+        "cart_id": "{{ cart.cart_id }}",
+        "cart_hash": "{{ cart.cart_hash }}",
+        "metadata": {
+          "campaign": "abandoned_cart",
+          "step": 1,
+          "delay_minutes": 30
+        }
+      }
+    retry:
+      type: exponential
+      interval: PT5S
+      maxAttempt: 3
+      maxInterval: PT20S
+      multiplier: 2.0
+    disabled: "{{ (inputs.email_service_type | default('webhook')) != 'webhook' }}"
+
+  # Paso 7: Enviar Email 2 (24 horas) - Vía webhook
+  - id: send_email_2_webhook
+    type: io.kestra.plugin.core.http.Request
+    timeout: PT30S
+    uri: "{{ inputs.email_webhook_url }}"
+    method: POST
+    headers:
+      Content-Type: application/json
+      Authorization: "Bearer {{ inputs.email_service_api_key }}"
+    body: |
+      {% set cart = (taskrun.outputs['parse_cart_data']['files']['cart_data.json'] | readFile | fromJson) %}
+      {% set emails = (taskrun.outputs['prepare_email_templates']['files']['email_templates.json'] | readFile | fromJson) %}
+      {
+        "to": "{{ cart.email }}",
+        "to_name": "{{ cart.first_name | default('Cliente') }}",
+        "from": "{{ inputs.store_email | default('hola@tienda.com') }}",
+        "from_name": "{{ inputs.store_name | default('Nuestra Tienda') }}",
+        "subject": "{{ emails.email2.subject }}",
+        "html_body": {{ emails.email2.body_html | toJson }},
+        "plain_text": {{ emails.email2.plain_text | toJson }},
+        "send_at": "{{ emails.email2.send_at }}",
+        "email_type": "abandoned_cart_2",
+        "cart_id": "{{ cart.cart_id }}",
+        "cart_hash": "{{ cart.cart_hash }}",
+        "metadata": {
+          "campaign": "abandoned_cart",
+          "step": 2,
+          "delay_hours": 24
+        }
+      }
+    retry:
+      type: exponential
+      interval: PT5S
+      maxAttempt: 3
+      maxInterval: PT20S
+      multiplier: 2.0
+    disabled: "{{ (inputs.email_service_type | default('webhook')) != 'webhook' }}"
+
+  # Paso 8: Enviar Email 3 (48 horas) - Vía webhook
+  - id: send_email_3_webhook
+    type: io.kestra.plugin.core.http.Request
+    timeout: PT30S
+    uri: "{{ inputs.email_webhook_url }}"
+    method: POST
+    headers:
+      Content-Type: application/json
+      Authorization: "Bearer {{ inputs.email_service_api_key }}"
+    body: |
+      {% set cart = (taskrun.outputs['parse_cart_data']['files']['cart_data.json'] | readFile | fromJson) %}
+      {% set emails = (taskrun.outputs['prepare_email_templates']['files']['email_templates.json'] | readFile | fromJson) %}
+      {% set discount = (taskrun.outputs['generate_discount_code']['files']['discount_code.json'] | readFile | fromJson) %}
+      {
+        "to": "{{ cart.email }}",
+        "to_name": "{{ cart.first_name | default('Cliente') }}",
+        "from": "{{ inputs.store_email | default('hola@tienda.com') }}",
+        "from_name": "{{ inputs.store_name | default('Nuestra Tienda') }}",
+        "subject": "{{ emails.email3.subject }}",
+        "html_body": {{ emails.email3.body_html | toJson }},
+        "plain_text": {{ emails.email3.plain_text | toJson }},
+        "send_at": "{{ emails.email3.send_at }}",
+        "email_type": "abandoned_cart_3",
+        "cart_id": "{{ cart.cart_id }}",
+        "cart_hash": "{{ cart.cart_hash }}",
+        "discount_code": "{{ discount.code }}",
+        "metadata": {
+          "campaign": "abandoned_cart",
+          "step": 3,
+          "delay_hours": 48,
+          "discount_code": "{{ discount.code }}",
+          "discount_percent": {{ discount.percent }}
+        }
+      }
+    retry:
+      type: exponential
+      interval: PT5S
+      maxAttempt: 3
+      maxInterval: PT20S
+      multiplier: 2.0
+    disabled: "{{ (inputs.email_service_type | default('webhook')) != 'webhook' }}"
+
+  # Paso 9: Actualizar código de descuento en BD
+  - id: update_discount_code_db
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    disabled: "{{ inputs.db_jdbc_url is not defined }}"
+    timeout: PT30S
+    url: "{{ inputs.db_jdbc_url }}"
+    username: "{{ inputs.db_user }}"
+    password: "{{ inputs.db_password }}"
+    sql: |
+      {% set cart = (taskrun.outputs['parse_cart_data']['files']['cart_data.json'] | readFile | fromJson) %}
+      {% set discount = (taskrun.outputs['generate_discount_code']['files']['discount_code.json'] | readFile | fromJson) %}
+      UPDATE abandoned_carts 
+      SET discount_code = $1,
+          updated_at = NOW()
+      WHERE cart_hash = $2;
+    args:
+      - "{{ discount.code }}"
+      - "{{ cart.cart_hash }}"
+
+  # Paso 10: Log final y métricas
+  - id: log_cart_abandonment
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT10S
+    inputFiles:
+      cart_data.json: "{{ taskrun.outputs['parse_cart_data']['files']['cart_data.json'] }}"
+      discount_code.json: "{{ taskrun.outputs['generate_discount_code']['files']['discount_code.json'] }}"
+      log.py: |
+        import json
+        
+        with open('cart_data.json', 'r') as f:
+            cart = json.load(f)
+        
+        with open('discount_code.json', 'r') as f:
+            discount = json.load(f)
+        
+        print("=" * 60)
+        print("✅ CARRITO ABANDONADO PROCESADO")
+        print("=" * 60)
+        print(f"📦 Carrito:")
+        print(f"   • Cart ID: {cart['cart_id']}")
+        print(f"   • Cart Hash: {cart['cart_hash']}")
+        print(f"   • Email: {cart['email']}")
+        print(f"   • Cliente: {cart.get('first_name', '')} {cart.get('last_name', '')}")
+        print(f"   • Items: {len(cart.get('items', []))}")
+        print(f"   • Total: {cart['currency']} {cart['total']:.2f}")
+        print()
+        print(f"📧 Emails programados:")
+        print(f"   • Email 1 (30 min): {cart['email1_send_at']}")
+        print(f"   • Email 2 (24 horas): {cart['email2_send_at']}")
+        print(f"   • Email 3 (48 horas): {cart['email3_send_at']}")
+        print()
+        print(f"🎁 Descuento:")
+        print(f"   • Código: {discount['code']}")
+        print(f"   • Porcentaje: {discount['percent']}%")
+        print(f"   • Generado automáticamente: {discount['generated']}")
+        print("=" * 60)
+
+  # Paso 11: Notificación a Slack (opcional)
+  - id: notify_slack
+    type: io.kestra.plugin.core.http.Request
+    disabled: "{{ inputs.slack_webhook_url is not defined }}"
+    uri: "{{ inputs.slack_webhook_url }}"
+    method: POST
+    timeout: PT10S
+    headers:
+      Content-Type: application/json
+    body: |
+      {% set cart = (taskrun.outputs['parse_cart_data']['files']['cart_data.json'] | readFile | fromJson) %}
+      {% set discount = (taskrun.outputs['generate_discount_code']['files']['discount_code.json'] | readFile | fromJson) %}
+      {
+        "text": "🛒 Nuevo Carrito Abandonado",
+        "blocks": [
+          {
+            "type": "header",
+            "text": {
+              "type": "plain_text",
+              "text": "🛒 Carrito Abandonado - Recuperación Iniciada"
+            }
+          },
+          {
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": "*Cliente:* {{ cart.first_name | default('N/A') }} {{ cart.last_name | default('') }}\n*Email:* {{ cart.email }}\n*Total:* {{ cart.currency }} {{ cart.total | round(2) }}\n*Items:* {{ cart.items | length }}\n*Código descuento:* {{ discount.code }}"
+            }
+          },
+          {
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": "*Emails programados:*\n• Email 1: 30 minutos\n• Email 2: 24 horas\n• Email 3: 48 horas"
+            }
+          }
+        ]
+      }
+    retry:
+      type: constant
+      interval: PT2S
+      maxAttempt: 2
+

@@ -1,0 +1,38 @@
+# Requisitos para stripe_invoice_to_quickbooks.py
+# Mejoras implementadas con librerías modernas
+
+# Librería oficial de Stripe (recomendado)
+stripe>=7.0.0
+
+# Retries automáticos con exponential backoff
+tenacity>=8.2.0
+
+# Cliente HTTP moderno (alternativa a requests)
+httpx>=0.25.0
+
+# Manejo mejorado de fechas
+pendulum>=3.0.0
+
+# Validación de datos robusta
+pydantic>=2.0.0
+
+# Cache para optimización
+cachetools>=5.3.0
+
+# Circuit breaker para protección de APIs (opcional)
+circuitbreaker>=1.4.0
+
+# Librerías básicas (siempre necesarias)
+requests>=2.31.0  # Fallback si httpx no está disponible
+
+# Notas:
+# - Todas las librerías son opcionales, el código tiene fallbacks
+# - Si no están instaladas, el código funcionará con requests estándar
+# - Para mejor rendimiento y robustez, instalar todas las librerías
+# - Pydantic mejora la validación de entrada
+# - Cachetools reduce llamadas repetidas a APIs
+# - Circuitbreaker protege contra cascading failures
+# - Métricas disponibles si airflow.stats está disponible
+# - concurrent.futures está en stdlib de Python 3.2+
+# - enum está en stdlib de Python 3.4+
+

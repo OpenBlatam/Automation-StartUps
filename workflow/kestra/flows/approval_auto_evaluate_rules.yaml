@@ -1,0 +1,440 @@
+id: approval_auto_evaluate_rules
+namespace: workflows
+
+labels:
+  app: approvals
+  type: auto-evaluation
+  category: workflow
+
+description: |
+  🎯 Evaluación automática de reglas de aprobación
+  
+  Este flujo evalúa reglas automáticas para solicitudes de aprobación y determina si pueden ser auto-aprobadas.
+  Se integra con la base de datos de aprobaciones y puede iniciar procesos en Flowable cuando se requiere aprobación manual.
+
+inputs:
+  - name: request_id
+    type: STRING
+    required: true
+    description: ID de la solicitud a evaluar
+  - name: request_type
+    type: STRING
+    required: true
+    description: Tipo de solicitud (vacation, expense, document)
+    defaults:
+      - vacation
+      - expense
+      - document
+  - name: jdbc_url
+    type: STRING
+    required: true
+    description: URL JDBC de PostgreSQL
+  - name: jdbc_user
+    type: STRING
+    required: true
+    description: Usuario de PostgreSQL
+  - name: jdbc_password
+    type: SECRET
+    required: true
+    description: Contraseña de PostgreSQL
+  - name: flowable_base_url
+    type: STRING
+    required: false
+    description: URL base de Flowable REST API
+  - name: flowable_token
+    type: SECRET
+    required: false
+    description: Token de autenticación de Flowable
+  - name: enable_flowable_integration
+    type: BOOLEAN
+    required: false
+    default: true
+    description: Habilitar integración con Flowable
+
+tasks:
+  - id: get_request_details
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    sql: |
+      SELECT 
+        ar.id,
+        ar.request_type,
+        ar.requester_email,
+        ar.title,
+        ar.description,
+        ar.status,
+        ar.vacation_start_date,
+        ar.vacation_end_date,
+        ar.vacation_days,
+        ar.vacation_type,
+        ar.expense_amount,
+        ar.expense_currency,
+        ar.expense_category,
+        ar.expense_date,
+        ar.document_category,
+        ar.document_url,
+        ar.requires_review,
+        ar.metadata,
+        au.role AS requester_role,
+        au.department AS requester_department,
+        au.manager_email
+      FROM approval_requests ar
+      JOIN approval_users au ON ar.requester_email = au.user_email
+      WHERE ar.id = '{{ inputs.request_id }}'::uuid
+    fetchOne: true
+
+  - id: get_applicable_rules
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    sql: |
+      SELECT 
+        id,
+        rule_name,
+        rule_description,
+        conditions,
+        auto_approve,
+        require_notification,
+        notification_emails,
+        priority
+      FROM approval_rules
+      WHERE request_type = '{{ inputs.request_type }}'::approval_request_type
+        AND enabled = true
+      ORDER BY priority DESC, created_at ASC
+    fetch: true
+
+  - id: evaluate_rules
+    type: io.kestra.plugin.scripts.javascript.Script
+    script: |
+      const request = taskrun.outputs['get_request_details'];
+      const rules = taskrun.outputs['get_applicable_rules'];
+      
+      if (!request) {
+        throw new Error(`Request ${inputs.request_id} not found`);
+      }
+      
+      if (!rules || rules.length === 0) {
+        logger.info("No applicable rules found, proceeding to manual approval");
+        return {
+          auto_approved: false,
+          matched_rule: null,
+          reason: "No applicable rules"
+        };
+      }
+      
+      logger.info(`Evaluating ${rules.length} rules against request ${inputs.request_id}`);
+      
+      // Evaluar cada regla en orden de prioridad
+      for (const rule of rules) {
+        const conditions = rule.conditions;
+        let matches = true;
+        const reasons = [];
+        
+        // Evaluar condición de monto máximo (para gastos)
+        if (conditions.amount_max !== undefined && request.expense_amount !== null) {
+          if (request.expense_amount > conditions.amount_max) {
+            matches = false;
+            reasons.push(`Amount ${request.expense_amount} exceeds max ${conditions.amount_max}`);
+          }
+        }
+        
+        // Evaluar condición de días de vacaciones máximo
+        if (conditions.vacation_days_max !== undefined && request.vacation_days !== null) {
+          if (request.vacation_days > conditions.vacation_days_max) {
+            matches = false;
+            reasons.push(`Vacation days ${request.vacation_days} exceeds max ${conditions.vacation_days_max}`);
+          }
+        }
+        
+        // Evaluar condición de rol del solicitante
+        if (conditions.requester_role && Array.isArray(conditions.requester_role)) {
+          if (!conditions.requester_role.includes(request.requester_role)) {
+            matches = false;
+            reasons.push(`Requester role ${request.requester_role} not in allowed roles`);
+          }
+        }
+        
+        // Evaluar condición de departamento
+        if (conditions.department && Array.isArray(conditions.department)) {
+          if (!conditions.department.includes(request.requester_department)) {
+            matches = false;
+            reasons.push(`Department ${request.requester_department} not in allowed departments`);
+          }
+        }
+        
+        // Evaluar condición de categoría de gasto
+        if (conditions.expense_category && Array.isArray(conditions.expense_category)) {
+          if (!conditions.expense_category.includes(request.expense_category)) {
+            matches = false;
+            reasons.push(`Expense category ${request.expense_category} not in allowed categories`);
+          }
+        }
+        
+        // Evaluar condición de tipo de vacación
+        if (conditions.vacation_type && Array.isArray(conditions.vacation_type)) {
+          if (!conditions.vacation_type.includes(request.vacation_type)) {
+            matches = false;
+            reasons.push(`Vacation type ${request.vacation_type} not in allowed types`);
+          }
+        }
+        
+        // Evaluar condición de categoría de documento
+        if (conditions.document_category && Array.isArray(conditions.document_category)) {
+          if (!conditions.document_category.includes(request.document_category)) {
+            matches = false;
+            reasons.push(`Document category ${request.document_category} not in allowed categories`);
+          }
+        }
+        
+        // Evaluar condición de revisión requerida
+        if (conditions.requires_review !== undefined) {
+          if (request.requires_review !== conditions.requires_review) {
+            matches = false;
+            reasons.push(`Requires review mismatch: ${request.requires_review} != ${conditions.requires_review}`);
+          }
+        }
+        
+        // Si la regla coincide y permite auto-aprobación
+        if (matches && rule.auto_approve) {
+          logger.info(`Rule matched: ${rule.rule_name}`, {
+            rule_id: rule.id,
+            reasons: reasons.length === 0 ? "All conditions met" : reasons
+          });
+          
+          return {
+            auto_approved: true,
+            matched_rule: {
+              id: rule.id,
+              name: rule.rule_name,
+              description: rule.rule_description
+            },
+            require_notification: rule.require_notification,
+            notification_emails: rule.notification_emails || [],
+            reason: "Rule conditions met"
+          };
+        } else if (matches && !rule.auto_approve) {
+          logger.info(`Rule matched but auto-approval disabled: ${rule.rule_name}`);
+        } else {
+          logger.debug(`Rule did not match: ${rule.rule_name}`, { reasons });
+        }
+      }
+      
+      // Ninguna regla coincidió
+      logger.info("No rules matched, proceeding to manual approval");
+      return {
+        auto_approved: false,
+        matched_rule: null,
+        reason: "No matching rules found"
+      };
+
+  - id: update_request_status
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    sql: |
+      UPDATE approval_requests
+      SET 
+        status = CASE 
+          WHEN {{ taskrun.outputs['evaluate_rules'].auto_approved }} THEN 'auto_approved'::approval_request_status
+          ELSE 'pending'::approval_request_status
+        END,
+        auto_approved = {{ taskrun.outputs['evaluate_rules'].auto_approved }},
+        auto_approval_rule_id = {{ 
+          taskrun.outputs['evaluate_rules'].matched_rule ? 
+          "'" + taskrun.outputs['evaluate_rules'].matched_rule.id + "'::uuid" : 
+          "NULL" 
+        }},
+        submitted_at = CASE 
+          WHEN submitted_at IS NULL THEN NOW()
+          ELSE submitted_at
+        END,
+        updated_at = NOW()
+      WHERE id = '{{ inputs.request_id }}'::uuid
+      RETURNING id, status, auto_approved
+
+  - id: create_approval_history
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    sql: |
+      INSERT INTO approval_history (
+        request_id,
+        action,
+        actor_role,
+        previous_status,
+        new_status,
+        comments,
+        metadata
+      ) VALUES (
+        '{{ inputs.request_id }}'::uuid,
+        CASE 
+          WHEN {{ taskrun.outputs['evaluate_rules'].auto_approved }} THEN 'auto_approved'
+          ELSE 'submitted'
+        END,
+        'system',
+        'draft'::approval_request_status,
+        CASE 
+          WHEN {{ taskrun.outputs['evaluate_rules'].auto_approved }} THEN 'auto_approved'::approval_request_status
+          ELSE 'pending'::approval_request_status
+        END,
+        {{ 
+          taskrun.outputs['evaluate_rules'].matched_rule ? 
+          "'Matched rule: " + taskrun.outputs['evaluate_rules'].matched_rule.name + "'" : 
+          "'No matching rules found, requires manual approval'" 
+        }},
+        jsonb_build_object(
+          'matched_rule', {{ taskrun.outputs['evaluate_rules'].matched_rule | toJson }},
+          'evaluation_reason', {{ taskrun.outputs['evaluate_rules'].reason | toJson }}
+        )
+      )
+      RETURNING id
+
+  - id: send_notification_if_auto_approved
+    type: io.kestra.plugin.core.http.Request
+    disabled: "{{ not taskrun.outputs['evaluate_rules'].auto_approved or not taskrun.outputs['evaluate_rules'].require_notification }}"
+    allowFailure: true
+    uri: "{{ vars.slack_webhook_url or 'https://hooks.slack.com/services/YOUR/WEBHOOK/URL' }}"
+    method: POST
+    headers:
+      Content-Type: application/json
+    body: |
+      {
+        "text": "✅ Solicitud Auto-Aprobada",
+        "blocks": [
+          {
+            "type": "header",
+            "text": {
+              "type": "plain_text",
+              "text": "✅ Solicitud Auto-Aprobada"
+            }
+          },
+          {
+            "type": "section",
+            "fields": [
+              {
+                "type": "mrkdwn",
+                "text": "*Tipo:*\n{{ inputs.request_type }}"
+              },
+              {
+                "type": "mrkdwn",
+                "text": "*Solicitante:*\n{{ taskrun.outputs['get_request_details'].requester_email }}"
+              },
+              {
+                "type": "mrkdwn",
+                "text": "*Regla Aplicada:*\n{{ taskrun.outputs['evaluate_rules'].matched_rule.name }}"
+              },
+              {
+                "type": "mrkdwn",
+                "text": "*ID Solicitud:*\n{{ inputs.request_id }}"
+              }
+            ]
+          }
+        ]
+      }
+    timeout: PT10S
+
+  - id: create_approval_chain_if_manual
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    disabled: "{{ taskrun.outputs['evaluate_rules'].auto_approved }}"
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    sql: |
+      SELECT create_approval_chain(
+        '{{ inputs.request_id }}'::uuid,
+        '{{ taskrun.outputs['get_request_details'].requester_email }}',
+        '{{ inputs.request_type }}'::approval_request_type,
+        {{ taskrun.outputs['get_request_details'].expense_amount or 'NULL' }},
+        {{ taskrun.outputs['get_request_details'].vacation_days or 'NULL' }}
+      ) AS chain_levels
+
+  - id: start_flowable_process
+    type: io.kestra.plugin.core.flow.Subflow
+    disabled: "{{ not inputs.enable_flowable_integration or taskrun.outputs['evaluate_rules'].auto_approved or not inputs.flowable_base_url }}"
+    namespace: workflows
+    flowId: subflow_flowable_start
+    inputs:
+      flowable_base_url: "{{ inputs.flowable_base_url }}"
+      flowable_token: "{{ inputs.flowable_token }}"
+      processDefinitionKey: "{{ 
+        inputs.request_type == 'vacation' ? 'vacationRequest' : 
+        inputs.request_type == 'expense' ? 'expenseRequest' : 
+        'documentReview' 
+      }}"
+      businessKey: "{{ inputs.request_id }}"
+      variables:
+        requestId: "{{ inputs.request_id }}"
+        requesterEmail: "{{ taskrun.outputs['get_request_details'].requester_email }}"
+        {% if inputs.request_type == 'vacation' %}
+        startDate: "{{ taskrun.outputs['get_request_details'].vacation_start_date }}"
+        endDate: "{{ taskrun.outputs['get_request_details'].vacation_end_date }}"
+        days: {{ taskrun.outputs['get_request_details'].vacation_days }}
+        vacationType: "{{ taskrun.outputs['get_request_details'].vacation_type }}"
+        {% elif inputs.request_type == 'expense' %}
+        amount: {{ taskrun.outputs['get_request_details'].expense_amount }}
+        currency: "{{ taskrun.outputs['get_request_details'].expense_currency }}"
+        category: "{{ taskrun.outputs['get_request_details'].expense_category }}"
+        expenseDate: "{{ taskrun.outputs['get_request_details'].expense_date }}"
+        receiptUrl: "{{ taskrun.outputs['get_request_details'].metadata.receipt_url or '' }}"
+        {% elif inputs.request_type == 'document' %}
+        documentUrl: "{{ taskrun.outputs['get_request_details'].document_url }}"
+        documentCategory: "{{ taskrun.outputs['get_request_details'].document_category }}"
+        documentVersion: "{{ taskrun.outputs['get_request_details'].metadata.document_version or '1.0' }}"
+        requiresReview: {{ taskrun.outputs['get_request_details'].requires_review }}
+        {% endif %}
+        managerEmail: "{{ taskrun.outputs['get_request_details'].manager_email }}"
+        autoApproved: {{ taskrun.outputs['evaluate_rules'].auto_approved }}
+
+  - id: update_request_with_process_id
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    disabled: "{{ not inputs.enable_flowable_integration or taskrun.outputs['evaluate_rules'].auto_approved or not inputs.flowable_base_url }}"
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    sql: |
+      UPDATE approval_requests
+      SET 
+        flowable_process_instance_id = '{{ taskrun.outputs['start_flowable_process'].processInstanceId }}',
+        kestra_execution_id = '{{ execution.id }}',
+        updated_at = NOW()
+      WHERE id = '{{ inputs.request_id }}'::uuid
+      RETURNING id, flowable_process_instance_id
+
+  - id: finalize_result
+    type: io.kestra.plugin.scripts.javascript.Script
+    script: |
+      const result = {
+        request_id: inputs.request_id,
+        auto_approved: taskrun.outputs['evaluate_rules'].auto_approved,
+        status: taskrun.outputs['update_request_status'].status,
+        matched_rule: taskrun.outputs['evaluate_rules'].matched_rule,
+        flowable_process_instance_id: taskrun.outputs['update_request_with_process_id']?.flowable_process_instance_id || null,
+        approval_chain_created: !taskrun.outputs['evaluate_rules'].auto_approved && taskrun.outputs['create_approval_chain_if_manual'] ? true : false
+      };
+      
+      logger.info("Auto-evaluation completed", result);
+      return result;
+
+outputs:
+  request_id:
+    type: STRING
+    value: "{{ taskrun.outputs['finalize_result'].request_id }}"
+  auto_approved:
+    type: BOOLEAN
+    value: "{{ taskrun.outputs['finalize_result'].auto_approved }}"
+  status:
+    type: STRING
+    value: "{{ taskrun.outputs['finalize_result'].status }}"
+  flowable_process_instance_id:
+    type: STRING
+    value: "{{ taskrun.outputs['finalize_result'].flowable_process_instance_id }}"
+
+
+
+
+

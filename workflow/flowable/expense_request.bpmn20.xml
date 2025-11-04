@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL"
+                   xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+                   xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+                   xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+                   xmlns:flowable="http://flowable.org/bpmn"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   id="Definitions_ExpenseRequest"
+                   targetNamespace="http://flowable.org/bpmn">
+  
+  <bpmn2:process id="expenseRequest" name="Expense Request Approval" isExecutable="true">
+    
+    <!-- Variables del proceso -->
+    <bpmn2:property id="requestId" name="requestId"/>
+    <bpmn2:property id="requesterEmail" name="requesterEmail"/>
+    <bpmn2:property id="amount" name="amount"/>
+    <bpmn2:property id="currency" name="currency"/>
+    <bpmn2:property id="category" name="category"/>
+    <bpmn2:property id="expenseDate" name="expenseDate"/>
+    <bpmn2:property id="receiptUrl" name="receiptUrl"/>
+    <bpmn2:property id="autoApproved" name="autoApproved"/>
+    <bpmn2:property id="managerEmail" name="managerEmail"/>
+    <bpmn2:property id="approved" name="approved"/>
+    <bpmn2:property id="rejectionReason" name="rejectionReason"/>
+    
+    <!-- Inicio del proceso -->
+    <bpmn2:startEvent id="StartEvent_ExpenseRequest" name="Expense Request Submitted">
+      <bpmn2:outgoing>Flow_Start_EvaluateRules</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    
+    <!-- Evaluación automática de reglas -->
+    <bpmn2:serviceTask id="Task_EvaluateAutoRules" name="Evaluate Auto-Approval Rules">
+      <bpmn2:extensionElements>
+        <flowable:class>org.flowable.engine.impl.bpmn.behavior.WebServiceActivityBehavior</flowable:class>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>Flow_Start_EvaluateRules</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_Evaluate_Gateway</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    
+    <bpmn2:sequenceFlow id="Flow_Start_EvaluateRules" sourceRef="StartEvent_ExpenseRequest" targetRef="Task_EvaluateAutoRules"/>
+    
+    <!-- Gateway: ¿Auto-aprobado? -->
+    <bpmn2:exclusiveGateway id="Gateway_AutoApproval" name="Auto-Approved?">
+      <bpmn2:incoming>Flow_Evaluate_Gateway</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_AutoApproved_Notify</bpmn2:outgoing>
+      <bpmn2:outgoing>Flow_NeedsApproval_CheckAmount</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    
+    <bpmn2:sequenceFlow id="Flow_Evaluate_Gateway" sourceRef="Task_EvaluateAutoRules" targetRef="Gateway_AutoApproval"/>
+    
+    <bpmn2:sequenceFlow id="Flow_AutoApproved_Notify" name="Yes" sourceRef="Gateway_AutoApproval" targetRef="Task_AutoApprovedNotify">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${autoApproved == true}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <bpmn2:sequenceFlow id="Flow_NeedsApproval_CheckAmount" name="No" sourceRef="Gateway_AutoApproval" targetRef="Gateway_AmountCheck"/>
+    
+    <!-- Gateway: ¿Monto requiere aprobación especial? -->
+    <bpmn2:exclusiveGateway id="Gateway_AmountCheck" name="Amount Check">
+      <bpmn2:incoming>Flow_NeedsApproval_CheckAmount</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_ManagerApproval</bpmn2:outgoing>
+      <bpmn2:outgoing>Flow_FinanceApproval</bpmn2:outgoing>
+      <bpmn2:outgoing>Flow_DirectorApproval</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    
+    <bpmn2:sequenceFlow id="Flow_ManagerApproval" name="&lt; $5K" sourceRef="Gateway_AmountCheck" targetRef="Task_ManagerApproval">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${amount &lt; 5000}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <bpmn2:sequenceFlow id="Flow_FinanceApproval" name="$5K-$25K" sourceRef="Gateway_AmountCheck" targetRef="Task_ManagerApproval">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${amount &gt;= 5000 &amp;&amp; amount &lt; 25000}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <bpmn2:sequenceFlow id="Flow_DirectorApproval" name="&gt;= $25K" sourceRef="Gateway_AmountCheck" targetRef="Task_ManagerApproval">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${amount &gt;= 25000}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <!-- Auto-aprobado: Notificar y finalizar -->
+    <bpmn2:serviceTask id="Task_AutoApprovedNotify" name="Notify Auto-Approval">
+      <bpmn2:incoming>Flow_AutoApproved_Notify</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_AutoApproved_End</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    
+    <bpmn2:sequenceFlow id="Flow_AutoApproved_End" sourceRef="Task_AutoApprovedNotify" targetRef="EndEvent_AutoApproved"/>
+    
+    <bpmn2:endEvent id="EndEvent_AutoApproved" name="Auto-Approved"/>
+    
+    <!-- Aprobación del Manager (siempre requerida primero) -->
+    <bpmn2:userTask id="Task_ManagerApproval" name="Manager Approval" flowable:assignee="${managerEmail}">
+      <bpmn2:incoming>Flow_ManagerApproval</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_Manager_Gateway</bpmn2:outgoing>
+    </bpmn2:userTask>
+    
+    <!-- Timer para timeout -->
+    <bpmn2:boundaryEvent id="BoundaryEvent_ManagerTimeout" name="Manager Timeout" attachedToRef="Task_ManagerApproval">
+      <bpmn2:outgoing>Flow_Timeout_Escalate</bpmn2:outgoing>
+      <bpmn2:timerEventDefinition>
+        <bpmn2:timeDuration>PT72H</bpmn2:timeDuration>
+      </bpmn2:timerEventDefinition>
+    </bpmn2:boundaryEvent>
+    
+    <bpmn2:sequenceFlow id="Flow_Timeout_Escalate" sourceRef="BoundaryEvent_ManagerTimeout" targetRef="Task_EscalateToFinance"/>
+    
+    <!-- Escalación a Finanzas si hay timeout -->
+    <bpmn2:serviceTask id="Task_EscalateToFinance" name="Escalate to Finance">
+      <bpmn2:incoming>Flow_Timeout_Escalate</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_Escalate_FinanceApproval</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    
+    <bpmn2:sequenceFlow id="Flow_Manager_Gateway" sourceRef="Task_ManagerApproval" targetRef="Gateway_ManagerDecision"/>
+    
+    <!-- Gateway: ¿Aprobado por Manager? -->
+    <bpmn2:exclusiveGateway id="Gateway_ManagerDecision" name="Manager Approved?">
+      <bpmn2:incoming>Flow_Manager_Gateway</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_ManagerApproved_CheckFinance</bpmn2:outgoing>
+      <bpmn2:outgoing>Flow_ManagerRejected_Notify</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    
+    <bpmn2:sequenceFlow id="Flow_ManagerApproved_CheckFinance" name="Yes" sourceRef="Gateway_ManagerDecision" targetRef="Gateway_FinanceCheck">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${approved == true}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <bpmn2:sequenceFlow id="Flow_ManagerRejected_Notify" name="No" sourceRef="Gateway_ManagerDecision" targetRef="Task_NotifyRejection">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${approved == false}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <!-- Gateway: ¿Necesita aprobación de Finanzas? (si >= $5K) -->
+    <bpmn2:exclusiveGateway id="Gateway_FinanceCheck" name="Finance Approval Needed?">
+      <bpmn2:incoming>Flow_ManagerApproved_CheckFinance</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_NeedsFinance_Approval</bpmn2:outgoing>
+      <bpmn2:outgoing>Flow_FinalApproval</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    
+    <bpmn2:sequenceFlow id="Flow_NeedsFinance_Approval" name="Yes" sourceRef="Gateway_FinanceCheck" targetRef="Task_FinanceApproval">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${amount &gt;= 5000}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <bpmn2:sequenceFlow id="Flow_FinalApproval" name="No" sourceRef="Gateway_FinanceCheck" targetRef="Task_FinalizeApproval">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${amount &lt; 5000}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <bpmn2:sequenceFlow id="Flow_Escalate_FinanceApproval" sourceRef="Task_EscalateToFinance" targetRef="Task_FinanceApproval"/>
+    
+    <!-- Aprobación de Finanzas (si >= $5K) -->
+    <bpmn2:userTask id="Task_FinanceApproval" name="Finance Approval" flowable:candidateGroups="finance_manager">
+      <bpmn2:incoming>Flow_NeedsFinance_Approval</bpmn2:incoming>
+      <bpmn2:incoming>Flow_Escalate_FinanceApproval</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_Finance_Gateway</bpmn2:outgoing>
+    </bpmn2:userTask>
+    
+    <bpmn2:boundaryEvent id="BoundaryEvent_FinanceTimeout" name="Finance Timeout" attachedToRef="Task_FinanceApproval">
+      <bpmn2:outgoing>Flow_FinanceTimeout_CheckDirector</bpmn2:outgoing>
+      <bpmn2:timerEventDefinition>
+        <bpmn2:timeDuration>PT120H</bpmn2:timeDuration>
+      </bpmn2:timerEventDefinition>
+    </bpmn2:boundaryEvent>
+    
+    <bpmn2:sequenceFlow id="Flow_Finance_Gateway" sourceRef="Task_FinanceApproval" targetRef="Gateway_FinanceDecision"/>
+    
+    <!-- Gateway: ¿Aprobado por Finanzas? -->
+    <bpmn2:exclusiveGateway id="Gateway_FinanceDecision" name="Finance Approved?">
+      <bpmn2:incoming>Flow_Finance_Gateway</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_FinanceApproved_CheckDirector</bpmn2:outgoing>
+      <bpmn2:outgoing>Flow_FinanceRejected_Notify</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    
+    <bpmn2:sequenceFlow id="Flow_FinanceApproved_CheckDirector" name="Yes" sourceRef="Gateway_FinanceDecision" targetRef="Gateway_DirectorCheck">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${approved == true}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <bpmn2:sequenceFlow id="Flow_FinanceRejected_Notify" name="No" sourceRef="Gateway_FinanceDecision" targetRef="Task_NotifyRejection">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${approved == false}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <bpmn2:sequenceFlow id="Flow_FinanceTimeout_CheckDirector" sourceRef="BoundaryEvent_FinanceTimeout" targetRef="Gateway_DirectorCheck"/>
+    
+    <!-- Gateway: ¿Necesita aprobación de Director? (si >= $25K) -->
+    <bpmn2:exclusiveGateway id="Gateway_DirectorCheck" name="Director Approval Needed?">
+      <bpmn2:incoming>Flow_FinanceApproved_CheckDirector</bpmn2:incoming>
+      <bpmn2:incoming>Flow_FinanceTimeout_CheckDirector</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_NeedsDirector_Approval</bpmn2:outgoing>
+      <bpmn2:outgoing>Flow_FinalApproval</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    
+    <bpmn2:sequenceFlow id="Flow_NeedsDirector_Approval" name="Yes" sourceRef="Gateway_DirectorCheck" targetRef="Task_DirectorApproval">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${amount &gt;= 25000}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <bpmn2:sequenceFlow id="Flow_FinalApproval" name="No" sourceRef="Gateway_DirectorCheck" targetRef="Task_FinalizeApproval"/>
+    
+    <!-- Aprobación de Director (si >= $25K) -->
+    <bpmn2:userTask id="Task_DirectorApproval" name="Director Approval" flowable:candidateGroups="director">
+      <bpmn2:incoming>Flow_NeedsDirector_Approval</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_Director_Gateway</bpmn2:outgoing>
+    </bpmn2:userTask>
+    
+    <bpmn2:boundaryEvent id="BoundaryEvent_DirectorTimeout" name="Director Timeout" attachedToRef="Task_DirectorApproval">
+      <bpmn2:outgoing>Flow_DirectorTimeout_Finalize</bpmn2:outgoing>
+      <bpmn2:timerEventDefinition>
+        <bpmn2:timeDuration>PT168H</bpmn2:timeDuration>
+      </bpmn2:timerEventDefinition>
+    </bpmn2:boundaryEvent>
+    
+    <bpmn2:sequenceFlow id="Flow_Director_Gateway" sourceRef="Task_DirectorApproval" targetRef="Gateway_DirectorDecision"/>
+    
+    <!-- Gateway: ¿Aprobado por Director? -->
+    <bpmn2:exclusiveGateway id="Gateway_DirectorDecision" name="Director Approved?">
+      <bpmn2:incoming>Flow_Director_Gateway</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_DirectorApproved_Finalize</bpmn2:outgoing>
+      <bpmn2:outgoing>Flow_DirectorRejected_Notify</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    
+    <bpmn2:sequenceFlow id="Flow_DirectorApproved_Finalize" name="Yes" sourceRef="Gateway_DirectorDecision" targetRef="Task_FinalizeApproval">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${approved == true}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <bpmn2:sequenceFlow id="Flow_DirectorRejected_Notify" name="No" sourceRef="Gateway_DirectorDecision" targetRef="Task_NotifyRejection">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${approved == false}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <bpmn2:sequenceFlow id="Flow_DirectorTimeout_Finalize" sourceRef="BoundaryEvent_DirectorTimeout" targetRef="Task_FinalizeApproval"/>
+    
+    <!-- Finalizar aprobación -->
+    <bpmn2:serviceTask id="Task_FinalizeApproval" name="Finalize Approval">
+      <bpmn2:incoming>Flow_FinalApproval</bpmn2:incoming>
+      <bpmn2:incoming>Flow_DirectorApproved_Finalize</bpmn2:incoming>
+      <bpmn2:incoming>Flow_DirectorTimeout_Finalize</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_Finalize_Notify</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    
+    <bpmn2:sequenceFlow id="Flow_Finalize_Notify" sourceRef="Task_FinalizeApproval" targetRef="Task_NotifyApproval"/>
+    
+    <!-- Notificar aprobación -->
+    <bpmn2:serviceTask id="Task_NotifyApproval" name="Notify Approval">
+      <bpmn2:incoming>Flow_Finalize_Notify</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_Notify_End</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    
+    <!-- Notificar rechazo -->
+    <bpmn2:serviceTask id="Task_NotifyRejection" name="Notify Rejection">
+      <bpmn2:incoming>Flow_ManagerRejected_Notify</bpmn2:incoming>
+      <bpmn2:incoming>Flow_FinanceRejected_Notify</bpmn2:incoming>
+      <bpmn2:incoming>Flow_DirectorRejected_Notify</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_Reject_End</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    
+    <bpmn2:sequenceFlow id="Flow_Notify_End" sourceRef="Task_NotifyApproval" targetRef="EndEvent_Approved"/>
+    <bpmn2:sequenceFlow id="Flow_Reject_End" sourceRef="Task_NotifyRejection" targetRef="EndEvent_Rejected"/>
+    
+    <bpmn2:endEvent id="EndEvent_Approved" name="Approved"/>
+    <bpmn2:endEvent id="EndEvent_Rejected" name="Rejected"/>
+    
+  </bpmn2:process>
+  
+  <bpmndi:BPMNDiagram id="BPMNDiagram_ExpenseRequest">
+    <bpmndi:BPMNPlane id="BPMNPlane_ExpenseRequest" bpmnElement="expenseRequest">
+      <!-- Shapes y edges para visualización en el modeler -->
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+  
+</bpmn2:definitions>
+
+
+
+
+

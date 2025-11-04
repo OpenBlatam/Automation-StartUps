@@ -1,0 +1,14 @@
+---
+# Variables específicas para grupo kubernetes
+kubernetes_cluster_name: "{{ cluster_name }}"
+kubernetes_version: "{{ kubernetes.version }}"
+
+# Configuración de containerd
+containerd_version: "{{ containerd.version }}"
+containerd_config_path: "{{ containerd.config_path }}"
+
+# Networking
+pod_cidr: "{{ kubernetes.pod_cidr }}"
+service_cidr: "{{ kubernetes.service_cidr }}"
+
+

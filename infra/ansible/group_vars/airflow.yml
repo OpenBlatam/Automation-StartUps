@@ -1,0 +1,12 @@
+---
+# Variables específicas para grupo airflow
+airflow_user: "{{ airflow.user }}"
+airflow_home: "{{ airflow.home }}"
+airflow_version: "{{ airflow.version }}"
+airflow_executor: "{{ airflow.executor }}"
+
+# Base de datos
+airflow_db_type: "{{ airflow.database.type }}"
+airflow_db_connection: "{{ airflow.database.connection }}"
+
+

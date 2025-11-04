@@ -1,0 +1,19 @@
+# ServiceMonitor para Kestra - Métricas de workflows y ejecuciones
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: kestra
+  namespace: workflows
+  labels:
+    app: kestra
+spec:
+  selector:
+    matchLabels:
+      app: kestra
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 30s
+      scrapeTimeout: 10s
+
+

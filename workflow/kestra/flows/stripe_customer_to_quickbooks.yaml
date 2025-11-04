@@ -1,0 +1,208 @@
+id: stripe_customer_to_quickbooks
+namespace: workflows
+
+labels:
+  app: customers
+  source: stripe
+  destination: quickbooks
+
+inputs:
+  - name: stripe_signing_secret
+    type: STRING
+    required: false
+  - name: airflow_base_url
+    type: STRING
+    required: true
+  - name: airflow_token
+    type: STRING
+    required: false
+  - name: quickbooks_client_id
+    type: STRING
+    required: false
+  - name: quickbooks_client_secret
+    type: STRING
+    required: false
+  - name: quickbooks_refresh_token
+    type: STRING
+    required: false
+  - name: quickbooks_realm_id
+    type: STRING
+    required: true
+  - name: quickbooks_company_id
+    type: STRING
+    required: false
+  - name: quickbooks_environment
+    type: STRING
+    required: false
+    defaults: production
+
+triggers:
+  - id: stripe_webhook
+    type: io.kestra.plugin.core.trigger.Webhook
+    key: stripe-customer
+
+variables:
+  customer_created_event: customer.created
+
+tasks:
+  - id: verify_signature
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    disabled: "{{ inputs.stripe_signing_secret is null or inputs.stripe_signing_secret == '' }}"
+    inputFiles:
+      payload.raw: "{{ trigger.rawBody }}"
+      headers.json: "{{ trigger.headers | toJson }}"
+      verify.py: |
+        import os, hmac, hashlib, time, json, sys
+        secret = os.getenv('STRIPE_SIGNING_SECRET')
+        if not secret:
+            # allow if not provided
+            sys.exit(0)
+        headers = json.load(open('headers.json'))
+        sig = headers.get('Stripe-Signature') or headers.get('stripe-signature')
+        if not sig:
+            print('missing signature header')
+            sys.exit(1)
+        # Stripe signature header: t=timestamp,v1=signature
+        parts = dict([p.split('=',1) for p in sig.split(',') if '=' in p])
+        ts = parts.get('t'); v1 = parts.get('v1')
+        payload = open('payload.raw','rb').read()
+        signed_payload = f"{ts}.".encode('utf-8') + payload
+        digest = hmac.new(secret.encode('utf-8'), signed_payload, hashlib.sha256).hexdigest()
+        if not hmac.compare_digest(digest, v1 or ''):
+            print('invalid signature')
+            sys.exit(1)
+    env:
+      STRIPE_SIGNING_SECRET: "{{ inputs.stripe_signing_secret }}"
+
+  - id: parse_stripe_customer
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    inputFiles:
+      payload.json: "{{ trigger.body | toJson }}"
+      parse.py: |
+        import json, sys
+        
+        try:
+            p = json.load(open('payload.json'))
+        except Exception as e:
+            print(f'ERROR: Failed to parse Stripe payload JSON: {e}', file=sys.stderr)
+            sys.exit(1)
+        
+        if not isinstance(p, dict):
+            print(f'ERROR: Expected dict payload, got {type(p).__name__}', file=sys.stderr)
+            sys.exit(1)
+        
+        # Verificar que es un evento de creación de cliente
+        event_type = p.get('type', '')
+        if event_type != 'customer.created':
+            print(f'INFO: Ignoring event type: {event_type}. Expected customer.created')
+            sys.exit(0)  # No es error, simplemente ignorar
+        
+        # Extraer datos del cliente
+        customer_obj = p.get('data', {}).get('object', {})
+        
+        if not customer_obj:
+            print('ERROR: Missing data.object in Stripe payload', file=sys.stderr)
+            sys.exit(1)
+        
+        # Extraer información del cliente
+        customer_id = customer_obj.get('id', '')
+        email = customer_obj.get('email', '')
+        name = customer_obj.get('name', '') or customer_obj.get('description', '')
+        
+        # Si no hay nombre, usar email como fallback
+        if not name:
+            name = email.split('@')[0] if email else 'Cliente'
+        
+        # Extraer país desde metadata o desde address
+        country = ''
+        
+        # Intentar desde metadata
+        metadata = customer_obj.get('metadata', {})
+        if isinstance(metadata, dict):
+            country = metadata.get('country', '') or metadata.get('pais', '')
+        
+        # Si no hay en metadata, intentar desde address
+        if not country:
+            address = customer_obj.get('address', {})
+            if isinstance(address, dict):
+                country = address.get('country', '')
+        
+        # Si aún no hay país, usar default
+        if not country:
+            country = 'US'  # Default
+        
+        # Extraer información adicional
+        phone = customer_obj.get('phone', '')
+        description = customer_obj.get('description', '')
+        
+        out = {
+          'customer_id': str(customer_id),
+          'email': str(email),
+          'name': str(name),
+          'country': str(country).upper()[:2],  # ISO 3166-1 alpha-2
+          'phone': str(phone) if phone else '',
+          'description': str(description) if description else '',
+          'event_type': event_type,
+          'created_at': customer_obj.get('created', '')
+        }
+        
+        # Validar campos requeridos
+        if not out['email']:
+            print('ERROR: Missing email in customer data', file=sys.stderr)
+            sys.exit(1)
+        
+        if not out['name']:
+            print('ERROR: Missing name in customer data', file=sys.stderr)
+            sys.exit(1)
+        
+        try:
+            with open('customer_parsed.json', 'w', encoding='utf-8') as f:
+                json.dump(out, f, indent=2, ensure_ascii=False)
+            print(f'INFO: Stripe customer parsed - customer_id={out["customer_id"]}, email={out["email"]}, name={out["name"]}, country={out["country"]}')
+        except Exception as e:
+            print(f'ERROR: Failed to write parsed data: {e}', file=sys.stderr)
+            sys.exit(1)
+    outputFiles:
+      - customer_parsed.json
+    allowFailure: false
+
+  - id: trigger_airflow_sync
+    type: io.kestra.plugin.core.http.Request
+    uri: "{{ inputs.airflow_base_url }}/api/v1/dags/stripe_customer_to_quickbooks/dagRuns"
+    method: POST
+    timeout: PT30S
+    headers:
+      Content-Type: application/json
+      {% if inputs.airflow_token %}
+      Authorization: "Bearer {{ inputs.airflow_token }}"
+      {% endif %}
+    body: |
+      {% set c = (taskrun.outputs['parse_stripe_customer']['files']['customer_parsed.json'] | readFile | fromJson) %}
+      {
+        "conf": {
+          "nombre_cliente": "{{ c.name }}",
+          "correo_cliente": "{{ c.email }}",
+          "pais": "{{ c.country }}"
+        }
+      }
+    retry:
+      type: exponential
+      interval: PT5S
+      maxAttempt: 3
+      multiplier: 2.0
+    allowFailure: false
+
+  - id: log_result
+    type: io.kestra.plugin.core.log.Log
+    message: |
+      Cliente Stripe sincronizado con QuickBooks:
+      - Cliente ID: {{ (taskrun.outputs['parse_stripe_customer']['files']['customer_parsed.json'] | readFile | fromJson).customer_id }}
+      - Email: {{ (taskrun.outputs['parse_stripe_customer']['files']['customer_parsed.json'] | readFile | fromJson).email }}
+      - Nombre: {{ (taskrun.outputs['parse_stripe_customer']['files']['customer_parsed.json'] | readFile | fromJson).name }}
+      - País: {{ (taskrun.outputs['parse_stripe_customer']['files']['customer_parsed.json'] | readFile | fromJson).country }}
+      - Airflow DAG ejecutado exitosamente
+
+
+

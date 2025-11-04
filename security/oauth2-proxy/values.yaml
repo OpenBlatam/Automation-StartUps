@@ -1,0 +1,30 @@
+config:
+  clientID: $OIDC_CLIENT_ID
+  clientSecret: $OIDC_CLIENT_SECRET
+  cookieSecret: $COOKIE_SECRET
+  configFile: |
+    provider = "oidc"
+    oidc_issuer_url = "https://login.example.com/realms/myrealm"
+    email_domains = ["*"]
+    cookie_secure = true
+    whitelist_domains = [".example.com"]
+    pass_authorization_header = true
+    pass_access_token = true
+    pass_user_headers = true
+    set_authorization_header = true
+extraArgs:
+  - --http-address=0.0.0.0:4180
+  - --upstream=static://200
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - auth.example.com
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  tls:
+    - hosts:
+        - auth.example.com
+      secretName: oauth2-tls
+
+

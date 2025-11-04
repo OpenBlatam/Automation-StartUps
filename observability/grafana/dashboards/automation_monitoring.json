@@ -1,0 +1,264 @@
+{
+  "dashboard": {
+    "title": "Monitoreo de Automatizaciones",
+    "tags": ["automation", "airflow", "workflows", "monitoring"],
+    "timezone": "browser",
+    "schemaVersion": 27,
+    "version": 1,
+    "refresh": "30s",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Estado de DAGs de Airflow",
+        "type": "stat",
+        "gridPos": {"h": 4, "w": 6, "x": 0, "y": 0},
+        "targets": [
+          {
+            "expr": "sum(airflow_dag_run_status{status=\"success\"})",
+            "legendFormat": "Exitosos",
+            "refId": "A"
+          },
+          {
+            "expr": "sum(airflow_dag_run_status{status=\"failed\"})",
+            "legendFormat": "Fallidos",
+            "refId": "B"
+          },
+          {
+            "expr": "sum(airflow_dag_run_status{status=\"running\"})",
+            "legendFormat": "En ejecución",
+            "refId": "C"
+          }
+        ],
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto"
+        }
+      },
+      {
+        "id": 2,
+        "title": "Tasa de Éxito de Automatizaciones (24h)",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 6, "y": 0},
+        "targets": [
+          {
+            "expr": "rate(airflow_dag_run_success_total[5m]) / rate(airflow_dag_run_total[5m]) * 100",
+            "legendFormat": "Tasa de éxito (%)",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {"format": "percent", "label": "Porcentaje"},
+          {"format": "short"}
+        ]
+      },
+      {
+        "id": 3,
+        "title": "DAG Runs por Estado",
+        "type": "bargauge",
+        "gridPos": {"h": 8, "w": 6, "x": 0, "y": 4},
+        "targets": [
+          {
+            "expr": "sum by (status) (airflow_dag_run_status)",
+            "legendFormat": "{{status}}",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "displayMode": "gradient",
+          "orientation": "horizontal",
+          "showLabel": true
+        }
+      },
+      {
+        "id": 4,
+        "title": "Duración de Tareas (Percentiles)",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 6, "y": 4},
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.50, rate(airflow_task_duration_seconds_bucket[5m]))",
+            "legendFormat": "p50",
+            "refId": "A"
+          },
+          {
+            "expr": "histogram_quantile(0.95, rate(airflow_task_duration_seconds_bucket[5m]))",
+            "legendFormat": "p95",
+            "refId": "B"
+          },
+          {
+            "expr": "histogram_quantile(0.99, rate(airflow_task_duration_seconds_bucket[5m]))",
+            "legendFormat": "p99",
+            "refId": "C"
+          }
+        ],
+        "yaxes": [
+          {"format": "s", "label": "Segundos"},
+          {"format": "short"}
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Top DAGs por Tiempo de Ejecución",
+        "type": "table",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 12},
+        "targets": [
+          {
+            "expr": "topk(10, sum by (dag_id) (rate(airflow_task_duration_seconds_sum[5m])) / sum by (dag_id) (rate(airflow_task_duration_seconds_count[5m])))",
+            "format": "table",
+            "refId": "A"
+          }
+        ],
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {},
+              "indexByName": {},
+              "renameByName": {
+                "dag_id": "DAG",
+                "Value": "Duración Promedio (s)"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Ejecuciones de Kestra por Estado",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
+        "targets": [
+          {
+            "expr": "sum by (state) (increase(kestra_executions_total[5m]))",
+            "legendFormat": "{{state}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {"format": "short", "label": "Ejecuciones"},
+          {"format": "short"}
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Procesos de Camunda",
+        "type": "stat",
+        "gridPos": {"h": 4, "w": 6, "x": 12, "y": 4},
+        "targets": [
+          {
+            "expr": "sum(camunda_process_instances_active)",
+            "legendFormat": "Activos",
+            "refId": "A"
+          },
+          {
+            "expr": "sum(camunda_process_instances_completed)",
+            "legendFormat": "Completados",
+            "refId": "B"
+          },
+          {
+            "expr": "sum(camunda_process_instances_failed)",
+            "legendFormat": "Fallidos",
+            "refId": "C"
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Errores por Componente",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+        "targets": [
+          {
+            "expr": "sum by (component) (increase(automation_errors_total[5m]))",
+            "legendFormat": "{{component}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {"format": "short", "label": "Errores"},
+          {"format": "short"}
+        ]
+      },
+      {
+        "id": 9,
+        "title": "Salud de Vault",
+        "type": "stat",
+        "gridPos": {"h": 4, "w": 6, "x": 12, "y": 12},
+        "targets": [
+          {
+            "expr": "up{job=\"vault\"}",
+            "legendFormat": "Vault disponible",
+            "refId": "A"
+          },
+          {
+            "expr": "increase(vault_secret_access_total[5m])",
+            "legendFormat": "Accesos últimos 5m",
+            "refId": "B"
+          },
+          {
+            "expr": "increase(vault_secret_access_errors_total[5m])",
+            "legendFormat": "Errores últimos 5m",
+            "refId": "C"
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "title": "Cola de Tareas de Airflow",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 20},
+        "targets": [
+          {
+            "expr": "airflow_dag_run_queue_length",
+            "legendFormat": "En cola",
+            "refId": "A"
+          },
+          {
+            "expr": "airflow_task_queue_length",
+            "legendFormat": "Tareas en cola",
+            "refId": "B"
+          }
+        ],
+        "yaxes": [
+          {"format": "short", "label": "Elementos en cola"},
+          {"format": "short"}
+        ]
+      },
+      {
+        "id": 11,
+        "title": "Throughput de Automatizaciones",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 20},
+        "targets": [
+          {
+            "expr": "rate(airflow_dag_run_total[5m])",
+            "legendFormat": "DAG runs/seg",
+            "refId": "A"
+          },
+          {
+            "expr": "rate(airflow_task_total[5m])",
+            "legendFormat": "Tareas/seg",
+            "refId": "B"
+          },
+          {
+            "expr": "rate(kestra_executions_total[5m])",
+            "legendFormat": "Kestra execs/seg",
+            "refId": "C"
+          }
+        ],
+        "yaxes": [
+          {"format": "ops", "label": "Operaciones por segundo"},
+          {"format": "short"}
+        ]
+      }
+    ],
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "timepicker": {}
+  }
+}
+
+

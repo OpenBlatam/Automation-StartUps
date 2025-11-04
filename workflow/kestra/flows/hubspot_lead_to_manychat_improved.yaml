@@ -1,0 +1,449 @@
+id: hubspot_lead_to_manychat
+namespace: workflows
+
+labels:
+  app: leads
+  source: hubspot
+  target: manychat
+
+description: |
+  Integración HubSpot → ManyChat: Cuando se crea un nuevo lead en HubSpot con propiedad 'interés_producto' = 'X',
+  llama a la API de ManyChat para enviar un mensaje personalizado al usuario.
+  
+  Versión mejorada con librerías:
+  - HubSpotClient: Cliente robusto con retry y rate limiting
+  - ManyChatClient: Cliente con validación y manejo de errores
+  - WebhookValidator: Verificación de firma HMAC
+  - Logging estructurado
+  - Mejor manejo de errores
+
+inputs:
+  - name: manychat_api_key
+    type: STRING
+    required: true
+    description: API Key de ManyChat para autenticación
+  - name: hubspot_token
+    type: STRING
+    required: true
+    description: Token de HubSpot para obtener datos del contacto si no vienen en el webhook
+  - name: hubspot_webhook_secret
+    type: STRING
+    required: false
+    description: Secret para verificar firma del webhook (opcional pero recomendado)
+  - name: manychat_page_id
+    type: STRING
+    required: false
+    description: ID de la página de ManyChat (opcional)
+
+triggers:
+  - id: hubspot_webhook
+    type: io.kestra.plugin.core.trigger.Webhook
+    key: hubspot-lead
+    description: Trigger webhook para recibir eventos de creación de contacto desde HubSpot
+
+variables:
+  manychat_base: "https://api.manychat.com"
+  hubspot_base: "https://api.hubapi.com"
+  message_template: "Hola {nombre}, gracias por tu interés en {producto}. ¿Te gustaría agendar una demo?"
+
+tasks:
+  - id: verify_webhook_signature
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    description: Verifica la firma del webhook de HubSpot usando HMAC
+    disabled: "{{ trigger.type != 'webhook' or not inputs.hubspot_webhook_secret }}"
+    inputFiles:
+      verify.py: |
+        import os
+        import sys
+        import json
+        import logging
+        
+        # Importar validador
+        sys.path.insert(0, '/workflow/kestra/flows/lib')
+        from webhook_validator import WebhookValidator
+        
+        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+        logger = logging.getLogger(__name__)
+        
+        secret = os.getenv('HUBSPOT_WEBHOOK_SECRET')
+        if not secret:
+            logger.info("Webhook secret not configured, skipping verification")
+            sys.exit(0)
+        
+        try:
+            raw_body = "{{ trigger.rawBody }}"
+            headers = {{ trigger.headers | toJson }}
+        except Exception as e:
+            logger.error(f"Failed to get webhook data: {e}")
+            sys.exit(1)
+        
+        signature = WebhookValidator.get_signature_from_headers(headers)
+        is_valid = WebhookValidator.verify_hubspot_signature(raw_body, signature, secret)
+        
+        if not is_valid:
+            logger.error("Invalid webhook signature")
+            sys.exit(1)
+        
+        logger.info("Webhook signature verified successfully")
+    env:
+      HUBSPOT_WEBHOOK_SECRET: "{{ inputs.hubspot_webhook_secret }}"
+
+  - id: parse_and_validate_webhook
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT1M
+    description: Parsea el webhook de HubSpot usando HubSpotClient y valida datos
+    inputFiles:
+      payload.json: "{{ trigger.body | toJson }}"
+      parse.py: |
+        import json
+        import sys
+        import os
+        import logging
+        
+        # Importar clientes mejorados
+        sys.path.insert(0, '/workflow/kestra/flows/lib')
+        from hubspot_client import HubSpotClient, HubSpotContact
+        
+        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+        logger = logging.getLogger(__name__)
+        
+        try:
+            payload = json.load(open('payload.json'))
+            logger.info("Parsing HubSpot webhook payload", extra={"payload_keys": list(payload.keys())})
+        except Exception as e:
+            logger.error(f"Failed to parse payload: {e}")
+            sys.exit(1)
+        
+        # Crear cliente (solo para parsing, no necesita token)
+        hubspot_token = os.getenv('HUBSPOT_TOKEN', '')
+        client = HubSpotClient(api_token=hubspot_token or 'dummy') if hubspot_token else None
+        
+        # Parsear webhook usando el método del cliente
+        if client:
+            contact = client.parse_webhook_payload(payload)
+        else:
+            # Fallback manual si no hay cliente
+            contact = None
+            try:
+                contact_data = None
+                properties = {}
+                
+                if 'subscriptionType' in payload and 'properties' in payload:
+                    contact_data = payload
+                    properties = payload.get('properties', {})
+                elif 'objectId' in payload:
+                    contact_data = payload
+                    properties = payload.get('properties', {})
+                elif 'contacts' in payload and len(payload['contacts']) > 0:
+                    contact_data = payload['contacts'][0]
+                    properties = contact_data.get('properties', {})
+                
+                if contact_data:
+                    contacto_id = str(contact_data.get('objectId') or contact_data.get('vid') or contact_data.get('id') or '')
+                    if contacto_id:
+                        contact = HubSpotContact(
+                            id=contacto_id,
+                            firstname=properties.get('firstname', '').strip() or None,
+                            lastname=properties.get('lastname', '').strip() or None,
+                            email=properties.get('email', '').strip() or None,
+                            interes_producto=(properties.get('interés_producto') or properties.get('interes_producto') or '').strip() or None,
+                            manychat_user_id=(properties.get('manychat_user_id') or properties.get('ManyChat User ID') or '').strip() or None,
+                            properties=properties
+                        )
+            except Exception as e:
+                logger.error(f"Failed to parse webhook: {e}")
+        
+        if not contact or not contact.id:
+            logger.error("No contact data found in payload")
+            with open('parse_result.json', 'w') as f:
+                json.dump({'skip': True, 'reason': 'no_contact_data'}, f)
+            sys.exit(0)
+        
+        # Validar campos requeridos
+        if not contact.interes_producto:
+            logger.warning("interés_producto is empty or not set, skipping message", extra={
+                "contact_id": contact.id
+            })
+            with open('parse_result.json', 'w') as f:
+                json.dump({
+                    'skip': True,
+                    'reason': 'no_interes_producto',
+                    'contact_id': contact.id
+                }, f)
+            sys.exit(0)
+        
+        if not contact.manychat_user_id:
+            logger.warning("manychat_user_id is not set, skipping message", extra={
+                "contact_id": contact.id
+            })
+            with open('parse_result.json', 'w') as f:
+                json.dump({
+                    'skip': True,
+                    'reason': 'no_manychat_user_id',
+                    'contact_id': contact.id
+                }, f)
+            sys.exit(0)
+        
+        # Preparar resultado
+        result = {
+            'skip': False,
+            'contact_id': contact.id,
+            'manychat_user_id': str(contact.manychat_user_id),
+            'contact_name': contact.nombre,
+            'interes_producto': contact.interes_producto,
+            'needs_fetch': not contact.properties or not contact.properties.get('manychat_user_id'),
+            'message': f"Hola {contact.nombre}, gracias por tu interés en {contact.interes_producto}. ¿Te gustaría agendar una demo?"
+        }
+        
+        logger.info("Parse result", extra={
+            "contact_id": result['contact_id'],
+            "contact_name": result['contact_name'],
+            "interes_producto": result['interes_producto'],
+            "needs_fetch": result['needs_fetch']
+        })
+        
+        try:
+            with open('parse_result.json', 'w') as f:
+                json.dump(result, f, ensure_ascii=False)
+            logger.info("parse_result.json written successfully")
+        except Exception as e:
+            logger.error(f"Failed to write parse_result.json: {e}")
+            sys.exit(1)
+    env:
+      HUBSPOT_TOKEN: "{{ inputs.hubspot_token }}"
+    outputFiles:
+      - parse_result.json
+
+  - id: fetch_contact_if_needed
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT1M
+    description: Obtiene datos del contacto desde HubSpot API si faltan propiedades
+    conditions:
+      - type: io.kestra.plugin.core.condition.ExpressionCondition
+        expression: "{{ (taskrun.outputs['parse_and_validate_webhook']['files']['parse_result.json'] | readFile | fromJson).needs_fetch == true and (taskrun.outputs['parse_and_validate_webhook']['files']['parse_result.json'] | readFile | fromJson).skip == false }}"
+    inputFiles:
+      parse_result.json: "{{ taskrun.outputs['parse_and_validate_webhook']['files']['parse_result.json'] }}"
+      fetch.py: |
+        import json
+        import sys
+        import os
+        import logging
+        
+        sys.path.insert(0, '/workflow/kestra/flows/lib')
+        from hubspot_client import HubSpotClient, HubSpotContact
+        
+        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+        logger = logging.getLogger(__name__)
+        
+        try:
+            parsed = json.load(open('parse_result.json'))
+        except Exception as e:
+            logger.error(f"Failed to load parse_result.json: {e}")
+            sys.exit(1)
+        
+        if parsed.get('skip'):
+            logger.info("Skipping fetch - contact already skipped")
+            sys.exit(0)
+        
+        hubspot_token = os.getenv('HUBSPOT_TOKEN')
+        if not hubspot_token:
+            logger.warning("HUBSPOT_TOKEN not available, cannot fetch contact")
+            sys.exit(0)
+        
+        client = HubSpotClient(api_token=hubspot_token)
+        result = client.get_contact(
+            contact_id=parsed['contact_id'],
+            properties=['firstname', 'lastname', 'interés_producto', 'interes_producto', 'manychat_user_id']
+        )
+        
+        if result.success and result.data:
+            contact = HubSpotContact.from_api_response(result.data)
+            
+            # Actualizar parsed con datos frescos
+            if contact.interes_producto:
+                parsed['interes_producto'] = contact.interes_producto
+            if contact.manychat_user_id:
+                parsed['manychat_user_id'] = str(contact.manychat_user_id)
+            if contact.nombre != 'Cliente':
+                parsed['contact_name'] = contact.nombre
+            
+            # Revalidar
+            if not parsed.get('interes_producto'):
+                logger.warning("interés_producto still not available after fetch")
+                parsed['skip'] = True
+                parsed['reason'] = 'no_interes_producto'
+            elif not parsed.get('manychat_user_id'):
+                logger.warning("manychat_user_id still not available after fetch")
+                parsed['skip'] = True
+                parsed['reason'] = 'no_manychat_user_id'
+            else:
+                # Actualizar mensaje con nombre actualizado
+                parsed['message'] = f"Hola {parsed['contact_name']}, gracias por tu interés en {parsed['interes_producto']}. ¿Te gustaría agendar una demo?"
+            
+            parsed['needs_fetch'] = False
+        else:
+            logger.warning(f"Failed to fetch contact: {result.message}")
+        
+        with open('parse_result.json', 'w') as f:
+            json.dump(parsed, f, ensure_ascii=False)
+    env:
+      HUBSPOT_TOKEN: "{{ inputs.hubspot_token }}"
+    outputFiles:
+      - parse_result.json
+
+  - id: send_manychat_message
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT1M
+    description: Envía mensaje a ManyChat usando ManyChatClient mejorado
+    conditions:
+      - type: io.kestra.plugin.core.condition.ExpressionCondition
+        expression: "{{ (taskrun.outputs['fetch_contact_if_needed']['files']['parse_result.json'] if taskrun.outputs['fetch_contact_if_needed'] else taskrun.outputs['parse_and_validate_webhook']['files']['parse_result.json'] | readFile | fromJson).skip == false }}"
+    inputFiles:
+      parse_result.json: "{{ (taskrun.outputs['fetch_contact_if_needed']['files']['parse_result.json'] if taskrun.outputs['fetch_contact_if_needed'] else taskrun.outputs['parse_and_validate_webhook']['files']['parse_result.json']) }}"
+      send.py: |
+        import json
+        import sys
+        import os
+        import logging
+        
+        sys.path.insert(0, '/workflow/kestra/flows/lib')
+        from manychat_client import ManyChatClient
+        
+        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+        logger = logging.getLogger(__name__)
+        
+        try:
+            parsed = json.load(open('parse_result.json'))
+        except Exception as e:
+            logger.error(f"Failed to load parse_result.json: {e}")
+            sys.exit(1)
+        
+        if parsed.get('skip'):
+            logger.info("Skipping message send - contact already skipped")
+            with open('send_result.json', 'w') as f:
+                json.dump({'skip': True, 'reason': parsed.get('reason')}, f)
+            sys.exit(0)
+        
+        manychat_api_key = os.getenv('MANYCHAT_API_KEY')
+        manychat_page_id = os.getenv('MANYCHAT_PAGE_ID', '')
+        
+        if not manychat_api_key:
+            logger.error("MANYCHAT_API_KEY not available")
+            with open('send_result.json', 'w') as f:
+                json.dump({
+                    'success': False,
+                    'message': 'MANYCHAT_API_KEY not configured',
+                    'error_details': {'error': 'Missing API key'}
+                }, f)
+            sys.exit(1)
+        
+        client = ManyChatClient(api_key=manychat_api_key)
+        result = client.send_message(
+            subscriber_id=parsed['manychat_user_id'],
+            message_text=parsed['message'],
+            page_id=manychat_page_id if manychat_page_id else None
+        )
+        
+        send_result = {
+            'success': result.success,
+            'status_code': result.status_code,
+            'message': result.message,
+            'subscriber_id': result.subscriber_id,
+            'sent_message': result.sent_message,
+            'api_response': result.api_response,
+            'error_details': result.error_details
+        }
+        
+        logger.info("Send result", extra={
+            "success": result.success,
+            "subscriber_id": result.subscriber_id,
+            "status_code": result.status_code
+        })
+        
+        with open('send_result.json', 'w') as f:
+            json.dump(send_result, f, ensure_ascii=False, indent=2)
+    env:
+      MANYCHAT_API_KEY: "{{ inputs.manychat_api_key }}"
+      MANYCHAT_PAGE_ID: "{{ inputs.manychat_page_id }}"
+    outputFiles:
+      - send_result.json
+
+  - id: format_final_response
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    description: Formatea la respuesta final con todos los datos
+    inputFiles:
+      parse_result.json: "{{ (taskrun.outputs['fetch_contact_if_needed']['files']['parse_result.json'] if taskrun.outputs['fetch_contact_if_needed'] else taskrun.outputs['parse_and_validate_webhook']['files']['parse_result.json']) }}"
+      send_result.json: "{{ taskrun.outputs['send_manychat_message']['files']['send_result.json'] if taskrun.outputs['send_manychat_message'] else '{}' }}"
+      format.py: |
+        import json
+        import sys
+        import logging
+        
+        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+        logger = logging.getLogger(__name__)
+        
+        try:
+            parsed = json.load(open('parse_result.json'))
+        except Exception as e:
+            logger.error(f"Failed to load parse_result.json: {e}")
+            result = {'status': 'error', 'message': f'Failed to load parse result: {e}'}
+            with open('final_result.json', 'w') as f:
+                json.dump(result, f)
+            sys.exit(1)
+        
+        # Si se saltó, retornar status skipped
+        if parsed.get('skip'):
+            result = {
+                'status': 'skipped',
+                'reason': parsed.get('reason'),
+                'contact_id': parsed.get('contact_id'),
+                'message': f"No se envió mensaje porque {parsed.get('reason', 'unknown')}"
+            }
+            with open('final_result.json', 'w') as f:
+                json.dump(result, f, ensure_ascii=False, indent=2)
+            sys.exit(0)
+        
+        # Cargar resultado de envío
+        try:
+            send_result = json.load(open('send_result.json'))
+        except:
+            send_result = {}
+        
+        # Formatear respuesta final
+        result = {
+            'status': 'success' if send_result.get('success') else 'failed',
+            'contact_id': parsed.get('contact_id'),
+            'contact_name': parsed.get('contact_name'),
+            'manychat_user_id': parsed.get('manychat_user_id'),
+            'interes_producto': parsed.get('interes_producto'),
+            'message_sent': parsed.get('message'),
+            'manychat_response': send_result.get('api_response'),
+            'status_code': send_result.get('status_code'),
+            'error_details': send_result.get('error_details')
+        }
+        
+        if not send_result.get('success'):
+            result['status'] = 'error'
+            result['error_message'] = send_result.get('message', 'Unknown error')
+        
+        logger.info("Final result", extra={
+            "status": result['status'],
+            "contact_id": result['contact_id']
+        })
+        
+        with open('final_result.json', 'w') as f:
+            json.dump(result, f, ensure_ascii=False, indent=2)
+    outputFiles:
+      - final_result.json
+
+  - id: return_status
+    type: io.kestra.plugin.core.http.Return
+    description: Retorna el estado del envío
+    body: |
+      {% set final_result = (taskrun.outputs['format_final_response']['files']['final_result.json'] | readFile | fromJson) %}
+      {{ final_result | toJson }}
+
+
+

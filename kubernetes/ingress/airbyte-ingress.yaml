@@ -1,0 +1,49 @@
+# Ingress para Airbyte UI y API
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: airbyte-ingress
+  namespace: integration
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rate-limit: "100"
+    nginx.ingress.kubernetes.io/limit-rps: "20"
+    nginx.ingress.kubernetes.io/proxy-body-size: "100m"  # Para uploads de configuraciones grandes
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-buffering: "on"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      # WebSocket support para UI en tiempo real
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection "upgrade";
+      proxy_read_timeout 86400;  # Timeout largo para sincronizaciones
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - airbyte.example.com  # Cambiar por tu dominio
+      secretName: airbyte-tls
+  rules:
+    - host: airbyte.example.com
+      http:
+        paths:
+          # UI de Airbyte
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: airbyte-webapp
+                port:
+                  number: 80
+          # API de Airbyte
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: airbyte-server
+                port:
+                  number: 8000
+
+
+
+
+

@@ -1,0 +1,181 @@
+name: Support System CI
+
+on:
+  push:
+    paths:
+      - 'workflow/kestra/flows/lib/support_*.py'
+      - 'workflow/kestra/flows/support_*.yaml'
+      - 'data/airflow/dags/support_*.py'
+      - 'data/db/support_*.sql'
+      - 'scripts/support_*.py'
+      - 'scripts/support_*.sh'
+  pull_request:
+    paths:
+      - 'workflow/kestra/flows/lib/support_*.py'
+      - 'workflow/kestra/flows/support_*.yaml'
+      - 'data/airflow/dags/support_*.py'
+      - 'data/db/support_*.sql'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: support_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          pip install -r workflow/kestra/flows/lib/requirements.txt
+          pip install pytest pytest-cov
+          pip install psycopg2-binary
+      
+      - name: Create database schema
+        env:
+          PGHOST: localhost
+          PGUSER: postgres
+          PGPASSWORD: postgres
+          PGDATABASE: support_test
+        run: |
+          psql -f data/db/support_tickets_schema.sql
+          psql -f data/db/support_feedback_schema.sql
+      
+      - name: Run tests
+        env:
+          PGHOST: localhost
+          PGUSER: postgres
+          PGPASSWORD: postgres
+          PGDATABASE: support_test
+        run: |
+          pytest workflow/kestra/flows/lib/tests/test_support_*.py -v --cov=workflow.kestra.flows.lib --cov-report=xml
+      
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage.xml
+          flags: support-system
+  
+  lint:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Install linting tools
+        run: |
+          pip install flake8 black isort mypy
+      
+      - name: Lint Python files
+        run: |
+          flake8 workflow/kestra/flows/lib/support_*.py --max-line-length=120 --ignore=E501,W503
+          black --check workflow/kestra/flows/lib/support_*.py
+          isort --check workflow/kestra/flows/lib/support_*.py
+      
+      - name: Validate SQL schemas
+        run: |
+          # Verificar sintaxis SQL básica
+          grep -r "CREATE TABLE" data/db/support_*.sql || true
+          grep -r "CREATE INDEX" data/db/support_*.sql || true
+  
+  validate-yaml:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Validate Kestra workflows
+        run: |
+          # Verificar que los workflows YAML son válidos
+          python3 -c "
+          import yaml
+          import sys
+          import glob
+          
+          errors = []
+          for file in glob.glob('workflow/kestra/flows/support_*.yaml'):
+              try:
+                  with open(file, 'r') as f:
+                      yaml.safe_load(f)
+                  print(f'✅ {file}')
+              except Exception as e:
+                  print(f'❌ {file}: {e}')
+                  errors.append(file)
+          
+          if errors:
+              sys.exit(1)
+          "
+  
+  health-check:
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: support_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          pip install psycopg2-binary
+      
+      - name: Create database schema
+        env:
+          DB_HOST: localhost
+          DB_NAME: support_test
+          DB_USER: postgres
+          DB_PASSWORD: postgres
+        run: |
+          psql -h localhost -U postgres -d support_test -f data/db/support_tickets_schema.sql
+          psql -h localhost -U postgres -d support_test -f data/db/support_feedback_schema.sql
+          psql -h localhost -U postgres -d support_test -f data/db/support_faq_seed.sql
+      
+      - name: Run health check
+        env:
+          DB_HOST: localhost
+          DB_NAME: support_test
+          DB_USER: postgres
+          DB_PASSWORD: postgres
+        run: |
+          python3 scripts/support_health_check.py || exit 1
+

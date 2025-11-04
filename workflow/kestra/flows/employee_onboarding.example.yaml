@@ -1,0 +1,64 @@
+# Ejemplo de configuración completa para employee_onboarding
+# Copiar este archivo y ajustar según tu entorno
+
+inputs:
+  # Notificaciones
+  slack_webhook_url: "https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
+  teams_webhook_url: "https://outlook.office.com/webhook/YOUR/WEBHOOK/URL"
+  slack_notifications_webhook_url: "https://hooks.slack.com/services/YOUR/NOTIFICATIONS/WEBHOOK"
+  
+  # Email
+  email_api_url: "https://api.sendgrid.com/v3/mail/send"
+  email_api_key: "SG.your_sendgrid_api_key"
+  
+  # Tareas y gestión
+  task_manager_webhook_url: "https://api.asana.com/v1/webhooks"
+  
+  # Calendario
+  calendar_api_url: "https://www.googleapis.com/calendar/v3/calendars/primary/events"
+  calendar_api_key: "your_google_calendar_api_key"
+  
+  # HRIS Integration
+  hris_api_url: "https://api.bamboohr.com/v1/employees"
+  hris_api_key: "your_bamboohr_api_key"
+  enable_hris_lookup: true
+  
+  # Account Creation
+  idp_api_url: "https://yourcompany.okta.com/api/v1/users"
+  idp_api_key: "your_okta_api_token"
+  workspace_api_url: "https://admin.googleapis.com/admin/directory/v1/users"
+  workspace_api_key: "your_google_workspace_api_key"
+  enable_account_creation: true
+  
+  # Base de Datos
+  db_jdbc_url: "jdbc:postgresql://postgres.example.com:5432/onboarding"
+  db_user: "onboarding_user"
+  db_password: "your_secure_password"
+  enable_db_persistence: true
+  
+  # Métricas
+  prometheus_pushgateway_url: "http://prometheus-pushgateway:9091"
+  metrics_enabled: true
+  
+  # Configuración
+  enable_welcome_email: true
+  enable_manager_tasks: true
+  enable_calendar_event: true
+  enable_hris_confirmation: true
+  idempotency_ttl_hours: 24
+
+# Ejemplo de payload del webhook
+webhook_payload_example:
+  email: "nuevo.empleado@empresa.com"
+  first_name: "Nuevo"
+  last_name: "Empleado"
+  start_date: "2025-02-01"
+  manager_email: "manager@empresa.com"
+  manager_name: "Manager Name"
+  position: "Senior Developer"
+  department: "Engineering"
+  office_location: "Madrid"
+  phone: "+34 123 456 789"
+  employee_id: "EMP-12345"
+  contract_signed_date: "2025-01-15T10:00:00Z"
+

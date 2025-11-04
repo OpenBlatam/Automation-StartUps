@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kestra-webhooks
+  namespace: workflows
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rate-limit: "100"
+    nginx.ingress.kubernetes.io/limit-rps: "10"
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      # Allow webhooks from HubSpot, ManyChat, Stripe, etc.
+      more_set_headers "X-Forwarded-Proto: $scheme";
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - kestra.example.com
+      secretName: kestra-webhooks-tls
+  rules:
+    - host: kestra.example.com
+      http:
+        paths:
+          - path: /api/v1/executions/webhook
+            pathType: Prefix
+            backend:
+              service:
+                name: kestra
+                port:
+                  number: 8080
+
+
+

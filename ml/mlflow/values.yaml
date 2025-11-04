@@ -1,0 +1,390 @@
+# MLflow Helm Chart Values - Production Ready
+# Versión: 2.0
+# Última actualización: 2025-01
+#
+# Configuración optimizada para producción con:
+# - High Availability (HA)
+# - Auto-scaling
+# - Security best practices
+# - Monitoring y observabilidad
+# - Soporte multi-cloud (AWS S3, Azure ADLS)
+
+# ==============================================================================
+# BACKEND STORE - PostgreSQL para metadatos
+# ==============================================================================
+backendStore:
+  databaseMigration: true
+  postgres:
+    enabled: true
+    auth:
+      username: mlflow
+      # IMPORTANTE: En producción usar External Secrets Manager
+      # Ver: security/secrets/externalsecrets-aws.yaml
+      passwordFromSecret:
+        enabled: true  # Cambiar a true en producción
+        name: mlflow-postgres-secret
+        key: password
+      # Solo para desarrollo/testing - REMOVER en producción
+      password: mlflow
+      database: mlflow
+    # Configuración de conexión
+    host: postgres.ml.svc.cluster.local
+    port: 5432
+    # Connection Pool optimizado para producción
+    poolSize: 20
+    maxOverflow: 40
+    poolRecycle: 3600  # Reciclar conexiones cada hora
+    poolPrePing: true   # Verificar conexiones antes de usar
+    # SSL/TLS para producción
+    sslMode: prefer  # prefer | require | verify-full
+    # Retención y limpieza automática
+    cleanupRunsEnabled: true
+    cleanupRunsDays: 90  # Eliminar runs sin usar por 90 días
+    cleanupExperimentsEnabled: true
+    cleanupExperimentsDays: 365  # Eliminar experimentos sin usar por 1 año
+
+# ==============================================================================
+# ARTIFACT STORE - S3/ADLS para modelos y artefactos
+# ==============================================================================
+artifactStore:
+  # S3 (AWS) - Configuración mejorada
+  s3:
+    enabled: true
+    bucket: biz-datalake-dev
+    createBucket: false
+    s3Endpoint: s3.amazonaws.com
+    path: mlflow/artifacts
+    # RECOMENDADO: Usar IRSA (IAM Roles for Service Accounts) en producción
+    # awsIamRole: arn:aws:iam::ACCOUNT:role/mlflow-s3-role
+    awsIamRole: ""  # Configurar en producción
+    # Solo para desarrollo/testing si no usas IRSA
+    accessKeyFromSecret:
+      enabled: false  # Cambiar a true si no usas IRSA
+      name: mlflow-s3-secret
+      key: access-key
+    secretKeyFromSecret:
+      enabled: false  # Cambiar a true si no usas IRSA
+      name: mlflow-s3-secret
+      key: secret-key
+  
+  # Azure ADLS (alternativa)
+  adls:
+    enabled: false
+    accountName: ""
+    containerName: mlflow-artifacts
+    # Usar Managed Identity en producción (Azure)
+    # managedIdentity:
+    #   enabled: true
+    #   clientId: ""
+    # Solo para desarrollo/testing
+    accessKeyFromSecret:
+      enabled: false
+      name: mlflow-adls-secret
+      key: access-key
+
+# ==============================================================================
+# MLFLOW SERVER CONFIGURATION
+# ==============================================================================
+mlflow:
+  image:
+    repository: ghcr.io/mlflow/mlflow
+    tag: "2.11.1"
+    pullPolicy: IfNotPresent
+  
+  # Workers para mejor performance
+  workers: 2
+  timeout: 600
+  
+  # Variables de entorno críticas
+  extraEnv:
+    # AWS Configuration
+    - name: AWS_REGION
+      value: us-east-1
+    - name: AWS_DEFAULT_REGION
+      value: us-east-1
+    - name: AWS_S3_FORCE_PATH_STYLE
+      value: "false"
+    
+    # MLflow Backend Configuration
+    - name: MLFLOW_BACKEND_STORE_URI
+      value: postgresql://mlflow:mlflow@postgres.ml.svc.cluster.local:5432/mlflow
+    - name: MLFLOW_DEFAULT_ARTIFACT_ROOT
+      value: s3://biz-datalake-dev/mlflow/artifacts
+    
+    # Workers Configuration
+    - name: MLFLOW_SERVE_WORKERS
+      value: "2"
+    - name: MLFLOW_TRACKING_SERVER_WORKERS
+      value: "2"
+    
+    # Timeouts y Performance
+    - name: MLFLOW_SERVE_REQUEST_TIMEOUT
+      value: "600"
+    - name: MLFLOW_ARTIFACT_UPLOAD_TIMEOUT
+      value: "300"
+    - name: MLFLOW_SQLALCHEMY_STORE_MAX_OVERFLOW
+      value: "40"
+    - name: MLFLOW_SQLALCHEMY_STORE_POOL_SIZE
+      value: "20"
+    
+    # Security y Features
+    - name: MLFLOW_ENABLE_ARTIFACT_PROXY
+      value: "true"
+    - name: MLFLOW_ARTIFACT_DESTINATION
+      value: ""
+    
+    # Observability
+    - name: MLFLOW_TRACKING_LOGGING_ENABLED
+      value: "true"
+    - name: MLFLOW_TRACKING_LOGGING_LEVEL
+      value: "INFO"  # DEBUG | INFO | WARNING | ERROR
+    
+    # Model Registry
+    - name: MLFLOW_MODEL_REGISTRY_STORE_URI
+      value: ""
+    
+    # KPI Tracking Integration
+    - name: MLFLOW_KPI_EXPERIMENT_NAME
+      value: "kpi_tracking"
+    - name: MLFLOW_KPI_ENABLED
+      value: "true"  # Enable KPI tracking by default
+  
+  # Recursos optimizados para producción
+  resources:
+    requests:
+      cpu: 1000m
+      memory: 2Gi
+    limits:
+      cpu: 4000m
+      memory: 8Gi
+  
+  # Priority Class (opcional)
+  priorityClassName: ""
+  
+  # Topology Spread Constraints para distribución en zonas
+  topologySpreadConstraints:
+    enabled: true
+    maxSkew: 1
+    topologyKey: topology.kubernetes.io/zone
+    whenUnsatisfiable: DoNotSchedule
+  
+  # Health Checks
+  livenessProbe:
+    httpGet:
+      path: /health
+      port: 5000
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+  
+  readinessProbe:
+    httpGet:
+      path: /health
+      port: 5000
+    initialDelaySeconds: 10
+    periodSeconds: 5
+    timeoutSeconds: 3
+    failureThreshold: 3
+
+# ==============================================================================
+# SERVICE CONFIGURATION
+# ==============================================================================
+service:
+  type: ClusterIP
+  port: 5000
+  annotations:
+    # Prometheus scraping
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "5000"
+    prometheus.io/path: "/metrics"
+
+# ==============================================================================
+# INGRESS CONFIGURATION - TLS y Security
+# ==============================================================================
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    # TLS/Certificates (cert-manager)
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    
+    # Timeouts para uploads grandes de modelos
+    nginx.ingress.kubernetes.io/proxy-body-size: "500m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "60"
+    
+    # Rate Limiting
+    nginx.ingress.kubernetes.io/limit-rps: "100"
+    nginx.ingress.kubernetes.io/limit-connections: "50"
+    nginx.ingress.kubernetes.io/limit-rpm: "1000"
+    
+    # Security Headers
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_set_headers "X-Content-Type-Options: nosniff";
+      more_set_headers "X-Frame-Options: DENY";
+      more_set_headers "X-XSS-Protection: 1; mode=block";
+    
+    # Monitoring
+    nginx.ingress.kubernetes.io/enable-access-log: "true"
+  
+  hosts:
+    - host: mlflow.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  
+  tls:
+    - secretName: mlflow-tls
+      hosts:
+        - mlflow.example.com
+
+# ==============================================================================
+# AUTOSCALING - Horizontal Pod Autoscaler
+# ==============================================================================
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+  
+  # Métricas adicionales
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
+  
+  # Behavior para scaling suave
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+        - type: Percent
+          value: 50
+          periodSeconds: 60
+        - type: Pods
+          value: 1
+          periodSeconds: 60
+      selectPolicy: Min
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+        - type: Percent
+          value: 100
+          periodSeconds: 60
+        - type: Pods
+          value: 2
+          periodSeconds: 60
+      selectPolicy: Max
+
+# ==============================================================================
+# POD DISRUPTION BUDGET - High Availability
+# ==============================================================================
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1  # Mínimo de pods disponibles durante actualizaciones
+
+# ==============================================================================
+# MONITORING - Prometheus ServiceMonitor
+# ==============================================================================
+monitoring:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    interval: 30s
+    scrapeTimeout: 10s
+    path: /metrics
+
+# ==============================================================================
+# SECURITY - Security Context y Network Policies
+# ==============================================================================
+security:
+  # Security Context
+  runAsNonRoot: true
+  runAsUser: 1000
+  fsGroup: 1000
+  
+  # Pod Security Standards
+  seccompProfile: RuntimeDefault
+  
+  # Network Policies (aplicar desde security/networkpolicies/)
+  networkPolicy:
+    enabled: false  # Habilitar si se aplican Network Policies
+
+# ==============================================================================
+# NOTIFICATIONS - Opcional
+# ==============================================================================
+notifications:
+  enabled: false
+  # Slack webhook (usar External Secrets)
+  # slack:
+  #   webhookUrl: ""
+  # Email (usar External Secrets)
+  # email:
+  #   smtpHost: ""
+  #   smtpPort: 587
+  #   fromAddress: ""
+  #   toAddresses: []
+
+# ==============================================================================
+# CONFIGURACIÓN POR ENTORNO - Overrides
+# ==============================================================================
+environment: development  # development | staging | production
+
+# Para usar overrides por entorno, descomentar y ajustar:
+# environmentOverrides:
+#   production:
+#     mlflow:
+#       workers: 4
+#       resources:
+#         requests:
+#           cpu: 2000m
+#           memory: 4Gi
+#         limits:
+#           cpu: 8000m
+#           memory: 16Gi
+#     autoscaling:
+#       minReplicas: 3
+#       maxReplicas: 20
+
+# ==============================================================================
+# NOTAS IMPORTANTES
+# ==============================================================================
+#
+# 1. SEGURIDAD EN PRODUCCIÓN:
+#    - Usar External Secrets Manager para passwords y API keys
+#    - Habilitar IRSA (AWS) o Managed Identity (Azure) para S3/ADLS
+#    - Configurar Network Policies
+#    - Habilitar OAuth2-proxy para autenticación
+#
+# 2. MONITOREO:
+#    - ServiceMonitor se crea automáticamente si monitoring.enabled: true
+#    - Ver métricas en Prometheus: mlflow_http_requests_total, etc.
+#    - Configurar alertas en observability/prometheus/alertrules.yaml
+#
+# 3. BACKUPS:
+#    - PostgreSQL: Configurar backups con Velero o pg_dump cron
+#    - S3: Habilitar versioning y lifecycle policies
+#
+# 4. RATE LIMITING:
+#    - Ingress: Configurado en annotations (100 req/sec)
+#    - Airflow: Plugin etl_ops incluye rate limiting (20 calls/min)
+#
+# 5. MIGRACIONES:
+#    - databaseMigration: true ejecuta migraciones automáticamente
+#    - Backup antes de migraciones en producción
+#
+# Ver ml/mlflow/README.md para documentación completa.

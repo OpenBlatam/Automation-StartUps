@@ -1,0 +1,1004 @@
+"""
+DAG para procesar correos de Gmail sin etiqueta 'SinRevisar':
+- Obtiene correos sin la etiqueta 'SinRevisar'
+- Añade la etiqueta 'Procesado' a cada correo procesado
+- Envía detalles (de, asunto, fecha) a un log externo
+- Retorna resumen de procesados y fallidos
+"""
+from __future__ import annotations
+
+import os
+import json
+import logging
+import hashlib
+from datetime import datetime, timedelta
+from typing import Dict, Any, List, Optional, TypedDict
+from dataclasses import dataclass, field
+from email.utils import parseaddr, parsedate_to_datetime
+from functools import lru_cache
+from contextlib import contextmanager
+from airflow.models import Variable
+
+import pendulum
+from airflow.decorators import dag, task
+from airflow.models.param import Param
+from airflow.operators.python import get_current_context
+from airflow.exceptions import AirflowFailException
+
+# Librerías mejoradas
+try:
+    from tenacity import (
+        retry,
+        stop_after_attempt,
+        wait_exponential,
+        retry_if_exception_type,
+        RetryError,
+    )
+    TENACITY_AVAILABLE = True
+except ImportError:
+    TENACITY_AVAILABLE = False
+
+try:
+    import httpx
+    HTTPX_AVAILABLE = True
+except ImportError:
+    HTTPX_AVAILABLE = False
+    try:
+        import requests
+    except ImportError:
+        pass
+
+try:
+    from pydantic import BaseModel, Field, ValidationError
+    PYDANTIC_AVAILABLE = True
+except ImportError:
+    PYDANTIC_AVAILABLE = False
+
+try:
+    from cachetools import TTLCache
+    CACHETOOLS_AVAILABLE = True
+except ImportError:
+    CACHETOOLS_AVAILABLE = False
+
+logger = logging.getLogger(__name__)
+
+# Importar Stats para métricas
+try:
+    from airflow.stats import Stats
+    STATS_AVAILABLE = True
+except ImportError:
+    STATS_AVAILABLE = False
+    logger.debug("Stats not available for metrics")
+
+# Importar utilidades de notificaciones del stack
+try:
+    from data.airflow.plugins.etl_notifications import notify_slack
+    NOTIFICATIONS_AVAILABLE = True
+except ImportError:
+    try:
+        from plugins.etl_notifications import notify_slack
+        NOTIFICATIONS_AVAILABLE = True
+    except ImportError:
+        NOTIFICATIONS_AVAILABLE = False
+        logger.warning("Notifications plugin not available")
+
+try:
+    from google.auth.transport.requests import Request
+    from google.oauth2.credentials import Credentials
+    from google_auth_oauthlib.flow import InstalledAppFlow
+    from googleapiclient.discovery import build
+    from googleapiclient.errors import HttpError
+    GMAIL_API_AVAILABLE = True
+except ImportError:
+    GMAIL_API_AVAILABLE = False
+    logger.warning("Gmail API libraries not available. Install: pip install google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client")
+
+
+# Scopes necesarios para la API de Gmail
+SCOPES = ['https://www.googleapis.com/auth/gmail.modify']
+
+# Cache para labels (TTL de 1 hora)
+_label_cache: Optional[Any] = None
+if CACHETOOLS_AVAILABLE:
+    _label_cache = TTLCache(maxsize=100, ttl=3600)
+
+
+# Modelos Pydantic para validación
+if PYDANTIC_AVAILABLE:
+    class EmailData(BaseModel):
+        """Modelo de datos de email con validación."""
+        id: str = Field(..., description="ID del mensaje")
+        from_address: str = Field(..., alias="from", description="Remitente")
+        subject: str = Field(default="(Sin asunto)", description="Asunto")
+        date: str = Field(..., description="Fecha del correo")
+        threadId: Optional[str] = Field(None, description="ID del thread")
+        snippet: str = Field(default="", max_length=200, description="Snippet del correo")
+        
+        class Config:
+            populate_by_name = True
+    
+    class LogEntry(BaseModel):
+        """Modelo para entrada de log."""
+        timestamp: str = Field(..., description="Timestamp ISO format")
+        source: str = Field(default="gmail_processor", description="Fuente del log")
+        email: EmailData = Field(..., description="Datos del email")
+    
+    class ProcessingSummary(BaseModel):
+        """Resumen del procesamiento."""
+        processed: int = Field(..., ge=0, description="Correos procesados")
+        failed: int = Field(..., ge=0, description="Correos fallidos")
+        total: int = Field(..., ge=0, description="Total de correos")
+        dry_run: bool = Field(..., description="Modo dry run")
+        failed_details: List[Dict[str, Any]] = Field(default_factory=list, description="Detalles de errores")
+else:
+    # Fallback sin Pydantic
+    EmailData = Dict[str, Any]
+    LogEntry = Dict[str, Any]
+    ProcessingSummary = Dict[str, Any]
+
+
+@dag(
+    dag_id="gmail_processor",
+    start_date=pendulum.datetime(2025, 1, 1, tz="UTC"),
+    schedule="0 */6 * * *",  # Cada 6 horas
+    catchup=False,
+    default_args={
+        "owner": "data-team",
+        "retries": 2,
+        "retry_delay": timedelta(minutes=5),
+        "retry_exponential_backoff": True,
+        "max_retry_delay": timedelta(minutes=30),
+        "depends_on_past": False,
+    },
+    doc_md="""
+    ### Procesador de Correos de Gmail
+    
+    DAG que procesa correos de Gmail sin la etiqueta 'SinRevisar':
+    1. Obtiene los últimos correos sin la etiqueta 'SinRevisar'
+    2. Añade la etiqueta 'Procesado' a cada correo procesado
+    3. Envía detalles (de, asunto, fecha) a un log externo
+    4. Retorna resumen de procesados y fallidos
+    
+    **Configuración:**
+    - Las credenciales y configuración se cargan desde variables de entorno (configuradas en values.yaml)
+    - Variables de entorno: GMAIL_CREDENTIALS_JSON, GMAIL_TOKEN_JSON, GMAIL_LOG_WEBHOOK_URL, etc.
+    - Los parámetros pueden sobreescribir las variables de entorno si se proporcionan
+    
+    **Parámetros opcionales (sobreescriben variables de entorno):**
+    - `gmail_credentials_json`: JSON string con las credenciales OAuth2 de Gmail (o path a archivo)
+    - `gmail_token_json`: JSON string con el token almacenado (o path a archivo)
+    - `max_emails`: Máximo de correos a procesar por ejecución
+    - `log_webhook_url`: URL del webhook para enviar logs externos
+    - `label_sin_revisar`: Nombre de la etiqueta 'SinRevisar'
+    - `label_procesado`: Nombre de la etiqueta 'Procesado'
+    - `dry_run`: Solo simular sin modificar correos
+    
+    **Requisitos:**
+    - Credenciales OAuth2 de Gmail configuradas en External Secrets
+    - Token de acceso válido (se genera en primera ejecución)
+    - Webhook de log externo configurado
+    - External Secret `gmail-secrets` debe estar aplicado
+    """,
+    params={
+        "gmail_credentials_json": Param("", type="string"),
+        "gmail_token_json": Param("", type="string"),
+        "max_emails": Param(0, type="integer", minimum=0, maximum=500),  # 0 = usar env
+        "log_webhook_url": Param("", type="string"),
+        "label_sin_revisar": Param("", type="string"),
+        "label_procesado": Param("", type="string"),
+        "dry_run": Param(False, type="boolean"),
+    },
+    tags=["gmail", "email", "automation", "processing"],
+)
+def gmail_processor() -> None:
+    """
+    DAG principal para procesar correos de Gmail.
+    """
+    
+    @contextmanager
+    def gmail_service_context(credentials_json: str, token_json: str):
+        """
+        Context manager para el servicio de Gmail API.
+        Asegura limpieza de recursos.
+        """
+        service = get_gmail_service(credentials_json, token_json)
+        try:
+            yield service
+        finally:
+            # Cleanup si es necesario
+            pass
+    
+    def load_json_from_file_or_string(source: str) -> Dict[str, Any]:
+        """
+        Carga JSON desde archivo o string.
+        
+        Args:
+            source: Path a archivo o JSON string
+            
+        Returns:
+            Diccionario con datos JSON
+        """
+        if not source or not source.strip():
+            return {}
+        
+        if os.path.isfile(source):
+            with open(source, 'r') as f:
+                return json.load(f)
+        
+        return json.loads(source)
+    
+    def load_credentials_from_token(token_json: str) -> Optional[Credentials]:
+        """
+        Carga credenciales desde token almacenado.
+        
+        Args:
+            token_json: Path a archivo o JSON string con token
+            
+        Returns:
+            Credentials si se cargaron correctamente, None en caso contrario
+        """
+        if not token_json:
+            return None
+        
+        try:
+            token_data = load_json_from_file_or_string(token_json)
+            if not token_data:
+                return None
+            return Credentials.from_authorized_user_info(token_data, SCOPES)
+        except Exception as e:
+            logger.warning(f"Could not load token: {e}")
+            return None
+    
+    def refresh_credentials(creds: Credentials) -> Optional[Credentials]:
+        """
+        Intenta refrescar credenciales expiradas.
+        
+        Args:
+            creds: Credenciales a refrescar
+            
+        Returns:
+            Credenciales refrescadas o None si falló
+        """
+        if not creds or not creds.expired or not creds.refresh_token:
+            return creds
+        
+        try:
+            creds.refresh(Request())
+            logger.info("Token refreshed successfully")
+            return creds
+        except Exception as e:
+            logger.warning(f"Token refresh failed: {e}. New authorization may be required.")
+            return None
+    
+    def create_new_credentials(credentials_json: str) -> Credentials:
+        """
+        Crea nuevas credenciales mediante OAuth flow.
+        
+        Args:
+            credentials_json: Path a archivo o JSON string con credenciales OAuth2
+            
+        Returns:
+            Credenciales autorizadas
+            
+        Raises:
+            AirflowFailException: Si falla la autenticación
+        """
+        if not credentials_json:
+            raise AirflowFailException("credentials_json is required for new authorization")
+        
+        try:
+            creds_data = load_json_from_file_or_string(credentials_json)
+            if not creds_data:
+                raise AirflowFailException("Invalid credentials_json format")
+            
+            flow = InstalledAppFlow.from_client_config(creds_data, SCOPES)
+            creds = flow.run_local_server(port=0)
+            logger.info("New OAuth authorization completed")
+            return creds
+        except Exception as e:
+            logger.error(f"Failed to get credentials: {e}")
+            raise AirflowFailException(
+                f"Gmail authentication error: {e}. "
+                "If in production, ensure a valid token exists or run initial authorization."
+            )
+    
+    def save_credentials_to_token(creds: Credentials, token_json: str) -> bool:
+        """
+        Guarda credenciales en archivo o string JSON.
+        
+        Args:
+            creds: Credenciales a guardar
+            token_json: Path a archivo o se ignora si no es archivo
+            
+        Returns:
+            True si se guardó correctamente, False en caso contrario
+        """
+        if not creds or not token_json:
+            return False
+        
+        try:
+            token_data = json.loads(creds.to_json())
+            if os.path.isfile(token_json) or not os.path.exists(token_json):
+                # Es un path válido o nuevo archivo
+                with open(token_json, 'w') as token_file:
+                    json.dump(token_data, token_file, indent=2)
+                logger.debug("Token saved successfully")
+                return True
+        except Exception as e:
+            logger.warning(f"Could not save token: {e}")
+        
+        return False
+    
+    def get_gmail_service(credentials_json: str, token_json: str) -> Any:
+        """
+        Autentica y retorna el servicio de Gmail API.
+        Implementa guard clauses y early returns siguiendo principios RPA.
+        
+        Args:
+            credentials_json: JSON string con credenciales OAuth2 o path a archivo
+            token_json: JSON string con token almacenado o path a archivo
+            
+        Returns:
+            Servicio de Gmail API
+            
+        Raises:
+            AirflowFailException: Si no hay librerías disponibles o falla autenticación
+        """
+        if not GMAIL_API_AVAILABLE:
+            raise AirflowFailException(
+                "Gmail API libraries not available. Install required packages."
+            )
+        
+        if not credentials_json:
+            raise AirflowFailException("credentials_json is required")
+        
+        # Cargar token existente si está disponible
+        creds = load_credentials_from_token(token_json)
+        
+        # Si hay credenciales válidas, retornar servicio
+        if creds and creds.valid:
+            if token_json:
+                save_credentials_to_token(creds, token_json)
+            return build('gmail', 'v1', credentials=creds)
+        
+        # Intentar refrescar credenciales expiradas
+        if creds:
+            creds = refresh_credentials(creds)
+            if creds and creds.valid:
+                if token_json:
+                    save_credentials_to_token(creds, token_json)
+                return build('gmail', 'v1', credentials=creds)
+        
+        # Crear nuevas credenciales mediante OAuth
+        creds = create_new_credentials(credentials_json)
+        
+        # Guardar token para próximas ejecuciones
+        if token_json:
+            save_credentials_to_token(creds, token_json)
+        
+        return build('gmail', 'v1', credentials=creds)
+    
+    @lru_cache(maxsize=50)
+    def _get_label_id_cached(service: Any, label_name: str) -> Optional[str]:
+        """
+        Caché LRU para IDs de labels (helper interno).
+        """
+        return _get_or_create_label_impl(service, label_name)
+    
+    def _get_or_create_label_impl(service: Any, label_name: str) -> Optional[str]:
+        """
+        Implementación interna para obtener/crear label.
+        """
+        try:
+            results = service.users().labels().list(userId='me').execute()
+            labels = results.get('labels', [])
+            
+            for label in labels:
+                if label['name'] == label_name:
+                    return label['id']
+            
+            # Crear etiqueta si no existe
+            label = service.users().labels().create(
+                userId='me',
+                body={
+                    'name': label_name,
+                    'labelListVisibility': 'labelShow',
+                    'messageListVisibility': 'show'
+                }
+            ).execute()
+            
+            logger.info(f"Created label: {label_name} (ID: {label['id']})")
+            return label['id']
+        except HttpError as error:
+            logger.error(f"Error getting/creating label {label_name}: {error}")
+            return None
+    
+    def get_or_create_label(service: Any, label_name: str) -> Optional[str]:
+        """
+        Obtiene el ID de una etiqueta por nombre, o la crea si no existe.
+        Usa cache si está disponible.
+        
+        Args:
+            service: Servicio de Gmail API
+            label_name: Nombre de la etiqueta
+            
+        Returns:
+            ID de la etiqueta o None si no se puede crear
+        """
+        if _label_cache is not None and label_name in _label_cache:
+            return _label_cache[label_name]
+        
+        label_id = _get_or_create_label_impl(service, label_name)
+        
+        if _label_cache is not None and label_id:
+            _label_cache[label_name] = label_id
+        
+        return label_id
+    
+    def get_emails_without_label(
+        service: Any,
+        label_name: str,
+        label_id: str,
+        max_results: int = 50
+    ) -> List[Dict[str, Any]]:
+        """
+        Obtiene correos que NO tienen la etiqueta especificada.
+        Implementa guard clauses y early returns.
+        
+        Args:
+            service: Servicio de Gmail API
+            label_name: Nombre de la etiqueta a excluir (para query)
+            label_id: ID de la etiqueta a excluir (para validación)
+            max_results: Máximo de resultados
+            
+        Returns:
+            Lista de IDs y metadatos de correos
+            
+        Raises:
+            HttpError: Si falla la comunicación con Gmail API
+        """
+        if not service:
+            logger.error("Gmail service is required")
+            return []
+        
+        if not label_name or not label_id:
+            logger.error("label_name and label_id are required")
+            return []
+        
+        if max_results <= 0:
+            logger.warning(f"Invalid max_results: {max_results}, using default 50")
+            max_results = 50
+        
+        try:
+            # Buscar correos sin la etiqueta usando query negativa con nombre de etiqueta
+            # La query de Gmail usa el nombre de la etiqueta, no el ID
+            query = f"-label:{label_name}"
+            
+            results = service.users().messages().list(
+                userId='me',
+                q=query,
+                maxResults=max_results
+            ).execute()
+            
+            messages = results.get('messages', [])
+            
+            if not messages:
+                logger.info("No emails found without the specified label")
+                return []
+            
+            # Obtener detalles de cada mensaje y verificar que realmente no tenga la etiqueta
+            emails = []
+            for msg in messages:
+                try:
+                    message = service.users().messages().get(
+                        userId='me',
+                        id=msg['id'],
+                        format='metadata',
+                        metadataHeaders=['From', 'Subject', 'Date']
+                    ).execute()
+                    
+                    # Verificar que el mensaje realmente no tenga la etiqueta
+                    label_ids = message.get('labelIds', [])
+                    if label_id in label_ids:
+                        # El mensaje tiene la etiqueta, saltarlo
+                        continue
+                    
+                    headers = message['payload'].get('headers', [])
+                    header_dict = {h['name'].lower(): h['value'] for h in headers}
+                    
+                    # Parsear headers de email correctamente
+                    from_raw = header_dict.get('from', 'Unknown')
+                    from_name, from_addr = parseaddr(from_raw)
+                    from_header = from_addr if from_addr else from_raw
+                    
+                    subject_header = header_dict.get('subject', '(Sin asunto)') or '(Sin asunto)'
+                    date_raw = header_dict.get('date', 'Unknown')
+                    
+                    # Intentar parsear fecha correctamente
+                    try:
+                        if date_raw != 'Unknown':
+                            parsed_date = parsedate_to_datetime(date_raw)
+                            date_header = parsed_date.isoformat()
+                        else:
+                            date_header = 'Unknown'
+                    except (ValueError, TypeError):
+                        date_header = date_raw
+                    
+                    email_data_raw = {
+                        'id': msg['id'],
+                        'from': from_header,
+                        'subject': subject_header,
+                        'date': date_header,
+                        'threadId': message.get('threadId'),
+                        'snippet': message.get('snippet', '')[:200],
+                    }
+                    
+                    # Validar con Pydantic si está disponible
+                    if PYDANTIC_AVAILABLE:
+                        try:
+                            email_data = EmailData(**email_data_raw)
+                            emails.append(email_data.model_dump(by_alias=True))
+                        except ValidationError as e:
+                            logger.warning(f"Email data validation failed for {msg['id']}: {e}")
+                            emails.append(email_data_raw)
+                    else:
+                        emails.append(email_data_raw)
+                except HttpError as error:
+                    logger.warning(f"Error getting message {msg['id']}: {error}")
+                    continue
+            
+            return emails
+        except HttpError as error:
+            logger.error(f"Error listing messages: {error}")
+            raise
+    
+    def add_label_to_email(
+        service: Any,
+        message_id: str,
+        label_id: str
+    ) -> bool:
+        """
+        Añade una etiqueta a un correo con retry automático.
+        Implementa guard clauses para validación temprana.
+        
+        Args:
+            service: Servicio de Gmail API
+            message_id: ID del mensaje
+            label_id: ID de la etiqueta a añadir
+            
+        Returns:
+            True si se añadió correctamente, False en caso contrario
+        """
+        if not service:
+            logger.error("Gmail service is required")
+            return False
+        
+        if not message_id or not label_id:
+            logger.error("message_id and label_id are required")
+            return False
+        if TENACITY_AVAILABLE:
+            @retry(
+                stop=stop_after_attempt(3),
+                wait=wait_exponential(multiplier=1, min=2, max=10),
+                retry=retry_if_exception_type(HttpError),
+                reraise=True,
+            )
+            def _add_label_with_retry():
+                service.users().messages().modify(
+                    userId='me',
+                    id=message_id,
+                    body={'addLabelIds': [label_id]}
+                ).execute()
+                return True
+            
+            try:
+                return _add_label_with_retry()
+            except (HttpError, RetryError) as error:
+                logger.error(f"Error adding label to message {message_id} after retries: {error}")
+                return False
+        else:
+            # Fallback sin tenacity
+            try:
+                service.users().messages().modify(
+                    userId='me',
+                    id=message_id,
+                    body={'addLabelIds': [label_id]}
+                ).execute()
+                return True
+            except HttpError as error:
+                logger.error(f"Error adding label to message {message_id}: {error}")
+                return False
+    
+    def send_to_external_log(
+        webhook_url: str,
+        email_data: Dict[str, Any]
+    ) -> bool:
+        """
+        Envía detalles del correo a un log externo con retry y mejor manejo de errores.
+        
+        Args:
+            webhook_url: URL del webhook para logs
+            email_data: Diccionario con datos del correo (de, asunto, fecha)
+            
+        Returns:
+            True si se envió correctamente, False en caso contrario
+        """
+        # Construir log entry con validación Pydantic si está disponible
+        email_dict = {
+            'id': email_data.get('id'),
+            'from': email_data.get('from', 'Unknown'),
+            'subject': email_data.get('subject', '(Sin asunto)'),
+            'date': email_data.get('date', 'Unknown'),
+            'threadId': email_data.get('threadId'),
+            'snippet': str(email_data.get('snippet', ''))[:200],
+        }
+        
+        log_entry_dict = {
+            'timestamp': datetime.utcnow().isoformat() + 'Z',
+            'source': 'gmail_processor',
+            'email': email_dict,
+        }
+        
+        # Validar con Pydantic si está disponible
+        if PYDANTIC_AVAILABLE:
+            try:
+                log_entry = LogEntry(**log_entry_dict)
+                payload = log_entry.model_dump(mode='json')
+            except ValidationError as e:
+                logger.warning(f"Log entry validation failed: {e}, using raw dict")
+                payload = log_entry_dict
+        else:
+            payload = log_entry_dict
+        
+        # Usar httpx si está disponible (más moderno y mejor para async)
+        if TENACITY_AVAILABLE:
+            @retry(
+                stop=stop_after_attempt(3),
+                wait=wait_exponential(multiplier=1, min=2, max=10),
+                retry=retry_if_exception_type((Exception,)),
+                reraise=False,
+            )
+            def _send_with_retry():
+                if HTTPX_AVAILABLE:
+                    with httpx.Client(timeout=30.0) as client:
+                        response = client.post(
+                            webhook_url,
+                            json=payload,
+                            headers={'Content-Type': 'application/json'},
+                        )
+                        response.raise_for_status()
+                else:
+                    import requests
+                    response = requests.post(
+                        webhook_url,
+                        json=payload,
+                        headers={'Content-Type': 'application/json'},
+                        timeout=30
+                    )
+                    response.raise_for_status()
+                return True
+            
+            try:
+                return _send_with_retry()
+            except Exception as e:
+                logger.error(f"Error sending to external log after retries: {e}")
+                return False
+        else:
+            # Fallback sin tenacity
+            try:
+                if HTTPX_AVAILABLE:
+                    with httpx.Client(timeout=30.0) as client:
+                        response = client.post(
+                            webhook_url,
+                            json=payload,
+                            headers={'Content-Type': 'application/json'},
+                        )
+                        response.raise_for_status()
+                else:
+                    import requests
+                    response = requests.post(
+                        webhook_url,
+                        json=payload,
+                        headers={'Content-Type': 'application/json'},
+                        timeout=30
+                    )
+                    response.raise_for_status()
+                return True
+            except Exception as e:
+                logger.error(f"Error sending to external log: {e}")
+                return False
+    
+    def _check_email_processed(email_id: str, dag_run_id: Optional[str] = None) -> bool:
+        """
+        Verifica si un email ya fue procesado (idempotencia).
+        
+        Args:
+            email_id: ID del email
+            dag_run_id: ID del DAG run (opcional)
+            
+        Returns:
+            True si ya fue procesado, False en caso contrario
+        """
+        lock_key = f"gmail_processed:{email_id}"
+        if dag_run_id:
+            lock_key = f"gmail_processed:{dag_run_id}:{email_id}"
+        
+        existing = Variable.get(lock_key, default_var=None)
+        return existing is not None
+    
+    def _mark_email_processed(email_id: str, dag_run_id: Optional[str] = None, ttl_hours: int = 24) -> None:
+        """
+        Marca un email como procesado (idempotencia).
+        
+        Args:
+            email_id: ID del email
+            dag_run_id: ID del DAG run (opcional)
+            ttl_hours: TTL en horas (default: 24)
+        """
+        lock_key = f"gmail_processed:{email_id}"
+        if dag_run_id:
+            lock_key = f"gmail_processed:{dag_run_id}:{email_id}"
+        
+        try:
+            # Guardar con timestamp para debugging
+            value = str(datetime.utcnow().isoformat())
+            Variable.set(lock_key, value)
+            # Nota: Airflow Variables no tienen TTL nativo, 
+            # se puede limpiar manualmente o con task de mantenimiento
+        except Exception as e:
+            logger.warning(f"Could not mark email as processed: {e}")
+    
+    @task(
+        task_id="process_gmail_emails",
+        execution_timeout=timedelta(minutes=30),  # Timeout de 30 minutos
+    )
+    def process_gmail_emails() -> Dict[str, Any]:
+        """
+        Procesa correos de Gmail: obtiene, etiqueta y registra.
+        Lee configuración desde variables de entorno (integración con stack) o parámetros.
+        """
+        ctx = get_current_context()
+        params = ctx.get("params", {})
+        
+        # Leer desde variables de entorno (integración con stack) o parámetros
+        credentials_json = str(params.get("gmail_credentials_json") or os.getenv("GMAIL_CREDENTIALS_JSON", ""))
+        token_json = str(params.get("gmail_token_json") or os.getenv("GMAIL_TOKEN_JSON", ""))
+        max_emails = int(params.get("max_emails") or os.getenv("GMAIL_MAX_EMAILS", "50"))
+        log_webhook_url = str(params.get("log_webhook_url") or os.getenv("GMAIL_LOG_WEBHOOK_URL", ""))
+        label_sin_revisar = str(params.get("label_sin_revisar") or os.getenv("GMAIL_LABEL_SIN_REVISAR", "SinRevisar"))
+        label_procesado = str(params.get("label_procesado") or os.getenv("GMAIL_LABEL_PROCESADO", "Procesado"))
+        dry_run = bool(params.get("dry_run", False))
+        
+        if not credentials_json:
+            raise AirflowFailException(
+                "gmail_credentials_json is required. "
+                "Set GMAIL_CREDENTIALS_JSON env var or provide as parameter."
+            )
+        
+        if not log_webhook_url:
+            raise AirflowFailException(
+                "log_webhook_url is required. "
+                "Set GMAIL_LOG_WEBHOOK_URL env var or provide as parameter."
+            )
+        
+        logger.info(f"Starting Gmail processing (dry_run={dry_run})")
+        
+        # Autenticar con Gmail
+        try:
+            service = get_gmail_service(credentials_json, token_json)
+            logger.info("Gmail API authentication successful")
+        except Exception as e:
+            logger.error(f"Gmail API authentication failed: {e}")
+            raise AirflowFailException(f"Gmail authentication error: {e}")
+        
+        # Obtener o crear etiquetas
+        label_sin_revisar_id = get_or_create_label(service, label_sin_revisar)
+        if not label_sin_revisar_id:
+            raise AirflowFailException(f"Could not get/create label: {label_sin_revisar}")
+        
+        label_procesado_id = get_or_create_label(service, label_procesado)
+        if not label_procesado_id:
+            raise AirflowFailException(f"Could not get/create label: {label_procesado}")
+        
+        # Obtener correos sin etiqueta 'SinRevisar'
+        try:
+            emails = get_emails_without_label(
+                service, 
+                label_sin_revisar, 
+                label_sin_revisar_id, 
+                max_emails
+            )
+            logger.info(f"Found {len(emails)} emails without label '{label_sin_revisar}'")
+        except Exception as e:
+            logger.error(f"Error getting emails: {e}")
+            raise AirflowFailException(f"Error getting emails: {e}")
+        
+        if not emails:
+            return {
+                "processed": 0,
+                "failed": 0,
+                "total": 0,
+                "message": "No emails to process"
+            }
+        
+        # Registrar inicio en métricas
+        if STATS_AVAILABLE:
+            try:
+                Stats.incr("gmail_processor.run_started", 1)
+                Stats.gauge("gmail_processor.emails_found", len(emails))
+            except Exception:
+                pass
+        
+        start_time = datetime.utcnow()
+        
+        # Procesar cada correo
+        processed = 0
+        failed = 0
+        skipped = 0  # Emails ya procesados (idempotencia)
+        failed_details = []
+        
+        for email_data in emails:
+            email_id = email_data['id']
+            
+            # Verificar idempotencia
+            if _check_email_processed(email_id, dag_run_id):
+                skipped += 1
+                logger.debug(f"Email {email_id} already processed, skipping (idempotency)")
+                if STATS_AVAILABLE:
+                    try:
+                        Stats.incr("gmail_processor.emails_skipped", 1)
+                    except Exception:
+                        pass
+                continue
+            
+        
+        # Calcular duración y estadísticas
+        duration_seconds = (datetime.utcnow() - start_time).total_seconds()
+        success_rate = (processed / len(emails) * 100) if emails else 0
+        throughput = processed / duration_seconds if duration_seconds > 0 else 0
+        
+        summary_dict = {
+            "processed": processed,
+            "failed": failed,
+            "total": len(emails),
+            "dry_run": dry_run,
+            "duration_seconds": round(duration_seconds, 2),
+            "success_rate": round(success_rate, 2),
+            "throughput_per_sec": round(throughput, 2),
+            "error_breakdown": {
+                "log_failures": log_failures,
+                "label_failures": label_failures,
+                "other_failures": other_failures,
+                "error_types": error_types,
+            },
+            "failed_details": failed_details[:10],  # Limitar a 10 para no sobrecargar
+            "run_id": dag_run_id,
+            "timestamp": datetime.utcnow().isoformat() + "Z",
+        }
+        
+        # Validar resumen con Pydantic si está disponible
+        if PYDANTIC_AVAILABLE:
+            try:
+                summary = ProcessingSummary(**summary_dict)
+                summary_final = summary.model_dump()
+            except ValidationError as e:
+                logger.warning(f"Summary validation failed: {e}, using raw dict")
+                summary_final = summary_dict
+        else:
+            summary_final = summary_dict
+        
+        # Log estructurado completo
+        logger.info(
+            f"Gmail processing completed: {processed} processed, {failed} failed out of {len(emails)} total",
+            extra={
+                "duration_seconds": round(duration_seconds, 2),
+                "duration_ms": int(duration_seconds * 1000),
+                "processed": processed,
+                "failed": failed,
+                "total": len(emails),
+                "success_rate": round(success_rate, 2),
+                "throughput_per_sec": round(throughput, 2),
+                "log_failures": log_failures,
+                "label_failures": label_failures,
+                "other_failures": other_failures,
+                "error_types": error_types,
+                "dry_run": dry_run,
+                "run_id": dag_run_id,
+            }
+        )
+        
+        # Registrar métricas finales detalladas
+        if STATS_AVAILABLE:
+            try:
+                tags = {"run_id": dag_run_id, "dry_run": str(dry_run)}
+                
+                # Métricas principales
+                Stats.incr("gmail_processor.emails_processed", processed, tags=tags)
+                Stats.incr("gmail_processor.emails_failed", failed, tags=tags)
+                Stats.incr("gmail_processor.run_completed", 1, tags=tags)
+                Stats.timing("gmail_processor.duration_seconds", duration_seconds, tags=tags)
+                Stats.timing("gmail_processor.duration_ms", int(duration_seconds * 1000), tags=tags)
+                
+                # Métricas de tasa
+                if emails:
+                    Stats.gauge("gmail_processor.success_rate", success_rate, tags=tags)
+                    Stats.gauge("gmail_processor.throughput_per_sec", throughput, tags=tags)
+                
+                # Métricas de errores por tipo
+                for error_type, count in error_types.items():
+                    Stats.incr("gmail_processor.errors_by_type", count, tags={
+                        **tags,
+                        "error_type": error_type,
+                    })
+                
+                # Métricas de fallos específicos
+                if log_failures > 0:
+                    Stats.incr("gmail_processor.log_failures", log_failures, tags=tags)
+                if label_failures > 0:
+                    Stats.incr("gmail_processor.label_failures", label_failures, tags=tags)
+                if other_failures > 0:
+                    Stats.incr("gmail_processor.other_failures", other_failures, tags=tags)
+                
+                # Métricas de rendimiento
+                if processed > 0:
+                    avg_email_duration = duration_seconds / processed
+                    Stats.timing("gmail_processor.avg_email_duration_seconds", avg_email_duration, tags=tags)
+                    
+            except Exception as e:
+                logger.debug(f"Error recording final stats: {e}")
+        
+        # Notificación a Slack si está disponible
+        if NOTIFICATIONS_AVAILABLE and os.getenv("ENABLE_SLACK", "false").lower() == "true":
+            try:
+                status_emoji = "✅" if failed == 0 else "⚠️" if processed > 0 else "❌"
+                duration_str = f"{duration_seconds:.1f}s"
+                throughput_str = f"{throughput:.1f}/s" if throughput > 0 else "N/A"
+                
+                # Mensaje mejorado con más detalles
+                message_parts = [
+                    f"{status_emoji} *Gmail Processor* completado",
+                    f"• Procesados: {processed}",
+                    f"• Fallidos: {failed}",
+                    f"• Total: {len(emails)}",
+                    f"• Tasa éxito: {success_rate:.1f}%",
+                    f"• Duración: {duration_str}",
+                    f"• Throughput: {throughput_str}",
+                    f"• Modo: {'Dry Run' if dry_run else 'Producción'}",
+                ]
+                
+                # Agregar desglose de errores si hay
+                if error_types:
+                    error_summary = ", ".join([f"{k}: {v}" for k, v in list(error_types.items())[:3]])
+                    message_parts.append(f"• Errores: {error_summary}")
+                
+                message = "\n".join(message_parts)
+                
+                notify_slack(
+                    message,
+                    extra_context={
+                        "dag_id": "gmail_processor",
+                        "run_id": dag_run_id,
+                        "processed": processed,
+                        "failed": failed,
+                        "total": len(emails),
+                        "success_rate": success_rate,
+                        "duration_seconds": duration_seconds,
+                        "throughput": throughput,
+                        "dry_run": dry_run,
+                        "error_types": error_types,
+                    },
+                    username="Gmail Processor",
+                    icon_emoji=":email:"
+                )
+            except Exception as e:
+                logger.warning(f"Failed to send Slack notification: {e}", exc_info=True)
+        
+        return summary_final
+    
+    # Ejecutar tarea
+    process_gmail_emails()
+
+
+# Generar DAG
+gmail_processor()
+

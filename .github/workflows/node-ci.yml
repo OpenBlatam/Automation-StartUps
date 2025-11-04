@@ -1,0 +1,39 @@
+name: Node CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20]
+        project: ["web/kpis", "web/kpis-next"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+          cache-dependency-path: ${{ matrix.project }}/package-lock.json
+      - name: Install
+        working-directory: ${{ matrix.project }}
+        run: npm ci || npm i
+      - name: Lint
+        working-directory: ${{ matrix.project }}
+        run: npm run lint --if-present
+      - name: Typecheck
+        working-directory: ${{ matrix.project }}
+        run: npm run typecheck --if-present
+      - name: Test
+        working-directory: ${{ matrix.project }}
+        run: npm test --if-present
+      - name: Build
+        working-directory: ${{ matrix.project }}
+        run: npm run build --if-present
+
+

@@ -1,0 +1,160 @@
+# Airbyte - Plataforma de Integración de Datos
+# Documentación oficial: https://docs.airbyte.com/deploying-airbyte/on-kubernetes
+#
+# Airbyte es una plataforma open-source para sincronizar datos desde múltiples fuentes
+# hacia destinos. Incluye más de 600 conectores listos para usar.
+#
+# Esta configuración usa el Helm chart oficial de Airbyte
+# Repo: https://github.com/airbytehq/airbyte-helm-charts
+
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: airbyte
+  namespace: integration
+spec:
+  chart: airbyte
+  repo: https://airbytehq.github.io/helm-charts
+  targetNamespace: integration
+  version: 0.56.0  # Verificar versión más reciente en https://github.com/airbytehq/airbyte-helm-charts/releases
+  valuesContent: |
+    # Configuración básica de Airbyte
+    global:
+      # URL base donde se accederá a Airbyte
+      airbyteUrl: "https://airbyte.example.com"
+      
+      # Configuración de base de datos PostgreSQL para Airbyte
+      postgresql:
+        enabled: true
+        auth:
+          enablePostgresUser: true
+          postgresPassword: "changeme"  # Cambiar por secreto de External Secrets
+          database: "airbyte"
+        primary:
+          persistence:
+            enabled: true
+            size: 20Gi
+            storageClass: gp3  # Ajustar según tu cluster (gp3 para AWS, managed-premium para Azure)
+        
+      # Configuración de MinIO (S3 compatible) para almacenamiento temporal
+      # Alternativamente, puedes usar S3/ADLS directamente configurando objetos storage
+      minio:
+        enabled: true
+        auth:
+          rootUser: "minioadmin"
+          rootPassword: "changeme"  # Cambiar por secreto de External Secrets
+        persistence:
+          enabled: true
+          size: 50Gi
+          storageClass: gp3
+        
+    # Configuración del servidor web de Airbyte
+    webapp:
+      replicas: 2
+      resources:
+        requests:
+          cpu: 200m
+          memory: 512Mi
+        limits:
+          cpu: 1000m
+          memory: 1Gi
+          
+    # Configuración del servidor API
+    server:
+      replicas: 2
+      resources:
+        requests:
+          cpu: 500m
+          memory: 1Gi
+        limits:
+          cpu: 2000m
+          memory: 2Gi
+      
+    # Configuración de workers para sincronización de datos
+    worker:
+      replicas: 3  # Aumentar según volumen de sincronizaciones
+      resources:
+        requests:
+          cpu: 500m
+          memory: 1Gi
+        limits:
+          cpu: 2000m
+          memory: 4Gi  # Los workers necesitan más memoria para procesar datos
+          
+    # Pod Disruption Budget para alta disponibilidad
+    podDisruptionBudget:
+      enabled: true
+      minAvailable: 1
+      
+    # ServiceMonitor para Prometheus (requiere Prometheus Operator)
+    serviceMonitor:
+      enabled: true
+      namespace: integration
+      interval: 30s
+
+---
+# Service para acceso interno desde Airflow
+apiVersion: v1
+kind: Service
+metadata:
+  name: airbyte-api
+  namespace: integration
+  labels:
+    app: airbyte
+    component: server
+spec:
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+  selector:
+    app: airbyte
+    component: server
+  type: ClusterIP
+
+---
+# Horizontal Pod Autoscaler para workers
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: airbyte-worker-hpa
+  namespace: integration
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: airbyte-worker
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
+
+---
+# Pod Disruption Budget para workers
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: airbyte-worker-pdb
+  namespace: integration
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: airbyte
+      component: worker
+
+
+
+
+
