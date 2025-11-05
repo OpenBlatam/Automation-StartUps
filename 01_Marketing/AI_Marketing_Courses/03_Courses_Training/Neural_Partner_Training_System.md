@@ -1,3 +1,11 @@
+---
+title: "Neural Partner Training System"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/Ai_marketing_courses/03_courses_training/neural_partner_training_system.md"
+---
+
 # NEURAL PARTNER TRAINING SYSTEM
 ## Consciousness Evolution Program for Neural Marketing Partners
 

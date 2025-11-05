@@ -1,0 +1,6 @@
+sequence_name,step,day_offset,channel,hook,variant,copy_template,utm_source,utm_medium,utm_campaign,utm_content
+book_demo_dm,1,0,linkedin,"métrica pública","A","Vi que [empresa] creció [métrica]% en [año]. ¿Vale explorar 15'? Mar 10:30 o 15:00.",linkedin,dm,book_demo_q4,hypoA
+book_demo_dm,2,3,linkedin,"prueba social par","B","Cómo [par] bajó CAC 18% con [producto]. Tengo 2 ideas aplicables a [empresa]. ¿10:30 o 15:00?",linkedin,dm,book_demo_q4,hypoB
+book_demo_dm,3,7,linkedin,"valor 1-pager","A","Te paso el one-pager con benchmarks 2024 y si encaja, vemos 15'. ¿Te va mié 10:00?",linkedin,dm,book_demo_q4,assetA
+reengage_dm,1,0,linkedin,"shortcut 2 pasos","A","Tengo un shortcut de 2 pasos para [resultado] sin tocar stack. ¿Te lo comparto y vemos 15'?",linkedin,dm,reengage_q4,shortcutA
+

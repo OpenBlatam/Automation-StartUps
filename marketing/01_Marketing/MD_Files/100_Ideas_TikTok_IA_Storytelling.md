@@ -1,3 +1,11 @@
+---
+title: "100 Ideas Tiktok Ia Storytelling"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Md_files/100_ideas_tiktok_ia_storytelling.md"
+---
+
 # 🎬 100 IDEAS DE TIKTOK STORYTELLING - TECNOLOGÍA E IA
 
 ## 📋 GUÍA DE USO

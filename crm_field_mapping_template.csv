@@ -1,0 +1,29 @@
+crm_object,crm_field,source_field,description,required,example
+Lead,FirstName,lead.first_name,Nombre del lead,true,Ana
+Lead,LastName,lead.last_name,Apellido del lead,true,Pérez
+Lead,Email,lead.email,Email principal,true,ana@empresa.com
+Lead,Phone,lead.phone,Teléfono (si aplica),false,+52 55 1234 5678
+Lead,Company,lead.company,Empresa,true,Empresa SA
+Lead,Title,lead.role,Cargo/rol,true,Head of Growth
+Lead,Country,lead.country,País,true,México
+Lead,State,lead.state,Estado/Región,false,CDMX
+Lead,Source,tracking.source,Origen (LinkedIn/Email/WA),true,LinkedIn DM
+Lead,Campaign,tracking.campaign,Campaña/experimento,true,dm_q4_book_demo
+Lead,UTM_Source,tracking.utm_source,UTM source,true,linkedin
+Lead,UTM_Medium,tracking.utm_medium,UTM medium,true,dm
+Lead,UTM_Campaign,tracking.utm_campaign,UTM campaign,true,book_demo_q4
+Lead,UTM_Content,tracking.utm_content,Variante/hook,false,hypoA
+Lead,Lead_ID,tracking.lead_id,ID del lead en sistema,true,ld_00123
+Lead,Reply,metrics.reply,Respuesta (bool/ts),false,true
+Lead,Booked_Demo,metrics.booked_demo,Demo agendada (bool/ts),false,true
+Lead,No_Show,metrics.no_show,No-show (bool/ts),false,false
+Lead,Close_Won,metrics.close_won,Cierre ganado (bool/ts),false,false
+Activity,Type,event.type,Tipo (DM/Email/WA/Call),true,DM
+Activity,Channel,event.channel,Canal,true,LinkedIn
+Activity,Timestamp,event.timestamp,Fecha/hora envío,true,2025-10-30T15:30:00Z
+Activity,Variant,event.variant,Variante A/B/C,true,A
+Activity,Message_Link,event.message_link,URL del mensaje/enlace,false,https://...
+Opportunity,Amount,deal.amount,Monto estimado,false,12000
+Opportunity,Stage,deal.stage,Etapa del pipeline,true,Discovery
+Opportunity,Source,deal.source,Origen, true,Outbound
+

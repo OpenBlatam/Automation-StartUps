@@ -1,3 +1,11 @@
+---
+title: "Herramienta Análisis Inteligencia Competitiva Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Financial_models/Market_analysis/herramienta_análisis_inteligencia_competitiva_vc.md"
+---
+
 # 🕵️ Herramienta de Análisis de Inteligencia Competitiva para VC
 
 ## 📋 Descripción General

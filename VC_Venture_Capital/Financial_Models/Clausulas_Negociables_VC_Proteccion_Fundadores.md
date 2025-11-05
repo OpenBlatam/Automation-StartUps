@@ -1,3 +1,11 @@
+---
+title: "Clausulas Negociables Vc Proteccion Fundadores"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Financial_models/clausulas_negociables_vc_proteccion_fundadores.md"
+---
+
 # 🛡️ CLAUSULAS NEGOCIABLES VC - PROTECCIÓN FUNDADORES
 ## Guía Completa para SaaS de IA Copywriting en LATAM
 

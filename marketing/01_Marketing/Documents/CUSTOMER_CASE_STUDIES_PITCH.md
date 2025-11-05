@@ -1,3 +1,11 @@
+---
+title: "Customer Case Studies Pitch"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Documents/customer_case_studies_pitch.md"
+---
+
 # 📊 AI Marketing SaaS Customer Case Studies for Pitch Presentations
 ## Compelling Success Stories to Strengthen Investor Presentations
 

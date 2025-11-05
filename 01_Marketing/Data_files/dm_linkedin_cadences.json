@@ -1,0 +1,39 @@
+{
+  "warm": {
+    "d0": "initial",
+    "d2": "followup1",
+    "d5": "followup2",
+    "d10": "final"
+  },
+  "cold": {
+    "d0": "initial",
+    "d3": "followup1",
+    "d7": "followup2",
+    "d14": "followup3",
+    "d21": "final"
+  },
+  "objection": {
+    "d0": "address",
+    "d5": "value_add",
+    "d12": "alternative"
+  },
+  "webinar": {
+    "d0": "registration",
+    "d1": "reminder",
+    "d3": "pre_event_value",
+    "d0_post": "thank_you",
+    "d2_post": "replay_offer"
+  },
+  "trial": {
+    "d0": "trial_start",
+    "d1": "onboarding_tip",
+    "d3": "feature_highlight",
+    "d5": "success_story",
+    "d7": "conversion_nudge",
+    "d14": "final_offer"
+  }
+}
+
+
+
+

@@ -1,0 +1,5 @@
+metric,descripcion,valor,formula
+Reply_rate_DM,Promedio de respuesta 7d,,=AVERAGE(Resumen!H2:H)
+DM_a_Demo_rate,Promedio DM→Demo 7d,,=AVERAGE(Resumen!I2:I)
+Demo_a_Cierre_rate,Promedio Demo→Cierre 7d,,=AVERAGE(Resumen!J2:J)
+ROI_mensual,ROI mensual desde ROI_Snapshot,,=INDEX(ROI_Snapshot!C:C, MATCH("ROI mensual", ROI_Snapshot!A:A, 0))

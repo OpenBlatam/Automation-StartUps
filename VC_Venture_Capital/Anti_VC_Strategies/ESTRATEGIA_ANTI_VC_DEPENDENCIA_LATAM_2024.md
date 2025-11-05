@@ -1,3 +1,11 @@
+---
+title: "Estrategia Anti Vc Dependencia Latam 2024"
+category: "Vc_venture_capital"
+tags: ["strategy"]
+created: "2025-10-29"
+path: "Vc_venture_capital/Anti_vc_strategies/estrategia_anti_vc_dependencia_latam_2024.md"
+---
+
 # 🚀 **ESTRATEGIA ANTI-DEPENDENCIA VC PARA STARTUPS SAAS IA LATAM 2024**
 
 ## **GUÍA COMPLETA PARA REDUCIR DEPENDENCIA DE VENTURE CAPITAL**
@@ -948,18 +956,18 @@ Las estrategias anti-dependencia VC ofrecen oportunidades únicas para startups 
 ## **📚 RECURSOS ADICIONALES**
 
 ### **Documentos Complementarios**
-- [Calculadora Interactiva](CALCULADORA_ANTI_VC_DEPENDENCIA.html)
-- [Dashboard IA](DASHBOARD_IA_ANTI_VC_DEPENDENCIA.html)
+- [Calculadora Interactiva](Vc_venture_capital/Analysis_tools/calculadora_anti_vc_dependencia.html)
+- [Dashboard IA](Vc_venture_capital/Analysis_tools/dashboard_ia_anti_vc_dependencia.html)
 - [Modelado Financiero Avanzado](MODELADO_FINANCIERO_AVANZADO_ANTI_VC.md)
 
 ### **Herramientas de Implementación**
-- [Estrategias Blockchain/Web3](ESTRATEGIAS_BLOCKCHAIN_WEB3_ANTI_VC.md)
+- [Estrategias Blockchain/Web3](Technology_strategies/estrategias_blockchain_web3_anti_vc.md)
 - [Optimización Cuántica](QUANTUM_FINANCE_OPTIMIZATION.md)
-- [Estrategias Metaverso](ESTRATEGIAS_METAVERSO_VR_AR_ANTI_VC.md)
+- [Estrategias Metaverso](Technology_strategies/estrategias_metaverso_vr_ar_anti_vc.md)
 - [Estrategias ESG](ESTRATEGIAS_ESG_FINANCIAMIENTO_ANTI_VC.md)
 - [Expansión Internacional](EXPANSION_INTERNACIONAL_ANTI_VC.md)
-- [Herramientas IA Avanzadas](HERRAMIENTAS_IA_AVANZADAS_ANTI_VC.md)
-- [Marco Regulatorio](MARCO_REGULATORIO_COMPLIANCE_ANTI_VC.md)
+- [Herramientas IA Avanzadas](Technology_strategies/herramientas_ia_avanzadas_anti_vc.md)
+- [Marco Regulatorio](Technology_strategies/marco_regulatorio_compliance_anti_vc.md)
 
 ---
 

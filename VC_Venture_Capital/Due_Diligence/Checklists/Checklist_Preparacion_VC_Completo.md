@@ -1,3 +1,11 @@
+---
+title: "Checklist Preparacion Vc Completo"
+category: "Vc_venture_capital"
+tags: ["checklist"]
+created: "2025-10-29"
+path: "Vc_venture_capital/Due_diligence/Checklists/checklist_preparacion_vc_completo.md"
+---
+
 # Checklist Completo de Preparación VC
 
 ## Descripción

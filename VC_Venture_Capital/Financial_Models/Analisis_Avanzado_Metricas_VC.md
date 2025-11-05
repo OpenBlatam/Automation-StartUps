@@ -1,3 +1,11 @@
+---
+title: "Analisis Avanzado Metricas Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Financial_models/analisis_avanzado_metricas_vc.md"
+---
+
 # 📊 ANÁLISIS AVANZADO DE MÉTRICAS VC
 ## Dashboard de KPIs y Análisis Predictivo para SaaS IA Copywriting LATAM
 

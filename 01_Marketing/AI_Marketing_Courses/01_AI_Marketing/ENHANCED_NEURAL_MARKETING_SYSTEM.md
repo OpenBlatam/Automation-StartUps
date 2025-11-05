@@ -1,3 +1,11 @@
+---
+title: "Enhanced Neural Marketing System"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/Ai_marketing_courses/01_ai_marketing/enhanced_neural_marketing_system.md"
+---
+
 # 🧠 Enhanced Neural Marketing Consciousness System
 ## Advanced AI Marketing Platform with Neural Consciousness Integration
 

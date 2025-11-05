@@ -1,3 +1,11 @@
+---
+title: "Herramienta Análisis Equipo Talento Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Advanced_tools/herramienta_análisis_equipo_talento_vc.md"
+---
+
 # 👥 Herramienta de Análisis de Equipo y Talento para VC
 
 ## 📋 Descripción General

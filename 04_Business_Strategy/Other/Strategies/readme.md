@@ -1,0 +1,63 @@
+---
+title: "Readme"
+category: "04_business_strategy"
+tags: []
+created: "2025-10-29"
+path: "04_business_strategy/Other/Strategies/readme.md"
+---
+
+# Strategies
+
+## Archivos
+- curso_ia_webinars_estrategia.md
+- estrategias_anti_churn_curso_ia.md
+- estrategias_automatizacion_avanzada.md
+- estrategias_automatizacion_eficiencia_ia.md
+- estrategias_avanzadas_ia_automatizacion.md
+- estrategias_avanzadas_pricing.md
+- estrategias_avanzadas_retention_ai.md
+- estrategias_ciberseguridad_ia.md
+- estrategias_expansion_global_avanzadas_v4.md
+- estrategias_financiamiento_proyecciones_ia.md
+- estrategias_globales_ia.md
+- estrategias_ia_edge_computing.md
+- estrategias_ia_especificas.md
+- estrategias_ia_etica_responsable.md
+- estrategias_ia_explicable_transparencia.md
+- estrategias_ia_ltv.md
+- estrategias_ia_metaverse_web3.md
+- estrategias_ia_quantum_computing.md
+- estrategias_innovacion_rd_ia.md
+- estrategias_partnerships_avanzadas_v4.md
+- estrategias_por_audiencia_ia.md
+- estrategias_pricing_biometrico.md
+- estrategias_pricing_cognitivo.md
+- estrategias_pricing_competitivo_avanzado.md
+- estrategias_pricing_consciente.md
+- estrategias_pricing_cuantico_avanzado.md
+- estrategias_pricing_emocional.md
+- estrategias_pricing_espacial.md
+- estrategias_pricing_estacional.md
+- estrategias_pricing_geografico.md
+- estrategias_pricing_holistico.md
+- estrategias_pricing_holografico.md
+- estrategias_pricing_ia_avanzada.md
+- estrategias_pricing_metaverso.md
+- estrategias_pricing_multidimensional.md
+- estrategias_pricing_neurociencia.md
+- estrategias_pricing_omnichannel.md
+- estrategias_pricing_predictivo.md
+- estrategias_pricing_psicologia_avanzada.md
+- estrategias_pricing_quantum.md
+- estrategias_pricing_social.md
+- estrategias_pricing_sustentable.md
+- estrategias_pricing_temporal.md
+- estrategias_pricing_trascendente.md
+- estrategias_psicologicas_avanzadas_anti_churn.md
+- estrategias_retencion_upsell.md
+- estrategias_salida_valorizacion.md
+- estrategias_talento_cultura_ia.md
+- estrategias_ultra_avanzadas_anti_churn.md
+- estrategias_ultra_sofisticadas.md
+- mejoras_optimizacion_estrategias_anti_churn.md
+

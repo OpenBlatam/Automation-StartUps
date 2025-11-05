@@ -1,3 +1,11 @@
+---
+title: "Vc Negotiation Psychology Guide"
+category: "Vc_venture_capital"
+tags: ["guide"]
+created: "2025-10-29"
+path: "Vc_venture_capital/Negotiation/Psychology/vc_negotiation_psychology_guide.md"
+---
+
 # 🧠 VC Negotiation Psychology Mastery
 ## Advanced Psychological Strategies for AI Course & Marketing SaaS
 

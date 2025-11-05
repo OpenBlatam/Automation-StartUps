@@ -1,3 +1,11 @@
+---
+title: "Content Strategy Guide"
+category: "01_marketing"
+tags: ["business", "guide", "marketing", "strategy"]
+created: "2025-10-29"
+path: "01_marketing/02_content_marketing/content_strategy_guide.md"
+---
+
 # 📝 Content Strategy Guide
 
 ## 🎯 Overview

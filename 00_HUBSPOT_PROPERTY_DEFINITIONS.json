@@ -1,0 +1,129 @@
+{
+  "contacts": [
+    {
+      "name": "dm_variant",
+      "label": "DM Variant",
+      "type": "enumeration",
+      "fieldType": "select",
+      "groupName": "contactinformation",
+      "options": [
+        { "label": "A", "value": "A" },
+        { "label": "B", "value": "B" },
+        { "label": "C", "value": "C" },
+        { "label": "D", "value": "D" },
+        { "label": "E", "value": "E" },
+        { "label": "F", "value": "F" }
+      ]
+    },
+    {
+      "name": "lead_score",
+      "label": "Lead Score",
+      "type": "number",
+      "fieldType": "number",
+      "groupName": "contactinformation"
+    },
+    {
+      "name": "best_send_hour",
+      "label": "Best Send Hour (Local)",
+      "type": "number",
+      "fieldType": "number",
+      "groupName": "contactinformation"
+    },
+    {
+      "name": "primary_objection",
+      "label": "Primary Objection",
+      "type": "enumeration",
+      "fieldType": "select",
+      "groupName": "contactinformation",
+      "options": [
+        { "label": "timing", "value": "timing" },
+        { "label": "presupuesto", "value": "presupuesto" },
+        { "label": "competidor", "value": "competidor" },
+        { "label": "tono", "value": "tono" },
+        { "label": "otros", "value": "otros" }
+      ]
+    },
+    {
+      "name": "channel",
+      "label": "Channel",
+      "type": "enumeration",
+      "fieldType": "select",
+      "groupName": "contactinformation",
+      "options": [
+        { "label": "LinkedIn", "value": "LinkedIn" },
+        { "label": "Email", "value": "Email" },
+        { "label": "WhatsApp", "value": "WhatsApp" }
+      ]
+    },
+    {
+      "name": "industry",
+      "label": "Industry",
+      "type": "string",
+      "fieldType": "text",
+      "groupName": "contactinformation"
+    },
+    {
+      "name": "language",
+      "label": "Language",
+      "type": "enumeration",
+      "fieldType": "select",
+      "groupName": "contactinformation",
+      "options": [
+        { "label": "es", "value": "es" },
+        { "label": "en", "value": "en" },
+        { "label": "pt", "value": "pt" }
+      ]
+    }
+  ],
+  "deals": [
+    {
+      "name": "demo_booked_at",
+      "label": "Demo Booked At",
+      "type": "datetime",
+      "fieldType": "date",
+      "groupName": "dealinformation"
+    },
+    {
+      "name": "outcome_pricing",
+      "label": "Outcome Pricing",
+      "type": "bool",
+      "fieldType": "booleancheckbox",
+      "groupName": "dealinformation"
+    },
+    {
+      "name": "package_tier",
+      "label": "Package Tier",
+      "type": "enumeration",
+      "fieldType": "select",
+      "groupName": "dealinformation",
+      "options": [
+        { "label": "Starter", "value": "Starter" },
+        { "label": "Growth", "value": "Growth" },
+        { "label": "Scale", "value": "Scale" },
+        { "label": "Enterprise", "value": "Enterprise" }
+      ]
+    },
+    {
+      "name": "mrr_delta_expected",
+      "label": "MRR Delta Expected",
+      "type": "number",
+      "fieldType": "number",
+      "groupName": "dealinformation"
+    },
+    {
+      "name": "kpi_baseline",
+      "label": "KPI Baseline",
+      "type": "number",
+      "fieldType": "number",
+      "groupName": "dealinformation"
+    },
+    {
+      "name": "kpi_target",
+      "label": "KPI Target",
+      "type": "number",
+      "fieldType": "number",
+      "groupName": "dealinformation"
+    }
+  ]
+}
+

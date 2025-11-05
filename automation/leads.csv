@@ -1,0 +1,3 @@
+id,nombre,email,linkedin_url,empresa,rol,pais,fuente,utm_source,utm_campaign,score,owner,etapa,created_at
+sample-1,Juan Perez,juan@example.com,https://linkedin.com/in/juan,Acme Inc,CMO,MX,landing,li,curso_lm_v1,6,adan,Identificado,2025-10-30T10:00:00Z
+

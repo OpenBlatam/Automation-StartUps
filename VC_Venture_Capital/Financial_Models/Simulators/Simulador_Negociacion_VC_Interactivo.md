@@ -1,3 +1,11 @@
+---
+title: "Simulador Negociacion Vc Interactivo"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Financial_models/Simulators/simulador_negociacion_vc_interactivo.md"
+---
+
 # 🎮 SIMULADOR DE NEGOCIACIÓN VC INTERACTIVO
 ## Herramienta de Práctica y Análisis para SaaS IA Copywriting LATAM
 

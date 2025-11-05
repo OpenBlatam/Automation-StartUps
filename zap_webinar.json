@@ -1,0 +1,32 @@
+{
+  "version": "v10",
+  "platform_version": "v10",
+  "type": "zap",
+  "name": "Webinar: Registro→Confirmación→Recordatorios→Replay→NPS",
+  "description": "Automatiza registro, confirmación, recordatorios 24h/1h, replay y NPS",
+  "trigger": {
+    "app": "google_forms",
+    "event": "new_response",
+    "mapping": {"email": "{{response.email}}", "nombre": "{{response.name}}", "webinar_id": "{{response.webinar_id}}", "fecha": "{{response.date}}"}
+  },
+  "steps": [
+    {"app": "hubspot", "event": "create_or_update_contact", "mapping": {"email": "{{trigger.email}}", "firstname": "{{trigger.nombre}}", "tag": "{{trigger.webinar_id}}"}},
+    {"app": "zoom", "event": "create_registrant", "mapping": {"webinar_id": "{{trigger.webinar_id}}", "email": "{{trigger.email}}", "first_name": "{{trigger.nombre}}"}},
+    {"app": "gmail", "event": "send_email", "mapping": {"to": "{{trigger.email}}", "subject": "Confirmado: {{data.titulo}} — {{trigger.fecha}}", "body": "Enlace: {{data.link_zoom}}\nCalendario: {{data.link_calendar}}"}},
+    {"app": "delay", "event": "delay_until", "mapping": {"datetime": "{{trigger.fecha_minus_24h}}"}},
+    {"app": "gmail", "event": "send_email", "mapping": {"to": "{{trigger.email}}", "subject": "Mañana: {{data.titulo}}", "body": "Enlace: {{data.link_zoom}}"}},
+    {"app": "delay", "event": "delay_until", "mapping": {"datetime": "{{trigger.fecha_minus_1h}}"}},
+    {"app": "twilio_whatsapp", "event": "send_message", "mapping": {"to": "{{trigger.phone}}", "body": "En 1h iniciamos {{data.titulo}}. Únete: {{data.link_zoom}}"}},
+    {"app": "zoom", "event": "recording_completed", "asTrigger": true},
+    {"app": "assemblyai", "event": "transcribe", "mapping": {"file_url": "{{zoom.recording_url}}"}},
+    {"app": "openai", "event": "completion", "mapping": {"model": "gpt-4.1", "prompt": "Resume y genera FAQs: {{assemblyai.transcript}}"}},
+    {"app": "notion", "event": "create_page", "mapping": {"parent_page_id": "{{secrets.NOTION_PARENT_PAGE_ID}}", "title": "{{data.titulo}} — Recursos", "content": "{{openai.output}}"}},
+    {"app": "gmail", "event": "send_email", "mapping": {"to": "{{trigger.email}}", "subject": "Replay + recursos", "body": "Replay: {{zoom.replay_link}}\nNotion: {{notion.page_url}}"}}
+  ],
+  "variables": [
+    {"key": "data.titulo", "value": "TÍTULO_WEBINAR"},
+    {"key": "data.link_zoom", "value": "ENLACE_ZOOM"},
+    {"key": "data.link_calendar", "value": "ENLACE_CALENDARIO"},
+    {"key": "secrets.NOTION_PARENT_PAGE_ID", "value": "REEMPLAZAR"}
+  ]
+}

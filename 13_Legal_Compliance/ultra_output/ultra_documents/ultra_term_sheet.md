@@ -1,3 +1,11 @@
+---
+title: "Ultra Term Sheet"
+category: "13_legal_compliance"
+tags: []
+created: "2025-10-29"
+path: "13_legal_compliance/Ultra_output/Ultra_documents/ultra_term_sheet.md"
+---
+
 
 # TERM SHEET ULTRA AVANZADO
 

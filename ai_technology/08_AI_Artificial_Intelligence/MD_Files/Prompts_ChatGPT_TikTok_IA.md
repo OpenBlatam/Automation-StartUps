@@ -1,3 +1,11 @@
+---
+title: "Prompts Chatgpt Tiktok Ia"
+category: "Ai_technology"
+tags: ["technical", "technology"]
+created: "2025-10-29"
+path: "Ai_technology/08_ai_artificial_intelligence/Md_files/prompts_chatgpt_tiktok_ia.md"
+---
+
 # 🤖 PROMPTS CHATGPT PARA TIKTOK IA - ULTIMATE
 
 ## 🎯 PROMPTS ESPECÍFICOS PARA MÁXIMA CONVERSIÓN

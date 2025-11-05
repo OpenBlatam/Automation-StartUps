@@ -1,3 +1,11 @@
+---
+title: "Landing Page Checklist"
+category: "01_marketing"
+tags: ["business", "checklist", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/05_lead_generation/landing_page_checklist.md"
+---
+
 # 🎯 Landing Page Optimization Checklist
 
 ## 🎯 Above the Fold (Critical First Impression)

@@ -1,3 +1,11 @@
+---
+title: "Campaign Launch Checklist"
+category: "01_marketing"
+tags: ["business", "checklist", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/07_campaign_management/campaign_launch_checklist.md"
+---
+
 # 🎪 Campaign Launch Checklist
 
 ## 📋 Pre-Launch Phase (2-3 Weeks Before)

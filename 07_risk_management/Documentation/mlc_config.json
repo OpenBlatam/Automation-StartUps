@@ -1,0 +1,15 @@
+{
+  "timeout": "10s",
+  "retryOn429": true,
+  "retryCount": 2,
+  "fallbackRetryDelay": "2s",
+  "aliveStatusCodes": [200,201,202,203,204,205,206,300,301,302,303,307,308],
+  "skipPatterns": [
+    "^mailto:",
+    "^tel:",
+    "localhost",
+    "127.0.0.1"
+  ]
+}
+
+

@@ -1,3 +1,11 @@
+---
+title: "Herramienta Análisis Panorama Financiamiento Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Financial_models/herramienta_análisis_panorama_financiamiento_vc.md"
+---
+
 # 💰 Herramienta de Análisis de Panorama de Financiamiento VC
 
 ## 🎯 Objetivo

@@ -1,3 +1,11 @@
+---
+title: "Resumen Ejecutivo Sistema Vc 2024"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Negotiation/resumen_ejecutivo_sistema_vc_2024.md"
+---
+
 # Resumen Ejecutivo - Sistema Integral de Negociación VC 2024
 
 ## Resumen Ejecutivo

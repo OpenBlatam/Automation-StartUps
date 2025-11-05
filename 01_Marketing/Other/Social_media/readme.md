@@ -1,0 +1,72 @@
+---
+title: "Readme"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/Other/Social_media/readme.md"
+---
+
+# Social_Media
+
+## Archivos
+- 11_optimizacion_suprema_algoritmos_linkedin.md
+- ai_saas_marketing_sales_copy_social_proof_advanced.md
+- ai_saas_marketing_sales_copy_social_proof_authority.md
+- ai_saas_marketing_sales_copy_social_psychology.md
+- calendario_redes_sociales.md
+- dm_linkedin_abm_mode.md
+- dm_linkedin_agradecimiento_cierre.md
+- dm_linkedin_benchmarking_alertas.md
+- dm_linkedin_bilingual_variants.md
+- dm_linkedin_brand_voice_compliance.md
+- dm_linkedin_cadencias_automaticas.md
+- dm_linkedin_compliance_best_practices.md
+- dm_linkedin_compliance_scanner.md
+- dm_linkedin_curso_ia.md
+- dm_linkedin_ejemplos_utm_integrados.md
+- dm_linkedin_engagement_posts.md
+- dm_linkedin_estacionales_eventos.md
+- dm_linkedin_followup_playbooks.md
+- dm_linkedin_hooks_library.md
+- dm_linkedin_ia_bulk_documentos.md
+- dm_linkedin_INDICE_MAESTRO.md
+- dm_linkedin_industrias.md
+- dm_linkedin_integraciones.md
+- dm_linkedin_lead_scoring.md
+- dm_linkedin_micro_dms.md
+- dm_linkedin_objeciones_por_industria.md
+- dm_linkedin_objection_handling.md
+- dm_linkedin_orchestrator_readme.md
+- dm_linkedin_paquetes_nicho.md
+- dm_linkedin_personalizacion_tokens.md
+- dm_linkedin_personas.md
+- dm_linkedin_por_seniority.md
+- dm_linkedin_re_engagement.md
+- dm_linkedin_respuestas_automaticas_inteligentes.md
+- dm_linkedin_roi_calculator.md
+- dm_linkedin_saas_ia_marketing.md
+- dm_linkedin_sender_apps_script.gs
+- dm_linkedin_snippets_rapidos.md
+- dm_linkedin_spintax_variants.md
+- dm_linkedin_utm_tracking.md
+- dm_linkedin_variaciones_creativas.md
+- dm_linkedin_variant_generator_prompt.md
+- dm_linkedin_webinar_ia.md
+- estrategia_neuromarketing_linkedin.md
+- estrategias-growth-hacking-redes-sociales-2024.md
+- post_linkedin_saas_ia_marketing.md
+- post_linkedin_saas_ia_marketing_variacion.md
+- saas_ia_linkedin.md
+- scripts-video-redes-sociales.md
+- seo_meta_titles_viral_shareable.md
+- social-media-recruiting-prompt-library.md
+- social_listening_toolkit.md
+- Twitter_Viral_System_Authoritative.md
+- viral_youtube_advanced_strategies.md
+- viral_youtube_competitor_analysis.md
+- viral_youtube_crisis_management.md
+- viral_youtube_execution_summary.md
+- viral_youtube_international_expansion.md
+- viral_youtube_video_concept_2_ai_webinar.md
+- webinar-advanced-social-psychology.md
+

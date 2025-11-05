@@ -1,0 +1,12 @@
+id,first_name,country,niche,language,tone,timezone_local,has_wa_optin,wa_template_name,email_consent,email_verified_domain
+L1,Ana,AR,ecommerce,ES,tuteo,America/Argentina/Buenos_Aires,false,,true,true
+L2,Carlos,MX,b2b_saas,ES,usted,America/Mexico_City,true,order_update,true,true
+L3,Julia,BR,general,PT,neutral,America/Sao_Paulo,true,boas_vindas,false,false
+L4,Tom,US,real_estate,EN,neutral,America/New_York,false,,true,true
+L5,Lucia,ES,enterprise,ES,usted,Europe/Madrid,false,,true,true
+L6,Pedro,CL,education,ES,tuteo,America/Santiago,true,info_curso,true,false
+L7,Marcos,ANY,any,EN,neutral,UTC,false,,false,false
+L8,Sofia,AR,ecommerce,ES,tuteo,America/Argentina/Buenos_Aires,true,promo_es,true,true
+L9,Beatriz,BR,general,PT,neutral,America/Sao_Paulo,false,,true,true
+L10,Emma,US,b2b_saas,EN,neutral,America/New_York,true,pricing_update,false,true
+

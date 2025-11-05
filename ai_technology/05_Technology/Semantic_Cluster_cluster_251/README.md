@@ -1,7 +1,10 @@
-# Guides
+---
+title: "Readme"
+category: "Ai_technology"
+tags: ["technical", "technology"]
+created: "2025-10-29"
+path: "Ai_technology/05_technology/Semantic_cluster_cluster_251/readme.md"
+---
 
-Subcategoría de 10_Customer_Service
+# Semantic_Cluster_cluster_251
 
-## Archivos:
-
-- README.md

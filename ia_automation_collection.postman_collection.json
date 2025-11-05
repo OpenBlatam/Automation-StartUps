@@ -1,0 +1,49 @@
+{
+  "info": {
+    "name": "IA Automation Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "2d63c3b8-7c0b-4e2a-9b2b-000000000001"
+  },
+  "item": [
+    {
+      "name": "Webhook lead caliente",
+      "request": {
+        "method": "POST",
+        "header": [ {"key": "Content-Type", "value": "application/json"} ],
+        "url": { "raw": "{{base_url}}/webhooks/lead-hot", "host": ["{{base_url}}"], "path": ["webhooks","lead-hot"] },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"webinarId\": \"W123\",\n  \"email\": \"user@dominio.com\",\n  \"topic\": \"precio\",\n  \"timestamp\": \"2025-01-01T12:00:00Z\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Suspender cuenta (dunning)",
+      "request": {
+        "method": "POST",
+        "header": [ {"key": "Content-Type", "value": "application/json"} ],
+        "url": { "raw": "{{base_url}}/suspend", "host": ["{{base_url}}"], "path": ["suspend"] },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"customerId\": \"cus_123\",\n  \"reason\": \"payment_failed\",\n  \"retries\": 3\n}"
+        }
+      }
+    },
+    {
+      "name": "Job IA (3 documentos)",
+      "request": {
+        "method": "POST",
+        "header": [ {"key": "Content-Type", "value": "application/json"} ],
+        "url": { "raw": "{{base_url}}/jobs/create-docs", "host": ["{{base_url}}"], "path": ["jobs","create-docs"] },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"jobId\": \"J-001\",\n  \"prompt\": \"Escribe sobre IA en marketing B2B\",\n  \"outputs\": [\"brief\", \"articulo\", \"post\"],\n  \"metadata\": {\"cliente\": \"ACME\"}\n}"
+        }
+      }
+    }
+  ],
+  "variable": [
+    {"key": "base_url", "value": "https://api.ejemplo.com"}
+  ]
+}
+

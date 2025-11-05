@@ -1,3 +1,11 @@
+---
+title: "Modelo Financiero Final Copycar Ai"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Copycar_ai_investor_package/modelo_financiero_final_copycar_ai.md"
+---
+
 # 💰 CopyCar.ai - Modelo Financiero Final
 
 ## Proyecciones Financieras Detalladas para Serie A - $5M

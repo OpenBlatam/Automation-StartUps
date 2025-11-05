@@ -1,3 +1,11 @@
+---
+title: "Vc Market Intelligence Guide"
+category: "Vc_venture_capital"
+tags: ["guide"]
+created: "2025-10-29"
+path: "Vc_venture_capital/Negotiation/vc_market_intelligence_guide.md"
+---
+
 # 📊 VC Market Intelligence Mastery 2024
 ## Advanced Research & Competitive Analysis for AI Course & Marketing SaaS
 

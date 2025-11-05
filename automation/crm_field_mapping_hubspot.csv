@@ -1,0 +1,14 @@
+hubspot_property,airtable_table,airtable_field,type
+email,Leads,email,text
+firstname,Leads,nombre,text
+company,Leads,empresa,text
+jobtitle,Leads,rol,text
+country,Leads,pais,text
+lifecyclestage,Leads,etapa,enum
+hs_lead_score,Leads,score,number
+utm_source,Leads,utm_source,text
+utm_campaign,Leads,utm_campaign,text
+last_activity_date,Eventos,timestamp,datetime
+last_conversion_event_name,Eventos,tipo,text
+product_interest,Leads,producto,text
+

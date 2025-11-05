@@ -1,3 +1,11 @@
+---
+title: "Readme"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Ai_marketing_courses/03_courses_training/Curso_ia_saas_marketing_split/readme.md"
+---
+
 # 📁 Índice de Archivos Divididos
 
 **Archivo original:** Curso_IA_SaaS_Marketing.md  

@@ -1,3 +1,11 @@
+---
+title: "Herramienta Análisis Equipo Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Financial_models/herramienta_análisis_equipo_vc.md"
+---
+
 # 👥 HERRAMIENTA DE ANÁLISIS DE EQUIPO VC
 ## Sistema de Evaluación de Equipo y Liderazgo para SaaS IA Copywriting LATAM
 

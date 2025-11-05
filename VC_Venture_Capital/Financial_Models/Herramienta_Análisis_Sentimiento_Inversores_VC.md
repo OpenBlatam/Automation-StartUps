@@ -1,3 +1,11 @@
+---
+title: "Herramienta Análisis Sentimiento Inversores Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Financial_models/herramienta_análisis_sentimiento_inversores_vc.md"
+---
+
 # 💭 Herramienta de Análisis de Sentimiento de Inversores para VC
 
 ## 📋 Descripción General

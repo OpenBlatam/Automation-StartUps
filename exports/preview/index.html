@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Preview Instagram 35% OFF</title>
+  <style>
+    body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial; margin: 24px; background: #0b0f17; color: #eaeef7; }
+    h1 { font-size: 24px; margin: 0 0 8px; }
+    .filters { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+    .filter-btn { padding: 6px 12px; background: #1f2740; border: 1px solid #242b45; border-radius: 6px; color: #c9d2ff; cursor: pointer; font-size: 13px; }
+    .filter-btn.active { background: #7B2FF7; border-color: #7B2FF7; color: #fff; }
+    .filter-btn:hover { background: #2a3147; }
+    .category { margin-bottom: 32px; }
+    .category-title { font-size: 18px; font-weight: 600; margin-bottom: 12px; color: #eaeef7; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+    .card { background: #111522; border: 1px solid #1f2740; border-radius: 12px; padding: 12px; }
+    .thumb { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; background: #0b0f17; border-radius: 8px; border: 1px solid #242b45; }
+    .title { margin: 8px 4px 0; font-size: 13px; color: #c9d2ff; word-break: break-all; display: flex; align-items: center; justify-content: space-between; }
+    .hidden { display: none; }
+    .badge { display: inline-block; margin-left: 4px; padding: 2px 6px; background: #7B2FF7; border-radius: 4px; font-size: 10px; color: #fff; font-weight: 600; }
+    .badge.png { background: #00E676; }
+    .stats { margin-top: 8px; font-size: 11px; color: #8b94b8; }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <script>
+    const categories = {
+      feed: {
+        title: 'Feed 1080×1080',
+        files: [
+          '../../design/instagram/1080x1080/ig_descuento_curso_ia.svg',
+          '../../design/instagram/1080x1080/ig_descuento_saas_marketing.svg',
+          '../../design/instagram/1080x1080/ig_descuento_ia_bulk.svg'
+        ]
+      },
+      ads: {
+        title: 'Ads 1080×1350',
+        files: [
+          '../../design/instagram/1080x1350/ig_ads_curso_ia.svg',
+          '../../design/instagram/1080x1350/ig_ads_saas_marketing.svg',
+          '../../design/instagram/1080x1350/ig_ads_ia_bulk.svg'
+        ]
+      },
+      lowtext: {
+        title: 'Low Text (Ads Manager)',
+        files: [
+          '../../design/instagram/1080x1080/ig_descuento_curso_ia_lowtext.svg',
+          '../../design/instagram/1080x1080/ig_descuento_saas_marketing_lowtext.svg',
+          '../../design/instagram/1080x1080/ig_descuento_ia_bulk_lowtext.svg'
+        ]
+      },
+      stories: {
+        title: 'Stories 1080×1920',
+        files: [
+          '../../design/instagram/1080x1920/ig_story_descuento_curso_ia.svg',
+          '../../design/instagram/1080x1920/ig_story_descuento_saas_marketing.svg',
+          '../../design/instagram/1080x1920/ig_story_descuento_ia_bulk.svg'
+        ]
+      },
+      reels: {
+        title: 'Reels (Portadas)',
+        files: [
+          '../../design/instagram/reels/cover_1080x1920/cover_reel_curso_ia.svg',
+          '../../design/instagram/reels/cover_1080x1920/cover_reel_saas_marketing.svg',
+          '../../design/instagram/reels/cover_1080x1920/cover_reel_ia_bulk.svg'
+        ]
+      },
+      carousel: {
+        title: 'Carrusel',
+        files: [
+          '../../design/instagram/1080x1080/carousel/carousel_slide1_hook.svg',
+          '../../design/instagram/1080x1080/carousel/carousel_slide2_benefits.svg',
+          '../../design/instagram/1080x1080/carousel/carousel_slide3_cta.svg'
+        ]
+      },
+      highlights: {
+        title: 'Highlights',
+        files: [
+          '../../design/instagram/highlights/cover_descuento.svg',
+          '../../design/instagram/highlights/cover_48h.svg',
+          '../../design/instagram/highlights/cover_ia.svg',
+          '../../design/instagram/highlights/cover_marketing.svg'
+        ]
+      },
+      linkedin: {
+        title: 'LinkedIn Ads (1200×627)',
+        files: [
+          '../../ads/linkedin/ad_curso_ia_1200x627_urgency.svg',
+          '../../ads/linkedin/ad_saas_ia_marketing_1200x627_social_proof.svg',
+          '../../ads/linkedin/ad_ia_bulk_1200x627_urgency.svg'
+        ]
+      },
+      webinars: {
+        title: 'Webinar Prerolls',
+        files: [
+          '../../../../webinar-preroll-speaker-focused.svg',
+          '../../../../webinar-preroll-social-proof.svg',
+          '../../../../webinar-preroll-benefits-focused.svg',
+          '../../../../webinar-preroll-center-card.svg',
+          '../../../../webinar-preroll-elegant.svg',
+          '../../../../webinar-preroll-numbers.svg',
+          '../../../../webinar-preroll-video-thumbnail.svg'
+        ]
+      },
+      webinarsSquare: {
+        title: 'Webinar Square (1080×1080)',
+        files: [
+          '../../../../webinar-square-1080x1080-light.svg',
+          '../../../../webinar-square-1080x1080-dark.svg',
+          '../../../../webinar-square-1080x1080-benefits.svg',
+          '../../../../webinar-square-1080x1080-social-proof.svg'
+        ]
+      },
+      linkedinVertical: {
+        title: 'LinkedIn Vertical (1080×1920)',
+        files: [
+          '../../ads/linkedin/ad_curso_ia_1080x1920.svg',
+          '../../ads/linkedin/ad_saas_ia_marketing_1080x1920.svg',
+          '../../ads/linkedin/ad_ia_bulk_1080x1920.svg'
+        ]
+      }
+    };
+
+    function renderCategory(key, cat) {
+      const section = document.createElement('section');
+      section.className = 'category';
+      section.id = `cat-${key}`;
+      
+      const title = document.createElement('h2');
+      title.className = 'category-title';
+      title.textContent = cat.title;
+      section.appendChild(title);
+      
+      const grid = document.createElement('div');
+      grid.className = 'grid';
+      
+      cat.files.forEach(src => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        const img = document.createElement('img');
+        img.loading = 'lazy';
+        img.className = 'thumb';
+        
+        // Try PNG first (if exported), fallback to SVG
+        const png1x = src.replace('design/instagram/', 'png/1x/').replace('.svg', '.png');
+        const png2x = src.replace('design/instagram/', 'png/2x/').replace('.svg', '@2x.png');
+        
+        img.src = src;
+        img.onerror = function() {
+          // Try PNG 1x as fallback
+          this.src = png1x;
+          this.onerror = function() {
+            card.style.display = 'none';
+          };
+        };
+        
+        const cap = document.createElement('div');
+        cap.className = 'title';
+        cap.textContent = src.split('/').pop();
+        
+        const badge = document.createElement('span');
+        badge.className = 'badge';
+        badge.textContent = 'SVG';
+        
+        // Check if PNG exists
+        fetch(png1x, { method: 'HEAD' })
+          .then(res => {
+            if (res.ok) {
+              badge.textContent = 'PNG';
+              badge.classList.add('png');
+            }
+          })
+          .catch(() => {});
+        
+        cap.appendChild(badge);
+        
+        // Add stats
+        const stats = document.createElement('div');
+        stats.className = 'stats';
+        const fileName = src.split('/').pop();
+        if (fileName.includes('1200x627') || fileName.includes('1200×627')) {
+          stats.textContent = '1200×627 (LinkedIn)';
+        } else if (fileName.includes('1080x1350')) {
+          stats.textContent = '1080×1350 (4:5)';
+        } else if (fileName.includes('1080x1920') || fileName.includes('story') || fileName.includes('reel')) {
+          stats.textContent = '1080×1920 (9:16)';
+        } else {
+          stats.textContent = '1080×1080 (1:1)';
+        }
+        cap.appendChild(stats);
+        card.appendChild(img);
+        card.appendChild(cap);
+        grid.appendChild(card);
+      });
+      
+      section.appendChild(grid);
+      return section;
+    }
+
+    function init() {
+      const container = document.querySelector('#container');
+      const filterDiv = document.createElement('div');
+      filterDiv.className = 'filters';
+      
+      const allBtn = document.createElement('button');
+      allBtn.className = 'filter-btn active';
+      allBtn.textContent = 'Todos';
+      allBtn.onclick = () => {
+        document.querySelectorAll('.category').forEach(el => el.classList.remove('hidden'));
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        allBtn.classList.add('active');
+      };
+      filterDiv.appendChild(allBtn);
+      
+      Object.keys(categories).forEach(key => {
+        const btn = document.createElement('button');
+        btn.className = 'filter-btn';
+        btn.textContent = categories[key].title;
+        btn.onclick = () => {
+          document.querySelectorAll('.category').forEach(el => el.classList.add('hidden'));
+          document.getElementById(`cat-${key}`).classList.remove('hidden');
+          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        };
+        filterDiv.appendChild(btn);
+        container.appendChild(renderCategory(key, categories[key]));
+      });
+      
+      document.querySelector('h1').after(filterDiv);
+    }
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+  </head>
+<body>
+  <h1>Preview 35% OFF</h1>
+  <div id="container"></div>
+</body>
+</html>
+
+
+

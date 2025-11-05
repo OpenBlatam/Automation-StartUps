@@ -1,3 +1,11 @@
+---
+title: "Copycar Ai Go To Market Strategy"
+category: "Marketing"
+tags: ["business", "marketing", "strategy"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Copycar_ai_investor_package/copycar_ai_go_to_market_strategy.md"
+---
+
 # 🚀 COPYCAR.AI GO-TO-MARKET STRATEGY
 ## Estrategia de Lanzamiento al Mercado CopyCar.ai
 

@@ -1,3 +1,11 @@
+---
+title: "Readme"
+category: "01_webinar_campaign"
+tags: ["ai", "artificial-intelligence"]
+created: "2025-10-29"
+path: "01_webinar_campaign/Copy_paste_ready/readme.md"
+---
+
 # 📋 COPY PASTE READY - KIT COMPLETO
 ## *500+ Elementos Listos para Copiar y Pegar*
 

@@ -1,0 +1,231 @@
+{
+  "summary": {
+    "scanned": 36,
+    "missing_frontmatter": 1,
+    "with_missing_fields": 1,
+    "with_date_errors": 0
+  },
+  "results": [
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/CHANGELOG_SGCI.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/10_Formulario_Cambio_SOP.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/30_Rol_Ops.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/00_README_SGCI.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/02_Guia_Actualizacion_SOPs.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/11_Dashboard_Metricas_KM_Template.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/08_Convenciones_Nombrado_Rutas.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/29_SLA_Exceptions_Policy.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/27_Calendario_Gobernanza_KM.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/24_Politica_Retencion_Archivado.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/23_Matriz_Permisos_Acceso.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/32_Rol_Tech.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/07_Taxonomia_Metadatos_SGCI.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/06_Charter_Gobernanza_SGCI.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/05_Templates_SGCI.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/20_Plan_Muestreo_Auditoria.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/31_Rol_CS.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/18_OKRs_KM.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/03_Programa_Onboarding_Equipo.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/09_Guia_Busqueda_Uso_Conocimiento.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/00_MANUAL_MAESTRO_SGCI.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/22_Incident_RCA_SOP_Link.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/12_Guia_Contribucion_Revision.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/13_Matriz_RACI_Template.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/11_Dashboard_Metricas_KM_Generado.md",
+      "has_frontmatter": false,
+      "missing_fields": [
+        "title",
+        "artifact_type",
+        "owner",
+        "version"
+      ],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/19_Programa_Adopcion_Champions.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/25_Reporte_Trimestral_KM_Template.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/26_Microtraining_Template.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/21_Config_SOP_Linter.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/16_Indice_por_Codigo.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/17_Backlog_Deuda_SOPs.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/14_FAQ_SGCI.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/15_Quick_Start_SGCI.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/28_Risk_Register_KM.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/04_Sistema_Auditoria_Interna_KM.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    },
+    {
+      "file": "/Users/adan/Documents/documentos_blatam/06_Documentation/00_Sistema_Gestion_Conocimiento_Interno/01_Guia_Documentacion_Procesos.md",
+      "has_frontmatter": true,
+      "missing_fields": [],
+      "date_errors": []
+    }
+  ]
+}

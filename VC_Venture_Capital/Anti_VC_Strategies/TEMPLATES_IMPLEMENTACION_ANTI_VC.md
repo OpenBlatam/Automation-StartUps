@@ -1,3 +1,11 @@
+---
+title: "Templates Implementacion Anti Vc"
+category: "Vc_venture_capital"
+tags: ["template"]
+created: "2025-10-29"
+path: "Vc_venture_capital/Anti_vc_strategies/templates_implementacion_anti_vc.md"
+---
+
 # 📋 Templates de Implementación Anti-VC Dependencia
 
 ## 📋 Resumen Ejecutivo

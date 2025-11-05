@@ -1,3 +1,11 @@
+---
+title: "Predictive Analytics Engine"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Analytics_marketing/predictive_analytics_engine.md"
+---
+
 # PREDICTIVE ANALYTICS ENGINE
 ## Motor de Analytics Predictivo para Pitches
 

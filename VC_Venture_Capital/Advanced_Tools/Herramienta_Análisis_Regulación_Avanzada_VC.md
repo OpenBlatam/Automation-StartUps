@@ -1,3 +1,11 @@
+---
+title: "Herramienta Análisis Regulación Avanzada Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Advanced_tools/herramienta_análisis_regulación_avanzada_vc.md"
+---
+
 # Herramienta de Análisis de Regulación Avanzada VC
 
 ## Descripción

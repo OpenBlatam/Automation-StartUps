@@ -1,0 +1,20 @@
+variable,valor,descripcion
+T,100000,Tráfico mensual (sesiones)
+CR0,0.015,Tasa de conversión base
+AOV,45,Ticket promedio
+GM,0.60, Margen bruto
+COV,0.40, Cobertura de recomendaciones
+ΔCR,0.12, Uplift en conversión
+ΔAOV,0.04, Uplift en AOV
+COST,1500,Costo mensual de la solución
+CAPEX,3000,Costo de implementación
+, , 
+metrica,formula,resultado
+Conversiones base,=T*CR0,
+Conversiones con recs,=T*COV*(CR0*(1+ΔCR))+T*(1-COV)*CR0,
+Ingreso base,=Conversiones base*AOV,
+Ingreso con recs,=Conversiones con recs*(AOV*(1+ΔAOV)),
+Ingreso incremental,=Ingreso con recs-Ingreso base,
+Margen incremental,=Ingreso incremental*GM,
+ROI mensual,=(Margen incremental-COST)/COST,
+Payback meses,=CAPEX/MAX(Margen incremental-COST,1),

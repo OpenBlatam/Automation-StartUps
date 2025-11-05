@@ -1,3 +1,11 @@
+---
+title: "Neural Marketing Masterclass Series"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/Ai_marketing_courses/01_ai_marketing/neural_marketing_masterclass_series.md"
+---
+
 # 🎓 Neural Marketing Consciousness System - Masterclass Series
 
 ## 📋 Overview

@@ -1,3 +1,11 @@
+---
+title: "Herramientas Frameworks Anti Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Anti_vc_strategies/herramientas_frameworks_anti_vc.md"
+---
+
 # 🔧 **HERRAMIENTAS Y FRAMEWORKS ANTI-DEPENDENCIA VC**
 
 ## **STACK COMPLETO DE HERRAMIENTAS PARA STARTUPS LATAM**

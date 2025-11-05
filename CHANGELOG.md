@@ -1,99 +1,98 @@
-# Changelog - CFDI 4.0 IA 2025
-
-Todos los cambios notables de este proyecto serán documentados en este archivo.
-
-El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
-y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
-
-## [Unreleased]
-
-### Added
-- Documentación completa de API
-- Tests unitarios para API y Validador
-- Docker y docker-compose configurados
-- CI/CD con GitHub Actions
-- Configuración de Jest para testing
-- ESLint y Prettier configurados
-- Makefile con comandos comunes
-- Scripts de generación de documentación
-
-### Changed
-- Mejorada estructura del proyecto
-- Actualizado package.json con scripts adicionales
-- Mejorada configuración de variables de entorno
-
-### Fixed
-- Corrección en exportación de módulos
-
-## [3.0.0] - 2025-01-16
-
-### Added
-- Sistema completo de facturación electrónica CFDI 4.0
-- Integración con Inteligencia Artificial
-- API REST completa con Express
-- Validador avanzado de CFDI
-- Sistema de automatización con IA
-- Integración con ERPs (SAP, Oracle, Salesforce, etc.)
-- Autenticación JWT
-- Rate limiting y seguridad avanzada
-- Dashboard en tiempo real
-- Exportación/Importación masiva
-- Validación según SAT
-- Predicción de errores
-- Optimización automática
-- Generación automática de CFDI
-- Catálogos SAT actualizados
-- Sistema de templates
-- Estadísticas y métricas
-- Logs estructurados
-
-### Changed
-- Migración a CFDI 4.0 (SAT)
-- Actualización de catálogos fiscales
-- Mejora en validaciones
-- Optimización de performance
-
-### Fixed
-- Corrección de bugs en validación
-- Mejora en manejo de errores
-- Corrección de seguridad
-
-## [2.0.0] - 2024-12-15
-
-### Added
-- Migración inicial a Node.js
-- API REST básica
-- Validador básico
-- Integración con SAT
-
-### Changed
-- Refactorización completa del código
-- Migración de tecnologías legacy
-
-### Fixed
-- Múltiples correcciones de bugs
-
-## [1.0.0] - 2024-11-01
-
-### Added
-- Lanzamiento inicial
-- Funcionalidades básicas de facturación
-- Integración con SAT básica
-
+---
+title: "Changelog"
+category: "changelog.md"
+tags: []
+created: "2025-10-29"
+path: "changelog.md"
 ---
 
-## Tipos de Cambios
+# Changelog
 
-- `Added` - Nueva funcionalidad
-- `Changed` - Cambios en funcionalidad existente
-- `Deprecated` - Funcionalidad obsoleta
-- `Removed` - Funcionalidad eliminada
-- `Fixed` - Corrección de bugs
-- `Security` - Vulnerabilidades de seguridad
+Todos los cambios notables en el proyecto serán documentados aquí.
 
-## Convenciones
+## [Mejoras Recientes] - 2024-10-29
 
-- Versión: `MAJOR.MINOR.PATCH`
-- MAJOR: Cambios incompatibles
-- MINOR: Nuevas funcionalidades compatibles
-- PATCH: Correcciones de bugs compatibles
+### Agregado
+- **Sistema de Configuración Centralizada** (`config.py`)
+  - Configuraciones separadas para development, production y testing
+  - Soporte para variables de entorno
+  - Configuración de logging, caché, rate limiting
+  
+- **Manejo de Errores Mejorado**
+  - Manejadores centralizados de errores HTTP (404, 400, 403, 500, 503)
+  - Respuestas JSON estandarizadas para API
+  - Logging de errores mejorado
+  
+- **Sistema de Logging Avanzado**
+  - Rotación automática de archivos de log
+  - Logs separados para errores
+  - Configuración de nivel de logging por entorno
+  - Logger para requests HTTP
+  
+- **Decoradores Útiles** (`utils/decorators.py`)
+  - `@handle_exceptions` - Manejo automático de excepciones
+  - `@require_json` - Validación de Content-Type JSON
+  - `@validate_json_fields` - Validación de campos requeridos
+  - `@log_request` - Logging automático de requests
+  - `@cache_response` - Cache simple de respuestas
+  - `@timing` - Medición de tiempo de ejecución
+  
+- **Utilidades de Seguridad** (`utils/security.py`)
+  - Sanitización de input
+  - Detección de SQL injection
+  - Generación de tokens CSRF
+  - Hashing de contraseñas
+  - Validación de paths seguros
+  
+- **Utilidades de Validación** (`utils/validators.py`)
+  - Validación de email, teléfono, SKU
+  - Validación de precios y cantidades
+  - Validación de datos de productos
+  
+- **Utilidades de Formateo** (`utils/formatters.py`)
+  - Formateo de moneda, fechas, porcentajes
+  - Formateo de estados de stock y alertas
+  - Truncado de texto inteligente
+  
+- **Scripts de Utilidad**
+  - `init_db.py` - Inicialización de base de datos con datos de ejemplo
+  - `utils/health_check.py` - Verificación de estado del sistema
+  
+- **Documentación Mejorada**
+  - `QUICKSTART.md` - Guía de inicio rápido
+  - README actualizado con todas las nuevas funcionalidades
+
+### Mejorado
+- **Carga de Modelos**: Sistema más robusto con mejor manejo de errores
+- **Configuración de App**: Soporte para múltiples entornos
+- **Logging**: Sistema completo con rotación de archivos
+- **Estructura del Proyecto**: Mejor organización con directorio `utils/`
+
+### Cambios Técnicos
+- Migrado a sistema de configuración basado en clases
+- Agregado soporte para diferentes entornos (dev/prod/test)
+- Mejorado el manejo de importaciones circulares
+- Agregado sistema de logging con rotación automática
+
+### Archivos Nuevos
+- `config.py` - Configuración centralizada
+- `utils/decorators.py` - Decoradores útiles
+- `utils/error_handlers.py` - Manejadores de error
+- `utils/logger_config.py` - Configuración de logging
+- `utils/security.py` - Funciones de seguridad
+- `utils/health_check.py` - Health check del sistema
+- `init_db.py` - Script de inicialización
+- `QUICKSTART.md` - Guía rápida
+- `CHANGELOG.md` - Este archivo
+
+## [Versión Inicial] - 2024-10-28
+
+### Agregado
+- Sistema base de control de inventario
+- Modelos de base de datos (Product, InventoryRecord, Alert, etc.)
+- API REST completa
+- Sistema de alertas automáticas
+- Previsión de demanda
+- Reposición inteligente
+- KPIs y métricas
+- Dashboard interactivo

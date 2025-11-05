@@ -1,3 +1,11 @@
+---
+title: "Plan 30 Dias Tiktok Ia"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Md_files/plan_30_dias_tiktok_ia.md"
+---
+
 # 📅 PLAN DE 30 DÍAS - TIKTOK IA MASTER
 
 ## 🎯 OBJETIVO

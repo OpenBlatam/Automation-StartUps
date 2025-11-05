@@ -1,3 +1,11 @@
+---
+title: "Transcendence Mastery Platform"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Documents/transcendence_mastery_platform.md"
+---
+
 # PLATAFORMA DE MAESTRÍA EN TRASCENDENCIA
 
 ## 🌟 Visión General

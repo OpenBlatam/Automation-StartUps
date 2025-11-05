@@ -1,3 +1,11 @@
+---
+title: "Herramienta Análisis Riesgo Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Financial_models/herramienta_análisis_riesgo_vc.md"
+---
+
 # ⚠️ HERRAMIENTA DE ANÁLISIS DE RIESGO VC
 ## Sistema de Evaluación y Mitigación de Riesgos para SaaS IA Copywriting LATAM
 

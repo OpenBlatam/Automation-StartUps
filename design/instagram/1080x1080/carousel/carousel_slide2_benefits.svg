@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 1080 1080" role="img" aria-label="Carrusel Slide 2: Beneficios de la oferta">
+  <title>Carrusel · Slide 2 · Beneficios</title>
+  <desc>Lista breve de beneficios con iconografía simple.</desc>
+  <defs>
+    <linearGradient id="bgGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FF6A00"/>
+      <stop offset="100%" stop-color="#EE0979"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="1080" fill="url(#bgGradient)"/>
+
+  <g transform="translate(980, 60)">
+    <circle r="36" fill="#ffffff"/>
+    <text text-anchor="end" x="-12" y="8" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="18" fill="#EE0979">LOGO</text>
+  </g>
+
+  <g transform="translate(120, 240)">
+    <text x="0" y="0" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="72" font-weight="900" fill="#ffffff">¿Qué ganas?</text>
+  </g>
+
+  <g transform="translate(120, 360)" fill="#fff" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="40">
+    <text x="0" y="0">• Clases/soporte en vivo o automatización con IA.</text>
+    <text x="0" y="64">• Ahorro de tiempo en tareas repetitivas.</text>
+    <text x="0" y="128">• Resultados más rápidos y medibles.</text>
+    <text x="0" y="192">• Implementación simple, sin fricción.</text>
+  </g>
+</svg>
+
+
+
+
+

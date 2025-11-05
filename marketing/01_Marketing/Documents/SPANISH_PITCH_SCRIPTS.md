@@ -1,3 +1,11 @@
+---
+title: "Spanish Pitch Scripts"
+category: "Marketing"
+tags: ["business", "marketing", "script"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Documents/spanish_pitch_scripts.md"
+---
+
 # 🎯 Scripts de Pitch en Español para AI Marketing SaaS
 ## Guías Específicas para el Mercado Latinoamericano
 

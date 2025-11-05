@@ -1,0 +1,7 @@
+email,first_name,last_name,company,industry,channel,language,dm_variant,lead_score,best_send_hour,primary_objection,timezone
+maria@edu.lat,Maria,Ramos,EdTech LATAM,Education,LinkedIn,es,A,8,10,,America/Bogota
+john@saas.us,John,Smith,SaaSPro,Software,Email,en,C,7,9,competitor,America/New_York
+ana@agencia.br,Ana,Souza,Agencia BR,Services,WhatsApp,pt,B,5,16,,America/Sao_Paulo
+ceo@academy.es,Carlos,Lopez,Academia ES,Education,LinkedIn,es,D,9,11,budget,Europe/Madrid
+cto@beta.io,Emily,Clark,Beta.io,Software,Email,en,A,6,14,,America/Chicago
+ops@serv.pt,Marcos,Almeida,Servicos PT,Services,WhatsApp,pt,C,4,18,timing,Europe/Lisbon

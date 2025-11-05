@@ -1,0 +1,3 @@
+date,sequence_name,step,channel,variant,hypothesis,sample_size,sends,replies,reply_rate,demos,demo_rate,no_shows,no_show_rate,close_won,win_rate,notes,decision
+2025-10-30,book_demo_dm,1,linkedin,A,"Métrica pública + CTA con 2 horarios",100,100,18,0.18,6,0.33,1,0.17,1,0.17,"Buen hook en DM","continuar"
+

@@ -1,3 +1,11 @@
+---
+title: "Ia Next Generation Anti Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Anti_vc_strategies/Technology_strategies/ia_next_generation_anti_vc.md"
+---
+
 # 🤖 **IA NEXT GENERATION ANTI-DEPENDENCIA VC**
 
 ## **INTELIGENCIA ARTIFICIAL DE NUEVA GENERACIÓN PARA STARTUPS SAAS IA LATAM**

@@ -1,3 +1,11 @@
+---
+title: "01 Email Subjects"
+category: "01_webinar_campaign"
+tags: ["ai", "artificial-intelligence"]
+created: "2025-10-29"
+path: "01_webinar_campaign/Copy_paste_ready/01_email_subjects.md"
+---
+
 # 📧 ASUNTOS DE EMAIL - LISTO PARA COPIAR Y PEGAR
 ## *100+ Variantes de Asuntos Neurocientíficos*
 

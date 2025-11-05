@@ -1,0 +1,12 @@
+id,lead_id,fecha,resultado,notas,siguiente_paso
+demo-1,lead-7,2025-11-02T15:00:00Z,realizada,"interes en piloto",enviar_propuesta
+demo-2,lead-10,2025-11-03T12:00:00Z,realizada,"quiere ROI calc",enviar_calculadora
+demo-3,lead-6,2025-11-01T11:00:00Z,no_show,"reagendar",reagendar
+demo-4,lead-2,2025-11-04T10:30:00Z,realizada,"core curso",enviar_checkout
+demo-5,lead-3,2025-11-02T09:00:00Z,realizada,"bulk sandbox → piloto",enviar_propuesta
+demo-6,lead-8,2025-11-06T16:00:00Z,realizada,"curso + HT",agendar_consultoria
+demo-7,lead-1,2025-11-01T14:00:00Z,cancelada,"conflicto horario",reagendar
+demo-8,lead-5,2025-11-05T13:00:00Z,realizada,"dudas técnicas",enviar_faq
+demo-9,lead-9,2025-11-04T17:00:00Z,realizada,"interes moderado",follow_up_7d
+demo-10,lead-4,2025-11-07T12:00:00Z,realizada,"quiere piloto saas",enviar_propuesta
+

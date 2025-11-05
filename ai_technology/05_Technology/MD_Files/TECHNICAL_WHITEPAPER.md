@@ -1,3 +1,11 @@
+---
+title: "Technical Whitepaper"
+category: "Ai_technology"
+tags: ["technical", "technology"]
+created: "2025-10-29"
+path: "Ai_technology/05_technology/Md_files/technical_whitepaper.md"
+---
+
 # 📁 CopyCar.ai - Technical Whitepaper
 
 ## Serie A - $5M | Documento Técnico Completo de la Plataforma

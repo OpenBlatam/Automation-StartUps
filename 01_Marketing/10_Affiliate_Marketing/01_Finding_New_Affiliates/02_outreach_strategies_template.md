@@ -1,3 +1,11 @@
+---
+title: "02 Outreach Strategies Template"
+category: "01_marketing"
+tags: ["business", "marketing", "template"]
+created: "2025-10-29"
+path: "01_marketing/10_affiliate_marketing/01_finding_new_affiliates/02_outreach_strategies_template.md"
+---
+
 # 🚀 Finding New Affiliates - Advanced Outreach Strategies Template
 
 ## Template: AI-Powered Outreach Strategies for AI Course & SaaS Marketing

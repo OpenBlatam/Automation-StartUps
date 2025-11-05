@@ -1,8 +1,13 @@
-# Business Docs
+---
+title: "Readme"
+category: "06_documentation"
+tags: []
+created: "2025-10-29"
+path: "06_documentation/Business_docs/readme.md"
+---
 
-Subcategoría de 06_Documentation
+# Business_Docs
 
-## Archivos:
+## Archivos
+- INDEX.md
 
-- Neural_Consciousness_Business_Case_ROI.md
-- README.md

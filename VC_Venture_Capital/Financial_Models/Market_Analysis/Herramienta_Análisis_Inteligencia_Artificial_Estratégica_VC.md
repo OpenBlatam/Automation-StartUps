@@ -1,3 +1,11 @@
+---
+title: "Herramienta Análisis Inteligencia Artificial Estratégica Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Financial_models/Market_analysis/herramienta_análisis_inteligencia_artificial_estratégica_vc.md"
+---
+
 # 🤖 Herramienta de Análisis de Inteligencia Artificial Estratégica VC
 
 ## 🎯 Objetivo

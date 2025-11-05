@@ -1,3 +1,11 @@
+---
+title: "Platform Guide"
+category: "01_marketing"
+tags: ["business", "guide", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/03_social_media/platform_guide.md"
+---
+
 # 📱 Social Media Platform Guide
 
 ## 🎯 Overview

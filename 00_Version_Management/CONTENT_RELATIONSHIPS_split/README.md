@@ -1,3 +1,11 @@
+---
+title: "Readme"
+category: "00_version_management"
+tags: []
+created: "2025-10-29"
+path: "00_version_management/Content_relationships_split/readme.md"
+---
+
 # 📁 Índice de Archivos Divididos
 
 **Archivo original:** CONTENT_RELATIONSHIPS.md  
@@ -40,7 +48,7 @@
 
 ## 🔗 Navegación
 
-- [Volver al archivo original](../CONTENT_RELATIONSHIPS.md)
+- [Volver al archivo original](00_version_management/Documentation/content_relationships.md)
 - [Ver todos los archivos divididos](./)
 
 ## 📊 Estadísticas

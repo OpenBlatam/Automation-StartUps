@@ -1,3 +1,11 @@
+---
+title: "Herramienta Análisis Go To Market Strategy Vc"
+category: "Vc_venture_capital"
+tags: ["strategy"]
+created: "2025-10-29"
+path: "Vc_venture_capital/Financial_models/herramienta_análisis_go_to_market_strategy_vc.md"
+---
+
 # 🚀 Herramienta de Análisis de Go-to-Market Strategy para VC
 
 ## 📋 Descripción General

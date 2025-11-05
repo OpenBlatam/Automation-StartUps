@@ -1,3 +1,11 @@
+---
+title: "Sistema Completo Negociacion Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Negotiation/sistema_completo_negociacion_vc.md"
+---
+
 # 🚀 CopyCar.ai - Sistema Completo de Negociación VC
 
 ## Integración del VC Negotiation Mastery System con CopyCar.ai

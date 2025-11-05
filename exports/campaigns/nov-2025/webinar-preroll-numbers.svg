@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0C1636"/>
+      <stop offset="100%" stop-color="#142A66"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#20E3B2"/>
+      <stop offset="100%" stop-color="#00A6FB"/>
+    </linearGradient>
+    <filter id="sh" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5"/>
+      <feOffset dx="0" dy="6" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.4"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      @font-face { font-family: Inter; src: local('Inter'), local('Arial'); }
+      .number-big { font: 900 120px/1 Inter, system-ui, -apple-system; fill: url(#accent); letter-spacing: -2px; }
+      .number-label { font: 700 24px/1.3 Inter, system-ui, -apple-system; fill: #CFEFFF; text-transform: uppercase; letter-spacing: 0.1em; }
+      .headline { font: 900 72px/1.1 Inter, system-ui, -apple-system; fill: #FFFFFF; letter-spacing: -1px; }
+      .subhead { font: 600 32px/1.3 Inter, system-ui, -apple-system; fill: #CFEFFF; }
+    </style>
+  </defs>
+  
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  
+  <!-- Elementos decorativos -->
+  <g opacity="0.15">
+    <circle cx="300" cy="250" r="120" fill="#20E3B2"/>
+    <circle cx="1620" cy="830" r="140" fill="#00A6FB"/>
+  </g>
+  
+  <!-- Header -->
+  <g transform="translate(120,80)" filter="url(#sh)">
+    <rect x="0" y="0" width="1240" height="88" rx="14" fill="url(#accent)"/>
+    <text x="30" y="58" fill="#062A2D" font-family="Inter, system-ui, -apple-system" font-size="36" font-weight="900">
+      Webinar gratis: Cómo doblar tus ventas online
+    </text>
+  </g>
+  
+  <!-- Headline -->
+  <text x="160" y="240" class="headline">Resultados medibles en tu funnel</text>
+  <text x="160" y="300" class="subhead">[FECHA] · [HORA] (GMT-5)</text>
+  
+  <!-- Números grandes destacados -->
+  <g transform="translate(160,380)">
+    <g transform="translate(0,0)" filter="url(#sh)">
+      <rect x="0" y="0" width="380" height="280" rx="20" fill="rgba(255,255,255,0.08)" stroke="#20E3B2" stroke-width="2"/>
+      <text x="190" y="120" text-anchor="middle" class="number-big">2x</text>
+      <text x="190" y="200" text-anchor="middle" class="number-label">Ventas</text>
+      <text x="190" y="235" text-anchor="middle" fill="#9FB6FF" font-family="Inter" font-size="20">En promedio</text>
+    </g>
+    
+    <g transform="translate(400,0)" filter="url(#sh)">
+      <rect x="0" y="0" width="380" height="280" rx="20" fill="rgba(255,255,255,0.08)" stroke="#20E3B2" stroke-width="2"/>
+      <text x="190" y="120" text-anchor="middle" class="number-big">-35%</text>
+      <text x="190" y="200" text-anchor="middle" class="number-label">CPA</text>
+      <text x="190" y="235" text-anchor="middle" fill="#9FB6FF" font-family="Inter" font-size="20">Reducción</text>
+    </g>
+    
+    <g transform="translate(800,0)" filter="url(#sh)">
+      <rect x="0" y="0" width="380" height="280" rx="20" fill="rgba(255,255,255,0.08)" stroke="#20E3B2" stroke-width="2"/>
+      <text x="190" y="120" text-anchor="middle" class="number-big">10h</text>
+      <text x="190" y="200" text-anchor="middle" class="number-label">Ahorro</text>
+      <text x="190" y="235" text-anchor="middle" fill="#9FB6FF" font-family="Inter" font-size="20">Por semana</text>
+    </g>
+  </g>
+  
+  <!-- CTA -->
+  <g transform="translate(160,720)" filter="url(#sh)">
+    <rect x="0" y="0" width="540" height="114" rx="16" fill="url(#accent)"/>
+    <text x="270" y="74" text-anchor="middle" fill="#062A2D" font-family="Inter, system-ui, -apple-system" font-size="46" font-weight="900">Únete gratis</text>
+    <path d="M470,57 L490,57 L485,47 L500,57 L485,67 L490,57 Z" fill="#062A2D" opacity="0.8"/>
+  </g>
+  
+  <!-- Badge -->
+  <g transform="translate(1540,140)" filter="url(#sh)">
+    <rect x="0" y="0" width="260" height="64" rx="14" fill="#F59E0B"/>
+    <text x="130" y="42" text-anchor="middle" fill="#0B1229" font-family="Inter" font-size="24" font-weight="900">En vivo + Q&A</text>
+  </g>
+  
+  <!-- Logo + QR -->
+  <g transform="translate(1680,60)">
+    <rect x="0" y="0" width="160" height="60" rx="8" fill="rgba(255,255,255,0.10)"/>
+    <text x="80" y="40" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="20" font-weight="800">TU LOGO</text>
+  </g>
+  <g transform="translate(1620,870)" filter="url(#sh)">
+    <rect x="0" y="0" width="180" height="180" rx="12" fill="rgba(255,255,255,0.08)"/>
+    <text x="90" y="100" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="16" font-weight="700">QR → [URL]</text>
+  </g>
+</svg>
+
+

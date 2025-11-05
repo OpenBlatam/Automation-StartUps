@@ -1,3 +1,11 @@
+---
+title: "Casos Estudio Anti Vc Dependencia Latam"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Anti_vc_strategies/Technology_strategies/casos_estudio_anti_vc_dependencia_latam.md"
+---
+
 # 🏆 **CASOS DE ÉXITO ANTI-DEPENDENCIA VC LATAM**
 
 ## **ESTUDIOS DE CASO REALES DE STARTUPS SAAS IA EN AMÉRICA LATINA**

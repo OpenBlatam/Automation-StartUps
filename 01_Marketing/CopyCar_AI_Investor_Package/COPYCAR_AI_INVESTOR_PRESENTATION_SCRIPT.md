@@ -1,3 +1,11 @@
+---
+title: "Copycar Ai Investor Presentation Script"
+category: "01_marketing"
+tags: ["business", "marketing", "script"]
+created: "2025-10-29"
+path: "01_marketing/Copycar_ai_investor_package/copycar_ai_investor_presentation_script.md"
+---
+
 # 🎬 CopyCar.ai - Script de Presentación para Inversionistas
 
 ## Guión Completo para Demo y Presentación de Serie A

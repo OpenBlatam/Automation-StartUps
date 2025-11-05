@@ -1,3 +1,11 @@
+---
+title: "Pitch Mastery Certification"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Documents/pitch_mastery_certification.md"
+---
+
 # 🏆 Pitch Mastery Certification Program
 ## Comprehensive Training and Certification System
 

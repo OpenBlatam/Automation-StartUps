@@ -1,0 +1,12 @@
+id,lead_id,tipo,due_date,estado,owner
+t-1,lead-2,follow-up,2025-10-31,pendiente,adan
+t-2,lead-7,pre-demo_checklist,2025-11-01,pendiente,adan
+t-3,lead-7,enviar_propuesta,2025-11-02,pendiente,adan
+t-4,lead-8,post-webinar_replay,2025-11-06,pendiente,adan
+t-5,lead-6,sandbox_entrega,2025-10-31,pendiente,adan
+t-6,lead-1,tripwire_cross-sell,2025-11-01,pendiente,adan
+t-7,lead-10,audit_express,2025-10-31,pendiente,adan
+t-8,lead-3,solicitar_plantillas,2025-10-31,pendiente,adan
+t-9,lead-5,invitar_webinar,2025-10-31,pendiente,adan
+t-10,lead-9,dm_warmup,2025-10-31,pendiente,adan
+

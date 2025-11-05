@@ -1,3 +1,11 @@
+---
+title: "Framework Decision Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Financial_models/framework_decision_vc.md"
+---
+
 # 🎯 FRAMEWORK DE TOMA DE DECISIONES VC
 ## Sistema de Evaluación y Decisión para Negociaciones de Inversión
 

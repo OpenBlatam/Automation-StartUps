@@ -1,81 +1,26 @@
-# 💻 Technology - Índice de Documentos
-
-## 📊 **Resumen del Área**
-- **Total de archivos**: 157
-- **Última actualización**: 29 de septiembre de 2024
-- **Área principal**: Sistemas, desarrollo, infraestructura, automatización
-
-## 📁 **Categorías de Documentos**
-
-### 🏗️ **Arquitectura y Sistemas**
-- Guías de arquitectura de sistemas
-- Patrones de diseño
-- Integración de sistemas
-- Escalabilidad y rendimiento
-
-### 🔧 **Desarrollo y Programación**
-- Guías de desarrollo
-- Mejores prácticas de código
-- Frameworks y librerías
-- Testing y QA
-
-### ☁️ **Infraestructura y DevOps**
-- Guías de deployment
-- Configuración de servidores
-- Monitoreo y logging
-- Automatización de procesos
-
-### 🤖 **Automatización e IA**
-- Sistemas de automatización
-- Integración con IA
-- Machine learning
-- Procesamiento de datos
-
-### 🔒 **Seguridad y Compliance**
-- Guías de seguridad
-- Cumplimiento normativo
-- Auditorías de seguridad
-- Gestión de vulnerabilidades
-
-### 📊 **Análisis y Métricas**
-- Herramientas de análisis
-- Dashboards técnicos
-- Métricas de rendimiento
-- Reportes de sistema
-
-## 🚀 **Documentos Destacados**
-
-### 📋 **Guías Principales**
-- `Technical_Implementation_Guide.md` - Guía de implementación técnica
-- `api-documentation.md` - Documentación de APIs
-- `deployment-devops-guide.md` - Guía de DevOps
-
-### 🔧 **Herramientas y Sistemas**
-- `advanced_demo.py` - Demo avanzado
-- `ai_response_engine.py` - Motor de respuestas IA
-- `enterprise-integration-guide.md` - Integración empresarial
-
-### 🏗️ **Arquitectura**
-- `QUANTUM_READY_ARCHITECTURE_GUIDE.md` - Arquitectura cuántica
-- `MODULAR_GUIDE_SYSTEM.md` - Sistema modular
-- `trendscope-saas-platform.md` - Plataforma SaaS
-
-## 📈 **Métricas Técnicas**
-- **Uptime objetivo**: 99.9%
-- **Tiempo de respuesta**: <200ms
-- **Escalabilidad**: 10x crecimiento
-- **Seguridad**: 0 vulnerabilidades críticas
-
-## 🔗 **Enlaces Rápidos**
-- [Guías Técnicas](./Guides/)
-- [Plantillas de Código](./Templates/)
-- [Reportes de Sistema](./Reports/)
-- [Estrategias de Implementación](./Strategies/)
-- [Herramientas de Desarrollo](./Tools/)
-
 ---
-*Última actualización: 29 de septiembre de 2024*
+title: "Index"
+category: "Ai_technology"
+tags: []
+encoded_with: "utf-8"
+created: "2025-10-29"
+path: "Ai_technology/05_technology/Core_files/index.md"
+---
+
+# Índice - Ai_technology/05_technology/Core_files
+
+Generado: 2025-10-29 19:35:20
+
+Breadcrumbs: [Ai_technology](./Ai_technology/) / [05_technology](./Ai_technology/05_technology/) / [Core_files](./Ai_technology/05_technology/Core_files)
 
 
+Resumen: 0 carpetas, 5 archivos
 
 
+## Archivos
+
+- [copycar_ai_investor_market_intelligence_system.md](./copycar_ai_investor_market_intelligence_system.md) — 13.3KB
+- [docker_compose.yml](./docker_compose.yml) — 3.3KB
+- [dockerfile](./dockerfile) — 4.3KB
+- [index.md](./index.md) — 2.3KB
+- [readme.md](./readme.md) — 3.1KB

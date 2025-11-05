@@ -1,3 +1,11 @@
+---
+title: "Herramienta Análisis Innovación Disruptiva Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Financial_models/herramienta_análisis_innovación_disruptiva_vc.md"
+---
+
 # 🚀 Herramienta de Análisis de Innovación Disruptiva VC
 
 ## 🎯 Objetivo

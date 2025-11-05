@@ -1,0 +1,9 @@
+label,description,action
+positive_demo,"Acepta/receptivo para agendar","Proponer 2 horarios y enviar link"
+positive_info,"Pide más info/recurso","Enviar one-pager y CTA suave"
+neutral_redirect,"Deriva a colega","Pedir contacto y contexto breve"
+objection_budget,"Menciona presupuesto","Aplicar respuesta ROI + piloto"
+objection_timing,"No es buen momento","Proponer piloto chico + nueva fecha"
+not_interested,"No interesado","Agradecer y ofrecer recurso de valor"
+no_response,"Sin respuesta tras follow-ups","Entrar a re-engagement 30/60/90"
+

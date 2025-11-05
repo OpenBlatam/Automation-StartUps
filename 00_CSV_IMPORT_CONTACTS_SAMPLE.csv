@@ -1,0 +1,6 @@
+email,first_name,last_name,company,industry,channel,language,dm_variant,lead_score,best_send_hour,primary_objection
+ceo@acme.com,Ana,Perez,Acme,Education,LinkedIn,es,A,8,10,
+marketing@beta.io,Carlos,Ruiz,Beta SaaS,Software,Email,es,C,6,14,competidor
+founder@gamma.co,Lucia,Gomez,Gamma,Training,LinkedIn,en,D,9,9,presupuesto
+ops@delta.ai,Marcos,Lopez,Delta AI,AI,WhatsApp,es,B,4,16,
+

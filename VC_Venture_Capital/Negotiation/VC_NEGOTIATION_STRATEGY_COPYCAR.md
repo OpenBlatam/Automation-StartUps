@@ -1,3 +1,11 @@
+---
+title: "Vc Negotiation Strategy Copycar"
+category: "Vc_venture_capital"
+tags: ["strategy"]
+created: "2025-10-29"
+path: "Vc_venture_capital/Negotiation/vc_negotiation_strategy_copycar.md"
+---
+
 # 🚀 CopyCar.ai - Estrategia de Negociación VC
 
 ## Sistema Avanzado de Negociación para Serie A

@@ -1,0 +1,6 @@
+key,value,description
+timezone,America/Mexico_City,Horario por defecto para CTAs
+send_windows,09:00-11:00;14:00-16:00,Franjas óptimas de envío
+reply_alert_threshold,0.15,Alertar si reply DM < 15% (7d)
+no_show_alert_threshold,0.25,Alertar si no-show > 25% (30d)
+reengagement_days,30;60;90,Disparadores de reactivación

@@ -1,14 +1,10 @@
-# Reports Analytics
+---
+title: "Readme"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Semantic_cluster_cluster_635/readme.md"
+---
 
-Subcategoría de 06_Documentation
+# Semantic_Cluster_cluster_635
 
-## Archivos:
-
-- Executive_Dashboard_Mockups.md
-- Executive_Summary_One_Pager.md
-- Investor_Presentation_Summary.md
-- Investor_Presentation_Summary_Final.md
-- Market_Intelligence_Report.md
-- Module_2_CRM_Data_Integration_Analysis.md
-- README.md
-- organization_report.json

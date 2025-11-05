@@ -1,3 +1,11 @@
+---
+title: "Neural Interface Pitch System"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Neural_marketing/neural_interface_pitch_system.md"
+---
+
 # NEURAL INTERFACE PITCH SYSTEM
 ## Sistema de Pitch con Interfaz Neural
 

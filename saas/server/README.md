@@ -1,3 +1,11 @@
+---
+title: "Readme"
+category: "Saas"
+tags: []
+created: "2025-10-29"
+path: "Saas/Server/readme.md"
+---
+
 # AI Marketing Feedback System
 
 Sistema avanzado de integración de feedback de clientes para plataformas de marketing con IA en América Latina.

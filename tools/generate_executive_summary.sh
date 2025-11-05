@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+# Genera un resumen ejecutivo completo de todos los assets del proyecto
+
+ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+OUTPUT="$ROOT_DIR/EXECUTIVE_SUMMARY.md"
+DATE=$(date +%Y-%m-%d)
+
+{
+  echo "# Resumen Ejecutivo - Campaña 35% OFF"
+  echo ""
+  echo "**Fecha de generación**: $DATE"
+  echo ""
+  echo "## 📊 Estadísticas Generales"
+  echo ""
+  echo "### Assets Totales"
+  
+  INSTAGRAM_COUNT=$(find "$ROOT_DIR/design/instagram" -name "*.svg" 2>/dev/null | wc -l | xargs)
+  LINKEDIN_COUNT=$(find "$ROOT_DIR/ads/linkedin" -name "*.svg" 2>/dev/null | wc -l | xargs)
+  WEBINAR_COUNT=$(find "$ROOT_DIR" -maxdepth 1 -name "webinar-*.svg" 2>/dev/null | wc -l | xargs)
+  TOTAL=$((INSTAGRAM_COUNT + LINKEDIN_COUNT + WEBINAR_COUNT))
+  
+  echo "- **Instagram**: $INSTAGRAM_COUNT archivos SVG"
+  echo "- **LinkedIn**: $LINKEDIN_COUNT archivos SVG"
+  echo "- **Webinars**: $WEBINAR_COUNT archivos SVG"
+  echo "- **Total**: $TOTAL archivos SVG"
+  echo ""
+  echo "### Formatos Cubiertos"
+  echo "- Instagram Feed: 1080×1080"
+  echo "- Instagram Stories: 1080×1920"
+  echo "- Instagram Ads: 1080×1350 (4:5)"
+  echo "- LinkedIn Ads: 1200×627"
+  echo "- Webinar Prerolls: Múltiples formatos"
+  echo ""
+  echo "## 🎯 Productos/Servicios Cubiertos"
+  echo ""
+  echo "1. **Curso de IA + Webinars**"
+  echo "2. **SaaS de IA para Marketing**"
+  echo "3. **IA Bulk**"
+  echo ""
+  echo "## 📱 Plataformas"
+  echo ""
+  echo "### Instagram"
+  echo "✅ Feed principal"
+  echo "✅ Stories"
+  echo "✅ Reels (portadas)"
+  echo "✅ Carrusel"
+  echo "✅ Highlights"
+  echo "✅ Ads Manager"
+  echo ""
+  echo "### LinkedIn"
+  echo "✅ Sponsored Content"
+  echo "✅ Carousel Ads"
+  echo "✅ Múltiples variantes"
+  echo ""
+  echo "### Webinars"
+  echo "✅ Prerolls"
+  echo "✅ Thumbnails"
+  echo "✅ Square format"
+  echo ""
+  echo "## 🔧 Automatización Disponible"
+  echo ""
+  echo "- ✅ Reemplazo masivo de tokens"
+  echo "- ✅ Aplicación de tema de marca"
+  echo "- ✅ Generación de QR"
+  echo "- ✅ Export PNG 1x/2x"
+  echo "- ✅ Optimización SVG"
+  echo "- ✅ Sincronización multi-plataforma"
+  echo "- ✅ Generación de variantes"
+  echo "- ✅ UTMs por mercado"
+  echo ""
+  echo "## 📈 Próximos Pasos Recomendados"
+  echo ""
+  echo "1. Configurar tokens en \`design/instagram/tokens.json\`"
+  echo "2. Aplicar tema de marca"
+  echo "3. Reemplazar placeholders de logo"
+  echo "4. Ejecutar build completo: \`bash tools/build_all_platforms.sh\`"
+  echo "5. Revisar QA checklist antes de publicar"
+  echo ""
+  echo "---"
+  echo ""
+  echo "*Generado automáticamente por el sistema de assets*"
+} > "$OUTPUT"
+
+echo "✅ Resumen ejecutivo generado: $OUTPUT"
+
+
+

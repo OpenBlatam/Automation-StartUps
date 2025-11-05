@@ -1,0 +1,12 @@
+{
+  "name": "CI/CD Profile",
+  "description": "Perfil estricto para integración continua",
+  "min_health_score": 80,
+  "max_dom_nodes": 400,
+  "max_filters": 3,
+  "max_gradients": 8,
+  "palette_strict": true,
+  "fail_on_error": true,
+  "fail_on_warn": true
+}
+

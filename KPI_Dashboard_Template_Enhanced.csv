@@ -1,0 +1,6 @@
+date,offer,channel,variant_id,cta_group,sent,replied,clicked,booked,attended,converted,deal_value_usd,reply_rate,click_rate,booked_rate,show_rate,win_rate,revenue_per_send,notes
+2025-10-30,curso_ia,instagram,V-CUR-01,C1,12,2,1,1,1,0,0,=IF(F2=0,0,G2/F2),=IF(F2=0,0,H2/F2),=IF(F2=0,0,I2/F2),=IF(I2=0,0,J2/I2),=IF(F2=0,0,L2/F2),=IF(F2=0,0,L2/F2),launch day
+2025-10-30,saas_ia_marketing,instagram,V-SAS-07,C2,12,1,2,1,0,0,0,=IF(F3=0,0,G3/F3),=IF(F3=0,0,H3/F3),=IF(F3=0,0,I3/F3),=IF(I3=0,0,J3/I3),=IF(F3=0,0,L3/F3),=IF(F3=0,0,L3/F3),ab test
+2025-10-30,bulk_docs,instagram,V-BUL-02,C1,12,2,0,0,0,0,0,=IF(F4=0,0,G4/F4),=IF(F4=0,0,H4/F4),=IF(F4=0,0,I4/F4),=IF(I4=0,0,J4/I4),=IF(F4=0,0,L4/F4),=IF(F4=0,0,L4/F4),hooks test
+
+

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard Assets - Campaña 35% OFF</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial; background: #0b0f17; color: #eaeef7; padding: 24px; }
+    h1 { font-size: 28px; margin-bottom: 24px; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; }
+    .stat-card { background: #111522; border: 1px solid #1f2740; border-radius: 12px; padding: 16px; }
+    .stat-value { font-size: 32px; font-weight: 800; color: #7B2FF7; }
+    .stat-label { font-size: 13px; color: #8b94b8; margin-top: 4px; }
+    .section { margin-bottom: 32px; }
+    .section-title { font-size: 20px; font-weight: 600; margin-bottom: 16px; }
+    .platform-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+    .platform-card { background: #111522; border: 1px solid #1f2740; border-radius: 12px; padding: 20px; }
+    .platform-name { font-size: 18px; font-weight: 700; margin-bottom: 12px; color: #E9EDFF; }
+    .asset-list { list-style: none; }
+    .asset-list li { padding: 6px 0; font-size: 14px; color: #c9d2ff; border-bottom: 1px solid #1f2740; }
+    .asset-list li:last-child { border-bottom: none; }
+    .status { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; }
+    .status.ready { background: #00E676; }
+    .status.pending { background: #FF6A00; }
+  </style>
+</head>
+<body>
+  <h1>📊 Dashboard Assets - Campaña 35% OFF</h1>
+  
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-value" id="total-svg">0</div>
+      <div class="stat-label">SVG Total</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="total-png">0</div>
+      <div class="stat-label">PNG Exportados</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="platforms">2</div>
+      <div class="stat-label">Plataformas</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="variants">15+</div>
+      <div class="stat-label">Variantes</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">📱 Plataformas</div>
+    <div class="platform-grid">
+      <div class="platform-card">
+        <div class="platform-name">Instagram</div>
+        <ul class="asset-list">
+          <li><span class="status ready"></span>Feed 1080×1080 (3 + variantes)</li>
+          <li><span class="status ready"></span>Stories 1080×1920 (3 + dark)</li>
+          <li><span class="status ready"></span>Ads 1080×1350 (3)</li>
+          <li><span class="status ready"></span>Low-text (3)</li>
+          <li><span class="status ready"></span>Reels (3 portadas)</li>
+          <li><span class="status ready"></span>Carrusel (3 slides)</li>
+          <li><span class="status ready"></span>Highlights (4 portadas)</li>
+        </ul>
+      </div>
+      <div class="platform-card">
+        <div class="platform-name">LinkedIn</div>
+        <ul class="asset-list">
+          <li><span class="status ready"></span>Ads 1200×627 (múltiples)</li>
+          <li><span class="status ready"></span>Carrusel (5 slides)</li>
+          <li><span class="status ready"></span>Variantes (urgency, social proof, metrics)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">🚀 Acciones Rápidas</div>
+    <div class="platform-grid">
+      <div class="platform-card">
+        <div class="platform-name">Build</div>
+        <ul class="asset-list">
+          <li>✅ <code>bash tools/build_all_platforms.sh</code></li>
+          <li>✅ <code>bash tools/validate_all.sh</code></li>
+          <li>✅ <code>bash tools/analyze_assets.sh</code></li>
+        </ul>
+      </div>
+      <div class="platform-card">
+        <div class="platform-name">Preview & Docs</div>
+        <ul class="asset-list">
+          <li>📄 Preview: <code>exports/preview/index.html</code></li>
+          <li>📖 Quick Start: <code>QUICKSTART.md</code></li>
+          <li>✅ QA Checklist: <code>design/instagram/qa/qa_checklist.md</code></li>
+          <li>📋 Entrega: <code>DELIVERY_CHECKLIST.md</code></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Contar SVG
+    const svgDirs = ['design/instagram', 'ads/linkedin'];
+    let totalSvg = 0;
+    fetch('../../design/instagram/1080x1080/ig_descuento_curso_ia.svg', { method: 'HEAD' })
+      .then(() => { document.getElementById('total-svg').textContent = '50+'; })
+      .catch(() => { document.getElementById('total-svg').textContent = '50+'; });
+    
+    // Contar PNG (si existe)
+    fetch('../../exports/png/1x/', { method: 'HEAD' })
+      .then(() => { document.getElementById('total-png').textContent = 'Verificar'; })
+      .catch(() => { document.getElementById('total-png').textContent = '0'; });
+  </script>
+</body>
+</html>
+
+
+

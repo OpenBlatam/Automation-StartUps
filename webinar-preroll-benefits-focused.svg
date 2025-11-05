@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#071A14"/>
+      <stop offset="100%" stop-color="#0E2A1F"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#34D399"/>
+      <stop offset="100%" stop-color="#10B981"/>
+    </linearGradient>
+    <filter id="sh" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="0" dy="4" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      @font-face { font-family: Inter; src: local('Inter'), local('Arial'); }
+      .benefit-title { font: 800 28px/1.2 Inter, system-ui, -apple-system; fill: #EFFFF8; }
+      .benefit-desc { font: 500 20px/1.4 Inter, system-ui, -apple-system; fill: #B7F5E0; }
+      .benefit-sub { font: 400 18px/1.4 Inter, system-ui, -apple-system; fill: #9FF5EA; }
+    </style>
+  </defs>
+  
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  
+  <!-- Header -->
+  <g transform="translate(120,80)" filter="url(#sh)">
+    <rect x="0" y="0" width="1240" height="88" rx="14" fill="url(#accent)"/>
+    <text x="30" y="58" fill="#062A2D" font-family="Inter, system-ui, -apple-system" font-size="36" font-weight="900">
+      Webinar gratis: Cómo doblar tus ventas online
+    </text>
+  </g>
+  
+  <!-- Headline -->
+  <text x="160" y="240" fill="#EFFFF8" font-family="Inter, system-ui, -apple-system" font-size="78" font-weight="900" letter-spacing="-0.5">
+    Lo que aprenderás:
+  </text>
+  
+  <!-- Benefits destacados -->
+  <g transform="translate(160,300)">
+    <g transform="translate(0,0)" filter="url(#sh)">
+      <rect x="0" y="0" width="500" height="160" rx="20" fill="rgba(255,255,255,0.08)" stroke="#34D399" stroke-width="2"/>
+      <circle cx="40" cy="80" r="24" fill="#34D399" opacity="0.2"/>
+      <circle cx="40" cy="80" r="14" fill="#34D399"/>
+      <circle cx="40" cy="80" r="6" fill="#FFFFFF"/>
+      <text x="80" y="50" class="benefit-title">Prompts que reducen CPA</text>
+      <text x="80" y="85" class="benefit-desc">Estrategias probadas para bajar costos</text>
+      <text x="80" y="115" class="benefit-sub">Ejemplos reales + plantillas</text>
+    </g>
+    
+    <g transform="translate(540,0)" filter="url(#sh)">
+      <rect x="0" y="0" width="500" height="160" rx="20" fill="rgba(255,255,255,0.08)" stroke="#34D399" stroke-width="2"/>
+      <circle cx="40" cy="80" r="24" fill="#34D399" opacity="0.2"/>
+      <circle cx="40" cy="80" r="14" fill="#34D399"/>
+      <circle cx="40" cy="80" r="6" fill="#FFFFFF"/>
+      <text x="80" y="50" class="benefit-title">Creatividades con IA</text>
+      <text x="80" y="85" class="benefit-desc">Genera variaciones en minutos</text>
+      <text x="80" y="115" class="benefit-sub">Sin habilidades de diseño</text>
+    </g>
+    
+    <g transform="translate(1080,0)" filter="url(#sh)">
+      <rect x="0" y="0" width="500" height="160" rx="20" fill="rgba(255,255,255,0.08)" stroke="#34D399" stroke-width="2"/>
+      <circle cx="40" cy="80" r="24" fill="#34D399" opacity="0.2"/>
+      <circle cx="40" cy="80" r="14" fill="#34D399"/>
+      <circle cx="40" cy="80" r="6" fill="#FFFFFF"/>
+      <text x="80" y="50" class="benefit-title">Automatizaciones</text>
+      <text x="80" y="85" class="benefit-desc">CRM y workflows sin código</text>
+      <text x="80" y="115" class="benefit-sub">Setup en 1 hora</text>
+    </g>
+  </g>
+  
+  <!-- Chips fecha/hora -->
+  <g transform="translate(160,500)">
+    <rect x="0" y="-42" width="420" height="84" rx="12" fill="#0D2A20" stroke="#34D399" stroke-width="2"/>
+    <text x="210" y="12" text-anchor="middle" fill="#DFF7C7" font-family="Inter, system-ui, -apple-system" font-size="30" font-weight="800">15 Nov 2025</text>
+    <rect x="440" y="-42" width="380" height="84" rx="12" fill="#0D2A20" stroke="#34D399" stroke-width="2"/>
+    <text x="630" y="12" text-anchor="middle" fill="#DFF7C7" font-family="Inter, system-ui, -apple-system" font-size="30" font-weight="800">18:00 (GMT-5)</text>
+  </g>
+  
+  <!-- CTA -->
+  <g transform="translate(160,590)" filter="url(#sh)">
+    <rect x="0" y="0" width="540" height="114" rx="16" fill="url(#accent)"/>
+    <text x="270" y="74" text-anchor="middle" fill="#062A2D" font-family="Inter, system-ui, -apple-system" font-size="46" font-weight="900">Reserva tu plaza</text>
+    <path d="M470,57 L490,57 L485,47 L500,57 L485,67 L490,57 Z" fill="#062A2D" opacity="0.8"/>
+  </g>
+  
+  <!-- Bonus -->
+  <g transform="translate(160,740)">
+    <rect x="0" y="0" width="720" height="80" rx="12" fill="rgba(52,211,153,0.15)" stroke="#34D399" stroke-width="2"/>
+    <text x="30" y="35" fill="#EFFFF8" font-family="Inter, system-ui, -apple-system" font-size="24" font-weight="700">🎁 Bonus:</text>
+    <text x="30" y="62" fill="#B7F5E0" font-family="Inter, system-ui, -apple-system" font-size="22">Plantillas descargables + acceso a comunidad privada</text>
+  </g>
+  
+  <!-- Logo + QR -->
+  <g transform="translate(1680,60)">
+    <rect x="0" y="0" width="160" height="60" rx="8" fill="rgba(255,255,255,0.10)" stroke="rgba(255,255,255,0.20)"/>
+    <text x="80" y="40" text-anchor="middle" fill="#EFFFF8" font-family="Inter, system-ui, -apple-system" font-size="20" font-weight="800">TU MARCA</text>
+  </g>
+  <g transform="translate(1620,870)" filter="url(#sh)">
+    <rect x="0" y="0" width="180" height="180" rx="12" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)"/>
+    <text x="90" y="100" text-anchor="middle" fill="#EFFFF8" font-family="Inter, system-ui, -apple-system" font-size="16" font-weight="700">QR → https://tu-dominio.com/webinar?utm_source=youtube&utm_medium=preroll&utm_campaign=nov_2025&utm_content=all_variants</text>
+  </g>
+</svg>
+

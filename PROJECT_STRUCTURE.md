@@ -1,3 +1,11 @@
+---
+title: "Project Structure"
+category: "project_structure.md"
+tags: []
+created: "2025-10-29"
+path: "project_structure.md"
+---
+
 # 📁 Estructura del Proyecto - CFDI 4.0 IA 2025
 
 ```

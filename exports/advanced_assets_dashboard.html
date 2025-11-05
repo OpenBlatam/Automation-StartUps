@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Advanced Assets Analytics Dashboard</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background: linear-gradient(135deg, #0b0f17 0%, #1a1f2e 100%);
+      color: #eaeef7;
+      padding: 24px;
+      min-height: 100vh;
+    }
+    h1 { font-size: 32px; margin-bottom: 8px; background: linear-gradient(135deg, #7B2FF7, #1E90FF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .subtitle { color: #8b94b8; margin-bottom: 32px; }
+    .stats-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+      gap: 16px; 
+      margin-bottom: 32px; 
+    }
+    .stat-card { 
+      background: rgba(17, 21, 34, 0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(31, 39, 64, 0.8);
+      border-radius: 16px; 
+      padding: 20px;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .stat-card:hover {
+      transform: translateY(-2px);
+      border-color: #7B2FF7;
+    }
+    .stat-value { 
+      font-size: 36px; 
+      font-weight: 800; 
+      background: linear-gradient(135deg, #7B2FF7, #1E90FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 4px;
+    }
+    .stat-label { font-size: 13px; color: #8b94b8; text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat-change { font-size: 12px; margin-top: 4px; }
+    .stat-change.positive { color: #00E676; }
+    .stat-change.negative { color: #FF6A00; }
+    .section { 
+      background: rgba(17, 21, 34, 0.6);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(31, 39, 64, 0.8);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .section-title { 
+      font-size: 20px; 
+      font-weight: 700; 
+      margin-bottom: 16px;
+      color: #E9EDFF;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .chart-container {
+      background: rgba(11, 15, 23, 0.5);
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 16px;
+      min-height: 200px;
+    }
+    .category-bar {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      gap: 12px;
+    }
+    .category-name {
+      min-width: 150px;
+      font-size: 14px;
+      color: #c9d2ff;
+    }
+    .bar {
+      flex: 1;
+      height: 24px;
+      background: rgba(123, 47, 247, 0.2);
+      border-radius: 6px;
+      overflow: hidden;
+      position: relative;
+    }
+    .bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #7B2FF7, #1E90FF);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #fff;
+      transition: width 0.5s ease;
+    }
+    .insights-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .insight-card {
+      background: rgba(11, 15, 23, 0.5);
+      border: 1px solid rgba(123, 47, 247, 0.3);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .insight-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #7B2FF7;
+      margin-bottom: 8px;
+    }
+    .insight-list {
+      list-style: none;
+      font-size: 13px;
+      color: #c9d2ff;
+    }
+    .insight-list li {
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(31, 39, 64, 0.5);
+    }
+    .insight-list li:last-child {
+      border-bottom: none;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+    .badge.warning { background: rgba(255, 106, 0, 0.2); color: #FF6A00; }
+    .badge.success { background: rgba(0, 230, 118, 0.2); color: #00E676; }
+    .loading { 
+      text-align: center; 
+      padding: 40px; 
+      color: #8b94b8;
+      font-size: 14px;
+    }
+    .error {
+      background: rgba(255, 106, 0, 0.1);
+      border: 1px solid #FF6A00;
+      border-radius: 12px;
+      padding: 16px;
+      color: #FF6A00;
+      margin-top: 16px;
+    }
+    .refresh-btn {
+      background: linear-gradient(135deg, #7B2FF7, #1E90FF);
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 16px;
+      transition: opacity 0.2s;
+    }
+    .refresh-btn:hover { opacity: 0.9; }
+    .refresh-btn:active { opacity: 0.7; }
+  </style>
+</head>
+<body>
+  <h1>📊 Advanced Assets Analytics</h1>
+  <p class="subtitle">Métricas avanzadas y análisis de rendimiento</p>
+  
+  <button class="refresh-btn" onclick="loadMetrics()">🔄 Actualizar Métricas</button>
+  
+  <div id="loading" class="loading">Cargando métricas...</div>
+  <div id="content" style="display: none;">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="total-assets">0</div>
+        <div class="stat-label">Total Assets</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="total-size">0 KB</div>
+        <div class="stat-label">Tamaño Total</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="avg-complexity">0</div>
+        <div class="stat-label">Complejidad Promedio</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="avg-accessibility">0/3</div>
+        <div class="stat-label">Accesibilidad Promedio</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="categories">0</div>
+        <div class="stat-label">Categorías</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="needs-optimization">0</div>
+        <div class="stat-label">Necesitan Optimización</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">📁 Distribución por Categoría</div>
+      <div class="chart-container" id="category-chart"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">💡 Insights y Recomendaciones</div>
+      <div class="insights-grid">
+        <div class="insight-card">
+          <div class="insight-title">📦 Archivos Grandes</div>
+          <ul class="insight-list" id="large-files"></ul>
+        </div>
+        <div class="insight-card">
+          <div class="insight-title">♿ Más Accesibles</div>
+          <ul class="insight-list" id="accessible-files"></ul>
+        </div>
+        <div class="insight-card">
+          <div class="insight-title">⚠️ Necesitan Tokens</div>
+          <ul class="insight-list" id="missing-tokens"></ul>
+        </div>
+        <div class="insight-card">
+          <div class="insight-title">🔧 Optimización Recomendada</div>
+          <ul class="insight-list" id="optimization-needed"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="error" style="display: none;" class="error"></div>
+
+  <script>
+    async function loadMetrics() {
+      const loading = document.getElementById('loading');
+      const content = document.getElementById('content');
+      const error = document.getElementById('error');
+      
+      loading.style.display = 'block';
+      content.style.display = 'none';
+      error.style.display = 'none';
+      
+      try {
+        const response = await fetch('../assets_metrics.json');
+        if (!response.ok) throw new Error('Métricas no encontradas. Ejecuta: node tools/generate_assets_metrics.js');
+        
+        const data = await response.json();
+        renderMetrics(data);
+        
+        loading.style.display = 'none';
+        content.style.display = 'block';
+      } catch (e) {
+        loading.style.display = 'none';
+        error.style.display = 'block';
+        error.textContent = `❌ ${e.message}`;
+      }
+    }
+    
+    function renderMetrics(data) {
+      // Stats
+      document.getElementById('total-assets').textContent = data.summary.total || 0;
+      document.getElementById('total-size').textContent = formatKB(data.summary.totalSize);
+      document.getElementById('avg-complexity').textContent = parseFloat(data.summary.avgComplexity || 0).toFixed(1);
+      document.getElementById('avg-accessibility').textContent = `${parseFloat(data.summary.avgAccessibility || 0).toFixed(1)}/3`;
+      document.getElementById('categories').textContent = Object.keys(data.summary.byCategory || {}).length;
+      document.getElementById('needs-optimization').textContent = data.insights.needsOptimization?.length || 0;
+      
+      // Category chart
+      const chartContainer = document.getElementById('category-chart');
+      chartContainer.innerHTML = '';
+      
+      const categories = data.summary.byCategory || {};
+      const maxCount = Math.max(...Object.values(categories), 1);
+      
+      Object.entries(categories).sort((a, b) => b[1] - a[1]).forEach(([cat, count]) => {
+        const bar = document.createElement('div');
+        bar.className = 'category-bar';
+        const percentage = (count / maxCount) * 100;
+        bar.innerHTML = `
+          <div class="category-name">${cat}</div>
+          <div class="bar">
+            <div class="bar-fill" style="width: ${percentage}%">${count}</div>
+          </div>
+        `;
+        chartContainer.appendChild(bar);
+      });
+      
+      // Insights
+      const largeFiles = document.getElementById('large-files');
+      largeFiles.innerHTML = '';
+      if (data.insights.largest) {
+        const li = document.createElement('li');
+        li.innerHTML = `${pathBasename(data.insights.largest.path)} <span class="badge warning">${formatKB(data.insights.largest.size)}</span>`;
+        largeFiles.appendChild(li);
+      }
+      if (data.insights.needsOptimization?.slice(0, 4).forEach) {
+        data.insights.needsOptimization.slice(0, 4).forEach(item => {
+          const li = document.createElement('li');
+          li.innerHTML = `${pathBasename(item.path)} <span class="badge warning">${formatKB(item.size)}</span>`;
+          largeFiles.appendChild(li);
+        });
+      }
+      
+      const accessibleFiles = document.getElementById('accessible-files');
+      accessibleFiles.innerHTML = '';
+      data.insights.mostAccessible?.slice(0, 5).forEach(path => {
+        const li = document.createElement('li');
+        li.innerHTML = `${pathBasename(path)} <span class="badge success">3/3</span>`;
+        accessibleFiles.appendChild(li);
+      });
+      
+      const missingTokens = document.getElementById('missing-tokens');
+      missingTokens.innerHTML = '';
+      data.insights.missingTokens?.slice(0, 5).forEach(path => {
+        const li = document.createElement('li');
+        li.innerHTML = `${pathBasename(path)} <span class="badge warning">Placeholders</span>`;
+        missingTokens.appendChild(li);
+      });
+      
+      const optimizationNeeded = document.getElementById('optimization-needed');
+      optimizationNeeded.innerHTML = '';
+      if (data.insights.mostComplex) {
+        const li = document.createElement('li');
+        li.innerHTML = `${pathBasename(data.insights.mostComplex.path)} <span class="badge warning">Complejidad: ${data.insights.mostComplex.score.toFixed(1)}</span>`;
+        optimizationNeeded.appendChild(li);
+      }
+    }
+    
+    function formatKB(bytes) {
+      return (bytes / 1024).toFixed(2) + ' KB';
+    }
+    
+    function pathBasename(fullPath) {
+      return fullPath.split('/').pop();
+    }
+    
+    // Cargar al inicio
+    loadMetrics();
+  </script>
+</body>
+</html>
+
+

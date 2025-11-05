@@ -1,3 +1,11 @@
+---
+title: "Ai Pitch Coaching System"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Ai_marketing/ai_pitch_coaching_system.md"
+---
+
 # AI PITCH COACHING SYSTEM
 ## Sistema de Coaching de Pitches con Inteligencia Artificial
 

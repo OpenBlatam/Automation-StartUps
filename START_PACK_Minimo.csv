@@ -1,0 +1,13 @@
+id,dm_type,language,tone,niche,hook,benefit,proof,scarcity,cta,cta_keyword,link_base,utm_campaign
+DM1-A3,curso,ES,tuteo,ecommerce,Catálogo cambia rápido,Fichas/ads/emails en minutos,Flujos probados,8 cupos,RESERVA,RESERVA,https://tudominio.com/webinar-ia,webinar_ia_ecom
+DM1-A10,curso,ES,tuteo,educacion,Guiones/lecciones en 1h,Outline en 10 min,Casos reales,Últimos 8,RESERVA,RESERVA,https://tudominio.com/webinar-ia,webinar_ia_edu
+DM1-A9,curso,ES,usted,B2B,Optimización procesos,No-code + plantillas,Benchmarks,Quedan 8,RESERVA,RESERVA,https://tudominio.com/webinar-ia,webinar_ia_b2b
+DM2-B2,saas,ES,usted,enterprise,Métricas tiempo real,Sin configuraciones complejas,Acceso anticipado,2 cupos,AGENDA,AGENDA,https://tudominio.com/demo-saas-ia,saas_demo_enterprise
+DM2-B1,saas,ES,tuteo,B2B,Campañas en 7 min,ROI real-time,Caso cliente +340%,2 cupos,DEMO,DEMO,https://tudominio.com/demo-saas-ia,saas_demo
+DM2-B9,saas,ES,tuteo,ecommerce,UGC+ads por SKU,Variaciones creativas rápidas,DTC pruebas,2 cupos,DEMO,DEMO,https://tudominio.com/demo-saas-ia,saas_demo_dtc
+DM3-C1,bulk,ES,tuteo,consultoria,Propuestas en 2 min,Docs presentables,Caso ahorra 40h/sem,3 cupos,SÍ,SÍ,https://tudominio.com/demo-ia-bulk,iabulk_demo
+DM3-C2,bulk,ES,usted,B2B,Reportes ejecutivos automáticos,Gráficos+recomendaciones,Enterprise-ready,3 cupos,QUIERO,QUIERO,https://tudominio.com/demo-ia-bulk,iabulk_demo_b2b
+DM3-C3,bulk,ES,tuteo,ecommerce,Descripciones SEO y briefs,Por SKU en minutos,Plantillas nicho,3 cupos,SÍ,SÍ,https://tudominio.com/demo-ia-bulk,iabulk_demo_ecom
+S1,curso,ES,tuteo,ecommerce,"Ahorra 10+ h/sem. 8 cupos.",, , ,RESERVA,RESERVA,https://tudominio.com/webinar-ia,webinar_ia_short
+S2,saas,ES,usted,B2B,"Campañas en 7 min. 2 agendas.",, , ,AGENDA,AGENDA,https://tudominio.com/demo-saas-ia,saas_demo_short
+S3,bulk,ES,tuteo,consultoria,"Propuestas en 2 min. 3 cupos.",, , ,SÍ,SÍ,https://tudominio.com/demo-ia-bulk,iabulk_demo_short

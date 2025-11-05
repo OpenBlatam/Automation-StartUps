@@ -1,119 +1,46 @@
-# 🎯 Lead Generation
-
-## 📊 **Resumen del Área**
-- **Propósito**: Captura, calificación y nurturing de leads
-- **Objetivo**: Generar leads cualificados para ventas
-- **Foco**: Attribution, nurturing, qualification, conversion
-
-## 🎯 **Estrategias de Captura**
-
-### 📝 **Landing Pages**
-- High-converting designs
-- Value proposition clara
-- Forms optimization
-- Mobile-first approach
-
-### 🎁 **Lead Magnets**
-- Ebooks y guías
-- Webinars y workshops
-- Checklists y templates
-- Free tools y calculators
-
-### 💎 **Gated Content**
-- Premium content access
-- Course pre-views
-- Expert interviews
-- Exclusive content
-
-### 🎪 **Events & Webinars**
-- Event marketing
-- Webinar promotion
-- Live event capture
-- Post-event nurturing
-
-## 📊 **Lead Qualification**
-
-### 🎯 **Scoring System**
-- Demographic scoring
-- Behavioral scoring
-- Engagement scoring
-- BANT qualification
-
-### 🏷️ **Lead Segmentation**
-- Fit vs Intent matrix
-- Industry segments
-- Role-based segments
-- Stage-based segments
-
-### 🔄 **Nurturing Workflows**
-- Cold lead warming
-- Slow burner acceleration
-- Quick win cultivation
-- Sales-ready handoff
-
-## 📈 **Attribution & Tracking**
-
-### 📊 **Multi-Touch Attribution**
-- First touch attribution
-- Last touch attribution
-- Multi-touch models
-- W-shaped attribution
-
-### 🔗 **Channel Performance**
-- Source tracking
-- Campaign tracking
-- Medium tracking
-- UTM parameters
-
-### 💰 **Cost Analysis**
-- Cost per lead (CPL)
-- Cost per acquisition (CPA)
-- CAC trends
-- ROAS by channel
-
-## 🚀 **Canales Principales**
-
-### 🎨 **Content Marketing**
-- SEO-optimized content
-- Blog lead capture
-- Resource downloads
-
-### 📱 **Social Media**
-- Social lead gen ads
-- LinkedIn campaigns
-- Facebook lead ads
-
-### 🔍 **Search Marketing**
-- Google Ads
-- Bing Ads
-- SEO traffic
-
-### 🤝 **Partnerships**
-- Referral programs
-- Affiliate marketing
-- Co-marketing
-
-## 🚀 **Documentos Destacados**
-
-### 📋 **Templates**
-- Landing page designs
-- Lead magnet frameworks
-- Qualification questionnaires
-
-### 📊 **Dashboards**
-- Lead gen performance
-- Channel ROI analysis
-- Pipeline health metrics
-
-## 📈 **Métricas Clave**
-- **Leads Generated**: Total leads
-- **Lead Quality Score**: Promedio
-- **Cost Per Lead**: Por canal
-- **Conversion Rate**: Leads → Customers
-
+---
+title: "Readme"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/05_lead_generation/readme.md"
 ---
 
-*Última actualización: 2025-01-27*
+# 05_Lead_Generation
 
-
+## Archivos
+- 53_LEAD_MAGNET_IA_BULK_DOCUMENTOS.md
+- ANTI_PATTERNS_OUTREACH.md
+- CALENDARIO_OUTREACH_DM.md
+- CASOS_EXITO_OUTREACH.md
+- CHANGELOG_OUTREACH.md
+- CheatSheet_Frases_Ganadoras.md
+- CRM_OUTREACH_FIELDS.csv
+- DECISION_TREE_OUTREACH.md
+- ESCALAMIENTO_OUTREACH.md
+- ESQUEMA_LEAD_MAGNET_CURSO_IA_WEBINARS.md
+- ESQUEMA_LEAD_MAGNET_IA_BULK_DOCUMENTOS.md
+- ESQUEMA_LEAD_MAGNET_SAAS_IA_MARKETING.md
+- FAQ_EXPANDIDO_OUTREACH.md
+- GLOSSARY_OUTREACH.md
+- GUIA_NURTURING_LARGO_PLAZO.md
+- INDEX.md
+- INDEX_DM_OUTREACH.md
+- INTEGRACION_LINKEDIN_SALES_NAVIGATOR.md
+- landing_page_checklist.md
+- LEAD_MAGNET_1_CURSO_IA_WEBINARS.md
+- LEAD_MAGNET_2_SAAS_IA_MARKETING.md
+- LEAD_MAGNET_3_IA_BULK_DOCUMENTOS.md
+- LOCALISMOS_PAIS_DM.md
+- OUTREACH_MESSAGES_READY.csv
+- PAUSAS_OUTREACH.md
+- QUICK_SCORING_LEADS.md
+- README_QUICKSTART_OUTREACH.md
+- RED_FLAGS_LEADS.md
+- SAMPLE_LEADS_OUTREACH.csv
+- SECTORES_REGULADOS_DM.md
+- Seguimiento_PostEvento_Cierre.md
+- SNIPPETS_INDUSTRIA_DM.md
+- TROUBLESHOOTING_OUTREACH.md
+- WORKFLOW_VISUAL_OUTREACH.md
 

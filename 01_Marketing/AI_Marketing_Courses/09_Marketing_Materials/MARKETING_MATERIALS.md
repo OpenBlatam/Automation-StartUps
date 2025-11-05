@@ -1,3 +1,11 @@
+---
+title: "Marketing Materials"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/Ai_marketing_courses/09_marketing_materials/marketing_materials.md"
+---
+
 # 📢 Neural Marketing Consciousness System - Marketing Materials
 
 ## 📋 Overview

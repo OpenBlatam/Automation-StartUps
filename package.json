@@ -61,6 +61,10 @@
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=8.0.0"
+    "dm:queue:chunk": "node Scripts/dm_linkedin_queue_chunker.js --size=200 --by-campaign",
+    "dm:queue:retry": "node Scripts/dm_linkedin_queue_retry.js --age=7",
+    "dm:queue:cooldown": "node Scripts/dm_linkedin_queue_cooldown_guard.js --min-days=7",
+    "dm:optout": "node Scripts/dm_linkedin_optout_catcher.js"
   }
 }
 

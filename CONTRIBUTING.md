@@ -1,3 +1,11 @@
+---
+title: "Contributing"
+category: "contributing.md"
+tags: []
+created: "2025-10-29"
+path: "contributing.md"
+---
+
 # Contribuyendo a CFDI 4.0 IA 2025
 
 ¡Gracias por tu interés en contribuir! Este documento proporciona directrices para contribuir al proyecto.
@@ -306,7 +314,7 @@ Efectos potenciales
 ## 📚 Recursos
 
 - [Documentación Principal](./README.md)
-- [Documentación API](./docs/API.md)
+- [Documentación API](05_technology/Api_documentation/api.md)
 - [Changelog](./CHANGELOG.md)
 
 ## 🎯 Prioridades

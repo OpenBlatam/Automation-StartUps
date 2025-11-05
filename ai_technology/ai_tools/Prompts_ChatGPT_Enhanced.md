@@ -1,3 +1,11 @@
+---
+title: "Prompts Chatgpt Enhanced"
+category: "Ai_technology"
+tags: ["technical", "technology"]
+created: "2025-10-29"
+path: "Ai_technology/Ai_tools/prompts_chatgpt_enhanced.md"
+---
+
 # 🤖 PROMPTS CHATGPT ENHANCED - TIKTOK IA MARKETING
 
 ## 🎯 PROMPTS ESPECÍFICOS PARA MÁXIMA CONVERSIÓN

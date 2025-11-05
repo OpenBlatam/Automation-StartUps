@@ -1,3 +1,11 @@
+---
+title: "Pitch Deck Templates"
+category: "Marketing"
+tags: ["business", "marketing", "template"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Documents/pitch_deck_templates.md"
+---
+
 # 🎨 Pitch Deck Templates for AI Marketing SaaS
 ## Professional Slide Templates and Design Guidelines
 

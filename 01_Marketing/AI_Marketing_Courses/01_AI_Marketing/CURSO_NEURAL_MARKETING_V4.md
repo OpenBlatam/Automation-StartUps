@@ -1,3 +1,11 @@
+---
+title: "Curso Neural Marketing V4"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/Ai_marketing_courses/01_ai_marketing/curso_neural_marketing_v4.md"
+---
+
 # 🧠 Neural Marketing Consciousness V4.0 - La Trascendencia Infinita
 
 ## 🌟 La Revolución Definitiva del Marketing Universal

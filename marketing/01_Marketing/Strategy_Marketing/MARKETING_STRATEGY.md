@@ -1,3 +1,11 @@
+---
+title: "Marketing Strategy"
+category: "Marketing"
+tags: ["business", "marketing", "strategy"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Strategy_marketing/marketing_strategy.md"
+---
+
 # AI Marketing SaaS - Marketing Strategy
 
 ## Executive Summary

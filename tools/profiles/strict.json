@@ -1,0 +1,12 @@
+{
+  "name": "Strict Profile",
+  "description": "Validación estricta de calidad",
+  "min_health_score": 85,
+  "max_dom_nodes": 300,
+  "max_filters": 3,
+  "max_gradients": 5,
+  "palette_strict": true,
+  "fail_on_error": false,
+  "fail_on_warn": false
+}
+

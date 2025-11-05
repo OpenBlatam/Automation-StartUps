@@ -1,3 +1,11 @@
+---
+title: "Herramienta Análisis Competitivo Avanzado Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Financial_models/herramienta_análisis_competitivo_avanzado_vc.md"
+---
+
 # 🏆 HERRAMIENTA DE ANÁLISIS COMPETITIVO AVANZADO VC
 ## Sistema de Evaluación Competitiva Avanzada para SaaS IA Copywriting LATAM
 

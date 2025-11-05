@@ -1,3 +1,11 @@
+---
+title: "Copycar Ai Investor Final Master Summary"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/Copycar_ai_investor_package/copycar_ai_investor_final_master_summary.md"
+---
+
 # COPYCAR.AI INVESTOR FINAL MASTER SUMMARY
 
 ## EXECUTIVE SUMMARY

@@ -1,0 +1,75 @@
+---
+title: "Readme"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/Data_files/readme.md"
+---
+
+# Data_Files
+
+## Archivos
+- 05_AI_Course_Financial_Model.xlsx
+- 06_AI_Marketing_SaaS_Financial_Model.xlsx
+- 15_Advanced_Financial_Model_Pro.xlsx
+- 29_Sustainability_ESG_Platform.xlsx
+- 30_Ultra_Advanced_Financial_Model.xlsx
+- 31_Ultra_AI_Intelligence_System.xlsx
+- 34_Ultra_Blockchain_Web3_Platform.xlsx
+- 36_Ultra_Biotechnology_Platform.xlsx
+- 38_Ultra_Neural_Interface_System.xlsx
+- 40_Ultra_Dimensional_Technology_System.xlsx
+- 44_Ultra_Transcendence_Technology_System.xlsx
+- 66_Ultra_Omnipotence_Transcendence_Technology_System.xlsx
+- ab_test_anchor_texts_20250915_195400.json
+- ab_tests_completos_20250915_200244.json
+- adaptive_learning_system.json
+- AI_Marketing_Tools_Comparison.csv
+- anchor_texts_avanzados_ia_marketing_20250912_113123.csv
+- anchor_texts_avanzados_ia_marketing_20250912_113123.json
+- anchor_texts_avanzados_ia_marketing_20250915_135921.csv
+- anchor_texts_avanzados_ia_marketing_20250915_135921.json
+- anchor_texts_completos_20250915_200244.json
+- anchor_texts_ia_marketing_20250912_111238.csv
+- anchor_texts_ia_marketing_20250912_111238.json
+- anchor_texts_ia_marketing_20250912_135512.xlsx
+- anchor_texts_ia_marketing_20250915_135921.csv
+- anchor_texts_ia_marketing_20250915_135921.json
+- anchor_texts_ia_marketing_20250915_135922.xlsx
+- anchor_texts_ia_marketing_estructurado_20250912_135510.json
+- anchor_texts_ia_marketing_estructurado_20250915_135921.json
+- anchor_texts_multilenguaje_20250915_200714.json
+- anchor_texts_multilenguaje_20250915_202814.json
+- anchor_texts_personalizados_20250915_201644.json
+- backup_copycar_20251002_185915.json
+- backup_copycar_20251002_190119.json
+- casos_uso_anchor_texts_20250915_135639.json
+- casos_uso_anchor_texts_20250915_135922.json
+- copy_consolidado.csv
+- dm_linkedin_cadences.json
+- dm_linkedin_company_suppression.csv
+- dm_linkedin_export_json_examples.json
+- dm_linkedin_suppression_list.csv
+- dm_linkedin_variant_rules.json
+- dm_linkedin_variant_rules_localized.json
+- dm_linkedin_variants_localized_completo.json
+- dm_linkedin_variants_localized_example.json
+- dm_linkedin_variants_sheet_example.csv
+- DUE_DILIGENCE_CONFIG.json
+- DUE_DILIGENCE_CONFIG_V3.json
+- DUE_DILIGENCE_EXCEL_TRACKER.xlsx
+- INDEX.md
+- intelligent_categorization_system.json
+- MAILCHIMP_EXPORT_TEMPLATE.csv
+- market_data.json
+- optimizacion_avanzada_anchor_texts_20250915_200010.json
+- optimizaciones_completas_20250915_200244.json
+- package.json
+- predicciones_completas_20250915_200244.json
+- predicciones_ia_anchor_texts_20250915_195939.json
+- resultados_finales_pipeline_20250915_135925.json
+- resultados_sistema_completo_20250915_200244.json
+- variantes_extras_anchor_texts_20250915_145122.json
+- variantes_ultra_anchor_texts_20250915_154950.json
+- Webinar_Attendee_Tracking.csv
+

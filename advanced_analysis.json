@@ -1,0 +1,4639 @@
+{
+  "timestamp": "2025-10-29T19:40:10.045979",
+  "metrics": {
+    "total_files": 16253,
+    "organized_files": 16086,
+    "organization_rate": 98.97249738509814,
+    "folder_stats": {
+      "Support_resources": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.0002841949462890625
+      },
+      "Advanced_optimization": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.0003032684326171875
+      },
+      "16_data_analytics": {
+        "total_files": 157,
+        "subfolders": 10,
+        "size_mb": 2.1835508346557617
+      },
+      "Implementation_guides": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.0003032684326171875
+      },
+      "23_healthcare": {
+        "total_files": 14,
+        "subfolders": 2,
+        "size_mb": 0.13500404357910156
+      },
+      "Docuementos": {
+        "total_files": 23,
+        "subfolders": 22,
+        "size_mb": 0.010172843933105469
+      },
+      "22_real_estate": {
+        "total_files": 18,
+        "subfolders": 2,
+        "size_mb": 0.2353372573852539
+      },
+      "07_risk_management": {
+        "total_files": 98,
+        "subfolders": 14,
+        "size_mb": 1.5310287475585938
+      },
+      "Neural_supremacy_v3": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.000293731689453125
+      },
+      "19_international_business": {
+        "total_files": 25,
+        "subfolders": 1,
+        "size_mb": 0.383941650390625
+      },
+      "Advanced_materials": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.00028896331787109375
+      },
+      "5g_networks": {
+        "total_files": 4,
+        "subfolders": 1,
+        "size_mb": 0.022954940795898438
+      },
+      "Collaboration": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.0002651214599609375
+      },
+      "Quantum_biology": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.000274658203125
+      },
+      "Transcendence_supremacy": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.00031280517578125
+      },
+      "12_user_guides": {
+        "total_files": 22,
+        "subfolders": 2,
+        "size_mb": 0.290740966796875
+      },
+      "08_ai_artificial_intelligence": {
+        "total_files": 1302,
+        "subfolders": 24,
+        "size_mb": 25.546899795532227
+      },
+      "Space_tech": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.00025081634521484375
+      },
+      "14_thought_leadership": {
+        "total_files": 9,
+        "subfolders": 1,
+        "size_mb": 0.12505245208740234
+      },
+      "Ai_ethics": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.0002460479736328125
+      },
+      "31_professional_services": {
+        "total_files": 7,
+        "subfolders": 1,
+        "size_mb": 0.06536197662353516
+      },
+      "29_media": {
+        "total_files": 17,
+        "subfolders": 2,
+        "size_mb": 0.2146167755126953
+      },
+      "Neural_supremacy_v2": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.000293731689453125
+      },
+      "28_sports": {
+        "total_files": 10,
+        "subfolders": 1,
+        "size_mb": 0.09984302520751953
+      },
+      "Ai_technology": {
+        "total_files": 193,
+        "subfolders": 74,
+        "size_mb": 2.5993852615356445
+      },
+      "Technical_documentation": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.00031280517578125
+      },
+      "Internationalization": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.00029850006103515625
+      },
+      "Testing_framework": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.0002841949462890625
+      },
+      "14_product_management": {
+        "total_files": 11,
+        "subfolders": 1,
+        "size_mb": 0.10624217987060547
+      },
+      "Frontend": {
+        "total_files": 5,
+        "subfolders": 3,
+        "size_mb": 0.6921358108520508
+      },
+      "Business_strategy": {
+        "total_files": 30,
+        "subfolders": 29,
+        "size_mb": 0.01589202880859375
+      },
+      "Bin": {
+        "total_files": 7,
+        "subfolders": 3,
+        "size_mb": 0.0049533843994140625
+      },
+      "Neural_supremacy": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.00027942657470703125
+      },
+      "07_advanced_features": {
+        "total_files": 94,
+        "subfolders": 5,
+        "size_mb": 2.2515106201171875
+      },
+      "Tracking_tools": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.00026988983154296875
+      },
+      "08_research_development": {
+        "total_files": 7,
+        "subfolders": 1,
+        "size_mb": 0.03812217712402344
+      },
+      "04_business_strategy": {
+        "total_files": 729,
+        "subfolders": 21,
+        "size_mb": 9.896788597106934
+      },
+      "Perfect_supremacy_v2": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.00029850006103515625
+      },
+      "11_research_development": {
+        "total_files": 19,
+        "subfolders": 1,
+        "size_mb": 0.36702823638916016
+      },
+      "01_webinar_campaign": {
+        "total_files": 184,
+        "subfolders": 7,
+        "size_mb": 2.956549644470215
+      },
+      "Nanotech": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.00024127960205078125
+      },
+      "Gamification": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.00026035308837890625
+      },
+      "06_strategy": {
+        "total_files": 233,
+        "subfolders": 8,
+        "size_mb": 4.522432327270508
+      },
+      "32_manufacturing": {
+        "total_files": 25,
+        "subfolders": 1,
+        "size_mb": 0.43436717987060547
+      },
+      "02_consciousness_systems": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.00016307830810546875
+      },
+      "Follow_up_resources": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.000148773193359375
+      },
+      "Biotech_ai": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.00012302398681640625
+      },
+      "Quantum_supremacy_v2": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.00015163421630859375
+      },
+      "Metrics_dashboards": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.00014591217041015625
+      },
+      "Transcendence_supremacy_v2": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.00016880035400390625
+      },
+      "Robotics": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.00011730194091796875
+      },
+      "Perfect_supremacy_v3": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.00015163421630859375
+      },
+      "97_analysis_reports": {
+        "total_files": 46,
+        "subfolders": 3,
+        "size_mb": 48.67543601989746
+      },
+      "Transcendence_supremacy_v3": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.00016880035400390625
+      },
+      "Quantum_supremacy_v3": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.00015163421630859375
+      },
+      "Tests": {
+        "total_files": 9,
+        "subfolders": 2,
+        "size_mb": 0.015234947204589844
+      },
+      "Quick_reference": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.0001373291015625
+      },
+      "Compliance_legal": {
+        "total_files": 4,
+        "subfolders": 3,
+        "size_mb": 0.001007080078125
+      },
+      "Iot_edge": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.00011730194091796875
+      },
+      "06_documentation": {
+        "total_files": 2025,
+        "subfolders": 34,
+        "size_mb": 41.01821708679199
+      },
+      "20_project_management": {
+        "total_files": 107,
+        "subfolders": 14,
+        "size_mb": 1.2938613891601562
+      },
+      "Utils": {
+        "total_files": 18,
+        "subfolders": 2,
+        "size_mb": 0.058013916015625
+      },
+      "26_non_profit": {
+        "total_files": 9,
+        "subfolders": 1,
+        "size_mb": 0.08942508697509766
+      },
+      "Mobile_resources": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.00014019012451171875
+      },
+      "Ultimate_ai": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.000125885009765625
+      },
+      "Synthetic_biology": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.0001430511474609375
+      },
+      "Docs": {
+        "total_files": 15,
+        "subfolders": 14,
+        "size_mb": 0.0032091140747070312
+      },
+      "05_technology": {
+        "total_files": 1376,
+        "subfolders": 46,
+        "size_mb": 26.222716331481934
+      },
+      "Marketing_canva_ia_split": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.00016307830810546875
+      },
+      "Research_development": {
+        "total_files": 3,
+        "subfolders": 2,
+        "size_mb": 0.0007963180541992188
+      },
+      "12_quality_assurance": {
+        "total_files": 44,
+        "subfolders": 2,
+        "size_mb": 0.7346906661987305
+      },
+      "00_version_management": {
+        "total_files": 24,
+        "subfolders": 5,
+        "size_mb": 4.821695327758789
+      },
+      "Operations_management": {
+        "total_files": 14,
+        "subfolders": 13,
+        "size_mb": 0.0051326751708984375
+      },
+      "13_legal_compliance": {
+        "total_files": 141,
+        "subfolders": 19,
+        "size_mb": 1.5603704452514648
+      },
+      "Dashboard": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.0001201629638671875
+      },
+      "11_system_architecture": {
+        "total_files": 20,
+        "subfolders": 1,
+        "size_mb": 0.34668731689453125
+      },
+      "Devops_automation": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.0001430511474609375
+      },
+      "Omniversal_ai": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.0001316070556640625
+      },
+      "25_government": {
+        "total_files": 10,
+        "subfolders": 1,
+        "size_mb": 0.11191940307617188
+      },
+      "04_operations": {
+        "total_files": 48,
+        "subfolders": 10,
+        "size_mb": 0.4280214309692383
+      },
+      "Transport_demand_prediction": {
+        "total_files": 11,
+        "subfolders": 4,
+        "size_mb": 0.10047435760498047
+      },
+      "Cloud_native": {
+        "total_files": 3,
+        "subfolders": 1,
+        "size_mb": 0.025438308715820312
+      },
+      "Vc": {
+        "total_files": 43,
+        "subfolders": 5,
+        "size_mb": 0.5449733734130859
+      },
+      "Logs": {
+        "total_files": 2,
+        "subfolders": 1,
+        "size_mb": 0.00037384033203125
+      },
+      "Quantum_supremacy": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.0001430511474609375
+      },
+      "18_sustainability": {
+        "total_files": 34,
+        "subfolders": 1,
+        "size_mb": 0.5130462646484375
+      },
+      "24_education": {
+        "total_files": 48,
+        "subfolders": 2,
+        "size_mb": 0.4102668762207031
+      },
+      "Very": {
+        "total_files": 5,
+        "subfolders": 4,
+        "size_mb": 0.001239776611328125
+      },
+      "Perfect_ai": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.00012302398681640625
+      },
+      "10_customer_service": {
+        "total_files": 112,
+        "subfolders": 9,
+        "size_mb": 1.3158702850341797
+      },
+      "Vc_venture_capital": {
+        "total_files": 216,
+        "subfolders": 28,
+        "size_mb": 2.396810531616211
+      },
+      "Evaluation_tools": {
+        "total_files": 3,
+        "subfolders": 1,
+        "size_mb": 0.009057998657226562
+      },
+      "Static": {
+        "total_files": 7,
+        "subfolders": 4,
+        "size_mb": 0.019628524780273438
+      },
+      "34_e_commerce": {
+        "total_files": 5,
+        "subfolders": 1,
+        "size_mb": 0.04576301574707031
+      },
+      "Examples": {
+        "total_files": 7,
+        "subfolders": 2,
+        "size_mb": 0.017200469970703125
+      },
+      "30_consulting": {
+        "total_files": 18,
+        "subfolders": 1,
+        "size_mb": 0.23009109497070312
+      },
+      "03_human_resources": {
+        "total_files": 91,
+        "subfolders": 12,
+        "size_mb": 2.470653533935547
+      },
+      "Sales_customer": {
+        "total_files": 18,
+        "subfolders": 10,
+        "size_mb": 0.007439613342285156
+      },
+      "21_supply_chain": {
+        "total_files": 22,
+        "subfolders": 1,
+        "size_mb": 0.46402549743652344
+      },
+      "Scripts": {
+        "total_files": 18,
+        "subfolders": 2,
+        "size_mb": 0.19267749786376953
+      },
+      "Autonomous_systems": {
+        "total_files": 3,
+        "subfolders": 1,
+        "size_mb": 0.02363300323486328
+      },
+      "Omniversal_supremacy_v2": {
+        "total_files": 3,
+        "subfolders": 1,
+        "size_mb": 0.01862049102783203
+      },
+      "Instance": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.00011730194091796875
+      },
+      "Artificial_general_intelligence": {
+        "total_files": 3,
+        "subfolders": 1,
+        "size_mb": 0.016129493713378906
+      },
+      "Aitestimonialsaas": {
+        "total_files": 23,
+        "subfolders": 10,
+        "size_mb": 0.11734294891357422
+      },
+      "27_entertainment": {
+        "total_files": 31,
+        "subfolders": 1,
+        "size_mb": 0.4526405334472656
+      },
+      "Omniversal_supremacy_v3": {
+        "total_files": 3,
+        "subfolders": 1,
+        "size_mb": 0.01861858367919922
+      },
+      "Marketing": {
+        "total_files": 340,
+        "subfolders": 88,
+        "size_mb": 6.0787248611450195
+      },
+      "Templates": {
+        "total_files": 25,
+        "subfolders": 5,
+        "size_mb": 0.3928556442260742
+      },
+      "17_innovation": {
+        "total_files": 74,
+        "subfolders": 4,
+        "size_mb": 1.1852092742919922
+      },
+      "Neural_networks": {
+        "total_files": 3,
+        "subfolders": 1,
+        "size_mb": 0.025300979614257812
+      },
+      "Brain_computer": {
+        "total_files": 3,
+        "subfolders": 1,
+        "size_mb": 0.023000717163085938
+      },
+      "System_architecture": {
+        "total_files": 3,
+        "subfolders": 1,
+        "size_mb": 0.031157493591308594
+      },
+      "02_finance": {
+        "total_files": 407,
+        "subfolders": 35,
+        "size_mb": 17.30855941772461
+      },
+      "14_procurement": {
+        "total_files": 7,
+        "subfolders": 2,
+        "size_mb": 0.048979759216308594
+      },
+      "Truthgpt": {
+        "total_files": 23,
+        "subfolders": 1,
+        "size_mb": 0.19122695922851562
+      },
+      "Integration_guides": {
+        "total_files": 3,
+        "subfolders": 1,
+        "size_mb": 0.014525413513183594
+      },
+      "Quantum_computing": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.0001430511474609375
+      },
+      "01_marketing": {
+        "total_files": 5591,
+        "subfolders": 66,
+        "size_mb": 190.32995986938477
+      },
+      "Omniversal_supremacy": {
+        "total_files": 3,
+        "subfolders": 1,
+        "size_mb": 0.017449378967285156
+      },
+      "Innovation_research": {
+        "total_files": 3,
+        "subfolders": 1,
+        "size_mb": 0.03271293640136719
+      },
+      "Training_resources": {
+        "total_files": 4,
+        "subfolders": 1,
+        "size_mb": 0.035999298095703125
+      },
+      "Accessibility": {
+        "total_files": 3,
+        "subfolders": 1,
+        "size_mb": 0.029041290283203125
+      },
+      "Predictive_models": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.0001430511474609375
+      },
+      "Ai_features": {
+        "total_files": 3,
+        "subfolders": 1,
+        "size_mb": 0.02399921417236328
+      },
+      "Ml_models": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.0001201629638671875
+      },
+      "15_customer_experience": {
+        "total_files": 11,
+        "subfolders": 1,
+        "size_mb": 0.1272134780883789
+      },
+      "Saas": {
+        "total_files": 24,
+        "subfolders": 15,
+        "size_mb": 0.05868339538574219
+      },
+      "09_sales": {
+        "total_files": 79,
+        "subfolders": 18,
+        "size_mb": 1.1269149780273438
+      },
+      "backups": {
+        "total_files": 1631,
+        "subfolders": 1498,
+        "size_mb": 63.879631996154785
+      },
+      "Case_studies": {
+        "total_files": 5,
+        "subfolders": 1,
+        "size_mb": 0.03457450866699219
+      },
+      "Routes": {
+        "total_files": 15,
+        "subfolders": 2,
+        "size_mb": 0.21670246124267578
+      },
+      "Cyber_security": {
+        "total_files": 3,
+        "subfolders": 1,
+        "size_mb": 0.02105998992919922
+      },
+      "Advanced_analytics": {
+        "total_files": 6,
+        "subfolders": 1,
+        "size_mb": 0.05344676971435547
+      },
+      "Quality_assurance": {
+        "total_files": 3,
+        "subfolders": 1,
+        "size_mb": 0.0317230224609375
+      },
+      "Neuralmarketingsaas": {
+        "total_files": 6,
+        "subfolders": 5,
+        "size_mb": 0.0017948150634765625
+      },
+      "Ultimate_supremacy_v3": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.0001544952392578125
+      },
+      "Services": {
+        "total_files": 26,
+        "subfolders": 2,
+        "size_mb": 0.4261789321899414
+      },
+      "Augmented_reality": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.0001430511474609375
+      },
+      "Ultimate_supremacy_v2": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.0001544952392578125
+      },
+      "Digital_twins": {
+        "total_files": 3,
+        "subfolders": 1,
+        "size_mb": 0.02577495574951172
+      },
+      "Security_compliance": {
+        "total_files": 3,
+        "subfolders": 1,
+        "size_mb": 0.02682971954345703
+      },
+      "33_retail": {
+        "total_files": 10,
+        "subfolders": 1,
+        "size_mb": 0.09919929504394531
+      },
+      "Ai_models": {
+        "total_files": 1,
+        "subfolders": 0,
+        "size_mb": 0.0001201629638671875
+      }
+    },
+    "extension_stats": {
+      ".md": 10504,
+      "": 3079,
+      ".py": 872,
+      ".js": 247,
+      ".html": 230,
+      ".xlsx": 216,
+      ".pdf": 177,
+      ".ts": 174,
+      ".json": 143,
+      ".docx": 139
+    },
+    "size_stats": {
+      "total_size": 494336716,
+      "avg_size": 30415.105888143727,
+      "total_size_mb": 471.43622970581055
+    },
+    "duplicates_count": 467,
+    "temp_files_count": 11
+  },
+  "duplicates": [
+    {
+      "hash": "3994aa65",
+      "files": [
+        "organize_other_folders.py",
+        "06_documentation/Other/organize_other_folders.py",
+        "backups/duplicates/ce5511046d1bd2312ceccf3be56cec87e7bc9b2beff2f79b910e1c69c0a54ccd/organize_other_folders.py"
+      ],
+      "size_mb": 0.011950492858886719
+    },
+    {
+      "hash": "9be3f74a",
+      "files": [
+        "organize_advanced.py",
+        "06_documentation/Other/organize_advanced.py",
+        "backups/duplicates/0cfb158b318e7143e52b5f708af0064c9fc1b0de3c0e1be13aeae20fba4e1ba0/organize_advanced.py"
+      ],
+      "size_mb": 0.010193824768066406
+    },
+    {
+      "hash": "515fdb22",
+      "files": [
+        "organize_deep_cleanup.py",
+        "06_documentation/Other/organize_deep_cleanup.py",
+        "backups/duplicates/a43fc63838f6087fd84fa5c750e9d969e84055de31ef4bf682763c7dc39d284f/organize_deep_cleanup.py"
+      ],
+      "size_mb": 0.010944366455078125
+    },
+    {
+      "hash": "6fbedcc2",
+      "files": [
+        "organize_files.py",
+        "05_technology/Code_scripts/organize_files.py",
+        "backups/duplicates/ad92a25a1f830715d10fd2da0b9bde2dc29ad28adf9d0008eaff2f964ce79982/organize_files.py"
+      ],
+      "size_mb": 0.015542030334472656
+    },
+    {
+      "hash": "660b9a1a",
+      "files": [
+        "16_data_analytics/Kpis_metrics/kpis_dashboard_template.csv",
+        "backups/duplicates/6fa83f49a81824be0454419bdb98d74651002db4774c13fa54db0381d8b6eb13/KPIs_Dashboard_Template.csv"
+      ],
+      "size_mb": 0.0025053024291992188
+    },
+    {
+      "hash": "8e111c87",
+      "files": [
+        "08_ai_artificial_intelligence/Other/__init__.py",
+        "backups/duplicates/c0a14978ffbbc8390f6d8f7b612bb9998f50338d82a55ec5a537e3b9fbd13142/__init__.py"
+      ],
+      "size_mb": 8.678436279296875e-05
+    },
+    {
+      "hash": "a5f4329a",
+      "files": [
+        "08_ai_artificial_intelligence/Other/Machine_learning/meta_learning.py",
+        "backups/duplicates/13d8e014516751befe46bcd92bd9da8c7047205ca57bf77bd0adf894b1634ec9/meta_learning.py"
+      ],
+      "size_mb": 0.02364349365234375
+    },
+    {
+      "hash": "98d1ebf1",
+      "files": [
+        "08_ai_artificial_intelligence/Other/Ai_systems/aioptimizationservice.js",
+        "backups/duplicates/ac402d0c3661af176fbf6dce5976237bcf1539a1e2d684bb53f4624e1de727a9/aiOptimizationService.js"
+      ],
+      "size_mb": 0.03519248962402344
+    },
+    {
+      "hash": "7894d8ee",
+      "files": [
+        "08_ai_artificial_intelligence/Other/Ai_systems/ai_marketing_webinar_additional_content.md",
+        "backups/duplicates/962d64fd6ffd430198b09b1b7bf10d4f623004975d924be7a83db7d2901a7107/ai-marketing-webinar-additional-content.md"
+      ],
+      "size_mb": 0.024997711181640625
+    },
+    {
+      "hash": "3e4c7aba",
+      "files": [
+        "08_ai_artificial_intelligence/Other/Scripts/maintain_project.py",
+        "backups/duplicates/26e445cabd0348e3976fd5d573d247d8ac5411f0d43c6d702abf4263936c4686/maintain_project.py"
+      ],
+      "size_mb": 0.011160850524902344
+    },
+    {
+      "hash": "1eed9210",
+      "files": [
+        "08_ai_artificial_intelligence/Other/Scripts/maintain_organization.py",
+        "backups/duplicates/2572156cea2e172b05386093576d4df37831bad45d899fbcc62c082716c3fa66/maintain_organization.py"
+      ],
+      "size_mb": 0.012445449829101562
+    },
+    {
+      "hash": "84aa87f3",
+      "files": [
+        "08_ai_artificial_intelligence/Other/Scripts/kf_grpo_train.py",
+        "backups/duplicates/5d44ebf2a0ec212c183ed0acab0d21d19ae07595dedef4f6a84c5bf21690bbc0/kf_grpo_train.py"
+      ],
+      "size_mb": 0.025351524353027344
+    },
+    {
+      "hash": "ac422386",
+      "files": [
+        "08_ai_artificial_intelligence/Other/Scripts/demo_training.py",
+        "backups/duplicates/3ffb32484f85b497dc210fc7adf4738b230d9e5c08bbce0376f9ef7649cb8f1f/demo_training.py"
+      ],
+      "size_mb": 0.014735221862792969
+    },
+    {
+      "hash": "9d31f4ba",
+      "files": [
+        "08_ai_artificial_intelligence/Other/Scripts/grpo_train.py",
+        "backups/duplicates/de926401d94b6d1995a585118f58c9093f249928273da54f1d5e36a87539dd95/grpo_train.py"
+      ],
+      "size_mb": 0.008825302124023438
+    },
+    {
+      "hash": "4693acd5",
+      "files": [
+        "08_ai_artificial_intelligence/Other/Scripts/main.py",
+        "backups/duplicates/2fb69811fa4bb62752a90975c36490cfed63723eebcd36d74d9f833bd2e506e3/main.py"
+      ],
+      "size_mb": 0.019211769104003906
+    },
+    {
+      "hash": "cf25132d",
+      "files": [
+        "08_ai_artificial_intelligence/Other/Scripts/run_training.py",
+        "backups/duplicates/788e83372e2e19588821b5b319fee6a66c6b19ff2a78ad72235b8cd7eab1f82a/run_training.py"
+      ],
+      "size_mb": 0.006805419921875
+    },
+    {
+      "hash": "9765cf72",
+      "files": [
+        "08_ai_artificial_intelligence/Other/Scripts/blockchain.js",
+        "backups/duplicates/5654af7877b99a6990c7ed35cbd6d24b75ef1e0cee9e4901f07194da7e22b4fe/blockchain.js"
+      ],
+      "size_mb": 0.010323524475097656
+    },
+    {
+      "hash": "3c3c9062",
+      "files": [
+        "08_ai_artificial_intelligence/Ai_systems/ai_marketing_webinar_enhanced_features.html",
+        "backups/duplicates/02e9bce8f4a610df28040c649ed55525350ed31d9d707238d2fed6d2b997eae1/AI_Marketing_Webinar_Enhanced_Features.html"
+      ],
+      "size_mb": 0.018291473388671875
+    },
+    {
+      "hash": "dd8b153e",
+      "files": [
+        "08_ai_artificial_intelligence/Ai_systems/ai_marketing_case_studies.html",
+        "backups/duplicates/e08a64e518f50139380767dce6fb99b2078e79c48c42e46460069d98d2cdbfbc/AI_Marketing_Case_Studies.html"
+      ],
+      "size_mb": 0.02150440216064453
+    },
+    {
+      "hash": "360b0a9d",
+      "files": [
+        "08_ai_artificial_intelligence/Ai_systems/ai_marketing_advanced_sections.html",
+        "backups/duplicates/a8723919a0f96a73fd7aa1da53762a6cd6185f2f168552f6f4556fc5927dccbc/AI_Marketing_Advanced_Sections.html"
+      ],
+      "size_mb": 0.038089752197265625
+    },
+    {
+      "hash": "0aacda3b",
+      "files": [
+        "08_ai_artificial_intelligence/Ai_systems/ai_marketing_advanced_tools_suite.html",
+        "backups/duplicates/7fcdc9f5b90c8c6cb136d28a9ee545963783cdb4748b88d1672e9b1d4b055cd9/AI_Marketing_Advanced_Tools_Suite.html"
+      ],
+      "size_mb": 0.02026081085205078
+    },
+    {
+      "hash": "da6421a3",
+      "files": [
+        "08_ai_artificial_intelligence/Ai_systems/ai_response_engine.py",
+        "backups/duplicates/9250e6d5702ab8e845f35d33feb6fef5824a6204b9f1593ac17c39ca84d8b034/ai_response_engine.py"
+      ],
+      "size_mb": 0.0025625228881835938
+    },
+    {
+      "hash": "ee846345",
+      "files": [
+        "08_ai_artificial_intelligence/Ai_systems/01_ai_course_executive_summary.pdf",
+        "backups/duplicates/62f230987986a9f520f7684a044f6a548428d7dca416749f1b2b40d9acd82445/01_AI_Course_Executive_Summary.pdf"
+      ],
+      "size_mb": 0.005757331848144531
+    },
+    {
+      "hash": "bd997fc1",
+      "files": [
+        "08_ai_artificial_intelligence/Ai_systems/ai_job_negotiation_scripts_documentation.html",
+        "backups/duplicates/fd09976304df2457b7dbaf1a992bb6065329e5cc5843d7ea8558ade11f0a6c3b/AI_Job_Negotiation_Scripts_Documentation.html"
+      ],
+      "size_mb": 0.38750171661376953
+    },
+    {
+      "hash": "80ce1d47",
+      "files": [
+        "08_ai_artificial_intelligence/Ai_systems/03_ai_course_business_plan.docx",
+        "backups/duplicates/a7eab17fc9806425d10fff052992865e7578c0b732b9774aeecc96dd23eb0848/03_AI_Course_Business_Plan.docx"
+      ],
+      "size_mb": 0.019614219665527344
+    },
+    {
+      "hash": "c65ba42a",
+      "files": [
+        "08_ai_artificial_intelligence/Ai_systems/ai_marketing_roi_calculator.html",
+        "backups/duplicates/aee17ce823979b298f239149abfbb0ca57b46ab2feda596e027e34804158a2e8/AI_Marketing_ROI_Calculator.html"
+      ],
+      "size_mb": 0.014483451843261719
+    },
+    {
+      "hash": "6658826e",
+      "files": [
+        "08_ai_artificial_intelligence/Ai_systems/ai_marketing_webinar_documentation.html",
+        "backups/duplicates/971622aaafd9943b65e5b3f043ee3f7bc675f3139b96e7a88474fe2bb0cecd01/AI_Marketing_Webinar_Documentation.html"
+      ],
+      "size_mb": 0.9514884948730469
+    },
+    {
+      "hash": "449eb2a2",
+      "files": [
+        "08_ai_artificial_intelligence/Ai_systems/ai_marketing_advanced_features.html",
+        "backups/duplicates/5bad179a8b830e530046b02e221bef452bc3378c4da964d9b00e3ac6736675dc/AI_Marketing_Advanced_Features.html"
+      ],
+      "size_mb": 0.04650115966796875
+    },
+    {
+      "hash": "bbd05a9b",
+      "files": [
+        "08_ai_artificial_intelligence/Ai_systems/ai_marketing_implementation_roadmap.html",
+        "backups/duplicates/0bccacb88334d1f739314856c6552a64aac6359dff9c0272686abb99fedf38ca/AI_Marketing_Implementation_Roadmap.html"
+      ],
+      "size_mb": 0.016025543212890625
+    },
+    {
+      "hash": "194588d7",
+      "files": [
+        "08_ai_artificial_intelligence/Neural_networks/neural.js",
+        "backups/duplicates/a3723cbadd9c72f84eafe5656bf62eea7d4f2aae51a6723da6726f6b839aa12b/neural.js"
+      ],
+      "size_mb": 0.0063419342041015625
+    },
+    {
+      "hash": "d0440b56",
+      "files": [
+        "08_ai_artificial_intelligence/Neural_networks/neural_network_ai.py",
+        "backups/duplicates/6920315e8baeab113b63d154d7229f1bc61a392ab30f567177e33f767ebc7edb/neural_network_ai.py"
+      ],
+      "size_mb": 0.018796920776367188
+    },
+    {
+      "hash": "e40576fe",
+      "files": [
+        "04_business_strategy/Other/Plans/launch_planning_example.py",
+        "backups/duplicates/6a3cf5192354f71615ac51034b3e97c20eda99643fcaf5bbe6d41ad59bd12167/startup_screening_template.md",
+        "backups/duplicates/6a3cf5192354f71615ac51034b3e97c20eda99643fcaf5bbe6d41ad59bd12167/vc_screening_process_documentation.md"
+      ],
+      "size_mb": 2.86102294921875e-06
+    },
+    {
+      "hash": "5e53e942",
+      "files": [
+        "04_business_strategy/Other/Templates/lead_readiness_template.csv",
+        "backups/duplicates/51d2715ba44ceae3aed3c28a3f7c2780713a2c028d917dcb719db8e7bccefd2a/LEAD_READINESS_TEMPLATE.csv"
+      ],
+      "size_mb": 0.0006361007690429688
+    },
+    {
+      "hash": "c4cadaee",
+      "files": [
+        "06_strategy/Strategy_other/edgecomputing.js",
+        "backups/duplicates/0703290093c9b7e4df0cd4064d7c8ab3049897d2bbc3bc6c55d6e03a137340bb/EdgeComputing.js"
+      ],
+      "size_mb": 0.013213157653808594
+    },
+    {
+      "hash": "a189772b",
+      "files": [
+        "06_strategy/Strategy_other/holographic.js",
+        "backups/duplicates/b36eb7c928cadfd8b28d0a7935087c4a3693449fa5e2ccb82703de023d7631a1/holographic.js"
+      ],
+      "size_mb": 0.010056495666503906
+    },
+    {
+      "hash": "e8c921cd",
+      "files": [
+        "06_strategy/Strategy_other/collective.js",
+        "backups/duplicates/059fee9b23d472f9cf695a60aff125a9c91c87aa037a76d6f7701c3a168ef33c/collective.js"
+      ],
+      "size_mb": 0.009355545043945312
+    },
+    {
+      "hash": "f0386cc8",
+      "files": [
+        "06_documentation/ORGANIZACION_COMPLETA.md",
+        "06_documentation/Documentation/organizacion_completa.md"
+      ],
+      "size_mb": 0.0014667510986328125
+    },
+    {
+      "hash": "3ce2026e",
+      "files": [
+        "06_documentation/Other/lite_pack_filelist.txt",
+        "backups/duplicates/23667471329874241008ac9610dcff1d7bd8d76552aa264a062eb30f5488b132/LITE_PACK_FILELIST.txt"
+      ],
+      "size_mb": 0.00020694732666015625
+    },
+    {
+      "hash": "f4c5388f",
+      "files": [
+        "06_documentation/Other/soluciones_ecuaciones_diferenciales.pdf",
+        "backups/duplicates/77cfa9930f330a872f646de779f17824ef6b1119ef3bee5f47f608a9baff4238/Copia de soluciones_ecuaciones_diferenciales.pdf"
+      ],
+      "size_mb": 0.007987022399902344
+    },
+    {
+      "hash": "69f334f7",
+      "files": [
+        "06_documentation/Other/Guides/guia_herramientas_ia_canva.txt",
+        "backups/duplicates/624e83e14ba84921848c77abb94b3fca26ff78eefe3daf34baa9b98d6c9f2cdd/guia_ia_canva_optimizada.txt"
+      ],
+      "size_mb": 0.008036613464355469
+    },
+    {
+      "hash": "cade38a6",
+      "files": [
+        "05_technology/04_software_development/api_server.py",
+        "backups/duplicates/9fe0d6e16d26305feda96e136447c3d7434afceb53a174a311612308ee2b3ded/api_server_1.py",
+        "backups/duplicates/9fe0d6e16d26305feda96e136447c3d7434afceb53a174a311612308ee2b3ded/api_server.py"
+      ],
+      "size_mb": 0.012758255004882812
+    },
+    {
+      "hash": "8d952133",
+      "files": [
+        "05_technology/04_software_development/graphql_api.py",
+        "backups/duplicates/0091085f1df01166e3d6fc3c4d4ffcbf1df4353e3efad0e187b7181a3750cafb/graphql_api_1.py",
+        "backups/duplicates/0091085f1df01166e3d6fc3c4d4ffcbf1df4353e3efad0e187b7181a3750cafb/graphql_api.py"
+      ],
+      "size_mb": 0.02538013458251953
+    },
+    {
+      "hash": "ffc3b4cd",
+      "files": [
+        "05_technology/Ai_scripts/aimlengine.ts",
+        "backups/duplicates/d14e72987d2aff0154dd60a2a4a9fadfd0ed6e53dcd0b1e2553861b11ea39f3a/aiMLEngine_1.ts"
+      ],
+      "size_mb": 0.024761199951171875
+    },
+    {
+      "hash": "701bb995",
+      "files": [
+        "05_technology/Implementation_guides/setup_project.py",
+        "backups/duplicates/2b9386d80f450ae61b83527c224d15c46510505f13041c341ba6ad1c5806298c/setup_project.py"
+      ],
+      "size_mb": 0.009759902954101562
+    },
+    {
+      "hash": "67accc8e",
+      "files": [
+        "05_technology/Implementation_guides/setup_organization.py",
+        "backups/duplicates/c4c9d4f437a967a63dc91463f0f5862465733aecac8a97b6ee4d3a99bce5a902/setup_organization.py"
+      ],
+      "size_mb": 0.014249801635742188
+    },
+    {
+      "hash": "5dc4d162",
+      "files": [
+        "05_technology/Implementation_guides/05_technical_implementation/saas_ab_testing_platform.js",
+        "backups/duplicates/8eee6d9ff4c8fb9d2e9ff28e99f5d6177476b998595c6d669ddd9470db201a2a/saas-ab-testing-platform.js"
+      ],
+      "size_mb": 0.017370223999023438
+    },
+    {
+      "hash": "23fb01bb",
+      "files": [
+        "05_technology/Implementation_guides/05_technical_implementation/prometheus.yml",
+        "backups/duplicates/100a9c43e074f961b77a7dbebeabb7bfd4cb6bb853f94f6a18c6d5cb97dcdd4a/prometheus.yml"
+      ],
+      "size_mb": 0.0010395050048828125
+    },
+    {
+      "hash": "e8518975",
+      "files": [
+        "05_technology/Technical_specs/neural_sales_dashboard.html",
+        "backups/duplicates/21b95a5adbe533c126cb8b879152b3d9f3c6d03b658dfb20d0d3dc3c21a2680a/neural-sales-dashboard.html"
+      ],
+      "size_mb": 0.033443450927734375
+    },
+    {
+      "hash": "61b89451",
+      "files": [
+        "05_technology/Typescript_scripts/advancedanalytics_1.ts",
+        "backups/duplicates/b7747346354127ba43be940a3845f25c3eb745bff49a5574cf8fb5973b0a8558/advancedAnalytics.ts"
+      ],
+      "size_mb": 0.011798858642578125
+    },
+    {
+      "hash": "488acc81",
+      "files": [
+        "05_technology/Typescript_scripts/feedbackmiddleware_1.ts",
+        "backups/duplicates/ffa0974f23a28f63cf9808391ad0f7cfb8a223a48906dc8f1e3a0bf3488cf0ea/feedbackMiddleware.ts"
+      ],
+      "size_mb": 0.0138092041015625
+    },
+    {
+      "hash": "6e0a8c00",
+      "files": [
+        "05_technology/Typescript_scripts/index_1.ts",
+        "backups/duplicates/48de8fcee8d038844261824bd6229e643ac94e8fb2b195342a677a9defecad9b/index.ts"
+      ],
+      "size_mb": 0.0016841888427734375
+    },
+    {
+      "hash": "95308e99",
+      "files": [
+        "05_technology/Typescript_scripts/feedbackcontroller_1.ts",
+        "backups/duplicates/eb47cbfae47fc3416874e6f4b98a7ee24b056650373d20dce85d12a4c854a5a7/feedbackController.ts"
+      ],
+      "size_mb": 0.0144500732421875
+    },
+    {
+      "hash": "7eff228a",
+      "files": [
+        "05_technology/Typescript_scripts/feedbackmiddleware_3.ts",
+        "backups/duplicates/393dae788eab301d6ea572294e22ff6d899aa75094f4e11c317209b52b020756/feedbackMiddleware_4.ts"
+      ],
+      "size_mb": 0.013733863830566406
+    },
+    {
+      "hash": "950547da",
+      "files": [
+        "05_technology/Typescript_scripts/feedbackanalytics_1.ts",
+        "backups/duplicates/ee51a30f5d65076b708f43b78f8153b1e666400b1041efbb1f3745958f81950e/feedbackAnalytics.ts"
+      ],
+      "size_mb": 0.010332107543945312
+    },
+    {
+      "hash": "bfdf08cf",
+      "files": [
+        "05_technology/Typescript_scripts/app_1.ts",
+        "backups/duplicates/da28d4c32d6379025708c2db01da46a9e7252bfbfbf3ca3e3b847c3054219067/app.ts"
+      ],
+      "size_mb": 0.0058994293212890625
+    },
+    {
+      "hash": "6ac08f92",
+      "files": [
+        "05_technology/Typescript_scripts/server_1.ts",
+        "backups/duplicates/02dc234c925c71ea04a12f3a9151b9291316622ec1f95b7f5c00368c5e3cc722/server.ts"
+      ],
+      "size_mb": 0.004504203796386719
+    },
+    {
+      "hash": "3b69afa6",
+      "files": [
+        "05_technology/Typescript_scripts/advancedfeatures_1.ts",
+        "backups/duplicates/8e2d84b7da83c67fd48747ea7bb34dddda257a9ce349347a5890e9b1af312ebf/advancedFeatures.ts"
+      ],
+      "size_mb": 0.01613140106201172
+    },
+    {
+      "hash": "216a0570",
+      "files": [
+        "05_technology/Typescript_scripts/content_1.ts",
+        "backups/duplicates/e711e498ad92c7f2b226ff9f97a24a05e716b9c0ac1bed001d5a7fa874c3afa2/content.ts"
+      ],
+      "size_mb": 0.007343292236328125
+    },
+    {
+      "hash": "ae95be34",
+      "files": [
+        "05_technology/Typescript_scripts/customerfeedback_1.ts",
+        "backups/duplicates/c00be69a74512c26971687d02a6b3e456be9dd00f9903e237455cbe3946a5d37/customerFeedback.ts"
+      ],
+      "size_mb": 0.009441375732421875
+    },
+    {
+      "hash": "9f0d4691",
+      "files": [
+        "05_technology/Typescript_scripts/advancedfeedbackprocessor_1.ts",
+        "backups/duplicates/cd95be52ba3a73d63e587b53776d925f313949f9137b7c8cf97c04314e3692ea/advancedFeedbackProcessor.ts"
+      ],
+      "size_mb": 0.020191192626953125
+    },
+    {
+      "hash": "b5a122ad",
+      "files": [
+        "05_technology/Typescript_scripts/advancedanalytics_2.ts",
+        "backups/duplicates/de08ecc103dc78d21babe8f211e87f9b0c902161c5ec102bacac130e3a0094e5/advancedAnalytics_3.ts"
+      ],
+      "size_mb": 0.011797904968261719
+    },
+    {
+      "hash": "f4c96170",
+      "files": [
+        "05_technology/01_ai_machine_learning/maintenance_system.py",
+        "backups/duplicates/a63a3dd592097cc554add3d508c80b7b07464fe8387f73a8a571c78deb31359f/maintenance_system_1.py",
+        "backups/duplicates/a63a3dd592097cc554add3d508c80b7b07464fe8387f73a8a571c78deb31359f/maintenance_system.py"
+      ],
+      "size_mb": 0.013955116271972656
+    },
+    {
+      "hash": "0e404942",
+      "files": [
+        "05_technology/Code_scripts/script_shortlinks_generator.py",
+        "backups/duplicates/b7009bd853238b4eee7afd2dad53eca4f4c9736f383e2105029ef33d06a9c212/SCRIPT_SHORTLINKS_GENERATOR.py"
+      ],
+      "size_mb": 0.0042133331298828125
+    },
+    {
+      "hash": "4280e179",
+      "files": [
+        "05_technology/Code_scripts/app_module.py",
+        "backups/duplicates/9d56cea474d46be4b0b638861ff5f093cbcaa411aaeaac7de5fe940a10f6f9c7/app_module.py"
+      ],
+      "size_mb": 0.0011091232299804688
+    },
+    {
+      "hash": "316ecf18",
+      "files": [
+        "05_technology/Code_scripts/script_generador_dm.py",
+        "backups/duplicates/ab1ee127be912eb9f0a27ddcb0d0e542f0b7f7946cd48d9845378dacc4ea69b7/SCRIPT_GENERADOR_DM.py"
+      ],
+      "size_mb": 0.005702018737792969
+    },
+    {
+      "hash": "eed8a2e4",
+      "files": [
+        "05_technology/Code_scripts/validador_dm.py",
+        "backups/duplicates/c6baee8322e332e6a72a087467f5bfa02fd224153ccb1bcaa03c29729a3c65cb/VALIDADOR_DM.py"
+      ],
+      "size_mb": 0.008002281188964844
+    },
+    {
+      "hash": "c88d3c43",
+      "files": [
+        "05_technology/Configuration_files/neural_marketing_deployment.yaml",
+        "backups/duplicates/c040edb0f271347119a27984041d9929381351067154a5b95a8bfba79f83eb56/neural-marketing-deployment.yaml"
+      ],
+      "size_mb": 0.00966644287109375
+    },
+    {
+      "hash": "6c885186",
+      "files": [
+        "05_technology/Configuration_files/chart.yaml",
+        "backups/duplicates/e282c265faf529a089e1881545a4a4a0482992b5366458b33f05d3aec88a72b7/Chart.yaml"
+      ],
+      "size_mb": 0.0009317398071289062
+    },
+    {
+      "hash": "51d7cdef",
+      "files": [
+        "05_technology/Configuration_files/organization_config.json",
+        "backups/duplicates/04b49bac8da3cd62f14541eb62d749d0355e8d37ca26b042e4fb45713b708245/organization_config.json"
+      ],
+      "size_mb": 0.004576683044433594
+    },
+    {
+      "hash": "142ff561",
+      "files": [
+        "05_technology/Configuration_files/config.yaml",
+        "backups/duplicates/ee7b5e68e15ba78ba29e7b80e2311242ff2cd800796fe129feb1a591885216d7/config.yaml"
+      ],
+      "size_mb": 0.005694389343261719
+    },
+    {
+      "hash": "e3399087",
+      "files": [
+        "05_technology/Configuration_files/alert_rules.yml",
+        "backups/duplicates/3b2115d9530c40fc57cedff2d40fa124e573e2a5c9683f0e42095fdc4a3ad00e/alert_rules.yml"
+      ],
+      "size_mb": 0.0056591033935546875
+    },
+    {
+      "hash": "e96ff4ee",
+      "files": [
+        "05_technology/Configuration_files/package.json",
+        "backups/duplicates/d86a02b0f4d58dc80c0d23a5a48065040e8bd6ac66b3b6d526b354382f141d20/package.json"
+      ],
+      "size_mb": 0.00148773193359375
+    },
+    {
+      "hash": "1543fdfd",
+      "files": [
+        "05_technology/Configuration_files/tsconfig.json",
+        "backups/duplicates/a359c625faca5cb3389c006748c6e849ce57e86fa673796a4e7c5491fcbf6d5d/tsconfig.json"
+      ],
+      "size_mb": 0.0013151168823242188
+    },
+    {
+      "hash": "91904d45",
+      "files": [
+        "05_technology/Configuration_files/neural_marketing_dashboard.json",
+        "backups/duplicates/9f320467c6c3dcc0c4afda07691747b638ab79ab4df04ba7c5bc5649977ee55b/neural-marketing-dashboard.json"
+      ],
+      "size_mb": 0.00664520263671875
+    },
+    {
+      "hash": "7f5e1b8b",
+      "files": [
+        "05_technology/Configuration_files/values.yaml",
+        "backups/duplicates/4b339830a4e6c8fbce4d96fd444b6d66ac670d4481d7cad181fd64695a8acec3/values.yaml"
+      ],
+      "size_mb": 0.0061206817626953125
+    },
+    {
+      "hash": "370bb338",
+      "files": [
+        "05_technology/Configuration_files/prometheus.yml",
+        "backups/duplicates/60aa59eec2b643d7d57c4b7cac7d1d6eba220bfe78766b60b1d0475fa8e90800/prometheus.yml"
+      ],
+      "size_mb": 0.0011539459228515625
+    },
+    {
+      "hash": "e0718259",
+      "files": [
+        "05_technology/Configuration_files/ci_cd.yml",
+        "backups/duplicates/ce2c53356c9e95cc89599ec03c15c094c61035ab333689d264398f2576b4e267/ci-cd.yml"
+      ],
+      "size_mb": 0.006908416748046875
+    },
+    {
+      "hash": "427b5aa2",
+      "files": [
+        "05_technology/Other/24_blockchain_business_platform.xlsx",
+        "backups/duplicates/6f6ec4338c4ab3a4e7f35d1513d1c5822238c7b3d46d778213f83c903e3ec0db/24_Blockchain_Business_Platform.xlsx"
+      ],
+      "size_mb": 0.01607227325439453
+    },
+    {
+      "hash": "55e95447",
+      "files": [
+        "05_technology/Other/license",
+        "backups/duplicates/ceda90a47866253ef482445f6ca5fb5df9b28a21c3b33b7406ba04e4303d5b74/LICENSE"
+      ],
+      "size_mb": 0.0029344558715820312
+    },
+    {
+      "hash": "94fbe6ba",
+      "files": [
+        "05_technology/Other/requirements.txt",
+        "backups/duplicates/42de5f26922c1a7a69c7a17c47347ccb8ea09efaa5bb96777900c89887e489f8/requirements.txt"
+      ],
+      "size_mb": 0.0012149810791015625
+    },
+    {
+      "hash": "9047ced8",
+      "files": [
+        "05_technology/Other/styles.css",
+        "backups/duplicates/d87e6faccc98682c4ef2f85192acba839448440c06d982fed7cfcf1d2a7ab62d/styles.css"
+      ],
+      "size_mb": 0.015347480773925781
+    },
+    {
+      "hash": "6e332447",
+      "files": [
+        "05_technology/Other/init.sql",
+        "backups/duplicates/d58ded7199434e533193447d71dfe9112c6c6ba3956eb064014ff9c179995077/init.sql"
+      ],
+      "size_mb": 0.007617950439453125
+    },
+    {
+      "hash": "90b0f7ef",
+      "files": [
+        "05_technology/Other/nginx.conf",
+        "backups/duplicates/5d50dff2ad327e5446a2c1666b54a6b6f02bea7372e2887321694ea8a90c37ec/nginx.conf"
+      ],
+      "size_mb": 0.005236625671386719
+    },
+    {
+      "hash": "1151b195",
+      "files": [
+        "05_technology/Other/env.example",
+        "backups/duplicates/6f2919b41415c96079a5402dc005d5ac30760431464f5279bdc0479c06e2d5ca/env.example"
+      ],
+      "size_mb": 0.0030431747436523438
+    },
+    {
+      "hash": "df14ad05",
+      "files": [
+        "05_technology/Automation_scripts/automation.js",
+        "backups/duplicates/ff5a15adcefd95ae49481159b338d010646c001c64fbc31338e1c6f809bd465b/automation.js"
+      ],
+      "size_mb": 0.011058807373046875
+    },
+    {
+      "hash": "c84a91c6",
+      "files": [
+        "05_technology/Automation_scripts/monitoringservice.js",
+        "backups/duplicates/22235017bafddbcc63ce32cd94d8108278d0daa3388b33cdfb22fd6cac40c302/MonitoringService.js"
+      ],
+      "size_mb": 0.012264251708984375
+    },
+    {
+      "hash": "0e76e774",
+      "files": [
+        "05_technology/Automation_scripts/ultra_organizer.py",
+        "backups/duplicates/1f4b021e5853bc2dad83116d60a510e1de7d402b7d8ab5c18f989e9bc767daf4/ultra_organizer.py"
+      ],
+      "size_mb": 0.025597572326660156
+    },
+    {
+      "hash": "db6866f0",
+      "files": [
+        "05_technology/Automation_scripts/predictiveanalytics.js",
+        "backups/duplicates/15573d30a6be4f17e3f7d47c1d493369101a68e54ccc156034c73e59d2d55808/PredictiveAnalytics.js"
+      ],
+      "size_mb": 0.014472007751464844
+    },
+    {
+      "hash": "a0dc1d15",
+      "files": [
+        "05_technology/Automation_scripts/ratelimit.js",
+        "backups/duplicates/a6e5d7b2499ffbc62fb0997bb33d4b8cebe11c0ba24aae44c30b31e98915307f/rateLimit.js"
+      ],
+      "size_mb": 0.005344390869140625
+    },
+    {
+      "hash": "09a5fdcd",
+      "files": [
+        "05_technology/Automation_scripts/temporalmanipulation.js",
+        "backups/duplicates/ad6a304f06c7d75817bc600d71c65bfee4298f696601933a670ecd6332f464bd/TemporalManipulation.js"
+      ],
+      "size_mb": 0.0129852294921875
+    },
+    {
+      "hash": "2f85cadc",
+      "files": [
+        "05_technology/Automation_scripts/viral_train.py",
+        "backups/duplicates/475035bf92f790d418e7954d83d8cde1805de3b706f117dbaed42baa1c45872a/viral_train.py"
+      ],
+      "size_mb": 0.006550788879394531
+    },
+    {
+      "hash": "a085045e",
+      "files": [
+        "05_technology/Automation_scripts/workflow_automation.py",
+        "backups/duplicates/0a4a83dd5b6545356854f35aeb057f2b459aed281564fae800e052637a97c6a2/workflow_automation.py"
+      ],
+      "size_mb": 0.022894859313964844
+    },
+    {
+      "hash": "cf81a1c2",
+      "files": [
+        "05_technology/Automation_scripts/temporal.js",
+        "backups/duplicates/55eea50136af97ccc0c320b616f88521f1483be0963ea4554f4082229ca5bb2a/temporal.js"
+      ],
+      "size_mb": 0.01076507568359375
+    },
+    {
+      "hash": "a03023bc",
+      "files": [
+        "05_technology/Automation_scripts/permanent_organizer.py",
+        "backups/duplicates/9ce6e0197a1edc0543eb711ce176becaf5154b0f1514fe9f8b0cf2b4e1b084bc/permanent_organizer.py"
+      ],
+      "size_mb": 0.029239654541015625
+    },
+    {
+      "hash": "bbbbcbd7",
+      "files": [
+        "05_technology/Automation_scripts/immersive_analyzer.py",
+        "backups/duplicates/a795e8a37e6fe28241d38954569bdcf18b10c8b3fc8c372d870ece8fc5a869e0/immersive_analyzer.py"
+      ],
+      "size_mb": 0.03814220428466797
+    },
+    {
+      "hash": "415b62b5",
+      "files": [
+        "05_technology/Automation_scripts/video_processor.py",
+        "backups/duplicates/0491627a86129d39342c621a871e24ebb57172c467ab6a93c73eea514e725214/video_processor.py"
+      ],
+      "size_mb": 0.006056785583496094
+    },
+    {
+      "hash": "1b033288",
+      "files": [
+        "05_technology/Automation_scripts/user.js",
+        "backups/duplicates/cb7074e734803aaf4f7377dcf5347ee5b3a5adacc0618247d88e69e8b7eebe0f/User.js"
+      ],
+      "size_mb": 0.009387969970703125
+    },
+    {
+      "hash": "e295675c",
+      "files": [
+        "05_technology/Automation_scripts/auth.js",
+        "backups/duplicates/967e1b6858413ae5d498a371ce6051a9f7ce413079dd0382e88b0cca0e8d034b/auth.js"
+      ],
+      "size_mb": 0.004199028015136719
+    },
+    {
+      "hash": "07f3f499",
+      "files": [
+        "05_technology/Automation_scripts/final_organizer.py",
+        "backups/duplicates/b9a9e5fe859a920d16c526e205fba3373c9f33a22a4897d6e14afc8f27f84878/final_organizer.py"
+      ],
+      "size_mb": 0.031134605407714844
+    },
+    {
+      "hash": "da157f5e",
+      "files": [
+        "05_technology/Automation_scripts/swagger.js",
+        "backups/duplicates/3592308debb6878caa8df54d28e56310ced134bf97523f3dcb692e8cc101e797/swagger.js"
+      ],
+      "size_mb": 0.009710311889648438
+    },
+    {
+      "hash": "9bf5d901",
+      "files": [
+        "05_technology/Automation_scripts/index.js",
+        "backups/duplicates/ac547b8c53eaff9a03e28a6c723a3e4b502f534b6719e1b0e83d9e8ba4a30f31/index.js"
+      ],
+      "size_mb": 0.01920795440673828
+    },
+    {
+      "hash": "663320cd",
+      "files": [
+        "05_technology/Automation_scripts/edge.js",
+        "backups/duplicates/478cef93dc2d4a213034f55d53f1fdfa8bf4dfda8f96c71640c54795be83c047/edge.js"
+      ],
+      "size_mb": 0.00897216796875
+    },
+    {
+      "hash": "ab79e10a",
+      "files": [
+        "05_technology/Automation_scripts/organize_project.py",
+        "backups/duplicates/52f7fbd065a8c19ab999c52117a57503eb21b4f233e0d1c7dd8eda01d71aa848/organize_project.py"
+      ],
+      "size_mb": 0.02121448516845703
+    },
+    {
+      "hash": "516cef62",
+      "files": [
+        "05_technology/Automation_scripts/dashboard_config.js",
+        "backups/duplicates/7099cd03600a075e6f6ecdc2b9c8555ca39cf5d4e8bff2a6148d44f410598975/dashboard-config.js"
+      ],
+      "size_mb": 0.010907173156738281
+    },
+    {
+      "hash": "f9c44764",
+      "files": [
+        "05_technology/Automation_scripts/errorhandler.js",
+        "backups/duplicates/34e69c25f139e31c72f4b140bc14db47b39791ff407a363493be704033ae2775/errorHandler.js"
+      ],
+      "size_mb": 0.00585174560546875
+    },
+    {
+      "hash": "ae6cd03b",
+      "files": [
+        "05_technology/Automation_scripts/viral_clipper.py",
+        "backups/duplicates/2f8971e36a5a8c47fa37d55bfa1d69065b95348787e85989e7830bfe0b054651/viral_clipper.py"
+      ],
+      "size_mb": 0.010402679443359375
+    },
+    {
+      "hash": "b3536438",
+      "files": [
+        "05_technology/Automation_scripts/neural_dashboard_advanced_config.js",
+        "backups/duplicates/fe1e19a659967ab3faf5cde4884bb75af9945bba173a8e9ee9d7f58424900897/neural-dashboard-advanced-config.js"
+      ],
+      "size_mb": 0.012860298156738281
+    },
+    {
+      "hash": "9d2a3e40",
+      "files": [
+        "05_technology/Automation_scripts/verify_organization.py",
+        "backups/duplicates/9f961fcbd306658a9ca968722708ae41f155c9d1c67e8d5cc28216ba44cb387f/verify_organization.py"
+      ],
+      "size_mb": 0.010537147521972656
+    },
+    {
+      "hash": "26b3ad93",
+      "files": [
+        "05_technology/Automation_scripts/20_ai_business_automation_suite.xlsx",
+        "backups/duplicates/cfbcfba556368101b48e0a29ad4fa267fd2e4ff66d7adf4b2e59a1026510b745/20_AI_Business_Automation_Suite.xlsx"
+      ],
+      "size_mb": 0.015344619750976562
+    },
+    {
+      "hash": "74cdce62",
+      "files": [
+        "05_technology/Automation_scripts/auto_organize.py",
+        "backups/duplicates/7ae9fb8a8b6b9e6cc5ab6370d730eb388bca41bc270433fa503c84c0358b7fd5/auto_organize.py"
+      ],
+      "size_mb": 0.014116287231445312
+    },
+    {
+      "hash": "782313d1",
+      "files": [
+        "05_technology/Automation_scripts/25_advanced_automation_suite.xlsx",
+        "backups/duplicates/75dcb267ef1a55c765eab6db3c782829663b6ad31dd56abfa5e964d53383b930/25_Advanced_Automation_Suite.xlsx"
+      ],
+      "size_mb": 0.02079296112060547
+    },
+    {
+      "hash": "af3593db",
+      "files": [
+        "05_technology/Automation_scripts/notificationservice.js",
+        "backups/duplicates/e8aac25f85d5c2de61cfef0d625e96fd3193138e58d1925dabcaed982000afd1/NotificationService.js"
+      ],
+      "size_mb": 0.013151168823242188
+    },
+    {
+      "hash": "37f8f053",
+      "files": [
+        "05_technology/Automation_scripts/due_diligence_automation_script.py",
+        "backups/duplicates/e4389664063fda404ca5f7be2c4ecfc6075d136c560c4350bdb283a737ca7398/DUE_DILIGENCE_AUTOMATION_SCRIPT.py"
+      ],
+      "size_mb": 0.02524089813232422
+    },
+    {
+      "hash": "88cb62d6",
+      "files": [
+        "05_technology/Automation_scripts/analizador_competencia_anchor_texts.py",
+        "backups/duplicates/6ce779906ef76b20af9e8d94136abef4134a20a58a281d840f6bdaa8f5d772b9/analizador-competencia-anchor-texts.py"
+      ],
+      "size_mb": 0.021903038024902344
+    },
+    {
+      "hash": "8e77c5bf",
+      "files": [
+        "05_technology/Test_files/frontend_ab_testing.jsx",
+        "backups/duplicates/b15fd0a23baba17adaa796f8f68573258e2f8e6eda9d723b457ded13ca02dfa6/frontend-ab-testing.jsx"
+      ],
+      "size_mb": 0.019084930419921875
+    },
+    {
+      "hash": "e7e7f902",
+      "files": [
+        "05_technology/Code_examples/advanced_template_system.py",
+        "backups/duplicates/ec41e4ad82b11295d9920f515b07109e09549971bb7f2ff72edf82af298bef3c/advanced_template_system.py"
+      ],
+      "size_mb": 0.028753280639648438
+    },
+    {
+      "hash": "5f03986b",
+      "files": [
+        "05_technology/Code_examples/mobile_app.py",
+        "backups/duplicates/1060f8c4cb90913271ba77694dcb29973636e26561dcd51ef6097481fecd8983/mobile_app.py"
+      ],
+      "size_mb": 0.02254486083984375
+    },
+    {
+      "hash": "332f16e4",
+      "files": [
+        "05_technology/Code_examples/convert_to_pdf.py",
+        "backups/duplicates/add4f598275f1a0bfc6d198618de6b3a3b7ad645731886bfea5b66ef5203bfcc/convert_to_pdf.py"
+      ],
+      "size_mb": 0.0037469863891601562
+    },
+    {
+      "hash": "d594d1e2",
+      "files": [
+        "05_technology/Code_examples/collaboration_system.py",
+        "backups/duplicates/d75f18e2516ec42c5d2986146d65f2a1c10048cd8f178aef45c741fd4ed088de/collaboration_system.py"
+      ],
+      "size_mb": 0.02056407928466797
+    },
+    {
+      "hash": "f1cf249b",
+      "files": [
+        "05_technology/Code_examples/monitoring_dashboard.py",
+        "backups/duplicates/da4ac3d8e5767e573cca9fd607f849dce774be3a2903bc636b80cbcab25e4e13/monitoring_dashboard.py"
+      ],
+      "size_mb": 0.01993560791015625
+    },
+    {
+      "hash": "1726c195",
+      "files": [
+        "05_technology/Code_examples/demo_brand_analyzer.py",
+        "backups/duplicates/d4429afb6cb0525f9bc90e23f55761d0789a1ed1a4ae25655c796d9511107146/demo_brand_analyzer.py"
+      ],
+      "size_mb": 0.00811767578125
+    },
+    {
+      "hash": "57bab5a3",
+      "files": [
+        "05_technology/Code_examples/convert_to_pdf_weasyprint.py",
+        "backups/duplicates/b6b7578d27a50e846a367bf664eb48d7dfbfc51d180202f7fd0fd62f86f4729d/convert_to_pdf_weasyprint.py"
+      ],
+      "size_mb": 0.003956794738769531
+    },
+    {
+      "hash": "5271ec8e",
+      "files": [
+        "05_technology/Code_examples/convert_to_docs.py",
+        "backups/duplicates/6bd0578615958e4697766bc050a29f5aed19a538f71d19d147aa878109c131de/convert_to_docs.py"
+      ],
+      "size_mb": 0.014145851135253906
+    },
+    {
+      "hash": "7f0cd7d6",
+      "files": [
+        "05_technology/Code_examples/ai_content_analyzer.py",
+        "backups/duplicates/b2bd6cfecd2971ac08746f38e248bde54d5546278bad839f4580938af209ba72/ai_content_analyzer.py"
+      ],
+      "size_mb": 0.018980979919433594
+    },
+    {
+      "hash": "219c59b7",
+      "files": [
+        "05_technology/Code_examples/convert_to_docs_alternative.py",
+        "backups/duplicates/c8cd338327b8db6e5424e56adffd8a7aa394fb42ff096b57e04fb8cd82f45d6d/convert_to_docs_alternative.py"
+      ],
+      "size_mb": 0.019010543823242188
+    },
+    {
+      "hash": "813c0de0",
+      "files": [
+        "05_technology/Code_examples/voice_commands.py",
+        "backups/duplicates/e394d4dd06d0a806060e8d4e019dd5a4adf35b5a5b554f5e7f7ff300a9cd5ddb/voice_commands.py"
+      ],
+      "size_mb": 0.016353607177734375
+    },
+    {
+      "hash": "9588b5fb",
+      "files": [
+        "05_technology/Code_examples/quick_start.py",
+        "backups/duplicates/98af175adc999a6c86e734db3535df7f7a7a1c021afa0f00e7a442da133c8442/quick_start.py"
+      ],
+      "size_mb": 0.01673603057861328
+    },
+    {
+      "hash": "1831a9c4",
+      "files": [
+        "05_technology/Code_examples/edge_computing_system.py",
+        "backups/duplicates/5cd2e6905be74701504adaacf60f429052469b3ef349dc85e74052330ee75a26/edge_computing_system.py"
+      ],
+      "size_mb": 0.020081520080566406
+    },
+    {
+      "hash": "936e8843",
+      "files": [
+        "05_technology/Code_examples/convert_advanced.py",
+        "backups/duplicates/1067daf35d358bc4fe3f879a3b8ff7eadec7d5005f6183b4aa11c1f007409859/convert_advanced.py"
+      ],
+      "size_mb": 0.006392478942871094
+    },
+    {
+      "hash": "f317720d",
+      "files": [
+        "05_technology/Code_examples/organize_remaining.py",
+        "backups/duplicates/03e8198739053d57d3fac4b27c10ad016cd27f845988af4d2217e9abf31874c1/organize_remaining.py"
+      ],
+      "size_mb": 0.009588241577148438
+    },
+    {
+      "hash": "319f4380",
+      "files": [
+        "05_technology/Code_examples/convert_testimonial.py",
+        "backups/duplicates/7252757ec6aac620c4d41aa07534423b6897f138ab38a686a767e07394fb5373/convert-testimonial.py"
+      ],
+      "size_mb": 0.0035829544067382812
+    },
+    {
+      "hash": "54faf705",
+      "files": [
+        "05_technology/Code_examples/cloud_sync.py",
+        "backups/duplicates/104950c9f5a118f74c8efe38d44c36de60d31e1396e11a4108ce48ea284c3809/cloud_sync.py"
+      ],
+      "size_mb": 0.01888751983642578
+    },
+    {
+      "hash": "bf8d5e90",
+      "files": [
+        "05_technology/Code_examples/open_documents.py",
+        "backups/duplicates/1506808de93ebbbc3bcfc7a3cda577589bb1fe12f621f932b0d9ca4e9e0fddc1/open_documents.py"
+      ],
+      "size_mb": 0.0022439956665039062
+    },
+    {
+      "hash": "9a2179d5",
+      "files": [
+        "05_technology/Code_examples/conversational_ai_system.py",
+        "backups/duplicates/ef86bb5a017b238afd2a3dde4c94e02a4a807d05662434511ce65de06ddac466/conversational_ai_system.py"
+      ],
+      "size_mb": 0.02006816864013672
+    },
+    {
+      "hash": "e3816797",
+      "files": [
+        "05_technology/Code_examples/iot_integration_system.py",
+        "backups/duplicates/71037804a07aa68fe827a7d68ac8fc048199b9192ee628ee37533726794b9b07/iot_integration_system.py"
+      ],
+      "size_mb": 0.023027420043945312
+    },
+    {
+      "hash": "7b535523",
+      "files": [
+        "05_technology/Code_examples/setup.py",
+        "backups/duplicates/35db38c00d9e2bfe2363fa7a8b78a63ffb3638fc58f52f52d93da28d550abb04/setup.py"
+      ],
+      "size_mb": 0.008265495300292969
+    },
+    {
+      "hash": "2622e0c8",
+      "files": [
+        "05_technology/Code_examples/predictive_ai_system.py",
+        "backups/duplicates/c7fd72817466ab4e2048d7f614490a66e2b41240f3b39aad13bd849be0317c5f/predictive_ai_system.py"
+      ],
+      "size_mb": 0.02310657501220703
+    },
+    {
+      "hash": "1a0dcef9",
+      "files": [
+        "05_technology/Code_examples/blockchain_integrity.py",
+        "backups/duplicates/3424882e088df0b65e81f2bfc4f75f7af7ca302660a067ddfc8ffab1727e8959/blockchain_integrity.py"
+      ],
+      "size_mb": 0.020616531372070312
+    },
+    {
+      "hash": "d135dc4a",
+      "files": [
+        "05_technology/Code_examples/web_interface.py",
+        "backups/duplicates/4d145c8b6b47496b5508eca18433f0a8d67267431f47ae913bff1a042cd07493/web_interface.py"
+      ],
+      "size_mb": 0.01900196075439453
+    },
+    {
+      "hash": "2bea8e75",
+      "files": [
+        "05_technology/Code_examples/auto_organize.py",
+        "backups/duplicates/176fafc31182e046b4d0a43e2fa41c293527dedd3631f7bd4438cbcfb7571409/auto_organize.py"
+      ],
+      "size_mb": 0.015372276306152344
+    },
+    {
+      "hash": "87c9160b",
+      "files": [
+        "05_technology/Code_examples/backup_system.py",
+        "backups/duplicates/d035a08f021e0a71b0a5a385a7fa9aba5442f5936b2cffe150103f1d0a5b1c69/backup_system.py"
+      ],
+      "size_mb": 0.011960983276367188
+    },
+    {
+      "hash": "2540eec4",
+      "files": [
+        "05_technology/Code_examples/system_manager.py",
+        "backups/duplicates/180bd4b239c0068a4e17152d85e8b673f8f0570ecf0e24880778d51237bb7a15/system_manager.py"
+      ],
+      "size_mb": 0.010997772216796875
+    },
+    {
+      "hash": "88cb4dd5",
+      "files": [
+        "05_technology/Code_examples/autonomous_ai_system.py",
+        "backups/duplicates/78f9280b1a33dd5e78936d31b10b001b8963e7b7fe2b7a1e6c6cb1b54e917e7c/autonomous_ai_system.py"
+      ],
+      "size_mb": 0.027268409729003906
+    },
+    {
+      "hash": "3a916276",
+      "files": [
+        "05_technology/Code_examples/convert_to_docs_final.py",
+        "backups/duplicates/f6506bd7a5040988b16de57ef74a1611a82acc456adfa877711629ef94c156aa/convert_to_docs_final.py"
+      ],
+      "size_mb": 0.020229339599609375
+    },
+    {
+      "hash": "cfa141e3",
+      "files": [
+        "05_technology/Code_examples/advanced_demo.py",
+        "backups/duplicates/41a587bbd452a641834c96b1e9ec9a6c1e32ae4144a7e6b0376e16f7f0faf12f/advanced_demo.py"
+      ],
+      "size_mb": 0.02727508544921875
+    },
+    {
+      "hash": "02a54ef1",
+      "files": [
+        "05_technology/Code_examples/template_system.py",
+        "backups/duplicates/5e7a2dba4b37974b8b22fa6e5bb88bfeb41aa94fff851a722ece26d1cf496181/template_system.py"
+      ],
+      "size_mb": 0.03322601318359375
+    },
+    {
+      "hash": "db8a83b8",
+      "files": [
+        "05_technology/Code_examples/organize_files.py",
+        "backups/duplicates/6f4b1d2fbd2fcea48d3da16611e2358ffccb39146416fb11da41e5b6c90d56ee/organize_files.py"
+      ],
+      "size_mb": 0.006908416748046875
+    },
+    {
+      "hash": "77658942",
+      "files": [
+        "05_technology/Code_examples/search_documents.py",
+        "backups/duplicates/4c969495f79952db77712febcdbedd4d9f9778d6e48870bae8eca80cfe2a41c5/search_documents.py"
+      ],
+      "size_mb": 0.007687568664550781
+    },
+    {
+      "hash": "5c1507d1",
+      "files": [
+        "05_technology/Code_examples/advanced_analytics_engine.py",
+        "backups/duplicates/954b67f71fe20c23e0d9df2c974b73f0586d1cd2c8dcd51f95c529cc1de56987/advanced_analytics_engine.py"
+      ],
+      "size_mb": 0.01785755157470703
+    },
+    {
+      "hash": "3da4e666",
+      "files": [
+        "05_technology/Code_examples/enhanced_search.py",
+        "backups/duplicates/2d948989e0af525901b4ff661a063e859c0cac8a42f1d736df11d44e416d6f5e/enhanced_search.py"
+      ],
+      "size_mb": 0.01643848419189453
+    },
+    {
+      "hash": "3511164c",
+      "files": [
+        "05_technology/Code_examples/cybersecurity_system.py",
+        "backups/duplicates/790f340c79e62ec1953ce52194b7a4f9de5431a07dcede091f121bb8be9bdf3e/cybersecurity_system.py"
+      ],
+      "size_mb": 0.023972511291503906
+    },
+    {
+      "hash": "f2da777e",
+      "files": [
+        "05_technology/Code_examples/generate_pdfs.py",
+        "backups/duplicates/bfe7c019778d3303ce270317c3619ef94f236b0935c8506bc8078042aa6d2e01/generate_pdfs.py"
+      ],
+      "size_mb": 0.004321098327636719
+    },
+    {
+      "hash": "bd4a5e46",
+      "files": [
+        "05_technology/Data_scripts/dataintegration.ts",
+        "backups/duplicates/cecba6bf951667ec761c3c588c92e82edf92d224c4b6dcc832cd7dc3ad53c15c/dataIntegration_1.ts"
+      ],
+      "size_mb": 0.009214401245117188
+    },
+    {
+      "hash": "c29e0107",
+      "files": [
+        "05_technology/Neural_networks/neuralinsights_1.ts",
+        "backups/duplicates/cf449f35ad35c0e7fac49b2d674c55d6eb22fe6b08be0c684481ce02954e69fc/neuralInsights.ts"
+      ],
+      "size_mb": 0.009186744689941406
+    },
+    {
+      "hash": "8aa9f2d0",
+      "files": [
+        "05_technology/Auth_scripts/auth_4.ts",
+        "backups/duplicates/ea90ccd58b55e0e40ab2d2452f1f691ab8f2e7a6895194f80b084a703af626cd/auth_3.ts"
+      ],
+      "size_mb": 0.0024061203002929688
+    },
+    {
+      "hash": "6649346d",
+      "files": [
+        "05_technology/Auth_scripts/auth_5.ts",
+        "backups/duplicates/c4f593482169e58808d6b34c769c0e9dd880dd04187194114e2e4785ce6e1be4/auth_2.ts"
+      ],
+      "size_mb": 0.006266593933105469
+    },
+    {
+      "hash": "5b4bc754",
+      "files": [
+        "05_technology/Auth_scripts/auth_6.ts",
+        "backups/duplicates/cefe308507dc4ec7fbcdc3a507d373c8bead025779e2bcbea07074435278dbeb/auth_7.ts"
+      ],
+      "size_mb": 0.0032529830932617188
+    },
+    {
+      "hash": "d9a511cd",
+      "files": [
+        "05_technology/Auth_scripts/auth.ts",
+        "backups/duplicates/707848ebd43f9739b13c60ba0f6d95bcb551a4564e62e390f671afc57be25eaa/auth_1.ts"
+      ],
+      "size_mb": 0.009228706359863281
+    },
+    {
+      "hash": "be08799e",
+      "files": [
+        "05_technology/Services/neuralmarketpredictionservice_1.ts",
+        "backups/duplicates/28a6e22bdeb107da1b3cd95e33e1ed02d1494048c9e9a0043415e0c86e5764fc/neuralMarketPredictionService.ts"
+      ],
+      "size_mb": 0.015310287475585938
+    },
+    {
+      "hash": "5034150b",
+      "files": [
+        "05_technology/Services/contentservice_1.ts",
+        "backups/duplicates/71ecfe55cfdf719284f174ee9792de5b6af411d008e92c23197342b3eb7553f1/contentService.ts"
+      ],
+      "size_mb": 0.005860328674316406
+    },
+    {
+      "hash": "a25bdb22",
+      "files": [
+        "05_technology/Services/feedbackanalyticsservice_1.ts",
+        "backups/duplicates/f209e27fe691bebf29c65c27e8ece90939628039c823cbdb1c5bcb40559826d7/feedbackAnalyticsService.ts"
+      ],
+      "size_mb": 0.01880168914794922
+    },
+    {
+      "hash": "6cc8eb59",
+      "files": [
+        "05_technology/Services/advancedanalyticsservice_2.ts",
+        "backups/duplicates/529a9be5b3c95678f332e440b065eb6615f3fc07bfed4a7ae9ff7fe9ea627532/advancedAnalyticsService_3.ts"
+      ],
+      "size_mb": 0.02005767822265625
+    },
+    {
+      "hash": "e74f9df3",
+      "files": [
+        "05_technology/Services/realtimenotificationservice_1.ts",
+        "backups/duplicates/805111ffd8aaf042cb1fdc023a9e2f1d3ab4fe96d25e06862aa01040be26564b/realTimeNotificationService.ts"
+      ],
+      "size_mb": 0.0169830322265625
+    },
+    {
+      "hash": "2bea7a47",
+      "files": [
+        "05_technology/Services/neuralcollaborationservice.ts",
+        "backups/duplicates/6bb3b7d87bd9a38211087cf3a2309f2cbb7d62b4985f9dc4634bbd88633348a5/neuralCollaborationService_1.ts"
+      ],
+      "size_mb": 0.015513420104980469
+    },
+    {
+      "hash": "713a3bfd",
+      "files": [
+        "05_technology/Services/neurallearningservice.ts",
+        "backups/duplicates/1359baa9e6d69be33207b1421209e2bb783a23b2b3d024e35795a479529bbe4d/neuralLearningService_1.ts"
+      ],
+      "size_mb": 0.0135650634765625
+    },
+    {
+      "hash": "4cde5d55",
+      "files": [
+        "05_technology/Services/neuralarservice.ts",
+        "backups/duplicates/49e7a538a7e98f27d5dfd4dcd4b1b67d64b368bb25f08600fe57af28ce61509d/neuralARService_1.ts"
+      ],
+      "size_mb": 0.013835906982421875
+    },
+    {
+      "hash": "e2ff620a",
+      "files": [
+        "05_technology/Services/neuralblockchainservice.ts",
+        "backups/duplicates/66db5878cb5b4a9683466bff8792966d18b16fd204455bf3c4cfce3035e6058c/neuralBlockchainService_1.ts"
+      ],
+      "size_mb": 0.016942977905273438
+    },
+    {
+      "hash": "f93f5371",
+      "files": [
+        "05_technology/Services/customerfeedbackservice_1.ts",
+        "backups/duplicates/687f0e3c2b25404686a3b9ec0b963c1104e86f09c6bcfa72a8f5c33ad1fb770c/customerFeedbackService.ts"
+      ],
+      "size_mb": 0.024216651916503906
+    },
+    {
+      "hash": "c9e1f2d2",
+      "files": [
+        "05_technology/Services/neuralaiservice.ts",
+        "backups/duplicates/8e6da99458850d827c1fc1d8424f992ce78e127f70983225c77ec1293f622a72/neuralAIService_1.ts"
+      ],
+      "size_mb": 0.016654014587402344
+    },
+    {
+      "hash": "fcd95898",
+      "files": [
+        "05_technology/Services/customerfeedbackservice_3.ts",
+        "backups/duplicates/5a4a304e63e20f5c9dc5a273a9aeb18a9c60380ecec9dcf02846bc774ae697c3/customerFeedbackService_4.ts"
+      ],
+      "size_mb": 0.02445507049560547
+    },
+    {
+      "hash": "59832359",
+      "files": [
+        "05_technology/Services/dataintegrationservice.ts",
+        "backups/duplicates/3b807981234c2e4cc45048b41543f58f3eed94f1790cc4f41059f774b9e84ef4/dataIntegrationService_1.ts"
+      ],
+      "size_mb": 0.020254135131835938
+    },
+    {
+      "hash": "f11584de",
+      "files": [
+        "05_technology/Services/neuralautomationservice.ts",
+        "backups/duplicates/8ce7a7ad3cdceea51bafea8dea2d8c3a6851e36c97f4b2348f52814ea196cc7f/neuralAutomationService_1.ts"
+      ],
+      "size_mb": 0.018960952758789062
+    },
+    {
+      "hash": "0850caef",
+      "files": [
+        "05_technology/Services/neuralinsightsservice.ts",
+        "backups/duplicates/f778b9208970ace590057ff47da676f285491a965e92d53fa153dafffc303d84/neuralInsightsService_1.ts"
+      ],
+      "size_mb": 0.0132904052734375
+    },
+    {
+      "hash": "be42a7be",
+      "files": [
+        "05_technology/Services/machinelearningservice.ts",
+        "backups/duplicates/4d24ed66bfcde0c77604368cabf5264d6466ea7cff6361aeb0869dc66a49e107/machineLearningService_1.ts"
+      ],
+      "size_mb": 0.018579483032226562
+    },
+    {
+      "hash": "47003646",
+      "files": [
+        "05_technology/Services/neuraldimensionservice_1.ts",
+        "backups/duplicates/8fa3a25e3fb26bc1c53bdc31e628533a69c7fd7256317cefbb14dc755b361c77/neuralDimensionService.ts"
+      ],
+      "size_mb": 0.017928123474121094
+    },
+    {
+      "hash": "943e90b8",
+      "files": [
+        "05_technology/Services/neuraltimetravelservice.ts",
+        "backups/duplicates/d35691a7d009c791ae4264fd709bec56ed3637f0b036e447953cf788083eed3f/neuralTimeTravelService_1.ts"
+      ],
+      "size_mb": 0.017086029052734375
+    },
+    {
+      "hash": "b9f2ba1e",
+      "files": [
+        "05_technology/Services/neuralmetaverseservice.ts",
+        "backups/duplicates/ff5bb23463de9613c37b7e04fdc5d036568196af8ea4069d14a255b53c520c61/neuralMetaverseService_1.ts"
+      ],
+      "size_mb": 0.01812458038330078
+    },
+    {
+      "hash": "61d58b50",
+      "files": [
+        "05_technology/Services/neuraltelepathyservice.ts",
+        "backups/duplicates/ad71ea8c58737fcba088fbfbc86eda113281e90f131381dd21c8ba4cca696385/neuralTelepathyService_1.ts"
+      ],
+      "size_mb": 0.01706695556640625
+    },
+    {
+      "hash": "bf9be851",
+      "files": [
+        "05_technology/Services/advancedanalyticsservice_1.ts",
+        "backups/duplicates/2f0b19c330170e45b3b40d271778e6ff3daf21de7b9e6d5135c42411e552265f/advancedAnalyticsService.ts"
+      ],
+      "size_mb": 0.020058631896972656
+    },
+    {
+      "hash": "a86ceb44",
+      "files": [
+        "00_version_management/Archived_versions/frases_populares_busqueda_google_2024_ultra_completo_final.html",
+        "backups/duplicates/ca2cb1d2248fdc7dd9fe1070b10cee6717f9a36d6c95fa8eee94965e3c2b837d/frases-populares-busqueda-google-2024-ultra-completo-final.html"
+      ],
+      "size_mb": 0.6894607543945312
+    },
+    {
+      "hash": "531b3b09",
+      "files": [
+        "00_version_management/Archived_versions/frases_populares_busqueda_google_2024_ultra_completo_final.pdf",
+        "backups/duplicates/02cfe0579625279ada5365b324192d784e1edaa38388b5484c96c98365889c20/frases-populares-busqueda-google-2024-ultra-completo-final.pdf"
+      ],
+      "size_mb": 1.1199283599853516
+    },
+    {
+      "hash": "a309ffe4",
+      "files": [
+        "04_operations/Other/app.tsx",
+        "backups/duplicates/4aa370fdf18dab4b523f7876be5216cc626a6b47f59453700084d581cabf855c/App.tsx"
+      ],
+      "size_mb": 0.0032405853271484375
+    },
+    {
+      "hash": "b5d8e1cf",
+      "files": [
+        "04_operations/Other/head",
+        ".git/HEAD"
+      ],
+      "size_mb": 2.002716064453125e-05
+    },
+    {
+      "hash": "8170c159",
+      "files": [
+        "24_education/Data_Files/saas_ia_marketing_pl.json",
+        "backups/duplicates/4ae23e342a2dfcd814cbd2c12d1f96dd8735a0438660bcd02e3dedc5bb54d214/saas_ia_marketing_P&L.json"
+      ],
+      "size_mb": 0.0066547393798828125
+    },
+    {
+      "hash": "bc4fcb9a",
+      "files": [
+        "24_education/Data_Files/curso_ia_webinars_pl.json",
+        "backups/duplicates/4b30a270402ae3f5629f8340d34068dd6dfbcbf7439eabb2fa73074afe3994d3/curso_ia_webinars_P&L.json"
+      ],
+      "size_mb": 0.004302024841308594
+    },
+    {
+      "hash": "c7b36187",
+      "files": [
+        "Vc_venture_capital/Analysis_tools/dashboard_ia_anti_vc_dependencia.html",
+        "backups/duplicates/a3f840ae7a949356ceba5ed5baad1e85e528bf01335496cd9c83f19402f7de95/DASHBOARD_IA_ANTI_VC_DEPENDENCIA.html"
+      ],
+      "size_mb": 0.020641326904296875
+    },
+    {
+      "hash": "b0f56adf",
+      "files": [
+        "Vc_venture_capital/Analysis_tools/calculadora_anti_vc_dependencia.html",
+        "backups/duplicates/26436de76174822d03585e11af3eb05234f1985af97523a31bb54bf05ea96acb/CALCULADORA_ANTI_VC_DEPENDENCIA.html"
+      ],
+      "size_mb": 0.008352279663085938
+    },
+    {
+      "hash": "8c7c563b",
+      "files": [
+        "Vc_venture_capital/Analysis_tools/calculadora_avanzada_anti_vc.html",
+        "backups/duplicates/98f07480abd455e516ac5c231b27f6fa62206834eb5c1576cb37f11e2ee62a2c/CALCULADORA_AVANZADA_ANTI_VC.html"
+      ],
+      "size_mb": 0.026239395141601562
+    },
+    {
+      "hash": "23b0b7e7",
+      "files": [
+        "02_finance/Other/neuralinsights.tsx",
+        "backups/duplicates/6767fe183c5f7d19d119774eb84a816ec755be867ec7c4c25c22c3d3b4cb8a18/NeuralInsights.tsx"
+      ],
+      "size_mb": 0.017554283142089844
+    },
+    {
+      "hash": "9077dbee",
+      "files": [
+        "02_finance/Other/deploy.sh",
+        "backups/duplicates/c1bd644583ebe7ba005b518b0a44dd0b15aae0f0047a655c5fb6b418b2adac68/deploy.sh"
+      ],
+      "size_mb": 0.009064674377441406
+    },
+    {
+      "hash": "5f5ff4ae",
+      "files": [
+        "02_finance/Dashboards/due_diligence_dashboard_v2.html",
+        "backups/duplicates/065407bd5224b25e710f345149d47024b1d25029d1413b8d2c33168ab3bc18da/DUE_DILIGENCE_DASHBOARD_V2.html"
+      ],
+      "size_mb": 0.035572052001953125
+    },
+    {
+      "hash": "2c7987fb",
+      "files": [
+        "02_finance/Scripts/deepseek_v3.py",
+        "backups/duplicates/2566f98cd267cf9c33b6fed85189343c33c90449150fbce4e4c44cefc6a3a657/deepseek_v3.py"
+      ],
+      "size_mb": 0.01679706573486328
+    },
+    {
+      "hash": "26d9c819",
+      "files": [
+        "02_finance/Automations/neuralautomation.tsx",
+        "backups/duplicates/68e0cfbabb90a6c8829bb4807ecad3444b322fd563daf00acb1eb845f2bf019a/NeuralAutomation.tsx"
+      ],
+      "size_mb": 0.019249916076660156
+    },
+    {
+      "hash": "6c6facab",
+      "files": [
+        "01_marketing/CONTENIDO_SERIAL_EDUCATIVO.md",
+        "backups/duplicates/ba6b8e3ebbfccae16ef6fe2764113378c4f71cb483a4895258b851e218c6566a/CONTENIDO_SERIAL_EDUCATIVO.md"
+      ],
+      "size_mb": 0.008265495300292969
+    },
+    {
+      "hash": "a832600b",
+      "files": [
+        "01_marketing/ANALISIS_COMPETITIVO_EMAIL.md",
+        "01_marketing/Documentation/analisis_competitivo_email.md"
+      ],
+      "size_mb": 0.005259513854980469
+    },
+    {
+      "hash": "db037ae4",
+      "files": [
+        "01_marketing/ESTRATEGIAS_RECUPERACION_CHURN.md",
+        "backups/duplicates/4cbb7d44e5ad906571f5bbab4876e68da8c10dbf1905db079b28d61b0f655859/ESTRATEGIAS_RECUPERACION_CHURN.md"
+      ],
+      "size_mb": 0.009812355041503906
+    },
+    {
+      "hash": "5511eaf3",
+      "files": [
+        "01_marketing/ESTRATEGIAS_ESCALAMIENTO_EQUIPOS.md",
+        "01_marketing/Documentation/estrategias_escalamiento_equipos.md"
+      ],
+      "size_mb": 0.008092880249023438
+    },
+    {
+      "hash": "4f28ceac",
+      "files": [
+        "01_marketing/LANDING_PAGE_COPY_WEBINAR_IA.md",
+        "backups/duplicates/34b60baa136eaea651a7f1571694c0f528472a9893ba235b7027355486a24885/LANDING_PAGE_COPY_WEBINAR_IA.md"
+      ],
+      "size_mb": 0.010270118713378906
+    },
+    {
+      "hash": "0803afbc",
+      "files": [
+        "01_marketing/RESUMEN_EJECUTIVO_COMPLETO.md",
+        "01_marketing/Documentation/resumen_ejecutivo_completo.md"
+      ],
+      "size_mb": 0.005718231201171875
+    },
+    {
+      "hash": "8c0b6475",
+      "files": [
+        "01_marketing/AUTOMATIZACIONES_AVANZADAS_EMAIL.md",
+        "backups/duplicates/ae36c1df66050c1ce3b3f0bed79cc747fe5900793277d7cc1b95cbd0319de146/AUTOMATIZACIONES_AVANZADAS_EMAIL.md"
+      ],
+      "size_mb": 0.017151832580566406
+    },
+    {
+      "hash": "e9d93b0c",
+      "files": [
+        "01_marketing/PLAYBOOK_CRISIS_EMAIL.md",
+        "01_marketing/Documentation/playbook_crisis_email.md"
+      ],
+      "size_mb": 0.0077953338623046875
+    },
+    {
+      "hash": "180ce9e6",
+      "files": [
+        "01_marketing/TEMPLATES_HTML_EMAILS.md",
+        "01_marketing/Documentation/templates_html_emails.md"
+      ],
+      "size_mb": 0.002841949462890625
+    },
+    {
+      "hash": "b62d8eaf",
+      "files": [
+        "01_marketing/OPTIMIZACIONES_ESTACIONALES_2024.md",
+        "01_marketing/Documentation/optimizaciones_estacionales_2024.md"
+      ],
+      "size_mb": 0.00582122802734375
+    },
+    {
+      "hash": "0a5887ca",
+      "files": [
+        "01_marketing/INTEGRACIONES_TECNICAS_ESPECIFICAS.md",
+        "01_marketing/Documentation/integraciones_tecnicas_especificas.md"
+      ],
+      "size_mb": 0.012539863586425781
+    },
+    {
+      "hash": "4739ab3c",
+      "files": [
+        "01_marketing/OPTIMIZACION_COSTOS_ROI_EMAIL.md",
+        "backups/duplicates/1fd19ac66f7d75d374d864a8442ee4ae011e064ac032c018b6cc7af3d2b2d9d7/OPTIMIZACION_COSTOS_ROI_EMAIL.md"
+      ],
+      "size_mb": 0.008244514465332031
+    },
+    {
+      "hash": "759e69c9",
+      "files": [
+        "01_marketing/Neural_marketing/neural_sales_dashboard.html",
+        "backups/duplicates/05735b0767b9981e887e05affdeeee034cda3db41d46bcefd4f98fb6b0a84a4f/neural-sales-dashboard_1.html",
+        "backups/duplicates/05735b0767b9981e887e05affdeeee034cda3db41d46bcefd4f98fb6b0a84a4f/neural-sales-dashboard.html",
+        "backups/duplicates/05735b0767b9981e887e05affdeeee034cda3db41d46bcefd4f98fb6b0a84a4f/neural-sales-dashboard_2.html"
+      ],
+      "size_mb": 0.05045127868652344
+    },
+    {
+      "hash": "0ddd9567",
+      "files": [
+        "01_marketing/07_campaign_management/activecampaign_import_fields.csv",
+        "backups/duplicates/5f0fe688dcf1cfa10bb4d894a2b39d280b8ddf7ad56ff46224a61731bb2f4e2c/ACTIVECAMPAIGN_IMPORT_FIELDS.csv"
+      ],
+      "size_mb": 0.00029850006103515625
+    },
+    {
+      "hash": "5f6405d3",
+      "files": [
+        "01_marketing/05_lead_generation/outreach_messages_ready.csv",
+        "backups/duplicates/7e11058e7c96d010298ae5a6f22514b831ccfa5d4b5393acb94b0b37d4ee14ef/OUTREACH_MESSAGES_READY.csv"
+      ],
+      "size_mb": 0.013332366943359375
+    },
+    {
+      "hash": "5497e5ac",
+      "files": [
+        "01_marketing/05_lead_generation/sample_leads_outreach.csv",
+        "backups/duplicates/81e92f545aef4c551cdcd411898364fcc528e612e0484fc12526ba0bd43df6ab/SAMPLE_LEADS_OUTREACH.csv"
+      ],
+      "size_mb": 0.003185272216796875
+    },
+    {
+      "hash": "16e267ef",
+      "files": [
+        "01_marketing/05_lead_generation/crm_outreach_fields.csv",
+        "backups/duplicates/6aa371fa1c5084f076783277d14e8a40b7267d47e1639ab64d1ed9e1addf7dd1/CRM_OUTREACH_FIELDS.csv"
+      ],
+      "size_mb": 0.0001888275146484375
+    },
+    {
+      "hash": "7bbd840b",
+      "files": [
+        "01_marketing/Checklists/comprehensive_due_diligence_checklist.csv",
+        "backups/duplicates/c01dafa6d1de815c12a4d8c315e3dc1770cd65b29080f7c30828a471f4358f98/COMPREHENSIVE_DUE_DILIGENCE_CHECKLIST.csv"
+      ],
+      "size_mb": 0.007697105407714844
+    },
+    {
+      "hash": "6e5ecc1a",
+      "files": [
+        "01_marketing/Checklists/comprehensive_due_diligence_checklist.html",
+        "backups/duplicates/49d57cf790671194e01900a7de8faecde1b845e15e629b8342e35fffec870cb8/COMPREHENSIVE_DUE_DILIGENCE_CHECKLIST.html"
+      ],
+      "size_mb": 0.019013404846191406
+    },
+    {
+      "hash": "0b2b4666",
+      "files": [
+        "01_marketing/Checklists/comprehensive_due_diligence_checklist.xlsx",
+        "backups/duplicates/fc277e278dc844f48d1edae0eabb2b0f60fcd1099394b726d9aa184db4b3bfd8/COMPREHENSIVE_DUE_DILIGENCE_CHECKLIST.xlsx"
+      ],
+      "size_mb": 0.0001010894775390625
+    },
+    {
+      "hash": "f4bea9f6",
+      "files": [
+        "01_marketing/Checklists/comprehensive_due_diligence_checklist.rtf",
+        "backups/duplicates/4810ad80f75f93cd8f6f2ddafc3f973e2498182d1aa40084f126b1c4a55d0ec1/COMPREHENSIVE_DUE_DILIGENCE_CHECKLIST.rtf"
+      ],
+      "size_mb": 0.014174461364746094
+    },
+    {
+      "hash": "964ebddc",
+      "files": [
+        "01_marketing/Checklists/comprehensive_due_diligence_checklist.docx",
+        "backups/duplicates/6c81a8135ef8016e0a14d7989e7ce2d59a8e5788d55ca71e3bafb36edaf9ccab/COMPREHENSIVE_DUE_DILIGENCE_CHECKLIST.docx"
+      ],
+      "size_mb": 9.34600830078125e-05
+    },
+    {
+      "hash": "55322ee3",
+      "files": [
+        "01_marketing/Checklists/comprehensive_due_diligence_checklist.pdf",
+        "backups/duplicates/a4f9d00b5bb63d8fe447e78f2e0e1b70bca0ccf2c5a5b0a197941daa8673bfbe/COMPREHENSIVE_DUE_DILIGENCE_CHECKLIST.pdf"
+      ],
+      "size_mb": 9.72747802734375e-05
+    },
+    {
+      "hash": "6fd6a071",
+      "files": [
+        "01_marketing/Other/push_to_checkout.sample",
+        ".git/hooks/push-to-checkout.sample"
+      ],
+      "size_mb": 0.0026540756225585938
+    },
+    {
+      "hash": "ecdded46",
+      "files": [
+        "01_marketing/Other/pre_push.sample",
+        ".git/hooks/pre-push.sample"
+      ],
+      "size_mb": 0.0013103485107421875
+    },
+    {
+      "hash": "ac5329d2",
+      "files": [
+        "01_marketing/Other/scaler_deep_learning.pkl",
+        "backups/duplicates/70c820d7b41454cdd8cd8ae820c0f6ad5598fa1bf198b64a31cfaab41b4f743a/scaler_deep_learning.pkl"
+      ],
+      "size_mb": 0.0015325546264648438
+    },
+    {
+      "hash": "a8ea089f",
+      "files": [
+        "01_marketing/Other/neuralstatespanel.css",
+        "backups/duplicates/e9459af35718e28ed806b40f5f2c68dedd41dd017c2d3381de95055afaf681e9/NeuralStatesPanel.css"
+      ],
+      "size_mb": 0.00617218017578125
+    },
+    {
+      "hash": "09ba8ce4",
+      "files": [
+        "01_marketing/Other/pre_receive.sample",
+        ".git/hooks/pre-receive.sample"
+      ],
+      "size_mb": 0.000518798828125
+    },
+    {
+      "hash": "07cab947",
+      "files": [
+        "01_marketing/Other/customerintelligencepanel.css",
+        "backups/duplicates/8c524114cc383261bc0abdb4f386b6542c930e148b07d7498f58fc6cb52420c3/CustomerIntelligencePanel.css"
+      ],
+      "size_mb": 0.0077610015869140625
+    },
+    {
+      "hash": "0ffaef9d",
+      "files": [
+        "01_marketing/Other/commit_msg.sample",
+        ".git/hooks/commit-msg.sample"
+      ],
+      "size_mb": 0.0008544921875
+    },
+    {
+      "hash": "800c86b8",
+      "files": [
+        "01_marketing/Other/organization.log",
+        "backups/duplicates/1956b20af43f8db0276d3e8f9575a60575f8b1a457f26394ca7c9f38c29457cc/organization.log"
+      ],
+      "size_mb": 0.0021839141845703125
+    },
+    {
+      "hash": "567cc579",
+      "files": [
+        "01_marketing/Other/pre_merge_commit.sample",
+        ".git/hooks/pre-merge-commit.sample"
+      ],
+      "size_mb": 0.000396728515625
+    },
+    {
+      "hash": "4da128a0",
+      "files": [
+        "01_marketing/Other/pre_applypatch.sample",
+        ".git/hooks/pre-applypatch.sample"
+      ],
+      "size_mb": 0.00040435791015625
+    },
+    {
+      "hash": "fd6a2fd8",
+      "files": [
+        "01_marketing/Other/neuralnotifications.tsx",
+        "backups/duplicates/15a4907a334652eae46fff4d37a160516ed3543d91bbfd240ed060af40b53fe9/NeuralNotifications.tsx"
+      ],
+      "size_mb": 0.013941764831542969
+    },
+    {
+      "hash": "dc67fd57",
+      "files": [
+        "01_marketing/Other/fsmonitor_watchman.sample",
+        ".git/hooks/fsmonitor-watchman.sample"
+      ],
+      "size_mb": 0.0045070648193359375
+    },
+    {
+      "hash": "16e49563",
+      "files": [
+        "01_marketing/Other/prepare_commit_msg.sample",
+        ".git/hooks/prepare-commit-msg.sample"
+      ],
+      "size_mb": 0.001422882080078125
+    },
+    {
+      "hash": "c07a7e98",
+      "files": [
+        "01_marketing/Other/neuralgamification.tsx",
+        "backups/duplicates/2da4990d97ddfd5f8783b9d32b09b10216a94f074cb243f85160c96fa7773d22/NeuralGamification.tsx"
+      ],
+      "size_mb": 0.01801013946533203
+    },
+    {
+      "hash": "d484e3a3",
+      "files": [
+        "01_marketing/Other/dockerfile",
+        "backups/duplicates/27ca1ce49aba6fabab175d610f03062d0cd385c5e9210961c089c4abb70168dc/Dockerfile"
+      ],
+      "size_mb": 0.0015535354614257812
+    },
+    {
+      "hash": "62a464eb",
+      "files": [
+        "01_marketing/Other/pre_commit.sample",
+        ".git/hooks/pre-commit.sample"
+      ],
+      "size_mb": 0.0015668869018554688
+    },
+    {
+      "hash": "c8b965aa",
+      "files": [
+        "01_marketing/Other/encoders_deep_learning.pkl",
+        "backups/duplicates/b643629614ef779a91c693c40269c511f504ab9f8a2b1d6d80e84253f265cbb6/encoders_deep_learning.pkl"
+      ],
+      "size_mb": 0.0010662078857421875
+    },
+    {
+      "hash": "a73fa5cb",
+      "files": [
+        "01_marketing/Other/schema.prisma",
+        "backups/duplicates/62623b3add172092fabc10ca2fd602fe707116527bfbc7b88636a40f05f32a09/schema.prisma"
+      ],
+      "size_mb": 0.002872467041015625
+    },
+    {
+      "hash": "4cb8287e",
+      "files": [
+        "01_marketing/Other/permanent_organization.log",
+        "backups/duplicates/534f01842edd8eaaf5f09beb0d824cad8c41b6017fc06d519b728b5fcbc43236/permanent_organization.log"
+      ],
+      "size_mb": 0.005780220031738281
+    },
+    {
+      "hash": "c0eb748d",
+      "files": [
+        "01_marketing/Other/exclude",
+        ".git/info/exclude",
+        "backups/duplicates/6671fe83b7a07c8932ee89164d1f2793b2318058eb8b98dc5c06ee0a5a3b0ec1/exclude"
+      ],
+      "size_mb": 0.0002288818359375
+    },
+    {
+      "hash": "44d32ac7",
+      "files": [
+        "01_marketing/Other/ultra_organization.log",
+        "backups/duplicates/4b067a51c27b329ffa2f33891ca207b3149566216aaaf4ef905e0850214a4b7a/ultra_organization.log"
+      ],
+      "size_mb": 0.0019683837890625
+    },
+    {
+      "hash": "f069cc69",
+      "files": [
+        "01_marketing/Other/pre_rebase.sample",
+        ".git/hooks/pre-rebase.sample"
+      ],
+      "size_mb": 0.0046710968017578125
+    },
+    {
+      "hash": "c28cf829",
+      "files": [
+        "01_marketing/Other/testimonial_ia_marketing_rtf.rtf",
+        "backups/duplicates/db6884422af27970b3c19fc0dc9ce74527eb3b7c92b5393c3a9d25661884411e/testimonial-ia-marketing-rtf.rtf"
+      ],
+      "size_mb": 0.010684967041015625
+    },
+    {
+      "hash": "db33d23f",
+      "files": [
+        "01_marketing/Other/final_organization.log",
+        "backups/duplicates/1772d24d93c4881324d2b8ea2dc7d0272e7bc94428790c0765f4046408f7591c/final_organization.log"
+      ],
+      "size_mb": 0.0020046234130859375
+    },
+    {
+      "hash": "100298f9",
+      "files": [
+        "01_marketing/Other/applypatch_msg.sample",
+        ".git/hooks/applypatch-msg.sample"
+      ],
+      "size_mb": 0.0004558563232421875
+    },
+    {
+      "hash": "54bb084c",
+      "files": [
+        "01_marketing/Other/update.sample",
+        ".git/hooks/update.sample"
+      ],
+      "size_mb": 0.0034809112548828125
+    },
+    {
+      "hash": "3582d4d0",
+      "files": [
+        "01_marketing/Other/env.example",
+        "backups/duplicates/5cabc0d6aadc031d930730184247b2accc4e8e53ddfdc50392a30a663782cabe/env.example"
+      ],
+      "size_mb": 0.0012521743774414062
+    },
+    {
+      "hash": "01368a67",
+      "files": [
+        "01_marketing/Other/post_update.sample",
+        ".git/hooks/post-update.sample"
+      ],
+      "size_mb": 0.00018024444580078125
+    },
+    {
+      "hash": "bf6db01c",
+      "files": [
+        "01_marketing/Other/Strategies/estrategia_anchor_text_ia_marketing.txt",
+        "backups/duplicates/d542380b2be74697975eb4d2353452444031df64cf9779d3983a3f9600ed9942/estrategia-anchor-text-ia-marketing.txt"
+      ],
+      "size_mb": 0.021654129028320312
+    },
+    {
+      "hash": "f7a13653",
+      "files": [
+        "01_marketing/Other/Scripts/description",
+        ".git/description"
+      ],
+      "size_mb": 6.961822509765625e-05
+    },
+    {
+      "hash": "338f5f98",
+      "files": [
+        "01_marketing/Other/Scripts/app.jsx",
+        "backups/duplicates/0fedf9fdbeade657f701323c850cdb2e044661aa9fcfd4ec63859fc136e15e32/App.jsx"
+      ],
+      "size_mb": 0.0032434463500976562
+    },
+    {
+      "hash": "e81c4011",
+      "files": [
+        "01_marketing/Other/Scripts/neuralstatespanel.jsx",
+        "backups/duplicates/0b1c6fce7696771d269fcac68384f195aa55db90e027b0caeff59826e596c40f/NeuralStatesPanel.jsx"
+      ],
+      "size_mb": 0.007251739501953125
+    },
+    {
+      "hash": "6b43dd71",
+      "files": [
+        "01_marketing/Other/Scripts/customerintelligencepanel.jsx",
+        "backups/duplicates/8e56e28cffbd445ea69e0eb0227f436400fca0edcf15102efd3dee1ee026ec60/CustomerIntelligencePanel.jsx"
+      ],
+      "size_mb": 0.011510848999023438
+    },
+    {
+      "hash": "44cd823f",
+      "files": [
+        "01_marketing/Content/contentgenerationpanel.css",
+        "backups/duplicates/5bb12037769a3aed053360a8a07ca91a112c7efbfc2508d40f560e9be9c0bffa/ContentGenerationPanel.css"
+      ],
+      "size_mb": 0.007264137268066406
+    },
+    {
+      "hash": "92c6664f",
+      "files": [
+        "01_marketing/Content/neuralcontentgenerator.tsx",
+        "backups/duplicates/ce1c350d057b991759ac8b15f096bd2b5d732bd0cea882e03da254e8bd6b147a/NeuralContentGenerator.tsx"
+      ],
+      "size_mb": 0.02037525177001953
+    },
+    {
+      "hash": "d27eed0e",
+      "files": [
+        "01_marketing/Content/content.js",
+        "backups/duplicates/355da150182045df988e84e61df3718ccf75bbdf0a7646dffb0c3fa07c15d0c8/content.js"
+      ],
+      "size_mb": 0.008898735046386719
+    },
+    {
+      "hash": "4edcf9a2",
+      "files": [
+        "01_marketing/Content/content_generator.py",
+        "backups/duplicates/6a8ac4162df27e49d18b683a1093cec6f659194c40e36dc54fbc16b04fba0acf/content_generator.py"
+      ],
+      "size_mb": 0.010122299194335938
+    },
+    {
+      "hash": "87f033e5",
+      "files": [
+        "01_marketing/08_ai_marketing/dm_variants_short.csv",
+        "backups/duplicates/908e3619a4bf63f077d6fa98f9311b9dfd964c283363e14e88063cfe80ff92b6/DM_Variants_Short.csv"
+      ],
+      "size_mb": 0.0062923431396484375
+    },
+    {
+      "hash": "e109c9ff",
+      "files": [
+        "01_marketing/Data_files/anchor_texts_completos_20250915_200244.json",
+        "backups/duplicates/cc5501636e851410d308cc55ad902b21f8a89d3b78ea67ddf5c2dd9c5b461fa4/anchor_texts_completos_20250915_200244.json"
+      ],
+      "size_mb": 0.08350658416748047
+    },
+    {
+      "hash": "c71ba944",
+      "files": [
+        "01_marketing/Data_files/casos_uso_anchor_texts_20250915_135922.json",
+        "backups/duplicates/98e4d3551ff3ed61a78eff40cd96001f5986db182a065cea51d6379dfb18874e/casos_uso_anchor_texts_20250915_135922.json"
+      ],
+      "size_mb": 0.12159156799316406
+    },
+    {
+      "hash": "2d2663e6",
+      "files": [
+        "01_marketing/Data_files/05_ai_course_financial_model.xlsx",
+        "backups/duplicates/acd50ea239929bb73b999fea5365220680ee96fe91a847e148ca6d121053ae38/05_AI_Course_Financial_Model.xlsx"
+      ],
+      "size_mb": 0.010153770446777344
+    },
+    {
+      "hash": "6fa77355",
+      "files": [
+        "01_marketing/Data_files/webinar_attendee_tracking.csv",
+        "backups/duplicates/529ff7b08c5dfe242b6ffc5aabb0467e82eed47ea09c6e545b92430433eef30e/Webinar_Attendee_Tracking.csv"
+      ],
+      "size_mb": 0.00266265869140625
+    },
+    {
+      "hash": "87d87e83",
+      "files": [
+        "01_marketing/Data_files/optimizaciones_completas_20250915_200244.json",
+        "backups/duplicates/745999bd964913cfc65f623e1d10414df3913bcfee5d37e281d484f4ce896cd3/optimizaciones_completas_20250915_200244.json"
+      ],
+      "size_mb": 0.0072479248046875
+    },
+    {
+      "hash": "4bd95958",
+      "files": [
+        "01_marketing/Data_files/anchor_texts_multilenguaje_20250915_202814.json",
+        "backups/duplicates/3c8d51a9e36a1253f49c0dfb569d51895240d39aff46881c1c295e08481916e0/anchor_texts_multilenguaje_20250915_202814.json"
+      ],
+      "size_mb": 0.05247688293457031
+    },
+    {
+      "hash": "73f15726",
+      "files": [
+        "01_marketing/Data_files/resultados_finales_pipeline_20250915_135925.json",
+        "backups/duplicates/449d5939266ff99fc1f1472beeb4074a3aabe6baf64d7972344c24b9d1cba5ed/resultados_finales_pipeline_20250915_135925.json"
+      ],
+      "size_mb": 0.014975547790527344
+    },
+    {
+      "hash": "1777eceb",
+      "files": [
+        "01_marketing/Data_files/ai_marketing_tools_comparison.csv",
+        "backups/duplicates/eeb30be6b237873686ecd9bfff94b947c0bde08ab8e894659d4a43dce059f710/AI_Marketing_Tools_Comparison.csv"
+      ],
+      "size_mb": 0.00229644775390625
+    },
+    {
+      "hash": "11bb00ce",
+      "files": [
+        "01_marketing/Data_files/due_diligence_config.json",
+        "backups/duplicates/a48547aa96632a8747928aa073e58aa3f9801b9fc7a3b4cff3dd31fb5ce3c857/DUE_DILIGENCE_CONFIG.json"
+      ],
+      "size_mb": 0.008103370666503906
+    },
+    {
+      "hash": "84fb408a",
+      "files": [
+        "01_marketing/Data_files/resultados_sistema_completo_20250915_200244.json",
+        "backups/duplicates/582c97715bba353a9f0e5f3aa190b66a0c2852b6ada328122933cda92e482bea/resultados_sistema_completo_20250915_200244.json"
+      ],
+      "size_mb": 0.0028238296508789062
+    },
+    {
+      "hash": "94cba961",
+      "files": [
+        "01_marketing/Data_files/backup_copycar_20251002_190119.json",
+        "backups/duplicates/b68bd803f7514d753f487c7b4d982e3af091d2ddeba8d4f1b51af4e48699c8fa/backup_copycar_20251002_190119.json"
+      ],
+      "size_mb": 0.0033025741577148438
+    },
+    {
+      "hash": "4a256374",
+      "files": [
+        "01_marketing/Data_files/15_advanced_financial_model_pro.xlsx",
+        "backups/duplicates/a98cc67b3284e82cc60d98b9068312ac53e375aa8d299c5840e57c9fb485cb36/15_Advanced_Financial_Model_Pro.xlsx"
+      ],
+      "size_mb": 0.015127182006835938
+    },
+    {
+      "hash": "ec06aa9f",
+      "files": [
+        "01_marketing/Data_files/casos_uso_anchor_texts_20250915_135639.json",
+        "backups/duplicates/9d957d69b73885d47d19e807a298005cd2c8c36b4c3a18ef971f66100ed5006d/casos_uso_anchor_texts_20250915_135639.json"
+      ],
+      "size_mb": 0.12157440185546875
+    },
+    {
+      "hash": "a27bce4c",
+      "files": [
+        "01_marketing/Data_files/predicciones_completas_20250915_200244.json",
+        "backups/duplicates/840a7bfb86b4a9c77d7f71edc1cc33bd8f2811fb34d587fb0fd66277f300ac44/predicciones_completas_20250915_200244.json"
+      ],
+      "size_mb": 0.014588356018066406
+    },
+    {
+      "hash": "f7236aaa",
+      "files": [
+        "01_marketing/Data_files/06_ai_marketing_saas_financial_model.xlsx",
+        "backups/duplicates/70058385089493d5332050ff84fe7ed1122611eefe77a338424629090b3d4ffd/06_AI_Marketing_SaaS_Financial_Model.xlsx"
+      ],
+      "size_mb": 0.010571479797363281
+    },
+    {
+      "hash": "b575976c",
+      "files": [
+        "01_marketing/Data_files/ab_test_anchor_texts_20250915_195400.json",
+        "backups/duplicates/7fc7de4e42eabf6e87a517c4b28f6d00069e3487474896ea60cae6048e2adfea/ab_test_anchor_texts_20250915_195400.json"
+      ],
+      "size_mb": 0.15470218658447266
+    },
+    {
+      "hash": "43c931bd",
+      "files": [
+        "01_marketing/Data_files/market_data.json",
+        "backups/duplicates/2681860e425902307fc807e52c0428162098279125b7dfd2d87cc867b6d7182c/market_data.json"
+      ],
+      "size_mb": 0.0006189346313476562
+    },
+    {
+      "hash": "5a89f14b",
+      "files": [
+        "01_marketing/Data_files/mailchimp_export_template.csv",
+        "backups/duplicates/de57ce7682858377ff9fb4b3084a2c2aef0eb074c6a5d203cba29ae53a78117e/MAILCHIMP_EXPORT_TEMPLATE.csv"
+      ],
+      "size_mb": 0.00017833709716796875
+    },
+    {
+      "hash": "b197578e",
+      "files": [
+        "01_marketing/Data_files/dm_linkedin_variants_localized_completo.json",
+        "backups/duplicates/b73687f0c28d4a6e841d57fe3dbc51735b3b9fbd2027ccdfabfaf82b68194b24/dm_linkedin_variants_localized_completo.json"
+      ],
+      "size_mb": 0.005779266357421875
+    },
+    {
+      "hash": "320453a7",
+      "files": [
+        "01_marketing/Data_files/backup_copycar_20251002_185915.json",
+        "backups/duplicates/36793cfd48759ac4f46a49e08971d04ce7af8595a0b42518786814f13fc6e72d/backup_copycar_20251002_185915.json"
+      ],
+      "size_mb": 0.0023374557495117188
+    },
+    {
+      "hash": "0dbcf573",
+      "files": [
+        "01_marketing/Data_files/due_diligence_excel_tracker.xlsx",
+        "backups/duplicates/036b937cfe5707bf0c50f0e24b9bc531a4a06576cc2d1b6ec18b7cb27651047a/DUE_DILIGENCE_EXCEL_TRACKER.xlsx"
+      ],
+      "size_mb": 0.006968498229980469
+    },
+    {
+      "hash": "65b1a392",
+      "files": [
+        "01_marketing/Data_files/anchor_texts_multilenguaje_20250915_200714.json",
+        "backups/duplicates/d2db83f8a2633510c53f2f2e64755f34d618903dbf4d6c4381cec3c823bf33ce/anchor_texts_multilenguaje_20250915_200714.json"
+      ],
+      "size_mb": 0.11760330200195312
+    },
+    {
+      "hash": "a5c68ff0",
+      "files": [
+        "01_marketing/Guides/13_operational_procedures_manual.docx",
+        "backups/duplicates/484755787a950ee280d14099ae098381832ea60e2edcc7ed0f447859d47f11f2/13_Operational_Procedures_Manual.docx"
+      ],
+      "size_mb": 0.01958942413330078
+    },
+    {
+      "hash": "2c1b3630",
+      "files": [
+        "01_marketing/Guides/manual_compliance_regulaciones_fintech.pdf",
+        "backups/duplicates/f7fe85a5def7ac917fb0721df7b74eb2d3370c12c98b03f7787746f5570c636e/manual-compliance-regulaciones-fintech_1.pdf",
+        "backups/duplicates/f7fe85a5def7ac917fb0721df7b74eb2d3370c12c98b03f7787746f5570c636e/manual-compliance-regulaciones-fintech.pdf"
+      ],
+      "size_mb": 0.039458274841308594
+    },
+    {
+      "hash": "e1e886eb",
+      "files": [
+        "01_marketing/Sequences/1000_ai_marketing_campaigns.csv",
+        "backups/duplicates/75c4cb27ae086a22c0268087323a49beebcd6c628066087e635469093f2c79e5/ai_marketing_campaigns_1000.csv"
+      ],
+      "size_mb": 0.0057239532470703125
+    },
+    {
+      "hash": "5c53391a",
+      "files": [
+        "01_marketing/Sequences/11_marketing_campaign_tracker.xlsx",
+        "backups/duplicates/7eafb2d0630b6d7c4805075321c2d076434a5613300f05e57670cc3ade047c2e/11_Marketing_Campaign_Tracker.xlsx"
+      ],
+      "size_mb": 0.012090682983398438
+    },
+    {
+      "hash": "79485dba",
+      "files": [
+        "01_marketing/Scripts/dm_linkedin_export_crm.js",
+        "backups/duplicates/a54644e5e8220d1b093524ff81acb0f581469b8ffdc003a84f369796a86e1e14/dm_linkedin_export_crm.js"
+      ],
+      "size_mb": 0.001972198486328125
+    },
+    {
+      "hash": "84d892b4",
+      "files": [
+        "01_marketing/Scripts/integrador_apis_anchor_texts.py",
+        "backups/duplicates/de9ceedb817b65998185d3cf54181862f9b742e8d615d22a7fbc2f79da1621a1/integrador-apis-anchor-texts.py"
+      ],
+      "size_mb": 0.023450851440429688
+    },
+    {
+      "hash": "c73bbc8a",
+      "files": [
+        "01_marketing/Scripts/generador_anchor_texts.py",
+        "backups/duplicates/b2d593911dc923c17f1f031c4b12151549354e6780002b30a46302368d37014c/generador-anchor-texts.py"
+      ],
+      "size_mb": 0.0133514404296875
+    },
+    {
+      "hash": "f590eb19",
+      "files": [
+        "01_marketing/Scripts/analizador_mercado_vertical_automotriz.py",
+        "backups/duplicates/8ddd00f2cfb88678e512d21a5d334a8a47d4cbf4c039dc079776d94d2cda3c4c/ANALIZADOR_MERCADO_VERTICAL_AUTOMOTRIZ.py"
+      ],
+      "size_mb": 0.02000904083251953
+    },
+    {
+      "hash": "084883e3",
+      "files": [
+        "01_marketing/Scripts/brand_verification.py",
+        "backups/duplicates/87c6481b2032053ef806d83c9a5b33f2eddb72f752078bf8dec4166e89d64687/brand_verification.py"
+      ],
+      "size_mb": 0.025648117065429688
+    },
+    {
+      "hash": "68cb0845",
+      "files": [
+        "01_marketing/Scripts/generador_avanzado_anchor_texts.py",
+        "backups/duplicates/58b56cbbc7510c422fbe2d814db051d9eeaa238eedb22f8456b5dc2caed7dc36/generador-avanzado-anchor-texts.py"
+      ],
+      "size_mb": 0.01666736602783203
+    },
+    {
+      "hash": "1542b7b7",
+      "files": [
+        "01_marketing/Scripts/metaverse.js",
+        "backups/duplicates/58845d72a641707231e4fc9e1d7c585ed9eb5b15e3677f751e1a5ccee597ea78/metaverse.js"
+      ],
+      "size_mb": 0.007966041564941406
+    },
+    {
+      "hash": "51ded578",
+      "files": [
+        "01_marketing/Scripts/generador_variantes_extras.py",
+        "backups/duplicates/18da15e164a71f6e86f461df31a4388c18617096cf00f1c930deec1397971983/generador-variantes-extras.py"
+      ],
+      "size_mb": 0.02787303924560547
+    },
+    {
+      "hash": "a569f0c3",
+      "files": [
+        "01_marketing/Scripts/analizador_tendencias_anchor_texts.py",
+        "backups/duplicates/385e2f188128e9b30a3134eb1ae0976d8d1efbb4f376898bf7fe1e64f1e0543b/analizador-tendencias-anchor-texts.py"
+      ],
+      "size_mb": 0.02244853973388672
+    },
+    {
+      "hash": "44f5e0b5",
+      "files": [
+        "01_marketing/Scripts/brand_analyzer.py",
+        "backups/duplicates/7e404b618121d012654705d515e3a3ac77bf3f63a9b226dd46742b0924d35b51/brand_analyzer.py"
+      ],
+      "size_mb": 0.037273406982421875
+    },
+    {
+      "hash": "f6914812",
+      "files": [
+        "01_marketing/Scripts/generador_personalizado_anchor_texts.py",
+        "backups/duplicates/d9b81937c635e8800143c9c2ccba674b460c99fda0b92203429e599d25ef9ddf/generador-personalizado-anchor-texts.py"
+      ],
+      "size_mb": 0.02531147003173828
+    },
+    {
+      "hash": "92b78143",
+      "files": [
+        "01_marketing/Scripts/generador_formatos_especializados.py",
+        "backups/duplicates/9b56e3e7832ec7433fa09a6384bf17206f115efe78524eefe1b77e9c1b255919/generador-formatos-especializados.py"
+      ],
+      "size_mb": 0.027625083923339844
+    },
+    {
+      "hash": "befc1ca1",
+      "files": [
+        "01_marketing/Scripts/predictor_ia_anchor_texts.py",
+        "backups/duplicates/460dbba2277e90556ec0f43a61a2933257eaad009e15c3920aca9fcd27db1257/predictor-ia-anchor-texts.py"
+      ],
+      "size_mb": 0.026128768920898438
+    },
+    {
+      "hash": "a6fdc3d3",
+      "files": [
+        "01_marketing/Scripts/generador_multi_formato.py",
+        "backups/duplicates/b27962cf238bf0eb1adcede17273732a311220219481169fceff9321e8e05f5f/generador-multi-formato.py"
+      ],
+      "size_mb": 0.02517223358154297
+    },
+    {
+      "hash": "54996180",
+      "files": [
+        "01_marketing/Scripts/advanced_organize.py",
+        "backups/duplicates/c32607e08edb6f649b66b1eafee47497e16d6175981981c8d390a09bc16c0018/advanced_organize_2.py",
+        "backups/duplicates/c32607e08edb6f649b66b1eafee47497e16d6175981981c8d390a09bc16c0018/advanced_organize.py",
+        "backups/duplicates/c32607e08edb6f649b66b1eafee47497e16d6175981981c8d390a09bc16c0018/advanced_organize_1.py"
+      ],
+      "size_mb": 0.018381118774414062
+    },
+    {
+      "hash": "f1c162f4",
+      "files": [
+        "01_marketing/Scripts/__init__.py",
+        "backups/duplicates/de0fbb7ed0b37e2496a81424ae08599d7fe70afd9aa2779d603fd712e1a2a0c2/__init__.py"
+      ],
+      "size_mb": 0.0005655288696289062
+    },
+    {
+      "hash": "acb66275",
+      "files": [
+        "01_marketing/Scripts/dimensionalmarketing.js",
+        "backups/duplicates/30e4878b461bbc9d6717a3d7574b928ef7b3a0142d1dad75c103a35a6277e13b/DimensionalMarketing.js"
+      ],
+      "size_mb": 0.0128631591796875
+    },
+    {
+      "hash": "ad1cc3e6",
+      "files": [
+        "01_marketing/Scripts/automatizador_completo_anchor_texts.py",
+        "backups/duplicates/0852f0c2d8dd46972497758fb5f6866adaaed932966d678644dd16502727b0b3/automatizador-completo-anchor-texts.py"
+      ],
+      "size_mb": 0.015508651733398438
+    },
+    {
+      "hash": "3f3b4be3",
+      "files": [
+        "01_marketing/Scripts/dm_linkedin_qa_pre_send.js",
+        "backups/duplicates/a939dcc5165e8720b0d968d234c9b8bd1f971863d3f7a596e69862fc4ccc431e/dm_linkedin_qa_pre_send.js"
+      ],
+      "size_mb": 0.0020360946655273438
+    },
+    {
+      "hash": "c4a14ae3",
+      "files": [
+        "01_marketing/Scripts/generador_a_b_test_anchor_texts.py",
+        "backups/duplicates/ce136273749fa60eba77b1555c9a934fe0d818bf08963c8529af8b03a7e39955/generador-a-b-test-anchor-texts.py"
+      ],
+      "size_mb": 0.025499343872070312
+    },
+    {
+      "hash": "478150e8",
+      "files": [
+        "01_marketing/Scripts/website_scraper.py",
+        "backups/duplicates/3102bf92a335a4447d32fe76105133cd043fb8e55be6277e205b25fe6acc675a/website_scraper.py"
+      ],
+      "size_mb": 0.008642196655273438
+    },
+    {
+      "hash": "8031ad66",
+      "files": [
+        "01_marketing/Scripts/deep_learning_dilucion_optimizer.py",
+        "backups/duplicates/391ec3f818e2e9b7bb24985c0b6957650b3d15f165bf2685cd80fc884e78ded5/DEEP_LEARNING_DILUCION_OPTIMIZER.py"
+      ],
+      "size_mb": 0.02653980255126953
+    },
+    {
+      "hash": "621690a0",
+      "files": [
+        "01_marketing/Scripts/dimensional.js",
+        "backups/duplicates/83a12f54f3401a84511c9275071003e3e42bb73ec73004046a37f6667cf92866/dimensional.js"
+      ],
+      "size_mb": 0.010156631469726562
+    },
+    {
+      "hash": "823dcb93",
+      "files": [
+        "01_marketing/Scripts/optimizador_anchor_texts.py",
+        "backups/duplicates/68f5edc31ca11109128664d61e9430114320cfc8c9c02acd9b19bee9f63bce67/optimizador-anchor-texts.py"
+      ],
+      "size_mb": 0.018184661865234375
+    },
+    {
+      "hash": "7f99981f",
+      "files": [
+        "01_marketing/Scripts/generar_documento.py",
+        "backups/duplicates/4e22296b3385a65270668339898b404a66ecf87f7818e6fa56fb6f48dff32b9c/generar-documento.py"
+      ],
+      "size_mb": 0.004277229309082031
+    },
+    {
+      "hash": "dd39415a",
+      "files": [
+        "01_marketing/Scripts/federated_brand_analyzer.py",
+        "backups/duplicates/dd93790354e08a4a12dec6d544ba4039fcfd34166659a14278873750c7998bdf/federated_brand_analyzer.py"
+      ],
+      "size_mb": 0.023702621459960938
+    },
+    {
+      "hash": "c89e6547",
+      "files": [
+        "01_marketing/Scripts/ecosistema_completo_copycar.py",
+        "backups/duplicates/d5739782e87651214c311cd027f4c80b19d2f3d29df6802bb00c394b597c4ca4/ECOSISTEMA_COMPLETO_COPYCAR.py"
+      ],
+      "size_mb": 0.01607227325439453
+    },
+    {
+      "hash": "3c74bf43",
+      "files": [
+        "01_marketing/Scripts/generador_casos_uso_anchor_texts.py",
+        "backups/duplicates/d5e656abbe6bc03c30afd33d903aa303285856dc5d5670e918afc5fd8373aa47/generador-casos-uso-anchor-texts.py"
+      ],
+      "size_mb": 0.03266620635986328
+    },
+    {
+      "hash": "f94e2abd",
+      "files": [
+        "01_marketing/Scripts/automatizador_implementacion_completo.py",
+        "backups/duplicates/20906fc5bfb58f371645b2083df9c05c5431bfa8d7cbd01324c98ca2919c48ed/AUTOMATIZADOR_IMPLEMENTACION_COMPLETO.py"
+      ],
+      "size_mb": 0.026762008666992188
+    },
+    {
+      "hash": "450db4c0",
+      "files": [
+        "01_marketing/Scripts/generador_variantes_ultra.py",
+        "backups/duplicates/4a388a1f25935dfb9bbca81501d623cd3b6d71cd437bdf9e987815619f317908/generador-variantes-ultra.py"
+      ],
+      "size_mb": 0.030434608459472656
+    },
+    {
+      "hash": "7cf781c9",
+      "files": [
+        "01_marketing/Scripts/blockchainmarketing.js",
+        "backups/duplicates/99d0ddf751acf8ebe08f5f184f1b375158d2d77eb35381be03bd38ab464c118b/BlockchainMarketing.js"
+      ],
+      "size_mb": 0.012582778930664062
+    },
+    {
+      "hash": "2cee841e",
+      "files": [
+        "01_marketing/Scripts/contentgenerationpanel.jsx",
+        "backups/duplicates/10c611bb3efd53a2e5ce35291695f4de3c67b53e08b03e275744c893f0d71be8/ContentGenerationPanel.jsx"
+      ],
+      "size_mb": 0.010302543640136719
+    },
+    {
+      "hash": "2097cd36",
+      "files": [
+        "01_marketing/Scripts/metaversemarketing.js",
+        "backups/duplicates/34075b3977a97e1536d069a1bab4ec43e331da8826a527b3ba957ae231a1c649/MetaverseMarketing.js"
+      ],
+      "size_mb": 0.012531280517578125
+    },
+    {
+      "hash": "9c6c4bdc",
+      "files": [
+        "01_marketing/Scripts/brand_train.py",
+        "backups/duplicates/3e505d0783f450f1df9345c804f500d8e9e40c23359f90caa4538efeaade6570/brand_train.py"
+      ],
+      "size_mb": 0.011682510375976562
+    },
+    {
+      "hash": "c014f01a",
+      "files": [
+        "01_marketing/Scripts/demo.py",
+        "backups/duplicates/f75eb06fb24dfe9680377054f181270fd17f1064a3b6e7216bebe1c5490318f8/demo.py"
+      ],
+      "size_mb": 0.005890846252441406
+    },
+    {
+      "hash": "b910b17e",
+      "files": [
+        "01_marketing/Scripts/analizador_sentimientos_anchor_texts.py",
+        "backups/duplicates/ac1498ad139b7eab3434e1f7da2e9c824c814948ba09b34b8d4c25c872f1b5a2/analizador-sentimientos-anchor-texts.py"
+      ],
+      "size_mb": 0.021200180053710938
+    },
+    {
+      "hash": "f62ef193",
+      "files": [
+        "01_marketing/Scripts/estrategia_precios_copycar.py",
+        "backups/duplicates/defcccff4cb29ccc9c6e67075bec727197636f938624bdbf5716d4d7dc56144f/ESTRATEGIA_PRECIOS_COPYCAR.py"
+      ],
+      "size_mb": 0.018270492553710938
+    },
+    {
+      "hash": "fe534ddb",
+      "files": [
+        "01_marketing/Scripts/generador_multilenguaje_anchor_texts.py",
+        "backups/duplicates/5737e58a5000ae18b1bfd71ba9b924f8e2d3890bc8299ffcb0a923ce42fe12cd/generador-multilenguaje-anchor-texts.py"
+      ],
+      "size_mb": 0.027463912963867188
+    },
+    {
+      "hash": "a101c92b",
+      "files": [
+        "01_marketing/Scripts/optimizador_avanzado_anchor_texts.py",
+        "backups/duplicates/49b301f8d9edb947f949d1f9895cacd21cc1ae1c00cec997bdb74fad3ce91177/optimizador-avanzado-anchor-texts.py"
+      ],
+      "size_mb": 0.02845287322998047
+    },
+    {
+      "hash": "b0bf01b5",
+      "files": [
+        "01_marketing/Scripts/sistema_completo_ia_anchor_texts.py",
+        "backups/duplicates/af470cdd600a0097d300a8112d360ade2d647a156f52553da81978f85a78e832/sistema-completo-ia-anchor-texts.py"
+      ],
+      "size_mb": 0.026346206665039062
+    },
+    {
+      "hash": "5922bec3",
+      "files": [
+        "01_marketing/Scripts/mobile_brand_analyzer.py",
+        "backups/duplicates/4b4dc182689ed10a55323f02fff16f494adcbf156a4cfa7626da043db87828b8/mobile_brand_analyzer.py"
+      ],
+      "size_mb": 0.028547286987304688
+    },
+    {
+      "hash": "4be7acfe",
+      "files": [
+        "01_marketing/Templates/cierre_ventas_curso_ia_mejorado.html",
+        "backups/duplicates/f48057e9dbc131bb369de3c56b62558d5ea17400e80404c17100f03db658a52c/cierre-ventas-curso-ia-mejorado.html",
+        "backups/duplicates/f48057e9dbc131bb369de3c56b62558d5ea17400e80404c17100f03db658a52c/cierre-ventas-curso-ia-mejorado_1.html"
+      ],
+      "size_mb": 0.026885032653808594
+    },
+    {
+      "hash": "f36e4e21",
+      "files": [
+        "01_marketing/Templates/estrategias_avanzadas_trafico_organico_2024_refactored.docx",
+        "backups/duplicates/733df91d540f1b3143bda0ea138980932159ee74b212732e4265d26d865fe117/Estrategias-Avanzadas-Trafico-Organico-2024-REFACTORED.docx"
+      ],
+      "size_mb": 0.09225273132324219
+    },
+    {
+      "hash": "6426c461",
+      "files": [
+        "01_marketing/Templates/resumen_ejecutivo_copy_ventas_ia_marketing.docx",
+        "backups/duplicates/c78b1d8b60eef0dbb332ea737d1b141bd57f46f01676c9b1fb154dd1465128e3/Resumen-Ejecutivo-Copy-Ventas-IA-Marketing.docx"
+      ],
+      "size_mb": 0.06219959259033203
+    },
+    {
+      "hash": "898f07ef",
+      "files": [
+        "01_marketing/Templates/04_ai_marketing_saas_business_plan.docx",
+        "backups/duplicates/fe7e376f139322793af03550f0dfa8680d3be8150fc5eb4bf94f5b3d358c0eeb/04_AI_Marketing_SaaS_Business_Plan.docx"
+      ],
+      "size_mb": 0.019301414489746094
+    },
+    {
+      "hash": "ba050468",
+      "files": [
+        "01_marketing/Templates/frases_populares_busqueda_google_2024.html",
+        "backups/duplicates/0e2e07baed3217db7458b5721ef2dd35ba71bf87c468b02d4255af8a8623381b/frases-populares-busqueda-google-2024.html"
+      ],
+      "size_mb": 0.046370506286621094
+    },
+    {
+      "hash": "c2830e57",
+      "files": [
+        "01_marketing/Templates/estrategia_anchor_text_ia_marketing.html",
+        "backups/duplicates/4fb4dc91123f9a651262b6f097a953ccb3cd3e3e0c5394ec282613413f14e7a9/estrategia-anchor-text-ia-marketing.html"
+      ],
+      "size_mb": 0.03426170349121094
+    },
+    {
+      "hash": "1d096ba6",
+      "files": [
+        "01_marketing/Templates/performance_review_templates.csv",
+        "backups/duplicates/9e2052b7c814286f7fe1fe82f85477a4d7aa0a2bb3284fe208ed544e6c9a11b9/Performance_Review_Templates.csv",
+        "backups/duplicates/9e2052b7c814286f7fe1fe82f85477a4d7aa0a2bb3284fe208ed544e6c9a11b9/Performance_Review_Templates_1.csv"
+      ],
+      "size_mb": 0.0049896240234375
+    },
+    {
+      "hash": "25c41159",
+      "files": [
+        "01_marketing/Templates/index.html",
+        "backups/duplicates/051265f2bd9a7aceffb4365926adcdef27f08c1e9edc0286b288eeaf55e46eb6/index.html"
+      ],
+      "size_mb": 0.02501678466796875
+    },
+    {
+      "hash": "c008105e",
+      "files": [
+        "01_marketing/Templates/casos_estudio.html",
+        "backups/duplicates/7f124b8cc01ae1bd1beee22b10b4b41a0af27ceaee4e907264ac403f9e949d43/casos-estudio.html"
+      ],
+      "size_mb": 0.028387069702148438
+    },
+    {
+      "hash": "aa0a8936",
+      "files": [
+        "01_marketing/Templates/cierre_ventas_curso_ia.docx",
+        "backups/duplicates/35a8e50b852049b22d55a8b98d95bb73406af7ecedc9d3ab552b57f1b5ac49b4/cierre-ventas-curso-ia.docx",
+        "backups/duplicates/35a8e50b852049b22d55a8b98d95bb73406af7ecedc9d3ab552b57f1b5ac49b4/cierre-ventas-curso-ia_1.docx"
+      ],
+      "size_mb": 0.038478851318359375
+    },
+    {
+      "hash": "8dfd6165",
+      "files": [
+        "01_marketing/Templates/sistema_marketing_ultra_revolucionario_interactive.html",
+        "backups/duplicates/1367b1a81bd724e0fa16613494e9dc9b545c9b6b22490ec23a30ba9b0da9c2e9/Sistema_Marketing_Ultra_Revolucionario_Interactive.html"
+      ],
+      "size_mb": 0.02237701416015625
+    },
+    {
+      "hash": "ca081f69",
+      "files": [
+        "01_marketing/Templates/12_legal_documents_template.docx",
+        "backups/duplicates/64d0d63cf4c6ad1ec675833a7da790083c2ac6293ec7c05528a8e0e6cd0faa0a/12_Legal_Documents_Template.docx"
+      ],
+      "size_mb": 0.021346092224121094
+    },
+    {
+      "hash": "9c6544d5",
+      "files": [
+        "01_marketing/Templates/guia_rapida_anchor_texts_20250912_140730.html",
+        "backups/duplicates/f13b4f121ef7abd6908b741296dde59288d6f9fbb64384c39820a245a3acabc7/guia_rapida_anchor_texts_20250915_135922.html"
+      ],
+      "size_mb": 0.006343841552734375
+    },
+    {
+      "hash": "586d9fcb",
+      "files": [
+        "01_marketing/Templates/index_v2.html",
+        "backups/duplicates/bd80deac80dab393d1151dfcd02b0b2401d6aa6753969913fbcc367cf19647d1/index-v2.html"
+      ],
+      "size_mb": 0.03147125244140625
+    },
+    {
+      "hash": "d4ca046c",
+      "files": [
+        "01_marketing/Templates/estrategias_avanzadas_trafico_organico_2024.docx",
+        "backups/duplicates/fc929f65a0d5d227b16c72027b980eb214763212e3e4b0374e5377a37a62a52d/Estrategias-Avanzadas-Trafico-Organico-2024.docx"
+      ],
+      "size_mb": 0.05225563049316406
+    },
+    {
+      "hash": "7b7df598",
+      "files": [
+        "01_marketing/Templates/testimonial_ia_marketing.html",
+        "backups/duplicates/eac63d3858a7a88ee9eab051ed4de2676e3f2a071666eef63625b0f8de6ce4e2/testimonial-ia-marketing.html"
+      ],
+      "size_mb": 0.019618988037109375
+    },
+    {
+      "hash": "0f7ee8f2",
+      "files": [
+        "01_marketing/Templates/resumen_curso_ia_marketing.docx",
+        "backups/duplicates/a3b580db083880aa89669e0f92e8aaafc9e4b645f85aa1d9407304adfc99a84e/Resumen_Curso_IA_Marketing.docx"
+      ],
+      "size_mb": 0.013915061950683594
+    },
+    {
+      "hash": "8ff6e2fe",
+      "files": [
+        "01_marketing/Templates/index_v3.html",
+        "backups/duplicates/7f9cbae1306811b36ef96e55325f619e0b3b99455412c4ab262b8cef7eb6d296/index-v3.html"
+      ],
+      "size_mb": 0.03724384307861328
+    },
+    {
+      "hash": "517d954f",
+      "files": [
+        "01_marketing/Templates/modelos_negocio_financial_analysis.xlsx",
+        "backups/duplicates/3e81987f11df4205e09299f6504ce10e917199a887d634c407ea4acf77d90e86/Modelos_Negocio_Financial_Analysis_1.xlsx",
+        "backups/duplicates/3e81987f11df4205e09299f6504ce10e917199a887d634c407ea4acf77d90e86/Modelos_Negocio_Financial_Analysis.xlsx"
+      ],
+      "size_mb": 0.023161888122558594
+    },
+    {
+      "hash": "775e70d5",
+      "files": [
+        "01_marketing/Templates/frases_populares_busqueda_google_2024.docx",
+        "backups/duplicates/dd94227ad967561bec7c7a2bc7d1129f3d0027312fc200f9e2a6e824e490b7b3/frases-populares-busqueda-google-2024.docx"
+      ],
+      "size_mb": 0.04397392272949219
+    },
+    {
+      "hash": "ce1ce642",
+      "files": [
+        "01_marketing/Templates/curso_detallado.html",
+        "backups/duplicates/5ad8468d84d2d777753ec4172dd84d30d4b5f5e9f0cb7da96b81c6f86e15ad3c/curso-detallado.html"
+      ],
+      "size_mb": 0.030646324157714844
+    },
+    {
+      "hash": "a4a8ef69",
+      "files": [
+        "01_marketing/Templates/cierre_ventas_curso_ia_ultra_avanzado.html",
+        "backups/duplicates/76930e443cc503ab82f235f4efac5000e6862031cd0120da86a669d570022a72/cierre-ventas-curso-ia-ultra-avanzado_1.html",
+        "backups/duplicates/76930e443cc503ab82f235f4efac5000e6862031cd0120da86a669d570022a72/cierre-ventas-curso-ia-ultra-avanzado.html"
+      ],
+      "size_mb": 0.04630088806152344
+    },
+    {
+      "hash": "c69f5701",
+      "files": [
+        "01_marketing/Templates/cierre_ventas_curso_ia.html",
+        "backups/duplicates/057e1fa407c81549ce0836197f28482a45bb0bff10ee4dda1e5ffb2dc739bb4a/cierre-ventas-curso-ia_1.html",
+        "backups/duplicates/057e1fa407c81549ce0836197f28482a45bb0bff10ee4dda1e5ffb2dc739bb4a/cierre-ventas-curso-ia.html"
+      ],
+      "size_mb": 0.01723480224609375
+    },
+    {
+      "hash": "6e5fc15c",
+      "files": [
+        "01_marketing/Templates/reporte_modelos_negocio_ultra_revolucionario.docx",
+        "backups/duplicates/f7b82242270b63c26f4c5cff8a8253becb6ba75b1b16cd6a167c167551e5c21f/Reporte_Modelos_Negocio_Ultra_Revolucionario.docx"
+      ],
+      "size_mb": 0.026020050048828125
+    },
+    {
+      "hash": "3263676b",
+      "files": [
+        "01_marketing/Templates/frases_populares_busqueda_google_2024_ultra_completo.html",
+        "backups/duplicates/2e894a8bb3a68d00bfc035b75b6238b92ce89de02c9f6f574cbe26257f81a045/frases-populares-busqueda-google-2024-ultra-completo.html"
+      ],
+      "size_mb": 0.058814048767089844
+    },
+    {
+      "hash": "d93a0154",
+      "files": [
+        "01_marketing/Templates/frases_populares_busqueda_google_2024_ultra_completo_final.docx",
+        "backups/duplicates/e05639eaef8374f61edfc732a219354bb2a9d343401304e8c535aeada4c74bfd/frases-populares-busqueda-google-2024-ultra-completo-final.docx"
+      ],
+      "size_mb": 0.14563465118408203
+    },
+    {
+      "hash": "9f39e832",
+      "files": [
+        "01_marketing/Automations/marketingautomationpanel.jsx",
+        "backups/duplicates/f4844e171ae2522a4f69f624d14e8b3db0ca4d3aeb8a61c900e0816f6947e49d/MarketingAutomationPanel.jsx"
+      ],
+      "size_mb": 0.013398170471191406
+    },
+    {
+      "hash": "d8f857e9",
+      "files": [
+        "01_marketing/Automations/marketingautomation.js",
+        "backups/duplicates/e5d3f7f94e0d13ced928b210a532b48cfeb78e08b265f55c344aa8f918998bce/MarketingAutomation.js"
+      ],
+      "size_mb": 0.014049530029296875
+    },
+    {
+      "hash": "d7dbebbd",
+      "files": [
+        "01_marketing/Automations/marketingautomationpanel.css",
+        "backups/duplicates/a4ceddbc97ce829fcd4d356d82475cb8a78a8a1d281a1f50d03242fa1cef46fe/MarketingAutomationPanel.css"
+      ],
+      "size_mb": 0.008302688598632812
+    },
+    {
+      "hash": "5592890a",
+      "files": [
+        "01_marketing/Automations/due_diligence_automation_script.py",
+        "backups/duplicates/e24f455c5f737c07f9a6ba40ad3426966bdf0d195c75deef333048ccd5501145/DUE_DILIGENCE_AUTOMATION_SCRIPT.py"
+      ],
+      "size_mb": 0.022507667541503906
+    },
+    {
+      "hash": "2e14844a",
+      "files": [
+        "01_marketing/02_content_marketing/contentgenerator.js",
+        "backups/duplicates/a4d79184dd9d79c3ec8131939d9c90ad849652d26e1730200f4d1bd994d2162b/ContentGenerator.js"
+      ],
+      "size_mb": 0.011121749877929688
+    },
+    {
+      "hash": "25b6798b",
+      "files": [
+        "01_marketing/02_content_marketing/contentgenerator.tsx",
+        "backups/duplicates/0a4a559e48975fc03b01bc0d9a253df33b91675b36acaf07515a75b67f505e37/ContentGenerator.tsx"
+      ],
+      "size_mb": 0.013903617858886719
+    },
+    {
+      "hash": "332568b3",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/docker_compose.yml",
+        "backups/duplicates/bcbc9e370c147f59536257e103c06fa0ee4b2702b2417d2b4f56ee2dbf45eb0e/docker-compose.yml"
+      ],
+      "size_mb": 0.0032739639282226562
+    },
+    {
+      "hash": "58cb0065",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/server.js",
+        "backups/duplicates/5ff707a6f87d2a2be380c8a938ab96f88a0fbdf10293028980360603757b6e11/server.js"
+      ],
+      "size_mb": 0.006751060485839844
+    },
+    {
+      "hash": "625d4161",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/env.example",
+        "backups/duplicates/e8dc272fe4888c22ce215807033678cfd1c26a0849aec813fc08912683c98882/env.example"
+      ],
+      "size_mb": 0.0021562576293945312
+    },
+    {
+      "hash": "d41709d7",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Middleware/auth.js",
+        "backups/duplicates/4570e962cdb3dbf044ae93f9c722de9a05e08d985532db90c8602edf28bf01a5/auth.js"
+      ],
+      "size_mb": 0.007601737976074219
+    },
+    {
+      "hash": "7d40cef5",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Models/contenttemplate.js",
+        "backups/duplicates/04336a6babac87d818ab978ffac1f913db91b9b1c7013099d7f9120eb7dbf10b/ContentTemplate.js"
+      ],
+      "size_mb": 0.007704734802246094
+    },
+    {
+      "hash": "4e965373",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Models/user.js",
+        "backups/duplicates/d5c71565eae2c44cfd2581ba645db9eb486a563c6a8fb17d3597024fab4ec6ad/User.js"
+      ],
+      "size_mb": 0.006167411804199219
+    },
+    {
+      "hash": "42c1e0dd",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Models/generatedcontent.js",
+        "backups/duplicates/c4312a794290e8b25e5c18b891c882e1a28b76c68b0597dff610edc6300f1ee6/GeneratedContent.js"
+      ],
+      "size_mb": 0.007710456848144531
+    },
+    {
+      "hash": "33bd2739",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Client/tailwindconfig.js",
+        "backups/duplicates/1a5585e367c289e344fe345a8132883bdd62b050c9c4f933666e70df903a4dab/tailwind.config.js"
+      ],
+      "size_mb": 0.009425163269042969
+    },
+    {
+      "hash": "84c2a739",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Client/package.json",
+        "backups/duplicates/e1842b409d4284ec88793425bc0441210bf2b6ca7ae7b6a69b7aa801a9e4ef3b/package.json"
+      ],
+      "size_mb": 0.0021123886108398438
+    },
+    {
+      "hash": "8c6d3c81",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Client/Src/app.js",
+        "backups/duplicates/9b2cf642ff24fe95306d5065569c2b995f5667088397abc18ff0864c39004bd3/App.js"
+      ],
+      "size_mb": 0.004840850830078125
+    },
+    {
+      "hash": "be775a66",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Client/Src/Components/Content/variableinputs.jsx",
+        "backups/duplicates/f59d8a7414381be1f7cd51c0b7cdf47170754cc1014fc86f79ffb33291377f9a/VariableInputs.jsx"
+      ],
+      "size_mb": 0.006009101867675781
+    },
+    {
+      "hash": "f6a9760a",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Client/Src/Components/Content/templateselector.jsx",
+        "backups/duplicates/e6980b6de8d6824c1945117f102f5b8cf52a231ed846136c60154c7b94af8758/TemplateSelector.jsx"
+      ],
+      "size_mb": 0.010514259338378906
+    },
+    {
+      "hash": "9b8e1724",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Client/Src/Components/Content/contentpreview.jsx",
+        "backups/duplicates/d1bb9b2c55f836026174929fb6debe536f90b8db6ccca4ff836ba1cbde66bea2/ContentPreview.jsx"
+      ],
+      "size_mb": 0.008101463317871094
+    },
+    {
+      "hash": "1b0c176e",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Client/Src/Components/Content/usagestats.jsx",
+        "backups/duplicates/b09aa0760cc7d4ccc29cca0d68da601dca12f1df979ac94f9e0b0c568a6fc826/UsageStats.jsx"
+      ],
+      "size_mb": 0.009389877319335938
+    },
+    {
+      "hash": "023fa772",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Client/Src/Components/Content/aisettings.jsx",
+        "backups/duplicates/52c673dcf56af7e7d2d9e13b9d57aafa5fabefa3cfc67ebb76fd755e02535aca/AISettings.jsx"
+      ],
+      "size_mb": 0.010481834411621094
+    },
+    {
+      "hash": "09d10d10",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Client/Src/Pages/contentgenerator.jsx",
+        "backups/duplicates/f8750e3b2233e609dffdf7153d0fe8878e5f86754afe8d73ac336a2ada61646f/ContentGenerator.jsx"
+      ],
+      "size_mb": 0.01862049102783203
+    },
+    {
+      "hash": "9613340a",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Routes/automation.js",
+        "backups/duplicates/29e290ca2d4f194ff3b7628f9444e35463dedf7c27e4604361bfa1bb87f277b2/automation.js"
+      ],
+      "size_mb": 0.0047130584716796875
+    },
+    {
+      "hash": "e46e47f1",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Routes/advancedautomation.js",
+        "backups/duplicates/25f1eaca3726355ac43b17198b42f2702ac04bf5ed85904888449b09de877181/advancedAutomation.js"
+      ],
+      "size_mb": 0.014750480651855469
+    },
+    {
+      "hash": "8fcb6e9e",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Routes/predictiveanalytics.js",
+        "backups/duplicates/c0f08915d50dd892d9ceedbdfc7d4982c1c102af4847571827fe73799030fd28/predictiveAnalytics.js"
+      ],
+      "size_mb": 0.005959510803222656
+    },
+    {
+      "hash": "ec6257da",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Routes/optimization.js",
+        "backups/duplicates/28eaedcde08be50d94511fa8a4ae564180f1b5e9e822aa268aef0d0f390cd1f9/optimization.js"
+      ],
+      "size_mb": 0.013680458068847656
+    },
+    {
+      "hash": "8e40b1bf",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Routes/auth.js",
+        "backups/duplicates/91b5645a2d50a94f04dc5a2b60a17ded4d3248ff3e73b7c22f9291224d05189d/auth.js"
+      ],
+      "size_mb": 0.010872840881347656
+    },
+    {
+      "hash": "f1ab940b",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Routes/multimediacontent.js",
+        "backups/duplicates/688979c3f7208e35d1d4279201ac94c790379bc10d62c4406e2d50477b140903/multimediaContent.js"
+      ],
+      "size_mb": 0.013519287109375
+    },
+    {
+      "hash": "b3daa4dc",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Routes/aiinsights.js",
+        "backups/duplicates/a6c4d981c954696228cc3e31d2e22ad63342ff8325937b2cf43b15d01352c612/aiInsights.js"
+      ],
+      "size_mb": 0.013607978820800781
+    },
+    {
+      "hash": "c444c807",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Routes/performance.js",
+        "backups/duplicates/8da7cb409b4a1ae2979c2a8032e5eca86c2ea1d352b439487f593087bacbee26/performance.js"
+      ],
+      "size_mb": 0.011610031127929688
+    },
+    {
+      "hash": "812b4e46",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Routes/contentanalysis.js",
+        "backups/duplicates/bca972817660593b29594ee2f0e715b166c08bafbdcff7ac3f98fd4be345760c/contentAnalysis.js"
+      ],
+      "size_mb": 0.00766754150390625
+    },
+    {
+      "hash": "2c1ac2d5",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Routes/integrations.js",
+        "backups/duplicates/25859dece913400b3d9c5f4a4f6c47597c8f77ca2239211bc2a0d22cb4e7716f/integrations.js"
+      ],
+      "size_mb": 0.010799407958984375
+    },
+    {
+      "hash": "0da8cee2",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Routes/content.js",
+        "backups/duplicates/c0a098ecb899d0ec29cbda6b7eebe351b3f33fe2e8eb3e9926ae8372b6a6a79d/content.js"
+      ],
+      "size_mb": 0.015062332153320312
+    },
+    {
+      "hash": "78233d4c",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Routes/templates.js",
+        "backups/duplicates/8787c776ae0585d3d8463d8dc76f5c02d763d64b318b69c09f10a3d98cf9fb6c/templates.js"
+      ],
+      "size_mb": 0.011145591735839844
+    },
+    {
+      "hash": "58e839a3",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Routes/abtesting.js",
+        "backups/duplicates/075956ad19c464486f659fcd901a2b11d32fa8bdc67051e074cc1230e39a3ec8/abTesting.js"
+      ],
+      "size_mb": 0.012671470642089844
+    },
+    {
+      "hash": "c0f0731b",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Routes/personalization.js",
+        "backups/duplicates/ea359666a2624866d98c850292be902be8437109d9d7692653e2a0b31f193c20/personalization.js"
+      ],
+      "size_mb": 0.012037277221679688
+    },
+    {
+      "hash": "4df21c48",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Routes/notifications.js",
+        "backups/duplicates/b428f018ee18df2423245ad3a41cf96f5f96f14b8005327c51267cb5d4671781/notifications.js"
+      ],
+      "size_mb": 0.010974884033203125
+    },
+    {
+      "hash": "482cbe9c",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Routes/contentstrategy.js",
+        "backups/duplicates/87d5d20dd222468a5fa2a3bb3c919fb0ac88fd8321b87ade2071a1843502d853/contentStrategy.js"
+      ],
+      "size_mb": 0.023342132568359375
+    },
+    {
+      "hash": "18a5c97f",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Routes/collaboration.js",
+        "backups/duplicates/b1558b14bc49992b776bdf9f6168019d5ab0d2a3112fdc71cb83e69418cb66a6/collaboration.js"
+      ],
+      "size_mb": 0.012157440185546875
+    },
+    {
+      "hash": "e11ee780",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Services/automationservice.js",
+        "backups/duplicates/99ce295dca6e4859c89553593357fc991e08b73007089221ae8f641def6dd819/automationService.js"
+      ],
+      "size_mb": 0.018489837646484375
+    },
+    {
+      "hash": "369f2727",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Services/aiservice.js",
+        "backups/duplicates/fc2510ffc2d8760856fb34e022878c471790df868fa7c615d33e74acffc48910/aiService.js"
+      ],
+      "size_mb": 0.011404037475585938
+    },
+    {
+      "hash": "603d82d4",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Services/realtimeservice.js",
+        "backups/duplicates/9d3e8de7cb7ea21bfd33639b570836327db11d9dca739b932783cd264538b722/realTimeService.js"
+      ],
+      "size_mb": 0.015847206115722656
+    },
+    {
+      "hash": "ef38014b",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Services/aicontentstrategyservice.js",
+        "backups/duplicates/0303cf55bbdc8a62ed69533e1c90eac53a93bc08d889e1135582e82abf4f2ca4/aiContentStrategyService.js"
+      ],
+      "size_mb": 0.0431060791015625
+    },
+    {
+      "hash": "a2ba6c6c",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Services/abtestingservice.js",
+        "backups/duplicates/055ed887a9dfb958f850321020bac1f1d45fe61d16778c5f1013a44b6f1eb0ec/abTestingService.js"
+      ],
+      "size_mb": 0.0188140869140625
+    },
+    {
+      "hash": "1d9fb70f",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Services/advancedautomationservice.js",
+        "backups/duplicates/21b8f4ee30d04d546113a5e21e699ca06449b19fa95231432a844470316158c3/advancedAutomationService.js"
+      ],
+      "size_mb": 0.009886741638183594
+    },
+    {
+      "hash": "db278753",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Services/securityservice.js",
+        "backups/duplicates/dcc0c96d71befe5b1905cd5b25dade7185eaec38c72a314fc155e471d5d8a41d/securityService.js"
+      ],
+      "size_mb": 0.013668060302734375
+    },
+    {
+      "hash": "9b8bbf02",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Services/aipredictiveanalyticsservice.js",
+        "backups/duplicates/702ffa2d4bd174169d381ff4334ae06a3aeb4dd31ed70809e13f27214895520c/aiPredictiveAnalyticsService.js"
+      ],
+      "size_mb": 0.023947715759277344
+    },
+    {
+      "hash": "17839406",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Services/multimediacontentservice.js",
+        "backups/duplicates/c5ed22ca9b04aa7bb7bdcf6b05357fa94b0924bc53b9a46a0ebc435a5718004b/multimediaContentService.js"
+      ],
+      "size_mb": 0.011430740356445312
+    },
+    {
+      "hash": "81be2ee4",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Services/advancedaiservice.js",
+        "backups/duplicates/8fcbede2a4f22f8c4a149878049e6305daa7944eea75e87544222a5e9909fbbd/advancedAIService.js"
+      ],
+      "size_mb": 0.019104957580566406
+    },
+    {
+      "hash": "1bbdb0ef",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Services/personalizationservice.js",
+        "backups/duplicates/3f62761f1da9f676efe2544bd3132d95284dbe8a1ffd25fa012eb1acafa4c569/personalizationService.js"
+      ],
+      "size_mb": 0.020259857177734375
+    },
+    {
+      "hash": "4b8eb3be",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Services/machinelearningservice.js",
+        "backups/duplicates/c247ada13f78060a6b3d23d4352813053fabcb559092811cef06268a66a52e93/machineLearningService.js"
+      ],
+      "size_mb": 0.029130935668945312
+    },
+    {
+      "hash": "5a6ef477",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Services/contentanalysisservice.js",
+        "backups/duplicates/cfff511072b28a32773e78ee514bc43d07ad70cff56751004c7faefc752e6507/contentAnalysisService.js"
+      ],
+      "size_mb": 0.005105018615722656
+    },
+    {
+      "hash": "69f39e79",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Services/integrationservice.js",
+        "backups/duplicates/f735325bece53b364344c22e9e06d991fa47534306f9736736cc6b6019655c6f/integrationService.js"
+      ],
+      "size_mb": 0.029488563537597656
+    },
+    {
+      "hash": "f290f959",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Services/aiinsightsservice.js",
+        "backups/duplicates/b109a791bfdebbfd07975a6002b9cac346f6eea60ef8113d2925dde2ddc824d2/aiInsightsService.js"
+      ],
+      "size_mb": 0.03687572479248047
+    },
+    {
+      "hash": "9f1fb651",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Services/collaborationservice.js",
+        "backups/duplicates/c05a285c68b7574953a5bc832126a25e0be416e04145803cf132530b9fe4598f/collaborationService.js"
+      ],
+      "size_mb": 0.018327713012695312
+    },
+    {
+      "hash": "596005d5",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Services/performanceservice.js",
+        "backups/duplicates/1132260f3c77e26b3906443696082223ef48ab81c49e50cf4b4a7a8ae606707b/performanceService.js"
+      ],
+      "size_mb": 0.017111778259277344
+    },
+    {
+      "hash": "2b1aeb25",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Services/analyticsservice.js",
+        "backups/duplicates/b4715e6773905a06b7aadbd08a1bea2e0bb3341b0f38afd4d6a76d339bef948c/analyticsService.js"
+      ],
+      "size_mb": 0.023166656494140625
+    },
+    {
+      "hash": "6b0a0c9a",
+      "files": [
+        "01_marketing/Saasaimarketingplatform/Services/notificationservice.js",
+        "backups/duplicates/7d65eaf9acdb91b246f70e636ef6fc95ab3ddefcc932fcb11a68bb4c52099861/notificationService.js"
+      ],
+      "size_mb": 0.016492843627929688
+    },
+    {
+      "hash": "9f609d05",
+      "files": [
+        "01_marketing/Analytics/07_kpi_tracking_dashboard.xlsx",
+        "backups/duplicates/474fd1f7293d11ea8f7fad20eb5b7bf20338d80e89ec9741b397b248129e6f67/07_KPI_Tracking_Dashboard.xlsx"
+      ],
+      "size_mb": 0.013065338134765625
+    },
+    {
+      "hash": "22a12cf1",
+      "files": [
+        "01_marketing/Analytics/analisis_anchor_texts_20250915_125503.json",
+        "backups/duplicates/aad4ffd8843c9769d7ae08bcea31d523da68ed3fd2ab2d8a14e34abef9b24951/analisis_anchor_texts_20250915_135922.json"
+      ],
+      "size_mb": 0.017210006713867188
+    },
+    {
+      "hash": "541bd48b",
+      "files": [
+        "01_marketing/Analytics/17_ai_business_intelligence_dashboard.xlsx",
+        "backups/duplicates/5072fd5d606531d27305c858d0dc80be1f9bdb65f74b008bfc3bd5aeae4149f3/17_AI_Business_Intelligence_Dashboard.xlsx"
+      ],
+      "size_mb": 0.016470909118652344
+    },
+    {
+      "hash": "bfa66144",
+      "files": [
+        "01_marketing/Analytics/ai_marketing_advanced_analytics.csv",
+        "backups/duplicates/c4577f353a99f3aa3586568b7ea87ba37e7b9008fe4d70131bbdd6c532953381/AI_Marketing_Advanced_Analytics.csv"
+      ],
+      "size_mb": 0.00394439697265625
+    },
+    {
+      "hash": "f6677916",
+      "files": [
+        "01_marketing/Analytics/advanced_due_diligence_dashboard_v3.html",
+        "backups/duplicates/62a1751cfbea317cc2ee2814a244a95937661d167b9e97a8c96647c06c5c252f/ADVANCED_DUE_DILIGENCE_DASHBOARD_V3.html"
+      ],
+      "size_mb": 0.028858184814453125
+    },
+    {
+      "hash": "37339358",
+      "files": [
+        "01_marketing/Analytics/neuralanalytics.tsx",
+        "backups/duplicates/ee8af40530bc31304ad5e08b7868cc2708a4cff2c6133da1d3136b967f781c22/NeuralAnalytics.tsx"
+      ],
+      "size_mb": 0.01568889617919922
+    },
+    {
+      "hash": "1c605799",
+      "files": [
+        "01_marketing/Analytics/neuraldashboard.jsx",
+        "backups/duplicates/db8d1e5c85f8f5ef0998320f64eeb076e78055eb39edae905995fa37181abb94/NeuralDashboard.jsx"
+      ],
+      "size_mb": 0.005002021789550781
+    },
+    {
+      "hash": "8d240bba",
+      "files": [
+        "01_marketing/Analytics/advanced_analytics.py",
+        "backups/duplicates/857f58d9c1a2db5453d38d88234b3282bf894b3ca10aef21546a0d55700083f8/advanced_analytics.py"
+      ],
+      "size_mb": 0.029840469360351562
+    },
+    {
+      "hash": "0176c9a4",
+      "files": [
+        "01_marketing/Analytics/analytics.js",
+        "backups/duplicates/c606c1441ca893877d87dc175968d46c861d904d2ecbbf3299c228d3a970924e/analytics.js"
+      ],
+      "size_mb": 0.01023101806640625
+    },
+    {
+      "hash": "55dc4914",
+      "files": [
+        "01_marketing/Analytics/neuraldashboard.css",
+        "backups/duplicates/4c732ed463f1e8f652894a42782c16e5fff11c11b99104c36afaaa649c0d164d/NeuralDashboard.css"
+      ],
+      "size_mb": 0.0037164688110351562
+    },
+    {
+      "hash": "2d4421b8",
+      "files": [
+        "01_marketing/Analytics/dashboard_anchor_texts_20250915_195403.html",
+        "backups/duplicates/9bcbb433edfbbe77e5f1a4f735dde7d7486cb0444f6e87411f3a33eb68c5be98/dashboard_anchor_texts_20250915_195403.html"
+      ],
+      "size_mb": 0.05471611022949219
+    },
+    {
+      "hash": "411573bf",
+      "files": [
+        "01_marketing/Analytics/27_predictive_analytics_engine.xlsx",
+        "backups/duplicates/53f9fa35b17ba8d35753bfc8f571b967ff3f2685d055e57762150aadc9ebe344/27_Predictive_Analytics_Engine.xlsx"
+      ],
+      "size_mb": 0.01678466796875
+    },
+    {
+      "hash": "5d4345a0",
+      "files": [
+        "01_marketing/Analytics/dashboard_interactivo_anchor_texts.py",
+        "backups/duplicates/16d8ddb3948809440dc37c902976f1c2bd59db3b6797f0eb304a507c17c7fd0d/dashboard-interactivo-anchor-texts.py"
+      ],
+      "size_mb": 0.029397010803222656
+    },
+    {
+      "hash": "62782593",
+      "files": [
+        "01_marketing/Analytics/analisis_anchor_texts_20250915_125503.txt",
+        "backups/duplicates/136854b698efbef8e2ba4ca8f8a65de510f8d3132fc79efc799ceb94b8f100ea/analisis_anchor_texts_20250915_135922.txt"
+      ],
+      "size_mb": 0.0006618499755859375
+    },
+    {
+      "hash": "6178ad9f",
+      "files": [
+        "01_marketing/Analytics/analizador_metricas_anchor_texts.py",
+        "backups/duplicates/fad649aa5772948b9a546cd35aa750e6611c36aa1ba24aeff645dd2be542984c/analizador-metricas-anchor-texts.py"
+      ],
+      "size_mb": 0.025693893432617188
+    },
+    {
+      "hash": "31865b04",
+      "files": [
+        "01_marketing/Analytics/due_diligence_dashboard.html",
+        "backups/duplicates/3dcca4a3fb323626ec1acb0c325908517304c7c48175f35ce392e7267a82d57e/DUE_DILIGENCE_DASHBOARD.html"
+      ],
+      "size_mb": 0.02620220184326172
+    },
+    {
+      "hash": "eba218ad",
+      "files": [
+        "01_marketing/Analytics/21_advanced_analytics_dashboard.xlsx",
+        "backups/duplicates/7f61e230a634cfd6ad7a5acfc479e19315264b404448793e200da04cc3ec5b7c/21_Advanced_Analytics_Dashboard.xlsx"
+      ],
+      "size_mb": 0.01607990264892578
+    },
+    {
+      "hash": "924d33dd",
+      "files": [
+        "01_marketing/Analytics/sales_kpi_dashboard.html",
+        "backups/duplicates/08d510080e2219c36d542be594d8f4270756721c66b1d361c9596fbb90854606/sales-kpi-dashboard.html"
+      ],
+      "size_mb": 0.022716522216796875
+    },
+    {
+      "hash": "07fe6db6",
+      "files": [
+        "01_marketing/06_analytics/analyticspanel.css",
+        "backups/duplicates/c1a1db4b205de3b0e670c508055fca15a0ff9f535e59b4013197b654a3cecbfe/AnalyticsPanel.css"
+      ],
+      "size_mb": 0.009069442749023438
+    },
+    {
+      "hash": "7a6913bd",
+      "files": [
+        "01_marketing/06_analytics/analytics_system.py",
+        "backups/duplicates/f5f4759699cb595416ad08bdfb1c9ee28e5ec9fe853f9f4beffe678bf3e432d2/analytics_system_1.py",
+        "backups/duplicates/f5f4759699cb595416ad08bdfb1c9ee28e5ec9fe853f9f4beffe678bf3e432d2/analytics_system.py"
+      ],
+      "size_mb": 0.011226654052734375
+    },
+    {
+      "hash": "edc60bbb",
+      "files": [
+        "01_marketing/06_analytics/analyticspanel.jsx",
+        "backups/duplicates/5ed22ac883871ba978eaca7e4cdb50af8423035ce12759360234cd94f043ae58/AnalyticsPanel.jsx"
+      ],
+      "size_mb": 0.012035369873046875
+    },
+    {
+      "hash": "ec4fd82f",
+      "files": [
+        "01_marketing/Reports/formulas_avanzadas_anchor_texts_mejorado.pdf",
+        "backups/duplicates/279a11c9c69028c2ee47933d0fe99402135534d985a0a21efcfd2e7078fa580d/formulas-avanzadas-anchor-texts-mejorado.pdf"
+      ],
+      "size_mb": 0.07906436920166016
+    },
+    {
+      "hash": "64401d98",
+      "files": [
+        "01_marketing/Reports/guia_marketing_saas.pdf",
+        "backups/duplicates/d0d57bb0045025789b9454e34d21959c46a2d38358b4930c9da4bc8e8a16f63b/guia-marketing-saas.pdf"
+      ],
+      "size_mb": 0.0037975311279296875
+    },
+    {
+      "hash": "12bb30b2",
+      "files": [
+        "01_marketing/Reports/02_ai_marketing_saas_executive_summary.pdf",
+        "backups/duplicates/e0f112b18768f3dceb60803bad565c8298cb815342aa730e8e043fd38ced9ada/02_AI_Marketing_SaaS_Executive_Summary.pdf"
+      ],
+      "size_mb": 0.005908966064453125
+    },
+    {
+      "hash": "e9a808a2",
+      "files": [
+        "01_marketing/Reports/estrategia_gtm_saas_fintech.pdf",
+        "backups/duplicates/6b5b951510854ec45c48b866384d6edf66512a91103f36e3a956d37a282c4ecc/estrategia-gtm-saas-fintech.pdf",
+        "backups/duplicates/6b5b951510854ec45c48b866384d6edf66512a91103f36e3a956d37a282c4ecc/estrategia-gtm-saas-fintech_1.pdf"
+      ],
+      "size_mb": 0.027099609375
+    },
+    {
+      "hash": "439050cb",
+      "files": [
+        "01_marketing/Reports/cierre_ventas_curso_ia.pdf",
+        "backups/duplicates/b063448d2690cad212a102f275f849c80990f09142c412e376657ef902666e6e/cierre-ventas-curso-ia_1.pdf",
+        "backups/duplicates/b063448d2690cad212a102f275f849c80990f09142c412e376657ef902666e6e/cierre-ventas-curso-ia.pdf"
+      ],
+      "size_mb": 0.007992744445800781
+    },
+    {
+      "hash": "c41a4a36",
+      "files": [
+        "01_marketing/Reports/curso_inteligencia_artificial_empresas.pdf",
+        "backups/duplicates/88efc440e3f914cb631155c0439eaa5e432b265d04b97f86457b9ffd4fe57a12/curso-inteligencia-artificial-empresas.pdf"
+      ],
+      "size_mb": 0.015078544616699219
+    },
+    {
+      "hash": "ee9364e4",
+      "files": [
+        "01_marketing/Reports/indice_documentos_completos.pdf",
+        "backups/duplicates/5b4294e91b8b5f73f29a5d720c29d485cc5f6469f94f1cbba9bb13ac4727fe3a/indice-documentos-completos.pdf"
+      ],
+      "size_mb": 0.011308670043945312
+    },
+    {
+      "hash": "8fd468c1",
+      "files": [
+        "01_marketing/Reports/guia_implementacion_ia_fintech.pdf",
+        "backups/duplicates/97c64c7cc805b7aaee0e053deb8fcfd51ad3bcbe4a80b2668b71e7fc276e896a/guia-implementacion-ia-fintech_1.pdf",
+        "backups/duplicates/97c64c7cc805b7aaee0e053deb8fcfd51ad3bcbe4a80b2668b71e7fc276e896a/guia-implementacion-ia-fintech.pdf"
+      ],
+      "size_mb": 0.023154258728027344
+    },
+    {
+      "hash": "d5384d72",
+      "files": [
+        "01_marketing/Reports/formulas_avanzadas_anchor_texts_refactorizado.pdf",
+        "backups/duplicates/52e6615d2abc5406d564027b3bd778fd9bd9c406b678b255dbf1aa4522fc73e6/formulas-avanzadas-anchor-texts-refactorizado.pdf"
+      ],
+      "size_mb": 0.028946876525878906
+    },
+    {
+      "hash": "d9d0ff20",
+      "files": [
+        "01_marketing/Reports/formulas_avanzadas_anchor_texts.pdf",
+        "backups/duplicates/dcee319fab1e867ab8cd70f6983f277a176ca1c8354de23f0fb23fff041b8021/formulas-avanzadas-anchor-texts.pdf"
+      ],
+      "size_mb": 0.080230712890625
+    },
+    {
+      "hash": "3f02e386",
+      "files": [
+        "01_marketing/Reports/resumen_refactorizacion_formulas.pdf",
+        "backups/duplicates/bad395913da49e7364303e741d4ce04ef633f63d31cb639d94e2bf73a26f5d90/resumen-refactorizacion-formulas.pdf"
+      ],
+      "size_mb": 0.01204681396484375
+    },
+    {
+      "hash": "afc194ce",
+      "files": [
+        "01_marketing/Reports/remote_company_culture_strategy.pdf",
+        "backups/duplicates/71c455be06283c7ecc3b1957da3c4ba5f51dbdadd41dbb7b241a1874ef2c294b/remote-company-culture-strategy.pdf"
+      ],
+      "size_mb": 0.019941329956054688
+    },
+    {
+      "hash": "76112fa2",
+      "files": [
+        "01_marketing/Reports/resumen_mejoras_omniversales_2025.pdf",
+        "backups/duplicates/a7cfdbdaf94e99613b4587665bfb5451961f4be931332765cbc20f9c56be0c73/resumen-mejoras-omniversales-2025.pdf"
+      ],
+      "size_mb": 0.015716552734375
+    },
+    {
+      "hash": "7ccc35a7",
+      "files": [
+        ".git/logs/HEAD",
+        ".git/logs/refs/heads/main"
+      ],
+      "size_mb": 0.0037374496459960938
+    },
+    {
+      "hash": "1e1d8d53",
+      "files": [
+        ".git/refs/heads/main",
+        ".git/refs/remotes/origin/main"
+      ],
+      "size_mb": 3.910064697265625e-05
+    },
+    {
+      "hash": "916e3246",
+      "files": [
+        "backups/backup_ultra_avanzado_20251006_132017/bulk-documents-1760126024349.md",
+        "backups/duplicates/bef96b46a60a283075694d32d7798f596e01fe28cff46b81322a6700e6a640e7/bulk-documents-1760126025348.md"
+      ],
+      "size_mb": 0.6305084228515625
+    },
+    {
+      "hash": "62068cf7",
+      "files": [
+        "backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/AI_Marketing_Formula_Advanced_Entertainment.md",
+        "backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/AI_Marketing_Newsletter_Template_Mejorado_Practico_Real.md",
+        "backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/optimizacion_precios_ia_avanzada.md",
+        "backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/QUICKSTART.md",
+        "backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/post_linkedin_saas_ia_marketing.md",
+        "backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/organization_log.txt",
+        "backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/estrategias_pricing_social.md",
+        "backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/AI_Marketing_Lead_Enrichment_Task.md",
+        "backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/AI_Webinar_Narrativas_MEJORADAS.rtf",
+        "backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/AI_Webinar_Narrativas_MEJORADAS.html",
+        "backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/GUIA_MAESTRA_IA_MARKETING_CONSOLIDADA.md",
+        "backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/Copywriting_Webinar_IA_Marketing_ULTRA_MAESTRO_FINAL.md",
+        "backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/Copywriting_Webinar_IA_Marketing_VERSION_FINAL_DEFINITIVA.md",
+        "backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/brand_strategy.md",
+        "backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/ARQUITECTURA_PLATAFORMA_IA_MARKETING_ULTRA_AVANZADA.md",
+        "backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/Entregable2_Semana4_AdanPablo.pdf",
+        "backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/create_improved_word.py",
+        "backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/ganchos_saas_ia_marketing.md",
+        "backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/resumen_final_completo.md",
+        "backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/Curso_Marketing_IA_ULTRA_MEJORADO.html",
+        "backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/AI_Marketing_Newsletter_Enhanced.md",
+        "backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/Curso_Marketing_IA_ULTRA_MEJORADO.md"
+      ],
+      "size_mb": 0.0
+    },
+    {
+      "hash": "cf99d33a",
+      "files": [
+        "backups/duplicates/47839b320772f6686b6bf6e483a4757bbfe8bdb27c08ec41535f9d35adfd31e1/sistema-marketing-ultra-revolucionario-ultra-transformador-ultra-evolutivo-ultra-consciente-ultra-iluminado-ultra-divino-ultra-trascendental-ultra-infinito-ultra-eterno_1.md",
+        "backups/duplicates/47839b320772f6686b6bf6e483a4757bbfe8bdb27c08ec41535f9d35adfd31e1/sistema-marketing-ultra-revolucionario-ultra-transformador-ultra-evolutivo-ultra-consciente-ultra-iluminado-ultra-divino-ultra-trascendental-ultra-infinito-ultra-eterno.md"
+      ],
+      "size_mb": 0.005312919616699219
+    },
+    {
+      "hash": "d469995e",
+      "files": [
+        "backups/duplicates/b57f27ca01aa401e2c7b68c4163246fd3757b9723bfa6b149777e01a612d400b/ai-marketing-innovation-lab.md",
+        "backups/duplicates/b57f27ca01aa401e2c7b68c4163246fd3757b9723bfa6b149777e01a612d400b/ai-marketing-innovation-lab_1.md"
+      ],
+      "size_mb": 0.010029792785644531
+    },
+    {
+      "hash": "c9b243e6",
+      "files": [
+        "backups/duplicates/5e96d138a12a2f57ac686e3c369880b82993dfad3bfe0cd1cec1bbb4fa2d1ace/sistema-marketing-ultra-revolucionario-ultra-transformador-ultra-evolutivo-ultra-consciente-ultra-iluminado-ultra-divino-ultra-trascendental-ultra-infinito_1.md",
+        "backups/duplicates/5e96d138a12a2f57ac686e3c369880b82993dfad3bfe0cd1cec1bbb4fa2d1ace/sistema-marketing-ultra-revolucionario-ultra-transformador-ultra-evolutivo-ultra-consciente-ultra-iluminado-ultra-divino-ultra-trascendental-ultra-infinito.md"
+      ],
+      "size_mb": 0.005770683288574219
+    },
+    {
+      "hash": "7f906199",
+      "files": [
+        "backups/duplicates/545c38b0922de19734fbffde62792c37c2aef6a3216cfa472449173165220f7d/content_calendar_implementation.md",
+        "backups/duplicates/545c38b0922de19734fbffde62792c37c2aef6a3216cfa472449173165220f7d/ia_ultima_suprema_marketing.md"
+      ],
+      "size_mb": 3.814697265625e-06
+    },
+    {
+      "hash": "8855e4df",
+      "files": [
+        "backups/duplicates/719f7c457e50343e757c09eda0bc6c8a31202cd9c66394131951d254b38acc55/SALESOPS_CLI_IMPROVED_V3.md",
+        "backups/duplicates/719f7c457e50343e757c09eda0bc6c8a31202cd9c66394131951d254b38acc55/SALESOPS_CLI_IMPROVED_V2.md",
+        "backups/duplicates/719f7c457e50343e757c09eda0bc6c8a31202cd9c66394131951d254b38acc55/SALESOPS_CLI_IMPROVED_V6.md",
+        "backups/duplicates/719f7c457e50343e757c09eda0bc6c8a31202cd9c66394131951d254b38acc55/SALESOPS_CLI_REFACTORED_FINAL.md",
+        "backups/duplicates/719f7c457e50343e757c09eda0bc6c8a31202cd9c66394131951d254b38acc55/SALESOPS_CLI_IMPROVED_FINAL.md",
+        "backups/duplicates/719f7c457e50343e757c09eda0bc6c8a31202cd9c66394131951d254b38acc55/SALESOPS_CLI_REFACTORED.md",
+        "backups/duplicates/719f7c457e50343e757c09eda0bc6c8a31202cd9c66394131951d254b38acc55/SALESOPS_CLI_IMPROVED.md",
+        "backups/duplicates/719f7c457e50343e757c09eda0bc6c8a31202cd9c66394131951d254b38acc55/SALESOPS_CLI_IMPROVED_V5.md",
+        "backups/duplicates/719f7c457e50343e757c09eda0bc6c8a31202cd9c66394131951d254b38acc55/SALESOPS_CLI_ENHANCED_FINAL.md",
+        "backups/duplicates/719f7c457e50343e757c09eda0bc6c8a31202cd9c66394131951d254b38acc55/SALESOPS_CLI_IMPROVED_V4.md"
+      ],
+      "size_mb": 0.013442039489746094
+    },
+    {
+      "hash": "a39eeae9",
+      "files": [
+        "backups/duplicates/0d8b0eb487009d313adb0397950bde053d3f616281d614a7b5d6c5d18777cebc/EXECUTIVE_SUMMARY_LATAM.md",
+        "backups/duplicates/0d8b0eb487009d313adb0397950bde053d3f616281d614a7b5d6c5d18777cebc/EXECUTIVE_SUMMARY_LATAM_1.md"
+      ],
+      "size_mb": 0.009874343872070312
+    },
+    {
+      "hash": "21196e9d",
+      "files": [
+        "backups/duplicates/7f94cfd97f62eb5beaf7919fd2f3afb68a8da2c967693b48626ca340f015a2a4/lesson2-ml-basics.md",
+        "backups/duplicates/7f94cfd97f62eb5beaf7919fd2f3afb68a8da2c967693b48626ca340f015a2a4/lesson2-ml-basics_1.md",
+        "backups/duplicates/7f94cfd97f62eb5beaf7919fd2f3afb68a8da2c967693b48626ca340f015a2a4/lesson2-ml-basics_2.md"
+      ],
+      "size_mb": 0.011419296264648438
+    },
+    {
+      "hash": "e978b85f",
+      "files": [
+        "backups/duplicates/e635129d9b54a390e42b339f01fd09e341ec2ab0bce001825bb604e7fdf996b4/lesson3-nlp_2.md",
+        "backups/duplicates/e635129d9b54a390e42b339f01fd09e341ec2ab0bce001825bb604e7fdf996b4/lesson3-nlp.md",
+        "backups/duplicates/e635129d9b54a390e42b339f01fd09e341ec2ab0bce001825bb604e7fdf996b4/lesson3-nlp_1.md"
+      ],
+      "size_mb": 0.014020919799804688
+    },
+    {
+      "hash": "f40334cb",
+      "files": [
+        "backups/duplicates/69de91e14215cb2f36c9b5aa6c7b028b4326588869bb04b3a9d3fe16dddc860c/ai-marketing-certification-program_1.md",
+        "backups/duplicates/69de91e14215cb2f36c9b5aa6c7b028b4326588869bb04b3a9d3fe16dddc860c/ai-marketing-certification-program.md"
+      ],
+      "size_mb": 0.010443687438964844
+    },
+    {
+      "hash": "3f24a522",
+      "files": [
+        "backups/duplicates/ce90c0f3a6001078034f61888ce519aed9a9b3386b66ffe9aaaedb78439d9d63/sistema-marketing-ultra-consciente-ultra-avanzado-ultra-trascendental-ultra-divino-ultra-iluminado-ultra-supremo-ultra-absoluto-ultra-infinito-ultra-eterno-ultra-trascendental-ultra-divino-ultra-supremo-ultra-absoluto-ultra-infinito-ultra-eterno.md",
+        "backups/duplicates/ce90c0f3a6001078034f61888ce519aed9a9b3386b66ffe9aaaedb78439d9d63/sistema-marketing-ultra-consciente-ultra-avanzado-ultra-trascendental-ultra-divino-ultra-iluminado-ultra-supremo-ultra-absoluto-ultra-infinito-ultra-eterno.md"
+      ],
+      "size_mb": 0.010890960693359375
+    },
+    {
+      "hash": "16246944",
+      "files": [
+        "backups/duplicates/ee95c1cd94e3d01ccc1815a00df4ae3d062b3d5cea36f92f160522ca743934d2/QUICK_SCORING_LEADS_1.md",
+        "backups/duplicates/ee95c1cd94e3d01ccc1815a00df4ae3d062b3d5cea36f92f160522ca743934d2/QUICK_SCORING_LEADS.md"
+      ],
+      "size_mb": 0.003360748291015625
+    },
+    {
+      "hash": "55f4516c",
+      "files": [
+        "backups/duplicates/a2aa80059900452f293a1d01c76448146d4517c8ac6dd562e259531428fca599/ORGANIZACION_MAESTRA_2.md",
+        "backups/duplicates/a2aa80059900452f293a1d01c76448146d4517c8ac6dd562e259531428fca599/ORGANIZACION_MAESTRA_1.md",
+        "backups/duplicates/a2aa80059900452f293a1d01c76448146d4517c8ac6dd562e259531428fca599/ORGANIZACION_MAESTRA.md"
+      ],
+      "size_mb": 0.0077362060546875
+    },
+    {
+      "hash": "6d461b41",
+      "files": [
+        "backups/duplicates/dfcb1725ff706976d14a6d3a340aa1bec16a61c90f51185ec796db87471fa447/ai-marketing-global-expansion_1.md",
+        "backups/duplicates/dfcb1725ff706976d14a6d3a340aa1bec16a61c90f51185ec796db87471fa447/ai-marketing-global-expansion.md"
+      ],
+      "size_mb": 0.011652946472167969
+    },
+    {
+      "hash": "13546f47",
+      "files": [
+        "backups/duplicates/82dcfc08a4d9db173dfcbec2c1ece4e8819c5b9b6a661c40d1fdd2d4b7c704a2/VIP_Program_Customer_Documentation.md",
+        "backups/duplicates/82dcfc08a4d9db173dfcbec2c1ece4e8819c5b9b6a661c40d1fdd2d4b7c704a2/VIP_Program_Customer_Documentation_1.md"
+      ],
+      "size_mb": 0.02531909942626953
+    },
+    {
+      "hash": "237a66f3",
+      "files": [
+        "backups/duplicates/041f54827ba72eec82e9d04969c2032ee11752a5e222ff6735f29490c2d85a40/ai-marketing-industry-specializations.md",
+        "backups/duplicates/041f54827ba72eec82e9d04969c2032ee11752a5e222ff6735f29490c2d85a40/ai-marketing-industry-specializations_1.md"
+      ],
+      "size_mb": 0.012684822082519531
+    },
+    {
+      "hash": "360a47c6",
+      "files": [
+        "backups/duplicates/7e08aedd1391b7c90e49b5cf84de69278dd0122e841086fb8d3196c0dd2bcc37/lesson1-introduction_2.md",
+        "backups/duplicates/7e08aedd1391b7c90e49b5cf84de69278dd0122e841086fb8d3196c0dd2bcc37/lesson1-introduction_1.md",
+        "backups/duplicates/7e08aedd1391b7c90e49b5cf84de69278dd0122e841086fb8d3196c0dd2bcc37/lesson1-introduction.md"
+      ],
+      "size_mb": 0.004609107971191406
+    },
+    {
+      "hash": "2c7bf8f6",
+      "files": [
+        "backups/duplicates/56405848f7b94b74f7b1b1094d9802ae9c0ca324bfc45be226a08e9340905d6f/VIP_Program_Sales_Documentation_1.md",
+        "backups/duplicates/56405848f7b94b74f7b1b1094d9802ae9c0ca324bfc45be226a08e9340905d6f/VIP_Program_Sales_Documentation.md"
+      ],
+      "size_mb": 0.02071857452392578
+    },
+    {
+      "hash": "14c31cfe",
+      "files": [
+        "backups/duplicates/53a29883bcedd08da85181502c9792b453c41b6e0a3d4ba42663ea2a6624f8d4/VC_Advanced_Psychology_Mastery_2024.md",
+        "backups/duplicates/53a29883bcedd08da85181502c9792b453c41b6e0a3d4ba42663ea2a6624f8d4/VC_Advanced_Psychology_Mastery_2024_1.md"
+      ],
+      "size_mb": 0.02592754364013672
+    },
+    {
+      "hash": "d433746b",
+      "files": [
+        "backups/duplicates/01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b/checklist_ia_bulk_documentos.md",
+        "backups/duplicates/01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b/kpis_ia_bulk_documentos.md",
+        "backups/duplicates/01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b/informe_ejecutivo_marketing.md",
+        "backups/duplicates/01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b/captura_lead_magnet_saas_ia_marketing.md",
+        "backups/duplicates/01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b/guia_ai_healthcare.md",
+        "backups/duplicates/01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b/lead_magnets_ia_bulk_documentos.md",
+        "backups/duplicates/01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b/ai_startup_bulk_emails.md",
+        "backups/duplicates/01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b/LEAD_MAGNET_3_IA_BULK_DOCUMENTOS.md",
+        "backups/duplicates/01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b/checklist_saas_ia_marketing_1.md",
+        "backups/duplicates/01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b/ai_bulk_document_generator_pitch_deck.md",
+        "backups/duplicates/01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b/checklist_7_pasos_saas_ia_marketing.md",
+        "backups/duplicates/01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b/curso_ia_seo_guest_posting.md",
+        "backups/duplicates/01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b/03_secuencia_ia_bulk_documentos_1.md",
+        "backups/duplicates/01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b/captura_lead_magnet_ia_bulk_documentos.md"
+      ],
+      "size_mb": 9.5367431640625e-07
+    },
+    {
+      "hash": "bb162548",
+      "files": [
+        "backups/duplicates/2a7f3aafa462d03be4177ba245b351c5d63d4633d261b4329a9ec4f21009aa3c/ai-course-documentation_1.md",
+        "backups/duplicates/2a7f3aafa462d03be4177ba245b351c5d63d4633d261b4329a9ec4f21009aa3c/ai-course-documentation.md"
+      ],
+      "size_mb": 0.019349098205566406
+    },
+    {
+      "hash": "d86e0a06",
+      "files": [
+        "backups/duplicates/98d0e9dcee6ab57d1f016ca57f8e8c7164728ac2dedcd3b862eb53fecba81dc2/sistema-marketing-ultra-revolucionario-final_1.md",
+        "backups/duplicates/98d0e9dcee6ab57d1f016ca57f8e8c7164728ac2dedcd3b862eb53fecba81dc2/sistema-marketing-ultra-revolucionario-final.md"
+      ],
+      "size_mb": 0.2400493621826172
+    },
+    {
+      "hash": "8ec96ce2",
+      "files": [
+        "backups/duplicates/a2010655ed0a4a40141bc9332f34aed4f7981a15ced67c6e61f070bb69bd3e84/sistema-marketing-ultra-consciente-ultra-avanzado-ultra-trascendental-ultra-divino-ultra-iluminado-ultra-supremo-ultra-absoluto-ultra-infinito.md",
+        "backups/duplicates/a2010655ed0a4a40141bc9332f34aed4f7981a15ced67c6e61f070bb69bd3e84/sistema-marketing-ultra-consciente-ultra-avanzado-ultra-trascendental-ultra-divino-ultra-iluminado-ultra-supremo-ultra-absoluto-ultra-infinito-ultra-eterno-ultra-trascendental-ultra-divino-ultra-supremo-ultra-absoluto-ultra-infinito.md"
+      ],
+      "size_mb": 0.011335372924804688
+    },
+    {
+      "hash": "9fe6b861",
+      "files": [
+        "backups/duplicates/d088784b7ecb87f1ea17e6f982fa968ffefcc07b79de6ecc548fc00242868da6/estrategia_engagement_avanzada.md",
+        "backups/duplicates/d088784b7ecb87f1ea17e6f982fa968ffefcc07b79de6ecc548fc00242868da6/optimizacion_conversion_linkedin.md",
+        "backups/duplicates/d088784b7ecb87f1ea17e6f982fa968ffefcc07b79de6ecc548fc00242868da6/script_saas_marketing_ia_60s.md",
+        "backups/duplicates/d088784b7ecb87f1ea17e6f982fa968ffefcc07b79de6ecc548fc00242868da6/analisis_competitivo_linkedin.md",
+        "backups/duplicates/d088784b7ecb87f1ea17e6f982fa968ffefcc07b79de6ecc548fc00242868da6/post_linkedin_ia_bulk_documentos_variacion.md"
+      ],
+      "size_mb": 5.7220458984375e-06
+    },
+    {
+      "hash": "64b4c9c9",
+      "files": [
+        "backups/duplicates/11a141fa4e0bace34234ed4ea93eb98277adcab5924472ae5d63a003ff8461aa/curso-ia-saas-ventas-ultra-revolucionario.md",
+        "backups/duplicates/11a141fa4e0bace34234ed4ea93eb98277adcab5924472ae5d63a003ff8461aa/curso-ia-saas-ventas-ultra-revolucionario_1.md"
+      ],
+      "size_mb": 0.1797170639038086
+    }
+  ],
+  "temp_files": [
+    {
+      "path": "06_documentation/Other/system_startup.log",
+      "size_mb": 0.6605052947998047,
+      "modified": "2025-10-28T18:11:45.151982"
+    },
+    {
+      "path": "06_documentation/Other/inventory_system.log",
+      "size_mb": 0.04973411560058594,
+      "modified": "2025-10-28T18:11:45.148177"
+    },
+    {
+      "path": "13_legal_compliance/Legal_documents/legal_system.log",
+      "size_mb": 0.0016155242919921875,
+      "modified": "2025-10-17T10:21:35.803203"
+    },
+    {
+      "path": "01_marketing/Other/organization.log",
+      "size_mb": 0.0021839141845703125,
+      "modified": "2025-10-17T10:21:34.777225"
+    },
+    {
+      "path": "01_marketing/Other/permanent_organization.log",
+      "size_mb": 0.005780220031738281,
+      "modified": "2025-10-17T10:21:34.779356"
+    },
+    {
+      "path": "01_marketing/Other/ultra_organization.log",
+      "size_mb": 0.0019683837890625,
+      "modified": "2025-10-17T10:21:34.845624"
+    },
+    {
+      "path": "01_marketing/Other/final_organization.log",
+      "size_mb": 0.0020046234130859375,
+      "modified": "2025-10-17T10:21:34.717417"
+    },
+    {
+      "path": "backups/duplicates/534f01842edd8eaaf5f09beb0d824cad8c41b6017fc06d519b728b5fcbc43236/permanent_organization.log",
+      "size_mb": 0.005780220031738281,
+      "modified": "2025-10-17T10:21:39.776834"
+    },
+    {
+      "path": "backups/duplicates/1956b20af43f8db0276d3e8f9575a60575f8b1a457f26394ca7c9f38c29457cc/organization.log",
+      "size_mb": 0.0021839141845703125,
+      "modified": "2025-10-17T10:21:39.776726"
+    },
+    {
+      "path": "backups/duplicates/4b067a51c27b329ffa2f33891ca207b3149566216aaaf4ef905e0850214a4b7a/ultra_organization.log",
+      "size_mb": 0.0019683837890625,
+      "modified": "2025-10-17T10:21:39.776940"
+    },
+    {
+      "path": "backups/duplicates/1772d24d93c4881324d2b8ea2dc7d0272e7bc94428790c0765f4046408f7591c/final_organization.log",
+      "size_mb": 0.0020046234130859375,
+      "modified": "2025-10-17T10:21:39.776594"
+    }
+  ],
+  "suggestions": [
+    {
+      "type": "duplicates",
+      "priority": "high",
+      "title": "Eliminar 467 grupos de duplicados",
+      "description": "Se encontraron 1005 archivos duplicados",
+      "action": "review_duplicates"
+    },
+    {
+      "type": "cleanup",
+      "priority": "medium",
+      "title": "Limpiar 11 archivos temporales",
+      "description": "Archivos .tmp, .log, .cache y archivos antiguos",
+      "action": "cleanup_temp"
+    },
+    {
+      "type": "structure",
+      "priority": "medium",
+      "title": "Reorganizar carpeta 17_innovation",
+      "description": "74 archivos, solo 4 subcarpetas",
+      "action": "reorganize_folder",
+      "target": "17_innovation"
+    }
+  ]
+}

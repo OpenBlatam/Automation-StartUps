@@ -1,3 +1,11 @@
+---
+title: "Templates Implementacion Anti Vc"
+category: "Vc"
+tags: ["template"]
+created: "2025-10-29"
+path: "Vc/Vc_master_system/templates_implementacion_anti_vc.md"
+---
+
 # 📋 **TEMPLATES DE IMPLEMENTACIÓN ANTI-DEPENDENCIA VC**
 
 ## **PLANTILLAS PRÁCTICAS PARA STARTUPS SAAS IA LATAM**

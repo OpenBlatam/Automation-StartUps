@@ -1,3 +1,11 @@
+---
+title: "100 Ideas Contenido Tech Ia Influencer"
+category: "Ai_technology"
+tags: ["technical", "technology"]
+created: "2025-10-29"
+path: "Ai_technology/08_ai_artificial_intelligence/Md_files/100_ideas_contenido_tech_ia_influencer.md"
+---
+
 # 🚀 100 IDEAS DE CONTENIDO PARA INFLUENCER TECH & IA
 ## Framework ULTIMATE de Estrategia de Contenido Viral
 

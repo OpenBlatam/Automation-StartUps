@@ -1,3 +1,11 @@
+---
+title: "3 Mitos Ia Que Necesitas Dejar Creer"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Ai_marketing/3_mitos_ia_que_necesitas_dejar_creer.md"
+---
+
 # 3 Mitos sobre IA que Necesitas Dejar de Creer Ahora Mismo
 
 ## El #2 Te Sorprenderá

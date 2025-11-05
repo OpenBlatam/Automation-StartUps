@@ -1,0 +1,161 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FAFBFD"/>
+      <stop offset="100%" stop-color="#F1F5FF"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2948FF"/>
+      <stop offset="100%" stop-color="#6BA3FF"/>
+    </linearGradient>
+    <linearGradient id="cardShine" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.6)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+    </linearGradient>
+    <filter id="sh" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="0" dy="4" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.15"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="glow-blue" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      .headline-main { font-family: Inter, system-ui, -apple-system; font-size: 96px; font-weight: 900; letter-spacing: -2px; fill: #0B1229; }
+      .subheadline { font-family: Inter, system-ui, -apple-system; font-size: 34px; font-weight: 500; fill: #475569; }
+      .eyebrow { font-family: Inter, system-ui, -apple-system; font-size: 16px; font-weight: 700; letter-spacing: 0.2em; fill: #64748B; text-transform: uppercase; }
+      .card-label { font-family: Inter, system-ui, -apple-system; font-size: 14px; font-weight: 600; letter-spacing: 0.1em; fill: #64748B; }
+      .card-value { font-family: Inter, system-ui, -apple-system; font-size: 36px; font-weight: 800; fill: #0B1229; }
+      .card-sub { font-family: Inter, system-ui, -apple-system; font-size: 18px; fill: #94A3B8; }
+      .benefit-title { font-family: Inter, system-ui, -apple-system; font-size: 20px; font-weight: 600; fill: #0B1229; }
+      .benefit { font-family: Inter, system-ui, -apple-system; font-size: 20px; font-weight: 600; fill: #0B1229; }
+      .cta-text { font-family: Inter, system-ui, -apple-system; font-size: 42px; font-weight: 900; letter-spacing: 0.02em; fill: #FFFFFF; }
+      .footer-text { font-family: Inter, system-ui, -apple-system; font-size: 18px; font-weight: 500; fill: #94A3B8; }
+      .footer { font-family: Inter, system-ui, -apple-system; font-size: 18px; font-weight: 500; fill: #94A3B8; }
+      .small { font-family: Inter, system-ui, -apple-system; font-size: 14px; font-weight: 600; fill: #2948FF; }
+    </style>
+    <linearGradient id="cardShine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.3"/>
+    </linearGradient>
+  </defs>
+  
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  
+  <!-- Patrón decorativo sutil mejorado -->
+  <g opacity="0.04">
+    <circle cx="200" cy="150" r="100" fill="#2948FF"/>
+    <circle cx="1720" cy="930" r="120" fill="#6BA3FF"/>
+    <circle cx="1600" cy="200" r="80" fill="#2948FF"/>
+    <circle cx="400" cy="800" r="90" fill="#2948FF"/>
+    <circle cx="1400" cy="400" r="70" fill="#6BA3FF"/>
+  </g>
+  
+  <!-- Líneas decorativas sutiles -->
+  <g opacity="0.05" stroke="#2948FF" stroke-width="2" fill="none">
+    <line x1="0" y1="200" x2="800" y2="200" stroke-dasharray="10,5"/>
+    <line x1="1120" y1="0" x2="1120" y2="1080" stroke-dasharray="10,5"/>
+  </g>
+  
+  <!-- Header elegante -->
+  <g transform="translate(160,100)">
+    <text x="0" y="0" class="eyebrow">WEBINAR GRATIS</text>
+    <text x="0" y="76" class="headline-main">Cómo doblar tus ventas online</text>
+    <text x="0" y="130" class="subheadline">Estrategias de IA aplicadas al marketing digital</text>
+  </g>
+  
+  <!-- Info cards elegantes mejoradas -->
+  <g transform="translate(160,300)">
+    <!-- Card Fecha -->
+    <g filter="url(#sh)">
+      <rect x="0" y="0" width="400" height="160" rx="20" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+      <rect x="0" y="0" width="400" height="70" rx="20" fill="url(#cardShine)"/>
+      <text x="30" y="42" class="card-label">FECHA</text>
+      <text x="30" y="88" class="card-value">[FECHA]</text>
+      <text x="30" y="120" class="card-sub">Día completo</text>
+    </g>
+    
+    <!-- Card Hora -->
+    <g filter="url(#sh)">
+      <rect x="440" y="0" width="400" height="160" rx="20" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+      <rect x="440" y="0" width="400" height="70" rx="20" fill="url(#cardShine)"/>
+      <text x="470" y="42" class="card-label">HORA</text>
+      <text x="470" y="88" class="card-value">[HORA]</text>
+      <text x="470" y="120" class="card-sub">GMT-5 · Duración 60 min</text>
+    </g>
+  </g>
+  
+  <!-- Beneficios en grid mejorados -->
+  <g transform="translate(160,500)">
+    <g transform="translate(0,0)" filter="url(#sh)">
+      <rect x="0" y="0" width="240" height="120" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+      <rect x="0" y="0" width="240" height="50" rx="12" fill="url(#cardShine)"/>
+      <circle cx="120" cy="35" r="18" fill="#2948FF" opacity="0.12"/>
+      <circle cx="120" cy="35" r="10" fill="#2948FF"/>
+      <circle cx="120" cy="35" r="4" fill="#FFFFFF"/>
+      <text x="120" y="85" text-anchor="middle" class="benefit">Prompts que convierten</text>
+    </g>
+    <g transform="translate(260,0)" filter="url(#sh)">
+      <rect x="0" y="0" width="240" height="120" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+      <rect x="0" y="0" width="240" height="50" rx="12" fill="url(#cardShine)"/>
+      <circle cx="120" cy="35" r="18" fill="#2948FF" opacity="0.12"/>
+      <circle cx="120" cy="35" r="10" fill="#2948FF"/>
+      <circle cx="120" cy="35" r="4" fill="#FFFFFF"/>
+      <text x="120" y="85" text-anchor="middle" class="benefit">Creatividades IA</text>
+    </g>
+    <g transform="translate(520,0)" filter="url(#sh)">
+      <rect x="0" y="0" width="240" height="120" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+      <rect x="0" y="0" width="240" height="50" rx="12" fill="url(#cardShine)"/>
+      <circle cx="120" cy="35" r="18" fill="#2948FF" opacity="0.12"/>
+      <circle cx="120" cy="35" r="10" fill="#2948FF"/>
+      <circle cx="120" cy="35" r="4" fill="#FFFFFF"/>
+      <text x="120" y="85" text-anchor="middle" class="benefit">Automatización</text>
+    </g>
+  </g>
+  
+  <!-- CTA elegante mejorado -->
+  <g transform="translate(160,680)" filter="url(#sh)">
+    <rect x="0" y="0" width="540" height="110" rx="18" fill="url(#accent)"/>
+    <text x="270" y="72" text-anchor="middle" class="cta-text">Reservar mi asiento</text>
+    <!-- Flecha elegante -->
+    <path d="M 470 55 L 500 55 M 490 45 L 500 55 L 490 65" stroke="#FFFFFF" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>
+  </g>
+  
+  <!-- Footer elegante mejorado -->
+  <g transform="translate(160,830)">
+    <text x="0" y="0" class="footer-text">✨ Incluye grabación, material descargable y sesión Q&A en vivo</text>
+    <!-- Badges de beneficios incluidos -->
+    <g transform="translate(0,35)">
+      <rect x="0" y="0" width="140" height="32" rx="16" fill="#EFF6FF" stroke="#DBEAFE"/>
+      <text x="70" y="21" text-anchor="middle" class="small" fill="#2948FF">📹 Grabación</text>
+      <rect x="160" y="0" width="140" height="32" rx="16" fill="#EFF6FF" stroke="#DBEAFE"/>
+      <text x="230" y="21" text-anchor="middle" class="small" fill="#2948FF">📥 Materiales</text>
+      <rect x="320" y="0" width="140" height="32" rx="16" fill="#EFF6FF" stroke="#DBEAFE"/>
+      <text x="390" y="21" text-anchor="middle" class="small" fill="#2948FF">💬 Q&A Live</text>
+    </g>
+  </g>
+  
+  <!-- Logo mejorado -->
+  <g transform="translate(1680,60)" filter="url(#sh)">
+    <rect x="0" y="0" width="160" height="60" rx="8" fill="rgba(11,18,41,0.05)" stroke="rgba(11,18,41,0.1)"/>
+    <rect x="2" y="2" width="156" height="56" rx="6" fill="rgba(255,255,255,0.8)"/>
+    <text x="80" y="40" text-anchor="middle" fill="#64748B" font-family="Inter, system-ui, -apple-system" font-size="20" font-weight="700">TU LOGO</text>
+  </g>
+  
+  <!-- QR elegante -->
+  <g transform="translate(1620,870)" filter="url(#sh)">
+    <rect x="0" y="0" width="180" height="180" rx="12" fill="#FFFFFF" stroke="#E2E8F0"/>
+    <text x="90" y="88" text-anchor="middle" fill="#64748B" font-family="Inter, system-ui, -apple-system" font-size="16" font-weight="700">QR → [URL]</text>
+  </g>
+</svg>
+

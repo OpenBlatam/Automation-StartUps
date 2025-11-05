@@ -1,0 +1,264 @@
+{
+  "timestamp": "2025-10-30T17:32:46Z",
+  "summary": {
+    "scanned": 36,
+    "sop_missing_sections": 0,
+    "proc_missing_sections": 0,
+    "files_with_dead_links": 0,
+    "missing_freshness_hint": 0
+  },
+  "results": [
+    {
+      "file": "CHANGELOG_SGCI.md",
+      "type": "other",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "10_Formulario_Cambio_SOP.md",
+      "type": "other",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "30_Rol_Ops.md",
+      "type": "other",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "00_README_SGCI.md",
+      "type": "other",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "02_Guia_Actualizacion_SOPs.md",
+      "type": "sop",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "11_Dashboard_Metricas_KM_Template.md",
+      "type": "template",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "08_Convenciones_Nombrado_Rutas.md",
+      "type": "other",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "29_SLA_Exceptions_Policy.md",
+      "type": "other",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "27_Calendario_Gobernanza_KM.md",
+      "type": "other",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "24_Politica_Retencion_Archivado.md",
+      "type": "other",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "23_Matriz_Permisos_Acceso.md",
+      "type": "other",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "32_Rol_Tech.md",
+      "type": "other",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "07_Taxonomia_Metadatos_SGCI.md",
+      "type": "other",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "06_Charter_Gobernanza_SGCI.md",
+      "type": "other",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "05_Templates_SGCI.md",
+      "type": "template",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "20_Plan_Muestreo_Auditoria.md",
+      "type": "audit",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "31_Rol_CS.md",
+      "type": "other",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "18_OKRs_KM.md",
+      "type": "other",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "03_Programa_Onboarding_Equipo.md",
+      "type": "training",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "09_Guia_Busqueda_Uso_Conocimiento.md",
+      "type": "other",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "00_MANUAL_MAESTRO_SGCI.md",
+      "type": "other",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "22_Incident_RCA_SOP_Link.md",
+      "type": "other",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "12_Guia_Contribucion_Revision.md",
+      "type": "other",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "13_Matriz_RACI_Template.md",
+      "type": "template",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "11_Dashboard_Metricas_KM_Generado.md",
+      "type": "other",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "19_Programa_Adopcion_Champions.md",
+      "type": "other",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "25_Reporte_Trimestral_KM_Template.md",
+      "type": "template",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "26_Microtraining_Template.md",
+      "type": "training",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "21_Config_SOP_Linter.md",
+      "type": "other",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "16_Indice_por_Codigo.md",
+      "type": "other",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "17_Backlog_Deuda_SOPs.md",
+      "type": "other",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "14_FAQ_SGCI.md",
+      "type": "other",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "15_Quick_Start_SGCI.md",
+      "type": "other",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "28_Risk_Register_KM.md",
+      "type": "other",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "04_Sistema_Auditoria_Interna_KM.md",
+      "type": "audit",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    },
+    {
+      "file": "01_Guia_Documentacion_Procesos.md",
+      "type": "process",
+      "sections_ok": true,
+      "dead_links": [],
+      "freshness_hint_present": true
+    }
+  ]
+}

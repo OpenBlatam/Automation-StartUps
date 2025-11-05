@@ -1,0 +1,4 @@
+date,channel,sender_id,sends,delivered,hard_bounces,soft_bounces,spam_reports,template_failures,delivery_rate,bounce_rate,spam_rate,template_fail_rate,notes
+2025-10-30,email,primary_inbox,100,94,3,2,1,0,0.94,0.05,0.01,0,Seed day
+2025-10-30,whatsapp,acct_ig_5,120,119,0,0,0,2,0.992,0,0,0.016,Template pending in 2 cases
+

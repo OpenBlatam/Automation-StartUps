@@ -1,3 +1,11 @@
+---
+title: "Variantes Plataforma Tech Ia"
+category: "Ai_technology"
+tags: ["technical", "technology"]
+created: "2025-10-29"
+path: "Ai_technology/05_technology/Md_files/variantes_plataforma_tech_ia.md"
+---
+
 # 📱 VARIANTES ESPECÍFICAS POR PLATAFORMA - TECH & IA
 ## Estrategias Personalizadas para Cada Red Social
 

@@ -1,0 +1,20 @@
+[
+  {
+    "variant_id": "Problema_A",
+    "message_es_mx": "Hola [Nombre], ¿cuántas horas a la semana inviertes en copy? Con IA puedes reducir 10-15h/sem sin perder calidad. ¿Te envío el recurso (<10 min)?",
+    "message_es_es": "Hola [Nombre], ¿cuántas horas semanales dedicas al copy? Con IA puedes ahorrar 10-15h/sem sin perder calidad. ¿Te envío el recurso (<10 min)?",
+    "message_en_us": "Hi [Name], how many hours/week do you spend on copy? With AI you can save 10–15h/week without losing quality. Want the quick resource (<10 min)?",
+    "link": "https://[URL_BASE]/webinar",
+    "opt_out": "Si prefieres no recibir estos mensajes, responde 'stop'",
+    "campaign": "curso_ia_q4"
+  },
+  {
+    "variant_id": "Resultado_B",
+    "message_es_mx": "Hola [Nombre], marketers están aumentando +40% conversiones con IA bien aplicada. Tengo un mini-recurso práctico (<10 min). ¿Te lo mando?",
+    "message_es_es": "Hola [Nombre], marketers están subiendo +40% conversiones con IA bien aplicada. Tengo un mini-recurso práctico (<10 min). ¿Te lo envío?",
+    "message_en_us": "Hi [Name], marketers are seeing +40% conversions with applied AI. I have a quick practical resource (<10 min). Want it?",
+    "link": "https://[URL_BASE]/recurso",
+    "opt_out": "Si prefieres no recibir estos mensajes, responde 'stop'",
+    "campaign": "curso_ia_q4"
+  }
+]

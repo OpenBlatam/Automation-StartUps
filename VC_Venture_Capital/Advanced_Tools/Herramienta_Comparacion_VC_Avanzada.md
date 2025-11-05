@@ -1,3 +1,11 @@
+---
+title: "Herramienta Comparacion Vc Avanzada"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Advanced_tools/herramienta_comparacion_vc_avanzada.md"
+---
+
 # 🔍 HERRAMIENTA DE COMPARACIÓN VC AVANZADA
 ## Sistema de Evaluación y Ranking de VCs para SaaS IA Copywriting LATAM
 

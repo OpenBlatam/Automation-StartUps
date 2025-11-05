@@ -1,3 +1,11 @@
+---
+title: "Herramienta Simulador Negociacion Vc Dashboard"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Advanced_tools/herramienta_simulador_negociacion_vc_dashboard.md"
+---
+
 # Dashboard Simulador de Negociación VC Avanzado
 
 ## Descripción

@@ -1,3 +1,11 @@
+---
+title: "Ai Pitch Optimization Platform"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Ai_marketing/ai_pitch_optimization_platform.md"
+---
+
 # AI PITCH OPTIMIZATION PLATFORM
 ## Plataforma de Optimización de Pitches con Inteligencia Artificial
 

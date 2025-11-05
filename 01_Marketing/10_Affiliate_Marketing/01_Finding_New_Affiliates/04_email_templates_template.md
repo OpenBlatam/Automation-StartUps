@@ -1,3 +1,11 @@
+---
+title: "04 Email Templates Template"
+category: "01_marketing"
+tags: ["business", "marketing", "template"]
+created: "2025-10-29"
+path: "01_marketing/10_affiliate_marketing/01_finding_new_affiliates/04_email_templates_template.md"
+---
+
 # 📧 Finding New Affiliates - Advanced Email Templates Template
 
 ## Template: AI-Powered Email Templates for AI Course & SaaS Marketing

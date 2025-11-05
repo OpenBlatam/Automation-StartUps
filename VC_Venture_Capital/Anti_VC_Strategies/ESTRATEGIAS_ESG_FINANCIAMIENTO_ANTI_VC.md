@@ -1,3 +1,11 @@
+---
+title: "Estrategias Esg Financiamiento Anti Vc"
+category: "Vc_venture_capital"
+tags: ["strategy"]
+created: "2025-10-29"
+path: "Vc_venture_capital/Anti_vc_strategies/estrategias_esg_financiamiento_anti_vc.md"
+---
+
 # 🌱 **ESTRATEGIAS ESG Y FINANCIAMIENTO SOSTENIBLE ANTI-DEPENDENCIA VC**
 
 ## **FINANCIAMIENTO BASADO EN IMPACTO AMBIENTAL, SOCIAL Y GOBERNANZA PARA STARTUPS SAAS IA LATAM**

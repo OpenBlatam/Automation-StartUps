@@ -1,3 +1,11 @@
+---
+title: "Readme"
+category: "Vc"
+tags: []
+created: "2025-10-29"
+path: "Vc/Vc_master_system/readme.md"
+---
+
 # 🚀 VC Master System - Complete Negotiation Framework
 
 ## 📋 System Overview

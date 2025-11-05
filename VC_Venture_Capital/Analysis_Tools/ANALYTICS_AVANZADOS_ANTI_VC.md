@@ -1,3 +1,11 @@
+---
+title: "Analytics Avanzados Anti Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Analysis_tools/analytics_avanzados_anti_vc.md"
+---
+
 # 📊 **ANALYTICS AVANZADOS ANTI-DEPENDENCIA VC**
 
 ## **INTELIGENCIA DE NEGOCIOS PARA STARTUPS SAAS IA LATAM**

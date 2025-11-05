@@ -1,3 +1,11 @@
+---
+title: "Vc Negotiation Strategy Ultra"
+category: "Vc_venture_capital"
+tags: ["strategy"]
+created: "2025-10-29"
+path: "Vc_venture_capital/Negotiation/vc_negotiation_strategy_ultra.md"
+---
+
 # 🎯 ESTRATEGIA DE NEGOCIACIÓN VC ULTRA AVANZADA - COPYCAR.AI
 ## Serie A: $5M - Framework de 7 Capas para Negociación Óptima
 

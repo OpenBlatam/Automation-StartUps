@@ -1,0 +1,16 @@
+date,weekday,slot,format,asset,note
+2025-11-01,Sat,09:00,feed,1080x1080/ig_descuento_curso_ia.svg,Lanzamiento oferta -35%
+2025-11-01,Sat,19:00,stories,1080x1920/ig_story_descuento_curso_ia.svg,Refuerzo nocturno (CTA + QR)
+2025-11-02,Sun,11:00,feed,1080x1080/ig_descuento_saas_marketing.svg,Top of funnel para SaaS
+2025-11-02,Sun,20:00,stories,1080x1920/ig_story_descuento_saas_marketing.svg,Recordatorio + cupón visible
+2025-11-03,Mon,12:30,reel,reels/cover_1080x1920/cover_reel_curso_ia.svg,Reel educativo corto (con portada)
+2025-11-03,Mon,18:00,carousel,1080x1080/carousel/carousel_slide1_hook.svg,Carrusel (hook)
+2025-11-03,Mon,18:03,carousel,1080x1080/carousel/carousel_slide2_benefits.svg,Carrusel (beneficios)
+2025-11-03,Mon,18:06,carousel,1080x1080/carousel/carousel_slide3_cta.svg,Carrusel (CTA + cupón + QR)
+2025-11-04,Tue,10:00,feed,1080x1080/ig_descuento_ia_bulk.svg,IA Bulk énfasis productividad
+2025-11-04,Tue,19:30,stories,1080x1920/ig_story_descuento_ia_bulk.svg,Recordatorio nocturno
+2025-11-05,Wed,09:00,feed,1080x1080/ig_descuento_curso_ia_ultimas24.svg,Últimas 24 horas
+2025-11-05,Wed,20:00,stories,1080x1920/ig_story_descuento_curso_ia.svg,Cierre con cupón y QR
+
+
+

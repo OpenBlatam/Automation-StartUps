@@ -1,3 +1,11 @@
+---
+title: "Tiktok Canva Ia Integration"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Md_files/tiktok_canva_ia_integration.md"
+---
+
 # 🎨 TIKTOK + CANVA + IA: INTEGRACIÓN COMPLETA
 
 ## 🚀 ESTRATEGIA UNIFICADA DE CONTENIDO

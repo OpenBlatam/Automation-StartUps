@@ -1,9 +1,14 @@
-# Courses Training
+---
+title: "Readme"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Courses_training/readme.md"
+---
 
-Subcategoría de 01_Marketing
+# Courses_Training
 
-## Archivos:
-
+## Archivos
 - ABM_IMPLEMENTATION_GUIDE.md
 - ADVANCED_GROWTH_HACKING_GUIDE.md
 - ADVANCED_MARKETING_AUTOMATION_GUIDE.md
@@ -16,4 +21,4 @@ Subcategoría de 01_Marketing
 - NEURO_MARKETING_BCI_GUIDE.md
 - PSYCHOLOGY_MARKETING_GUIDE.md
 - QUICK_REFERENCE_GUIDE.md
-- README.md
+

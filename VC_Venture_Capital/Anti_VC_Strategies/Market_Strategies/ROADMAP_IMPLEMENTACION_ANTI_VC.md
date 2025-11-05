@@ -1,3 +1,11 @@
+---
+title: "Roadmap Implementacion Anti Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Anti_vc_strategies/Market_strategies/roadmap_implementacion_anti_vc.md"
+---
+
 # 🗺️ **ROADMAP DE IMPLEMENTACIÓN ANTI-DEPENDENCIA VC**
 
 ## **GUÍA VISUAL PASO A PASO PARA STARTUPS LATAM**

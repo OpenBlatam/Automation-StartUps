@@ -1,0 +1,64 @@
+{
+  "defaults": {
+    "urlBase": "https://tusitio.com/landing",
+    "month": "2025-11",
+    "product": "cursoia",
+    "region": "mx"
+  },
+  "templates": [
+    {
+      "platform": "instagram",
+      "filePath": "./instagram_antes_despues_template.svg",
+      "template": "antes_despues",
+      "version": 1,
+      "product": "cursoia",
+      "region": "mx",
+      "persona": "buyer"
+    },
+    {
+      "platform": "instagram",
+      "filePath": "./instagram_testimonio_template.svg",
+      "template": "testimonio",
+      "version": 2,
+      "product": "saasia",
+      "region": "co",
+      "persona": "cmo"
+    },
+    {
+      "platform": "linkedin",
+      "filePath": "./ads/linkedin/ad_curso_ia_1200x627_urgency.svg",
+      "template": "urgency",
+      "angle": "h1direct",
+      "cta": "reserva",
+      "version": 1,
+      "product": "cursoia",
+      "role": "cmo",
+      "region": "mx"
+    },
+    {
+      "platform": "linkedin",
+      "filePath": "./ads/linkedin/ad_saas_ia_marketing_1200x627_social_proof.svg",
+      "template": "social_proof",
+      "angle": "beneficio",
+      "cta": "activar",
+      "version": 2,
+      "product": "saasia",
+      "role": "cmo",
+      "region": "co"
+    },
+    {
+      "platform": "webinar",
+      "filePath": "./webinar-preroll-speaker-focused.svg",
+      "style": "speaker",
+      "version": 1,
+      "product": "cursoia",
+      "topic": "ia",
+      "source": "email",
+      "medium": "email",
+      "audience": "alumnos_activos"
+    }
+  ]
+}
+
+
+

@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0B1229"/>
+      <stop offset="100%" stop-color="#10314A"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00E5A8"/>
+      <stop offset="100%" stop-color="#00B4D8"/>
+    </linearGradient>
+    <linearGradient id="cta-gradient" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00E5A8"/>
+      <stop offset="50%" stop-color="#00F5C4"/>
+      <stop offset="100%" stop-color="#00B4D8"/>
+    </linearGradient>
+    <filter id="sh" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6"/>
+      <feOffset dx="0" dy="8" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.5"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="glow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="12" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="cta-glow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="16" result="coloredBlur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.8"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      @font-face { font-family: Inter; src: local('Inter'), local('Arial'); }
+      .headline { font: 900 78px/1.1 Inter, system-ui, -apple-system; fill: #FFFFFF; letter-spacing: -1px; text-anchor: middle; }
+      .subhead { font: 600 32px/1.3 Inter, system-ui, -apple-system; fill: #BFEFE8; text-anchor: middle; }
+      .cta-text { font: 900 64px/1 Inter, system-ui, -apple-system; fill: #062A2D; text-anchor: middle; }
+      .benefit { font: 600 28px/1.4 Inter, system-ui, -apple-system; fill: #E9FFFB; text-anchor: middle; }
+    </style>
+    <!-- Iconos reutilizables -->
+    <g id="check-mark">
+      <circle cx="24" cy="24" r="20" fill="#00E5A8" opacity="0.25"/>
+      <circle cx="24" cy="24" r="12" fill="#00E5A8"/>
+      <path d="M 18 24 L 22 28 L 30 18" stroke="#FFFFFF" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <g id="sparkle">
+      <circle cx="20" cy="20" r="2" fill="#00E5A8"/>
+      <path d="M 20 10 L 20 30 M 10 20 L 30 20" stroke="#00E5A8" stroke-width="2" stroke-linecap="round"/>
+      <path d="M 20 10 L 20 30 M 10 20 L 30 20" stroke="#00B4D8" stroke-width="1.5" stroke-linecap="round" transform="rotate(45 20 20)"/>
+    </g>
+    <g id="arrow-large">
+      <path d="M 0 0 L 60 0" stroke="url(#accent)" stroke-width="8" stroke-linecap="round"/>
+      <polygon points="60,0 45,-10 45,10" fill="url(#accent)"/>
+    </g>
+  </defs>
+  
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  
+  <!-- Sparkles decorativos fondo -->
+  <g opacity="0.3">
+    <use href="#sparkle" transform="translate(200,150)"/>
+    <use href="#sparkle" transform="translate(1720,930)"/>
+    <use href="#sparkle" transform="translate(300,800)"/>
+    <use href="#sparkle" transform="translate(1600,250)"/>
+  </g>
+  
+  <!-- Elementos decorativos -->
+  <g opacity="0.15">
+    <circle cx="300" cy="200" r="140" fill="#00E5A8"/>
+    <circle cx="1620" cy="880" r="160" fill="#00B4D8"/>
+  </g>
+  
+  <!-- Headline centrado -->
+  <text x="960" y="200" class="headline">Duplica tus ventas con IA</text>
+  <text x="960" y="260" class="subhead">[FECHA] · [HORA] (GMT-5)</text>
+  
+  <!-- Beneficios compactos -->
+  <g transform="translate(960,340)">
+    <use href="#check-mark" transform="translate(-300,-12)"/>
+    <text x="-240" y="20" class="benefit">Prompts que bajan CPA</text>
+    
+    <use href="#check-mark" transform="translate(60,-12)"/>
+    <text x="120" y="20" class="benefit">Creatividades en minutos</text>
+    
+    <use href="#check-mark" transform="translate(420,-12)"/>
+    <text x="480" y="20" class="benefit">Automatizaciones sin código</text>
+  </g>
+  
+  <!-- CTA ULTRA DESTACADO -->
+  <g transform="translate(960,480)" filter="url(#cta-glow)">
+    <!-- Flechas decorativas -->
+    <use href="#arrow-large" transform="translate(-400,60) rotate(180)"/>
+    <use href="#arrow-large" transform="translate(340,60)"/>
+    
+    <!-- CTA principal -->
+    <rect x="-320" y="-80" width="640" height="160" rx="24" fill="url(#cta-gradient)" filter="url(#sh)"/>
+    <!-- Shine superior -->
+    <rect x="-320" y="-80" width="640" height="60" rx="24" fill="rgba(255,255,255,0.2)"/>
+    <!-- Borde brillante -->
+    <rect x="-320" y="-80" width="640" height="160" rx="24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="3"/>
+    
+    <text x="0" y="30" class="cta-text">Únete gratis</text>
+    
+    <!-- Sparkles en CTA -->
+    <g opacity="0.8">
+      <use href="#sparkle" transform="translate(-280,0)"/>
+      <use href="#sparkle" transform="translate(280,0)"/>
+      <use href="#sparkle" transform="translate(-200,-40)"/>
+      <use href="#sparkle" transform="translate(200,40)"/>
+    </g>
+    
+    <!-- Icono flecha en CTA -->
+    <path d="M 250 0 L 280 0 L 270 -10 L 295 0 L 270 10 L 280 0" fill="#062A2D" opacity="0.9"/>
+  </g>
+  
+  <!-- Urgencia badges -->
+  <g transform="translate(960,680)">
+    <g filter="url(#sh)">
+      <rect x="-180" y="-30" width="360" height="60" rx="14" fill="#FF3B3B"/>
+      <text x="0" y="8" text-anchor="middle" fill="#FFFFFF" font-family="Inter, system-ui, -apple-system" font-size="28" font-weight="900">Cupos limitados</text>
+      <circle cx="-150" cy="0" r="8" fill="#FFFFFF" opacity="0.9">
+        <animate attributeName="opacity" values="0.9;0.3;0.9" dur="1.5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="150" cy="0" r="8" fill="#FFFFFF" opacity="0.9">
+        <animate attributeName="opacity" values="0.3;0.9;0.3" dur="1.5s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+  </g>
+  
+  <!-- Logo + QR -->
+  <g transform="translate(1680,60)">
+    <rect x="0" y="0" width="160" height="60" rx="8" fill="rgba(255,255,255,0.10)" stroke="rgba(255,255,255,0.20)"/>
+    <text x="80" y="40" text-anchor="middle" fill="#E9FFFB" font-family="Inter, system-ui, -apple-system" font-size="20" font-weight="800">TU LOGO</text>
+  </g>
+  <g transform="translate(1620,870)" filter="url(#sh)">
+    <rect x="0" y="0" width="180" height="180" rx="12" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)"/>
+    <text x="90" y="100" text-anchor="middle" fill="#E9FFFB" font-family="Inter, system-ui, -apple-system" font-size="16" font-weight="700">QR → [URL]</text>
+  </g>
+</svg>

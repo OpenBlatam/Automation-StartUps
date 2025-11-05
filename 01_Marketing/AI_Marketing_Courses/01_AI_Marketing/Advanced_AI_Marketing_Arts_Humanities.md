@@ -1,3 +1,11 @@
+---
+title: "Advanced Ai Marketing Arts Humanities"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/Ai_marketing_courses/01_ai_marketing/advanced_ai_marketing_arts_humanities.md"
+---
+
 # 🎨 Advanced AI Marketing Arts & Humanities
 
 ## 🎭 Arts-Based AI Marketing Framework

@@ -1,3 +1,11 @@
+---
+title: "Copycar Ai Investor Implementation Guide"
+category: "01_marketing"
+tags: ["business", "guide", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/Copycar_ai_investor_package/copycar_ai_investor_implementation_guide.md"
+---
+
 # COPYCAR.AI INVESTOR IMPLEMENTATION GUIDE
 
 ## EXECUTIVE SUMMARY

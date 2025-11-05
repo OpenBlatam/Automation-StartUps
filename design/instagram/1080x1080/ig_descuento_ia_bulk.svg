@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 1080 1080" role="img" aria-label="-35% en IA Bulk: 3 documentos con 1 consulta por 48 horas">
+  <!-- Fondo: verde lima → cian para impacto y contraste con negro/blanco -->
+  <title>-35% en IA Bulk: 3 documentos con 1 consulta · Solo 48 horas</title>
+  <desc>Arte para Instagram 1080x1080 con descuento del 35%, sello de 48 horas, CTA y área de logo.</desc>
+  <defs>
+    <linearGradient id="bgGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#00E676"/>
+      <stop offset="100%" stop-color="#00D4FF"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <rect width="1080" height="1080" fill="url(#bgGradient)"/>
+  <!-- Guía de área segura (oculta por defecto) -->
+  <g id="safe-area" opacity="0.12" display="none">
+    <rect x="60" y="60" width="960" height="960" fill="#FFFFFF" stroke="#FFFFFF" stroke-dasharray="10 10" rx="20"/>
+  </g>
+
+  <!-- Placeholder de logo -->
+  <g transform="translate(980, 60)">
+    <circle r="36" fill="#111111"/>
+    <text text-anchor="end" x="-12" y="8" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="18" fill="#00E676">LOGO</text>
+  </g>
+
+  <!-- Sello 48 horas -->
+  <g transform="translate(160, 170)" filter="url(#shadow)">
+    <rect x="-10" y="-50" rx="14" ry="14" width="260" height="80" fill="#000000" opacity="0.35" stroke="#ffffff" stroke-opacity="0.35"/>
+    <text x="0" y="0" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="36" font-weight="800" fill="#ffffff">Solo 48 horas</text>
+  </g>
+
+  <!-- Descuento grande -->
+  <g transform="translate(120, 420)" filter="url(#shadow)">
+    <text x="0" y="0" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="200" font-weight="900" letter-spacing="-4" fill="#111111">-35 %</text>
+  </g>
+
+  <!-- Cupón -->
+  <g transform="translate(560, 440)" filter="url(#shadow)">
+    <rect x="0" y="-40" rx="14" ry="14" width="340" height="72" fill="#111111" opacity="0.95"/>
+    <text x="170" y="0" text-anchor="middle" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="32" font-weight="800" fill="#00E676">CUPÓN: 35IA</text>
+  </g>
+
+  <!-- Título de oferta -->
+  <g transform="translate(120, 520)">
+    <text x="0" y="0" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="54" font-weight="700" fill="#111111">en IA Bulk: 3 documentos con 1 consulta</text>
+  </g>
+
+  <!-- Subcopy -->
+  <g transform="translate(120, 590)" opacity="0.95">
+    <text x="0" y="0" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="30" fill="#0B1221">Genera propuestas, brief y reportes en segundos, a escala.</text>
+  </g>
+
+  <!-- CTA -->
+  <g transform="translate(120, 720)" filter="url(#shadow)">
+    <rect x="0" y="-60" rx="16" ry="16" width="420" height="96" fill="#111111" stroke="#00E676" stroke-width="4"/>
+    <text x="210" y="0" text-anchor="middle" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="40" font-weight="900" fill="#00E676">Aprovecha hoy</text>
+  </g>
+
+  <!-- QR placeholder -->
+  <g transform="translate(900, 880)" opacity="0.9" filter="url(#shadow)">
+    <rect x="0" y="0" width="140" height="140" rx="12" ry="12" fill="#111111"/>
+    <text x="70" y="78" text-anchor="middle" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="28" font-weight="900" fill="#00E676">QR</text>
+  </g>
+
+  <!-- Pie -->
+  <g transform="translate(120, 980)" opacity="0.9">
+    <text x="0" y="0" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="26" fill="#0B1221">tu-sitio.com · @tu_marca</text>
+  </g>
+</svg>
+
+

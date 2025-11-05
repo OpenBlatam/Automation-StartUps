@@ -1,3 +1,11 @@
+---
+title: "Video Script Templates"
+category: "01_marketing"
+tags: ["business", "marketing", "script", "template"]
+created: "2025-10-29"
+path: "01_marketing/Ai_marketing_courses/09_marketing_materials/video_script_templates.md"
+---
+
 # 🎬 Neural Marketing Consciousness System - Video Script Templates
 ## Comprehensive Video Content Strategy and Script Templates
 

@@ -1,0 +1,41 @@
+{
+  "typeform": {
+    "event_id": "evt_tf_123",
+    "form_response": {
+      "submitted_at": "2025-10-30T10:00:00Z",
+      "hidden": {"utm_source": "li", "utm_campaign": "curso_lm_a_v1"},
+      "answers": [
+        {"field": {"id": "name"}, "text": "Juan Perez"},
+        {"field": {"id": "email"}, "email": "juan@example.com"},
+        {"field": {"id": "product"}, "text": "curso"}
+      ]
+    }
+  },
+  "stripe_checkout_completed": {
+    "id": "evt_stripe_123",
+    "type": "checkout.session.completed",
+    "data": {
+      "object": {
+        "id": "cs_test_123",
+        "customer_details": {"email": "ana@example.com"},
+        "amount_total": 2700,
+        "currency": "usd",
+        "metadata": {"oferta_id": "o-cur-trp-2", "producto": "curso"}
+      }
+    }
+  },
+  "calendly_invitee_created": {
+    "event": "invitee.created",
+    "payload": {
+      "event_type": {"name": "Demo 20 min"},
+      "invitee": {
+        "name": "Diego Rios",
+        "email": "diego@example.com",
+        "timezone": "America/Mexico_City",
+        "cancel_url": "https://calendly.com/cancel/xyz"
+      },
+      "tracking": {"utm_source": "li", "utm_campaign": "saas_lm_a_v1"},
+      "scheduled_event": {"start_time": "2025-11-02T15:00:00Z"}
+    }
+  }
+}

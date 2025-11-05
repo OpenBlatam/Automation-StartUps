@@ -1,7 +1,10 @@
-# Reports
+---
+title: "Readme"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Semantic_cluster_cluster_637/readme.md"
+---
 
-Subcategoría de 09_Sales
+# Semantic_Cluster_cluster_637
 
-## Archivos:
-
-- README.md

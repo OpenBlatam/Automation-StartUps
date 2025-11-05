@@ -1,3 +1,11 @@
+---
+title: "Neural Marketing Implementation Guide"
+category: "01_marketing"
+tags: ["business", "guide", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/Ai_marketing_courses/01_ai_marketing/neural_marketing_implementation_guide.md"
+---
+
 # 🚀 Neural Marketing Implementation Guide
 ## Complete Implementation Guide for Neural Marketing Consciousness System
 

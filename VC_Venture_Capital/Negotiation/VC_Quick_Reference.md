@@ -1,3 +1,11 @@
+---
+title: "Vc Quick Reference"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Negotiation/vc_quick_reference.md"
+---
+
 # ⚡ VC Negotiation Quick Reference 2024
 ## Essential Information for VC Negotiations
 

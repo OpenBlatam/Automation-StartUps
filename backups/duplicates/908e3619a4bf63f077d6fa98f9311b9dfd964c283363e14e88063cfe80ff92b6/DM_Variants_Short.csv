@@ -1,0 +1,52 @@
+id,dm_type,language,tone,niche,short_text,cta_keyword,utm_campaign
+S-ES-COURSE-1,curso,ES,tuteo,general,"Webinar IA 60’: 3 casos reales. Ahorra 10+ h/sem. 8 cupos. Escribe \"RESERVA\" y te paso el link.",RESERVA,webinar_ia_short
+S-ES-COURSE-2,curso,ES,tuteo,ecommerce,"Ecom: SEO por SKU + ads + emails en minutos. 60’ tácticos. \"RESERVA\" y acceso.",RESERVA,webinar_ia_ecom_short
+S-ES-COURSE-3,curso,ES,usted,B2B,"60’ ejecutivo: optimización con IA (no técnico). 8 plazas. Responda \"RESERVA\".",RESERVA,webinar_ia_b2b_short
+S-EN-COURSE-1,curso,EN,neutral,general,"AI Webinar 60’: 3 real cases. Save 10+ hrs/week. 8 seats. Reply \"RESERVE\".",RESERVE,webinar_ia_en_short
+S-PT-COURSE-1,curso,PT,neutral,general,"Webinar IA 60’: 3 casos reais. Economize 10+ h/sem. 8 vagas. \"RESERVAR\".",RESERVAR,webinar_ia_pt_short
+S-ES-SAAS-1,saas,ES,tuteo,B2B,"Demo 30’: campañas en 7 min + ROI live. 2 cupos. \"DEMO\" y te agendo.",DEMO,saas_demo_short
+S-ES-SAAS-2,saas,ES,tuteo,ecommerce,"Picos de catálogo: campañas por SKU en 7 min. 2 cupos. \"DEMO\".",DEMO,saas_demo_dtc_short
+S-ES-SAAS-3,saas,ES,usted,enterprise,"30’ sin fluff: campañas en 7 min, ROI en tiempo real. Responda \"AGENDA\".",AGENDA,saas_demo_enterprise_short
+S-EN-SAAS-1,saas,EN,neutral,B2B,"7‑minute campaigns + real‑time ROI. 2 seats. Reply \"DEMO\".",DEMO,saas_demo_en_short
+S-PT-SAAS-1,saas,PT,neutral,B2B,"Campanhas em 7 min + ROI ao vivo. 2 vagas. \"DEMO\".",DEMO,saas_demo_pt_short
+S-ES-BULK-1,bulk,ES,tuteo,general,"Docs pro desde 1 pregunta (plan/reporte/propuesta) en 2–5 min. 3 cupos. \"SÍ\".",SÍ,iabulk_demo_short
+S-ES-BULK-2,bulk,ES,tuteo,real_estate,"Ficha + comparables + follow‑up en minutos. 3 cupos. \"SÍ\".",SÍ,iabulk_demo_re_short
+S-ES-BULK-3,bulk,ES,tuteo,educacion,"Programa de estudios + rúbricas en 2–5 min. 3 cupos. \"SÍ\".",SÍ,iabulk_demo_edu_short
+S-EN-BULK-1,bulk,EN,neutral,general,"Full docs from 1 prompt in 2–5 min. 3 seats. Reply \"YES\".",YES,iabulk_demo_en_short
+S-PT-BULK-1,bulk,PT,neutral,general,"Documentos de 1 prompt em 2–5 min. 3 vagas. \"SIM\".",SIM,iabulk_demo_pt_short
+S-ES-RE-COURSE,curso,ES,tuteo,real_estate,"REA: 60’ para fichas/comparables/seguimiento con IA. 8 cupos. \"RESERVA\".",RESERVA,webinar_ia_re_short
+S-ES-ED-COURSE,curso,ES,tuteo,educacion,"Edu: outline en 10’ + emails + ads en 60’. 8 cupos. \"RESERVA\".",RESERVA,webinar_ia_edu_short
+S-EN-ECOM-1,curso,EN,neutral,ecommerce,"Ecom: SKU SEO + ads + emails in minutes. 60’. Reply \"RESERVE\".",RESERVE,webinar_ia_ecom_short
+S-EN-ECOM-2,saas,EN,neutral,ecommerce,"7‑min SKU campaigns. 2 seats this week. Reply \"DEMO\".",DEMO,saas_demo_dtc_short
+S-EN-ECOM-3,bulk,EN,neutral,ecommerce,"Briefs/comparatives in 2–5 min. 3 seats. Reply \"YES\".",YES,iabulk_demo_ecom_short
+S-EN-ECOM-4,saas,EN,neutral,ecommerce,"Copy+design+strategy in minutes. Book? \"DEMO\".",DEMO,saas_demo_dtc_short2
+S-PT-ECOM-1,curso,PT,neutral,ecommerce,"Ecom: SEO por SKU + anúncios + emails em minutos. 60’. \"RESERVAR\".",RESERVAR,webinar_ia_ecom_pt_short
+S-PT-ECOM-2,saas,PT,neutral,ecommerce,"Campanhas por SKU em 7 min. 2 vagas. \"DEMO\".",DEMO,saas_demo_dtc_pt_short
+S-PT-ECOM-3,bulk,PT,neutral,ecommerce,"Briefs/comparativos em 2–5 min. 3 vagas. \"SIM\".",SIM,iabulk_demo_ecom_pt_short
+S-PT-ECOM-4,saas,PT,neutral,ecommerce,"Copy+design+estratégia em minutos. \"DEMO\".",DEMO,saas_demo_dtc_pt_short2
+S-EN-B2B-1,curso,EN,neutral,B2B,"60’ exec: AI ops (non‑technical). 8 seats. Reply \"RESERVE\".",RESERVE,webinar_ia_b2b_en_short
+S-EN-B2B-2,saas,EN,neutral,B2B,"7‑minute campaigns + ROI live. 2 seats. \"DEMO\".",DEMO,saas_demo_en_short2
+S-EN-B2B-3,bulk,EN,neutral,B2B,"Executive summaries in 2–5 min. \"YES\".",YES,iabulk_demo_b2b_en_short
+S-EN-B2B-4,saas,EN,neutral,B2B,"30’ no fluff: demo + integrations. \"DEMO\".",DEMO,saas_demo_en_short3
+S-PT-B2B-1,curso,PT,neutral,B2B,"60’ executivo: IA aplicada (não técnico). 8 vagas. \"RESERVAR\".",RESERVAR,webinar_ia_b2b_pt_short
+S-PT-B2B-2,saas,PT,neutral,B2B,"Campanhas em 7 min + ROI ao vivo. 2 vagas. \"DEMO\".",DEMO,saas_demo_pt_short2
+S-PT-B2B-3,bulk,PT,neutral,B2B,"Executive summaries em 2–5 min. \"SIM\".",SIM,iabulk_demo_b2b_pt_short
+S-PT-B2B-4,saas,PT,neutral,B2B,"30’ direto: demo + integrações. \"DEMO\".",DEMO,saas_demo_pt_short3
+B-ES-ECOM-1,curso,ES,tuteo,ecommerce,"{{first_name}}, ¿te reservo 1 lugar? Quedan 8. \"RESERVA\"",RESERVA,webinar_ia_ecom_bump
+B-ES-ECOM-2,curso,ES,tuteo,ecommerce,"Empieza en 24h. ¿Te paso el link ahora? \"RESERVA\"",RESERVA,webinar_ia_ecom_bump2
+B-ES-ECOM-3,curso,ES,tuteo,ecommerce,"2 cupos por cancelación. ¿Lo tomo a tu nombre? \"RESERVA\"",RESERVA,webinar_ia_ecom_bump3
+B-ES-B2B-1,saas,ES,usted,B2B,"{{first_name}}, 30’ sin fluff: campañas en 7 min. ¿Agenda? \"DEMO\"",DEMO,saas_demo_b2b_bump
+B-ES-B2B-2,saas,ES,usted,B2B,"2 slots esta semana. ¿Le reservo {{date}} {{time}}? \"AGENDA\"",AGENDA,saas_demo_b2b_bump2
+B-ES-ED-1,curso,ES,tuteo,educacion,"{{first_name}}, 60’ para outline+emails+ads. ¿Te reservo? \"RESERVA\"",RESERVA,webinar_ia_edu_bump
+B-ES-ED-2,curso,ES,tuteo,educacion,"Empieza en 24h. ¿Link ahora? \"RESERVA\"",RESERVA,webinar_ia_edu_bump2
+B-ES-RE-1,curso,ES,tuteo,real_estate,"{{first_name}}, 60’ para fichas+comparables+follow-up. ¿Te reservo? \"RESERVA\"",RESERVA,webinar_ia_re_bump
+B-ES-RE-2,bulk,ES,tuteo,real_estate,"3 cupos para demo de IA Bulk. ¿Acceso? \"SÍ\"",SÍ,iabulk_demo_re_bump
+B-EN-ECOM-1,curso,EN,neutral,ecommerce,"{{first_name}}, save 1 seat? 8 left. Reply \"RESERVE\"",RESERVE,webinar_ia_ecom_bump_en
+B-EN-ECOM-2,saas,EN,neutral,ecommerce,"Starts in 24h. Want the link now? \"DEMO\"",DEMO,saas_demo_dtc_bump_en
+B-EN-B2B-1,saas,EN,neutral,B2B,"30’ no fluff: 7‑min campaigns. Book? \"DEMO\"",DEMO,saas_demo_b2b_bump_en
+B-EN-ED-1,curso,EN,neutral,educacion,"{{first_name}}, 60’ for outline+emails+ads. Reserve? \"RESERVE\"",RESERVE,webinar_ia_edu_bump_en
+B-EN-RE-1,curso,EN,neutral,real_estate,"{{first_name}}, 60’ for listings+comparables. Reserve? \"RESERVE\"",RESERVE,webinar_ia_re_bump_en
+B-PT-ECOM-1,curso,PT,neutral,ecommerce,"{{first_name}}, reservo 1 vaga? Restam 8. \"RESERVAR\"",RESERVAR,webinar_ia_ecom_bump_pt
+B-PT-B2B-1,saas,PT,neutral,B2B,"30’ direto: campanhas em 7 min. Agendo? \"DEMO\"",DEMO,saas_demo_b2b_bump_pt
+B-PT-ED-1,curso,PT,neutral,educacion,"{{first_name}}, 60’ para outline+emails+anúncios. Reservo? \"RESERVAR\"",RESERVAR,webinar_ia_edu_bump_pt
+B-PT-RE-1,curso,PT,neutral,real_estate,"{{first_name}}, 60’ para fichas+comparáveis. Reservo? \"RESERVAR\"",RESERVAR,webinar_ia_re_bump_pt

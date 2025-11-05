@@ -1,3 +1,11 @@
+---
+title: "Vc Psychology Guide"
+category: "Vc"
+tags: ["guide"]
+created: "2025-10-29"
+path: "Vc/Vc_master_system/vc_psychology_guide.md"
+---
+
 # 🧠 VC Psychology Mastery Guide 2024
 ## Advanced Psychological Tactics for VC Negotiations
 

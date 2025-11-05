@@ -1,0 +1,1394 @@
+{
+  "files": 76,
+  "links": 819,
+  "changes": [
+    {
+      "file": "contributing.md",
+      "changes": [
+        [
+          "./docs/API.md",
+          "05_technology/Api_documentation/api.md"
+        ]
+      ],
+      "count": 1
+    },
+    {
+      "file": "08_ai_artificial_intelligence/Other/index.md",
+      "changes": [
+        [
+          "./18_sustainability_checklist.md",
+          "Checklists/18_sustainability_checklist.md"
+        ],
+        [
+          "./21_supply_chain_checklist.md",
+          "Checklists/21_supply_chain_checklist.md"
+        ],
+        [
+          "./26_expansion_suprema_data_analytics.md",
+          "Analytics/26_expansion_suprema_data_analytics.md"
+        ],
+        [
+          "./40_linkedin_algorithm_mastery.md",
+          "Social_Media/40_linkedin_algorithm_mastery.md"
+        ],
+        [
+          "./61_blockchain_checklist.md",
+          "Checklists/61_blockchain_checklist.md"
+        ]
+      ],
+      "count": 30
+    },
+    {
+      "file": "04_business_strategy/Other/index.md",
+      "changes": [
+        [
+          "./06__ocean_metrics.md",
+          "Analytics/06__ocean_metrics.md"
+        ],
+        [
+          "./07__metaverse_intelligence_system.md",
+          "SEO/07__metaverse_intelligence_system.md"
+        ],
+        [
+          "./08__analytics_innovation.md",
+          "Analytics/08__analytics_innovation.md"
+        ],
+        [
+          "./analytics_business_intelligence.md",
+          "Analytics/analytics_business_intelligence.md"
+        ],
+        [
+          "./analytics_business_intelligence_avanzados.md",
+          "Analytics/analytics_business_intelligence_avanzados.md"
+        ]
+      ],
+      "count": 15
+    },
+    {
+      "file": "04_business_strategy/Other/ecosystem_summary.md",
+      "changes": [
+        [
+          "STRATEGIC_PLANNING.md",
+          "04_business_strategy/Strategic_plans/strategic_planning.md"
+        ],
+        [
+          "CLOUD_STRATEGY.md",
+          "04_business_strategy/Business_plans/cloud_strategy.md"
+        ]
+      ],
+      "count": 2
+    },
+    {
+      "file": "04_business_strategy/Frameworks/compliance_framework.md",
+      "changes": [
+        [
+          "13_Legal_Compliance/README.md",
+          "04_business_strategy/Analysis_reports/readme.md"
+        ]
+      ],
+      "count": 1
+    },
+    {
+      "file": "06_strategy/Business_strategies/strategy_master_index.md",
+      "changes": [
+        [
+          "./STRATEGIC_SWOT_TEMPLATE.md",
+          "06_strategy/Strategy_other/strategic_swot_template.md"
+        ],
+        [
+          "./STRATEGIC_SWOT_TEMPLATE.md",
+          "06_strategy/Strategy_other/strategic_swot_template.md"
+        ],
+        [
+          "./STRATEGIC_SWOT_TEMPLATE.md",
+          "06_strategy/Strategy_other/strategic_swot_template.md"
+        ],
+        [
+          "./STRATEGIC_SWOT_TEMPLATE.md",
+          "06_strategy/Strategy_other/strategic_swot_template.md"
+        ],
+        [
+          "./STRATEGIC_SWOT_TEMPLATE.md",
+          "06_strategy/Strategy_other/strategic_swot_template.md"
+        ]
+      ],
+      "count": 63
+    },
+    {
+      "file": "06_strategy/Strategy_other/readme.md",
+      "changes": [
+        [
+          "./STRATEGY_MASTER_INDEX.md",
+          "06_strategy/Business_strategies/strategy_master_index.md"
+        ],
+        [
+          "./STRATEGY_MASTER_INDEX.md",
+          "06_strategy/Business_strategies/strategy_master_index.md"
+        ],
+        [
+          "./STRATEGY_QUICK_START.md",
+          "06_strategy/Business_strategies/strategy_quick_start.md"
+        ],
+        [
+          "./STRATEGY_QUICK_START.md",
+          "06_strategy/Business_strategies/strategy_quick_start.md"
+        ],
+        [
+          "./MODERN_STRATEGY_FRAMEWORK_2025.md",
+          "06_strategy/Business_strategies/modern_strategy_framework_2025.md"
+        ]
+      ],
+      "count": 32
+    },
+    {
+      "file": "06_documentation/User_guides/quick_start.md",
+      "changes": [
+        [
+          "04_Business_Strategy/README.md",
+          "06_documentation/Api_documentation/readme.md"
+        ],
+        [
+          "04_Business_Strategy/README.md",
+          "06_documentation/Api_documentation/readme.md"
+        ],
+        [
+          "04_Business_Strategy/README.md",
+          "06_documentation/Api_documentation/readme.md"
+        ],
+        [
+          "04_Business_Strategy/README.md",
+          "06_documentation/Api_documentation/readme.md"
+        ],
+        [
+          "04_Business_Strategy/README.md",
+          "06_documentation/Api_documentation/readme.md"
+        ]
+      ],
+      "count": 40
+    },
+    {
+      "file": "06_documentation/Technical_docs/documentacion_completa.md",
+      "changes": [
+        [
+          "QUICK_START.md",
+          "06_documentation/User_guides/quick_start.md"
+        ],
+        [
+          "FAQ.md",
+          "06_documentation/Other/faq.md"
+        ]
+      ],
+      "count": 2
+    },
+    {
+      "file": "06_documentation/Other/mejoras_realizadas.md",
+      "changes": [
+        [
+          "QUICK_START.md",
+          "06_documentation/User_guides/quick_start.md"
+        ],
+        [
+          "PROJECT_SUMMARY.md",
+          "Summaries/project_summary.md"
+        ]
+      ],
+      "count": 2
+    },
+    {
+      "file": "06_documentation/Other/troubleshooting.md",
+      "changes": [
+        [
+          "08_AI_Artificial_Intelligence/README.md",
+          "06_documentation/Api_documentation/readme.md"
+        ],
+        [
+          "01_Marketing/Content_Marketing/README.md",
+          "06_documentation/Api_documentation/readme.md"
+        ]
+      ],
+      "count": 2
+    },
+    {
+      "file": "06_documentation/Other/brand_management.md",
+      "changes": [
+        [
+          "01_Marketing/README.md",
+          "06_documentation/Api_documentation/readme.md"
+        ]
+      ],
+      "count": 1
+    },
+    {
+      "file": "06_documentation/Other/glossary.md",
+      "changes": [
+        [
+          "08_AI_Artificial_Intelligence/README.md",
+          "06_documentation/Api_documentation/readme.md"
+        ],
+        [
+          "08_AI_Artificial_Intelligence/README.md",
+          "06_documentation/Api_documentation/readme.md"
+        ],
+        [
+          "ai_technology/08_AI_Artificial_Intelligence/Machine_Learning/README.md",
+          "06_documentation/Api_documentation/readme.md"
+        ],
+        [
+          "ai_technology/08_AI_Artificial_Intelligence/Deep_Learning/README.md",
+          "06_documentation/Api_documentation/readme.md"
+        ],
+        [
+          "ai_technology/08_AI_Artificial_Intelligence/Neural_Networks/README.md",
+          "06_documentation/Api_documentation/readme.md"
+        ]
+      ],
+      "count": 10
+    },
+    {
+      "file": "06_documentation/Other/vendor_management.md",
+      "changes": [
+        [
+          "14_Procurement/README.md",
+          "06_documentation/Api_documentation/readme.md"
+        ]
+      ],
+      "count": 1
+    },
+    {
+      "file": "06_documentation/Other/faq.md",
+      "changes": [
+        [
+          "QUICK_START.md",
+          "06_documentation/User_guides/quick_start.md"
+        ],
+        [
+          "QUICK_START.md",
+          "06_documentation/User_guides/quick_start.md"
+        ],
+        [
+          "08_AI_Artificial_Intelligence/README.md",
+          "06_documentation/Api_documentation/readme.md"
+        ],
+        [
+          "08_AI_Artificial_Intelligence/README.md",
+          "06_documentation/Api_documentation/readme.md"
+        ],
+        [
+          "04_Business_Strategy/README.md",
+          "06_documentation/Api_documentation/readme.md"
+        ]
+      ],
+      "count": 11
+    },
+    {
+      "file": "06_documentation/Other/startup_accelerator.md",
+      "changes": [
+        [
+          "04_Business_Strategy/README.md",
+          "06_documentation/Api_documentation/readme.md"
+        ],
+        [
+          "01_Marketing/README.md",
+          "06_documentation/Api_documentation/readme.md"
+        ],
+        [
+          "03_Human_Resources/README.md",
+          "06_documentation/Api_documentation/readme.md"
+        ]
+      ],
+      "count": 3
+    },
+    {
+      "file": "06_documentation/Other/index.md",
+      "changes": [
+        [
+          "./06_recursos_avanzados_strategy.md",
+          "Strategies/06_recursos_avanzados_strategy.md"
+        ],
+        [
+          "./advanced_analytics_dashboard.md",
+          "Analytics/advanced_analytics_dashboard.md"
+        ],
+        [
+          "./advanced_automation_workflows.md",
+          "Automation/advanced_automation_workflows.md"
+        ],
+        [
+          "./advanced_financial_analytics_engine.md",
+          "Analytics/advanced_financial_analytics_engine.md"
+        ],
+        [
+          "./ai_marketing_enterprise_version_advanced.md",
+          "Templates/ai_marketing_enterprise_version_advanced.md"
+        ]
+      ],
+      "count": 180
+    },
+    {
+      "file": "06_documentation/Other/mejoras_completadas.md",
+      "changes": [
+        [
+          "./docs/API.md",
+          "Api_docs/api.md"
+        ]
+      ],
+      "count": 1
+    },
+    {
+      "file": "06_documentation/Other/product_management.md",
+      "changes": [
+        [
+          "14_Product_Management/README.md",
+          "06_documentation/Api_documentation/readme.md"
+        ]
+      ],
+      "count": 1
+    },
+    {
+      "file": "06_documentation/Other/clickup_brain_glossary.md",
+      "changes": [
+        [
+          "ClickUp_Brain_API_Documentation.md",
+          "Api_docs/clickup_brain_api_documentation.md"
+        ],
+        [
+          "ClickUp_Brain_Implementation_Guide.md",
+          "Guides/clickup_brain_implementation_guide.md"
+        ],
+        [
+          "ClickUp_Brain_Security_Guide.md",
+          "Guides/clickup_brain_security_guide.md"
+        ],
+        [
+          "ClickUp_Brain_Troubleshooting_Guide.md",
+          "06_documentation/Troubleshooting/clickup_brain_troubleshooting_guide.md"
+        ],
+        [
+          "ClickUp_Brain_Executive_Presentation.md",
+          "06_documentation/Presentations/clickup_brain_executive_presentation.md"
+        ]
+      ],
+      "count": 8
+    },
+    {
+      "file": "06_documentation/Other/Guides/enterprise_guide.md",
+      "changes": [
+        [
+          "SECURITY.md",
+          "06_documentation/Other/security.md"
+        ],
+        [
+          "SECURITY.md",
+          "06_documentation/Other/security.md"
+        ],
+        [
+          "03_Human_Resources/README.md",
+          "06_documentation/Other/Api_docs/readme.md"
+        ],
+        [
+          "13_Legal_Compliance/README.md",
+          "06_documentation/Other/Api_docs/readme.md"
+        ],
+        [
+          "DEPLOYMENT.md",
+          "06_documentation/Other/deployment.md"
+        ]
+      ],
+      "count": 5
+    },
+    {
+      "file": "06_documentation/Other/Summaries/project_summary.md",
+      "changes": [
+        [
+          "08_AI_Artificial_Intelligence/README.md",
+          "06_documentation/Other/Api_docs/readme.md"
+        ],
+        [
+          "08_AI_Artificial_Intelligence/README.md",
+          "06_documentation/Other/Api_docs/readme.md"
+        ],
+        [
+          "08_Research_Development/README.md",
+          "06_documentation/Other/Api_docs/readme.md"
+        ],
+        [
+          "04_Business_Strategy/README.md",
+          "06_documentation/Other/Api_docs/readme.md"
+        ],
+        [
+          "04_Business_Strategy/README.md",
+          "06_documentation/Other/Api_docs/readme.md"
+        ]
+      ],
+      "count": 11
+    },
+    {
+      "file": "06_documentation/Other/Api_docs/acceso_rapido.md",
+      "changes": [
+        [
+          "../03_Marketing_Content/Cursos_IA_Marketing/Curso_IA_Marketing_Completo.md",
+          "06_documentation/Other/curso_ia_marketing_completo.md"
+        ],
+        [
+          "../03_Marketing_Content/Cursos_IA_Marketing/Curso_IA_Marketing_Completo.md",
+          "06_documentation/Other/curso_ia_marketing_completo.md"
+        ],
+        [
+          "../03_Marketing_Content/Webinars_Presentaciones/Webinar_Curso_IA_Marketing_100_Pesos.md",
+          "06_documentation/Other/webinar_curso_ia_marketing_100_pesos.md"
+        ],
+        [
+          "../03_Marketing_Content/Copywriting_Narrativas/ai_webinar_narratives.md",
+          "06_documentation/Other/ai_webinar_narratives.md"
+        ],
+        [
+          "../05_Financial_Documents/Metas_Objetivos/Yearly_Financial_Goals_Worksheet.md",
+          "06_documentation/Other/yearly_financial_goals_worksheet.md"
+        ]
+      ],
+      "count": 20
+    },
+    {
+      "file": "06_documentation/Resumes/resumen_final_mejoras.md",
+      "changes": [
+        [
+          "QUICK_START.md",
+          "06_documentation/User_guides/quick_start.md"
+        ],
+        [
+          "PROJECT_SUMMARY.md",
+          "06_documentation/Other/Summaries/project_summary.md"
+        ]
+      ],
+      "count": 2
+    },
+    {
+      "file": "06_documentation/Resumes/resumen_ejecutivo_completo.md",
+      "changes": [
+        [
+          "QUICK_START.md",
+          "06_documentation/User_guides/quick_start.md"
+        ],
+        [
+          "PROJECT_SUMMARY.md",
+          "06_documentation/Other/Summaries/project_summary.md"
+        ]
+      ],
+      "count": 2
+    },
+    {
+      "file": "06_documentation/Resumes/final_summary.md",
+      "changes": [
+        [
+          "QUICK_START.md",
+          "06_documentation/User_guides/quick_start.md"
+        ],
+        [
+          "PROJECT_SUMMARY.md",
+          "06_documentation/Other/Summaries/project_summary.md"
+        ],
+        [
+          "CONTRIBUTING.md",
+          "06_documentation/Other/contributing.md"
+        ],
+        [
+          "FAQ.md",
+          "06_documentation/Other/faq.md"
+        ],
+        [
+          "TROUBLESHOOTING.md",
+          "06_documentation/Other/troubleshooting.md"
+        ]
+      ],
+      "count": 8
+    },
+    {
+      "file": "06_documentation/Playbooks/ai_playbook.md",
+      "changes": [
+        [
+          "08_AI_Artificial_Intelligence/README.md",
+          "06_documentation/Api_documentation/readme.md"
+        ],
+        [
+          "08_AI_Artificial_Intelligence/README.md",
+          "06_documentation/Api_documentation/readme.md"
+        ],
+        [
+          "08_AI_Artificial_Intelligence/README.md",
+          "06_documentation/Api_documentation/readme.md"
+        ],
+        [
+          "01_Marketing/README.md",
+          "06_documentation/Api_documentation/readme.md"
+        ]
+      ],
+      "count": 4
+    },
+    {
+      "file": "06_documentation/Index_files/docs_index.md",
+      "changes": [
+        [
+          "./ARCHITECTURE.md",
+          "06_documentation/Other/architecture.md"
+        ],
+        [
+          "./ARCHITECTURE.md",
+          "06_documentation/Other/architecture.md"
+        ],
+        [
+          "./ARCHITECTURE.md",
+          "06_documentation/Other/architecture.md"
+        ],
+        [
+          "./API_DOCUMENTATION.md",
+          "06_documentation/Other/Api_docs/api_documentation.md"
+        ],
+        [
+          "./API_DOCUMENTATION.md",
+          "06_documentation/Other/Api_docs/api_documentation.md"
+        ]
+      ],
+      "count": 6
+    },
+    {
+      "file": "06_documentation/Master_indexes/indice_maestro_navegacion.md",
+      "changes": [
+        [
+          "./DIGITAL_TRANSFORMATION.md",
+          "06_documentation/Other/digital_transformation.md"
+        ],
+        [
+          "./DIGITAL_TRANSFORMATION.md",
+          "06_documentation/Other/digital_transformation.md"
+        ],
+        [
+          "./DIGITAL_TRANSFORMATION.md",
+          "06_documentation/Other/digital_transformation.md"
+        ],
+        [
+          "./DIGITAL_TRANSFORMATION.md",
+          "06_documentation/Other/digital_transformation.md"
+        ],
+        [
+          "./DIGITAL_TRANSFORMATION.md",
+          "06_documentation/Other/digital_transformation.md"
+        ]
+      ],
+      "count": 30
+    },
+    {
+      "file": "06_documentation/Best_practices/guia_mejores_practicas.md",
+      "changes": [
+        [
+          "./DIGITAL_TRANSFORMATION.md",
+          "06_documentation/Other/digital_transformation.md"
+        ]
+      ],
+      "count": 1
+    },
+    {
+      "file": "06_documentation/Master_documents/00_documentacion_maestra_index.md",
+      "changes": [
+        [
+          "./34_quick_start_guide_7_dias.md",
+          "06_documentation/Quick_start_guides/34_quick_start_guide_7_dias.md"
+        ],
+        [
+          "./34_quick_start_guide_7_dias.md",
+          "06_documentation/Quick_start_guides/34_quick_start_guide_7_dias.md"
+        ],
+        [
+          "./35_roi_calculator_supremo.md",
+          "06_documentation/Other/35_roi_calculator_supremo.md"
+        ],
+        [
+          "./36_success_stories_supremos.md",
+          "06_documentation/Other/36_success_stories_supremos.md"
+        ],
+        [
+          "./45_GUIA_USUARIO_C_LEVEL.md",
+          "06_documentation/User_guides/45_guia_usuario_c_level.md"
+        ]
+      ],
+      "count": 9
+    },
+    {
+      "file": "20_project_management/Playbooks/workflow.md",
+      "changes": [
+        [
+          "08_AI_Artificial_Intelligence/README.md",
+          "20_project_management/Best_practices/readme.md"
+        ],
+        [
+          "08_AI_Artificial_Intelligence/README.md",
+          "20_project_management/Best_practices/readme.md"
+        ],
+        [
+          "04_Operations/README.md",
+          "20_project_management/Best_practices/readme.md"
+        ]
+      ],
+      "count": 3
+    },
+    {
+      "file": "05_technology/Implementation_guides/deployment.md",
+      "changes": [
+        [
+          "SECURITY.md",
+          "05_technology/Other/security.md"
+        ]
+      ],
+      "count": 1
+    },
+    {
+      "file": "05_technology/Implementation_guides/setup_guide.md",
+      "changes": [
+        [
+          "CONTRIBUTING.md",
+          "05_technology/Other/contributing.md"
+        ]
+      ],
+      "count": 1
+    },
+    {
+      "file": "05_technology/Api_documentation/api_security.md",
+      "changes": [
+        [
+          "./SECURITY.md",
+          "05_technology/Other/security.md"
+        ],
+        [
+          "./MONITORING.md",
+          "05_technology/Other/monitoring.md"
+        ]
+      ],
+      "count": 2
+    },
+    {
+      "file": "05_technology/Other/updated_course_index.md",
+      "changes": [
+        [
+          "./Diversity_Inclusion_AI_Technology.md",
+          "05_technology/Tech_stack_docs/diversity_inclusion_ai_technology.md"
+        ],
+        [
+          "./Advanced_AI_Applications_HR.md",
+          "05_technology/Advanced_features/advanced_ai_applications_hr.md"
+        ],
+        [
+          "./Industry_Best_Practices_Guide.md",
+          "05_technology/Best_practices/industry_best_practices_guide.md"
+        ]
+      ],
+      "count": 3
+    },
+    {
+      "file": "05_technology/Other/readme_updated.md",
+      "changes": [
+        [
+          "User_Guide.md",
+          "Guides/user_guide.md"
+        ],
+        [
+          "User_Guide.md",
+          "Guides/user_guide.md"
+        ],
+        [
+          "Developer_Guide.md",
+          "Guides/developer_guide.md"
+        ],
+        [
+          "Developer_Guide.md",
+          "Guides/developer_guide.md"
+        ],
+        [
+          "API_Documentation.md",
+          "05_technology/Api_documentation/api_documentation.md"
+        ]
+      ],
+      "count": 16
+    },
+    {
+      "file": "05_technology/Other/cybersecurity.md",
+      "changes": [
+        [
+          "13_Legal_Compliance/README.md",
+          "05_technology/01_ai_machine_learning/readme.md"
+        ]
+      ],
+      "count": 1
+    },
+    {
+      "file": "05_technology/Other/quantum_computing.md",
+      "changes": [
+        [
+          "./FUTURE_TECH.md",
+          "05_technology/Tech_stack_docs/future_tech.md"
+        ]
+      ],
+      "count": 1
+    },
+    {
+      "file": "05_technology/Other/index.md",
+      "changes": [
+        [
+          "./12_ai_analytics_dashboards.md",
+          "Analytics/12_ai_analytics_dashboards.md"
+        ],
+        [
+          "./28_expansion_suprema_innovation_strategy.md",
+          "Strategies/28_expansion_suprema_innovation_strategy.md"
+        ],
+        [
+          "./29_expansion_suprema_thought_leadership.md",
+          "Lead_Generation/29_expansion_suprema_thought_leadership.md"
+        ],
+        [
+          "./46_estrategia_suprema_eventos_experiencias_inmersivas.md",
+          "Strategies/46_estrategia_suprema_eventos_experiencias_inmersivas.md"
+        ],
+        [
+          "./admin_guide.md",
+          "Guides/admin_guide.md"
+        ]
+      ],
+      "count": 87
+    },
+    {
+      "file": "05_technology/Other/course_index_and_navigation.md",
+      "changes": [
+        [
+          "./Diversity_Inclusion_AI_Technology.md",
+          "05_technology/Tech_stack_docs/diversity_inclusion_ai_technology.md"
+        ]
+      ],
+      "count": 1
+    },
+    {
+      "file": "05_technology/Other/vc_negotiation_master_index_2024.md",
+      "changes": [
+        [
+          "./VC_Advanced_Psychology_Mastery_2024.md",
+          "05_technology/Advanced_features/vc_advanced_psychology_mastery_2024.md"
+        ],
+        [
+          "./VC_Advanced_Psychology_Mastery_2024.md",
+          "05_technology/Advanced_features/vc_advanced_psychology_mastery_2024.md"
+        ],
+        [
+          "./VC_Advanced_Psychology_Mastery_2024.md",
+          "05_technology/Advanced_features/vc_advanced_psychology_mastery_2024.md"
+        ],
+        [
+          "./VC_Advanced_Psychology_Mastery_2024.md",
+          "05_technology/Advanced_features/vc_advanced_psychology_mastery_2024.md"
+        ],
+        [
+          "./VC_Advanced_Psychology_Mastery_2024.md",
+          "05_technology/Advanced_features/vc_advanced_psychology_mastery_2024.md"
+        ]
+      ],
+      "count": 17
+    },
+    {
+      "file": "05_technology/Other/monitoring.md",
+      "changes": [
+        [
+          "./OPTIMIZATION.md",
+          "05_technology/Performance/optimization.md"
+        ]
+      ],
+      "count": 1
+    },
+    {
+      "file": "05_technology/Other/blockchain_web3.md",
+      "changes": [
+        [
+          "./FUTURE_TECH.md",
+          "05_technology/Tech_stack_docs/future_tech.md"
+        ]
+      ],
+      "count": 1
+    },
+    {
+      "file": "05_technology/Other/SEO/ar_vr_metaverse.md",
+      "changes": [
+        [
+          "./BLOCKCHAIN_WEB3.md",
+          "05_technology/Other/blockchain_web3.md"
+        ]
+      ],
+      "count": 1
+    },
+    {
+      "file": "05_technology/Tech_stack_docs/biotechnology_life_sciences.md",
+      "changes": [
+        [
+          "./DATA_SCIENCE.md",
+          "05_technology/Other/data_science.md"
+        ]
+      ],
+      "count": 1
+    },
+    {
+      "file": "05_technology/Tech_stack_docs/future_tech.md",
+      "changes": [
+        [
+          "08_AI_Artificial_Intelligence/README.md",
+          "05_technology/01_ai_machine_learning/readme.md"
+        ],
+        [
+          "08_AI_Artificial_Intelligence/README.md",
+          "05_technology/01_ai_machine_learning/readme.md"
+        ]
+      ],
+      "count": 2
+    },
+    {
+      "file": "05_technology/Tech_stack_docs/space_tech_aerospace.md",
+      "changes": [
+        [
+          "./DATA_ENGINEERING.md",
+          "05_technology/Other/data_engineering.md"
+        ]
+      ],
+      "count": 1
+    },
+    {
+      "file": "05_technology/System_architecture/microservices_architecture.md",
+      "changes": [
+        [
+          "./DEVOPS_CICD.md",
+          "05_technology/Other/devops_cicd.md"
+        ],
+        [
+          "./API_SECURITY.md",
+          "05_technology/Api_documentation/api_security.md"
+        ],
+        [
+          "./MONITORING.md",
+          "05_technology/Other/monitoring.md"
+        ]
+      ],
+      "count": 3
+    },
+    {
+      "file": "05_technology/Performance/performance.md",
+      "changes": [
+        [
+          "08_AI_Artificial_Intelligence/README.md",
+          "05_technology/01_ai_machine_learning/readme.md"
+        ],
+        [
+          "Dashboard_CFDI_IA_2025.html",
+          "05_technology/Cfdi_files/dashboard_cfdi_ia_2025.html"
+        ]
+      ],
+      "count": 2
+    },
+    {
+      "file": "05_technology/Performance/optimization.md",
+      "changes": [
+        [
+          "04_Operations/README.md",
+          "05_technology/01_ai_machine_learning/readme.md"
+        ]
+      ],
+      "count": 1
+    },
+    {
+      "file": "00_version_management/Content_relationships_split/readme.md",
+      "changes": [
+        [
+          "../CONTENT_RELATIONSHIPS.md",
+          "00_version_management/Documentation/content_relationships.md"
+        ]
+      ],
+      "count": 1
+    },
+    {
+      "file": "Vc_venture_capital/Anti_vc_strategies/estrategia_anti_vc_dependencia_latam_2024.md",
+      "changes": [
+        [
+          "CALCULADORA_ANTI_VC_DEPENDENCIA.html",
+          "Vc_venture_capital/Analysis_tools/calculadora_anti_vc_dependencia.html"
+        ],
+        [
+          "DASHBOARD_IA_ANTI_VC_DEPENDENCIA.html",
+          "Vc_venture_capital/Analysis_tools/dashboard_ia_anti_vc_dependencia.html"
+        ],
+        [
+          "ESTRATEGIAS_BLOCKCHAIN_WEB3_ANTI_VC.md",
+          "Technology_strategies/estrategias_blockchain_web3_anti_vc.md"
+        ],
+        [
+          "ESTRATEGIAS_METAVERSO_VR_AR_ANTI_VC.md",
+          "Technology_strategies/estrategias_metaverso_vr_ar_anti_vc.md"
+        ],
+        [
+          "HERRAMIENTAS_IA_AVANZADAS_ANTI_VC.md",
+          "Technology_strategies/herramientas_ia_avanzadas_anti_vc.md"
+        ]
+      ],
+      "count": 6
+    },
+    {
+      "file": "Vc_venture_capital/Anti_vc_strategies/Technology_strategies/estrategia_anti_vc_dependencia_latam_2024.md",
+      "changes": [
+        [
+          "HERRAMIENTAS_FRAMEWORKS_ANTI_VC.md",
+          "Vc_venture_capital/Anti_vc_strategies/herramientas_frameworks_anti_vc.md"
+        ],
+        [
+          "ROADMAP_IMPLEMENTACION_ANTI_VC.md",
+          "Vc_venture_capital/Anti_vc_strategies/Market_strategies/roadmap_implementacion_anti_vc.md"
+        ],
+        [
+          "CHECKLIST_IMPLEMENTACION_ANTI_VC.md",
+          "Vc_venture_capital/Anti_vc_strategies/checklist_implementacion_anti_vc.md"
+        ],
+        [
+          "ESTRATEGIAS_ESG_FINANCIAMIENTO_ANTI_VC.md",
+          "Vc_venture_capital/Anti_vc_strategies/Financial_alternatives/estrategias_esg_financiamiento_anti_vc.md"
+        ],
+        [
+          "EXPANSION_INTERNACIONAL_ANTI_VC.md",
+          "Vc_venture_capital/Anti_vc_strategies/expansion_internacional_anti_vc.md"
+        ]
+      ],
+      "count": 5
+    },
+    {
+      "file": "Vc_venture_capital/Negotiation/vc_negotiation_master_index_2024.md",
+      "changes": [
+        [
+          "VC_Psychology_Guide.md",
+          "Psychology/vc_psychology_guide.md"
+        ],
+        [
+          "VC_Templates_Scripts.md",
+          "Templates/vc_templates_scripts.md"
+        ],
+        [
+          "VC_Advanced_Closing_Techniques_2024.md",
+          "Closing_techniques/vc_advanced_closing_techniques_2024.md"
+        ]
+      ],
+      "count": 3
+    },
+    {
+      "file": "03_human_resources/Other/talent_management.md",
+      "changes": [
+        [
+          "03_Human_Resources/README.md",
+          "03_human_resources/03_performance_management/readme.md"
+        ]
+      ],
+      "count": 1
+    },
+    {
+      "file": "02_finance/Other/financial_management.md",
+      "changes": [
+        [
+          "02_Finance/README.md",
+          "02_finance/08_financial_modeling/readme.md"
+        ]
+      ],
+      "count": 1
+    },
+    {
+      "file": "02_finance/Other/readme_financial_system.md",
+      "changes": [
+        [
+          "./AUTOMATIZACION_FINANCIERA_AVANZADA_2025.md",
+          "02_finance/Automations/automatizacion_financiera_avanzada_2025.md"
+        ],
+        [
+          "./03_RISK_REGISTER.md",
+          "02_finance/Risk_management/03_risk_register.md"
+        ]
+      ],
+      "count": 2
+    },
+    {
+      "file": "01_marketing/Other/readme_curso_ia_marketing.md",
+      "changes": [
+        [
+          "./ROADMAP_IMPLEMENTACION_SAAS.md",
+          "Strategies/roadmap_implementacion_saas.md"
+        ],
+        [
+          "./docs/DEPLOYMENT_GUIDE.md",
+          "01_marketing/Guides/deployment_guide.md"
+        ],
+        [
+          "./docs/USER_GUIDE.md",
+          "01_marketing/Guides/user_guide.md"
+        ],
+        [
+          "./docs/FAQ.md",
+          "faq.md"
+        ],
+        [
+          "./docs/TROUBLESHOOTING.md",
+          "troubleshooting.md"
+        ]
+      ],
+      "count": 5
+    },
+    {
+      "file": "01_marketing/Other/index.md",
+      "changes": [
+        [
+          "./01_secuencia_course_webinars_ia.md",
+          "01_marketing/01_secuencia_course_webinars_ia.md"
+        ],
+        [
+          "./ai_marketing_implementation_roadmap.md",
+          "Strategies/ai_marketing_implementation_roadmap.md"
+        ],
+        [
+          "./ai_marketing_technology_product_roadmap.md",
+          "Strategies/ai_marketing_technology_product_roadmap.md"
+        ],
+        [
+          "./automatizaciones_avanzadas_email.md",
+          "01_marketing/AUTOMATIZACIONES_AVANZADAS_EMAIL.md"
+        ],
+        [
+          "./copycar_ai_investor_post_investment_management_system.md",
+          "Blog_Posts/copycar_ai_investor_post_investment_management_system.md"
+        ]
+      ],
+      "count": 17
+    },
+    {
+      "file": "01_marketing/Other/Templates/paquete_inversion_ultra_optimizado.md",
+      "changes": [
+        [
+          "./PITCH_DECK_ULTRA_OPTIMIZADO.md",
+          "01_marketing/Other/pitch_deck_ultra_optimizado.md"
+        ],
+        [
+          "./ESCENARIOS_FINANCIEROS_AVANZADOS.md",
+          "01_marketing/Other/escenarios_financieros_avanzados.md"
+        ],
+        [
+          "./INVESTOR_ONE_PAGER.md",
+          "01_marketing/Other/investor_one_pager.md"
+        ],
+        [
+          "./RESUMEN_CONSOLIDADO_ULTRA_OPTIMIZADO.md",
+          "01_marketing/Other/resumen_consolidado_ultra_optimizado.md"
+        ]
+      ],
+      "count": 4
+    },
+    {
+      "file": "01_marketing/08_ai_marketing/00_indice_dms_completos.md",
+      "changes": [
+        [
+          "./08_TEMPLATES_RESPUESTAS_RAPIDAS.md",
+          "01_marketing/Templates/08_templates_respuestas_rapidas.md"
+        ]
+      ],
+      "count": 1
+    },
+    {
+      "file": "backups/backup_ultra_avanzado_20251006_132017/INDEX.md",
+      "changes": [
+        [
+          "./bulk-documents-1760126025348.md",
+          "backups/duplicates/bef96b46a60a283075694d32d7798f596e01fe28cff46b81322a6700e6a640e7/bulk-documents-1760126025348.md"
+        ]
+      ],
+      "count": 1
+    },
+    {
+      "file": "backups/duplicates/cd397fb3fae466087073f119eafd199a7ca8fae26023a70af7c60105237b7de3/Updated_Course_Index.md",
+      "changes": [
+        [
+          "./AI_Marketing_Course_Overview.md",
+          "backups/duplicates/23643b40e01c890b45046ab49a8579decb5a14c69e2938b49e97dc251c87573d/AI_Marketing_Course_Overview.md"
+        ],
+        [
+          "./HR_Technology_Selection_Criteria.md",
+          "backups/duplicates/36c53ad6fd5eca005907f1a8313987a5e8a90064d9730f638df94bd1a8da0ce3/HR_Technology_Selection_Criteria.md"
+        ],
+        [
+          "./Specific_HR_Technologies_Guide.md",
+          "backups/duplicates/c6a2a351e1e548527f0c8ea03047db6e3bb43bef8da8db693b7ec8f100afbb9f/Specific_HR_Technologies_Guide.md"
+        ],
+        [
+          "./HR_Technology_Evaluation_Framework.md",
+          "backups/duplicates/10ab2d4b33a801bb0767b499800d7abcf00cf1be5e273ff74d323d940280a048/HR_Technology_Evaluation_Framework.md"
+        ],
+        [
+          "./Company_Size_HR_Technology_Considerations.md",
+          "backups/duplicates/7b6dcea8059aa95bd48828f8ac34217aecc785c0602579c61f20a7736cd72378/Company_Size_HR_Technology_Considerations.md"
+        ]
+      ],
+      "count": 16
+    },
+    {
+      "file": "backups/duplicates/33030e8d3a92729b50e97229b9e7417a6cad3e1bc141bca9cf90a54356ce9c22/getting-started.md",
+      "changes": [
+        [
+          "./README.md",
+          "backups/duplicates/2ff54b9e0bb1ee9ceb64585927f2fd0b0fea6e8d1ad9b5155efa1a8a0efabea7/README.md"
+        ]
+      ],
+      "count": 1
+    },
+    {
+      "file": "backups/duplicates/bdb5dc330a22dbd2637260910a46c26e3d7a2564dcb503dcaf465a6f1aa01000/Comments.DOCS.md",
+      "changes": [
+        [
+          "./Comments.README.md",
+          "backups/duplicates/bf5e382cb3ecdd192fed9bbb57b3c1b50902f547c2a8ca7866ae456cd76cfb20/Comments.README.md"
+        ],
+        [
+          "./Comments.API.md",
+          "backups/duplicates/3b8eef5514edcd75a1dbd89c33e1fe06d17dd558b4e39613fb9c53517d878897/Comments.API.md"
+        ],
+        [
+          "./Comments.EXAMPLES.md",
+          "backups/duplicates/41d0b234518978802f43db8c6d4beb0feebe1516004f10dd23cb157efa527413/Comments.EXAMPLES.md"
+        ],
+        [
+          "./Comments.TROUBLESHOOTING.md",
+          "backups/duplicates/2104e3fe38d1b2564fcaef09000e19c9ca4b1786a5600d5d9654ff7898212566/Comments.TROUBLESHOOTING.md"
+        ]
+      ],
+      "count": 4
+    },
+    {
+      "file": "backups/duplicates/5e124bc5089d33cb36b86ee3a8b31cb8e9cae91f63fd81745a6bd56536856b1c/documentacion-maestra-ultra-revolucionaria.md",
+      "changes": [
+        [
+          "./curso-ia-ultra-revolucionario.md",
+          "backups/duplicates/863243da9de269b03cb82104966526a8df70cc1c823b3689a37877c0917000b7/curso-ia-ultra-revolucionario.md"
+        ],
+        [
+          "./curso-ia-ultra-revolucionario.md",
+          "backups/duplicates/863243da9de269b03cb82104966526a8df70cc1c823b3689a37877c0917000b7/curso-ia-ultra-revolucionario.md"
+        ],
+        [
+          "./saas-marketing-ultra-revolucionario.md",
+          "backups/duplicates/bc36a8ab39e169ea739055f6d474497c2fdc3dab3c00a1e8bc3729f003e52e9d/saas-marketing-ultra-revolucionario.md"
+        ],
+        [
+          "./saas-marketing-ultra-revolucionario.md",
+          "backups/duplicates/bc36a8ab39e169ea739055f6d474497c2fdc3dab3c00a1e8bc3729f003e52e9d/saas-marketing-ultra-revolucionario.md"
+        ],
+        [
+          "./saas-marketing-ultra-revolucionario.md",
+          "backups/duplicates/bc36a8ab39e169ea739055f6d474497c2fdc3dab3c00a1e8bc3729f003e52e9d/saas-marketing-ultra-revolucionario.md"
+        ]
+      ],
+      "count": 11
+    },
+    {
+      "file": "backups/duplicates/3b5780c7d060466b32708b62e00549473d1385f707cd3fcd334c8319a3a6160c/README_Updated.md",
+      "changes": [
+        [
+          "User_Guide.md",
+          "backups/duplicates/344148b21d308fd5ceae660803e9dd80cc51a41aefcce41ff5c06c0c87f4fa17/USER_GUIDE.md"
+        ],
+        [
+          "User_Guide.md",
+          "backups/duplicates/344148b21d308fd5ceae660803e9dd80cc51a41aefcce41ff5c06c0c87f4fa17/USER_GUIDE.md"
+        ],
+        [
+          "API_Documentation.md",
+          "backups/duplicates/390576c950367fa2368cdd080997a0d2760bc7ddac1bd875f962445f68a427f7/API_DOCUMENTATION.md"
+        ],
+        [
+          "API_Documentation.md",
+          "backups/duplicates/390576c950367fa2368cdd080997a0d2760bc7ddac1bd875f962445f68a427f7/API_DOCUMENTATION.md"
+        ],
+        [
+          "Admin_Guide.md",
+          "backups/duplicates/400f0b515d0eb11aa74d018990ae18ec5433d03c0d3cc86d5ba93aa0dc2fe678/Admin_Guide.md"
+        ]
+      ],
+      "count": 11
+    },
+    {
+      "file": "backups/duplicates/e0e1d58daf9fb156c5bbec0ef194d626b2c719c80cafba415bc5bc5fc61bcbae/WELCOME.md",
+      "changes": [
+        [
+          "SETUP.md",
+          "backups/duplicates/0e1443619cf7f8fede7dd7c11f315316747998e9e5973ad1a8c0959cfbda8837/SETUP.md"
+        ],
+        [
+          "ARCHITECTURE.md",
+          "backups/duplicates/9080322c62b2bb64619e857735cc12c4851cdc6fc1db7fbc7d717894907049ec/ARCHITECTURE.md"
+        ],
+        [
+          "PROJECT_STATUS.md",
+          "backups/duplicates/300cb4dac57df46e41ac2b1804026c044745beb2c56f25ca9ba6597f1fa76f39/PROJECT_STATUS.md"
+        ],
+        [
+          "PRODUCT_ROADMAP.md",
+          "backups/duplicates/4347c1292c32e963bddc2e5609e100e1a614449b1d5ab0d4cc9ad421bb9dd849/PRODUCT_ROADMAP.md"
+        ],
+        [
+          "FINAL_SUMMARY.md",
+          "backups/duplicates/176c864d4e62c7dd8f41e3da97864a97e41d1336cbc540329d28e20dba205a8e/FINAL_SUMMARY.md"
+        ]
+      ],
+      "count": 5
+    },
+    {
+      "file": "backups/duplicates/c9e3781c82f9fec0f0e0492c90d76e8f5868a483c7e9366e12a6155653aa7582/Course_Index_and_Navigation.md",
+      "changes": [
+        [
+          "./AI_Marketing_Course_Overview.md",
+          "backups/duplicates/23643b40e01c890b45046ab49a8579decb5a14c69e2938b49e97dc251c87573d/AI_Marketing_Course_Overview.md"
+        ],
+        [
+          "./HR_Technology_Selection_Criteria.md",
+          "backups/duplicates/36c53ad6fd5eca005907f1a8313987a5e8a90064d9730f638df94bd1a8da0ce3/HR_Technology_Selection_Criteria.md"
+        ],
+        [
+          "./Specific_HR_Technologies_Guide.md",
+          "backups/duplicates/c6a2a351e1e548527f0c8ea03047db6e3bb43bef8da8db693b7ec8f100afbb9f/Specific_HR_Technologies_Guide.md"
+        ],
+        [
+          "./HR_Technology_Evaluation_Framework.md",
+          "backups/duplicates/10ab2d4b33a801bb0767b499800d7abcf00cf1be5e273ff74d323d940280a048/HR_Technology_Evaluation_Framework.md"
+        ],
+        [
+          "./Company_Size_HR_Technology_Considerations.md",
+          "backups/duplicates/7b6dcea8059aa95bd48828f8ac34217aecc785c0602579c61f20a7736cd72378/Company_Size_HR_Technology_Considerations.md"
+        ]
+      ],
+      "count": 12
+    },
+    {
+      "file": "backups/duplicates/44dc18c498cf91d6f579f2a8ad081517aac874b0c97ad03bf3ab225548aa54b8/VC_Negotiation_Master_Index_2024.md",
+      "changes": [
+        [
+          "./VC_Advanced_Psychology_Mastery_2024.md",
+          "backups/duplicates/53a29883bcedd08da85181502c9792b453c41b6e0a3d4ba42663ea2a6624f8d4/VC_Advanced_Psychology_Mastery_2024.md"
+        ],
+        [
+          "./VC_Advanced_Psychology_Mastery_2024.md",
+          "backups/duplicates/53a29883bcedd08da85181502c9792b453c41b6e0a3d4ba42663ea2a6624f8d4/VC_Advanced_Psychology_Mastery_2024.md"
+        ],
+        [
+          "./VC_Advanced_Psychology_Mastery_2024.md",
+          "backups/duplicates/53a29883bcedd08da85181502c9792b453c41b6e0a3d4ba42663ea2a6624f8d4/VC_Advanced_Psychology_Mastery_2024.md"
+        ],
+        [
+          "./VC_Advanced_Psychology_Mastery_2024.md",
+          "backups/duplicates/53a29883bcedd08da85181502c9792b453c41b6e0a3d4ba42663ea2a6624f8d4/VC_Advanced_Psychology_Mastery_2024.md"
+        ],
+        [
+          "./VC_Advanced_Psychology_Mastery_2024.md",
+          "backups/duplicates/53a29883bcedd08da85181502c9792b453c41b6e0a3d4ba42663ea2a6624f8d4/VC_Advanced_Psychology_Mastery_2024.md"
+        ]
+      ],
+      "count": 15
+    },
+    {
+      "file": "backups/duplicates/1340c3800de23925795f421b685b0506c8fd6c24c931594f32d2b4b90e94fb6a/INDICE_DOCUMENTACION_IA.md",
+      "changes": [
+        [
+          "./GUIA_COMPLETA_IA_2025.md",
+          "backups/duplicates/110eb9378d37ababb6d55c7e417258cb103d7e4cf27d5629e7fcbaefa489ad89/GUIA_COMPLETA_IA_2025.md"
+        ],
+        [
+          "./MEJORES_PRACTICAS_IA_2025.md",
+          "backups/duplicates/43f678dea9a08224be3b54c9a5f969a7a359e0fc810538b4d8317a6499e512e4/MEJORES_PRACTICAS_IA_2025.md"
+        ],
+        [
+          "./estrategias-por-tipo-empresa.md",
+          "backups/duplicates/2c69978009f2089e0cf45657d2746a38fc27840a38b0091b99c4065a588aa530/estrategias-por-tipo-empresa.md"
+        ],
+        [
+          "./casos-estudio-reales-ia.md",
+          "backups/duplicates/05de1165149897f2cf13988e9893429dc6c1ca26c8d5692bdb787f8a120d7f54/casos-estudio-reales-ia.md"
+        ],
+        [
+          "./guia-implementacion-practica-pymes.md",
+          "backups/duplicates/6f8bdaaeff826e6d768cdb6f81d7d220c62c9ef5488044942d62b00f00e8ea56/guia-implementacion-practica-pymes.md"
+        ]
+      ],
+      "count": 14
+    },
+    {
+      "file": "backups/duplicates/9068bd9b7b9b3015161cd79bfe8e116e4dd369392ad929a519a658889a31c417/CONTRIBUTING.md",
+      "changes": [
+        [
+          "LICENSE",
+          "backups/duplicates/ceda90a47866253ef482445f6ca5fb5df9b28a21c3b33b7406ba04e4303d5b74/LICENSE"
+        ]
+      ],
+      "count": 1
+    },
+    {
+      "file": "backups/duplicates/f9da5498870ec2e8da56a51b7c8c3cfb98379160f8c256adf690583f4f06710c/Final_Enhanced_Course_Index.md",
+      "changes": [
+        [
+          "./AI_Marketing_Course_Overview.md",
+          "backups/duplicates/23643b40e01c890b45046ab49a8579decb5a14c69e2938b49e97dc251c87573d/AI_Marketing_Course_Overview.md"
+        ],
+        [
+          "./HR_Technology_Selection_Criteria.md",
+          "backups/duplicates/36c53ad6fd5eca005907f1a8313987a5e8a90064d9730f638df94bd1a8da0ce3/HR_Technology_Selection_Criteria.md"
+        ],
+        [
+          "./Specific_HR_Technologies_Guide.md",
+          "backups/duplicates/c6a2a351e1e548527f0c8ea03047db6e3bb43bef8da8db693b7ec8f100afbb9f/Specific_HR_Technologies_Guide.md"
+        ],
+        [
+          "./HR_Technology_Evaluation_Framework.md",
+          "backups/duplicates/10ab2d4b33a801bb0767b499800d7abcf00cf1be5e273ff74d323d940280a048/HR_Technology_Evaluation_Framework.md"
+        ],
+        [
+          "./Company_Size_HR_Technology_Considerations.md",
+          "backups/duplicates/7b6dcea8059aa95bd48828f8ac34217aecc785c0602579c61f20a7736cd72378/Company_Size_HR_Technology_Considerations.md"
+        ]
+      ],
+      "count": 19
+    },
+    {
+      "file": "backups/duplicates/9d559813544a5768d4b5ee480661af370ca4ed3606c4d7c95863f67151b5b6b4/README_CURSO_IA_MARKETING.md",
+      "changes": [
+        [
+          "./CURSO_IA_MARKETING_COPYWRITING.md",
+          "backups/duplicates/cfb2757e2ca94c7bb535dbb35f74ef878b6175d6952cc0cbf4f2ae07da123efb/CURSO_IA_MARKETING_COPYWRITING.md"
+        ],
+        [
+          "./CURSO_IA_MARKETING_COPYWRITING.md",
+          "backups/duplicates/cfb2757e2ca94c7bb535dbb35f74ef878b6175d6952cc0cbf4f2ae07da123efb/CURSO_IA_MARKETING_COPYWRITING.md"
+        ],
+        [
+          "./EJEMPLOS_PROMPTS_ANALISIS_PROPUESTAS.md",
+          "backups/duplicates/d68831b6b6c36038e957836faf36cfe5200bfa7283a3a9c2e354be37f2e47c55/EJEMPLOS_PROMPTS_ANALISIS_PROPUESTAS.md"
+        ],
+        [
+          "./ARQUITECTURA_SAAS_IA_MARKETING.md",
+          "backups/duplicates/04efb94bccdbbf81dac1e0ff92149d44611ee9580efe200116c9d2a1d80ddf00/ARQUITECTURA_SAAS_IA_MARKETING.md"
+        ],
+        [
+          "./ROADMAP_IMPLEMENTACION_SAAS.md",
+          "backups/duplicates/872d3cdfebe394f0b445bb18efe3a0e96d989e9f04a8343e8a02160fa9ca66c4/ROADMAP_IMPLEMENTACION_SAAS.md"
+        ]
+      ],
+      "count": 12
+    },
+    {
+      "file": "backups/duplicates/3650e3fcf5803fd563a92d364913c14b19527c5fd285e3340b39e431a45cb37d/PAQUETE_INVERSION_ULTRA_OPTIMIZADO.md",
+      "changes": [
+        [
+          "./MODELO_FINANCIERO_ULTRA_OPTIMIZADO.md",
+          "backups/duplicates/4488a4e9138cdc0b15d5f777aaa9d9b2c86b7dca776fda3ca39c7fd8dd4df702/MODELO_FINANCIERO_ULTRA_OPTIMIZADO.md"
+        ]
+      ],
+      "count": 1
+    }
+  ]
+}

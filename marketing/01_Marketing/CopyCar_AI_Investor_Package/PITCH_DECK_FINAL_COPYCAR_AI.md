@@ -1,3 +1,11 @@
+---
+title: "Pitch Deck Final Copycar Ai"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Copycar_ai_investor_package/pitch_deck_final_copycar_ai.md"
+---
+
 # 🚀 CopyCar.ai - Pitch Deck Final
 
 ## Presentación Profesional para Serie A - $5M

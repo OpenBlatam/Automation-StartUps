@@ -1,3 +1,11 @@
+---
+title: "Estrategias Blockchain Web3 Anti Vc"
+category: "Vc_venture_capital"
+tags: ["strategy"]
+created: "2025-10-29"
+path: "Vc_venture_capital/Anti_vc_strategies/Technology_strategies/estrategias_blockchain_web3_anti_vc.md"
+---
+
 # ⛓️ **ESTRATEGIAS BLOCKCHAIN & WEB3 ANTI-DEPENDENCIA VC**
 
 ## **FINANCIAMIENTO DESCENTRALIZADO PARA STARTUPS SAAS IA LATAM**

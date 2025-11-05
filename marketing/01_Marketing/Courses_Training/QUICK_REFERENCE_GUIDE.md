@@ -1,3 +1,11 @@
+---
+title: "Quick Reference Guide"
+category: "Marketing"
+tags: ["business", "guide", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Courses_training/quick_reference_guide.md"
+---
+
 # 🚀 AI Marketing SaaS Pitch Practice - Quick Reference Guide
 ## Essential Tools for Mastering Investor Presentations
 

@@ -1,0 +1,5 @@
+deal_name,amount,currency,stage,demo_booked_at,outcome_pricing,package_tier,mrr_delta_expected,kpi_baseline,kpi_target,associated_email
+Acme - Membresía Growth,12000,USD,Demo Booked,2025-11-05T14:30:00Z,true,Growth,1000,15,25,ceo@acme.com
+Beta - Outcome Pilot,8000,USD,Proposal Sent,2025-11-07T16:00:00Z,true,Starter,500,12,22,marketing@beta.io
+Gamma - Scale Plan,30000,USD,Closed Won,2025-11-10T10:00:00Z,false,Scale,3000,18,28,founder@gamma.co
+

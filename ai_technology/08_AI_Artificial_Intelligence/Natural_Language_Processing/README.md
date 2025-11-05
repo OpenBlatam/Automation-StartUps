@@ -1,7 +1,10 @@
-# Natural Language Processing
+---
+title: "Readme"
+category: "Ai_technology"
+tags: ["technical", "technology"]
+created: "2025-10-29"
+path: "Ai_technology/08_ai_artificial_intelligence/Natural_language_processing/readme.md"
+---
 
-Subcategoría de 08_AI_Artificial_Intelligence
+# Natural_Language_Processing
 
-## Archivos:
-
-- README.md

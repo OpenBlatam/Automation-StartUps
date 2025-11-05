@@ -1,3 +1,11 @@
+---
+title: "03 Incentive Programs Template"
+category: "01_marketing"
+tags: ["business", "marketing", "template"]
+created: "2025-10-29"
+path: "01_marketing/10_affiliate_marketing/01_finding_new_affiliates/03_incentive_programs_template.md"
+---
+
 # 🎁 Finding New Affiliates - Advanced Incentive Programs Template
 
 ## Template: AI-Powered Incentive Programs for AI Course & SaaS Marketing

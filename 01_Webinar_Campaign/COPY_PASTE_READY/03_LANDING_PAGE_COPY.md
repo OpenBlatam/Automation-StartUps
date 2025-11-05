@@ -1,3 +1,11 @@
+---
+title: "03 Landing Page Copy"
+category: "01_webinar_campaign"
+tags: ["ai", "artificial-intelligence"]
+created: "2025-10-29"
+path: "01_webinar_campaign/Copy_paste_ready/03_landing_page_copy.md"
+---
+
 # 🌐 COPY DE LANDING PAGE - LISTO PARA COPIAR Y PEGAR
 ## *50+ Variantes de Headlines, CTAs y Elementos de Conversión*
 

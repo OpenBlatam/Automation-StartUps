@@ -1,0 +1,5 @@
+date,offer,variant_id,channel,contacts_sent,replies,clicks,booked,attended,opt_outs,reply_rate,click_rate,book_rate,show_rate,notes
+2025-10-29,curso,DM1-A1,instagram,30,9,12,8,3,0,=IFERROR(F2/E2,0),=IFERROR(G2/E2,0),=IFERROR(H2/E2,0),=IFERROR(I2/H2,0),"Test inicial A"
+2025-10-29,saas,DM2-B1,instagram,30,6,10,7,4,0,=IFERROR(F3/E3,0),=IFERROR(G3/E3,0),=IFERROR(H3/E3,0),=IFERROR(I3/H3,0),"Test inicial B"
+2025-10-29,bulk,DM3-C1,instagram,30,10,15,9,4,1,=IFERROR(F4/E4,0),=IFERROR(G4/E4,0),=IFERROR(H4/E4,0),=IFERROR(I4/H4,0),"Test inicial C"
+

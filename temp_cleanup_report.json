@@ -1,0 +1,61 @@
+{
+  "generated_at": "2025-10-29T19:40:22.291166",
+  "count": 11,
+  "items": [
+    {
+      "path": "/Users/adan/Documents/documentos_blatam/06_documentation/Other/system_startup.log",
+      "size_bytes": 692590,
+      "modified": "2025-10-28T18:11:45.151982"
+    },
+    {
+      "path": "/Users/adan/Documents/documentos_blatam/06_documentation/Other/inventory_system.log",
+      "size_bytes": 52150,
+      "modified": "2025-10-28T18:11:45.148177"
+    },
+    {
+      "path": "/Users/adan/Documents/documentos_blatam/13_legal_compliance/Legal_documents/legal_system.log",
+      "size_bytes": 1694,
+      "modified": "2025-10-17T10:21:35.803203"
+    },
+    {
+      "path": "/Users/adan/Documents/documentos_blatam/01_marketing/Other/organization.log",
+      "size_bytes": 2290,
+      "modified": "2025-10-17T10:21:34.777225"
+    },
+    {
+      "path": "/Users/adan/Documents/documentos_blatam/01_marketing/Other/permanent_organization.log",
+      "size_bytes": 6061,
+      "modified": "2025-10-17T10:21:34.779356"
+    },
+    {
+      "path": "/Users/adan/Documents/documentos_blatam/01_marketing/Other/ultra_organization.log",
+      "size_bytes": 2064,
+      "modified": "2025-10-17T10:21:34.845624"
+    },
+    {
+      "path": "/Users/adan/Documents/documentos_blatam/01_marketing/Other/final_organization.log",
+      "size_bytes": 2102,
+      "modified": "2025-10-17T10:21:34.717417"
+    },
+    {
+      "path": "/Users/adan/Documents/documentos_blatam/backups/duplicates/534f01842edd8eaaf5f09beb0d824cad8c41b6017fc06d519b728b5fcbc43236/permanent_organization.log",
+      "size_bytes": 6061,
+      "modified": "2025-10-17T10:21:39.776834"
+    },
+    {
+      "path": "/Users/adan/Documents/documentos_blatam/backups/duplicates/1956b20af43f8db0276d3e8f9575a60575f8b1a457f26394ca7c9f38c29457cc/organization.log",
+      "size_bytes": 2290,
+      "modified": "2025-10-17T10:21:39.776726"
+    },
+    {
+      "path": "/Users/adan/Documents/documentos_blatam/backups/duplicates/4b067a51c27b329ffa2f33891ca207b3149566216aaaf4ef905e0850214a4b7a/ultra_organization.log",
+      "size_bytes": 2064,
+      "modified": "2025-10-17T10:21:39.776940"
+    },
+    {
+      "path": "/Users/adan/Documents/documentos_blatam/backups/duplicates/1772d24d93c4881324d2b8ea2dc7d0272e7bc94428790c0765f4046408f7591c/final_organization.log",
+      "size_bytes": 2102,
+      "modified": "2025-10-17T10:21:39.776594"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+sequence_name,step,day_offset,channel,variant,script_template,utm_source,utm_medium,utm_campaign,utm_content
+book_demo_wa,1,0,whatsapp,A,"Hola [nombre], vi [señal]. Tengo un atajo en 2 pasos para [resultado]. ¿Te lo mando y vemos 15'?",whatsapp,wa,book_demo_q4,scriptA
+book_demo_wa,2,4,whatsapp,B,"Si no movemos [métrica] ≥10% en 14 días, te digo por qué no. ¿Te paso el play y vemos 15'?",whatsapp,wa,book_demo_q4,challengerB
+

@@ -1,3 +1,11 @@
+---
+title: "Practice Scripts Roleplay"
+category: "Marketing"
+tags: ["business", "marketing", "script"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Documents/practice_scripts_roleplay.md"
+---
+
 # 🎭 AI Marketing SaaS Practice Scripts & Role-Playing Materials
 ## Complete Role-Play Scenarios for Pitch Practice
 

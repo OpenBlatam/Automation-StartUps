@@ -1,3 +1,11 @@
+---
+title: "Copycar Ai Investor Psychology Masterclass Advanced"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/Copycar_ai_investor_package/copycar_ai_investor_psychology_masterclass_advanced.md"
+---
+
 # COPYCAR.AI INVESTOR PSYCHOLOGY MASTERCLASS - ADVANCED EDITION
 ## The Ultimate Guide to Investor Mind Control and Persuasion
 

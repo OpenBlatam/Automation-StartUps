@@ -1,3 +1,11 @@
+---
+title: "Pitch Deck Final Copycar Ai"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/Copycar_ai_investor_package/pitch_deck_final_copycar_ai.md"
+---
+
 # 🚀 CopyCar.ai - Pitch Deck Final
 
 ## Serie A - $5M | Valuación Pre-Money: $25M

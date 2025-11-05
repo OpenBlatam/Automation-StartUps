@@ -1,0 +1,188 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0B1229"/>
+      <stop offset="100%" stop-color="#10314A"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00E5A8"/>
+      <stop offset="100%" stop-color="#00B4D8"/>
+    </linearGradient>
+    <linearGradient id="before-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1A1A2E"/>
+      <stop offset="100%" stop-color="#16213E"/>
+    </linearGradient>
+    <linearGradient id="after-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0E3740"/>
+      <stop offset="100%" stop-color="#10314A"/>
+    </linearGradient>
+    <filter id="sh" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5"/>
+      <feOffset dx="0" dy="6" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.4"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      @font-face { font-family: Inter; src: local('Inter'), local('Arial'); }
+      .column-title { font: 900 44px/1.2 Inter, system-ui, -apple-system; fill: #FFFFFF; letter-spacing: -0.5px; }
+      .column-sub { font: 600 28px/1.3 Inter, system-ui, -apple-system; fill: #BFEFE8; }
+      .feature { font: 500 24px/1.5 Inter, system-ui, -apple-system; fill: #CFEFFF; }
+      .feature-bad { font: 500 24px/1.5 Inter, system-ui, -apple-system; fill: #9FB6FF; opacity: 0.7; }
+      .feature-good { font: 500 24px/1.5 Inter, system-ui, -apple-system; fill: #E9FFFB; }
+      .headline { font: 900 68px/1.1 Inter, system-ui, -apple-system; fill: #FFFFFF; letter-spacing: -1px; }
+    </style>
+    <!-- Iconos reutilizables -->
+    <g id="icon-check">
+      <circle cx="20" cy="20" r="16" fill="#00E5A8" opacity="0.2"/>
+      <path d="M 12 20 L 18 26 L 28 14" stroke="#00E5A8" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <g id="icon-x">
+      <circle cx="20" cy="20" r="16" fill="#FF6B6B" opacity="0.2"/>
+      <path d="M 14 14 L 26 26 M 26 14 L 14 26" stroke="#FF6B6B" stroke-width="3" stroke-linecap="round"/>
+    </g>
+    <g id="growth-icon">
+      <polyline points="0,40 20,35 40,30 60,22 80,15 100,8" fill="none" stroke="#00E5A8" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="100" cy="8" r="6" fill="#00E5A8"/>
+    </g>
+  </defs>
+  
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  
+  <!-- Elementos decorativos -->
+  <g opacity="0.12">
+    <circle cx="200" cy="200" r="100" fill="#00E5A8"/>
+    <circle cx="1720" cy="880" r="120" fill="#00B4D8"/>
+  </g>
+  
+  <!-- Header -->
+  <g transform="translate(120,60)" filter="url(#sh)">
+    <rect x="0" y="0" width="1680" height="100" rx="16" fill="url(#accent)"/>
+    <text x="840" y="66" text-anchor="middle" fill="#062A2D" font-family="Inter, system-ui, -apple-system" font-size="42" font-weight="900">
+      Webinar gratis: Cómo doblar tus ventas online
+    </text>
+    <text x="840" y="90" text-anchor="middle" fill="#0A4D55" font-family="Inter, system-ui, -apple-system" font-size="24" font-weight="600">
+      15 Nov 2025 · 18:00 (GMT-5)
+    </text>
+  </g>
+  
+  <!-- Headline -->
+  <text x="960" y="220" text-anchor="middle" class="headline">Antes vs Después</text>
+  
+  <!-- Columna ANTES -->
+  <g transform="translate(240,280)">
+    <rect x="0" y="0" width="680" height="680" rx="24" fill="url(#before-bg)" stroke="#3A3A5E" stroke-width="2" filter="url(#sh)"/>
+    <!-- Sombra interna -->
+    <rect x="0" y="0" width="680" height="680" rx="24" fill="none" stroke="rgba(0,0,0,0.3)" stroke-width="1"/>
+    <!-- Shine superior -->
+    <rect x="0" y="0" width="680" height="120" rx="24" fill="url(#accent)" opacity="0.08"/>
+    
+    <g transform="translate(340,60)">
+      <use href="#icon-x" transform="translate(-20,-20)"/>
+      <text x="0" y="20" text-anchor="middle" class="column-title">ANTES</text>
+      <text x="0" y="55" text-anchor="middle" class="column-sub">Sin IA</text>
+    </g>
+    
+    <g transform="translate(60,150)">
+      <use href="#icon-x" transform="translate(0,0)"/>
+      <text x="50" y="25" class="feature-bad">Creatividades manuales (8h/día)</text>
+      
+      <use href="#icon-x" transform="translate(0,60)"/>
+      <text x="50" y="85" class="feature-bad">CPA alto por prueba/error</text>
+      
+      <use href="#icon-x" transform="translate(0,120)"/>
+      <text x="50" y="145" class="feature-bad">CRM desorganizado</text>
+      
+      <use href="#icon-x" transform="translate(0,180)"/>
+      <text x="50" y="205" class="feature-bad">Copywriting genérico</text>
+      
+      <use href="#icon-x" transform="translate(0,240)"/>
+      <text x="50" y="265" class="feature-bad">Sin automatizaciones</text>
+      
+      <use href="#icon-x" transform="translate(0,300)"/>
+      <text x="50" y="325" class="feature-bad">Ventas inconsistentes</text>
+    </g>
+    
+    <!-- Gráfico negativo -->
+    <g transform="translate(340,520)" opacity="0.6">
+      <polyline points="0,80 100,75 200,85 300,90 400,95 500,100" fill="none" stroke="#FF6B6B" stroke-width="3"/>
+      <text x="250" y="140" text-anchor="middle" fill="#9FB6FF" font-family="Inter" font-size="20">Rendimiento bajo</text>
+    </g>
+  </g>
+  
+  <!-- Flecha central -->
+  <g transform="translate(920,600)" filter="url(#glow)">
+    <path d="M 0 0 L 40 0" stroke="url(#accent)" stroke-width="6" stroke-linecap="round"/>
+    <polygon points="40,0 30,-8 30,8" fill="url(#accent)"/>
+  </g>
+  
+  <!-- Columna DESPUÉS -->
+  <g transform="translate(1000,280)">
+    <rect x="0" y="0" width="680" height="680" rx="24" fill="url(#after-bg)" stroke="#00C1BE" stroke-width="2" filter="url(#sh)"/>
+    <!-- Sombra interna -->
+    <rect x="0" y="0" width="680" height="680" rx="24" fill="none" stroke="rgba(0,0,0,0.3)" stroke-width="1"/>
+    <!-- Shine superior -->
+    <rect x="0" y="0" width="680" height="120" rx="24" fill="url(#accent)" opacity="0.15"/>
+    
+    <g transform="translate(340,60)">
+      <use href="#icon-check" transform="translate(-20,-20)"/>
+      <text x="0" y="20" text-anchor="middle" class="column-title">DESPUÉS</text>
+      <text x="0" y="55" text-anchor="middle" class="column-sub">Con IA</text>
+    </g>
+    
+    <g transform="translate(60,150)">
+      <use href="#icon-check" transform="translate(0,0)"/>
+      <text x="50" y="25" class="feature-good">Creatividades en 5 min</text>
+      
+      <use href="#icon-check" transform="translate(0,60)"/>
+      <text x="50" y="85" class="feature-good">CPA -35% con prompts optimizados</text>
+      
+      <use href="#icon-check" transform="translate(0,120)"/>
+      <text x="50" y="145" class="feature-good">CRM automatizado</text>
+      
+      <use href="#icon-check" transform="translate(0,180)"/>
+      <text x="50" y="205" class="feature-good">Copy que convierte</text>
+      
+      <use href="#icon-check" transform="translate(0,240)"/>
+      <text x="50" y="265" class="feature-good">Workflows sin código</text>
+      
+      <use href="#icon-check" transform="translate(0,300)"/>
+      <text x="50" y="325" class="feature-good">Ventas 2x más consistentes</text>
+    </g>
+    
+    <!-- Gráfico positivo -->
+    <g transform="translate(340,520)">
+      <use href="#growth-icon" transform="scale(3) translate(-33,-13)"/>
+      <text x="250" y="140" text-anchor="middle" fill="#00E5A8" font-family="Inter" font-size="20" font-weight="700">Rendimiento alto</text>
+    </g>
+  </g>
+  
+  <!-- CTA -->
+  <g transform="translate(690,1020)" filter="url(#sh)">
+    <rect x="0" y="0" width="540" height="114" rx="16" fill="url(#accent)"/>
+    <rect x="0" y="0" width="540" height="114" rx="16" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="2"/>
+    <text x="270" y="74" text-anchor="middle" fill="#062A2D" font-family="Inter, system-ui, -apple-system" font-size="46" font-weight="900">Únete gratis</text>
+    <path d="M470,57 L490,57 L485,47 L500,57 L485,67 L490,57 Z" fill="#062A2D" opacity="0.8"/>
+  </g>
+  
+  <!-- Logo + QR -->
+  <g transform="translate(1680,60)">
+    <rect x="0" y="0" width="160" height="60" rx="8" fill="rgba(255,255,255,0.10)" stroke="rgba(255,255,255,0.20)"/>
+    <text x="80" y="40" text-anchor="middle" fill="#E9FFFB" font-family="Inter, system-ui, -apple-system" font-size="20" font-weight="800">TU MARCA</text>
+  </g>
+  <g transform="translate(1620,870)" filter="url(#sh)">
+    <rect x="0" y="0" width="180" height="180" rx="12" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)"/>
+    <text x="90" y="100" text-anchor="middle" fill="#E9FFFB" font-family="Inter, system-ui, -apple-system" font-size="16" font-weight="700">QR → https://tu-dominio.com/webinar?utm_source=youtube&utm_medium=preroll&utm_campaign=nov_2025&utm_content=all_variants</text>
+  </g>
+</svg>

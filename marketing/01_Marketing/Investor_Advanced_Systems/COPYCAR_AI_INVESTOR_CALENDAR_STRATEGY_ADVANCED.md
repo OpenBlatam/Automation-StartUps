@@ -1,3 +1,11 @@
+---
+title: "Copycar Ai Investor Calendar Strategy Advanced"
+category: "Marketing"
+tags: ["business", "marketing", "strategy"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Investor_advanced_systems/copycar_ai_investor_calendar_strategy_advanced.md"
+---
+
 # COPYCAR.AI INVESTOR CALENDAR STRATEGY - ADVANCED EDITION
 ## The Complete Guide to Strategic Fundraising Timing
 

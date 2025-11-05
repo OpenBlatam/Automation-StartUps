@@ -1,0 +1,67 @@
+---
+title: "Readme"
+category: "20_project_management"
+tags: []
+created: "2025-10-29"
+path: "20_project_management/Other/readme.md"
+---
+
+# Other
+
+## Archivos
+- 20_Project_Management_Checklist.md
+- 26_Project_Management_Playbook.md
+- ADVANCED_AGILE_MANAGEMENT_SUITE.md
+- ADVANCED_PROJECT_MANAGEMENT_SUITE.md
+- Advanced_Supply_Chain_Management.md
+- agile-scrum-avanzado.md
+- ai_ethics_responsible_ai_strategy.md
+- ai_governance_regulatory_strategy.md
+- CHANGE_MANAGEMENT.md
+- change_management_organizational_development.md
+- CHANGELOG.md
+- CLICKUP_BRAIN_DEVELOPMENT_SUMMARY.md
+- Comments.FINAL_SUMMARY.md
+- COPYCAR_AI_IMPLEMENTATION_PLAYBOOK.md
+- COPYCAR_AI_PRACTICAL_IMPLEMENTATION.md
+- EJECUCION_SEGUIMIENTO_HYPER_MEJORADO.md
+- FINAL_SUMMARY.md
+- HERRAMIENTAS_IMPLEMENTACION_PROCESOS_CRITICOS.md
+- IMPLEMENTACION_COMPLETADA.md
+- IMPLEMENTATION_CHECKLIST.md
+- Implementation_Playbook.md
+- implementation_roadmap_milestones.md
+- INDEX.md
+- Investor_Psychology_Playbook.md
+- kit_implementacion_completo.md
+- OPERATIONS_MANAGEMENT.md
+- ORGANIZACION_FINAL.md
+- ORGANIZACION_FINAL_COMPLETA.md
+- ORGANIZACION_FINAL_MEJORADA.md
+- performance_management_strategy.md
+- plan_30_60_90_rol_clave_ia.md
+- PLAN_ACCION_EJECUTIVO.md
+- plan_accion_implementacion_palancas.md
+- plan_accion_integrado_mejorado.md
+- PLAN_CAPACITACION_DESARROLLO_EQUIPO.md
+- plan_contable_mensual_resico_pyme_2025.md
+- plan_continuidad_escalabilidad.md
+- PLAN_ESCALACION_EXPONENCIAL_HYPER.md
+- PLAN_INNOVACION_RD.md
+- plan_internacionalizacion_expansion_global.md
+- plan_lanzamiento_90_dias.md
+- PLAN_LIDERAZGO_GLOBAL.md
+- PLAN_MAESTRO_EJECUCION_CONSOLIDADO.md
+- PLAN_MAESTRO_EJECUCION_DEFINITIVO.md
+- PLAN_MAESTRO_EJECUCION_FINAL.md
+- plan_sostenibilidad_esg_avanzado.md
+- plan_transformacion_digital_completa.md
+- Project_AI_Excellence.md
+- PROJECT_MANAGEMENT.md
+- PROJECT_MASTER_INDEX.md
+- Project_Variants_Options.md
+- ROADMAP.md
+- roadmap_futuras_funcionalidades.md
+- ROADMAP_IMPLEMENTACION_SAAS.md
+- scaling_strategies.md
+

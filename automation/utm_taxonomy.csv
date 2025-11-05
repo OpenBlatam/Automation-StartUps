@@ -1,0 +1,10 @@
+dimension,descripcion,valores_permitidos,ejemplo
+utm_source,Origen del tráfico,"li,email,wa,ads,seo,referral","li"
+utm_medium,Medio/canal,"organic,paid,dm,webinar","dm"
+utm_campaign,Campaña estructurada,"{producto}_{escalon}_{variante}_v{n}","curso_lm_a_v1"
+utm_content,Variante creativa o hook,"a,b,c,urg,proof","a"
+utm_term,Keyword si aplica,libre,"recomendaciones_ia"
+producto,Producto asociado,"curso,saas,bulk","saas"
+escalon,Etapa de la escalera,"lm,tripwire,core,ht","tripwire"
+variante,Identificador de copy/visual,"a,b,c","b"
+version,Iteración de test,"v1,v2,v3","v2"

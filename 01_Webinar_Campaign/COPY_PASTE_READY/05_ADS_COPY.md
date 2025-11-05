@@ -1,3 +1,11 @@
+---
+title: "05 Ads Copy"
+category: "01_webinar_campaign"
+tags: ["ai", "artificial-intelligence"]
+created: "2025-10-29"
+path: "01_webinar_campaign/Copy_paste_ready/05_ads_copy.md"
+---
+
 # 📢 COPY PARA ANUNCIOS - LISTO PARA COPIAR Y PEGAR
 ## *200+ Variantes de Copy para Facebook, Google, LinkedIn y YouTube*
 

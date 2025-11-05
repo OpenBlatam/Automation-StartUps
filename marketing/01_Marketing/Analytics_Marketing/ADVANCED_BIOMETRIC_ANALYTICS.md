@@ -1,3 +1,11 @@
+---
+title: "Advanced Biometric Analytics"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Analytics_marketing/advanced_biometric_analytics.md"
+---
+
 # ANALYTICS BIOMÉTRICOS AVANZADOS
 
 ## 🧠 Visión General

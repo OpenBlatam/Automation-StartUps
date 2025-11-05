@@ -1,0 +1,26 @@
+[
+  {
+    "campaign": "curso_ia_q4",
+    "variant": "Problema_A",
+    "persona": "SaaS_B2B_Manager",
+    "message": "Hola [Nombre], veo que inviertes 10-15h/sem en copy. Nuestro curso de IA te enseña a automatizar 80% en 2 horas. ¿Te envío acceso al webinar?",
+    "link": "https://[URL_BASE]/webinar?utm_source=linkedin&utm_medium=dm&utm_campaign=curso_ia_q4&utm_content=Problema_A",
+    "opt_out": "Si prefieres no recibir mensajes, responde 'stop'"
+  },
+  {
+    "campaign": "saas_trial_q1",
+    "variant": "Fragmentacion_A",
+    "persona": "VP_Marketing",
+    "message": "Hola [Nombre], demasiadas herramientas y poco tiempo. Unificamos copy, personalización y análisis con IA; 40%+ conversiones y -80% tiempo. ¿Te paso acceso al trial 14 días?",
+    "link": "https://[URL_BASE]/trial?utm_source=linkedin&utm_medium=dm&utm_campaign=saas_trial_q1&utm_content=Fragmentacion_A",
+    "opt_out": "Si prefieres no recibir mensajes, responde 'stop'"
+  },
+  {
+    "campaign": "ia_bulk_q4",
+    "variant": "Tiempo_A",
+    "persona": "Consultor",
+    "message": "Hola [Nombre], ¿necesitas generar 100+ documentos con una sola consulta? IA Bulk crea propuestas/contratos/informes en minutos. ¿Te muestro demo 5 min?",
+    "link": "https://[URL_BASE]/demo-bulk?utm_source=linkedin&utm_medium=dm&utm_campaign=ia_bulk_q4&utm_content=Tiempo_A",
+    "opt_out": "Si prefieres no recibir mensajes, responde 'stop'"
+  }
+]

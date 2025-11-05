@@ -1,0 +1,11 @@
+step_id,step_name,owner,status,priority,due_date,dependencies,resources_link,notes
+1,Definir cohorte (20),Growth,Todo,Alta,,,"checklist_lanzamiento_10_pasos.md#definir-cohorte-20","CSV con email/LinkedIn/stack/segmento"
+2,Preparar mensajes (A/B),Marketing Ops,Todo,Alta,,1,"subjects_ab_templates.csv|body_snippets_ab_templates.csv","Tokens listos"
+3,Configurar CRM,RevOps,Todo,Alta,,1,"crm_campos_snippets.md","Propiedades creadas y visibles"
+4,Construir Sequence (7 días),SDR Lead,Todo,Alta,,2,"02_DM_SAAS_IA_MARKETING_ULTIMATE.md","D0/D2/D4/D7 activas"
+5,Insertar CTAs y horarios,SDR,Todo,Media,,4,"02_DM_SAAS_IA_MARKETING_ULTIMATE.md#-banco-de-ctas","2 horarios próximos 48h"
+6,Ajustar horarios por zona,Marketing Ops,Todo,Media,,4,"playbook_horarios_zonas.md","Ventanas AM/PM por zona"
+7,QA previo,QA,Todo,Alta,,4,"qa_checklist_sequences.md","3 envíos internos + móvil"
+8,Activar y monitorear,SDR Lead,Todo,Alta,,7,"google_sheets_dashboard_guia.md|dashboard_minimo_saas_dm_google_sheets.csv","reply_status en CRM"
+9,Follow-ups y tareas,SDR,Todo,Media,,8,,"Bump D3; tareas si replied"
+10,Retroalimentación y next steps,Growth/RevOps,Todo,Media,,8|9,,"Informe 48–72h; cohorte #2"

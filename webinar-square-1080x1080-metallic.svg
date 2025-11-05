@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1A1A1A"/>
+      <stop offset="50%" stop-color="#0F0F0F"/>
+      <stop offset="100%" stop-color="#2A2A2A"/>
+    </linearGradient>
+    <linearGradient id="metallic-silver" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#E8E8E8"/>
+      <stop offset="20%" stop-color="#FFFFFF"/>
+      <stop offset="40%" stop-color="#C0C0C0"/>
+      <stop offset="60%" stop-color="#A0A0A0"/>
+      <stop offset="80%" stop-color="#D0D0D0"/>
+      <stop offset="100%" stop-color="#808080"/>
+    </linearGradient>
+    <linearGradient id="metallic-gold" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFD700"/>
+      <stop offset="20%" stop-color="#FFED4E"/>
+      <stop offset="40%" stop-color="#FFA500"/>
+      <stop offset="60%" stop-color="#FF8C00"/>
+      <stop offset="80%" stop-color="#FFD700"/>
+      <stop offset="100%" stop-color="#B8860B"/>
+    </linearGradient>
+    <radialGradient id="metallic-spotlight" cx="50%" cy="30%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.4)"/>
+      <stop offset="50%" stop-color="rgba(255,255,255,0.1)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+    </radialGradient>
+    <filter id="metallic-shadow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="12"/>
+      <feOffset dx="0" dy="16" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.6"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="specular-reflect" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1" result="blur"/>
+      <feOffset in="blur" dx="2" dy="-2" result="highlight"/>
+      <feComponentTransfer in="highlight">
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode in="SourceGraphic"/>
+        <feMergeNode in="highlight"/>
+      </feMerge>
+    </filter>
+    <style>
+      @font-face { font-family: Inter; src: local('Inter'), local('Arial'); }
+      .headline { font: 900 52px/1.1 Inter, system-ui, -apple-system; fill: url(#metallic-silver); letter-spacing: -1px; text-anchor: middle; filter: url(#specular-reflect); }
+      .subhead { font: 600 22px/1.3 Inter, system-ui, -apple-system; fill: #CCCCCC; text-anchor: middle; }
+      .chip { font: 800 20px/1.2 Inter, system-ui, -apple-system; fill: url(#metallic-gold); text-anchor: middle; filter: url(#specular-reflect); }
+      .cta-text { font: 900 36px/1 Inter, system-ui, -apple-system; fill: #000000; text-anchor: middle; }
+      .benefit { font: 500 18px/1.4 Inter, system-ui, -apple-system; fill: #E0E0E0; }
+    </style>
+    <g id="gear-icon">
+      <circle cx="20" cy="20" r="12" fill="url(#metallic-silver)" filter="url(#specular-reflect)"/>
+      <circle cx="20" cy="20" r="6" fill="#000000"/>
+      <rect x="18" y="0" width="4" height="6" rx="2" fill="url(#metallic-silver)"/>
+      <rect x="18" y="34" width="4" height="6" rx="2" fill="url(#metallic-silver)"/>
+      <rect x="0" y="18" width="6" height="4" rx="2" fill="url(#metallic-silver)"/>
+      <rect x="34" y="18" width="6" height="4" rx="2" fill="url(#metallic-silver)"/>
+    </g>
+    <g id="cta-metallic">
+      <rect x="0" y="0" width="360" height="80" rx="14" fill="url(#metallic-gold)"/>
+      <rect x="0" y="0" width="360" height="40" rx="14" fill="rgba(255,255,255,0.4)"/>
+      <rect x="0" y="0" width="360" height="80" rx="14" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="3" filter="url(#specular-reflect)"/>
+      <ellipse cx="180" cy="15" rx="150" ry="25" fill="rgba(255,255,255,0.3)" opacity="0.8"/>
+    </g>
+  </defs>
+  <rect width="1080" height="1080" fill="url(#bg)"/>
+  <rect width="1080" height="1080" fill="url(#metallic-spotlight)"/>
+  <g opacity="0.12">
+    <use href="#gear-icon" transform="translate(200,200) scale(1.8)"/>
+    <use href="#gear-icon" transform="translate(900,880) scale(2.2) rotate(45)"/>
+  </g>
+  <g transform="translate(60,60)" filter="url(#metallic-shadow)">
+    <rect x="0" y="0" width="960" height="70" rx="12" fill="url(#metallic-silver)"/>
+    <rect x="0" y="0" width="960" height="35" rx="12" fill="rgba(255,255,255,0.6)"/>
+    <rect x="0" y="0" width="960" height="70" rx="12" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2" filter="url(#specular-reflect)"/>
+    <text x="480" y="47" text-anchor="middle" fill="#000000" font-family="Inter" font-size="22" font-weight="900">[FECHA] [HORA]</text>
+  </g>
+  <g transform="translate(540,200)">
+    <text x="0" y="0" class="headline">Webinar Exclusivo</text>
+    <text x="0" y="35" class="subhead">Descubre el Futuro de la IA</text>
+  </g>
+  <g transform="translate(540,320)">
+    <g transform="translate(-200,-40)" filter="url(#metallic-shadow)">
+      <rect x="0" y="0" width="180" height="70" rx="12" fill="rgba(40,40,40,0.8)"/>
+      <rect x="0" y="0" width="180" height="70" rx="12" fill="none" stroke="url(#metallic-silver)" stroke-width="2.5" filter="url(#specular-reflect)"/>
+      <use href="#gear-icon" transform="translate(25,25) scale(0.4)"/>
+      <text x="50" y="30" class="benefit">✓ Beneficio 1</text>
+      <text x="50" y="55" class="benefit" fill="#B0B0B0" font-size="14">Descripción</text>
+    </g>
+    <g transform="translate(0,-40)" filter="url(#metallic-shadow)">
+      <rect x="0" y="0" width="180" height="70" rx="12" fill="rgba(40,40,40,0.8)"/>
+      <rect x="0" y="0" width="180" height="70" rx="12" fill="none" stroke="url(#metallic-silver)" stroke-width="2.5" filter="url(#specular-reflect)"/>
+      <use href="#gear-icon" transform="translate(25,25) scale(0.4)"/>
+      <text x="50" y="30" class="benefit">✓ Beneficio 2</text>
+      <text x="50" y="55" class="benefit" fill="#B0B0B0" font-size="14">Descripción</text>
+    </g>
+    <g transform="translate(200,-40)" filter="url(#metallic-shadow)">
+      <rect x="0" y="0" width="180" height="70" rx="12" fill="rgba(40,40,40,0.8)"/>
+      <rect x="0" y="0" width="180" height="70" rx="12" fill="none" stroke="url(#metallic-silver)" stroke-width="2.5" filter="url(#specular-reflect)"/>
+      <use href="#gear-icon" transform="translate(25,25) scale(0.4)"/>
+      <text x="50" y="30" class="benefit">✓ Beneficio 3</text>
+      <text x="50" y="55" class="benefit" fill="#B0B0B0" font-size="14">Descripción</text>
+    </g>
+  </g>
+  <g transform="translate(540,480)" filter="url(#metallic-shadow)">
+    <use href="#cta-metallic"/>
+    <text x="180" y="50" class="cta-text">REGISTRARME</text>
+  </g>
+  <g transform="translate(540,600)">
+    <g transform="translate(-120,0)" filter="url(#metallic-shadow)">
+      <rect x="0" y="0" width="140" height="48" rx="12" fill="#FFA500" opacity="0.7"/>
+      <rect x="0" y="0" width="140" height="24" rx="12" fill="rgba(255,255,255,0.3)"/>
+      <text x="70" y="32" text-anchor="middle" fill="#000000" font-family="Inter" font-size="18" font-weight="900">🔥 Cupos</text>
+    </g>
+    <g transform="translate(120,0)" filter="url(#metallic-shadow)">
+      <rect x="0" y="0" width="140" height="48" rx="12" fill="url(#metallic-silver)"/>
+      <rect x="0" y="0" width="140" height="24" rx="12" fill="rgba(255,255,255,0.4)"/>
+      <text x="70" y="32" text-anchor="middle" fill="#000000" font-family="Inter" font-size="18" font-weight="900">🎤 En vivo</text>
+    </g>
+  </g>
+  <g transform="translate(540,700)">
+    <g transform="translate(-120,-40)">
+      <rect x="0" y="0" width="70" height="70" rx="8" fill="#FFFFFF" stroke="url(#metallic-gold)" stroke-width="2" filter="url(#specular-reflect)"/>
+      <text x="35" y="85" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="11" font-weight="500">[URL]</text>
+    </g>
+    <g transform="translate(50,-40)">
+      <rect x="0" y="0" width="240" height="70" rx="10" fill="url(#metallic-silver)" opacity="0.2" stroke="url(#metallic-silver)" stroke-width="2" filter="url(#specular-reflect)"/>
+      <text x="120" y="43" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="16" font-weight="600">TU LOGO</text>
+    </g>
+  </g>
+  <text x="540" y="1050" text-anchor="middle" fill="#666666" font-family="Inter" font-size="12" font-weight="400">Términos y condiciones aplican</text>
+</svg>

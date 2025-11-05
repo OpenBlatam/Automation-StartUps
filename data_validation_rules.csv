@@ -1,0 +1,11 @@
+file,field,type,required,allowed_values,pattern,min,max,notes
+body_snippets_ab_templates.csv,objective,string,true,,,(,),"book_demo|reengage|nurture|objection_.*","Usar objetivos soportados"
+body_snippets_ab_templates.csv,channel,string,true,,,(,),,"linkedin|email|whatsapp"
+body_snippets_ab_templates.csv,variant,string,true,,,(,),,"A|B|C"
+utm_builder_template.csv,utm_source,string,true,,, , ,"linkedin|email|whatsapp"
+utm_builder_template.csv,utm_medium,string,true,,, , ,"dm|email|wa"
+utm_builder_template.csv,lead_id,string,false,,,"^[a-z0-9_\-]{3,}$",,
+experiments_ab_log_template.csv,reply_rate,number,true,,,0,1,"proporción 0–1"
+variant_results_rollup_template.csv,period,string,true,,,"^\d{4}-W\d{2}$",,
+crm_field_mapping_template.csv,crm_object,string,true,,,(,),,"Lead|Activity|Opportunity"
+

@@ -1,3 +1,11 @@
+---
+title: "Herramienta Análisis Salud Financiera Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Financial_models/herramienta_análisis_salud_financiera_vc.md"
+---
+
 # 💰 Herramienta de Análisis de Salud Financiera para VC
 
 ## 📋 Descripción General

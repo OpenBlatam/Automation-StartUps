@@ -1,0 +1,33 @@
+{
+  "_comment": "Copia este archivo a tokens.json y completa con tus datos",
+  "url": "https://ejemplo.com",
+  "handle": "@mi_marca",
+  "coupon": "35IA",
+  "cta": "Aprovecha hoy",
+  "brandColors": {
+    "primary": "#7B2FF7",
+    "secondary": "#1E90FF",
+    "accent": "#EE0979",
+    "neutralDark": "#111111",
+    "neutralLight": "#ffffff"
+  },
+  "_examples": {
+    "url_with_utm": "https://ejemplo.com?utm_source=instagram&utm_medium=social&utm_campaign=35IA_48h",
+    "handle_format": "@usuario_sin_espacios",
+    "coupon_format": "CÓDIGO_SIN_ESPACIOS",
+    "cta_examples": [
+      "Aprovecha hoy",
+      "Activa tu cupón",
+      "Compra ahora",
+      "Únete hoy"
+    ],
+    "color_examples": {
+      "azul_morado": { "primary": "#7B2FF7", "secondary": "#1E90FF" },
+      "naranja_rosado": { "primary": "#EE0979", "secondary": "#FF6A00" },
+      "verde_cian": { "primary": "#00E676", "secondary": "#00D4FF" }
+    }
+  }
+}
+
+
+

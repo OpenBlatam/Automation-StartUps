@@ -1,3 +1,11 @@
+---
+title: "Copycar Ai Investor Valuation Masterclass"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Copycar_ai_investor_package/copycar_ai_investor_valuation_masterclass.md"
+---
+
 # COPYCAR.AI INVESTOR VALUATION MASTERCLASS
 ## The Complete Guide to Valuation Excellence
 

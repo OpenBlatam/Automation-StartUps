@@ -1,0 +1,65 @@
+---
+title: "Readme"
+category: "02_finance"
+tags: ["business", "finance"]
+created: "2025-10-29"
+path: "02_finance/Dashboards/readme.md"
+---
+
+# Dashboards
+
+## Archivos
+- dashboard_anchor_texts_20250915_195403.html
+- DASHBOARD_AVANZADO_ANTI_DILUCION.html
+- DASHBOARD_EXECUTIVO_ANTI_DILUCION.html
+- DASHBOARD_EXECUTIVO_ULTRA_AVANZADO.html
+- DASHBOARD_FINANCIERO_INTERACTIVO_IA_SAAS.html
+- DASHBOARD_FINANCIERO_TIEMPO_REAL_IA_MARKETING.py
+- DASHBOARD_METRICAS_DILUCION.html
+- DUE_DILIGENCE_DASHBOARD_V2.html
+- Executive_Dashboard_Mockups.md
+- FINANCIAL_DASHBOARD.html
+- Financial_Dashboard_Templates.xlsx
+- Herramienta_Análisis_Competitivo_Avanzado_Dashboard.md
+- Herramienta_Análisis_Competitivo_Dashboard.md
+- Herramienta_Análisis_Cultura_Organizacional_Dashboard.md
+- Herramienta_Análisis_Customer_Acquisition_Dashboard.md
+- Herramienta_Análisis_Customer_Lifetime_Value_Dashboard.md
+- Herramienta_Análisis_Diversidad_Inclusión_Dashboard.md
+- Herramienta_Análisis_Ecosistema_Innovación_Dashboard.md
+- Herramienta_Análisis_Ecosistema_Startup_Dashboard.md
+- Herramienta_Análisis_Equipo_Dashboard.md
+- Herramienta_Análisis_Escalabilidad_Dashboard.md
+- Herramienta_Análisis_Escenarios_Futuros_Dashboard.md
+- Herramienta_Análisis_Estrategia_Global_Dashboard.md
+- Herramienta_Análisis_Estrategia_Salida_Dashboard.md
+- Herramienta_Análisis_Excelencia_Operacional_Dashboard.md
+- Herramienta_Análisis_Financiero_Dashboard.md
+- Herramienta_Análisis_Go_to_Market_Strategy_Dashboard.md
+- Herramienta_Análisis_Governance_Corporativo_Dashboard.md
+- Herramienta_Análisis_Impacto_Social_Dashboard.md
+- Herramienta_Análisis_Innovación_Disruptiva_Dashboard.md
+- Herramienta_Análisis_Inteligencia_Artificial_Dashboard.md
+- Herramienta_Análisis_Inteligencia_Artificial_Estratégica_Dashboard.md
+- Herramienta_Análisis_Inteligencia_Competitiva_Dashboard.md
+- Herramienta_Análisis_Internacionalización_Dashboard.md
+- Herramienta_Análisis_Mercado_Avanzado_Dashboard.md
+- Herramienta_Análisis_Optimización_Operacional_Dashboard.md
+- Herramienta_Análisis_Panorama_Financiamiento_Dashboard.md
+- Herramienta_Análisis_Producto_Dashboard.md
+- Herramienta_Análisis_Producto_Mercado_Fit_Dashboard.md
+- Herramienta_Análisis_Regulatorio_Dashboard.md
+- Herramienta_Análisis_Resiliencia_Organizacional_Dashboard.md
+- Herramienta_Análisis_Salud_Financiera_Dashboard.md
+- Herramienta_Análisis_Sentimiento_Inversores_Dashboard.md
+- Herramienta_Análisis_Sostenibilidad_Ambiental_Dashboard.md
+- Herramienta_Análisis_Tecnología_Avanzada_Dashboard.md
+- Herramienta_Análisis_Tecnológico_Dashboard.md
+- Herramienta_Análisis_Tendencias_Tecnológicas_Dashboard.md
+- Herramienta_Análisis_Timing_Mercado_Dashboard.md
+- Herramienta_Análisis_Transformación_Digital_Dashboard.md
+- Herramienta_Análisis_Unit_Economics_Dashboard.md
+- Herramienta_Análisis_Ventaja_Competitiva_Sostenible_Dashboard.md
+- Herramienta_Análisis_Ética_Negocios_Dashboard.md
+- INDEX.md
+

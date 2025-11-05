@@ -1,0 +1,83 @@
+[
+  {
+    "variant_id": "Curso_Problema_A",
+    "message_es_mx": "Hola [Nombre], ¿cuántas horas a la semana inviertes en copy? Con IA puedes reducir 10-15h/sem sin perder calidad. ¿Te envío el recurso (<10 min)?",
+    "message_es_es": "Hola [Nombre], ¿cuántas horas semanales dedicas al copy? Con IA puedes ahorrar 10-15h/sem sin perder calidad. ¿Te envío el recurso (<10 min)?",
+    "message_en_us": "Hi [Name], how many hours/week do you spend on copy? With AI you can save 10–15h/week without losing quality. Want the quick resource (<10 min)?",
+    "link": "https://[URL_BASE]/webinar?utm_source=linkedin&utm_medium=dm&utm_campaign=curso_ia_q4&utm_content=Problema_A",
+    "opt_out": "Si prefieres no recibir estos mensajes, responde 'stop'",
+    "campaign": "curso_ia_q4",
+    "utm_content": "Problema_A"
+  },
+  {
+    "variant_id": "Curso_Resultado_B",
+    "message_es_mx": "Hola [Nombre], marketers están subiendo +40% conversiones con IA bien aplicada. Tengo un mini-recurso (<10 min). ¿Te lo mando?",
+    "message_es_es": "Hola [Nombre], marketers están logrando +40% conversiones con IA bien aplicada. Tengo un mini-recurso (<10 min). ¿Te lo envío?",
+    "message_en_us": "Hi [Name], marketers are seeing +40% conversions with applied AI. I have a quick resource (<10 min). Want it?",
+    "link": "https://[URL_BASE]/recurso?utm_source=linkedin&utm_medium=dm&utm_campaign=curso_ia_q4&utm_content=Resultado_B",
+    "opt_out": "Si prefieres no recibir estos mensajes, responde 'stop'",
+    "campaign": "curso_ia_q4",
+    "utm_content": "Resultado_B"
+  },
+  {
+    "variant_id": "Webinar_Problema_A",
+    "message_es_mx": "Hola [Nombre], ¿12-18h/sem en copy? En 90 min te muestro cómo bajarlas con IA (demo en vivo). ¿Te reservo lugar [Fecha]?",
+    "message_es_es": "Hola [Nombre], ¿12-18 h/sem en copy? En 90 min vemos cómo bajarlas con IA (demo en vivo). ¿Te reservo plaza [Fecha]?",
+    "message_en_us": "Hi [Name], 12–18h/week on copy? In 90 min I'll show live how to cut it with AI. Save you a spot [Date]?",
+    "link": "https://[URL_BASE]/registro-webinar?utm_source=linkedin&utm_medium=dm&utm_campaign=webinar_q3&utm_content=Problema_A",
+    "opt_out": "Si prefieres no recibir estos mensajes, responde 'stop'",
+    "campaign": "webinar_q3",
+    "utm_content": "Problema_A"
+  },
+  {
+    "variant_id": "Webinar_Urgencia_B",
+    "message_es_mx": "Hola [Nombre], quedan pocos cupos para el webinar práctico (demo real, cero humo). ¿Te anoto?",
+    "message_es_es": "Hola [Nombre], quedan pocas plazas para el webinar práctico (demo real, cero humo). ¿Te apunto?",
+    "message_en_us": "Hi [Name], few seats left for the hands-on webinar (live demo, no fluff). Want in?",
+    "link": "https://[URL_BASE]/registro-webinar?utm_source=linkedin&utm_medium=dm&utm_campaign=webinar_q3&utm_content=Urgencia_B",
+    "opt_out": "Si prefieres no recibir estos mensajes, responde 'stop'",
+    "campaign": "webinar_q3",
+    "utm_content": "Urgencia_B"
+  },
+  {
+    "variant_id": "SaaS_Fragmentacion_A",
+    "message_es_mx": "Hola [Nombre], demasiadas herramientas y poco tiempo. Unificamos copy, personalización y análisis con IA. Prueba 14 días (sin tarjeta). ¿Link?",
+    "message_es_es": "Hola [Nombre], demasiadas herramientas y poco tiempo. Unificamos copy, personalización y análisis con IA. Prueba 14 días (sin tarjeta). ¿Te paso el enlace?",
+    "message_en_us": "Hi [Name], too many tools, too little time. We unify copy, personalization and analytics with AI. 14-day free trial (no card). Want the link?",
+    "link": "https://[URL_BASE]/trial?utm_source=linkedin&utm_medium=dm&utm_campaign=saas_trial_q1&utm_content=Fragmentacion_A",
+    "opt_out": "Si prefieres no recibir estos mensajes, responde 'stop'",
+    "campaign": "saas_trial_q1",
+    "utm_content": "Fragmentacion_A"
+  },
+  {
+    "variant_id": "SaaS_ROI_A",
+    "message_es_mx": "Hola [Nombre], equipos ven +40% conversión y -80% tiempo operativo con nuestra IA. ¿Te muestro 10 min aplicado a tu caso?",
+    "message_es_es": "Hola [Nombre], equipos ven +40% conversión y -80% tiempo operativo con nuestra IA. ¿Te enseño 10 min aplicado a tu caso?",
+    "message_en_us": "Hi [Name], teams see +40% conversions and -80% ops time with our AI. Show you 10 min tailored to your case?",
+    "link": "https://[URL_BASE]/demo?utm_source=linkedin&utm_medium=dm&utm_campaign=saas_trial_q1&utm_content=ROI_A",
+    "opt_out": "Si prefieres no recibir estos mensajes, responde 'stop'",
+    "campaign": "saas_trial_q1",
+    "utm_content": "ROI_A"
+  },
+  {
+    "variant_id": "Bulk_Tiempo_A",
+    "message_es_mx": "Hola [Nombre], ¿necesitas generar 100+ documentos con una sola consulta? Nuestra IA crea propuestas/contratos/informes en minutos. ¿Demo 5 min?",
+    "message_es_es": "Hola [Nombre], ¿necesitas generar 100+ documentos con una sola consulta? Nuestra IA crea propuestas/contratos/informes en minutos. ¿Demo 5 min?",
+    "message_en_us": "Hi [Name], need 100+ documents from a single prompt? Our AI creates proposals/contracts/reports in minutes. 5-min demo?",
+    "link": "https://[URL_BASE]/demo-bulk?utm_source=linkedin&utm_medium=dm&utm_campaign=ia_bulk_q4&utm_content=Tiempo_A",
+    "opt_out": "Si prefieres no recibir estos mensajes, responde 'stop'",
+    "campaign": "ia_bulk_q4",
+    "utm_content": "Tiempo_A"
+  },
+  {
+    "variant_id": "Bulk_Resultado_B",
+    "message_es_mx": "Hola [Nombre], ahorro típico 90-95% del tiempo en documentación con IA bulk. Te paso ejemplo real. ¿Te interesa?",
+    "message_es_es": "Hola [Nombre], ahorro típico 90-95% del tiempo en documentación con IA bulk. Te envío un ejemplo real. ¿Te interesa?",
+    "message_en_us": "Hi [Name], typical 90–95% time savings on docs with bulk AI. I can share a real example. Interested?",
+    "link": "https://[URL_BASE]/ejemplo-bulk?utm_source=linkedin&utm_medium=dm&utm_campaign=ia_bulk_q4&utm_content=Resultado_B",
+    "opt_out": "Si prefieres no recibir estos mensajes, responde 'stop'",
+    "campaign": "ia_bulk_q4",
+    "utm_content": "Resultado_B"
+  }
+]
+

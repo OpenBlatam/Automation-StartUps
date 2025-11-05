@@ -1,0 +1,254 @@
+[
+  {
+    "path": "11_Dashboard_Metricas_KM_Generado.md",
+    "criticality": "medium",
+    "next_review": null,
+    "days_to_next": null,
+    "priority": 100
+  },
+  {
+    "path": "CHANGELOG_SGCI.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "10_Formulario_Cambio_SOP.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "30_Rol_Ops.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "00_README_SGCI.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "02_Guia_Actualizacion_SOPs.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "11_Dashboard_Metricas_KM_Template.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "08_Convenciones_Nombrado_Rutas.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "29_SLA_Exceptions_Policy.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "27_Calendario_Gobernanza_KM.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "24_Politica_Retencion_Archivado.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "23_Matriz_Permisos_Acceso.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "32_Rol_Tech.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "07_Taxonomia_Metadatos_SGCI.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "06_Charter_Gobernanza_SGCI.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "05_Templates_SGCI.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "20_Plan_Muestreo_Auditoria.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "31_Rol_CS.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "18_OKRs_KM.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "03_Programa_Onboarding_Equipo.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "09_Guia_Busqueda_Uso_Conocimiento.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "00_MANUAL_MAESTRO_SGCI.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "22_Incident_RCA_SOP_Link.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "12_Guia_Contribucion_Revision.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "13_Matriz_RACI_Template.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "19_Programa_Adopcion_Champions.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "25_Reporte_Trimestral_KM_Template.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "26_Microtraining_Template.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "21_Config_SOP_Linter.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "16_Indice_por_Codigo.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "17_Backlog_Deuda_SOPs.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "14_FAQ_SGCI.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "15_Quick_Start_SGCI.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "28_Risk_Register_KM.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "04_Sistema_Auditoria_Interna_KM.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  },
+  {
+    "path": "01_Guia_Documentacion_Procesos.md",
+    "criticality": "medium",
+    "next_review": "2026-04-28",
+    "days_to_next": 179,
+    "priority": 60
+  }
+]

@@ -1,0 +1,207 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="627" viewBox="0 0 1200 627">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0D3A5C"/>
+      <stop offset="100%" stop-color="#233247"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2DD4BF"/>
+      <stop offset="100%" stop-color="#22C1A7"/>
+    </linearGradient>
+    <style>
+      @font-face { font-family: Inter; src: local('Inter'), local('Arial'); }
+      .eyebrow { font: 700 13px/1.2 Inter, Arial, sans-serif; letter-spacing: 0.15em; fill: #7EE3D6; text-transform: uppercase; }
+      .headline { font: 800 64px/1.1 Inter, Arial, sans-serif; fill: #FFFFFF; letter-spacing: -0.02em; }
+      .headline-accent { font: 800 64px/1.1 Inter, Arial, sans-serif; fill: url(#accent); letter-spacing: -0.02em; }
+      .sub { font: 400 24px/1.5 Inter, Arial, sans-serif; fill: #E5E7EB; }
+      .cta { font: 700 24px/1 Inter, Arial, sans-serif; fill: #0D3A5C; letter-spacing: 0.02em; }
+      .small { font: 500 15px/1.4 Inter, Arial, sans-serif; fill: #94A3B8; }
+    </style>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="0" dy="4" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="sparkleGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="logoGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="headlineAccentGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="eyebrowGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="1" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <linearGradient id="badgeGradient" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#111827" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#0A1F2E" stop-opacity="0.95"/>
+    </linearGradient>
+    <linearGradient id="badgeBorderGradient" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#22C1A7" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#2DD4BF" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#22C1A7" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="ctaBorderGradient" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#22C1A7" stop-opacity="0.6"/>
+      <stop offset="50%" stop-color="#2DD4BF" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#22C1A7" stop-opacity="0.6"/>
+    </linearGradient>
+    <filter id="ctaGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="growthLineGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="badgeGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="metricTextGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="backgroundGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="depthLayerGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="12" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#111827" stroke-width="0.5" opacity="0.1"/>
+    </pattern>
+    <!-- Bulk docs icon (stack) + growth line -->
+    <g id="bulk">
+      <rect x="0" y="0" width="90" height="110" rx="8" fill="#1F2937" stroke="#334155"/>
+      <rect x="10" y="16" width="70" height="8" rx="4" fill="#93C5FD" filter="url(#glow)" opacity="0.9"/>
+      <rect x="10" y="34" width="50" height="8" rx="4" fill="#60A5FA" filter="url(#glow)" opacity="0.9"/>
+      <rect x="10" y="52" width="58" height="8" rx="4" fill="#3B82F6" filter="url(#glow)" opacity="0.9"/>
+      <rect x="10" y="70" width="40" height="8" rx="4" fill="#22C1A7" filter="url(#glow)" opacity="0.9"/>
+      <polyline points="0,130 26,120 52,108 78,95 100,88" fill="none" stroke="#22C1A7" stroke-width="3" filter="url(#growthLineGlow)"/>
+      <circle cx="100" cy="88" r="5" fill="#22C1A7" filter="url(#glow)"/>
+    </g>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="627" fill="url(#bg)"/>
+
+  <!-- Right abstract shapes -->
+  <g opacity="0.15">
+    <circle cx="1040" cy="120" r="150" fill="#2D3748"/>
+    <circle cx="1000" cy="270" r="110" fill="#2D3748"/>
+    <circle cx="1110" cy="420" r="135" fill="#2D3748"/>
+  </g>
+  <!-- Additional depth layer -->
+  <g opacity="0.08">
+    <ellipse cx="1120" cy="180" rx="200" ry="100" fill="#111827"/>
+    <ellipse cx="980" cy="350" rx="150" ry="80" fill="#111827"/>
+  </g>
+  <!-- Subtle grid pattern overlay -->
+  <rect width="1200" height="627" fill="url(#grid)" opacity="0.3"/>
+
+  <!-- Top bar with logo placeholder -->
+  <g transform="translate(48,44)">
+    <rect x="0" y="0" width="72" height="72" rx="12" fill="#111827" stroke="#334155" filter="url(#logoGlow)"/>
+    <g transform="translate(16,16)">
+      <rect x="0" y="20" width="12" height="28" rx="2" fill="#60A5FA"/>
+      <rect x="18" y="12" width="12" height="36" rx="2" fill="#3B82F6"/>
+      <rect x="36" y="0" width="12" height="48" rx="2" fill="#22C1A7"/>
+    </g>
+    <text x="96" y="38" class="small" fill="#E5E7EB">Marca/Logo</text>
+  </g>
+
+  <!-- Headline and subcopy -->
+  <g transform="translate(48,158)">
+    <text class="eyebrow" x="0" y="0" filter="url(#eyebrowGlow)">Producción de documentos · A escala</text>
+    <text class="headline" x="0" y="64">Mejora tu ROI en</text>
+    <text class="headline-accent" x="0" y="132" filter="url(#headlineAccentGlow)">+20%</text>
+    <text class="headline" x="0" y="200">con IA Bulk: 3 docs con 1 consulta</text>
+    <text class="sub" x="0" y="245" dy="28">Propuesta, briefing y plan táctico en minutos, sin fricción.</text>
+  </g>
+
+  <!-- Value badges above CTA -->
+  <g transform="translate(48,380)">
+    <rect width="160" height="32" rx="16" fill="url(#badgeGradient)" stroke="url(#badgeBorderGradient)" stroke-width="1.5" opacity="0.95" filter="url(#badgeGlow)"/>
+    <text class="small" x="80" y="20" text-anchor="middle" fill="#7EE3D6" font-size="13px">⚡ 3 docs / 1 consulta</text>
+  </g>
+  <!-- CTA button -->
+  <g transform="translate(48,400)">
+    <rect width="300" height="64" rx="16" fill="url(#accent)" filter="url(#shadow)"/>
+    <rect width="300" height="64" rx="16" fill="none" stroke="url(#accent)" stroke-width="1" opacity="0.3"/>
+    <text class="cta" x="150" y="40" text-anchor="middle">Solicita demo</text>
+    <g filter="url(#glow)" fill="#0D3A5C">
+      <path d="M 250 32 L 270 40 L 250 48" stroke="#0D3A5C" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+
+  <!-- Bulk motif on right -->
+  <g transform="translate(965,180) scale(2.2)">
+    <use href="#bulk"/>
+  </g>
+  <!-- Decorative sparkles/accents -->
+  <g opacity="0.6" transform="translate(840,280)">
+    <circle cx="0" cy="0" r="3" fill="#7EE3D6"/>
+    <circle cx="20" cy="15" r="2" fill="#22C1A7"/>
+    <circle cx="40" cy="-10" r="2.5" fill="#2DD4BF"/>
+  </g>
+
+  <!-- Footnote -->
+  <g transform="translate(48,560)">
+    <text class="small">Formato LinkedIn 1200×627 px · Estilo corporativo azul/gris · Minimalista</text>
+  </g>
+</svg>
+
+
+

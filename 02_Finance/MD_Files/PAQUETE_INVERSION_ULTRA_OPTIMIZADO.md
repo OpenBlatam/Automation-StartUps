@@ -1,3 +1,11 @@
+---
+title: "Paquete Inversion Ultra Optimizado"
+category: "02_finance"
+tags: ["business", "finance"]
+created: "2025-10-29"
+path: "02_finance/Md_files/paquete_inversion_ultra_optimizado.md"
+---
+
 # 🚀 CopyCar.ai - Paquete de Inversión Ultra Optimizado
 
 ## Serie A - $5M | Sistema Completo de Negociación VC Avanzado

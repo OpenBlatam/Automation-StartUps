@@ -1,0 +1,56 @@
+---
+title: "Normalization Log"
+category: "06_documentation"
+tags: []
+encoded_with: "utf-8"
+created: "2025-10-29"
+path: "06_documentation/Documentation/normalization_log.md"
+---
+
+# Log de Normalización
+
+Fecha: 2025-10-29 19:29:44
+
+## Carpetas renombradas: 26
+- 08_ai_artificial_intelligence/Consciousness_systems/SaasAiMarketingPlatform → 08_ai_artificial_intelligence/Consciousness_systems/Saasaimarketingplatform
+- Ai_technology/08_ai_artificial_intelligence/Core_files/AiMarketingWebinarBlogPostRefactored_split → Ai_technology/08_ai_artificial_intelligence/Core_files/Aimarketingwebinarblogpostrefactored_split
+- Ai_technology/08_ai_artificial_intelligence/Core_files/AiCoursesSaasContentStrategy_split → Ai_technology/08_ai_artificial_intelligence/Core_files/Aicoursessaascontentstrategy_split
+- Ai_technology/08_ai_artificial_intelligence/Core_files/AiMarketingWebinarBlogPost_split → Ai_technology/08_ai_artificial_intelligence/Core_files/Aimarketingwebinarblogpost_split
+- Ai_technology/08_ai_artificial_intelligence/Consciousness_systems/SaasAiMarketingPlatform → Ai_technology/08_ai_artificial_intelligence/Consciousness_systems/Saasaimarketingplatform
+- Business_strategy/06_strategy/Md_files/RedditQuoraStrategyUltimateEnhanced_split → Business_strategy/06_strategy/Md_files/Redditquorastrategyultimateenhanced_split
+- 05_technology/FintechAiSaasRoadmap_split → 05_technology/Fintechaisaasroadmap_split
+- Marketing/01_marketing/Ai_marketing_courses/Webinar_system/WebinarSystem → Marketing/01_marketing/Ai_marketing_courses/Webinar_system/Webinarsystem
+- Marketing/01_marketing/Ai_marketing_courses/03_courses_training/CursoIaSaasVentasUltraRevolucionario_split → Marketing/01_marketing/Ai_marketing_courses/03_courses_training/Cursoiasaasventasultrarevolucionario_split
+- Marketing/01_marketing/Documents/SistemaMarketingUltraRevolucionarioFinal_split → Marketing/01_marketing/Documents/Sistemamarketingultrarevolucionariofinal_split
+- Marketing/01_marketing/Documents/BehavioralPsychologyMarketingAnalysis_split → Marketing/01_marketing/Documents/Behavioralpsychologymarketinganalysis_split
+- Marketing/01_marketing/Documents/CierreVentasCursoIa_split → Marketing/01_marketing/Documents/Cierreventascursoia_split
+- Marketing/01_marketing/Documents/PitchDeckMarketingSaasIa_split → Marketing/01_marketing/Documents/Pitchdeckmarketingsaasia_split
+- Marketing/01_marketing/Documents/ModeloFinancieroSaasIaMarketing_split → Marketing/01_marketing/Documents/Modelofinancierosaasiamarketing_split
+- Marketing/01_marketing/Documents/SistemaMarketingUltraRevolucionario_split → Marketing/01_marketing/Documents/Sistemamarketingultrarevolucionario_split
+- Marketing/01_marketing/SaasAiMarketingPlatform → Marketing/01_marketing/Saasaimarketingplatform
+- 02_finance/FrasesPopularesBusquedaGoogle2024UltraCompletoFinal_split → 02_finance/Frasespopularesbusquedagoogle2024ultracompletofinal_split
+- 02_finance/ResumenEjecutivoUltraRevolucionario2025_split → 02_finance/Resumenejecutivoultrarevolucionario2025_split
+- 02_finance/EstrategiasGrowthHackingRedesSociales2024_split → 02_finance/Estrategiasgrowthhackingredessociales2024_split
+- 02_finance/ModeloFinancieroStartupDefinitivo_split → 02_finance/Modelofinancierostartupdefinitivo_split
+- 02_finance/CursosIaSaasMarketing2024_split → 02_finance/Cursosiasaasmarketing2024_split
+- 02_finance/IntegracionEstrategiasMarketingIa2024_split → 02_finance/Integracionestrategiasmarketingia2024_split
+- 01_marketing/Ai_marketing_courses/Webinar_system/WebinarSystem → 01_marketing/Ai_marketing_courses/Webinar_system/Webinarsystem
+- 01_marketing/SaasAiMarketingPlatform → 01_marketing/Saasaimarketingplatform
+- AiTestimonialSaas → Aitestimonialsaas
+- NeuralMarketingSaas → Neuralmarketingsaas
+
+
+## Archivos renombrados: 3
+- GUIA_RAPIDA_PERSONALIZACION_DM.md → guia_rapida_personalizacion_dm.md
+- 07_risk_management/RESUMEN_EJECUTIVO_CURSO_IA_WEBINARS.md → 07_risk_management/resumen_ejecutivo_curso_ia_webinars.md
+- 06_documentation/NORMALIZATION_LOG.md → 06_documentation/normalization_log.md
+
+
+## Archivos .md etiquetados: 3
+- guia_rapida_personalizacion_dm.md
+- 07_risk_management/resumen_ejecutivo_curso_ia_webinars.md
+- 06_documentation/normalization_log.md
+
+
+## Índice de búsqueda
+Generado: search_index.json (8864 entradas)

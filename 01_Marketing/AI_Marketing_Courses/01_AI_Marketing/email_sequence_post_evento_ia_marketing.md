@@ -1,3 +1,11 @@
+---
+title: "Email Sequence Post Evento Ia Marketing"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/Ai_marketing_courses/01_ai_marketing/email_sequence_post_evento_ia_marketing.md"
+---
+
 # 🧠 Secuencia Avanzada de Nurturing Post-Evento: IA Neural para Marketing Consciente
 
 ## 🎯 Estrategia General: "El Camino del Marketing Consciente"

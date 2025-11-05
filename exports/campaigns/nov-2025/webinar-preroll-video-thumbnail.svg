@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0C1636"/>
+      <stop offset="100%" stop-color="#142A66"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#20E3B2"/>
+      <stop offset="100%" stop-color="#00A6FB"/>
+    </linearGradient>
+    <filter id="sh" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6"/>
+      <feOffset dx="0" dy="6" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.4"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  
+  <!-- Elementos decorativos fondo -->
+  <g opacity="0.2">
+    <circle cx="300" cy="200" r="150" fill="#20E3B2"/>
+    <circle cx="1620" cy="880" r="180" fill="#00A6FB"/>
+    <polyline fill="none" stroke="#20E3B2" stroke-width="4" opacity="0.3"
+      points="200,600 400,550 600,480 800,420 1000,360 1200,300"/>
+  </g>
+  
+  <!-- Play button central (estilo thumbnail) -->
+  <g transform="translate(960,540)" filter="url(#sh)">
+    <circle cx="0" cy="0" r="120" fill="url(#accent)"/>
+    <circle cx="0" cy="0" r="100" fill="rgba(255,255,255,0.9)"/>
+    <polygon points="-35,-40  -35,40  50,0" fill="url(#accent)"/>
+  </g>
+  
+  <!-- Texto principal -->
+  <text x="960" y="360" text-anchor="middle" fill="#FFFFFF" font-family="Inter, system-ui, -apple-system" font-size="96" font-weight="900" letter-spacing="-1">
+    Webinar Gratis
+  </text>
+  <text x="960" y="430" text-anchor="middle" fill="#CFEFFF" font-family="Inter, system-ui, -apple-system" font-size="42" font-weight="700">
+    Cómo doblar tus ventas online
+  </text>
+  
+  <!-- Info chips -->
+  <g transform="translate(760,700)">
+    <rect x="0" y="-36" width="200" height="72" rx="12" fill="rgba(255,255,255,0.15)" stroke="#20E3B2" stroke-width="2"/>
+    <text x="100" y="8" text-anchor="middle" fill="#D7FFFA" font-family="Inter, system-ui, -apple-system" font-size="24" font-weight="800">[FECHA]</text>
+    <rect x="220" y="-36" width="180" height="72" rx="12" fill="rgba(255,255,255,0.15)" stroke="#20E3B2" stroke-width="2"/>
+    <text x="310" y="8" text-anchor="middle" fill="#D7FFFA" font-family="Inter, system-ui, -apple-system" font-size="24" font-weight="800">[HORA]</text>
+  </g>
+  
+  <!-- CTA -->
+  <g transform="translate(760,820)" filter="url(#sh)">
+    <rect x="0" y="0" width="400" height="100" rx="16" fill="url(#accent)"/>
+    <text x="200" y="64" text-anchor="middle" fill="#062A2D" font-family="Inter, system-ui, -apple-system" font-size="38" font-weight="900">Ver ahora</text>
+  </g>
+  
+  <!-- Badge esquina -->
+  <g transform="translate(1540,100)" filter="url(#sh)">
+    <rect x="0" y="0" width="280" height="80" rx="16" fill="#FF3B3B"/>
+    <text x="140" y="52" text-anchor="middle" fill="#FFFFFF" font-family="Inter, system-ui, -apple-system" font-size="28" font-weight="900">⚡ EN VIVO</text>
+  </g>
+  
+  <!-- Logo esquina -->
+  <g transform="translate(1680,60)">
+    <rect x="0" y="0" width="160" height="60" rx="8" fill="rgba(255,255,255,0.10)" stroke="rgba(255,255,255,0.20)"/>
+    <text x="80" y="40" text-anchor="middle" fill="#FFFFFF" font-family="Inter, system-ui, -apple-system" font-size="20" font-weight="800">TU LOGO</text>
+  </g>
+</svg>
+
+

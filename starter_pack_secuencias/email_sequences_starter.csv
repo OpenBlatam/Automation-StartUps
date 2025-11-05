@@ -1,0 +1,5 @@
+sequence_name,step,day_offset,channel,subject,variant,body_template,utm_source,utm_medium,utm_campaign,utm_content
+book_demo_email,1,0,email,"2 ideas para subir reply→demo en [empresa]","A","Vi [dato]. Clientes tipo [par] subieron reply→demo 22% en 21 días. ¿Mar/Mié 10:00?",linkedin,email,book_demo_q4,subjectA
+book_demo_email,2,3,email,"Quick win en 21 días","B","Si en 21 días no subimos reply→demo ≥15%, no facturas. 15' para ver encaje. ¿Mié 10:00?",linkedin,email,book_demo_q4,guaranteeB
+nurture_email,1,10,email,"Benchmark [sector] 2024 (tabla práctica)","A","Comparativa de reply, demo, no-show en [sector] 2024. ¿Quieres la plantilla y 10' para calibrar?",linkedin,email,nurture_q4,benchmarkA
+

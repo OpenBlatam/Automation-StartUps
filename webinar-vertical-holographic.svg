@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0A0A1A"/>
+      <stop offset="50%" stop-color="#1A1A2E"/>
+      <stop offset="100%" stop-color="#0F0F23"/>
+    </linearGradient>
+    <linearGradient id="holographic" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF0080"/>
+      <stop offset="14%" stop-color="#FF00FF"/>
+      <stop offset="28%" stop-color="#8000FF"/>
+      <stop offset="42%" stop-color="#0080FF"/>
+      <stop offset="56%" stop-color="#00FFFF"/>
+      <stop offset="70%" stop-color="#00FF80"/>
+      <stop offset="84%" stop-color="#FFFF00"/>
+      <stop offset="100%" stop-color="#FF8000"/>
+    </linearGradient>
+    <radialGradient id="holographic-spot" cx="50%" cy="30%">
+      <stop offset="0%" stop-color="rgba(255,0,128,0.3)"/>
+      <stop offset="30%" stop-color="rgba(128,0,255,0.2)"/>
+      <stop offset="60%" stop-color="rgba(0,255,255,0.15)"/>
+      <stop offset="100%" stop-color="rgba(255,128,0,0)"/>
+    </radialGradient>
+    <filter id="hologlow" x="-200%" y="-200%" width="500%" height="500%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blur"/>
+      <feOffset in="blur" dx="0" dy="0" result="offsetBlur"/>
+      <feFlood flood-color="#00FFFF" flood-opacity="0.6"/>
+      <feComposite in2="offsetBlur" operator="in" result="cyan"/>
+      <feFlood flood-color="#FF00FF" flood-opacity="0.6"/>
+      <feComposite in2="offsetBlur" operator="in" result="magenta"/>
+      <feMerge>
+        <feMergeNode in="cyan"/>
+        <feMergeNode in="magenta"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="holographic-shadow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="10"/>
+      <feOffset dx="0" dy="12" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.5"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      @font-face { font-family: Inter; src: local('Inter'), local('Arial'); }
+      .headline { font: 900 64px/1.1 Inter, system-ui, -apple-system; fill: url(#holographic); letter-spacing: -1px; text-anchor: middle; filter: url(#hologlow); }
+      .subhead { font: 600 26px/1.3 Inter, system-ui, -apple-system; fill: #FFFFFF; text-anchor: middle; filter: url(#hologlow); }
+      .chip { font: 800 24px/1.2 Inter, system-ui, -apple-system; fill: #FFFFFF; text-anchor: middle; }
+      .cta-text { font: 900 42px/1 Inter, system-ui, -apple-system; fill: #000000; text-anchor: middle; }
+      .benefit { font: 500 20px/1.4 Inter, system-ui, -apple-system; fill: #E0E0FF; }
+    </style>
+    <g id="prism-icon">
+      <polygon points="20,5 35,25 20,45 5,25" fill="url(#holographic)" opacity="0.8" filter="url(#hologlow)"/>
+      <polygon points="20,5 35,25 20,45 5,25" fill="none" stroke="url(#holographic)" stroke-width="2"/>
+    </g>
+    <g id="holographic-lines">
+      <path d="M 0 0 L 150 0" stroke="url(#holographic)" stroke-width="2" stroke-linecap="round" filter="url(#hologlow)"/>
+      <circle cx="150" cy="0" r="4" fill="url(#holographic)" filter="url(#hologlow)"/>
+    </g>
+    <pattern id="hologrid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="url(#holographic)" stroke-width="0.6" opacity="0.15"/>
+    </pattern>
+    <g id="cta-holographic">
+      <rect x="0" y="0" width="920" height="120" rx="20" fill="url(#holographic)"/>
+      <rect x="0" y="0" width="920" height="60" rx="20" fill="rgba(255,255,255,0.25)"/>
+      <rect x="0" y="0" width="920" height="120" rx="20" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="3"/>
+    </g>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#bg)"/>
+  <rect width="1080" height="1920" fill="url(#holographic-spot)"/>
+  <rect width="1080" height="1920" fill="url(#hologrid)" opacity="0.4"/>
+  <g opacity="0.5">
+    <use href="#holographic-lines" transform="translate(120,200) rotate(15)"/>
+    <use href="#holographic-lines" transform="translate(900,1700) rotate(-25)"/>
+  </g>
+  <g opacity="0.35">
+    <use href="#prism-icon" transform="translate(200,250) scale(1.5)"/>
+    <use href="#prism-icon" transform="translate(900,1680) scale(2)"/>
+  </g>
+  <g transform="translate(60,80)" filter="url(#holographic-shadow)">
+    <rect x="0" y="0" width="960" height="100" rx="16" fill="rgba(0,0,0,0.6)"/>
+    <rect x="0" y="0" width="960" height="50" rx="16" fill="url(#holographic)" opacity="0.15"/>
+    <rect x="0" y="0" width="960" height="100" rx="16" fill="none" stroke="url(#holographic)" stroke-width="3" filter="url(#hologlow)"/>
+    <text x="480" y="65" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="28" font-weight="900">[FECHA] [HORA]</text>
+  </g>
+  <g transform="translate(540,240)">
+    <text x="0" y="0" class="headline">Webinar Exclusivo</text>
+    <text x="0" y="40" class="subhead">Descubre el Futuro de la IA</text>
+  </g>
+  <g transform="translate(540,400)">
+    <g transform="translate(0,-50)" filter="url(#holographic-shadow)">
+      <rect x="-220" y="0" width="220" height="90" rx="14" fill="rgba(0,0,0,0.5)"/>
+      <rect x="-220" y="0" width="220" height="90" rx="14" fill="none" stroke="url(#holographic)" stroke-width="2.5" filter="url(#hologlow)"/>
+      <use href="#prism-icon" transform="translate(-190,35) scale(0.5)"/>
+      <text x="-150" y="35" class="benefit">✓ Beneficio 1</text>
+      <text x="-150" y="65" class="benefit" fill="#B8B8FF" font-size="16">Descripción</text>
+    </g>
+    <g transform="translate(0,-50)" filter="url(#holographic-shadow)">
+      <rect x="0" y="0" width="220" height="90" rx="14" fill="rgba(0,0,0,0.5)"/>
+      <rect x="0" y="0" width="220" height="90" rx="14" fill="none" stroke="url(#holographic)" stroke-width="2.5" filter="url(#hologlow)"/>
+      <use href="#prism-icon" transform="translate(30,35) scale(0.5)"/>
+      <text x="70" y="35" class="benefit">✓ Beneficio 2</text>
+      <text x="70" y="65" class="benefit" fill="#B8B8FF" font-size="16">Descripción</text>
+    </g>
+  </g>
+  <g transform="translate(540,600)" filter="url(#holographic-shadow)">
+    <g transform="translate(0,-50)">
+      <rect x="-220" y="0" width="220" height="90" rx="14" fill="rgba(0,0,0,0.5)"/>
+      <rect x="-220" y="0" width="220" height="90" rx="14" fill="none" stroke="url(#holographic)" stroke-width="2.5" filter="url(#hologlow)"/>
+      <use href="#prism-icon" transform="translate(-190,35) scale(0.5)"/>
+      <text x="-150" y="35" class="benefit">✓ Beneficio 3</text>
+      <text x="-150" y="65" class="benefit" fill="#B8B8FF" font-size="16">Descripción</text>
+    </g>
+  </g>
+  <g transform="translate(540,800)" filter="url(#holographic-shadow)">
+    <use href="#cta-holographic"/>
+    <text x="460" y="70" class="cta-text">REGISTRARME</text>
+  </g>
+  <g transform="translate(540,980)">
+    <g transform="translate(-120,0)" filter="url(#holographic-shadow)">
+      <rect x="0" y="0" width="160" height="52" rx="14" fill="rgba(255,0,128,0.2)" stroke="url(#holographic)" stroke-width="2.5" filter="url(#hologlow)"/>
+      <text x="80" y="35" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="20" font-weight="900">🔥 Cupos</text>
+    </g>
+    <g transform="translate(120,0)" filter="url(#holographic-shadow)">
+      <rect x="0" y="0" width="160" height="52" rx="14" fill="rgba(0,255,255,0.2)" stroke="url(#holographic)" stroke-width="2.5" filter="url(#hologlow)"/>
+      <text x="80" y="35" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="20" font-weight="900">🎤 En vivo</text>
+    </g>
+  </g>
+  <g transform="translate(540,1680)">
+    <g transform="translate(-120,-40)">
+      <rect x="0" y="0" width="80" height="80" rx="10" fill="#FFFFFF" stroke="url(#holographic)" stroke-width="3" filter="url(#hologlow)"/>
+      <text x="40" y="95" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="12" font-weight="500">[URL]</text>
+    </g>
+    <g transform="translate(60,-40)">
+      <rect x="0" y="0" width="260" height="80" rx="12" fill="rgba(255,255,255,0.1)" stroke="url(#holographic)" stroke-width="2.5" opacity="0.6" filter="url(#hologlow)"/>
+      <text x="130" y="48" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="18" font-weight="600">TU LOGO</text>
+    </g>
+  </g>
+  <text x="540" y="1900" text-anchor="middle" fill="#666666" font-family="Inter" font-size="13" font-weight="400">Términos y condiciones aplican</text>
+</svg>

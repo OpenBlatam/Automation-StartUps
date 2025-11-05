@@ -1,3 +1,11 @@
+---
+title: "Brand Guidelines Template"
+category: "01_marketing"
+tags: ["business", "guide", "marketing", "template"]
+created: "2025-10-29"
+path: "01_marketing/09_brand_management/brand_guidelines_template.md"
+---
+
 # 🎨 Brand Guidelines Template
 
 ## 📊 Brand Overview

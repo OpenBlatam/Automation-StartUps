@@ -1,0 +1,10 @@
+id,offer,niche,language,tone,text,cta,link_base,utm_campaign
+S1,curso,ecommerce,ES,tuteo,"Ahorra 10+ h/sem con IA. Checklist 24h. 8 cupos.",RESERVA,https://tudominio.com/webinar-ia,webinar_ia_short
+S2,saas,B2B,ES,usted,"Campañas en 7 min. ROI día 1. 2 agendas.",AGENDA,https://tudominio.com/demo-saas-ia,saas_demo_short
+S3,bulk,consultoria,ES,tuteo,"Propuestas en 2 min. Ahorra 40h/sem. 3 cupos.",SÍ,https://tudominio.com/demo-ia-bulk,iabulk_demo_short
+S4,curso,general,EN,neutral,"Save 10+ hrs/week. 8 seats.",RESERVE,https://tudominio.com/webinar-ia,webinar_ia_short_en
+S5,saas,B2B,PT,neutral,"Campanhas em 7 min. 2 vagas.",DEMO,https://tudominio.com/demo-saas-ia,saas_demo_short_pt
+S6,bulk,general,EN,neutral,"Full docs from 1 prompt. 3 seats.",YES,https://tudominio.com/demo-ia-bulk,iabulk_demo_short_en
+S7,saas,ecommerce,ES,tuteo,"UGC+ads por SKU. 2 cupos.",DEMO,https://tudominio.com/demo-saas-ia,saas_demo_dtc_short
+S8,curso,educacion,ES,tuteo,"Guiones/lecciones en 1h. 8 cupos.",RESERVA,https://tudominio.com/webinar-ia,webinar_ia_edu_short
+S9,bulk,real_estate,ES,tuteo,"Fichas+comparables en minutos. 3 cupos.",SÍ,https://tudominio.com/demo-ia-bulk,iabulk_demo_re_short

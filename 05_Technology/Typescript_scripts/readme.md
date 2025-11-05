@@ -1,0 +1,72 @@
+---
+title: "Readme"
+category: "05_technology"
+tags: ["technical", "technology"]
+created: "2025-10-29"
+path: "05_technology/Typescript_scripts/readme.md"
+---
+
+# TypeScript_Scripts
+
+## Archivos
+- advancedAnalytics.ts
+- advancedAnalytics_1.ts
+- advancedAnalytics_2.ts
+- advancedAnalytics_3.ts
+- advancedCustomerJourney.ts
+- advancedCustomerJourney_1.ts
+- advancedExperiments.ts
+- advancedExperiments_1.ts
+- advancedFeatures.ts
+- advancedFeatures_1.ts
+- advancedFeedbackProcessor.ts
+- advancedFeedbackProcessor_1.ts
+- advancedPersonalization.ts
+- advancedPersonalization_1.ts
+- advancedPredictiveAnalytics.ts
+- advancedPredictiveAnalytics_1.ts
+- advancedRecommendationEngine.ts
+- advancedRecommendationEngine_1.ts
+- advancedRecommendations.ts
+- advancedRecommendations_1.ts
+- advancedSecurity.ts
+- advancedSecurity_1.ts
+- advancedWorkflows.ts
+- advancedWorkflows_1.ts
+- app.ts
+- app_1.ts
+- app_2.ts
+- app_3.ts
+- automation.ts
+- automation_1.ts
+- content.ts
+- content_1.ts
+- customerFeedback.ts
+- customerFeedback_1.ts
+- feedbackAnalytics.ts
+- feedbackAnalytics_1.ts
+- feedbackController.ts
+- feedbackController_1.ts
+- feedbackMiddleware.ts
+- feedbackMiddleware_1.ts
+- feedbackMiddleware_2.ts
+- feedbackMiddleware_3.ts
+- feedbackMiddleware_4.ts
+- INDEX.md
+- index.ts
+- index_1.ts
+- monitoring.ts
+- monitoring_1.ts
+- notifications.ts
+- notifications_1.ts
+- performanceAnalytics.ts
+- performanceAnalytics_1.ts
+- reporting.ts
+- reporting_1.ts
+- server.ts
+- server_1.ts
+- server_2.ts
+- server_3.ts
+- setup.ts
+- setup_1.ts
+

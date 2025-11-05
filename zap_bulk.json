@@ -1,0 +1,20 @@
+{
+  "version": "v10",
+  "platform_version": "v10",
+  "type": "zap",
+  "name": "IA Bulk: Sheets → 3 Webhooks → Docs → Slack",
+  "description": "Procesa filas 'pendiente', genera 3 docs y notifica",
+  "trigger": {"app": "google_sheets", "event": "new_or_updated_row", "mapping": {"sheet": "Pedidos", "filter": "Estado == 'pendiente'"}},
+  "steps": [
+    {"app": "webhook", "event": "post", "mapping": {"url": "{{secrets.BASE_URL}}/jobs/create-docs", "body": {"jobId": "{{uuid}}", "prompt": "{{row.Prompt}}", "outputs": ["brief","articulo","post"], "metadata": {"cliente": "{{row.ID}}"}}}},
+    {"app": "google_docs", "event": "create_document", "mapping": {"title": "Brief — {{uuid}}", "content": "{{steps[0].response.brief}}"}},
+    {"app": "google_docs", "event": "create_document", "mapping": {"title": "Artículo — {{uuid}}", "content": "{{steps[0].response.articulo}}"}},
+    {"app": "google_docs", "event": "create_document", "mapping": {"title": "Post — {{uuid}}", "content": "{{steps[0].response.post}}"}},
+    {"app": "google_sheets", "event": "update_row", "mapping": {"sheet": "Pedidos", "row_id": "{{row._row}}", "Estado": "completado", "EnlaceBrief": "{{steps[1].doc_url}}", "EnlaceArticulo": "{{steps[2].doc_url}}", "EnlacePost": "{{steps[3].doc_url}}"}},
+    {"app": "slack", "event": "send_message", "mapping": {"channel": "{{secrets.SLACK_CHANNEL}}", "text": "✅ Lote completado: {{row.ID}} — {{steps[1].doc_url}} | {{steps[2].doc_url}} | {{steps[3].doc_url}}"}}
+  ],
+  "variables": [
+    {"key": "secrets.BASE_URL", "value": "https://api.ejemplo.com"},
+    {"key": "secrets.SLACK_CHANNEL", "value": "#alerts"}
+  ]
+}

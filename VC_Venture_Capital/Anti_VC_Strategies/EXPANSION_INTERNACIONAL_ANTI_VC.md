@@ -1,3 +1,11 @@
+---
+title: "Expansion Internacional Anti Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Anti_vc_strategies/expansion_internacional_anti_vc.md"
+---
+
 # 🌍 **EXPANSIÓN INTERNACIONAL ANTI-DEPENDENCIA VC**
 
 ## **ESTRATEGIAS DE CRECIMIENTO GLOBAL PARA STARTUPS SAAS IA LATAM**

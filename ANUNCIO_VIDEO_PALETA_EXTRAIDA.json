@@ -1,0 +1,112 @@
+{
+  "paleta_extraida_assets_existentes": {
+    "fondo_oscuro": {
+      "primario": "#0B2B45",
+      "secundario": "#092A44",
+      "terciario": "#0B1229",
+      "variante": "#10314A",
+      "deep": "#17202B",
+      "ultra": "#0A1620"
+    },
+    "fondo_gris": {
+      "base": "#1F2D3D",
+      "medio": "#2B3A4A",
+      "claro": "#293545"
+    },
+    "accent_azul": {
+      "brillante": "#60A5FA",
+      "medio": "#3B82F6",
+      "oscuro": "#2563EB",
+      "profundo": "#2E86DE",
+      "claro": "#54A0FF",
+      "cyan": "#74C0FC",
+      "sky": "#4DABF7"
+    },
+    "accent_verde": {
+      "brillante": "#00E5A8",
+      "cyan": "#00B4D8",
+      "teal": "#00C1BE",
+      "mint": "#C7FFFA"
+    },
+    "texto": {
+      "blanco": "#FFFFFF",
+      "gris_claro": "#E5E7EB",
+      "gris_medio": "#DBEAFE",
+      "gris_oscuro": "#94A3B8",
+      "gris_texto": "#64748B"
+    },
+    "urgencia": {
+      "rojo": "#FF6B6B",
+      "rojo_claro": "#FF8787"
+    },
+    "validacion": {
+      "verde": "#10B981",
+      "amarillo": "#FFD93D"
+    },
+    "overlay": {
+      "negro_30": "rgba(0,0,0,0.3)",
+      "blanco_08": "rgba(255,255,255,0.08)",
+      "blanco_10": "rgba(255,255,255,0.10)",
+      "blanco_15": "rgba(255,255,255,0.15)",
+      "blanco_20": "rgba(255,255,255,0.20)"
+    }
+  },
+  "aplicacion_por_producto": {
+    "curso_ia": {
+      "fondo": "#092A44",
+      "accent": "#2E86DE",
+      "texto": "#FFFFFF",
+      "urgencia": "#FF6B6B"
+    },
+    "saas_marketing": {
+      "fondo": "#0B2B45",
+      "accent": "#3B82F6",
+      "texto": "#FFFFFF",
+      "urgencia": "#FF6B6B"
+    },
+    "ia_bulk": {
+      "fondo": "#0B1229",
+      "accent": "#00E5A8",
+      "texto": "#FFFFFF",
+      "validacion": "#10B981"
+    }
+  },
+  "fuentes": {
+    "principal": "Inter, system-ui, -apple-system",
+    "fallback": "Arial, sans-serif",
+    "pesos": {
+      "light": 300,
+      "regular": 400,
+      "medium": 500,
+      "semibold": 600,
+      "bold": 700,
+      "extrabold": 800,
+      "black": 900
+    }
+  },
+  "sombras_filtros": {
+    "shadow_light": {
+      "blur": 4,
+      "offset_y": 4,
+      "opacity": 0.3
+    },
+    "shadow_medium": {
+      "blur": 8,
+      "offset_y": 6,
+      "opacity": 0.4
+    },
+    "shadow_heavy": {
+      "blur": 12,
+      "offset_y": 8,
+      "opacity": 0.5
+    }
+  },
+  "notas": {
+    "fuente": "Extraída de assets SVG existentes (webinar-preroll-*.svg, ad_*_*.svg)",
+    "compatibilidad": "Usar en nuevos videos 15s manteniendo consistencia visual",
+    "contraste_minimo": "≥ 4.5:1 (WCAG AA) para texto sobre fondos"
+  }
+}
+
+
+

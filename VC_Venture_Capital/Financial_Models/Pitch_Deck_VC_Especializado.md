@@ -1,3 +1,11 @@
+---
+title: "Pitch Deck Vc Especializado"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Financial_models/pitch_deck_vc_especializado.md"
+---
+
 # 🎯 PITCH DECK VC ESPECIALIZADO
 ## Presentación Estratégica para SaaS IA Copywriting LATAM
 

@@ -1,3 +1,11 @@
+---
+title: "Investor Presentation Visuals"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Investor_presentations/Scripts_templates/investor_presentation_visuals.md"
+---
+
 # 🎨 Investor Presentation Visuals - AI Marketing SaaS
 ## Visual Assets and Design Guidelines for Maximum Impact
 

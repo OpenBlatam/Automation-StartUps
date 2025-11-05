@@ -1,3 +1,11 @@
+---
+title: "Evaluation Rubrics Scoring"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Documents/evaluation_rubrics_scoring.md"
+---
+
 # 📊 AI Marketing SaaS Pitch Evaluation Rubrics & Scoring Systems
 ## Comprehensive Assessment Tools for Pitch Performance
 

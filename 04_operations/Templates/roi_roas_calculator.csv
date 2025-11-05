@@ -1,0 +1,5 @@
+canal,gasto_eur,ingresos_eur,roas,roi_pct
+Search, , ,=IF(B2=0,"",ROUND(D2/B2,2)),=IF(B2=0,"",ROUND((C2-B2)/B2*100,2))
+Social, , ,=IF(B3=0,"",ROUND(C3/B3,2)),=IF(B3=0,"",ROUND((C3-B3)/B3*100,2))
+Email, , ,=IF(B4=0,"",ROUND(C4/B4,2)),=IF(B4=0,"",ROUND((C4-B4)/B4*100,2))
+TOTAL,=SUM(B2:B4),=SUM(C2:C4),=IF(B5=0,"",ROUND(C5/B5,2)),=IF(B5=0,"",ROUND((C5-B5)/B5*100,2))

@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350" role="img" aria-label="-35% en SaaS de IA para Marketing (Ads 4:5)">
+  <title>-35% en SaaS de IA para Marketing · Ads 4:5</title>
+  <desc>Feed vertical 1080x1350 para Instagram Ads.</desc>
+  <defs>
+    <linearGradient id="bgGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FF6A00"/>
+      <stop offset="100%" stop-color="#EE0979"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <rect width="1080" height="1350" fill="url(#bgGradient)"/>
+  
+  <g transform="translate(980, 80)">
+    <circle r="36" fill="#ffffff"/>
+    <text text-anchor="end" x="-12" y="8" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="18" fill="#EE0979">LOGO</text>
+  </g>
+
+  <g transform="translate(160, 200)" filter="url(#shadow)">
+    <rect x="-10" y="-50" rx="14" ry="14" width="260" height="80" fill="#000000" opacity="0.35" stroke="#ffffff" stroke-opacity="0.35"/>
+    <text x="0" y="0" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="36" font-weight="800" fill="#ffffff">Solo 48 horas</text>
+  </g>
+
+  <g transform="translate(120, 480)" filter="url(#shadow)">
+    <text x="0" y="0" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="220" font-weight="900" letter-spacing="-4" fill="#ffffff">-35 %</text>
+  </g>
+
+  <g transform="translate(560, 500)" filter="url(#shadow)">
+    <rect x="0" y="-40" rx="14" ry="14" width="340" height="72" fill="#ffffff" opacity="0.95"/>
+    <text x="170" y="0" text-anchor="middle" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="32" font-weight="800" fill="#EE0979">CUPÓN: 35IA</text>
+  </g>
+
+  <g transform="translate(120, 610)">
+    <text x="0" y="0" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="60" font-weight="800" fill="#ffffff">en SaaS de IA para Marketing</text>
+  </g>
+
+  <g transform="translate(120, 710)" opacity="0.95">
+    <text x="0" y="0" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="34" fill="#FFF4F0">Automatiza campañas, segmentación y contenidos con IA aplicada.</text>
+  </g>
+
+  <g transform="translate(120, 880)" filter="url(#shadow)">
+    <rect x="0" y="-70" rx="18" ry="18" width="480" height="110" fill="#ffffff" stroke="#EE0979" stroke-width="5"/>
+    <text x="240" y="0" text-anchor="middle" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="44" font-weight="900" fill="#EE0979">Aprovecha hoy</text>
+  </g>
+
+  <g transform="translate(120, 1280)" opacity="0.9">
+    <text x="0" y="0" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="28" fill="#FFEAE3">tu-sitio.com · @tu_marca</text>
+  </g>
+</svg>
+
+
+

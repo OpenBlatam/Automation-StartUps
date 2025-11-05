@@ -1,3 +1,11 @@
+---
+title: "Herramienta Análisis Tendencias Tecnológicas Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Financial_models/herramienta_análisis_tendencias_tecnológicas_vc.md"
+---
+
 # 🚀 Herramienta de Análisis de Tendencias Tecnológicas VC
 
 ## 🎯 Objetivo

@@ -1,3 +1,11 @@
+---
+title: "Herramienta Análisis Producto Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Financial_models/herramienta_análisis_producto_vc.md"
+---
+
 # 🚀 HERRAMIENTA DE ANÁLISIS DE PRODUCTO VC
 ## Sistema de Evaluación de Producto para SaaS IA Copywriting LATAM
 

@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E8F5E9"/>
+      <stop offset="50%" stop-color="#C8E6C9"/>
+      <stop offset="100%" stop-color="#A5D6A7"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2E7D32"/>
+      <stop offset="100%" stop-color="#66BB6A"/>
+    </linearGradient>
+    <filter id="sh" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5"/>
+      <feOffset dx="0" dy="6" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.4"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      @font-face { font-family: Inter; src: local('Inter'), local('Arial'); }
+      .headline { font: 900 78px/1.1 Inter, system-ui, -apple-system; fill: #1B5E20; letter-spacing: -1px; }
+      .subhead { font: 600 30px/1.3 Inter, system-ui, -apple-system; fill: #2E7D32; }
+      .cta-text { font: 900 52px/1 Inter, system-ui, -apple-system; fill: #FFFFFF; text-anchor: middle; }
+      .feature { font: 600 26px/1.4 Inter, system-ui, -apple-system; fill: #1B5E20; }
+    </style>
+    <!-- Leaf icon -->
+    <g id="leaf">
+      <path d="M 20 5 Q 5 10 5 25 Q 5 35 15 40 Q 25 45 35 40 Q 45 35 45 25 Q 45 15 35 10 Q 25 5 20 5" fill="#4CAF50" opacity="0.3"/>
+      <path d="M 20 5 Q 5 10 5 25 Q 5 35 15 40 Q 25 45 35 40 Q 45 35 45 25 Q 45 15 35 10 Q 25 5 20 5" fill="none" stroke="#66BB6A" stroke-width="2"/>
+      <path d="M 20 5 L 20 40" stroke="#66BB6A" stroke-width="2"/>
+    </g>
+    <!-- Organic shape -->
+    <g id="organic-blob">
+      <path d="M 50 25 Q 20 10 10 30 Q 0 50 20 60 Q 40 70 60 50 Q 80 30 50 25" fill="#A5D6A7" opacity="0.4"/>
+    </g>
+  </defs>
+  
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  
+  <!-- Organic shapes fondo -->
+  <g opacity="0.3">
+    <use href="#organic-blob" transform="translate(200,150) scale(3)"/>
+    <use href="#organic-blob" transform="translate(1700,900) scale(4) rotate(45)"/>
+    <use href="#organic-blob" transform="translate(500,700) scale(2.5) rotate(-30)"/>
+  </g>
+  
+  <!-- Header organic -->
+  <g transform="translate(120,80)" filter="url(#sh)">
+    <rect x="0" y="0" width="1680" height="100" rx="50" fill="url(#accent)"/>
+    <text x="840" y="66" text-anchor="middle" fill="#FFFFFF" font-family="Inter, system-ui, -apple-system" font-size="42" font-weight="900">
+      Webinar gratis: Cómo doblar tus ventas online
+    </text>
+  </g>
+  
+  <!-- Headline -->
+  <g transform="translate(160,260)">
+    <text x="0" y="0" class="headline">Crecimiento orgánico con IA</text>
+    <text x="0" y="60" class="subhead">15 Nov 2025 · 18:00 (GMT-5)</text>
+  </g>
+  
+  <!-- Features con hojas -->
+  <g transform="translate(160,400)">
+    <g transform="translate(0,0)">
+      <use href="#leaf" transform="translate(0,30) scale(1.5)"/>
+      <text x="60" y="40" class="feature">Prompts que reducen CPA</text>
+    </g>
+    <g transform="translate(0,70)">
+      <use href="#leaf" transform="translate(0,30) scale(1.5)"/>
+      <text x="60" y="40" class="feature">Creatividades sostenibles</text>
+    </g>
+    <g transform="translate(0,140)">
+      <use href="#leaf" transform="translate(0,30) scale(1.5)"/>
+      <text x="60" y="40" class="feature">Automatizaciones que crecen</text>
+    </g>
+  </g>
+  
+  <!-- CTA organic -->
+  <g transform="translate(160,660)" filter="url(#sh)">
+    <rect x="0" y="0" width="580" height="120" rx="60" fill="url(#accent)"/>
+    <text x="290" y="78" text-anchor="middle" class="cta-text">Únete gratis</text>
+  </g>
+  
+  <!-- Badge natural -->
+  <g transform="translate(1540,240)" filter="url(#sh)">
+    <rect x="0" y="0" width="260" height="70" rx="35" fill="#4CAF50"/>
+    <text x="130" y="45" text-anchor="middle" fill="#FFFFFF" font-family="Inter, system-ui, -apple-system" font-size="24" font-weight="900">🌱 Cupos limitados</text>
+  </g>
+  
+  <!-- Logo + QR -->
+  <g transform="translate(1680,60)">
+    <rect x="0" y="0" width="160" height="60" rx="30" fill="rgba(46,125,50,0.2)" stroke="#2E7D32" stroke-width="2"/>
+    <text x="80" y="40" text-anchor="middle" fill="#1B5E20" font-family="Inter, system-ui, -apple-system" font-size="20" font-weight="800">TU MARCA</text>
+  </g>
+  <g transform="translate(1620,870)" filter="url(#sh)">
+    <rect x="0" y="0" width="180" height="180" rx="30" fill="rgba(46,125,50,0.15)" stroke="#2E7D32" stroke-width="2"/>
+    <text x="90" y="100" text-anchor="middle" fill="#1B5E20" font-family="Inter, system-ui, -apple-system" font-size="16" font-weight="700">QR → https://tu-dominio.com/webinar?utm_source=youtube&utm_medium=preroll&utm_campaign=nov_2025&utm_content=all_variants</text>
+  </g>
+</svg>
+

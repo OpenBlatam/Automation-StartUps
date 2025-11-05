@@ -1,3 +1,11 @@
+---
+title: "100 Mitos Ia Contenido Largo Plazo"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Ai_marketing/100_mitos_ia_contenido_largo_plazo.md"
+---
+
 # 100 Mitos sobre IA para Contenido de Largo Plazo
 
 ## Índice de Mitos por Categorías

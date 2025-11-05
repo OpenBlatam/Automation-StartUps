@@ -1,0 +1,19 @@
+offer,niche,lang,tone,cta_group,hour_block_local,weekday,rate_cap_per_hour,variant_pool,notes
+AI Course,ecommerce,ES,tu,A,09-12,Mon-Thu,4,hook1|hook2|hook3,Evitar lunes 8am y viernes 6pm
+AI Course,ecommerce,ES,tu,B,15-18,Mon-Thu,4,hook4|hook5,Usar pruebas sociales día 2
+AI SaaS,b2b_saas,EN,neutral,A,10-13,Mon-Fri,6,hookA|hookB,Agregar caso estudio al 2do DM
+AI SaaS,b2b_saas,EN,neutral,B,14-17,Mon-Fri,6,hookC|hookD,Rotar CTA demo/calendly
+AI Bulk,real_estate,ES,usted,A,11-13,Tue-Thu,5,hook10|hook11,Evitar palabras "garantía"
+AI Bulk,education,PT,voce,A,09-11,Mon-Thu,4,hookP1|hookP2,Mensajes <=180c
+Generic,any,ES,neutral,C,18-20,Mon-Thu,3,ultra1|ultra2,Bumps ultra-cortos
+AI Course,ecommerce,ES,tu,A,12-14,Mon-Thu,5,DM1-U1|DM1-U4,U-series ultra-cortos curso
+AI Course,b2b_saas,EN,neutral,A,10-12,Mon-Fri,5,DM1-U2,EN ultra-short
+AI Course,education,PT,neutral,A,09-11,Mon-Thu,4,DM1-U3,PT ultra-curto
+AI SaaS,b2b_saas,ES,usted,B,11-13,Mon-Fri,6,DM2-U1,Formal B2B
+AI SaaS,ecommerce,ES,tuteo,B,16-18,Mon-Thu,6,DM2-U2,Ecom creatividades
+AI SaaS,startup,EN,neutral,B,14-16,Mon-Fri,6,DM2-U3,Startup EN
+AI Bulk,real_estate,ES,usted,C,12-14,Tue-Thu,5,DM3-U1,RE formales
+AI Bulk,consultoria,ES,tuteo,C,15-17,Mon-Thu,5,DM3-U2,Consultoría
+AI Bulk,general,PT,neutral,C,09-11,Mon-Thu,4,DM3-U4,PT general
+AI Bulk,general,EN,neutral,C,18-20,Mon-Thu,4,DM3-U3,EN general
+

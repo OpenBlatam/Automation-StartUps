@@ -1,3 +1,11 @@
+---
+title: "Advanced Ai Marketing Biology Chemistry"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/Ai_marketing_courses/01_ai_marketing/advanced_ai_marketing_biology_chemistry.md"
+---
+
 # 🧬 Advanced AI Marketing Biology & Chemistry
 
 ## 🔬 Biology-Based AI Marketing Framework

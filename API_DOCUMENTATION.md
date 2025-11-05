@@ -1,536 +1,475 @@
-# 🔌 API Documentation & Integration Guide
-
-## 🚀 Comprehensive API Strategy Framework
-
-### Core API Principles
-- **Developer-First**: APIs designed for developer experience
-- **RESTful Design**: Standard HTTP methods and status codes
-- **Security by Design**: Authentication and authorization built-in
-- **Scalable Architecture**: Handle growth and high traffic
-- **Documentation Excellence**: Clear, comprehensive, and up-to-date
-
-### API Architecture Components
-
-#### 1. **API Design Standards**
-- **RESTful APIs**
-  - Resource-based URLs
-  - HTTP methods (GET, POST, PUT, DELETE)
-  - Status codes
-  - Content negotiation
-  - HATEOAS principles
-
-- **API Versioning**
-  - URL versioning
-  - Header versioning
-  - Content negotiation
-  - Backward compatibility
-  - Deprecation strategies
-
-#### 2. **Authentication & Authorization**
-- **Authentication Methods**
-  - API Keys
-  - OAuth 2.0
-  - JWT tokens
-  - Basic authentication
-  - Certificate-based auth
-
-- **Authorization Models**
-  - Role-based access control (RBAC)
-  - Attribute-based access control (ABAC)
-  - Scope-based permissions
-  - Resource-level permissions
-  - API rate limiting
-
-#### 3. **Data Formats & Standards**
-- **Data Serialization**
-  - JSON (JavaScript Object Notation)
-  - XML (eXtensible Markup Language)
-  - Protocol Buffers
-  - MessagePack
-  - Avro
-
-- **Content Types**
-  - application/json
-  - application/xml
-  - application/octet-stream
-  - multipart/form-data
-  - text/plain
-
-### API Development Lifecycle
-
-#### 1. **Design Phase**
-- **API Specification**
-  - OpenAPI/Swagger specification
-  - API blueprint
-  - RAML (RESTful API Modeling Language)
-  - GraphQL schema
-  - AsyncAPI for event-driven APIs
-
-- **Design Reviews**
-  - API design guidelines
-  - Security review
-  - Performance requirements
-  - Usability testing
-  - Documentation review
-
-#### 2. **Development Phase**
-- **Implementation**
-  - Code generation from specs
-  - Framework selection
-  - Database integration
-  - Business logic implementation
-  - Error handling
-
-- **Testing**
-  - Unit testing
-  - Integration testing
-  - Contract testing
-  - Performance testing
-  - Security testing
-
-#### 3. **Deployment Phase**
-- **API Gateway**
-  - Request routing
-  - Load balancing
-  - Rate limiting
-  - Authentication
-  - Monitoring
-
-- **Documentation**
-  - Interactive documentation
-  - Code examples
-  - SDK generation
-  - Developer portal
-  - Support resources
-
-### API Management Platform
-
-#### 1. **Core Features**
-- **API Gateway**
-  - Request/response transformation
-  - Protocol translation
-  - Caching
-  - Circuit breaker
-  - Retry logic
-
-- **Developer Portal**
-  - API catalog
-  - Interactive documentation
-  - Code samples
-  - SDK downloads
-  - Community features
-
-#### 2. **Advanced Features**
-- **Analytics & Monitoring**
-  - API usage analytics
-  - Performance metrics
-  - Error tracking
-  - Business metrics
-  - Real-time monitoring
-
-- **Security Features**
-  - Threat protection
-  - DDoS mitigation
-  - Bot detection
-  - Data encryption
-  - Compliance reporting
-
-### API Documentation Standards
-
-#### 1. **Documentation Structure**
-- **Overview**
-  - API purpose and capabilities
-  - Getting started guide
-  - Authentication setup
-  - Rate limits and quotas
-  - Support information
-
-- **Endpoints**
-  - Resource descriptions
-  - HTTP methods
-  - Request/response examples
-  - Error codes
-  - Parameter descriptions
-
-#### 2. **Interactive Documentation**
-- **Swagger/OpenAPI**
-  - Interactive API explorer
-  - Try-it-out functionality
-  - Code generation
-  - Schema validation
-  - Mock servers
-
-- **Postman Collections**
-  - Pre-configured requests
-  - Environment variables
-  - Test scripts
-  - Documentation
-  - Team collaboration
-
-### API Security Best Practices
-
-#### 1. **Authentication Security**
-- **Token Management**
-  - Secure token storage
-  - Token expiration
-  - Refresh token rotation
-  - Token revocation
-  - Multi-factor authentication
-
-- **API Key Security**
-  - Key generation
-  - Key rotation
-  - Key scoping
-  - Key monitoring
-  - Key revocation
-
-#### 2. **Data Security**
-- **Data Protection**
-  - Input validation
-  - Output encoding
-  - SQL injection prevention
-  - XSS protection
-  - CSRF protection
-
-- **Privacy Compliance**
-  - GDPR compliance
-  - Data anonymization
-  - Consent management
-  - Data retention
-  - Right to be forgotten
-
-### API Performance Optimization
-
-#### 1. **Caching Strategies**
-- **Response Caching**
-  - HTTP caching headers
-  - CDN integration
-  - Application-level caching
-  - Database query caching
-  - Distributed caching
-
-- **Cache Invalidation**
-  - Time-based expiration
-  - Event-driven invalidation
-  - Version-based invalidation
-  - Manual cache clearing
-  - Cache warming
-
-#### 2. **Performance Monitoring**
-- **Metrics Collection**
-  - Response times
-  - Throughput rates
-  - Error rates
-  - Resource utilization
-  - User experience metrics
-
-- **Performance Optimization**
-  - Database query optimization
-  - Connection pooling
-  - Asynchronous processing
-  - Load balancing
-  - Auto-scaling
-
-### API Testing Strategies
-
-#### 1. **Testing Types**
-- **Unit Testing**
-  - Function testing
-  - Mock services
-  - Test data management
-  - Coverage analysis
-  - Automated testing
-
-- **Integration Testing**
-  - API endpoint testing
-  - Database integration
-  - External service integration
-  - End-to-end testing
-  - Contract testing
-
-#### 2. **Performance Testing**
-- **Load Testing**
-  - Concurrent user simulation
-  - Stress testing
-  - Volume testing
-  - Spike testing
-  - Endurance testing
-
-- **Security Testing**
-  - Penetration testing
-  - Vulnerability scanning
-  - Authentication testing
-  - Authorization testing
-  - Data validation testing
-
-### API Versioning Strategies
-
-#### 1. **Versioning Approaches**
-- **URL Versioning**
-  - Path-based versioning
-  - Query parameter versioning
-  - Header-based versioning
-  - Content negotiation
-  - Backward compatibility
-
-- **Version Management**
-  - Semantic versioning
-  - Version lifecycle
-  - Deprecation policies
-  - Migration guides
-  - Sunset notifications
-
-#### 2. **Backward Compatibility**
-- **Compatibility Rules**
-  - Additive changes only
-  - Non-breaking changes
-  - Optional parameters
-  - Default values
-  - Graceful degradation
-
-### API Analytics & Monitoring
-
-#### 1. **Usage Analytics**
-- **API Metrics**
-  - Request volume
-  - Response times
-  - Error rates
-  - User behavior
-  - Geographic distribution
-
-- **Business Metrics**
-  - API adoption rates
-  - Developer engagement
-  - Revenue attribution
-  - Cost analysis
-  - ROI measurement
-
-#### 2. **Monitoring & Alerting**
-- **Real-time Monitoring**
-  - Health checks
-  - Performance alerts
-  - Error notifications
-  - Capacity alerts
-  - Security alerts
-
-- **Dashboards**
-  - Executive dashboards
-  - Technical dashboards
-  - Business dashboards
-  - Custom dashboards
-  - Mobile dashboards
-
-### API Governance
-
-#### 1. **Governance Framework**
-- **API Standards**
-  - Design guidelines
-  - Naming conventions
-  - Documentation standards
-  - Security requirements
-  - Performance standards
-
-- **Review Process**
-  - Design reviews
-  - Security reviews
-  - Performance reviews
-  - Documentation reviews
-  - Compliance reviews
-
-#### 2. **Lifecycle Management**
-- **API Lifecycle**
-  - Planning phase
-  - Development phase
-  - Testing phase
-  - Deployment phase
-  - Retirement phase
-
-- **Change Management**
-  - Change requests
-  - Impact analysis
-  - Approval process
-  - Implementation
-  - Communication
-
-### Developer Experience
-
-#### 1. **Developer Tools**
-- **SDKs and Libraries**
-  - Language-specific SDKs
-  - Code examples
-  - Sample applications
-  - Testing tools
-  - Debugging tools
-
-- **Developer Portal**
-  - API documentation
-  - Interactive console
-  - Code samples
-  - Tutorials
-  - Community forums
-
-#### 2. **Support & Resources**
-- **Documentation**
-  - Getting started guides
-  - API reference
-  - Tutorials
-  - Best practices
-  - FAQ
-
-- **Support Channels**
-  - Developer support
-  - Community forums
-  - Issue tracking
-  - Status pages
-  - Communication channels
-
-### API Monetization
-
-#### 1. **Monetization Models**
-- **Pricing Strategies**
-  - Freemium models
-  - Usage-based pricing
-  - Tiered pricing
-  - Subscription models
-  - Revenue sharing
-
-- **Billing & Payments**
-  - Usage tracking
-  - Billing systems
-  - Payment processing
-  - Invoice generation
-  - Revenue reporting
-
-#### 2. **Business Models**
-- **API as a Product**
-  - Direct API sales
-  - Partner APIs
-  - Marketplace APIs
-  - White-label APIs
-  - Platform APIs
-
-### Implementation Roadmap
-
-#### Phase 1: Foundation (Months 1-3)
-- **API Strategy**
-  - Business requirements
-  - Technical requirements
-  - Security requirements
-  - Performance requirements
-  - Documentation requirements
-
-- **Platform Setup**
-  - API gateway selection
-  - Development environment
-  - Testing framework
-  - Documentation tools
-  - Monitoring setup
-
-#### Phase 2: Development (Months 4-9)
-- **API Development**
-  - Core API development
-  - Authentication implementation
-  - Documentation creation
-  - Testing implementation
-  - Security implementation
-
-- **Platform Integration**
-  - API gateway configuration
-  - Monitoring setup
-  - Analytics implementation
-  - Developer portal
-  - Support systems
-
-#### Phase 3: Launch (Months 10-12)
-- **Production Deployment**
-  - API deployment
-  - Documentation launch
-  - Developer onboarding
-  - Support establishment
-  - Performance monitoring
-
-- **Optimization**
-  - Performance tuning
-  - User feedback
-  - Documentation updates
-  - Feature enhancement
-  - Scaling planning
-
-### Best Practices
-
-#### 1. **API Design**
-- **RESTful Principles**
-  - Resource-based design
-  - Stateless operations
-  - Cacheable responses
-  - Uniform interface
-  - Client-server architecture
-
-#### 2. **Documentation Excellence**
-- **Comprehensive Documentation**
-  - Clear descriptions
-  - Code examples
-  - Error handling
-  - Authentication guides
-  - Getting started tutorials
-
-### Resources and Support
-
-#### 1. **Learning Resources**
-- **API Development**
-  - Online courses
-  - Documentation
-  - Best practices
-  - Community resources
-  - Certification programs
-
-#### 2. **Expert Support**
-- **Consulting Services**
-  - API strategy development
-  - Implementation support
-  - Security assessment
-  - Performance optimization
-  - Training delivery
-
+---
+title: "Api Documentation"
+category: "api_documentation.md"
+tags: []
+created: "2025-10-29"
+path: "api_documentation.md"
 ---
 
-## 🎯 Quick Actions
+# Documentación de la API
 
-### Immediate Steps
-1. **API Assessment**: Evaluate current API capabilities and gaps
-2. **Strategy Development**: Create comprehensive API roadmap
-3. **Platform Selection**: Choose appropriate API management platform
-4. **Team Development**: Build API development capabilities
+## Base URL
 
-### Key Metrics to Track
-- **API Performance**: Response times and availability
-- **Developer Adoption**: API usage and engagement
-- **Business Impact**: Revenue and cost optimization
-- **Security**: Threat detection and compliance
+```
+http://localhost:5000/api
+```
 
-### Success Indicators
-- **Developer Satisfaction**: High developer experience scores
-- **API Adoption**: Growing usage and engagement
-- **Business Value**: Measurable ROI from API investments
-- **Technical Excellence**: High performance and reliability
+## Autenticación
 
----
+La API utiliza autenticación JWT. Para acceder a los endpoints protegidos, incluye el token en el header `Authorization: Bearer <token>`.
 
-*This API documentation framework provides comprehensive strategies for building, managing, and optimizing APIs that drive business success and developer satisfaction.*
+### Login
+```bash
+curl -X POST http://localhost:5000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username": "admin", "password": "admin123"}'
+```
 
+### Usuarios disponibles (desarrollo):
+- **admin** / admin123 - Acceso completo
+- **manager** / manager123 - Lectura y escritura
+- **viewer** / viewer123 - Solo lectura
 
+## Endpoints
+### Documentación Interactiva (Swagger)
 
+- UI: `http://localhost:5000/api/docs`
+- Especificación: `http://localhost:5000/api/openapi.json`
 
+Puedes probar los endpoints desde el navegador y compartir el archivo OpenAPI.
 
+### Salud del Sistema
 
+#### GET /health
+Devuelve el estado del sistema, base de datos y servicios.
 
+Ejemplo de respuesta:
+```json
+{
+  "status": "ok",
+  "timestamp": "2025-10-30T10:00:00Z",
+  "version": "unknown",
+  "services": {
+    "database": "ok",
+    "notifications": "ok"
+  }
+}
+```
 
+### Productos
+### Integraciones
 
+#### Slack
+- Configurar `SLACK_WEBHOOK_URL` en `.env`
+- Probar: `POST /api/notifications/slack/test` (requiere token admin)
 
+#### Webhooks
+- Configurar `WEBHOOK_URLS` (coma-separado) en `.env`
+- Probar: `POST /api/webhooks/test` (requiere token admin)
 
+#### Telegram
+- Configurar `TELEGRAM_BOT_TOKEN` y `TELEGRAM_CHAT_ID` en `.env`
+- Probar: `POST /api/notifications/telegram/test` (requiere token admin)
 
+### Eventos Automáticos
+### Scheduler (Resumen Diario)
+### Observabilidad
 
+- Todas las respuestas incluyen `X-Request-ID` para correlación de logs.
+- Puedes habilitar logs en JSON (útil para ELK/Datadog) con:
+```
+LOG_JSON=true
+```
 
+### Métricas (Prometheus)
+### Rate Limiting Persistente (Redis)
 
+- Habilita límite por minuto en endpoints usando Redis.
+- Variables en `.env`:
+```
+REDIS_URL=redis://localhost:6379/0
+RATE_LIMIT_PER_MINUTE=60
+```
+- Si Redis no está configurado, el rate limit persistente se desactiva automáticamente.
 
+- Endpoint: `GET /api/metrics`
+- Expuesto si la librería `prometheus_client` está instalada.
+- Incluye:
+  - `http_requests_total{method,endpoint,status}`
+  - `http_request_latency_seconds{method,endpoint}`
+
+Uso sugerido:
+```bash
+curl http://localhost:5000/api/metrics
+```
+
+Opcionalmente, el sistema puede enviar un resumen diario automático por email.
+
+Configuración en `.env`:
+```
+DAILY_SUMMARY_ENABLED=true
+DAILY_SUMMARY_TIME=08:00   # Hora UTC (HH:MM)
+```
+
+Notas:
+- Requiere configurar email en `.env` (MAIL_SERVER, MAIL_USERNAME, etc.).
+- El envío usa la misma lógica que `POST /api/notifications/send-daily-summary`.
+- Al crear una venta (`POST /api/sales`):
+  - Publica evento `sale.created` a Webhooks configurados
+  - Envía notificación a Slack
+  - Si el stock queda por debajo del mínimo: publica `inventory.low_stock` y notifica a Slack
+
+#### GET /products/export
+Exporta productos a CSV. Soporta los mismos filtros que `GET /products` (`q`, `sku`, `category`, `min_price`, `max_price`).
+
+Ejemplo:
+```
+GET /api/products/export?q=pro&category=Electrónica
+```
+
+Descarga `products.csv`.
+
+#### GET /products
+Obtiene productos con filtros, orden y paginación
+
+**Respuesta:**
+**Query params soportados:**
+
+- `page` (int): número de página
+- `per_page` (int): tamaño de página
+- `q` (string): búsqueda en nombre, sku, descripción, categoría
+- `sku` (string): filtra por SKU
+- `category` (string): filtra por categoría
+- `min_price` (float): precio mínimo
+- `max_price` (float): precio máximo
+- `sort` (id|name|sku|category|unit_price|created_at): campo de ordenamiento
+- `order` (asc|desc): dirección de ordenamiento
+
+Si se usa paginación, la respuesta será:
+
+```json
+{
+  "items": [...],
+  "page": 1,
+  "per_page": 20,
+  "total": 125,
+  "pages": 7
+}
+```
+```json
+[
+  {
+    "id": 1,
+    "name": "Producto Ejemplo",
+    "sku": "PROD-001",
+    "description": "Descripción",
+    "category": "Electrónica",
+    "unit_price": 150.0,
+    "cost_price": 100.0,
+    "current_stock": 50,
+    "min_stock_level": 10,
+    "max_stock_level": 100
+  }
+]
+```
+
+#### POST /products
+Crea un nuevo producto
+
+**Body:**
+```json
+{
+  "name": "Nuevo Producto",
+  "sku": "PROD-002",
+  "description": "Descripción",
+  "category": "Categoría",
+  "unit_price": 150.0,
+  "cost_price": 100.0,
+  "min_stock_level": 10,
+  "max_stock_level": 100,
+  "reorder_point": 20,
+  "supplier_id": 1
+}
+```
+
+#### GET /products/{id}
+Obtiene un producto específico
+
+#### PUT /products/{id}
+Actualiza un producto
+
+#### DELETE /products/{id}
+Elimina un producto
+
+### Inventario
+
+#### GET /inventory
+Obtiene el estado actual del inventario (con paginación opcional)
+Soporta `page` y `per_page` con el mismo formato de respuesta paginada que `/products`.
+
+**Respuesta:**
+```json
+[
+  {
+    "product_id": 1,
+    "product_name": "Producto",
+    "sku": "PROD-001",
+    "current_stock": 50,
+    "min_stock_level": 10,
+    "max_stock_level": 100,
+    "status": "normal"
+  }
+]
+```
+
+#### POST /inventory/movements
+Registra un movimiento de inventario
+
+**Body:**
+```json
+{
+  "product_id": 1,
+  "quantity": 100,
+  "movement_type": "in",
+  "reference": "PEDIDO-001",
+  "notes": "Entrada de inventario"
+}
+```
+
+**Tipos de movimiento:**
+- `in`: Entrada
+- `out`: Salida
+- `adjustment`: Ajuste
+
+### Ventas
+#### GET /sales/export
+Exporta ventas a CSV. Soporta `days`, `start_date`, `end_date`, `customer_id`.
+
+Ejemplo:
+```
+GET /api/sales/export?start_date=2024-01-01&end_date=2024-01-31
+```
+
+Descarga `sales.csv`.
+
+#### GET /sales
+Obtiene registros de ventas (con filtros y paginación)
+
+Query params:
+
+- `days` (int): número de días a consultar (default: 30 si no se envía `start_date`)
+- `start_date` (YYYY-MM-DD): fecha de inicio
+- `end_date` (YYYY-MM-DD): fecha de fin
+- `customer_id` (int): filtrar por cliente
+- `page`, `per_page`: paginación opcional
+
+Si se usa paginación, la respuesta incluye `items`, `page`, `per_page`, `total`, `pages`.
+
+Notas de rendimiento:
+- Las respuestas de listas incluyen cabeceras `ETag` y `Cache-Control` para caching ligero en clientes y proxies.
+
+#### POST /sales
+Registra una venta
+
+**Body:**
+```json
+{
+  "product_id": 1,
+  "quantity_sold": 5,
+  "unit_price": 150.0,
+  "sale_date": "2024-01-15T10:30:00",
+  "customer_id": 1
+}
+```
+
+### Alertas
+
+#### GET /alerts
+Obtiene alertas activas
+
+**Query Parameters:**
+- `severity`: Filtrar por severidad (critical, high, medium, low)
+
+**Respuesta:**
+```json
+[
+  {
+    "id": 1,
+    "product_id": 1,
+    "alert_type": "low_stock",
+    "message": "Producto con stock bajo",
+    "severity": "high",
+    "created_at": "2024-01-15T10:30:00"
+  }
+]
+```
+
+#### POST /alerts/check
+Verifica alertas manualmente
+
+### Predicciones
+
+#### GET /forecasts/{product_id}
+Obtiene predicción de demanda para un producto
+
+**Query Parameters:**
+- `days`: Días a predecir (default: 30)
+
+**Respuesta:**
+```json
+{
+  "product_id": 1,
+  "predicted_demand": 150.5,
+  "algorithm": "moving_average",
+  "confidence": 0.85,
+  "data_points": 30
+}
+```
+
+### Reposición
+
+#### GET /replenishment/recommendations
+Obtiene recomendaciones de reposición
+
+**Respuesta:**
+```json
+[
+  {
+    "product_id": 1,
+    "product_name": "Producto",
+    "current_stock": 10,
+    "recommended_quantity": 100,
+    "urgency": "high",
+    "estimated_cost": 10000.0
+  }
+]
+```
+
+### KPIs
+
+#### GET /kpis
+Obtiene todos los KPIs del sistema
+
+**Respuesta:**
+```json
+{
+  "inventory": {
+    "total_products": 10,
+    "total_value": 15000.0,
+    "low_stock_count": 2
+  },
+  "sales": {
+    "total_revenue": 5000.0,
+    "growth_rate": 0.15
+  },
+  "financial": {
+    "profit_margin": 0.33
+  }
+}
+```
+
+## Códigos de Estado HTTP
+
+- `200`: OK - Solicitud exitosa
+- `201`: Created - Recurso creado exitosamente
+- `400`: Bad Request - Solicitud inválida
+- `404`: Not Found - Recurso no encontrado
+- `500`: Internal Server Error - Error del servidor
+- `429`: Too Many Requests - Rate limit excedido
+
+## Ejemplos de Uso
+
+Ver archivo `examples/api_examples.py` para ejemplos completos en Python.
+
+### Ejemplo con curl
+
+```bash
+# 1. Login para obtener token
+TOKEN=$(curl -s -X POST http://localhost:5000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username": "admin", "password": "admin123"}' | jq -r '.token')
+
+# 2. Obtener todos los productos (requiere autenticación)
+curl -H "Authorization: Bearer $TOKEN" http://localhost:5000/api/products
+
+# 3. Crear un producto
+curl -X POST http://localhost:5000/api/products \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -d '{
+    "name": "Producto Test",
+    "sku": "TEST-001",
+    "unit_price": 100.0,
+    "cost_price": 50.0
+  }'
+
+# 4. Obtener alertas
+curl -H "Authorization: Bearer $TOKEN" http://localhost:5000/api/alerts?severity=critical
+
+# 5. Exportar productos a Excel
+curl -H "Authorization: Bearer $TOKEN" http://localhost:5000/api/products/export/excel -o productos.xlsx
+
+# 6. Obtener reporte de ventas diarias
+curl -H "Authorization: Bearer $TOKEN" http://localhost:5000/api/reports/sales/daily?days=7
+```
+
+### Ejemplo con Python
+
+```python
+import requests
+
+# 1. Login para obtener token
+login_data = {"username": "admin", "password": "admin123"}
+response = requests.post('http://localhost:5000/api/auth/login', json=login_data)
+token = response.json()['token']
+
+# 2. Headers con autenticación
+headers = {"Authorization": f"Bearer {token}"}
+
+# 3. Obtener productos
+response = requests.get('http://localhost:5000/api/products', headers=headers)
+products = response.json()
+
+# 4. Crear producto
+new_product = {
+    "name": "Nuevo Producto",
+    "sku": "NP-001",
+    "unit_price": 100.0,
+    "cost_price": 50.0
+}
+response = requests.post(
+    'http://localhost:5000/api/products',
+    json=new_product,
+    headers=headers
+)
+
+# 5. Obtener dashboard
+response = requests.get('http://localhost:5000/api/dashboard/summary', headers=headers)
+dashboard = response.json()
+
+# 6. Exportar a Excel
+response = requests.get('http://localhost:5000/api/products/export/excel', headers=headers)
+with open('productos.xlsx', 'wb') as f:
+    f.write(response.content)
+```
+
+## Rate Limiting
+
+Algunos endpoints tienen rate limiting configurado (por defecto 60 requests por minuto).
+
+Las respuestas incluyen headers:
+- `X-RateLimit-Limit`: Límite de requests
+- `X-RateLimit-Remaining`: Requests restantes
+
+## Manejo de Errores
+
+Todas las respuestas de error siguen este formato:
+
+```json
+{
+  "error": true,
+  "message": "Descripción del error",
+  "timestamp": "2024-01-15T10:30:00"
+}
+```
 

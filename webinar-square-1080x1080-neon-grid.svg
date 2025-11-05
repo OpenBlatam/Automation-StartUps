@@ -1,0 +1,166 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#000000"/>
+      <stop offset="50%" stop-color="#050510"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+    <linearGradient id="neon-cyan" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00FFFF"/>
+      <stop offset="50%" stop-color="#00CCFF"/>
+      <stop offset="100%" stop-color="#0099FF"/>
+    </linearGradient>
+    <linearGradient id="neon-magenta" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF00FF"/>
+      <stop offset="50%" stop-color="#FF00CC"/>
+      <stop offset="100%" stop-color="#CC00FF"/>
+    </linearGradient>
+    <linearGradient id="neon-green" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00FF00"/>
+      <stop offset="50%" stop-color="#00FF66"/>
+      <stop offset="100%" stop-color="#00FF99"/>
+    </linearGradient>
+    <filter id="neon-glow-intense" x="-200%" y="-200%" width="500%" height="500%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blur"/>
+      <feOffset in="blur" dx="0" dy="0" result="offsetBlur"/>
+      <feFlood flood-color="#00FFFF" flood-opacity="0.8"/>
+      <feComposite in2="offsetBlur" operator="in" result="cyan"/>
+      <feFlood flood-color="#FF00FF" flood-opacity="0.6"/>
+      <feComposite in2="offsetBlur" operator="in" result="magenta"/>
+      <feMerge>
+        <feMergeNode in="cyan"/>
+        <feMergeNode in="magenta"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="neon-shadow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="10"/>
+      <feOffset dx="0" dy="12" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.5"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      @font-face { font-family: Inter; src: local('Inter'), local('Arial'); }
+      .headline { font: 900 52px/1.1 Inter, system-ui, -apple-system; fill: #FFFFFF; letter-spacing: -1px; text-anchor: middle; filter: url(#neon-glow-intense); }
+      .subhead { font: 600 22px/1.3 Inter, system-ui, -apple-system; fill: #00FFFF; text-anchor: middle; filter: url(#neon-glow-intense); }
+      .chip { font: 800 20px/1.2 Inter, system-ui, -apple-system; fill: #FFFFFF; text-anchor: middle; }
+      .cta-text { font: 900 36px/1 Inter, system-ui, -apple-system; fill: #000000; text-anchor: middle; }
+      .benefit { font: 500 18px/1.4 Inter, system-ui, -apple-system; fill: #E0FFFF; }
+    </style>
+    <pattern id="neon-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="url(#neon-cyan)" stroke-width="1" opacity="0.5" filter="url(#neon-glow-intense)"/>
+      <circle cx="20" cy="20" r="1.5" fill="url(#neon-cyan)" opacity="0.7" filter="url(#neon-glow-intense)"/>
+    </pattern>
+    <g id="grid-line-h">
+      <line x1="0" y1="0" x2="150" y2="0" stroke="url(#neon-cyan)" stroke-width="1.5" filter="url(#neon-glow-intense)"/>
+      <circle cx="150" cy="0" r="3" fill="url(#neon-cyan)" filter="url(#neon-glow-intense)"/>
+    </g>
+    <g id="grid-line-v">
+      <line x1="0" y1="0" x2="0" y2="150" stroke="url(#neon-magenta)" stroke-width="1.5" filter="url(#neon-glow-intense)"/>
+      <circle cx="0" cy="150" r="3" fill="url(#neon-magenta)" filter="url(#neon-glow-intense)"/>
+    </g>
+    <g id="grid-node">
+      <circle cx="0" cy="0" r="6" fill="url(#neon-cyan)" filter="url(#neon-glow-intense)"/>
+      <circle cx="0" cy="0" r="3" fill="#FFFFFF"/>
+      <line x1="-10" y1="0" x2="10" y2="0" stroke="url(#neon-magenta)" stroke-width="1.5" filter="url(#neon-glow-intense)"/>
+      <line x1="0" y1="-10" x2="0" y2="10" stroke="url(#neon-magenta)" stroke-width="1.5" filter="url(#neon-glow-intense)"/>
+    </g>
+    <g id="cta-neon-grid">
+      <rect x="0" y="0" width="360" height="80" rx="14" fill="rgba(0,0,0,0.9)"/>
+      <rect x="0" y="0" width="360" height="80" rx="14" fill="url(#neon-grid)" opacity="0.25"/>
+      <rect x="0" y="0" width="360" height="40" rx="14" fill="rgba(0,255,255,0.1)"/>
+      <rect x="0" y="0" width="360" height="80" rx="14" fill="none" stroke="url(#neon-cyan)" stroke-width="3" filter="url(#neon-glow-intense)"/>
+      <line x1="90" y1="0" x2="90" y2="80" stroke="url(#neon-magenta)" stroke-width="1" opacity="0.4" filter="url(#neon-glow-intense)"/>
+      <line x1="180" y1="0" x2="180" y2="80" stroke="url(#neon-magenta)" stroke-width="1" opacity="0.4" filter="url(#neon-glow-intense)"/>
+      <line x1="270" y1="0" x2="270" y2="80" stroke="url(#neon-magenta)" stroke-width="1" opacity="0.4" filter="url(#neon-glow-intense)"/>
+      <line x1="0" y1="40" x2="360" y2="40" stroke="url(#neon-green)" stroke-width="1" opacity="0.4" filter="url(#neon-glow-intense)"/>
+    </g>
+  </defs>
+  <rect width="1080" height="1080" fill="url(#bg)"/>
+  <rect width="1080" height="1080" fill="url(#neon-grid)" opacity="0.35"/>
+  <g opacity="0.5">
+    <use href="#grid-line-h" transform="translate(120,140) rotate(15)"/>
+    <use href="#grid-line-h" transform="translate(850,900) rotate(-25)"/>
+    <use href="#grid-line-v" transform="translate(300,150)"/>
+    <use href="#grid-line-v" transform="translate(800,250)"/>
+  </g>
+  <g opacity="0.7">
+    <use href="#grid-node" transform="translate(400,250) scale(1)"/>
+    <use href="#grid-node" transform="translate(700,300) scale(1)"/>
+    <use href="#grid-node" transform="translate(300,850) scale(1)"/>
+    <use href="#grid-node" transform="translate(800,900) scale(1)"/>
+  </g>
+  <g transform="translate(60,60)" filter="url(#neon-shadow)">
+    <rect x="0" y="0" width="960" height="70" rx="12" fill="rgba(0,0,0,0.8)"/>
+    <rect x="0" y="0" width="960" height="70" rx="12" fill="url(#neon-grid)" opacity="0.15"/>
+    <rect x="0" y="0" width="960" height="35" rx="12" fill="rgba(0,255,255,0.1)"/>
+    <rect x="0" y="0" width="960" height="70" rx="12" fill="none" stroke="url(#neon-cyan)" stroke-width="3" filter="url(#neon-glow-intense)"/>
+    <use href="#grid-node" transform="translate(70,35) scale(0.5)"/>
+    <use href="#grid-node" transform="translate(890,35) scale(0.5)"/>
+    <text x="480" y="47" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="22" font-weight="900">[FECHA] [HORA]</text>
+  </g>
+  <g transform="translate(540,200)">
+    <text x="0" y="0" class="headline">Webinar Exclusivo</text>
+    <text x="0" y="35" class="subhead">Descubre el Futuro de la IA</text>
+  </g>
+  <g transform="translate(540,320)">
+    <g transform="translate(-200,-40)" filter="url(#neon-shadow)">
+      <rect x="0" y="0" width="180" height="70" rx="14" fill="rgba(0,0,0,0.7)"/>
+      <rect x="0" y="0" width="180" height="70" rx="14" fill="url(#neon-grid)" opacity="0.12"/>
+      <rect x="0" y="0" width="180" height="70" rx="14" fill="none" stroke="url(#neon-cyan)" stroke-width="2.5" filter="url(#neon-glow-intense)"/>
+      <use href="#grid-node" transform="translate(25,25) scale(0.4)"/>
+      <text x="50" y="30" class="benefit">✓ Beneficio 1</text>
+      <text x="50" y="55" class="benefit" fill="#B8FFFF" font-size="14">Descripción</text>
+    </g>
+    <g transform="translate(0,-40)" filter="url(#neon-shadow)">
+      <rect x="0" y="0" width="180" height="70" rx="14" fill="rgba(0,0,0,0.7)"/>
+      <rect x="0" y="0" width="180" height="70" rx="14" fill="url(#neon-grid)" opacity="0.12"/>
+      <rect x="0" y="0" width="180" height="70" rx="14" fill="none" stroke="url(#neon-magenta)" stroke-width="2.5" filter="url(#neon-glow-intense)"/>
+      <use href="#grid-node" transform="translate(25,25) scale(0.4)"/>
+      <text x="50" y="30" class="benefit">✓ Beneficio 2</text>
+      <text x="50" y="55" class="benefit" fill="#FFB8FF" font-size="14">Descripción</text>
+    </g>
+    <g transform="translate(200,-40)" filter="url(#neon-shadow)">
+      <rect x="0" y="0" width="180" height="70" rx="14" fill="rgba(0,0,0,0.7)"/>
+      <rect x="0" y="0" width="180" height="70" rx="14" fill="url(#neon-grid)" opacity="0.12"/>
+      <rect x="0" y="0" width="180" height="70" rx="14" fill="none" stroke="url(#neon-green)" stroke-width="2.5" filter="url(#neon-glow-intense)"/>
+      <use href="#grid-node" transform="translate(25,25) scale(0.4)"/>
+      <text x="50" y="30" class="benefit">✓ Beneficio 3</text>
+      <text x="50" y="55" class="benefit" fill="#B8FFB8" font-size="14">Descripción</text>
+    </g>
+  </g>
+  <g transform="translate(540,480)" filter="url(#neon-shadow)">
+    <use href="#cta-neon-grid"/>
+    <text x="180" y="50" class="cta-text">REGISTRARME</text>
+  </g>
+  <g transform="translate(540,600)">
+    <g transform="translate(-120,0)" filter="url(#neon-shadow)">
+      <rect x="0" y="0" width="140" height="48" rx="12" fill="rgba(0,255,255,0.2)" stroke="url(#neon-cyan)" stroke-width="2.5" filter="url(#neon-glow-intense)"/>
+      <use href="#grid-node" transform="translate(12,24) scale(0.25)"/>
+      <text x="70" y="32" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="18" font-weight="900">🔥 Cupos</text>
+    </g>
+    <g transform="translate(120,0)" filter="url(#neon-shadow)">
+      <rect x="0" y="0" width="140" height="48" rx="12" fill="rgba(255,0,255,0.2)" stroke="url(#neon-magenta)" stroke-width="2.5" filter="url(#neon-glow-intense)"/>
+      <use href="#grid-node" transform="translate(12,24) scale(0.25)"/>
+      <text x="70" y="32" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="18" font-weight="900">🎤 En vivo</text>
+    </g>
+  </g>
+  <g transform="translate(540,700)">
+    <g transform="translate(-120,-40)">
+      <rect x="0" y="0" width="70" height="70" rx="10" fill="#FFFFFF" stroke="url(#neon-cyan)" stroke-width="3" filter="url(#neon-glow-intense)"/>
+      <rect x="0" y="0" width="70" height="70" rx="10" fill="url(#neon-grid)" opacity="0.15"/>
+      <text x="35" y="85" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="11" font-weight="500">[URL]</text>
+    </g>
+    <g transform="translate(50,-40)">
+      <rect x="0" y="0" width="240" height="70" rx="12" fill="rgba(255,255,255,0.1)" stroke="url(#neon-cyan)" stroke-width="2.5" opacity="0.6" filter="url(#neon-glow-intense)"/>
+      <rect x="0" y="0" width="240" height="70" rx="12" fill="url(#neon-grid)" opacity="0.1"/>
+      <text x="120" y="43" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="16" font-weight="600">TU LOGO</text>
+    </g>
+  </g>
+  <text x="540" y="1050" text-anchor="middle" fill="#666666" font-family="Inter" font-size="12" font-weight="400">Términos y condiciones aplican</text>
+</svg>

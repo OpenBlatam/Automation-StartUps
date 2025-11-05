@@ -1,0 +1,8 @@
+template_name,language,use_case,status,category,last_updated,notes
+promo_es,ES,promo,approved,MARKETING,2025-10-30,Usar para ecommerce ES
+order_update,ES,transactional,approved,UTILITY,2025-10-30,Confirmaciones
+boas_vindas,PT,onboarding,approved,AUTHENTICATION,2025-10-30,PT bienvenida
+pricing_update,EN,info,approved,MARKETING,2025-10-30,EN info pricing
+reminder_es,ES,reminder,pending,MARKETING,2025-10-30,Esperando aprobación
+followup_en,EN,followup,rejected,MARKETING,2025-10-30,Revisar copy
+

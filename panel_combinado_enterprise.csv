@@ -1,0 +1,8 @@
+metric,dimension,descripcion,valor,formula
+Total_tareas,region,Conteo tareas por región,,=QUERY(Origen!A:E,"select E, count(A) where E is not null group by E label count(A) ''",0)
+Completadas,region,Tareas Done por región,,=QUERY(Origen!A:E,"select E, count(A) where C='Done' group by E label count(A) ''",0)
+Vencidas,region,Tareas vencidas por región,,=QUERY(Origen!A:E,"select E, count(A) where E < date '"&TEXT(TODAY(),"yyyy-mm-dd")&"' and C <> 'Done' group by E label count(A) ''",0)
+Total_tareas,stack,Conteo tareas por stack,,=QUERY(Origen!A:F,"select F, count(A) where F is not null group by F label count(A) ''",0)
+Completadas,stack,Tareas Done por stack,,=QUERY(Origen!A:F,"select F, count(A) where C='Done' group by F label count(A) ''",0)
+ROI_mensual,global,ROI mensual (global),,=INDEX(ROI_Snapshot!C:C, MATCH("ROI mensual", ROI_Snapshot!A:A, 0))
+Payback_meses,global,Payback (meses) global,,=INDEX(ROI_Snapshot!C:C, MATCH("Payback meses", ROI_Snapshot!A:A, 0))

@@ -1,3 +1,11 @@
+---
+title: "Email Campaign Templates"
+category: "01_marketing"
+tags: ["business", "marketing", "template"]
+created: "2025-10-29"
+path: "01_marketing/04_email_marketing/email_campaign_templates.md"
+---
+
 # ✉️ Email Campaign Templates
 
 ## 🎯 Welcome Series Templates

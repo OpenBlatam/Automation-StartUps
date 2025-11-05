@@ -1,3 +1,11 @@
+---
+title: "Herramienta Análisis Ecosistema Innovación Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Financial_models/herramienta_análisis_ecosistema_innovación_vc.md"
+---
+
 # 🌟 Herramienta de Análisis de Ecosistema de Innovación VC
 
 ## 🎯 Objetivo

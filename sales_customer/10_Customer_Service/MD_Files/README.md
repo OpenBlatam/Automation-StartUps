@@ -1,3 +1,11 @@
+---
+title: "Readme"
+category: "Sales_customer"
+tags: []
+created: "2025-10-29"
+path: "Sales_customer/10_customer_service/Md_files/readme.md"
+---
+
 # Customer Service
 
 ## 📋 Descripción

@@ -1,7 +1,10 @@
-# Vip Programs
+---
+title: "Readme"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Vip_programs/readme.md"
+---
 
-Subcategoría de 01_Marketing
+# VIP_Programs
 
-## Archivos:
-
-- README.md

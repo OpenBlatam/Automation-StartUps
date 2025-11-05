@@ -1,0 +1,55 @@
+name: Validate Assets
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'design/**'
+      - 'ads/**'
+      - 'tools/**'
+  pull_request:
+    branches: [ main, master ]
+    paths:
+      - 'design/**'
+      - 'ads/**'
+      - 'tools/**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: |
+        npm install -g qrcode svgo
+        npm install
+    
+    - name: Run CI validation
+      run: |
+        chmod +x tools/*.sh
+        bash tools/ci_validate.sh
+    
+    - name: Run health check
+      run: bash tools/health_check.sh || true
+    
+    - name: Generate reports
+      run: |
+        bash tools/generate_full_report.sh || true
+    
+    - name: Upload reports
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: validation-reports
+        path: exports/reports/*
+        retention-days: 7
+
+

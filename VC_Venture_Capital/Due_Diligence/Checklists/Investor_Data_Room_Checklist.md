@@ -1,3 +1,11 @@
+---
+title: "Investor Data Room Checklist"
+category: "Vc_venture_capital"
+tags: ["checklist"]
+created: "2025-10-29"
+path: "Vc_venture_capital/Due_diligence/Checklists/investor_data_room_checklist.md"
+---
+
 # 📁 Investor Data Room Checklist - AI Marketing SaaS
 ## Complete Documentation Package for Due Diligence
 

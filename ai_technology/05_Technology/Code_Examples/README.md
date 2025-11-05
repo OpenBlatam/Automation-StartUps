@@ -1,10 +1,14 @@
-# Code Examples
+---
+title: "Readme"
+category: "Ai_technology"
+tags: ["technical", "technology"]
+created: "2025-10-29"
+path: "Ai_technology/05_technology/Code_examples/readme.md"
+---
 
-Subcategoría de 05_Technology
+# Code_Examples
 
-## Archivos:
-
-- README.md
+## Archivos
 - advanced_ai_system.py
 - advanced_analytics_engine.py
 - advanced_demo.py
@@ -12,7 +16,6 @@ Subcategoría de 05_Technology
 - ai_content_analyzer.py
 - analytics_system.py
 - api_server.py
-- augmented_reality_system.py
 - auto_organize.py
 - autonomous_ai_system.py
 - backup_system.py
@@ -22,13 +25,11 @@ Subcategoría de 05_Technology
 - conversational_ai_system.py
 - convert-testimonial.py
 - convert_advanced.py
-- convert_final_ultra_complete.py
 - convert_to_docs.py
 - convert_to_docs_alternative.py
 - convert_to_docs_final.py
 - convert_to_pdf.py
 - convert_to_pdf_weasyprint.py
-- convert_ultra_complete.py
 - cybersecurity_system.py
 - demo_brand_analyzer.py
 - edge_computing_system.py
@@ -43,8 +44,6 @@ Subcategoría de 05_Technology
 - organize_files.py
 - organize_remaining.py
 - predictive_ai_system.py
-- quantum_computing.py
-- quantum_ml_system.py
 - quick_start.py
 - search_documents.py
 - setup.py
@@ -52,3 +51,4 @@ Subcategoría de 05_Technology
 - template_system.py
 - voice_commands.py
 - web_interface.py
+

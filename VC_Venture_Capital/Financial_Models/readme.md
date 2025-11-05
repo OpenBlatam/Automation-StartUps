@@ -1,0 +1,70 @@
+---
+title: "Readme"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Financial_models/readme.md"
+---
+
+# Financial_Models
+
+## Subcarpetas
+- Market_Analysis/
+- ROI_Analysis/
+- Simulators/
+- Valuation_Tools/
+
+## Archivos
+- Analisis_Avanzado_Metricas_VC.md
+- Anexo_A_Templates_Legales_VC.md
+- Anexo_B_Analisis_Financiero_VC.md
+- Anexo_C_Due_Diligence_VC.md
+- Anexo_D_Scripts_Negociacion_VC.md
+- Casos_Estudio_SaaS_IA_LATAM_VC.md
+- Clausulas_Negociables_VC_Proteccion_Fundadores.md
+- ESTRATEGIAS_ESG_FINANCIAMIENTO_ANTI_VC.md
+- Framework_Decision_VC.md
+- Guia_Negociacion_Avanzada_VC.md
+- Herramienta_Análisis_Competitivo_Avanzado_VC.md
+- Herramienta_Análisis_Cultura_Organizacional_VC.md
+- Herramienta_Análisis_Customer_Acquisition_VC.md
+- Herramienta_Análisis_Customer_Lifetime_Value_VC.md
+- Herramienta_Análisis_Diversidad_Inclusión_VC.md
+- Herramienta_Análisis_Ecosistema_Innovación_VC.md
+- Herramienta_Análisis_Ecosistema_Startup_VC.md
+- Herramienta_Análisis_Equipo_VC.md
+- Herramienta_Análisis_Escalabilidad_VC.md
+- Herramienta_Análisis_Escenarios_Futuros_VC.md
+- Herramienta_Análisis_Estrategia_Global_VC.md
+- Herramienta_Análisis_Estrategia_Salida_VC.md
+- Herramienta_Análisis_Estrategia_Sostenibilidad_VC.md
+- Herramienta_Análisis_Excelencia_Operacional_VC.md
+- Herramienta_Análisis_Go_to_Market_Strategy_VC.md
+- Herramienta_Análisis_Governance_Corporativo_VC.md
+- Herramienta_Análisis_Impacto_Social_VC.md
+- Herramienta_Análisis_Innovación_Disruptiva_VC.md
+- Herramienta_Análisis_Internacionalización_VC.md
+- Herramienta_Análisis_Optimización_Operacional_VC.md
+- Herramienta_Análisis_Panorama_Financiamiento_VC.md
+- Herramienta_Análisis_Producto_VC.md
+- Herramienta_Análisis_Regulatorio_VC.md
+- Herramienta_Análisis_Resiliencia_Organizacional_VC.md
+- Herramienta_Análisis_Riesgo_VC.md
+- Herramienta_Análisis_Salud_Financiera_VC.md
+- Herramienta_Análisis_Sentimiento_Inversores_VC.md
+- Herramienta_Análisis_Sostenibilidad_Ambiental_VC.md
+- Herramienta_Análisis_Tecnológico_VC.md
+- Herramienta_Análisis_Tendencias_Tecnológicas_VC.md
+- Herramienta_Análisis_Timing_Mercado_VC.md
+- Herramienta_Análisis_Transformación_Digital_VC.md
+- Herramienta_Análisis_Unit_Economics_VC.md
+- Herramienta_Análisis_Ventaja_Competitiva_Sostenible_VC.md
+- Herramienta_Análisis_Ética_Negocios_VC.md
+- Herramienta_Comparacion_VC_Avanzada.md
+- Herramienta_Riesgos_Interactiva_VC.md
+- Herramienta_Valoracion_Avanzada_VC.md
+- INDEX.md
+- MODELADO_FINANCIERO_AVANZADO_ANTI_VC.md
+- Pitch_Deck_VC_Especializado.md
+- SISTEMA_NEGOCIACION_VC_COPYCAR.py
+

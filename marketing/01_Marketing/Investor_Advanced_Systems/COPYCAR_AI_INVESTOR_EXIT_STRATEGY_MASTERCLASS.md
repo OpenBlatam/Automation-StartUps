@@ -1,3 +1,11 @@
+---
+title: "Copycar Ai Investor Exit Strategy Masterclass"
+category: "Marketing"
+tags: ["business", "marketing", "strategy"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Investor_advanced_systems/copycar_ai_investor_exit_strategy_masterclass.md"
+---
+
 # COPYCAR.AI INVESTOR EXIT STRATEGY MASTERCLASS
 ## The Complete Guide to Exit Strategy Excellence
 

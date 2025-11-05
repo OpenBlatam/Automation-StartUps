@@ -1,0 +1,12 @@
+{
+  "name": "Relaxed Profile",
+  "description": "Validación relajada para desarrollo",
+  "min_health_score": 60,
+  "max_dom_nodes": 800,
+  "max_filters": 10,
+  "max_gradients": 20,
+  "palette_strict": false,
+  "fail_on_error": false,
+  "fail_on_warn": false
+}
+

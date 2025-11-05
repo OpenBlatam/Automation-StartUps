@@ -1,3 +1,11 @@
+---
+title: "Paquete Inversion Final Optimizado"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Copycar_ai_investor_package/paquete_inversion_final_optimizado.md"
+---
+
 # 🚀 CopyCar.ai - Paquete de Inversión Final Optimizado
 
 ## Serie A - $5M | Sistema Completo de Negociación VC

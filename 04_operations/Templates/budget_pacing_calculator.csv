@@ -1,0 +1,10 @@
+dia,plan_eur,real_eur,varianza_pct,accion,responsable
+1,,,,,
+2,,,,,
+3,,,,,
+4,,,,,
+5,,,,,
+6,,,,,
+7,,,,,
+TOTAL,=SUM(B2:B8),=SUM(C2:C8),=IF(B9=0,"",ROUND((C9-B9)/B9*100,2)),,
+Regla,Si varianza acumulada > ±15% por 2 días,Activar plan de corrección,,,

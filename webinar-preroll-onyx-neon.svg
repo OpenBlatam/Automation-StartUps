@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0A0A0A"/>
+      <stop offset="100%" stop-color="#151515"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#39FF14"/>
+      <stop offset="100%" stop-color="#00FFA3"/>
+    </linearGradient>
+    <filter id="sh" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="rgba(0,0,0,0.6)"/>
+    </filter>
+  </defs>
+  
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <rect x="120" y="80" width="1680" height="920" rx="20" fill="none" stroke="rgba(255,255,255,0.08)" opacity="0.5"/>
+  
+  <g transform="translate(120,80)" filter="url(#sh)">
+    <rect x="0" y="0" width="1240" height="88" rx="14" fill="url(#accent)"/>
+    <text x="30" y="58" fill="#0A0A0A" font-family="Inter, system-ui, -apple-system" font-size="36" font-weight="900">
+      Webinar gratis: Cómo doblar tus ventas online
+    </text>
+  </g>
+  
+  <text x="160" y="280" fill="#F5FFF7" font-family="Inter, system-ui, -apple-system" font-size="84" font-weight="900" letter-spacing="-0.5">
+    IA que convierte: de clic a compra
+  </text>
+  <text x="160" y="344" fill="#CFFDE1" font-family="Inter, system-ui, -apple-system" font-size="32" font-weight="600">
+    Playbooks probados para ecommerce y servicios
+  </text>
+  
+  <g transform="translate(160,400)">
+    <rect x="0" y="-42" width="420" height="84" rx="12" fill="#0E0E0E" stroke="#00FFA3" stroke-width="2"/>
+    <text x="210" y="12" text-anchor="middle" fill="#CFFDE1" font-family="Inter, system-ui, -apple-system" font-size="30" font-weight="800">15 Nov 2025</text>
+    <rect x="440" y="-42" width="380" height="84" rx="12" fill="#0E0E0E" stroke="#00FFA3" stroke-width="2"/>
+    <text x="630" y="12" text-anchor="middle" fill="#CFFDE1" font-family="Inter, system-ui, -apple-system" font-size="30" font-weight="800">18:00 (GMT-5)</text>
+  </g>
+  
+  <g transform="translate(160,500)">
+    <text x="0" y="0" fill="#E9FFD1" font-family="Inter, system-ui, -apple-system" font-size="28" font-weight="500">• Optimización de anuncios con IA</text>
+    <text x="0" y="40" fill="#E9FFD1" font-family="Inter, system-ui, -apple-system" font-size="28" font-weight="500">• Landing pages que convierten</text>
+    <text x="0" y="80" fill="#E9FFD1" font-family="Inter, system-ui, -apple-system" font-size="28" font-weight="500">• CRM automatizado end-to-end</text>
+  </g>
+  
+  <g transform="translate(160,640)" filter="url(#sh)">
+    <rect x="0" y="0" width="540" height="114" rx="16" fill="url(#accent)"/>
+    <rect x="0" y="0" width="540" height="114" rx="16" fill="none" stroke="rgba(0,0,0,0.3)" stroke-width="2"/>
+    <text x="270" y="74" text-anchor="middle" fill="#0A0A0A" font-family="Inter, system-ui, -apple-system" font-size="46" font-weight="900">Empieza ahora</text>
+  </g>
+  
+  <g transform="translate(1540,120)" filter="url(#sh)">
+    <rect x="0" y="0" width="260" height="64" rx="14" fill="#F59E0B"/>
+    <text x="130" y="42" text-anchor="middle" fill="#0A0A0A" font-family="Inter, system-ui, -apple-system" font-size="24" font-weight="900">En vivo + Q&A</text>
+  </g>
+  
+  <g transform="translate(1680,60)">
+    <rect x="0" y="0" width="160" height="60" rx="8" fill="rgba(255,255,255,0.10)" stroke="rgba(255,255,255,0.20)"/>
+    <text x="80" y="40" text-anchor="middle" fill="#F5FFF7" font-family="Inter, system-ui, -apple-system" font-size="20" font-weight="800">TU MARCA</text>
+  </g>
+  
+  <g transform="translate(1620,870)" filter="url(#sh)">
+    <rect x="0" y="0" width="180" height="180" rx="12" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)"/>
+    <text x="90" y="88" text-anchor="middle" fill="#F5FFF7" font-family="Inter, system-ui, -apple-system" font-size="16" font-weight="700">QR → https://tu-dominio.com/webinar?utm_source=youtube&utm_medium=preroll&utm_campaign=nov_2025&utm_content=all_variants</text>
+  </g>
+</svg>
+
+
+

@@ -1,3 +1,11 @@
+---
+title: "Templates Canva Tiktok Ia"
+category: "Marketing"
+tags: ["business", "marketing", "template"]
+created: "2025-10-29"
+path: "Marketing/Tiktok_content/templates_canva_tiktok_ia.md"
+---
+
 # 🎨 TEMPLATES CANVA TIKTOK IA - CONVERSIÓN MÁXIMA
 
 ## 🎯 TEMPLATES ESPECÍFICOS PARA CONTENIDO TECH & IA

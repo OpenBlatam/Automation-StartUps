@@ -1,7 +1,10 @@
-# Campaign Management
+---
+title: "Readme"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Campaign_management/readme.md"
+---
 
-Subcategoría de 01_Marketing
+# Campaign_Management
 
-## Archivos:
-
-- README.md

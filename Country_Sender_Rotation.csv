@@ -1,0 +1,8 @@
+country,timezone_local,sender_pool,weekday_allowed,hour_blocks_local,daily_cap,hourly_cap,notes
+AR,America/Argentina/Buenos_Aires,acct_ig_1|acct_ig_2,Mon-Fri,10-13|16-19,60,8,Evitar 12-14 almuerzo si RR bajo
+MX,America/Mexico_City,acct_ig_3|acct_ig_4,Mon-Fri,09-12|15-18,60,8,Lunes tarde mejor
+BR,America/Sao_Paulo,acct_ig_5|acct_ig_6,Mon-Fri,09-12|14-17,60,8,PT copy
+US,America/New_York,acct_ig_7|acct_ig_8,Mon-Thu,10-12|16-19,60,8,Evitar festivos
+ES,Europe/Madrid,acct_ig_9|acct_ig_10,Mon-Thu,10-13|16-18,60,8,Siesta 14-16
+CL,America/Santiago,acct_ig_11,Mon-Fri,10-12|17-19,50,6,Menor cap
+

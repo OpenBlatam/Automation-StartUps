@@ -1,0 +1,77 @@
+---
+title: "Ai Course Planning Fallacy"
+category: "08_ai_artificial_intelligence"
+tags: ["ai", "artificial-intelligence"]
+created: "2025-10-29"
+path: "08_ai_artificial_intelligence/Ai_systems/ai_course_planning_fallacy.md"
+---
+
+# Curso de IA - Enfoque Falacia de Planificación
+
+## Script de Venta - Falacia de Planificación (Planning Fallacy)
+
+**Producto:** Curso de Inteligencia Artificial y Webinars
+**Audiencia:** Empresarios y Directivos
+**Enfoque:** Falacia de Planificación - Las personas subestiman el tiempo y recursos necesarios
+
+---
+
+### Apertura (0-10 segundos)
+
+"Buenos días, [Nombre]. Soy [Tu Nombre] de [Empresa].
+
+Te llamo porque sé que como empresario, siempre subestimas cuánto tiempo te va a tomar implementar nuevas tecnologías. Planificas 2 semanas y terminas trabajando 2 meses. ¿Cuánto más vas a seguir perdiendo tiempo en planificaciones que nunca funcionan?"
+
+### Desarrollo (10-60 segundos)
+
+**Falacia de Planificación - Subestimación del tiempo y recursos:**
+
+"Entiendo tu frustración. Planificas implementar IA en 2 semanas y terminas trabajando 6 meses. Planificas tener todo listo para el viernes y terminas trabajando el fin de semana. Planificas un presupuesto y terminas gastando el doble.
+
+La falacia de planificación te está costando tiempo, dinero y calidad de vida. Cada vez que subestimas el tiempo, pierdes horas valiosas que podrían estar facturando.
+
+Pero aquí está la solución: en lugar de seguir subestimando el tiempo, ¿qué tal si eliminamos la necesidad de planificación por completo?"
+
+### Transición al Cierre (60-90 segundos)
+
+"La pregunta no es cuánto tiempo vas a planificar. La pregunta es: ¿cuánto tiempo vas a seguir perdiendo en planificaciones que no funcionan?
+
+¿Te parece si te muestro cómo implementar IA sin planificación compleja?"
+
+### Cierre (90-120 segundos)
+
+"Perfecto. Te voy a mostrar cómo implementar IA en 30 días, no 6 meses. Cómo eliminar la planificación compleja. Cómo facturar más sin trabajar más.
+
+El valor de recuperar tu tiempo es incalculable. Pero te lo dejo en $997. Menos de lo que cuesta una hora de tu tiempo.
+
+¿Empezamos a eliminar la falacia de planificación de tu vida?"
+
+---
+
+## Técnicas Psicológicas Utilizadas:
+
+1. **Falacia de Planificación**: Identifica su subestimación del tiempo
+2. **Frustración Real**: Valida sus experiencias de planificación fallida
+3. **Costo del Tiempo**: Muestra el valor del tiempo perdido
+4. **Eliminación del Problema**: Ofrece una solución radical
+5. **ROI Inmediato**: Muestra el retorno desde el primer día
+
+## Palabras Clave:
+- "Subestimar el tiempo"
+- "Planificación fallida"
+- "Tiempo perdido"
+- "Eliminar la planificación"
+- "Sin planificación"
+- "Resultados inmediatos"
+
+## Objeciones Comunes y Respuestas:
+
+**"Siempre planifico bien mi tiempo"**
+"Entiendo. Pero ¿cuántas veces has terminado trabajando más tiempo del que planificaste? La falacia de planificación es universal."
+
+**"No necesito ayuda con la planificación"**
+"Perfecto. No te pido que planifiques mejor. Te pido que elimines la necesidad de planificar. ¿Te parece si te mostramos cómo?"
+
+**"Es muy arriesgado no planificar"**
+"Es más arriesgado seguir perdiendo tiempo. Te muestro cómo implementar con confianza sin planificación compleja."
+

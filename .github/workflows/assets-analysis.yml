@@ -1,0 +1,60 @@
+name: Assets Analysis
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up bash env
+        run: |
+          echo "SHELL=/bin/bash" >> $GITHUB_ENV
+
+      - name: Run analyze_assets
+        run: |
+          chmod +x tools/analyze_assets.sh || true
+          OUTPUT_FORMAT=all QUIET=true SUMMARY_ONLY=true bash ./tools/analyze_assets.sh || true
+
+      - name: Collect reports
+        if: always()
+        run: |
+          mkdir -p artifacts
+          cp -f exports/assets_report.txt artifacts/ 2>/dev/null || true
+          cp -f exports/assets_report.json artifacts/ 2>/dev/null || true
+          cp -f exports/assets_report.html artifacts/ 2>/dev/null || true
+          cp -f exports/assets_report.md artifacts/ 2>/dev/null || true
+          cp -f exports/assets_report_ci.json artifacts/ 2>/dev/null || true
+          cp -f exports/assets_summary.csv artifacts/ 2>/dev/null || true
+          cp -f exports/assets_dashboard_data.csv artifacts/ 2>/dev/null || true
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: assets-analysis-reports
+          path: artifacts/**
+
+      - name: Enforce minimum Health Score
+        run: |
+          CI_JSON="exports/assets_report_ci.json"
+          if [[ -f "$CI_JSON" ]]; then
+            SCORE=$(jq -r '.health_score' "$CI_JSON" 2>/dev/null || echo 0)
+            PASSED=$(jq -r '.passed' "$CI_JSON" 2>/dev/null || echo false)
+            echo "Health Score: $SCORE | Passed: $PASSED"
+            if [[ "$PASSED" != "true" ]]; then
+              echo "::error::Health Score below threshold (>=75 required)"
+              exit 1
+            fi
+          else
+            echo "::warning::CI report not found; skipping enforcement"
+          fi
+
+

@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "scenarios": [
+    {
+      "name": "S1_NewConnection_DM_CRM_Followup",
+      "description": "Nueva conexión → Enriquecer → Score → DM → CRM → Task 48h",
+      "modules": [
+        { "type": "webhook", "name": "LinkedIn_NewConnection" },
+        { "type": "clearbit.enrich", "name": "Enrichment", "config": { "apiKey": "${CLEARBIT_KEY}" } },
+        { "type": "function", "name": "ScoringRules", "code": "return leadScore(input);" },
+        { "type": "router", "name": "RouteByIndustryScore" },
+        { "type": "openai.chat", "name": "GenerateDM", "config": { "apiKey": "${OPENAI_API_KEY}", "promptRef": "Block2_DM_Generator" } },
+        { "type": "delay.until", "name": "LocalSendWindow", "config": { "hour": "{{best_send_hour}}" } },
+        { "type": "channel.send", "name": "SendMessage", "config": { "channel": "{{channel}}" } },
+        { "type": "hubspot.contact.upsert", "name": "UpsertContact", "config": { "apiKey": "${HUBSPOT_KEY}", "properties": ["dm_variant","lead_score","channel","language","best_send_hour","primary_objection"] } },
+        { "type": "hubspot.task.create", "name": "Followup48h", "config": { "apiKey": "${HUBSPOT_KEY}", "delayHours": 48 } }
+      ]
+    },
+    {
+      "name": "S2_NoReply48h_AltChannel_Followup",
+      "description": "48h sin respuesta → Seguimiento 1 → Alternar canal → Reprogramar",
+      "modules": [
+        { "type": "scheduler", "name": "HourlyCheck" },
+        { "type": "hubspot.search", "name": "FindNoReplyContacts", "config": { "apiKey": "${HUBSPOT_KEY}" } },
+        { "type": "openai.chat", "name": "GenerateFollowup", "config": { "apiKey": "${OPENAI_API_KEY}", "promptRef": "Block3_Followup_Generator" } },
+        { "type": "channel.send", "name": "SendFollowupAltChannel" },
+        { "type": "hubspot.update", "name": "Reschedule5d" }
+      ]
+    },
+    {
+      "name": "S3_PositiveReply_Demo_Deal",
+      "description": "Respuesta positiva → Calendly → Crear Deal",
+      "modules": [
+        { "type": "webhook", "name": "DM_Reply" },
+        { "type": "classifier", "name": "IntentClassifier" },
+        { "type": "calendly.create", "name": "CreateLink", "config": { "apiKey": "${CALENDLY_KEY}" } },
+        { "type": "hubspot.deal.create", "name": "CreateDealDemoBooked", "config": { "apiKey": "${HUBSPOT_KEY}" } },
+        { "type": "notification", "name": "NotifySales" }
+      ]
+    },
+    {
+      "name": "S4_PostDemo_Proposal_CloseTask",
+      "description": "Demo completada → Propuesta → Tarea cierre",
+      "modules": [
+        { "type": "calendar.event", "name": "OnDemoCompleted" },
+        { "type": "templating.merge", "name": "MergeProposal", "config": { "files": ["00_CONTRATO_OUTCOME_TEMPLATE.md","00_CALCULADORA_ROI.md"] } },
+        { "type": "email.send", "name": "SendProposal" },
+        { "type": "hubspot.task.create", "name": "CloseTask7d", "config": { "apiKey": "${HUBSPOT_KEY}", "delayDays": 7 } }
+      ]
+    }
+  ],
+  "prompts": {
+    "Block1_Research": "ref: 00_PROMPTS_BLOCKS_FOR_MAKE.md#block-1-research-lead-empresaperfil",
+    "Block2_DM_Generator": "ref: 00_PROMPTS_BLOCKS_FOR_MAKE.md#block-2-dm-generator-variantes-a-f",
+    "Block3_Followup_Generator": "ref: 00_PROMPTS_BLOCKS_FOR_MAKE.md#block-3-follow-up-generator-48h-7d-12d",
+    "Block4_Objection": "ref: 00_PROMPTS_BLOCKS_FOR_MAKE.md#block-4-objection-handler",
+    "Block5_MicroDM": "ref: 00_PROMPTS_BLOCKS_FOR_MAKE.md#block-5-micro-dm-multilenguaje-20-40-palabras",
+    "Block6_QA": "ref: 00_PROMPTS_BLOCKS_FOR_MAKE.md#block-6-qa-de-marca-revisor"
+  },
+  "env": {
+    "OPENAI_API_KEY": "set_me",
+    "HUBSPOT_KEY": "set_me",
+    "CLEARBIT_KEY": "set_me",
+    "CALENDLY_KEY": "set_me"
+  }
+}

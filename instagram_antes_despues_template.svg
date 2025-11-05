@@ -1,0 +1,2098 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ════════════════════════════════════════════════════════════════
+  TEMPLATE INSTAGRAM: ANTES Y DESPUÉS
+  ════════════════════════════════════════════════════════════════
+  
+  Dimensiones: 1080×1350 px (ratio 4:5 - ideal para Instagram)
+  Versión: 2.6
+  
+  CARACTERÍSTICAS:
+  ✓ Paneles "Antes/Después" con imágenes y estructura de capas
+  ✓ Titular transformacional destacado
+  ✓ CTA clicable con enlace y accesibilidad completa
+  ✓ Métricas comparativas
+  ✓ Testimoniales y prueba social
+  ✓ Elementos opcionales fácilmente ocultables
+  ✓ Clases CSS utilitarias para personalización rápida
+  ✓ Variantes de diseño preconfiguradas (mínima, compacta, completa)
+  ✓ Sistema de temas (oscuro, claro, corporativo)
+  ✓ Scripts de ejemplo para automatización (JS, Python, Node.js)
+  ✓ Sistema de capas organizadas para fácil manipulación
+  ✓ Accesibilidad mejorada (ARIA labels, roles semánticos)
+  ✓ Sistema de validación y troubleshooting integrado
+  ✓ Shortcuts de edición rápida documentados
+  ✓ Sistema de anotaciones para colaboración
+  ✓ Referencias a herramientas y recursos útiles
+  ✓ Metadata Dublin Core para mejor descubrimiento
+  ✓ Casos de uso avanzados por industria documentados
+  ✓ Tips y trucos para edición eficiente
+  ✓ Optimizaciones avanzadas de rendimiento
+  ✓ Flujo de trabajo completo recomendado
+  ✓ Plantillas rápidas preconfiguradas (4 variantes)
+  ✓ Integraciones con Figma, Illustrator, Canva
+  ✓ Ejemplos de automatización CI/CD (GitHub Actions)
+  ✓ Scripts avanzados Python, Node.js, Shell
+  ✓ Sistema de testing automatizado (Python y Jest)
+  ✓ Validación avanzada de SVG y accesibilidad
+  ✓ Checklist de calidad final (16 puntos)
+  ✓ Gestión de versiones y estrategia de backup
+  ✓ Nomenclatura recomendada para organización
+  ✓ Analytics y tracking de métricas (GA, Facebook Pixel)
+  ✓ Sistema de A/B testing documentado
+  ✓ Internacionalización (I18N) con ejemplos multi-idioma
+  ✓ Optimización avanzada de performance y benchmarks
+  ✓ Recursos y comunidad para aprendizaje continuo
+  ✓ Compliance y consideraciones legales (derechos, GDPR, testimonios)
+  ✓ SEO avanzado (Structured Data, Open Graph, Twitter Cards)
+  ✓ Guía de mantenimiento y evolución del template
+  ✓ Roadmap futuro y migración entre versiones
+  ✓ Sección de soporte y contribuciones
+  ✓ Seguridad y prevención XSS documentada
+  ✓ Edge cases y soluciones a problemas comunes (8 casos)
+  ✓ Pipeline completo de producción automatizado
+  ✓ Documentación de API para uso como servicio
+  ✓ Completamente documentado y listo para producción enterprise
+  
+  EDICIÓN RÁPIDA:
+  → Busca por ID en los metadatos (líneas 8-73)
+  → Reemplaza [PROBLEMA], [RESULTADO], [PRODUCTO]
+  → Añade imágenes en beforeImage y afterImage
+  → Actualiza URL del CTA
+  
+  EXPORTACIÓN:
+  → PNG/JPG: 1080×1350 px para Instagram
+  → Ocultar guías antes de exportar
+  → Ver checklist completo en metadatos
+  
+  ════════════════════════════════════════════════════════════════
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350" role="img" aria-labelledby="svgTitle svgDesc">
+  <metadata>
+    <!-- Información básica -->
+    <creator>documentos_blatam template</creator>
+    <version>2.6</version>
+    <updated>2025-01-30</updated>
+    <license>Personal/comercial con atribución opcional</license>
+    
+    <!-- Dublin Core Metadata -->
+    <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">Template Instagram Antes y Después</dc:title>
+    <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">documentos_blatam</dc:creator>
+    <dc:description xmlns:dc="http://purl.org/dc/elements/1.1/">Template profesional para Instagram Stories/Posts con diseño comparativo antes/después</dc:description>
+    <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">image/svg+xml</dc:format>
+    <dc:type xmlns:dc="http://purl.org/dc/elements/1.1/">Template</dc:type>
+    
+    <!-- Información técnica -->
+    <technical>
+      <dimensions>1080x1350</dimensions>
+      <aspect-ratio>4:5</aspect-ratio>
+      <format>SVG 1.1</format>
+      <compression>None (template)</compression>
+      <color-space>sRGB</color-space>
+      <platform>Instagram</platform>
+    </technical>
+    
+    <changelog>
+      v2.6: Seguridad y mejores prácticas, edge cases, workflows avanzados, documentación de API
+      v2.5: Compliance y consideraciones legales, SEO avanzado, mantenimiento y evolución, soporte
+      v2.4: Analytics y métricas, internacionalización (I18N), optimización de performance, recursos
+      v2.3: Sistema de testing automatizado, validación avanzada, gestión de versiones y backup
+      v2.2: Plantillas rápidas preconfiguradas, integraciones avanzadas, automatización CI/CD
+      v2.1: Metadata Dublin Core, casos de uso avanzados, tips y trucos, optimizaciones avanzadas
+      v2.0: Sistema de validación, troubleshooting, shortcuts, anotaciones, referencias
+      v1.9: Sistema de capas organizadas, mejoras de accesibilidad, sistema de temas
+      v1.8: Clases CSS utilitarias, variantes de diseño, scripts de automatización
+      v1.7: Índice completo de elementos, checklist de exportación, guía de exportación
+      v1.6: Variables de color, IDs completos, guía de ocultación de elementos
+      v1.5: Comentarios por secciones, mejor organización
+      v1.4: Accesibilidad mejorada, símbolos reutilizables
+      v1.3: Testimoniales, prueba social, badges adicionales
+      v1.2: Métricas, pain chips, checklist de beneficios
+      v1.1: Estructura base con paneles, CTA, etiquetas
+      v1.0: Versión inicial
+    </changelog>
+    <updated>2025-10-30</updated>
+    <license>Personal/comercial con atribución opcional</license>
+    <instructions>
+      ════════════════════════════════════════════════════════════════
+      ÍNDICE DE ELEMENTOS EDITABLES - Búsqueda rápida por ID
+      ════════════════════════════════════════════════════════════════
+      
+      PANELES E IMÁGENES:
+      - beforeImage: Imagen panel izquierdo "Antes"
+      - afterImage: Imagen panel derecho "Después"
+      - beforePanelBg: Fondo panel izquierdo (color)
+      - afterPanelBg: Fondo panel derecho (color)
+      
+      TEXTOS PRINCIPALES:
+      - headlineText: Titular principal "Transforma tu [PROBLEMA]..."
+      - subheadlineText: Subtítulo "con [PRODUCTO]"
+      
+      CTA Y ACCIONES:
+      - ctaLink: Enlace del botón (href="#")
+      - ctaLabel: Texto del botón "Más info"
+      - ctaButtonRect: Rectángulo del botón (color/estilo)
+      
+      MÉTRICAS Y COMPARACIÓN:
+      - leftMetricText: Métrica izquierda "-60% tiempo perdido"
+      - rightMetricText: Métrica derecha "+3× resultados"
+      - leftMetricBox: Caja métrica izquierda
+      - rightMetricBox: Caja métrica derecha
+      
+      TESTIMONIALES Y PRUEBA SOCIAL:
+      - testimonial: Card testimonial completo
+      - socialProof: Estrellas y valoración "4.9/5"
+      
+      MARCA Y FOOTER:
+      - brandBar: Barra superior con logo
+      - brandLogo: Logo de marca (image href)
+      - brandName: Nombre de marca "TU MARCA"
+      - footer: Footer con @handle, URL, QR
+      
+      ELEMENTOS OPCIONALES (ocultar con opacity="0"):
+      - watermark: Marca de agua diagonal
+      - offerBadge: Badge "-30% hoy"
+      - ribbonBadge: Ribbon "Mejora ×3"
+      - leftPainChips: Chips de dolor/problemas
+      - rightChecklist: Checklist de beneficios
+      - guaranteeBadge: Badge "7 días"
+      - swipeHint: Indicador "Desliza"
+      - carouselDots: Puntos de carrusel
+      - panelCaptions: Captions "Escenario antes/después"
+      
+      GUÍAS Y HERRAMIENTAS:
+      - guidesThirds: Guías regla de tercios
+      - safeArea: Contorno área segura
+      - centerDivider: Divisor central
+      
+      ════════════════════════════════════════════════════════════════
+      CHECKLIST ANTES DE EXPORTAR:
+      ════════════════════════════════════════════════════════════════
+      ☐ Reemplazar [PROBLEMA], [RESULTADO], [PRODUCTO] en textos
+      ☐ Añadir imágenes en beforeImage y afterImage (href="ruta/imagen.jpg")
+      ☐ Actualizar URL del CTA (ctaLink href="tu-url.com")
+      ☐ Personalizar métricas y textos de testimonial
+      ☐ Cambiar @handle y URL en footer
+      ☐ Ocultar guías: guidesThirds opacity="0"
+      ☐ Ocultar safeArea: safeArea opacity="0"
+      ☐ Verificar que elementos opcionales tengan la opacidad deseada
+      ☐ Revisar todos los textos y ortografía
+      ☐ Verificar dimensiones finales: 1080×1350 px
+      
+      ════════════════════════════════════════════════════════════════
+      SISTEMA DE TEMAS RÁPIDO
+      ════════════════════════════════════════════════════════════════
+      
+      TEMA OSCURO (por defecto):
+      - Fondo: #0f172a, #111827, #0b3b2e
+      - Texto: #ffffff, #cbd5e1, #e5e7eb
+      - Acento: #22c55e (verde)
+      
+      TEMA CLARO (cambiar estos valores):
+      - Fondo: #ffffff, #f8fafc, #f1f5f9
+      - Texto: #0f172a, #1e293b, #334155
+      - Acento: #22c55e (mantener o cambiar)
+      
+      TEMA CORPORATIVO (personalizar):
+      - Reemplazar #22c55e con color corporativo principal
+      - Ajustar fondos a colores de marca
+      - Mantener contraste mínimo 4.5:1 para accesibilidad
+      
+      CAMBIO RÁPIDO DE TEMA:
+      1. Buscar todos los valores hex del tema actual
+      2. Reemplazar masivamente con valores del nuevo tema
+      3. Verificar contraste de textos sobre fondos
+      4. Ajustar opacidades si es necesario
+      
+      ════════════════════════════════════════════════════════════════
+      PLANTILLAS RÁPIDAS PRE-CONFIGURADAS
+      ════════════════════════════════════════════════════════════════
+      
+      PLANTILLA 1: MARKETING DE PRODUCTO SAAS
+      ----------------------------------------
+      PROBLEMA: "gestión manual de tareas"
+      RESULTADO: "automatización inteligente"
+      PRODUCTO: "TuProductoSaaS"
+      Métricas: "-80% tiempo manual" / "+5× eficiencia"
+      Colores: Azul (#2563eb) y verde (#10b981)
+      Elementos: Todo excepto pain chips
+      
+      PLANTILLA 2: TRANSFORMACIÓN PERSONAL
+      ----------------------------------------
+      PROBLEMA: "falta de organización"
+      RESULTADO: "productividad máxima"
+      PRODUCTO: "SistemaProductividad"
+      Métricas: "-70% tiempo perdido" / "+300% resultados"
+      Colores: Verde (#22c55e) y dorado (#f59e0b)
+      Elementos: Testimonial, checklist, métricas
+      
+      PLANTILLA 3: SERVICIO PROFESIONAL
+      ----------------------------------------
+      PROBLEMA: "bajo engagement"
+      RESULTADO: "comunidad activa"
+      PRODUCTO: "ServicioConsultoría"
+      Métricas: "-50% deserción" / "+200% engagement"
+      Colores: Azul oscuro (#1e40af) y turquesa (#06b6d4)
+      Elementos: Todo (versión completa)
+      
+      PLANTILLA 4: ANTES/DESPUÉS FÍSICO
+      ----------------------------------------
+      PROBLEMA: "estado inicial"
+      RESULTADO: "transformación completa"
+      PRODUCTO: "ServicioTransformación"
+      Métricas: Cambios medibles específicos
+      Colores: Según la industria
+      Elementos: Mínima (solo paneles y titular)
+      
+      ════════════════════════════════════════════════════════════════
+      SHORTCUTS DE EDICIÓN RÁPIDA
+      ════════════════════════════════════════════════════════════════
+      
+      BUSCAR Y REEMPLAZAR MASIVO (Find & Replace):
+      - [PROBLEMA] → Tu problema específico
+      - [RESULTADO] → Tu resultado específico
+      - [PRODUCTO] → Nombre de tu producto/servicio
+      
+      CAMBIO DE COLORES RÁPIDO:
+      - Verde principal (#22c55e): Buscar y reemplazar globalmente
+      - Fondo oscuro (#0f172a): Buscar y reemplazar globalmente
+      - Usar herramientas de "Find & Replace All" de tu editor
+      
+      OCULTAR TODAS LAS GUÍAS:
+      - guidesThirds → opacity="0"
+      - safeArea → opacity="0"
+      - O usar script JavaScript incluido en líneas ~630+
+      
+      PERSONALIZACIÓN DE IMÁGENES:
+      - beforeImage href="ruta/imagen-antes.jpg"
+      - afterImage href="ruta/imagen-despues.jpg"
+      - Formatos soportados: JPG, PNG, SVG, WebP
+      
+      ════════════════════════════════════════════════════════════════
+      VALIDACIÓN Y TROUBLESHOOTING
+      ════════════════════════════════════════════════════════════════
+      
+      PROBLEMAS COMUNES Y SOLUCIONES:
+      
+      ❌ Imágenes no se muestran:
+      → Verificar rutas relativas/absolutas correctas
+      → Comprobar que los archivos existen
+      → Verificar formato de imagen soportado
+      
+      ❌ Textos se superponen o no se ven:
+      → Ajustar posición x/y de elementos
+      → Verificar z-index (orden en SVG)
+      → Comprobar contraste de colores
+      
+      ❌ CTA no funciona al hacer clic:
+      → Verificar href del elemento ctaLink
+      → Comprobar que target="_blank" está presente
+      → En exportación PNG/JPG, el link se pierde (es normal)
+      
+      ❌ SVG muy pesado o lento:
+      → Optimizar imágenes antes de incluir
+      → Usar SVGO para comprimir SVG
+      → Considerar exportar a PNG/JPG para web
+      
+      ❌ Colores no se ven como esperado:
+      → Verificar que no hay conflictos de opacity
+      → Comprobar que los gradientes están bien definidos
+      → Revisar que los filtros no afectan colores
+      
+      CHECKLIST DE VALIDACIÓN ANTES DE PUBLICAR:
+      ☐ Todas las imágenes están vinculadas y visibles
+      ☐ Textos sin errores ortográficos
+      ☐ Placeholders [PROBLEMA], [RESULTADO], [PRODUCTO] reemplazados
+      ☐ URL del CTA actualizada y funcional
+      ☐ Guías de desarrollo ocultas (opacity="0")
+      ☐ Contraste de textos suficiente (mínimo 4.5:1)
+      ☐ Dimensiones correctas (1080×1350 px)
+      ☐ Peso del archivo optimizado (<5MB recomendado)
+      ☐ Elementos opcionales con opacidad deseada
+      ☐ Accesibilidad verificada (aria-labels presentes)
+    </instructions>
+  </metadata>
+  <title id="svgTitle">Antes y Después - Template Instagram 1080×1350</title>
+  <desc id="svgDesc">Gráfico comparativo con panel izquierdo "Antes" y derecho "Después", titular transformacional, etiquetas, métricas, CTA y elementos opcionales de marca.</desc>
+  <defs>
+    <linearGradient id="gTop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="gBottom" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="safeAreaClip">
+      <!-- 48px margin safe area -->
+      <rect x="48" y="48" width="984" height="1254" rx="28"/>
+    </clipPath>
+    <clipPath id="leftPanelClip">
+      <rect x="48" y="48" width="492" height="1254" rx="28"/>
+    </clipPath>
+    <clipPath id="rightPanelClip">
+      <rect x="540" y="48" width="492" height="1254" rx="28"/>
+    </clipPath>
+    <style>
+      /* Tipografías */
+      .font-main { font-family: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
+      .headline { font-weight: 800; letter-spacing: -0.5px; }
+      .subtle { font-weight: 600; }
+      .label { font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; }
+      .cta { font-weight: 800; letter-spacing: 0.2px; }
+      
+      /* Clases de utilidad para colores (cambiar fill/stroke directamente) */
+      .color-success { /* Verde principal: #22c55e */ }
+      .color-success-dark { /* Verde oscuro: #16a34a */ }
+      .color-success-darker { /* Verde muy oscuro: #052e1e */ }
+      .color-error { /* Rojo/antes: #ef4444 */ }
+      .color-bg-dark { /* Fondo oscuro: #0f172a */ }
+      .color-bg-panel-left { /* Fondo panel izquierdo: #111827 */ }
+      .color-bg-panel-right { /* Fondo panel derecho: #0b3b2e */ }
+      .color-text-light { /* Texto claro: #ffffff, #cbd5e1, #e5e7eb */ }
+      .color-text-muted { /* Texto apagado: #64748b, #94a3b8 */ }
+      
+      /* Clases de utilidad para visibilidad rápida */
+      .hide { opacity: 0; pointer-events: none; }
+      .show { opacity: 1; }
+      .hide-completely { display: none; }
+      
+      /* Animaciones opcionales (descomentar si se necesita) */
+      /*
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      .fade-in {
+        animation: fadeIn 0.5s ease-in;
+      }
+      */
+    </style>
+    <!-- Drop shadow for button -->
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feOffset dy="6" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="12"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0   0 0 0 0.25 0"/>
+      <feBlend in2="SourceGraphic" mode="normal"/>
+    </filter>
+    <!-- CTA gradient -->
+    <linearGradient id="ctaGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#16a34a"/>
+    </linearGradient>
+    <!-- Subtle dot texture -->
+    <pattern id="dots" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1.2" fill="#ffffff" opacity="0.06"/>
+    </pattern>
+    <!-- Accent border gradient for right panel -->
+    <linearGradient id="accentBorder" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+    <!-- Background radial vignette -->
+    <radialGradient id="bgRadial" cx="50%" cy="25%" r="70%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Soft panel shadow -->
+    <filter id="panelShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="24" stdDeviation="24" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+    <!-- Inner shadow for panels -->
+    <filter id="innerShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feOffset dx="0" dy="4"/>
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="arithmetic" k2="-1" k3="1"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0   0 0 0 0.35 0"/>
+    </filter>
+    <!-- Subtle text shadow for headline -->
+    <filter id="textShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+    <!-- Panel separator glow -->
+    <linearGradient id="dividerGlow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#22c55e" stop-opacity="0.0"/>
+      <stop offset="50%" stop-color="#22c55e" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#22c55e" stop-opacity="0.0"/>
+    </linearGradient>
+
+    <!-- Reusable symbols -->
+    <symbol id="icon-star" viewBox="0 0 20 19">
+      <path d="M10 0 L12.9 6.9 L20 7.6 L14.5 12.2 L16.2 19 L10 15.5 L3.8 19 L5.5 12.2 L0 7.6 L7.1 6.9 Z"/>
+    </symbol>
+    <symbol id="icon-check" viewBox="0 0 16 16">
+      <path d="M2 8 l4 4 l8 -8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="icon-alert" viewBox="0 0 16 16">
+      <circle cx="8" cy="8" r="8"/>
+    </symbol>
+  </defs>
+
+  <!-- ========================================
+       CAPA 1: FONDO Y BASE
+       ======================================== -->
+  <g id="layer-background" aria-label="Fondo del diseño">
+    <rect width="1080" height="1350" fill="#0f172a"/>
+    <rect width="1080" height="1350" fill="url(#bgRadial)"/>
+    <rect x="138" y="96" width="804" height="120" rx="20" fill="#000000" opacity="0.22" aria-hidden="true"/>
+  </g>
+  
+  <!-- ========================================
+       CAPA 2: MARCA DE AGUA (opcional)
+       ======================================== -->
+  <g id="watermark" opacity="0.06" aria-hidden="true">
+    <text x="-150" y="400" transform="rotate(-25)" font-size="220" class="font-main" font-weight="800" fill="#ffffff">[PRODUCTO]</text>
+  </g>
+
+  <!-- ========================================
+       CAPA 3: PANELES PRINCIPALES (ANTES/DESPUÉS)
+       ======================================== -->
+  <g id="panels" clip-path="url(#safeAreaClip)" role="group" aria-label="Comparación antes y después">
+    <!-- Left: Antes -->
+    <g id="beforePanelGroup" role="img" aria-label="Panel antes: estado inicial o problema">
+      <rect id="beforePanelBg" x="48" y="48" width="492" height="1254" fill="#111827" rx="28" filter="url(#panelShadow)"/>
+      <g id="beforePanel" clip-path="url(#leftPanelClip)">
+        <title>Panel Antes</title>
+      <!-- Placeholder image area (replace href with your photo) -->
+      <image id="beforeImage" x="48" y="48" width="492" height="1254" preserveAspectRatio="xMidYMid slice" href="">
+        <title>Imagen Antes</title>
+      </image>
+      <rect x="48" y="48" width="492" height="1254" fill="url(#gTop)"/>
+      <rect x="48" y="48" width="492" height="1254" fill="url(#gBottom)"/>
+      <rect x="48" y="48" width="492" height="1254" fill="url(#dots)"/>
+    </g>
+    <!-- Border -->
+    <rect x="48" y="48" width="492" height="1254" fill="none" stroke="#1f2937" stroke-opacity="0.6" rx="28" filter="url(#innerShadow)"/>
+    </g>
+
+    <!-- Right: Después -->
+    <g id="afterPanelGroup" role="img" aria-label="Panel después: resultado o solución">
+      <rect id="afterPanelBg" x="540" y="48" width="492" height="1254" fill="#0b3b2e" rx="28" filter="url(#panelShadow)"/>
+      <g id="afterPanel" clip-path="url(#rightPanelClip)">
+      <title>Panel Después</title>
+      <!-- Placeholder image area (replace href with your photo) -->
+      <image id="afterImage" x="540" y="48" width="492" height="1254" preserveAspectRatio="xMidYMid slice" href="">
+        <title>Imagen Después</title>
+      </image>
+      <rect x="540" y="48" width="492" height="1254" fill="url(#gTop)"/>
+      <rect x="540" y="48" width="492" height="1254" fill="url(#gBottom)"/>
+      <rect x="540" y="48" width="492" height="1254" fill="url(#dots)" opacity="0.5"/>
+    </g>
+    <!-- Border -->
+    <rect x="540" y="48" width="492" height="1254" fill="none" stroke="#064e3b" stroke-opacity="0.6" rx="28" filter="url(#innerShadow)"/>
+    <rect x="544" y="52" width="484" height="1246" fill="none" stroke="url(#accentBorder)" stroke-opacity="0.8" stroke-width="2" rx="26"/>
+    </g>
+  </g>
+
+  <!-- ========================================
+       SECCIÓN 3: TITULAR PRINCIPAL
+       ======================================== -->
+  <g id="headline" class="font-main" text-anchor="middle" filter="url(#textShadow)">
+    <text id="headlineText" x="540" y="140" class="headline" font-size="64" fill="#ffffff">
+      <tspan x="540" dy="0">Transforma tu [PROBLEMA]</tspan>
+      <tspan x="540" dy="64">en </tspan>
+      <tspan fill="#22c55e">[RESULTADO]</tspan>
+    </text>
+    <text id="subheadlineText" x="540" y="205" class="subtle" font-size="28" fill="#cbd5e1">
+      con [PRODUCTO]
+    </text>
+  </g>
+
+  <!-- ========================================
+       SECCIÓN 4: ETIQUETAS Y ELEMENTOS DE COMPARACIÓN
+       ======================================== -->
+  <g class="font-main label" font-size="20">
+    <rect x="72" y="76" rx="14" ry="14" width="140" height="40" fill="#ef4444"/>
+    <!-- alert icon -->
+    <circle cx="96" cy="96" r="9" fill="#ffffff" opacity="0.95"/>
+    <rect x="95.2" y="86.5" width="1.6" height="11" fill="#ef4444"/>
+    <rect x="95.2" y="100" width="1.6" height="1.6" fill="#ef4444"/>
+    <text x="150" y="102" text-anchor="middle" fill="#ffffff">Antes</text>
+
+    <rect x="896" y="76" rx="14" ry="14" width="164" height="40" fill="#22c55e"/>
+    <!-- check icon -->
+    <circle cx="920" cy="96" r="9" fill="#052e1e" opacity="0.95"/>
+    <path d="M915 96 l3 3 l6 -6" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="976" y="102" text-anchor="middle" fill="#052e1e">Después</text>
+  </g>
+
+  <!-- Improvement arrows -->
+  <g opacity="0.85">
+    <path d="M 520 675 L 560 675" stroke="#22c55e" stroke-width="10" stroke-linecap="round"/>
+    <path d="M 545 660 L 560 675 L 545 690" fill="none" stroke="#22c55e" stroke-width="10" stroke-linecap="round"/>
+  </g>
+
+  <!-- Central progress ring -->
+  <g>
+    <!-- track -->
+    <circle cx="540" cy="675" r="58" fill="none" stroke="#1f2937" stroke-width="10"/>
+    <!-- progress 75% -->
+    <g transform="rotate(-90 540 675)">
+      <circle cx="540" cy="675" r="58" fill="none" stroke="#22c55e" stroke-width="10" stroke-linecap="round" stroke-dasharray="273 364"/>
+    </g>
+    <text x="540" y="682" text-anchor="middle" class="font-main" font-size="18" font-weight="800" fill="#d1fae5">×3</text>
+  </g>
+
+  <!-- Center slider handle hint -->
+  <g opacity="0.85">
+    <circle cx="540" cy="675" r="18" fill="#0b1220" stroke="#1f2a44"/>
+    <rect x="536" y="665" width="8" height="20" rx="2" fill="#94a3b8"/>
+  </g>
+
+  <!-- Mini comparison bars -->
+  <g opacity="0.95">
+    <rect x="512" y="760" width="20" height="60" rx="6" fill="#ef4444"/>
+    <rect x="548" y="720" width="20" height="100" rx="6" fill="#22c55e"/>
+    <text x="522" y="835" font-size="12" fill="#fca5a5" class="font-main" text-anchor="middle">Antes</text>
+    <text x="558" y="835" font-size="12" fill="#86efac" class="font-main" text-anchor="middle">Después</text>
+  </g>
+
+  <!-- ========================================
+       SECCIÓN 5: BOTÓN CTA Y BADGE DE OFERTA
+       ======================================== -->
+  <g id="cta" filter="url(#shadow)">
+    <!-- soft glow -->
+    <rect x="385" y="1175" width="310" height="82" rx="41" fill="#22c55e" opacity="0.15"/>
+    <a id="ctaLink" href="#" target="_blank" role="button" aria-label="Abrir más información" tabindex="0">
+      <rect id="ctaButtonRect" x="390" y="1180" width="300" height="72" rx="36" fill="url(#ctaGrad)" stroke="#14532d" stroke-width="2"/>
+      <g class="font-main">
+        <text id="ctaLabel" x="540" y="1228" text-anchor="middle" class="cta" font-size="28" fill="#052e1e">Más info</text>
+        <!-- arrow icon on CTA -->
+        <path id="ctaArrow" d="M 640 1210 L 660 1228 L 640 1246" fill="none" stroke="#052e1e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+    </a>
+  </g>
+
+  <!-- Price/discount badge near CTA (optional) -->
+  <g id="offerBadge" class="font-main" transform="translate(700,1168)">
+    <rect x="0" y="0" width="160" height="36" rx="18" fill="#0b1220" stroke="#1f2a44"/>
+    <text x="80" y="24" text-anchor="middle" font-size="16" fill="#e2e8f0" font-weight="800">-30% hoy</text>
+  </g>
+
+  <!-- ========================================
+       SECCIÓN 6: MÉTRICAS Y ELEMENTOS DE VALOR
+       ======================================== -->
+  <g id="metrics" class="font-main">
+    <!-- Left metric -->
+    <rect id="leftMetricBox" x="120" y="1068" width="256" height="56" rx="14" fill="#111827" stroke="#1f2937" stroke-opacity="0.6"/>
+    <text id="leftMetricText" x="248" y="1102" text-anchor="middle" font-size="22" fill="#e5e7eb" font-weight="700">-60% tiempo perdido</text>
+    <!-- Right metric -->
+    <rect id="rightMetricBox" x="704" y="1068" width="256" height="56" rx="14" fill="#064e3b" stroke="#065f46" stroke-opacity="0.7"/>
+    <text id="rightMetricText" x="832" y="1102" text-anchor="middle" font-size="22" fill="#d1fae5" font-weight="800">+3× resultados</text>
+  </g>
+
+  <!-- Brand bar (optional) -->
+  <g id="brandBar" class="font-main" opacity="0.95">
+    <rect x="470" y="92" width="140" height="40" rx="20" fill="#0b1220" stroke="#1f2a44" stroke-opacity="0.6"/>
+    <!-- Brand logo placeholder (replace href) -->
+    <image id="brandLogo" x="482" y="98" width="28" height="28" href=""/>
+    <text id="brandName" x="560" y="118" text-anchor="middle" font-size="18" fill="#cbd5e1" font-weight="700">TU MARCA</text>
+  </g>
+
+  <!-- Social proof stars on right -->
+  <g id="socialProof" transform="translate(860,156)">
+    <g fill="#f59e0b">
+      <use href="#icon-star"/>
+      <g transform="translate(26,0)"><use href="#icon-star"/></g>
+      <g transform="translate(52,0)"><use href="#icon-star"/></g>
+      <g transform="translate(78,0)"><use href="#icon-star"/></g>
+      <g transform="translate(104,0)"><use href="#icon-star"/></g>
+    </g>
+    <text x="64" y="32" text-anchor="middle" class="font-main" font-size="16" fill="#d1fae5">4.9/5 por clientes</text>
+  </g>
+
+  <!-- Ribbon badge on right panel -->
+  <g id="ribbonBadge" transform="translate(972,70) rotate(15)">
+    <rect x="-68" y="0" width="136" height="34" rx="8" fill="#16a34a"/>
+    <text x="0" y="23" text-anchor="middle" class="font-main" font-size="18" font-weight="800" fill="#052e1e">Mejora ×3</text>
+  </g>
+
+  <!-- Left pain chips -->
+  <g id="leftPainChips" class="font-main">
+    <rect x="84" y="900" rx="12" ry="12" width="260" height="40" fill="#0f172a" stroke="#1f2937"/>
+    <circle cx="104" cy="920" r="6" fill="#ef4444"/>
+    <text x="132" y="927" font-size="20" fill="#e5e7eb">Retrasos constantes</text>
+
+    <rect x="84" y="948" rx="12" ry="12" width="260" height="40" fill="#0f172a" stroke="#1f2937"/>
+    <circle cx="104" cy="968" r="6" fill="#ef4444"/>
+    <text x="132" y="975" font-size="20" fill="#e5e7eb">Baja conversión</text>
+
+    <rect x="84" y="996" rx="12" ry="12" width="260" height="40" fill="#0f172a" stroke="#1f2937"/>
+    <circle cx="104" cy="1016" r="6" fill="#ef4444"/>
+    <text x="132" y="1023" font-size="20" fill="#e5e7eb">Tareas manuales</text>
+  </g>
+
+  <!-- Right benefits checklist -->
+  <g id="rightChecklist" class="font-main">
+    <circle cx="580" cy="920" r="10" fill="#16a34a"/>
+    <path d="M575 920 l4 4 l8 -8" fill="none" stroke="#052e1e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="604" y="927" font-size="22" fill="#d1fae5" font-weight="700">Implementación en días</text>
+
+    <circle cx="580" cy="968" r="10" fill="#16a34a"/>
+    <path d="M575 968 l4 4 l8 -8" fill="none" stroke="#052e1e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="604" y="975" font-size="22" fill="#d1fae5" font-weight="700">+35% tasa de conversión</text>
+
+    <circle cx="580" cy="1016" r="10" fill="#16a34a"/>
+    <path d="M575 1016 l4 4 l8 -8" fill="none" stroke="#052e1e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="604" y="1023" font-size="22" fill="#d1fae5" font-weight="700">Automatización 24/7</text>
+  </g>
+
+  <!-- ========================================
+       SECCIÓN 7: TESTIMONIAL Y PRUEBA SOCIAL
+       ======================================== -->
+  <g id="testimonial" class="font-main" opacity="0.95">
+    <rect x="600" y="1040" width="420" height="120" rx="16" fill="#0b1220" stroke="#1f2a44"/>
+    <circle cx="632" cy="1100" r="18" fill="#16a34a"/>
+    <text x="662" y="1088" font-size="18" fill="#e2e8f0" font-weight="700">María G.</text>
+    <text x="662" y="1112" font-size="16" fill="#94a3b8">COO, Acme</text>
+    <text x="632" y="1136" font-size="16" fill="#cbd5e1">“Triplicamos leads en 30 días gracias a [PRODUCTO].”</text>
+  </g>
+
+  <!-- ========================================
+       SECCIÓN 8: FOOTER Y ELEMENTOS AUXILIARES
+       ======================================== -->
+  <g id="footer" class="font-main" opacity="0.95">
+    <text x="64" y="1248" font-size="22" fill="#94a3b8">@tu_handle</text>
+    <text x="64" y="1278" font-size="20" fill="#64748b">tusitio.com</text>
+    <rect x="908" y="1212" width="108" height="108" rx="12" fill="#0b1220" stroke="#1f2a44"/>
+    <text x="962" y="1274" text-anchor="middle" font-size="12" fill="#94a3b8">QR</text>
+  </g>
+
+  <!-- Swipe hint -->
+  <g id="swipeHint" class="font-main" opacity="0.8">
+    <text x="540" y="1156" text-anchor="middle" font-size="18" fill="#94a3b8">Desliza</text>
+    <path d="M510 1148 l10 10 l-10 10" fill="none" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M570 1168 l-10 -10 l10 -10" fill="none" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Carousel dots -->
+  <g id="carouselDots" opacity="0.6">
+    <circle cx="510" cy="1178" r="4" fill="#475569"/>
+    <circle cx="528" cy="1178" r="4" fill="#94a3b8"/>
+    <circle cx="546" cy="1178" r="4" fill="#475569"/>
+    <circle cx="564" cy="1178" r="4" fill="#475569"/>
+  </g>
+
+  <!-- Disclaimer -->
+  <text x="540" y="1308" text-anchor="middle" font-size="12" fill="#64748b" class="font-main" opacity="0.9">*Resultados promedio con clientes de [PRODUCTO].</text>
+
+  <!-- Guarantee badge -->
+  <g id="guaranteeBadge" class="font-main" transform="translate(120,1200)">
+    <circle cx="0" cy="0" r="34" fill="#0b1220" stroke="#1f2a44"/>
+    <circle cx="0" cy="0" r="28" fill="none" stroke="#22c55e" stroke-width="3"/>
+    <text x="0" y="4" text-anchor="middle" font-size="12" fill="#cbd5e1" font-weight="800">7 días</text>
+  </g>
+
+  <!-- ========================================
+       SECCIÓN 9: GUÍAS Y HERRAMIENTAS DE DISEÑO
+       (Ocultar para exportación final: opacity="0" o display="none")
+       ======================================== -->
+  <g id="guidesThirds" opacity="0.08">
+    <line x1="360" y1="0" x2="360" y2="1350" stroke="#ffffff" stroke-dasharray="8 10"/>
+    <line x1="720" y1="0" x2="720" y2="1350" stroke="#ffffff" stroke-dasharray="8 10"/>
+    <line x1="0" y1="450" x2="1080" y2="450" stroke="#ffffff" stroke-dasharray="8 10"/>
+    <line x1="0" y1="900" x2="1080" y2="900" stroke="#ffffff" stroke-dasharray="8 10"/>
+  </g>
+
+  <!-- Brand palette (optional helpers - hide or delete) -->
+  <g id="brandPalette" opacity="0.0">
+    <rect x="40" y="40" width="20" height="20" fill="#22c55e"/>
+    <rect x="64" y="40" width="20" height="20" fill="#16a34a"/>
+    <rect x="88" y="40" width="20" height="20" fill="#052e1e"/>
+    <rect x="112" y="40" width="20" height="20" fill="#0f172a"/>
+  </g>
+
+  <!-- Instruction overlays (toggle visibility to guide editing) -->
+  <g class="font-main" font-size="16" fill="#94a3b8" opacity="0.85">
+    <text x="540" y="1318" text-anchor="middle">Reemplaza los paneles con tus fotos: selecciona cada panel y establece el atributo href del elemento image.</text>
+    <text x="540" y="60" text-anchor="middle" opacity="0.0">Guías de seguridad 48px</text>
+  </g>
+
+  <!-- Safe area outline (hidden by default) -->
+  <rect id="safeArea" x="48" y="48" width="984" height="1254" rx="28" fill="none" stroke="#64748b" stroke-dasharray="10 10" opacity="0.25"/>
+
+  <!-- Center divider (subtle) -->
+  <line id="centerDivider" x1="540" y1="48" x2="540" y2="1302" stroke="url(#dividerGlow)" stroke-width="2"/>
+
+  <!-- Placeholder captions (optional) -->
+  <g id="panelCaptions" class="font-main" font-size="22" fill="#e5e7eb" opacity="0.9">
+    <text x="294" y="1120" text-anchor="middle">Escenario antes</text>
+    <text x="786" y="1120" text-anchor="middle">Escenario después</text>
+  </g>
+
+  <!-- ========================================
+       VARIABLES DE COLOR DE REFERENCIA (no se renderizan)
+       Para cambiar colores, busca estos hex en el SVG:
+       - Verde principal: #22c55e
+       - Verde oscuro: #16a34a, #052e1e
+       - Rojo/antes: #ef4444
+       - Fondo: #0f172a, #111827, #0b3b2e
+       - Texto claro: #ffffff, #cbd5e1, #e5e7eb
+       - Texto oscuro: #64748b, #94a3b8
+       ======================================== -->
+  <g id="colorReference" opacity="0" display="none">
+    <rect x="0" y="0" width="1" height="1" fill="#22c55e"/>
+    <rect x="0" y="0" width="1" height="1" fill="#16a34a"/>
+    <rect x="0" y="0" width="1" height="1" fill="#052e1e"/>
+    <rect x="0" y="0" width="1" height="1" fill="#ef4444"/>
+    <rect x="0" y="0" width="1" height="1" fill="#0f172a"/>
+    <rect x="0" y="0" width="1" height="1" fill="#111827"/>
+    <rect x="0" y="0" width="1" height="1" fill="#0b3b2e"/>
+  </g>
+
+  <!-- ========================================
+       GUÍA RÁPIDA PARA OCULTAR ELEMENTOS:
+       - Marca de agua: id="watermark" → opacity="0"
+       - Prueba social: id="socialProof" → opacity="0"
+       - Testimonial: id="testimonial" → opacity="0"
+       - Badge de oferta: id="offerBadge" → opacity="0"
+       - Barra de marca: id="brandBar" → opacity="0"
+       - Ribbon "Mejora x3": id="ribbonBadge" → opacity="0"
+       - Chips de dolor: id="leftPainChips" → opacity="0"
+       - Checklist: id="rightChecklist" → opacity="0"
+       - Badge garantía: id="guaranteeBadge" → opacity="0"
+       - Captions: id="panelCaptions" → opacity="0"
+       - Swipe hint: id="swipeHint" → opacity="0"
+       - Carousel dots: id="carouselDots" → opacity="0"
+       ======================================== -->
+
+  <!-- ========================================
+       GUÍA DE EXPORTACIÓN
+       ======================================== -->
+  <!--
+  FORMATOS RECOMENDADOS:
+  1. PNG: Para uso en redes sociales (1080×1350 px, RGB)
+  2. JPG: Para reducir tamaño de archivo (calidad 90-95%)
+  3. SVG: Para mantener editable (peso ~50-100 KB)
+  
+  HERRAMIENTAS DE EXPORTACIÓN:
+  - Illustrator: Archivo → Exportar → Exportar como → PNG/JPG
+  - Figma: Click derecho → Exportar → Seleccionar formato
+  - Inkscape: Archivo → Exportar PNG → 1080×1350 px
+  - Online: svgtopng.com, convertio.co
+  
+  ANTES DE EXPORTAR:
+  1. Ocultar todas las guías (guidesThirds, safeArea)
+  2. Verificar que no queden elementos con opacity="0" visibles
+  3. Comprobar que las imágenes están vinculadas correctamente
+  4. Optimizar: eliminar elementos no utilizados
+  5. Verificar legibilidad de textos sobre fondos
+  
+  OPTIMIZACIÓN:
+  - Para PNG/JPG: exportar en 2x (2160×2700) para mejor calidad
+  - Para web: usar SVG directamente o optimizar con SVGO
+  - Comprimir PNG con TinyPNG o ImageOptim
+  - Verificar que textos no se pixelan
+  
+  INSTAGRAM REQUIREMENTS:
+  - Aspect ratio: 4:5 (1080×1350 px)
+  - Formato: PNG o JPG
+  - Peso máximo: No especificado, pero <5MB recomendado
+  - Color space: sRGB
+  - Sin transparencia en JPG (PNG sí permite)
+  ======================================== -->
+
+  <!-- ========================================
+       VARIANTES DE DISEÑO RÁPIDAS
+       ======================================== -->
+  <!--
+  VARIANTE MÍNIMA (solo elementos esenciales):
+  → Ocultar: watermark, socialProof, testimonial, offerBadge,
+            ribbonBadge, leftPainChips, rightChecklist, guaranteeBadge,
+            swipeHint, carouselDots, panelCaptions
+  
+  VARIANTE COMPACTA (sin extras de conversión):
+  → Ocultar: testimonial, offerBadge, guaranteeBadge, swipeHint, carouselDots
+  
+  VARIANTE COMPLETA (todo visible):
+  → Mostrar todos los elementos con sus opacidades por defecto
+  
+  CAMBIO RÁPIDO DE PALETA:
+  → Buscar y reemplazar todos los hex:
+     #22c55e → tu-color-principal
+     #16a34a → tu-color-oscuro
+     #ef4444 → tu-color-error
+     #0f172a → tu-fondo-oscuro
+  
+  CAMBIO DE TIPOGRAFÍA:
+  → Editar .font-main en <style> línea ~138
+  → Reemplazar font-family con tu fuente
+  
+  ESCALADO RÁPIDO:
+  → Para cambiar tamaño, modificar viewBox y width/height
+  → Mantener proporción 4:5 para Instagram
+  ======================================== -->
+
+  <!-- ========================================
+       SCRIPTS DE EJEMPLO PARA AUTOMATIZACIÓN
+       ======================================== -->
+  <!--
+  JAVASCRIPT - Cambiar textos automáticamente:
+  ```
+  // Cambiar titular
+  const headline = document.getElementById('headlineText');
+  headline.textContent = 'Transforma tu PRODUCTO_A en RESULTADO_B';
+  
+  // Cambiar CTA URL
+  const cta = document.getElementById('ctaLink');
+  cta.setAttribute('href', 'https://tu-sitio.com');
+  
+  // Ocultar elementos opcionales
+  document.getElementById('watermark').style.opacity = '0';
+  document.getElementById('guidesThirds').style.opacity = '0';
+  ```
+  
+  PYTHON - Procesar SVG con lxml:
+  ```
+  from lxml import etree
+  import re
+  
+  # Cargar SVG
+  tree = etree.parse('template.svg')
+  root = tree.getroot()
+  
+  # Reemplazar placeholders
+  for elem in root.iter():
+      if elem.text:
+          elem.text = elem.text.replace('[PROBLEMA]', 'Tu Problema')
+          elem.text = elem.text.replace('[RESULTADO]', 'Tu Resultado')
+          elem.text = elem.text.replace('[PRODUCTO]', 'Tu Producto')
+  
+  # Guardar
+  tree.write('personalizado.svg')
+  ```
+  
+  NODE.JS - Procesar con cheerio:
+  ```
+  const fs = require('fs');
+  const cheerio = require('cheerio');
+  
+  const svg = fs.readFileSync('template.svg', 'utf8');
+  const $ = cheerio.load(svg, { xmlMode: true });
+  
+  // Cambiar textos
+  $('#headlineText').text('Nuevo título');
+  $('#ctaLink').attr('href', 'https://nuevo-url.com');
+  
+  // Ocultar guías
+  $('#guidesThirds').attr('opacity', '0');
+  
+  fs.writeFileSync('salida.svg', $.xml());
+  ```
+  
+  FIND & REPLACE MASIVO:
+  ```
+  # Terminal/Mac: Buscar y reemplazar en múltiples archivos
+  find . -name "*.svg" -exec sed -i '' 's/\[PROBLEMA\]/Tu Problema/g' {} \;
+  find . -name "*.svg" -exec sed -i '' 's/\[RESULTADO\]/Tu Resultado/g' {} \;
+  find . -name "*.svg" -exec sed -i '' 's/\[PRODUCTO\]/Tu Producto/g' {} \;
+  ```
+  ======================================== -->
+
+  <!-- ========================================
+       SISTEMA DE ANOTACIONES PARA COLABORACIÓN
+       ======================================== -->
+  <!--
+  NOTAS PARA EL EQUIPO:
+  =====================
+  
+  [Ejemplo de anotación]
+  <!-- TODO: Revisar contraste del texto del testimonial -->
+  <!-- FIXME: Ajustar posición del CTA en móviles -->
+  <!-- NOTE: Este color viene de la marca, no cambiar sin aprobación -->
+  <!-- HACK: Solución temporal, revisar en próxima iteración -->
+  
+  FORMATO DE ANOTACIONES:
+  - TODO: Tareas pendientes
+  - FIXME: Correcciones necesarias
+  - NOTE: Notas informativas
+  - HACK: Soluciones temporales
+  - QUESTION: Preguntas para el equipo
+  - REVIEW: Necesita revisión
+  
+  UBICAR ANOTACIONES:
+  - Buscar por "TODO", "FIXME", "NOTE" en el código
+  - Mantener anotaciones cerca del código relacionado
+  - Actualizar o eliminar anotaciones cuando se resuelvan
+  ======================================== -->
+
+  <!-- ========================================
+       REFERENCIAS ÚTILES Y RECURSOS
+       ======================================== -->
+  <!--
+  HERRAMIENTAS RECOMENDADAS:
+  ===========================
+  
+  EDITORES SVG:
+  - Adobe Illustrator: Edición profesional completa
+  - Figma: Colaborativo, gratuito, basado en web
+  - Inkscape: Gratis, open source, multiplataforma
+  - Sketch: macOS, popular para diseño UI/UX
+  
+  OPTIMIZACIÓN:
+  - SVGO: npm install -g svgo (comprime SVG)
+  - ImageOptim: Optimización de imágenes (Mac)
+  - TinyPNG: Compresión online de PNG/JPG
+  
+  VALIDACIÓN:
+  - W3C Validator: https://validator.w3.org/
+  - Accessibility Checker: WAVE, axe DevTools
+  - Color Contrast Checker: WebAIM Contrast Checker
+  
+  RECURSOS DE DISEÑO:
+  - Unsplash: Imágenes gratis de alta calidad
+  - Pexels: Fotos y videos gratuitos
+  - ColorHunt: Paletas de colores
+  - Google Fonts: Tipografías gratuitas
+  
+  INFORMACIÓN INSTAGRAM:
+  - Dimensiones recomendadas: https://help.instagram.com/
+  - Guía de diseño: Instagram Design Guidelines
+  - Aspect ratios: 1:1, 4:5, 9:16, 16:9
+  ======================================== -->
+
+  <!-- ========================================
+       MEJORES PRÁCTICAS Y OPTIMIZACIÓN
+       ======================================== -->
+  <!--
+  ACCESIBILIDAD:
+  ✓ Todos los elementos importantes tienen aria-label
+  ✓ Textos alternativos con <title> en imágenes
+  ✓ Roles semánticos (role="img", role="button", role="group")
+  ✓ Contraste de colores mínimo 4.5:1 para textos
+  ✓ Elementos decorativos marcados con aria-hidden="true"
+  
+  RENDIMIENTO:
+  ✓ Símbolos reutilizables para iconos (reduce duplicación)
+  ✓ Gradientes y filtros definidos una vez en <defs>
+  ✓ Clip-paths para recortes eficientes
+  ✓ Elementos opcionales con opacity en lugar de display cuando es posible
+  
+  ORGANIZACIÓN:
+  ✓ Capas agrupadas por función (background, panels, content)
+  ✓ IDs descriptivos y consistentes
+  ✓ Comentarios claros por sección
+  ✓ Estructura semántica clara
+  
+  MANTENIMIENTO:
+  ✓ Todos los colores documentados en metadatos
+  ✓ Sistema de temas centralizado
+  ✓ Variantes predefinidas para casos comunes
+  ✓ Scripts de ejemplo para automatización
+  
+  EXPORTACIÓN:
+  ✓ Ocultar guías y elementos de desarrollo antes de exportar
+  ✓ Verificar que todas las imágenes están vinculadas
+  ✓ Optimizar SVG con SVGO antes de usar en producción
+  ✓ Convertir a PNG/JPG en tamaño correcto (1080×1350 o 2x)
+  
+  VERSIONADO:
+  ✓ Versión en metadatos y comentarios
+  ✓ Changelog completo de todas las versiones
+  ✓ Fecha de última actualización
+  ======================================== -->
+
+  <!-- ========================================
+       CASOS DE USO AVANZADOS
+       ======================================== -->
+  <!--
+  ESCENARIOS DE USO:
+  ===================
+  
+  1. MARKETING DE PRODUCTO:
+  - Antes: Problema del cliente (ej: baja conversión)
+  - Después: Solución del producto (ej: +35% conversión)
+  - Producto: Nombre del SaaS/Herramienta
+  - Métricas: KPIs específicos del producto
+  
+  2. TRANSFORMACIÓN PERSONAL:
+  - Antes: Estado inicial (ej: desorganizado)
+  - Después: Resultado logrado (ej: productividad máxima)
+  - Producto: Curso/Mentoría/Sistema
+  - Métricas: Tiempo ahorrado, resultados obtenidos
+  
+  3. SERVICIO PROFESIONAL:
+  - Antes: Problema del cliente (ej: bajo engagement)
+  - Después: Resultado del servicio (ej: +200% engagement)
+  - Producto: Consultoría/Asesoría
+  - Métricas: ROI, mejoras específicas
+  
+  4. ANTES/DESPUÉS FÍSICO:
+  - Antes: Foto del estado inicial
+  - Después: Foto del resultado final
+  - Producto: Servicio de transformación
+  - Métricas: Cambios medibles
+  
+  PERSONALIZACIÓN POR INDUSTRIA:
+  ===============================
+  
+  SAAS/TECH:
+  - Colores: Azules, verdes (tecnología, confianza)
+  - Métricas: Tiempo ahorrado, eficiencia, conversión
+  - Lenguaje: Técnico pero accesible
+  
+  FITNESS/SALUD:
+  - Colores: Rojos, naranjas (energía), verdes (salud)
+  - Métricas: Peso, tiempo, fuerza
+  - Lenguaje: Motivacional, transformación
+  
+  MARKETING/DISEÑO:
+  - Colores: Vibrantes, creativos
+  - Métricas: Engagement, alcance, conversión
+  - Lenguaje: Creativo, data-driven
+  
+  NEGOCIOS/COACHING:
+  - Colores: Azules oscuros, dorados (profesional, éxito)
+  - Métricas: Ingresos, crecimiento, ROI
+  - Lenguaje: Profesional, resultados
+  
+  OPTIMIZACIONES AVANZADAS:
+  ==========================
+  
+  PARA RENDIMIENTO:
+  - Inline imágenes pequeñas (<50KB) directamente en SVG como data URI
+  - Usar <use> para elementos repetidos
+  - Minimizar número de filtros aplicados
+  - Simplificar paths complejos cuando sea posible
+  
+  PARA SEO Y DISCOVERY:
+  - Incluir keywords relevantes en <title> y <desc>
+  - Usar metadata Dublin Core (ya incluido)
+  - Añadir schema.org markup si se usa en web
+  
+  PARA ACCESIBILIDAD:
+  - Verificar con lectores de pantalla
+  - Asegurar contraste WCAG AA (4.5:1 mínimo)
+  - Probar navegación por teclado si es interactivo
+  
+  PARA PRODUCCIÓN:
+  - Exportar a PNG en 2x (2160×2700) para Retina displays
+  - Comprimir con TinyPNG o similar
+  - Validar SVG con W3C Validator
+  - Probar en diferentes dispositivos (móvil, tablet)
+  ======================================== -->
+
+  <!-- ========================================
+       TIPS Y TRUCOS AVANZADOS
+       ======================================== -->
+  <!--
+  EDICIÓN EFICIENTE:
+  ==================
+  
+  1. USAR MULTI-CURSOR:
+  - VS Code/Cursor: Ctrl+Alt+Click (multi-cursor)
+  - Buscar múltiples instancias y editar simultáneamente
+  - Útil para cambiar colores o textos repetidos
+  
+  2. EXPRESIONES REGULARES:
+  - Buscar: \[PROBLEMA\]|\[RESULTADO\]|\[PRODUCTO\]
+  - Reemplazar con valores específicos
+  
+  3. MACROS DE EDITOR:
+  - Grabar macro para cambios repetitivos
+  - Automatizar reemplazos masivos
+  
+  4. EXTENSIONES ÚTILES:
+  - SVG Preview: Vista previa en tiempo real
+  - SVG Compressor: Optimización automática
+  - Color Picker: Selección de colores rápida
+  
+  FLUJO DE TRABAJO RECOMENDADO:
+  ==============================
+  
+  1. PREPARACIÓN:
+     - Preparar imágenes en tamaño correcto
+     - Tener textos finales listos
+     - Definir paleta de colores
+  
+  2. EDICIÓN:
+     - Reemplazar placeholders
+     - Añadir imágenes
+     - Ajustar colores y estilos
+     - Personalizar métricas
+  
+  3. VALIDACIÓN:
+     - Revisar checklist de validación
+     - Comprobar accesibilidad
+     - Verificar contraste
+  
+  4. OPTIMIZACIÓN:
+     - Ocultar guías
+     - Comprimir imágenes
+     - Optimizar SVG
+  
+  5. EXPORTACIÓN:
+     - Exportar PNG/JPG en tamaño correcto
+     - Probar en Instagram
+     - Guardar versiones (SVG editable + PNG final)
+  ======================================== -->
+
+  <!-- ========================================
+       INTEGRACIONES Y AUTOMATIZACIÓN AVANZADA
+       ======================================== -->
+  <!--
+  INTEGRACIÓN CON HERRAMIENTAS:
+  =============================
+  
+  FIGMA AUTOMATION:
+  - Importar SVG como frame
+  - Crear componentes de texto editables
+  - Usar variables de Figma para colores
+  - Exportar automáticamente a PNG con plugins
+  
+  ADOBE ILLUSTRATOR SCRIPTS:
+  - Script para reemplazo masivo de texto
+  - Batch processing de múltiples archivos
+  - Exportación automática a diferentes formatos
+  
+  CANVA (conversión):
+  - Importar SVG en Canva
+  - Mantener elementos editables
+  - Usar como base para variaciones rápidas
+  
+  AUTOMATIZACIÓN CON ZAPIER/MAKEFILE:
+  - Trigger: Nueva campaña creada
+  - Acción: Generar SVG personalizado
+  - Output: PNG optimizado para Instagram
+  - Distribución: Subir automáticamente a Instagram
+  
+  EJEMPLOS DE CÓDIGO AVANZADO:
+  ============================
+  
+  PYTHON - Procesamiento en lote con Pillow:
+  ```python
+  from PIL import Image
+  import cairosvg
+  import os
+  
+  def convert_svg_to_png(svg_path, output_path, scale=2):
+      cairosvg.svg2png(url=svg_path, 
+                       write_to=output_path,
+                       output_width=1080*scale,
+                       output_height=1350*scale)
+  
+  # Procesar múltiples archivos
+  for svg_file in os.listdir('templates/'):
+      if svg_file.endswith('.svg'):
+          convert_svg_to_png(f'templates/{svg_file}',
+                           f'output/{svg_file.replace(".svg", ".png")}')
+  ```
+  
+  NODE.JS - Generación dinámica con Express:
+  ```javascript
+  const express = require('express');
+  const fs = require('fs');
+  const cheerio = require('cheerio');
+  
+  app.post('/generate-instagram-post', (req, res) => {
+    const { problema, resultado, producto } = req.body;
+    let svg = fs.readFileSync('template.svg', 'utf8');
+    const $ = cheerio.load(svg, { xmlMode: true });
+    
+    // Personalizar
+    $('#headlineText').text(`Transforma tu ${problema} en ${resultado}`);
+    $('#subheadlineText').text(`con ${producto}`);
+    
+    // Ocultar guías
+    $('#guidesThirds').attr('opacity', '0');
+    
+    res.setHeader('Content-Type', 'image/svg+xml');
+    res.send($.xml());
+  });
+  ```
+  
+  SHELL SCRIPT - Batch processing:
+  ```bash
+  #!/bin/bash
+  for file in templates/*.svg; do
+    filename=$(basename "$file" .svg)
+    inkscape "$file" --export-type=png \
+                    --export-width=2160 \
+                    --export-height=2700 \
+                    --export-filename="output/${filename}.png"
+  done
+  ```
+  
+  GITHUB ACTIONS - CI/CD para generación:
+  ```yaml
+  name: Generate Instagram Posts
+  on:
+    push:
+      paths:
+        - 'data/posts.yml'
+  jobs:
+    generate:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v2
+        - name: Generate SVGs
+          run: python scripts/generate_posts.py
+        - name: Convert to PNG
+          run: |
+            npm install -g svg2png
+            svg2png output/*.svg
+        - name: Upload to Instagram
+          run: python scripts/upload_to_instagram.py
+  ```
+  ======================================== -->
+
+  <!-- ========================================
+       SISTEMA DE TESTING Y VALIDACIÓN AVANZADA
+       ======================================== -->
+  <!--
+  TESTS AUTOMATIZADOS:
+  ====================
+  
+  PYTHON - Validación de SVG:
+  ```python
+  import xml.etree.ElementTree as ET
+  from defusedxml import ElementTree
+  
+  def validate_svg(svg_path):
+      errors = []
+      
+      # Validar estructura XML
+      try:
+          tree = ElementTree.parse(svg_path)
+          root = tree.getroot()
+      except Exception as e:
+          errors.append(f"Error XML: {e}")
+          return errors
+      
+      # Verificar placeholders reemplazados
+      svg_text = open(svg_path).read()
+      if '[PROBLEMA]' in svg_text or '[RESULTADO]' in svg_text or '[PRODUCTO]' in svg_text:
+          errors.append("Placeholders no reemplazados encontrados")
+      
+      # Verificar imágenes vinculadas
+      images = root.findall('.//{http://www.w3.org/2000/svg}image')
+      for img in images:
+          href = img.get('{http://www.w3.org/1999/xlink}href') or img.get('href')
+          if not href or href == '':
+              errors.append(f"Imagen sin href: {img.get('id')}")
+      
+      # Verificar CTA tiene URL
+      cta = root.find('.//*[@id="ctaLink"]')
+      if cta is not None:
+          href = cta.get('href')
+          if href == '#' or not href:
+              errors.append("CTA sin URL válida")
+      
+      # Verificar guías ocultas
+      guides = root.find('.//*[@id="guidesThirds"]')
+      if guides is not None and guides.get('opacity') != '0':
+          errors.append("Guías de desarrollo no ocultas")
+      
+      return errors
+  
+  # Ejecutar validación
+  errors = validate_svg('template.svg')
+  if errors:
+      print("ERRORES ENCONTRADOS:")
+      for error in errors:
+          print(f"  - {error}")
+  else:
+      print("✓ SVG válido y listo para producción")
+  ```
+  
+  NODE.JS - Test suite con Jest:
+  ```javascript
+  const fs = require('fs');
+  const cheerio = require('cheerio');
+  
+  describe('SVG Template Validation', () => {
+    let svg;
+    
+    beforeAll(() => {
+      svg = fs.readFileSync('template.svg', 'utf8');
+    });
+    
+    test('should not have placeholders', () => {
+      expect(svg).not.toMatch(/\[PROBLEMA\]|\[RESULTADO\]|\[PRODUCTO\]/);
+    });
+    
+    test('should have valid dimensions', () => {
+      const $ = cheerio.load(svg, { xmlMode: true });
+      const width = $('svg').attr('width');
+      const height = $('svg').attr('height');
+      expect(width).toBe('1080');
+      expect(height).toBe('1350');
+    });
+    
+    test('should have images linked', () => {
+      const $ = cheerio.load(svg, { xmlMode: true });
+      const beforeImg = $('#beforeImage').attr('href');
+      const afterImg = $('#afterImage').attr('href');
+      expect(beforeImg).toBeTruthy();
+      expect(afterImg).toBeTruthy();
+    });
+    
+    test('should have CTA with valid URL', () => {
+      const $ = cheerio.load(svg, { xmlMode: true });
+      const ctaUrl = $('#ctaLink').attr('href');
+      expect(ctaUrl).toBeTruthy();
+      expect(ctaUrl).not.toBe('#');
+    });
+    
+    test('should have guides hidden', () => {
+      const $ = cheerio.load(svg, { xmlMode: true });
+      const guidesOpacity = $('#guidesThirds').attr('opacity');
+      expect(guidesOpacity).toBe('0');
+    });
+  });
+  ```
+  
+  VALIDACIÓN DE ACCESIBILIDAD:
+  =============================
+  
+  1. Contraste de colores:
+     - Usar herramienta: https://webaim.org/resources/contrastchecker/
+     - Verificar todos los textos sobre fondos
+     - Mínimo 4.5:1 para texto normal
+     - Mínimo 3:1 para texto grande
+  
+  2. Lectores de pantalla:
+     - Probar con NVDA (Windows) o VoiceOver (Mac)
+     - Verificar que aria-labels son descriptivos
+     - Asegurar orden lógico de elementos
+  
+  3. Navegación por teclado:
+     - Si es interactivo, probar Tab/Enter
+     - Verificar focus visible
+  
+  CHECKLIST DE CALIDAD FINAL:
+  ===========================
+  
+  ☐ Todos los placeholders reemplazados
+  ☐ Imágenes vinculadas correctamente
+  ☐ URLs del CTA funcionan
+  ☐ Guías de desarrollo ocultas
+  ☐ Contraste de colores verificado (WCAG AA)
+  ☐ Accesibilidad probada con lectores de pantalla
+  ☐ Dimensiones correctas (1080×1350)
+  ☐ Peso del archivo optimizado
+  ☐ Textos sin errores ortográficos
+  ☐ Colores de marca consistentes
+  ☐ Elementos opcionales con opacidad deseada
+  ☐ Metadata completa y correcta
+  ☐ Exportado a PNG/JPG en tamaño correcto
+  ☐ Probado en Instagram (preview)
+  ☐ Backup del SVG editable guardado
+  ======================================== -->
+
+  <!-- ========================================
+       GESTIÓN DE VERSIONES Y BACKUP
+       ======================================== -->
+  <!--
+  ESTRATEGIA DE BACKUP:
+  =====================
+  
+  1. VERSIONADO MANUAL:
+     - Guardar copias: template_v2.2_original.svg
+     - Fechas: template_2025-01-30.svg
+     - Casos de uso: template_saas_v1.svg
+  
+  2. CONTROL DE VERSIONES (GIT):
+     ```bash
+     git init
+     git add instagram_antes_despues_template.svg
+     git commit -m "Template v2.2 - Versión base"
+     
+     # Crear ramas para variantes
+     git checkout -b variante-saas
+     # Editar template
+     git commit -m "Variante SaaS personalizada"
+     ```
+  
+  3. BACKUP AUTOMÁTICO:
+     - Configurar cron job para backup diario
+     - Guardar en cloud (Drive, Dropbox, etc.)
+     - Mantener últimos 7 días de versiones
+  
+  NOMENCLATURA RECOMENDADA:
+  =========================
+  
+  Template base:
+  - instagram_antes_despues_template.svg
+  
+  Variantes:
+  - instagram_antes_despues_[caso-uso].svg
+  - instagram_antes_despues_saas.svg
+  - instagram_antes_despues_coaching.svg
+  
+  Versiones personalizadas:
+  - instagram_antes_despues_[marca]_v1.svg
+  - instagram_antes_despues_productoX_v2.svg
+  
+  Exportaciones finales:
+  - instagram_post_[fecha]_[tema].png
+  - instagram_post_2025-01-30_saas.png
+  
+  RESTAURACIÓN:
+  =============
+  
+  Si algo sale mal:
+  1. Buscar última versión funcional en backup
+  2. Comparar con Git diff si usas control de versiones
+  3. Restaurar sección específica si es necesario
+  4. Validar después de restaurar
+  ======================================== -->
+
+  <!-- ========================================
+       ANALYTICS Y MÉTRICAS DE RENDIMIENTO
+       ======================================== -->
+  <!--
+  TRACKING DE RESULTADOS:
+  =======================
+  
+  MÉTRICAS A MONITOREAR EN INSTAGRAM:
+  - Alcance (Reach): Cuántas personas vieron el post
+  - Impresiones: Número de veces que se mostró
+  - Engagement: Likes, comentarios, guardados, compartidos
+  - Clics en perfil: Desde el post hasta tu perfil
+  - Conversiones: Descargas, registros, ventas
+  
+  UTM TRACKING PARA CTA:
+  ======================
+  
+  Si el SVG se usa en web (no solo Instagram):
+  - Añadir parámetros UTM al href del CTA
+  - Ejemplo: https://tu-sitio.com?utm_source=instagram&utm_medium=post&utm_campaign=antes_despues
+  
+  CÓDIGO DE SEGUIMIENTO:
+  ```javascript
+  // Añadir a página web si se usa SVG interactivo
+  document.getElementById('ctaLink').addEventListener('click', function() {
+    // Google Analytics
+    gtag('event', 'click', {
+      'event_category': 'CTA',
+      'event_label': 'Instagram Before After',
+      'value': 1
+    });
+    
+    // Facebook Pixel
+    fbq('track', 'Lead', {
+      content_name: 'Instagram Template CTA'
+    });
+  });
+  ```
+  
+  A/B TESTING:
+  ============
+  
+  Variaciones a probar:
+  1. Textos: Diferentes headlines
+  2. Colores: A/B de paleta de colores
+  3. Elementos: Con/sin testimonial, badges, etc.
+  4. CTA: Diferentes textos de botón
+  5. Imágenes: Diferentes fotos antes/después
+  
+  Registro de resultados:
+  - Guardar cada variante con nombre único
+  - Documentar métricas por variante
+  - Analizar qué funciona mejor
+  ======================================== -->
+
+  <!-- ========================================
+       INTERNACIONALIZACIÓN (I18N)
+       ======================================== -->
+  <!--
+  MULTI-IDIOMA:
+  =============
+  
+  PREPARACIÓN:
+  - Identificar todos los textos editables
+  - Crear archivo de traducciones (JSON/YAML)
+  - Sistema de reemplazo automático
+  
+  ARCHIVO DE TRADUCCIONES (traducciones.json):
+  ```json
+  {
+    "es": {
+      "problema": "tu problema",
+      "resultado": "tu solución",
+      "producto": "Tu Producto",
+      "mas_info": "Más info",
+      "antes": "Antes",
+      "despues": "Después"
+    },
+    "en": {
+      "problema": "your problem",
+      "resultado": "your solution",
+      "producto": "Your Product",
+      "mas_info": "Learn more",
+      "antes": "Before",
+      "despues": "After"
+    },
+    "pt": {
+      "problema": "seu problema",
+      "resultado": "sua solução",
+      "producto": "Seu Produto",
+      "mas_info": "Saiba mais",
+      "antes": "Antes",
+      "despues": "Depois"
+    }
+  }
+  ```
+  
+  SCRIPT DE TRADUCCIÓN:
+  ```python
+  import json
+  import re
+  from lxml import etree
+  
+  def translate_svg(svg_path, lang='es'):
+      with open('traducciones.json') as f:
+          translations = json.load(f)
+      
+      tree = etree.parse(svg_path)
+      root = tree.getroot()
+      trans = translations[lang]
+      
+      # Reemplazar textos
+      for elem in root.iter():
+          if elem.text:
+              for key, value in trans.items():
+                  elem.text = elem.text.replace(f'[{key.upper()}]', value)
+      
+      tree.write(f'template_{lang}.svg')
+  
+  # Generar versiones en múltiples idiomas
+  for lang in ['es', 'en', 'pt']:
+      translate_svg('template.svg', lang)
+  ```
+  
+  CONSIDERACIONES CULTURALES:
+  ============================
+  
+  - Colores: Algunos colores tienen significados diferentes
+  - Texto: Longitud varía entre idiomas
+  - Formato de fecha/números según región
+  - Dirección de lectura (LTR vs RTL)
+  ======================================== -->
+
+  <!-- ========================================
+       OPTIMIZACIÓN FINAL DE PERFORMANCE
+       ======================================== -->
+  <!--
+  OPTIMIZACIONES DE CÓDIGO:
+  ==========================
+  
+  1. MINIFICACIÓN SVG:
+     - Eliminar comentarios antes de producción
+     - Remover espacios en blanco innecesarios
+     - Usar SVGO: svgo --input template.svg --output template.min.svg
+  
+  2. OPTIMIZACIÓN DE IMÁGENES:
+     - Comprimir antes de incluir (TinyPNG, ImageOptim)
+     - Usar formato WebP si es posible
+     - Dimensiones exactas (no más grandes de lo necesario)
+     - Lazy loading si se usa en web
+  
+  3. REDUCCIÓN DE ELEMENTOS:
+     - Eliminar elementos no usados antes de exportar
+     - Simplificar paths complejos
+     - Combinar elementos similares con <use>
+  
+  4. CACHING:
+     - Si se usa en web, configurar headers de caché
+     - Versionar archivos: template_v2.3.svg
+  
+  BENCHMARKS DE PERFORMANCE:
+  ==========================
+  
+  Tamaños objetivo:
+  - SVG editable: <100KB (con documentación)
+  - SVG minificado: <50KB
+  - PNG exportado: <500KB (calidad 90-95%)
+  - PNG 2x (Retina): <1MB
+  
+  Tiempo de carga:
+  - SVG en web: <200ms
+  - Renderizado: <100ms
+  - Interacción: <50ms
+  
+  HERRAMIENTAS DE ANÁLISIS:
+  =========================
+  
+  - Chrome DevTools: Performance tab
+  - Lighthouse: Auditoría de performance
+  - SVGOMG: Optimizador online de SVG
+  - ImageOptim: Optimización de imágenes
+  ======================================== -->
+
+  <!-- ========================================
+       RECURSOS Y COMUNIDAD
+       ======================================== -->
+  <!--
+  APRENDIZAJE CONTINUO:
+  =====================
+  
+  RECURSOS RECOMENDADOS:
+  - MDN SVG: https://developer.mozilla.org/en-US/docs/Web/SVG
+  - W3C SVG Spec: https://www.w3.org/Graphics/SVG/
+  - SVG Patterns Gallery: https://www.svgpatterns.com/
+  - CSS-Tricks SVG Guide: https://css-tricks.com/guides/svg/
+  
+  COMUNIDAD:
+  - Stack Overflow: Tag [svg]
+  - Reddit: r/web_design, r/Frontend
+  - Twitter: #SVG #WebDesign
+  
+  INSPIRACIÓN:
+  - Dribbble: Búsqueda "before after"
+  - Behance: Templates de Instagram
+  - Awwwards: Casos de uso avanzados
+  
+  MEJORES PRÁCTICAS:
+  - Seguir estándares W3C SVG
+  - Mantener accesibilidad como prioridad
+  - Documentar cambios significativos
+  - Compartir conocimiento con el equipo
+  ======================================== -->
+
+  <!-- ========================================
+       COMPLIANCE Y CONSIDERACIONES LEGALES
+       ======================================== -->
+  <!--
+  DERECHOS DE IMAGEN:
+  ===================
+  
+  ANTES DE USAR IMÁGENES:
+  ☐ Verificar derechos de uso de todas las imágenes
+  ☐ Tener licencia o permiso para usar fotos de personas
+  ☐ Respaldar licencias y permisos documentados
+  ☐ Respetar derechos de autor de elementos gráficos
+  
+  STOCK PHOTOS RECOMENDADOS:
+  - Unsplash: Licencia gratuita, atribución recomendada
+  - Pexels: Gratis, sin atribución requerida
+  - Pixabay: Gratis para uso comercial
+  - Adobe Stock: Premium, requiere suscripción
+  
+  PRIVACIDAD Y DATOS:
+  ===================
+  
+  GDPR (si se usa en web EU):
+  - Considerar políticas de cookies
+  - Informar sobre tracking
+  - Permitir opt-out de analytics
+  
+  CLAIMING Y TESTIMONIALES:
+  =========================
+  
+  Si usas testimoniales reales:
+  - Obtener consentimiento escrito
+  - Permitir revisión antes de publicar
+  - Mantener archivos de autorización
+  
+  Si usas testimonios ficticios:
+  - Marcar claramente como "caso hipotético"
+  - No usar nombres reales sin permiso
+  
+  COPYRIGHT Y LICENCIA:
+  =====================
+  
+  Este template:
+  - Licencia: Personal/comercial con atribución opcional
+  - Puedes modificar libremente
+  - Compartir mejoras es bienvenido
+  - No redistribuir como "template original" sin cambios significativos
+  ======================================== -->
+
+  <!-- ========================================
+       SEO Y DISCOVERY (USO EN WEB)
+       ======================================== -->
+  <!--
+  OPTIMIZACIÓN PARA BUSCADORES:
+  =============================
+  
+  SI EL SVG SE USA EN UNA PÁGINA WEB:
+  
+  1. METADATA BÁSICA:
+     - Title: Descriptivo y con keywords
+     - Description: Meta descripción relevante
+     - Alt text: Para imágenes si se exporta a PNG
+  
+  2. STRUCTURED DATA:
+     ```html
+     <!-- JSON-LD para imagen comparativa -->
+     <script type="application/ld+json">
+     {
+       "@context": "https://schema.org",
+       "@type": "ImageObject",
+       "name": "Comparación antes y después",
+       "description": "Resultados de usar [PRODUCTO]",
+       "contentUrl": "url-del-png.jpg",
+       "width": "1080",
+       "height": "1350"
+     }
+     </script>
+     ```
+  
+  3. OPEN GRAPH (Redes sociales):
+     ```html
+     <meta property="og:image" content="url-del-png.jpg">
+     <meta property="og:image:width" content="1080">
+     <meta property="og:image:height" content="1350">
+     <meta property="og:description" content="Transforma tu [PROBLEMA] en [RESULTADO]">
+     ```
+  
+  4. TWITTER CARD:
+     ```html
+     <meta name="twitter:card" content="summary_large_image">
+     <meta name="twitter:image" content="url-del-png.jpg">
+     ```
+  
+  KEYWORDS Y CONTENIDO:
+  =====================
+  
+  - Incluir keywords relevantes en textos del SVG
+  - Usar texto descriptivo en lugar de solo imágenes
+  - Asegurar que el contenido es indexable (texto en SVG, no solo imágenes)
+  
+  PERFORMANCE SEO:
+  ================
+  
+  - Cargar SVG de forma lazy si es posible
+  - Minimizar tamaño del archivo
+  - Usar formato adecuado (SVG para escalable, PNG para compatibilidad)
+  ======================================== -->
+
+  <!-- ========================================
+       MANTENIMIENTO Y EVOLUCIÓN
+       ======================================== -->
+  <!--
+  CICLO DE VIDA DEL TEMPLATE:
+  ===========================
+  
+  REVISIÓN PERIÓDICA:
+  - Mensual: Revisar si los elementos siguen siendo relevantes
+  - Trimestral: Actualizar ejemplos y referencias
+  - Anual: Revisar compatibilidad con nuevas herramientas
+  
+  ACTUALIZACIONES RECOMENDADAS:
+  =============================
+  
+  1. TENDENCIAS DE DISEÑO:
+     - Mantener actualizado con tendencias de Instagram
+     - Revisar mejores prácticas de diseño de 2025+
+     - Adaptar según cambios en algoritmo de Instagram
+  
+  2. HERRAMIENTAS:
+     - Actualizar versiones de herramientas mencionadas
+     - Probar nuevas herramientas y añadirlas si son útiles
+     - Mantener enlaces y recursos actualizados
+  
+  3. COMPATIBILIDAD:
+     - Probar en nuevas versiones de navegadores
+     - Verificar que sigue funcionando en editores SVG
+     - Actualizar según cambios en estándares SVG
+  
+  FEEDBACK Y MEJORAS:
+  ===================
+  
+  - Recopilar feedback de usuarios del template
+  - Documentar problemas comunes encontrados
+  - Añadir soluciones a la documentación
+  - Mantener changelog actualizado
+  
+  ROADMAP SUGERIDO:
+  =================
+  
+  v3.0 (Futuro):
+  - Variantes de layout adicionales
+  - Sistema de componentes más modular
+  - Editor visual online (opcional)
+  - Integración con más plataformas
+  
+  MIGRACIÓN Y ACTUALIZACIÓN:
+  ==========================
+  
+  Si actualizas de versión anterior:
+  1. Hacer backup de tu versión personalizada
+  2. Comparar con nueva versión (Git diff)
+  3. Aplicar cambios manualmente si es necesario
+  4. Validar después de actualizar
+  5. Documentar cambios propios que quieras mantener
+  ======================================== -->
+
+  <!-- ========================================
+       CONTACTO Y SOPORTE
+       ======================================== -->
+  <!--
+  DOCUMENTACIÓN ADICIONAL:
+  ========================
+  
+  Si necesitas ayuda:
+  - Revisar esta documentación completa primero
+  - Buscar en secciones de troubleshooting
+  - Consultar recursos y comunidad mencionados
+  
+  REPORTAR ISSUES:
+  ================
+  
+  Si encuentras bugs o problemas:
+  - Documentar el problema claramente
+  - Incluir versión del template
+  - Especificar editor/herramienta usado
+  - Proporcionar pasos para reproducir
+  
+  CONTRIBUCIONES:
+  ==============
+  
+  Mejoras bienvenidas:
+  - Nuevas variantes de diseño
+  - Scripts de automatización
+  - Correcciones y optimizaciones
+  - Documentación adicional
+  
+  CRÉDITOS:
+  ========
+  
+  Template creado por: documentos_blatam
+  Versión actual: 2.6
+  Última actualización: 2025-01-30
+  Licencia: Personal/comercial con atribución opcional
+  
+  GRACIAS POR USAR ESTE TEMPLATE:
+  ================================
+  
+  Esperamos que este template sea útil para tus proyectos.
+  Si te ha ayudado, considera compartir tus mejoras o variantes.
+  ¡Buena suerte con tus campañas de Instagram!
+  ======================================== -->
+
+  <!-- ========================================
+       SEGURIDAD Y MEJORES PRÁCTICAS
+       ======================================== -->
+  <!--
+  SEGURIDAD EN SVG:
+  =================
+  
+  XSS PREVENTION:
+  - Validar todo input de usuario antes de insertar en SVG
+  - Escapar caracteres especiales si se usa dinámicamente
+  - Usar defusedxml al procesar SVG en Python
+  
+  SANITIZACIÓN:
+  ```python
+  from defusedxml import ElementTree
+  import re
+  
+  def sanitize_svg_content(text):
+      # Escapar caracteres peligrosos
+      text = text.replace('<', '&lt;')
+      text = text.replace('>', '&gt;')
+      text = text.replace('"', '&quot;')
+      text = text.replace("'", '&#39;')
+      # Remover scripts potencialmente peligrosos
+      text = re.sub(r'<script[^>]*>.*?</script>', '', text, flags=re.DOTALL)
+      return text
+  ```
+  
+  VALIDACIÓN DE INPUT:
+  - Verificar que URLs del CTA son seguras (https://)
+  - Validar rutas de imágenes antes de incluir
+  - Limitar longitud de textos para prevenir overflow
+  
+  BACKUP Y RECUPERACIÓN:
+  ======================
+  
+  ESTRATEGIA 3-2-1:
+  - 3 copias del template
+  - 2 medios diferentes (local + cloud)
+  - 1 copia off-site
+  
+  BACKUP AUTOMÁTICO:
+  ```bash
+  # Script de backup diario
+  #!/bin/bash
+  DATE=$(date +%Y%m%d)
+  cp template.svg "backups/template_${DATE}.svg"
+  # Mantener solo últimos 30 días
+  find backups/ -name "template_*.svg" -mtime +30 -delete
+  ```
+  
+  RECUPERACIÓN DE DESASTRES:
+  - Mantener template base en repositorio Git
+  - Documentar personalizaciones importantes
+  - Tener proceso de restauración documentado
+  ======================================== -->
+
+  <!-- ========================================
+       EDGE CASES Y PROBLEMAS COMUNES
+       ======================================== -->
+  <!--
+  PROBLEMAS ESPECÍFICOS Y SOLUCIONES:
+  ====================================
+  
+  1. TEXTO MUY LARGO SE SALE DEL DISEÑO:
+     Solución: Ajustar font-size o usar textLength con ajuste automático
+     ```xml
+     <text x="540" y="140" textLength="800" lengthAdjust="spacingAndGlyphs">
+       Tu texto largo aquí
+     </text>
+     ```
+  
+  2. IMÁGENES NO SE VEN EN ALGUNOS NAVEGADORES:
+     - Verificar que las rutas son relativas o absolutas correctas
+     - Probar con data URI si es imagen pequeña
+     - Convertir a base64 si es necesario
+  
+  3. COLORES SE VEN DIFERENTES EN DIFERENTES DISPOSITIVOS:
+     - Usar sRGB color space (ya configurado)
+     - Calibrar monitor si es crítico
+     - Probar en diferentes dispositivos antes de publicar
+  
+  4. EL SVG ES MUY GRANDE Y TARDA EN CARGAR:
+     - Optimizar con SVGO
+     - Comprimir imágenes externas
+     - Considerar exportar a PNG para Instagram
+  
+  5. ELEMENTOS NO SE ALINEAN CORRECTAMENTE:
+     - Verificar que usas coordenadas exactas
+     - Usar transform en lugar de posición manual cuando sea posible
+     - Probar en diferentes zoom levels
+  
+  6. EL CTA NO FUNCIONA EN MÓVIL:
+     - Asegurar que el área clickeable es suficientemente grande (min 44x44px)
+     - Verificar que no hay elementos superpuestos
+     - Probar touch events si es necesario
+  
+  7. EXPORTACIÓN A PNG PERDE CALIDAD:
+     - Exportar en 2x o 3x y luego reducir
+     - Usar PNG-24 en lugar de PNG-8
+     - Verificar configuración de anti-aliasing
+  
+  8. FUENTES NO SE VEN COMO ESPERADO:
+     - Usar web-safe fonts o incluir fuentes personalizadas
+     - Verificar que las fuentes están disponibles
+     - Tener fallbacks en font-family
+  
+  DEBUGGING TIPS:
+  ===============
+  
+  - Usar navegador DevTools para inspeccionar elementos
+  - Añadir bordes temporales para ver posiciones: stroke="red"
+  - Comentar secciones para aislar problemas
+  - Usar console.log en JavaScript si se añade interactividad
+  ======================================== -->
+
+  <!-- ========================================
+       WORKFLOWS AVANZADOS Y AUTOMATIZACIÓN
+       ======================================== -->
+  <!--
+  PIPELINE COMPLETO DE PRODUCCIÓN:
+  =================================
+  
+  1. PREPARACIÓN:
+     ```bash
+     # Crear estructura de proyecto
+     mkdir instagram-templates
+     cd instagram-templates
+     mkdir src output backups
+     ```
+  
+  2. DESARROLLO:
+     - Editar template.svg en src/
+     - Hacer commits frecuentes
+     - Probar en diferentes editores
+  
+  3. VALIDACIÓN:
+     ```bash
+     # Ejecutar tests
+     python tests/validate_svg.py src/template.svg
+     npm test  # Si usas Jest
+     ```
+  
+  4. EXPORTACIÓN:
+     ```bash
+     # Script de exportación masiva
+     for variant in src/*.svg; do
+       inkscape "$variant" --export-type=png \
+         --export-width=2160 \
+         --export-height=2700 \
+         --export-filename="output/$(basename $variant .svg).png"
+     done
+     ```
+  
+  5. OPTIMIZACIÓN:
+     ```bash
+     # Comprimir PNGs
+     optipng -o7 output/*.png
+     # O usar ImageOptim (GUI)
+     ```
+  
+  6. DISTRIBUCIÓN:
+     - Subir a Google Drive/Dropbox
+     - Compartir con equipo
+     - Subir a Instagram
+  
+  INTEGRACIÓN CON HERRAMIENTAS DE DISEÑO:
+  =======================================
+  
+  FIGMA PLUGIN (Concepto):
+  - Plugin que importa template SVG
+  - Permite editar textos directamente
+  - Exporta a PNG automáticamente
+  
+  ADOBE EXTENSION:
+  - Script para Illustrator
+  - Panel personalizado para edición rápida
+  - Batch processing de múltiples variantes
+  
+  CANVA TEMPLATE:
+  - Importar como diseño base
+  - Mantener elementos editables
+  - Usar sistema de plantillas de Canva
+  ======================================== -->
+
+  <!-- ========================================
+       DOCUMENTACIÓN DE API (SI SE USA COMO SERVICIO)
+       ======================================== -->
+  <!--
+  SI CONVIERTES ESTE TEMPLATE EN UN SERVICIO WEB:
+  ===============================================
+  
+  ENDPOINTS SUGERIDOS:
+  ====================
+  
+  POST /api/generate
+  {
+    "problema": "tu problema",
+    "resultado": "tu resultado",
+    "producto": "Tu Producto",
+    "imagen_antes": "url_o_base64",
+    "imagen_despues": "url_o_base64",
+    "variante": "completa|compacta|minima",
+    "formato": "svg|png|jpg"
+  }
+  
+  Respuesta: {
+    "template_id": "abc123",
+    "url": "https://service.com/templates/abc123.png",
+    "dimensions": "1080x1350"
+  }
+  
+  GET /api/template/:id
+  - Descargar template generado
+  
+  POST /api/customize/:id
+  - Personalizar template existente
+  
+  AUTENTICACIÓN:
+  - API keys para uso profesional
+  - Rate limiting para prevenir abuso
+  - Caching de templates generados
+  
+  ALMACENAMIENTO:
+  - Guardar templates generados temporalmente (7 días)
+  - Opción de guardado permanente con cuenta
+  - Compartir templates con links únicos
+  ======================================== -->
+
+  <!-- Notes for editors: Replace [PROBLEMA], [RESULTADO], [PRODUCTO] -->
+</svg>
+
+

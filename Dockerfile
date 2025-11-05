@@ -1,34 +1,32 @@
-# Dockerfile para el Sistema de Control de Inventario
+# syntax=docker/dockerfile:1
 
-FROM python:3.9-slim
+FROM python:3.11-slim
 
-# Establecer directorio de trabajo
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
 WORKDIR /app
 
-# Instalar dependencias del sistema
-RUN apt-get update && apt-get install -y \
-    gcc \
+# System deps
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# Copiar archivos de requisitos
-COPY requirements.txt .
+# Copy requirements if exist
+COPY requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt || true
 
-# Instalar dependencias de Python
-RUN pip install --no-cache-dir -r requirements.txt
+# Install optional libs used if present
+RUN pip install --no-cache-dir prometheus-client openpyxl requests redis PyJWT || true
 
-# Copiar código de la aplicación
-COPY . .
+# Copy source
+COPY . /app
 
-# Crear directorios necesarios
-RUN mkdir -p logs uploads backups
+# Env defaults
+ENV FLASK_ENV=production \
+    HOST=0.0.0.0 \
+    PORT=5000
 
-# Exponer puerto
 EXPOSE 5000
 
-# Variables de entorno por defecto
-ENV FLASK_APP=app.py
-ENV FLASK_ENV=production
-ENV DATABASE_URL=sqlite:///inventory.db
-
-# Comando por defecto
 CMD ["python", "app.py"]

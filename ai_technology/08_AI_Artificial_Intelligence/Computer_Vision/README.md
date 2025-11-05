@@ -1,7 +1,10 @@
-# Computer Vision
+---
+title: "Readme"
+category: "Ai_technology"
+tags: ["technical", "technology"]
+created: "2025-10-29"
+path: "Ai_technology/08_ai_artificial_intelligence/Computer_vision/readme.md"
+---
 
-Subcategoría de 08_AI_Artificial_Intelligence
+# Computer_Vision
 
-## Archivos:
-
-- README.md

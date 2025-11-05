@@ -1,3 +1,11 @@
+---
+title: "Infographic Templates"
+category: "01_marketing"
+tags: ["business", "marketing", "template"]
+created: "2025-10-29"
+path: "01_marketing/Ai_marketing_courses/09_marketing_materials/infographic_templates.md"
+---
+
 # 📊 Neural Marketing Consciousness System - Infographic Templates
 ## Comprehensive Visual Content Strategy and Design Templates
 

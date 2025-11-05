@@ -1,0 +1,3 @@
+id,riesgo,severidad,probabilidad,score,senales_tempranas,mitigacion,responsable,estado,fecha
+R-001,Tracking roto,S1,P2,2,Caida de conversiones,Kill-switch + rollback,Marketing Ops,Abierto,
+R-002,Rechazo anuncios,S2,P2,4,Tasa rechazo >20%,Creativo alterno + soporte,Creative,Liquidado,

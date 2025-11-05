@@ -1,3 +1,11 @@
+---
+title: "Neural Marketing Improvements"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/Ai_marketing_courses/01_ai_marketing/neural_marketing_improvements.md"
+---
+
 # 🚀 Neural Marketing Pro - Mejoras Avanzadas Implementadas
 
 ## 📋 Resumen de Mejoras

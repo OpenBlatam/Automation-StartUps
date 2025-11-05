@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920">
+  <defs>
+    <linearGradient id="bg-aurora" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#000510"/>
+      <stop offset="50%" stop-color="#001020"/>
+      <stop offset="100%" stop-color="#000510"/>
+    </linearGradient>
+    <linearGradient id="aurora-green" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00FF88" stop-opacity="0"/>
+      <stop offset="30%" stop-color="#00FF88" stop-opacity="0.6"/>
+      <stop offset="50%" stop-color="#00FFAA" stop-opacity="0.8"/>
+      <stop offset="70%" stop-color="#00FF88" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#00FF88" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="aurora-blue" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00AAFF" stop-opacity="0"/>
+      <stop offset="40%" stop-color="#00AAFF" stop-opacity="0.5"/>
+      <stop offset="60%" stop-color="#00CCFF" stop-opacity="0.7"/>
+      <stop offset="80%" stop-color="#00AAFF" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#00AAFF" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="aurora-purple" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#AA00FF" stop-opacity="0"/>
+      <stop offset="35%" stop-color="#AA00FF" stop-opacity="0.4"/>
+      <stop offset="55%" stop-color="#CC00FF" stop-opacity="0.6"/>
+      <stop offset="75%" stop-color="#AA00FF" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#AA00FF" stop-opacity="0"/>
+    </linearGradient>
+    <path id="aurora-wave-1" d="M 0 300 Q 150 250 300 280 T 600 260 T 900 270 T 1080 275 L 1080 450 Q 900 430 600 440 Q 300 435 150 440 Q 75 445 0 435 Z" fill="url(#aurora-green)" opacity="0.5" filter="url(#aurora-blur)"/>
+    <path id="aurora-wave-2" d="M 0 350 Q 200 300 400 320 T 800 310 T 1080 315 L 1080 500 Q 800 490 400 495 Q 200 490 0 485 Z" fill="url(#aurora-blue)" opacity="0.4" filter="url(#aurora-blur)"/>
+    <filter id="aurora-blur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="aurora-glow" x="-200%" y="-200%" width="500%" height="500%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="10" result="blur"/>
+      <feOffset in="blur" dx="0" dy="0" result="offsetBlur"/>
+      <feFlood flood-color="#00FF88" flood-opacity="0.6"/>
+      <feComposite in2="offsetBlur" operator="in" result="green"/>
+      <feFlood flood-color="#00AAFF" flood-opacity="0.4"/>
+      <feComposite in2="offsetBlur" operator="in" result="blue"/>
+      <feMerge>
+        <feMergeNode in="green"/>
+        <feMergeNode in="blue"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="aurora-shadow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="12"/>
+      <feOffset dx="0" dy="14" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.5"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      @font-face { font-family: Inter; src: local('Inter'), local('Arial'); }
+      .headline { font: 900 64px/1.1 Inter, system-ui, -apple-system; fill: #FFFFFF; letter-spacing: -1px; text-anchor: middle; filter: url(#aurora-glow); }
+      .subhead { font: 600 26px/1.3 Inter, system-ui, -apple-system; fill: #E0FFE8; text-anchor: middle; filter: url(#aurora-glow); }
+      .chip { font: 800 24px/1.2 Inter, system-ui, -apple-system; fill: #FFFFFF; text-anchor: middle; }
+      .cta-text { font: 900 42px/1 Inter, system-ui, -apple-system; fill: #000000; text-anchor: middle; }
+      .benefit { font: 500 20px/1.4 Inter, system-ui, -apple-system; fill: #E0FFF0; }
+    </style>
+    <g id="star-aurora">
+      <path d="M 20 5 L 24 16 L 35 16 L 26 23 L 30 34 L 20 27 L 10 34 L 14 23 L 5 16 L 16 16 Z" fill="#FFFFFF" opacity="0.9" filter="url(#aurora-glow)"/>
+      <circle cx="20" cy="20" r="1.8" fill="#00FF88" filter="url(#aurora-glow)"/>
+    </g>
+    <g id="cta-aurora">
+      <rect x="0" y="0" width="920" height="120" rx="20" fill="rgba(0,0,0,0.8)"/>
+      <rect x="0" y="0" width="920" height="120" rx="20" fill="url(#aurora-green)" opacity="0.2"/>
+      <rect x="0" y="0" width="920" height="60" rx="20" fill="rgba(0,255,136,0.15)"/>
+      <rect x="0" y="0" width="920" height="120" rx="20" fill="none" stroke="url(#aurora-green)" stroke-width="3" filter="url(#aurora-glow)"/>
+    </g>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#bg-aurora)"/>
+  <use href="#aurora-wave-1"/>
+  <use href="#aurora-wave-2"/>
+  <g opacity="0.7">
+    <use href="#star-aurora" transform="translate(120,200) scale(0.3)"/>
+    <use href="#star-aurora" transform="translate(250,240) scale(0.25)"/>
+    <use href="#star-aurora" transform="translate(400,220) scale(0.28)"/>
+    <use href="#star-aurora" transform="translate(650,230) scale(0.3)"/>
+    <use href="#star-aurora" transform="translate(900,210) scale(0.25)"/>
+    <use href="#star-aurora" transform="translate(200,1700) scale(0.28)"/>
+    <use href="#star-aurora" transform="translate(500,1740) scale(0.3)"/>
+    <use href="#star-aurora" transform="translate(800,1720) scale(0.25)"/>
+  </g>
+  <g transform="translate(60,80)" filter="url(#aurora-shadow)">
+    <rect x="0" y="0" width="960" height="100" rx="16" fill="rgba(0,0,0,0.7)"/>
+    <rect x="0" y="0" width="960" height="100" rx="16" fill="url(#aurora-green)" opacity="0.15"/>
+    <rect x="0" y="0" width="960" height="50" rx="16" fill="rgba(0,255,136,0.1)"/>
+    <rect x="0" y="0" width="960" height="100" rx="16" fill="none" stroke="url(#aurora-green)" stroke-width="3" filter="url(#aurora-glow)"/>
+    <use href="#star-aurora" transform="translate(40,50) scale(0.2)"/>
+    <use href="#star-aurora" transform="translate(920,50) scale(0.2)"/>
+    <text x="480" y="65" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="28" font-weight="900">[FECHA] [HORA]</text>
+  </g>
+  <g transform="translate(540,240)">
+    <text x="0" y="0" class="headline">Webinar Exclusivo</text>
+    <text x="0" y="40" class="subhead">Descubre el Futuro de la IA</text>
+  </g>
+  <g transform="translate(540,400)">
+    <g transform="translate(0,-50)" filter="url(#aurora-shadow)">
+      <rect x="-220" y="0" width="220" height="90" rx="18" fill="rgba(0,0,0,0.6)"/>
+      <rect x="-220" y="0" width="220" height="90" rx="18" fill="url(#aurora-green)" opacity="0.1"/>
+      <rect x="-220" y="0" width="220" height="90" rx="18" fill="none" stroke="url(#aurora-green)" stroke-width="3" filter="url(#aurora-glow)"/>
+      <use href="#star-aurora" transform="translate(-190,35) scale(0.25)"/>
+      <text x="-150" y="35" class="benefit">✓ Beneficio 1</text>
+      <text x="-150" y="65" class="benefit" fill="#B8FFD8" font-size="16">Descripción</text>
+    </g>
+    <g transform="translate(0,-50)" filter="url(#aurora-shadow)">
+      <rect x="0" y="0" width="220" height="90" rx="18" fill="rgba(0,0,0,0.6)"/>
+      <rect x="0" y="0" width="220" height="90" rx="18" fill="url(#aurora-blue)" opacity="0.1"/>
+      <rect x="0" y="0" width="220" height="90" rx="18" fill="none" stroke="url(#aurora-blue)" stroke-width="3" filter="url(#aurora-glow)"/>
+      <use href="#star-aurora" transform="translate(30,35) scale(0.25)"/>
+      <text x="70" y="35" class="benefit">✓ Beneficio 2</text>
+      <text x="70" y="65" class="benefit" fill="#B8D8FF" font-size="16">Descripción</text>
+    </g>
+  </g>
+  <g transform="translate(540,600)" filter="url(#aurora-shadow)">
+    <g transform="translate(0,-50)">
+      <rect x="-220" y="0" width="220" height="90" rx="18" fill="rgba(0,0,0,0.6)"/>
+      <rect x="-220" y="0" width="220" height="90" rx="18" fill="url(#aurora-purple)" opacity="0.1"/>
+      <rect x="-220" y="0" width="220" height="90" rx="18" fill="none" stroke="url(#aurora-purple)" stroke-width="3" filter="url(#aurora-glow)"/>
+      <use href="#star-aurora" transform="translate(-190,35) scale(0.25)"/>
+      <text x="-150" y="35" class="benefit">✓ Beneficio 3</text>
+      <text x="-150" y="65" class="benefit" fill="#E8B8FF" font-size="16">Descripción</text>
+    </g>
+  </g>
+  <g transform="translate(540,800)" filter="url(#aurora-shadow)">
+    <use href="#cta-aurora"/>
+    <text x="460" y="70" class="cta-text">REGISTRARME</text>
+    <use href="#star-aurora" transform="translate(30,60) scale(0.2)"/>
+    <use href="#star-aurora" transform="translate(890,60) scale(0.2)"/>
+  </g>
+  <g transform="translate(540,980)">
+    <g transform="translate(-120,0)" filter="url(#aurora-shadow)">
+      <rect x="0" y="0" width="160" height="52" rx="16" fill="rgba(0,255,136,0.2)" stroke="url(#aurora-green)" stroke-width="3" filter="url(#aurora-glow)"/>
+      <use href="#star-aurora" transform="translate(12,26) scale(0.18)"/>
+      <text x="80" y="35" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="20" font-weight="900">🔥 Cupos</text>
+    </g>
+    <g transform="translate(120,0)" filter="url(#aurora-shadow)">
+      <rect x="0" y="0" width="160" height="52" rx="16" fill="rgba(0,170,255,0.2)" stroke="url(#aurora-blue)" stroke-width="3" filter="url(#aurora-glow)"/>
+      <use href="#star-aurora" transform="translate(12,26) scale(0.18)"/>
+      <text x="80" y="35" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="20" font-weight="900">🎤 En vivo</text>
+    </g>
+  </g>
+  <g transform="translate(540,1680)">
+    <g transform="translate(-120,-40)">
+      <rect x="0" y="0" width="80" height="80" rx="12" fill="#FFFFFF" stroke="url(#aurora-green)" stroke-width="3" filter="url(#aurora-glow)"/>
+      <text x="40" y="95" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="12" font-weight="500">[URL]</text>
+    </g>
+    <g transform="translate(60,-40)">
+      <rect x="0" y="0" width="260" height="80" rx="14" fill="rgba(255,255,255,0.1)" stroke="url(#aurora-green)" stroke-width="2.5" opacity="0.6" filter="url(#aurora-glow)"/>
+      <text x="130" y="48" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="18" font-weight="600">TU LOGO</text>
+    </g>
+  </g>
+  <text x="540" y="1900" text-anchor="middle" fill="#666666" font-family="Inter" font-size="13" font-weight="400">Términos y condiciones aplican</text>
+</svg>

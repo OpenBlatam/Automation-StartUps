@@ -1,3 +1,11 @@
+---
+title: "Herramienta Valuacion Interactiva Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Financial_models/Valuation_tools/herramienta_valuacion_interactiva_vc.md"
+---
+
 # 🧮 HERRAMIENTA DE VALUACIÓN INTERACTIVA
 ## Calculadora de Valuación para SaaS IA Copywriting LATAM
 

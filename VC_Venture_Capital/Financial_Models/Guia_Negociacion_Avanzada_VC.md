@@ -1,3 +1,11 @@
+---
+title: "Guia Negociacion Avanzada Vc"
+category: "Vc_venture_capital"
+tags: ["guide"]
+created: "2025-10-29"
+path: "Vc_venture_capital/Financial_models/guia_negociacion_avanzada_vc.md"
+---
+
 # 🎯 GUÍA DE NEGOCIACIÓN AVANZADA VC
 ## Estrategias y Tácticas Profesionales para SaaS IA Copywriting LATAM
 

@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920" role="img" aria-label="Portada Reel: -35% Curso de IA + Webinars">
+  <title>Portada Reel · -35% Curso de IA + Webinars</title>
+  <desc>Portada 1080x1920 con guía de recorte 1080x1080 centrado para la grilla.</desc>
+  <defs>
+    <linearGradient id="bgGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1E90FF"/>
+      <stop offset="100%" stop-color="#7B2FF7"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#000000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#bgGradient)"/>
+
+  <!-- Guía: recorte feed 1080x1080 centrado (oculta por defecto) -->
+  <g id="grid-safe" opacity="0.14" display="none">
+    <rect x="0" y="420" width="1080" height="1080" fill="#FFFFFF" stroke="#FFFFFF" stroke-dasharray="12 12"/>
+  </g>
+
+  <!-- Logo -->
+  <g transform="translate(980, 100)">
+    <circle r="36" fill="#ffffff"/>
+    <text text-anchor="end" x="-12" y="8" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="18" fill="#7B2FF7">LOGO</text>
+  </g>
+
+  <!-- -35% -->
+  <g transform="translate(120, 620)" filter="url(#shadow)">
+    <text x="0" y="0" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="260" font-weight="900" letter-spacing="-6" fill="#ffffff">-35 %</text>
+  </g>
+
+  <!-- Título -->
+  <g transform="translate(120, 770)">
+    <text x="0" y="0" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="68" font-weight="900" fill="#ffffff">Curso de IA + Webinars</text>
+  </g>
+
+  <!-- CTA -->
+  <g transform="translate(120, 1000)" filter="url(#shadow)">
+    <rect x="0" y="-70" rx="18" ry="18" width="520" height="120" fill="#ffffff" stroke="#7B2FF7" stroke-width="5"/>
+    <text x="260" y="0" text-anchor="middle" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="48" font-weight="900" fill="#7B2FF7">Aprovecha hoy</text>
+  </g>
+
+  <!-- Pie -->
+  <g transform="translate(120, 1800)" opacity="0.9">
+    <text x="0" y="0" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="32" fill="#E9EDFF">tu-sitio.com · @tu_marca</text>
+  </g>
+</svg>
+
+
+
+
+

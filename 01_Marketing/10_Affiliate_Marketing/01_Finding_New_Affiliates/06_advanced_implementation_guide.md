@@ -1,3 +1,11 @@
+---
+title: "06 Advanced Implementation Guide"
+category: "01_marketing"
+tags: ["business", "guide", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/10_affiliate_marketing/01_finding_new_affiliates/06_advanced_implementation_guide.md"
+---
+
 # 🚀 Advanced Implementation Guide - AI-Powered Affiliate Marketing
 
 ## 📋 Complete Implementation Framework

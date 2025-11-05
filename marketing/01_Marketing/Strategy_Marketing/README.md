@@ -1,8 +1,13 @@
-# Strategy Marketing
+---
+title: "Readme"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Strategy_marketing/readme.md"
+---
 
-Subcategoría de 01_Marketing
+# Strategy_Marketing
 
-## Archivos:
-
+## Archivos
 - MARKETING_STRATEGY.md
-- README.md
+

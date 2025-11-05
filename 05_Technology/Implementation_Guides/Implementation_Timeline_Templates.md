@@ -1,3 +1,11 @@
+---
+title: "Implementation Timeline Templates"
+category: "05_technology"
+tags: ["technical", "technology", "template"]
+created: "2025-10-29"
+path: "05_technology/Implementation_guides/implementation_timeline_templates.md"
+---
+
 # ⏰ Neural Marketing Consciousness System - Implementation Timeline Templates
 ## Comprehensive Project Planning and Timeline Management
 

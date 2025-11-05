@@ -1,3 +1,11 @@
+---
+title: "Herramienta Análisis Estrategia Sostenibilidad Vc"
+category: "Vc_venture_capital"
+tags: ["strategy"]
+created: "2025-10-29"
+path: "Vc_venture_capital/Financial_models/herramienta_análisis_estrategia_sostenibilidad_vc.md"
+---
+
 # 🌱 Herramienta de Análisis de Estrategia de Sostenibilidad VC
 
 ## 🎯 Objetivo

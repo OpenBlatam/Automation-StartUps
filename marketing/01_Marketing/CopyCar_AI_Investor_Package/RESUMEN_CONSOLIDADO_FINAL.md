@@ -1,3 +1,11 @@
+---
+title: "Resumen Consolidado Final"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Copycar_ai_investor_package/resumen_consolidado_final.md"
+---
+
 # 🚀 CopyCar.ai - Resumen Consolidado Final
 
 ## Paquete de Inversión Completo y Optimizado para Serie A - $5M

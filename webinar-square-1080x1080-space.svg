@@ -1,0 +1,162 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080">
+  <defs>
+    <radialGradient id="bg-space" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#000000"/>
+      <stop offset="40%" stop-color="#0A0A1A"/>
+      <stop offset="80%" stop-color="#1A1A2E"/>
+      <stop offset="100%" stop-color="#2A1A3A"/>
+    </radialGradient>
+    <radialGradient id="nebula-purple" cx="30%" cy="30%">
+      <stop offset="0%" stop-color="#8B00FF" stop-opacity="0.4"/>
+      <stop offset="50%" stop-color="#4B0082" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="nebula-blue" cx="70%" cy="70%">
+      <stop offset="0%" stop-color="#0066FF" stop-opacity="0.4"/>
+      <stop offset="50%" stop-color="#003399" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="cosmic-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF00FF"/>
+      <stop offset="33%" stop-color="#0066FF"/>
+      <stop offset="66%" stop-color="#00FFFF"/>
+      <stop offset="100%" stop-color="#FF00FF"/>
+    </linearGradient>
+    <radialGradient id="star-gradient">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="1"/>
+      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="cosmic-glow" x="-200%" y="-200%" width="500%" height="500%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blur"/>
+      <feOffset in="blur" dx="0" dy="0" result="offsetBlur"/>
+      <feFlood flood-color="#00FFFF" flood-opacity="0.5"/>
+      <feComposite in2="offsetBlur" operator="in" result="cyan"/>
+      <feFlood flood-color="#FF00FF" flood-opacity="0.5"/>
+      <feComposite in2="offsetBlur" operator="in" result="magenta"/>
+      <feMerge>
+        <feMergeNode in="cyan"/>
+        <feMergeNode in="magenta"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="cosmic-shadow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="10"/>
+      <feOffset dx="0" dy="12" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.5"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      @font-face { font-family: Inter; src: local('Inter'), local('Arial'); }
+      .headline { font: 900 52px/1.1 Inter, system-ui, -apple-system; fill: url(#cosmic-gradient); letter-spacing: -1px; text-anchor: middle; filter: url(#cosmic-glow); }
+      .subhead { font: 600 22px/1.3 Inter, system-ui, -apple-system; fill: #FFFFFF; text-anchor: middle; filter: url(#cosmic-glow); }
+      .chip { font: 800 20px/1.2 Inter, system-ui, -apple-system; fill: #FFFFFF; text-anchor: middle; filter: url(#cosmic-glow); }
+      .cta-text { font: 900 36px/1 Inter, system-ui, -apple-system; fill: #000000; text-anchor: middle; }
+      .benefit { font: 500 18px/1.4 Inter, system-ui, -apple-system; fill: #E0E0FF; }
+    </style>
+    <g id="star-icon">
+      <path d="M 20 5 L 24 16 L 35 16 L 26 23 L 30 34 L 20 27 L 10 34 L 14 23 L 5 16 L 16 16 Z" fill="url(#star-gradient)" filter="url(#cosmic-glow)"/>
+    </g>
+    <g id="planet-icon">
+      <circle cx="20" cy="20" r="12" fill="url(#cosmic-gradient)" filter="url(#cosmic-glow)"/>
+      <circle cx="15" cy="15" r="4" fill="rgba(255,255,255,0.3)"/>
+    </g>
+    <g id="constellation">
+      <circle cx="0" cy="0" r="1.5" fill="#FFFFFF" filter="url(#cosmic-glow)"/>
+      <circle cx="30" cy="15" r="1.5" fill="#FFFFFF" filter="url(#cosmic-glow)"/>
+      <circle cx="60" cy="8" r="1.5" fill="#FFFFFF" filter="url(#cosmic-glow)"/>
+      <line x1="0" y1="0" x2="30" y2="15" stroke="#FFFFFF" stroke-width="0.8" opacity="0.4"/>
+      <line x1="30" y1="15" x2="60" y2="8" stroke="#FFFFFF" stroke-width="0.8" opacity="0.4"/>
+    </g>
+    <g id="cta-cosmic">
+      <rect x="0" y="0" width="360" height="80" rx="14" fill="url(#cosmic-gradient)"/>
+      <rect x="0" y="0" width="360" height="40" rx="14" fill="rgba(255,255,255,0.25)"/>
+      <rect x="0" y="0" width="360" height="80" rx="14" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="3" filter="url(#cosmic-glow)"/>
+    </g>
+  </defs>
+  <rect width="1080" height="1080" fill="url(#bg-space)"/>
+  <rect width="1080" height="1080" fill="url(#nebula-purple)"/>
+  <rect width="1080" height="1080" fill="url(#nebula-blue)"/>
+  <g opacity="0.7">
+    <use href="#star-icon" transform="translate(120,140) scale(0.25)"/>
+    <use href="#star-icon" transform="translate(250,180) scale(0.3)"/>
+    <use href="#star-icon" transform="translate(400,120) scale(0.2)"/>
+    <use href="#star-icon" transform="translate(700,160) scale(0.28)"/>
+    <use href="#star-icon" transform="translate(900,140) scale(0.25)"/>
+    <use href="#star-icon" transform="translate(200,850) scale(0.25)"/>
+    <use href="#star-icon" transform="translate(500,880) scale(0.3)"/>
+    <use href="#star-icon" transform="translate(800,820) scale(0.2)"/>
+    <use href="#star-icon" transform="translate(1000,850) scale(0.28)"/>
+  </g>
+  <g opacity="0.4">
+    <use href="#constellation" transform="translate(250,200)"/>
+    <use href="#constellation" transform="translate(850,800) rotate(45)"/>
+  </g>
+  <g opacity="0.25">
+    <use href="#planet-icon" transform="translate(180,180) scale(1.2)"/>
+    <use href="#planet-icon" transform="translate(920,880) scale(1.5)"/>
+  </g>
+  <g transform="translate(60,60)" filter="url(#cosmic-shadow)">
+    <rect x="0" y="0" width="960" height="70" rx="12" fill="rgba(0,0,0,0.7)"/>
+    <rect x="0" y="0" width="960" height="35" rx="12" fill="url(#cosmic-gradient)" opacity="0.15"/>
+    <rect x="0" y="0" width="960" height="70" rx="12" fill="none" stroke="url(#cosmic-gradient)" stroke-width="2.5" filter="url(#cosmic-glow)"/>
+    <text x="480" y="47" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="22" font-weight="900">[FECHA] [HORA]</text>
+  </g>
+  <g transform="translate(540,200)">
+    <text x="0" y="0" class="headline">Webinar Exclusivo</text>
+    <text x="0" y="35" class="subhead">Descubre el Futuro de la IA</text>
+  </g>
+  <g transform="translate(540,320)">
+    <g transform="translate(-200,-40)" filter="url(#cosmic-shadow)">
+      <rect x="0" y="0" width="180" height="70" rx="12" fill="rgba(0,0,0,0.6)"/>
+      <rect x="0" y="0" width="180" height="70" rx="12" fill="none" stroke="url(#cosmic-gradient)" stroke-width="2" filter="url(#cosmic-glow)"/>
+      <use href="#star-icon" transform="translate(25,25) scale(0.3)"/>
+      <text x="50" y="30" class="benefit">✓ Beneficio 1</text>
+      <text x="50" y="55" class="benefit" fill="#B8B8FF" font-size="14">Descripción</text>
+    </g>
+    <g transform="translate(0,-40)" filter="url(#cosmic-shadow)">
+      <rect x="0" y="0" width="180" height="70" rx="12" fill="rgba(0,0,0,0.6)"/>
+      <rect x="0" y="0" width="180" height="70" rx="12" fill="none" stroke="url(#cosmic-gradient)" stroke-width="2" filter="url(#cosmic-glow)"/>
+      <use href="#planet-icon" transform="translate(25,25) scale(0.4)"/>
+      <text x="50" y="30" class="benefit">✓ Beneficio 2</text>
+      <text x="50" y="55" class="benefit" fill="#B8B8FF" font-size="14">Descripción</text>
+    </g>
+    <g transform="translate(200,-40)" filter="url(#cosmic-shadow)">
+      <rect x="0" y="0" width="180" height="70" rx="12" fill="rgba(0,0,0,0.6)"/>
+      <rect x="0" y="0" width="180" height="70" rx="12" fill="none" stroke="url(#cosmic-gradient)" stroke-width="2" filter="url(#cosmic-glow)"/>
+      <use href="#star-icon" transform="translate(25,25) scale(0.3)"/>
+      <text x="50" y="30" class="benefit">✓ Beneficio 3</text>
+      <text x="50" y="55" class="benefit" fill="#B8B8FF" font-size="14">Descripción</text>
+    </g>
+  </g>
+  <g transform="translate(540,480)" filter="url(#cosmic-shadow)">
+    <use href="#cta-cosmic"/>
+    <text x="180" y="50" class="cta-text">REGISTRARME</text>
+  </g>
+  <g transform="translate(540,600)">
+    <g transform="translate(-120,0)" filter="url(#cosmic-shadow)">
+      <rect x="0" y="0" width="140" height="48" rx="12" fill="rgba(255,0,255,0.2)" stroke="url(#cosmic-gradient)" stroke-width="2" filter="url(#cosmic-glow)"/>
+      <text x="70" y="32" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="18" font-weight="900">🔥 Cupos</text>
+    </g>
+    <g transform="translate(120,0)" filter="url(#cosmic-shadow)">
+      <rect x="0" y="0" width="140" height="48" rx="12" fill="rgba(0,255,255,0.2)" stroke="url(#cosmic-gradient)" stroke-width="2" filter="url(#cosmic-glow)"/>
+      <text x="70" y="32" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="18" font-weight="900">🎤 En vivo</text>
+    </g>
+  </g>
+  <g transform="translate(540,700)">
+    <g transform="translate(-120,-40)">
+      <rect x="0" y="0" width="70" height="70" rx="8" fill="#FFFFFF" stroke="url(#cosmic-gradient)" stroke-width="2" filter="url(#cosmic-glow)"/>
+      <text x="35" y="85" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="11" font-weight="500">[URL]</text>
+    </g>
+    <g transform="translate(50,-40)">
+      <rect x="0" y="0" width="240" height="70" rx="10" fill="rgba(255,255,255,0.1)" stroke="url(#cosmic-gradient)" stroke-width="2" opacity="0.6" filter="url(#cosmic-glow)"/>
+      <text x="120" y="43" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="16" font-weight="600">TU LOGO</text>
+    </g>
+  </g>
+  <text x="540" y="1050" text-anchor="middle" fill="#666666" font-family="Inter" font-size="12" font-weight="400">Términos y condiciones aplican</text>
+</svg>

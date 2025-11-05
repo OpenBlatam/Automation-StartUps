@@ -1,3 +1,11 @@
+---
+title: "Anexo B Analisis Financiero Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Due_diligence/Legal_templates/anexo_b_analisis_financiero_vc.md"
+---
+
 # 📊 ANEXO B: ANÁLISIS FINANCIERO DETALLADO
 ## Proyecciones y Escenarios para SaaS IA Copywriting LATAM
 

@@ -1,194 +1,90 @@
-.PHONY: help install test lint format clean docker-build docker-run deploy
+SHELL := /bin/bash
 
-# Variables
-NODE_VERSION := 18.17.0
-DOCKER_IMAGE := cfdi-4.0-ia
-DOCKER_TAG := latest
+.PHONY: analyze analyze-quiet analyze-all hook install-hook ci-baseline optimize help
 
-# Ayuda
-help: ## Mostrar esta ayuda
+help:
+	@echo "Targets disponibles:"
+	@echo "  analyze          - Ejecuta análisis con salida completa"
+	@echo "  analyze-quiet    - Análisis silencioso (resumen consola)"
+	@echo "  analyze-all      - Análisis + exportes (HTML/CSV/JSON)"
+	@echo "  install-hook     - Instala hook pre-commit"
+	@echo "  ci-baseline      - Guarda reporte actual como baseline"
+	@echo "  optimize         - Optimiza SVGs con SVGO (si está instalado)"
+
+analyze:
+	bash ./tools/analyze_assets.sh
+
+analyze-quiet:
+	QUIET=true SUMMARY_ONLY=true bash ./tools/analyze_assets.sh
+
+analyze-all:
+	OUTPUT_FORMAT=all QUIET=true SUMMARY_ONLY=true bash ./tools/analyze_assets.sh
+
+install-hook:
+	bash ./tools/install_git_hook.sh
+
+ci-baseline:
+	@mkdir -p exports
+	@bash ./tools/analyze_assets.sh >/dev/null 2>&1 || true
+	cp -f exports/assets_report.txt exports/assets_baseline.txt
+	@echo "✅ Baseline actualizado: exports/assets_baseline.txt"
+
+optimize:
+	bash ./tools/optimize_svgs.sh
+
+# Makefile - Comandos comunes para desarrollo
+
+.PHONY: help venv install run initdb sampledata health test lint fmt clean docker-build docker-up docker-down
+
+help:
 	@echo "Comandos disponibles:"
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
+	@echo "  make venv        - Crear entorno virtual (venv)"
+	@echo "  make install     - Instalar dependencias"
+	@echo "  make run         - Ejecutar servidor (python app.py)"
+	@echo "  make initdb      - Inicializar base de datos"
+	@echo "  make sampledata  - Inicializar BD con datos de ejemplo"
+	@echo "  make health      - Health check del sistema"
+	@echo "  make test        - Ejecutar tests"
+	@echo "  make clean       - Limpiar artefactos"
+	@echo "  make docker-build- Construir imagen Docker"
+	@echo "  make docker-up   - Levantar app+db+redis con docker-compose"
+	@echo "  make docker-down - Detener y limpiar contenedores"
 
-# Instalación
-install: ## Instalar dependencias
-	@echo "📦 Instalando dependencias..."
-	npm install
+venv:
+	python3 -m venv venv
 
-install-dev: ## Instalar dependencias de desarrollo
-	@echo "📦 Instalando dependencias de desarrollo..."
-	npm install --include=dev
+install:
+	pip install --upgrade pip
+	pip install -r requirements.txt
 
-# Desarrollo
-dev: ## Iniciar servidor en modo desarrollo
-	@echo "🚀 Iniciando servidor en modo desarrollo..."
-	npm run dev
+run:
+	python3 app.py
 
-start: ## Iniciar servidor en producción
-	@echo "🚀 Iniciando servidor en producción..."
-	npm start
+initdb:
+	python3 init_db.py
 
-# Testing
-test: ## Ejecutar tests
-	@echo "🧪 Ejecutando tests..."
-	npm test
+sampledata:
+	python3 init_db.py --sample-data
 
-test-watch: ## Ejecutar tests en modo watch
-	@echo "🧪 Ejecutando tests en modo watch..."
-	npm run test:watch
+health:
+	python3 utils/health_check.py
 
-test-coverage: ## Ejecutar tests con cobertura
-	@echo "🧪 Ejecutando tests con cobertura..."
-	npm test -- --coverage
+test:
+	python3 -m pytest tests/ || (echo "pytest no instalado; ejecutando unittest" && python3 -m unittest discover -s tests -p 'test_*.py')
 
-# Calidad de código
-lint: ## Ejecutar linter
-	@echo "🔍 Ejecutando linter..."
-	npm run lint
+clean:
+	rm -rf __pycache__
+	rm -rf */__pycache__
+	rm -rf .pytest_cache
 
-lint-fix: ## Ejecutar linter y corregir errores
-	@echo "🔧 Ejecutando linter y corrigiendo errores..."
-	npm run lint:fix
+docker-build:
+	docker build -t inventory-app:latest .
 
-format: ## Formatear código con Prettier
-	@echo "💅 Formateando código..."
-	npx prettier --write "**/*.{js,json,md}"
+docker-up:
+	docker compose up -d --build
 
-# Configuración
-setup: install setup-env ## Configurar proyecto completo
-
-setup-env: ## Configurar variables de entorno
-	@echo "⚙️  Configurando variables de entorno..."
-	@if [ ! -f .env ]; then \
-		cp env.example .env; \
-		echo "✅ Archivo .env creado. Por favor, edita .env con tus configuraciones."; \
-	else \
-		echo "⚠️  Archivo .env ya existe."; \
-	fi
-
-# Base de datos
-db-migrate: ## Ejecutar migraciones
-	@echo "🗄️  Ejecutando migraciones..."
-	npm run migrate
-
-db-seed: ## Poblar base de datos
-	@echo "🌱 Poblando base de datos..."
-	npm run seed
-
-# Docker
-docker-build: ## Construir imagen Docker
-	@echo "🐳 Construyendo imagen Docker..."
-	docker build -t $(DOCKER_IMAGE):$(DOCKER_TAG) .
-
-docker-run: ## Ejecutar contenedor Docker
-	@echo "🐳 Ejecutando contenedor Docker..."
-	docker run -p 3000:3000 --env-file .env $(DOCKER_IMAGE):$(DOCKER_TAG)
-
-docker-compose-up: ## Levantar servicios con docker-compose
-	@echo "🐳 Levantando servicios con docker-compose..."
-	docker-compose up -d
-
-docker-compose-down: ## Detener servicios de docker-compose
-	@echo "🐳 Deteniendo servicios de docker-compose..."
-	docker-compose down
-
-docker-compose-logs: ## Ver logs de docker-compose
-	@echo "📋 Mostrando logs..."
-	docker-compose logs -f
-
-docker-clean: ## Limpiar imágenes y contenedores de Docker
-	@echo "🧹 Limpiando imágenes y contenedores de Docker..."
-	docker-compose down -v
-	docker rmi $(DOCKER_IMAGE):$(DOCKER_TAG) || true
-
-# Validación
-validate: lint test ## Validar código completo
-
-# Documentación
-docs: ## Generar documentación
-	@echo "📚 Generando documentación..."
-	node scripts/generate-docs.js
-
-docs-serve: ## Servir documentación local
-	@echo "📚 Serviendo documentación..."
-	npx serve docs
-
-# Limpieza
-clean: ## Limpiar archivos temporales
-	@echo "🧹 Limpiando archivos temporales..."
-	rm -rf node_modules
-	rm -rf coverage
-	rm -rf dist
-	rm -rf build
-	rm -rf logs
-	rm -rf .nyc_output
-	find . -type d -name "node_modules" -exec rm -rf {} + 2>/dev/null || true
-
-clean-all: clean ## Limpieza completa incluyendo cache de npm
-	@echo "🧹 Limpieza completa..."
-	npm cache clean --force
-
-# Seguridad
-security-audit: ## Ejecutar auditoría de seguridad
-	@echo "🔒 Ejecutando auditoría de seguridad..."
-	npm audit
-
-security-fix: ## Corregir vulnerabilidades de seguridad
-	@echo "🔧 Corrigiendo vulnerabilidades..."
-	npm audit fix
-
-# Build
-build: ## Construir proyecto
-	@echo "🔨 Construyendo proyecto..."
-	npm run build
-
-# Deploy
-deploy-staging: ## Desplegar en staging
-	@echo "🚀 Desplegando en staging..."
-	# Agregar comandos de deployment aquí
-
-deploy-prod: ## Desplegar en producción
-	@echo "🚀 Desplegando en producción..."
-	# Agregar comandos de deployment aquí
-
-# Monitoreo
-logs: ## Ver logs del servidor
-	@echo "📋 Mostrando logs..."
-	tail -f logs/cfdi.log
-
-# Backup
-backup: ## Hacer backup de datos
-	@echo "💾 Haciendo backup..."
-	mkdir -p backups
-	tar -czf backups/backup-$$(date +%Y%m%d-%H%M%S).tar.gz data/ 2>/dev/null || true
-
-# Git
-git-init: ## Inicializar repositorio git
-	@echo "📝 Inicializando repositorio git..."
-	git init
-	git add .
-	git commit -m "Initial commit"
-
-# Actualización
-update-deps: ## Actualizar dependencias
-	@echo "⬆️  Actualizando dependencias..."
-	npm update
-
-update-deps-check: ## Verificar actualizaciones disponibles
-	@echo "🔍 Verificando actualizaciones disponibles..."
-	npm outdated
-
-# Info
-info: ## Mostrar información del proyecto
-	@echo "📊 Información del Proyecto"
-	@echo "=================================="
-	@echo "Node version: $(shell node --version)"
-	@echo "NPM version: $(shell npm --version)"
-	@echo "Package: $(shell cat package.json | grep -A1 '"name"' | head -2 | grep name | sed 's/.*: //' | sed 's/[", ]//')"
-	@echo "Version: $(shell cat package.json | grep '"version"' | sed 's/.*: //' | sed 's/[", ]//')"
-
-# Help por defecto
-.DEFAULT_GOAL := help
+docker-down:
+	docker compose down -v
 
 
 

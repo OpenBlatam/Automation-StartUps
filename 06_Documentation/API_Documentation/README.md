@@ -1,8 +1,13 @@
-# Api Documentation
+---
+title: "Readme"
+category: "06_documentation"
+tags: []
+created: "2025-10-29"
+path: "06_documentation/Api_documentation/readme.md"
+---
 
-Subcategoría de 06_Documentation
+# API_Documentation
 
-## Archivos:
+## Archivos
+- INDEX.md
 
-- README.md
-- guia-api-ultra-revolucionaria.md

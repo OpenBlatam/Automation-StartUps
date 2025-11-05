@@ -1,3 +1,11 @@
+---
+title: "Vc Templates Scripts"
+category: "Vc"
+tags: ["script", "template"]
+created: "2025-10-29"
+path: "Vc/Vc_master_system/vc_templates_scripts.md"
+---
+
 # 📋 VC Negotiation Templates & Scripts 2024
 ## Ready-to-Use Resources for Every Negotiation Phase
 

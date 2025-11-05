@@ -1,3 +1,11 @@
+---
+title: "Calculadora Roi Avanzada Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Financial_models/Roi_analysis/calculadora_roi_avanzada_vc.md"
+---
+
 # 💰 CALCULADORA ROI AVANZADA VC
 ## Herramienta de Análisis Financiero y Retorno de Inversión para SaaS IA Copywriting LATAM
 

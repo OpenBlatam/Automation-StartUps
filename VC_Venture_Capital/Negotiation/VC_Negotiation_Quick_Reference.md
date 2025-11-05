@@ -1,3 +1,11 @@
+---
+title: "Vc Negotiation Quick Reference"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Negotiation/vc_negotiation_quick_reference.md"
+---
+
 # VC Negotiation Quick Reference
 ## Essential Points for AI Course & Marketing SaaS
 

@@ -1,3 +1,11 @@
+---
+title: "Inteligencia Mercado Latam Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Financial_models/Market_analysis/inteligencia_mercado_latam_vc.md"
+---
+
 # 🌎 INTELIGENCIA DE MERCADO LATAM
 ## Análisis Profundo para Negociación VC - SaaS IA Copywriting
 

@@ -1,0 +1,184 @@
+{
+  "brandName": "[NOMBRE DEL PRODUCTO]",
+  "platform": "[Facebook/Instagram/Reels]",
+  "slogan": "[ESLOGAN]",
+  "colors": {
+    "primary": {
+      "hex": "#[COLOR_PRIMARY]",
+      "rgb": "rgb(R, G, B)",
+      "usage": "Fondo principal, base UI"
+    },
+    "accent": {
+      "hex": "#[COLOR_ACCENT]",
+      "rgb": "rgb(R, G, B)",
+      "usage": "CTA botones, elementos destacados",
+      "contrastRatio": "≥ 4.5:1 (WCAG AA mínimo)"
+    },
+    "dark": {
+      "hex": "#[COLOR_DARK]",
+      "rgb": "rgb(R, G, B)",
+      "usage": "Texto principal, overlays",
+      "contrastRatio": "≥ 4.5:1 sobre fondos claros"
+    },
+    "light": {
+      "hex": "#[COLOR_LIGHT]",
+      "rgb": "rgb(R, G, B)",
+      "usage": "Fondos secundarios, texto sobre oscuro"
+    },
+    "900": {
+      "hex": "#[COLOR_900]",
+      "rgb": "rgb(R, G, B)",
+      "usage": "Fondo oscuro (versión Bulk Docs)"
+    },
+    "chips": {
+      "hex": "#[COLOR_CHIPS]",
+      "rgb": "rgb(R, G, B)",
+      "usage": "Chips, tags, badges",
+      "note": "Acento +20% saturación"
+    },
+    "validation": {
+      "hex": "#10B981",
+      "rgb": "rgb(16, 185, 129)",
+      "usage": "Checks, validaciones, éxito"
+    },
+    "warning": {
+      "hex": "#F59E0B",
+      "rgb": "rgb(245, 158, 11)",
+      "usage": "Avisos, urgencia"
+    }
+  },
+  "typography": {
+    "headline": {
+      "family": "Poppins Black / Inter Black",
+      "sizes": {
+        "mobile": "96-112px",
+        "desktop": "112-128px"
+      },
+      "weight": "900",
+      "lineHeight": "1.1"
+    },
+    "body": {
+      "family": "Inter Regular / SF Pro Display",
+      "sizes": {
+        "mobile": "64-80px",
+        "desktop": "80-96px"
+      },
+      "weight": "400",
+      "lineHeight": "1.4"
+    },
+    "subtitle": {
+      "family": "Inter SemiBold",
+      "size": "92px",
+      "weight": "600",
+      "lineHeight": "1.2",
+      "shadow": "0 2px 4px rgba(0,0,0,0.3)",
+      "stroke": "1px rgba(255,255,255,0.8)"
+    }
+  },
+  "cta": {
+    "button": {
+      "minSize": "360×112px",
+      "borderRadius": "16px",
+      "fontSize": "64px",
+      "fontWeight": "700",
+      "shadow": "0 6px 18px rgba(0,0,0,0.18)",
+      "animation": {
+        "pulse": {
+          "scale": "1.05x",
+          "duration": "1.5s",
+          "iteration": "infinite"
+        }
+      },
+      "states": {
+        "default": "[COLORES MARCA-acento]",
+        "hover": "[COLORES MARCA-acento] +10% brillo"
+      }
+    },
+    "microcopy": {
+      "fontSize": "48px",
+      "fontWeight": "400",
+      "color": "[COLORES MARCA-oscuro]",
+      "spacing": "16px bajo botón"
+    }
+  },
+  "safeZones": {
+    "top": "150px",
+    "bottom": "150px",
+    "sides": "80px",
+    "note": "Zonas libres para UI nativa de plataformas"
+  },
+  "products": {
+    "curso_ia_webinar": {
+      "theme": "light",
+      "primaryColor": "[COLORES MARCA-claro]",
+      "accentColor": "[COLORES MARCA-acento]",
+      "textColor": "[COLORES MARCA-oscuro]"
+    },
+    "saas_ia_marketing": {
+      "theme": "clean",
+      "background": "#FFFFFF o [COLORES MARCA-claro]",
+      "accentColor": "[COLORES MARCA-acento]",
+      "textColor": "[COLORES MARCA-oscuro]",
+      "shadows": "8-12px blur, rgba(0,0,0,0.08)"
+    },
+    "ia_bulk_docs": {
+      "theme": "dark",
+      "background": "[COLORES MARCA-900]",
+      "accentColor": "[COLORES MARCA-acento]",
+      "textColor": "#FFFFFF",
+      "validationGreen": "#10B981"
+    }
+  },
+  "audio": {
+    "bpm": {
+      "range": "105-115",
+      "recommended": "110"
+    },
+    "ducking": {
+      "voReduction": "-8dB",
+      "trigger": "Cuando habla VO"
+    },
+    "loudness": {
+      "target": "-14 LUFS",
+      "integrated": true
+    },
+    "vo": {
+      "wpm": {
+        "range": "150-165",
+        "recommended": "160"
+      },
+      "pauses": {
+        "betweenClaims": "150ms",
+        "beforeCTA": "300ms"
+      }
+    }
+  },
+  "video": {
+    "format": {
+      "primary": "1080×1920 (9:16)",
+      "secondary": "1080×1080 (1:1)",
+      "tertiary": "1080×1350 (4:5)"
+    },
+    "codec": {
+      "video": "H.264",
+      "audio": "AAC 48kHz",
+      "bitrate": "15-20 Mbps"
+    },
+    "fps": "30",
+    "duration": "15s exactos"
+  },
+  "exports": {
+    "naming": {
+      "pattern": "[PLATAFORMA]-[PRODUCTO]-15s-v[VERSION]-[HOOK]-[CTA].mp4",
+      "example": "instagram-curso-ia-15s-v1-outcome-inscribete.mp4"
+    },
+    "thumbnails": {
+      "format": "1080×1920 PNG",
+      "textMaxWords": "3-4",
+      "style": "Alto contraste, cifra grande"
+    }
+  }
+}
+
+
+

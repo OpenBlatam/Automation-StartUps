@@ -1,3 +1,11 @@
+---
+title: "Developer Guide"
+category: "Ai_technology"
+tags: ["guide", "technical", "technology"]
+created: "2025-10-29"
+path: "Ai_technology/05_technology/Reference_files/developer_guide.md"
+---
+
 # 🧠 Neural Marketing Consciousness System - Developer Guide
 
 ## 📖 Table of Contents

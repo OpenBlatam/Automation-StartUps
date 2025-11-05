@@ -1,3 +1,11 @@
+---
+title: "Herramienta Riesgos Interactiva Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Financial_models/herramienta_riesgos_interactiva_vc.md"
+---
+
 # ⚠️ HERRAMIENTA DE EVALUACIÓN DE RIESGOS
 ## Análisis Interactivo de Riesgos para Negociación VC
 

@@ -1,3 +1,11 @@
+---
+title: "Organization Summary"
+category: "Ai_technology"
+tags: ["technical", "technology"]
+created: "2025-10-29"
+path: "Ai_technology/05_technology/Analysis_files/organization_summary.md"
+---
+
 # 📁 Resumen de Organización de Archivos por Áreas de Negocio
 
 ## 🎯 **Objetivo Completado**

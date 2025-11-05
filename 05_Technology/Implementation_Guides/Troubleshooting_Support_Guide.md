@@ -1,3 +1,11 @@
+---
+title: "Troubleshooting Support Guide"
+category: "05_technology"
+tags: ["guide", "technical", "technology"]
+created: "2025-10-29"
+path: "05_technology/Implementation_guides/troubleshooting_support_guide.md"
+---
+
 # 🔧 Troubleshooting & Support Guide
 
 ## 🚨 Common Issues and Solutions

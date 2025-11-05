@@ -1,3 +1,11 @@
+---
+title: "Copycar Ai Due Diligence Preparation"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/Copycar_ai_investor_package/copycar_ai_due_diligence_preparation.md"
+---
+
 # 🔍 CopyCar.ai - Preparación para Due Diligence
 
 ## Guía Completa para Due Diligence de Serie A

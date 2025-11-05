@@ -1,0 +1,4 @@
+fecha,canal,variant,stack_detected,sent,opened,replied,booked_demo,closed_won,dm_demo_rate,demo_close_rate,avg_response_hours,roi_time_usd,roi_perf_usd,roi_total_usd
+2025-10-30,linkedin,v_premium,hubspot,50,30,12,5,3,=IF(F2>0,H2/F2,0),=IF(H2>0,I2/H2,0),18,450,600,=L2+M2
+2025-10-30,email,v_principal,ga4,80,28,9,3,1,=IF(F3>0,H3/F3,0),=IF(H3>0,I3/H3,0),26,380,420,=L3+M3
+2025-10-30,linkedin,micro_dm,meta_ads,60,36,10,4,1,=IF(F4>0,H4/F4,0),=IF(H4>0,I4/H4,0),20,300,350,=L4+M4

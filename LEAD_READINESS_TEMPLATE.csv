@@ -1,0 +1,5 @@
+lead_id,full_name,title,company,industry,role_level,achievement,achievement_date,fit_icp,explicit_pain,authority,engagement_intent,timing_window,score_achievement,score_fit,score_pain,score_authority,score_intent,score_timing,weight_achievement,weight_fit,weight_pain,weight_authority,weight_intent,weight_timing,readiness_score,readiness_tier,suggested_cta,owner,status,notes
+1,Ana Martínez,Head of Growth,ShopNow,E-commerce,Head,Alcanzaron $2M MRR,2025-10-20,Yes,"Optimizar ROAS y personalización",Decisor,Abrió/clic en último email,Q4 presupuesto,5,5,4,5,4,4,0.20,0.20,0.15,0.15,0.15,0.15,88,Listo,Demo 15 min / Trial,adan,ready_to_outreach,"Caso ecom v2-roi"
+
+
+

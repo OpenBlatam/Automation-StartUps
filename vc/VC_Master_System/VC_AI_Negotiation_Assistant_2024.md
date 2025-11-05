@@ -1,3 +1,11 @@
+---
+title: "Vc Ai Negotiation Assistant 2024"
+category: "Vc"
+tags: []
+created: "2025-10-29"
+path: "Vc/Vc_master_system/vc_ai_negotiation_assistant_2024.md"
+---
+
 # 🤖 VC AI Negotiation Assistant 2024
 ## Your AI-Powered Negotiation Coach
 

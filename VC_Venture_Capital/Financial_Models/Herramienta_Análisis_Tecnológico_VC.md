@@ -1,3 +1,11 @@
+---
+title: "Herramienta Análisis Tecnológico Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Financial_models/herramienta_análisis_tecnológico_vc.md"
+---
+
 # 🔧 HERRAMIENTA DE ANÁLISIS TECNOLÓGICO VC
 ## Sistema de Evaluación Tecnológica para SaaS IA Copywriting LATAM
 

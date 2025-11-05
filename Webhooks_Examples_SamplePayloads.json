@@ -1,0 +1,44 @@
+{
+  "inbound_message": {
+    "event_id": "evt_001",
+    "timestamp": "2025-10-30T14:00:00Z",
+    "channel": "instagram",
+    "from_user_id": "ig_123",
+    "text": "Sí, reservo",
+    "metadata": {"thread_id": "t_456"}
+  },
+  "classified_reply": {
+    "event_id": "evt_002",
+    "timestamp": "2025-10-30T14:00:02Z",
+    "classifier": "regex_v1",
+    "bucket": "interested",
+    "confidence": 0.92,
+    "original_event_id": "evt_001"
+  },
+  "variant_selected": {
+    "event_id": "evt_003",
+    "timestamp": "2025-10-30T14:00:03Z",
+    "strategy": "cta_group_ab",
+    "variant_id": "V-CUR-01",
+    "cta_group": "C1",
+    "context": {"risk_level": "low"}
+  },
+  "message_sent": {
+    "event_id": "evt_004",
+    "timestamp": "2025-10-30T14:00:05Z",
+    "channel": "instagram",
+    "to_user_id": "ig_123",
+    "variant_id": "V-CUR-01",
+    "cta_group": "C1",
+    "utm": {"campaign": "ig_dm_launch", "source": "instagram", "medium": "dm"}
+  },
+  "error": {
+    "event_id": "evt_005",
+    "timestamp": "2025-10-30T14:10:00Z",
+    "code": "RATE_LIMIT",
+    "message": "Too many requests",
+    "retry_after_seconds": 120
+  }
+}
+
+

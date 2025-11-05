@@ -1,3 +1,11 @@
+---
+title: "Pitch Analytics Dashboard"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Analytics_marketing/pitch_analytics_dashboard.md"
+---
+
 # 📊 Pitch Analytics Dashboard
 ## Advanced Analytics and Performance Tracking System
 

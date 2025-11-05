@@ -1,3 +1,11 @@
+---
+title: "Guia Implementacion Anti Vc Dependencia"
+category: "Vc_venture_capital"
+tags: ["guide"]
+created: "2025-10-29"
+path: "Vc_venture_capital/Anti_vc_strategies/Technology_strategies/guia_implementacion_anti_vc_dependencia.md"
+---
+
 # 🛠️ **GUÍA DE IMPLEMENTACIÓN: ESTRATEGIAS ANTI-DEPENDENCIA VC**
 
 ## **MANUAL PASO A PASO PARA REDUCIR DILUCIÓN Y MANTENER CONTROL**

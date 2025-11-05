@@ -1,3 +1,11 @@
+---
+title: "Investor Presentation Scripts"
+category: "Vc_venture_capital"
+tags: ["script"]
+created: "2025-10-29"
+path: "Vc_venture_capital/Investor_presentations/Scripts_templates/investor_presentation_scripts.md"
+---
+
 # 💼 Investor Presentation Scripts - AI Marketing SaaS
 ## Comprehensive Scripts for Investor Meetings and Presentations
 

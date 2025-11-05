@@ -1,7 +1,10 @@
-# Deep Learning
+---
+title: "Readme"
+category: "Ai_technology"
+tags: ["technical", "technology"]
+created: "2025-10-29"
+path: "Ai_technology/08_ai_artificial_intelligence/Deep_learning/readme.md"
+---
 
-Subcategoría de 08_AI_Artificial_Intelligence
+# Deep_Learning
 
-## Archivos:
-
-- README.md

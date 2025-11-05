@@ -1,0 +1,74 @@
+---
+title: "Readme"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/Reports/readme.md"
+---
+
+# Reports
+
+## Archivos
+- 02_AI_Marketing_SaaS_Executive_Summary.pdf
+- AI_Optimization_Report.md
+- cierre-ventas-curso-ia.pdf
+- curso-inteligencia-artificial-empresas.pdf
+- estrategia-gtm-saas-fintech.pdf
+- Exit_Strategy_Comprehensive_Report.md
+- Exit_Strategy_Enhanced_Report.md
+- FINAL_ORGANIZATION_REPORT.md
+- formulas-avanzadas-anchor-texts-mejorado.pdf
+- formulas-avanzadas-anchor-texts-refactorizado.pdf
+- formulas-avanzadas-anchor-texts.pdf
+- frases-populares-busqueda-google-2024-ultra-completo-final.pdf
+- frases-populares-busqueda-google-2024-ultra-completo.pdf
+- frases-populares-busqueda-google-2024.pdf
+- guia-implementacion-ia-fintech.pdf
+- guia-marketing-saas.pdf
+- INDEX.md
+- indice-documentos-completos.pdf
+- Intelligence_Report.md
+- Market_Intelligence_Report.md
+- marketing_split_report.json
+- organization_report.json
+- PERMANENT_ORGANIZATION_REPORT.md
+- remote-company-culture-strategy.pdf
+- reporte_automatico_20251002_185915.md
+- reporte_automatico_20251002_190119.md
+- reporte_casos_exito_copycar.md
+- reporte_competencia_copycar.md
+- reporte_escenarios_dinamicos.md
+- reporte_estrategia_precios.md
+- reporte_final_pipeline_20250915_135925.md
+- reporte_mercado_tiempo_real.md
+- reporte_mercado_tiempo_real_avanzado.md
+- reporte_monitor_ejecutivo_copycar.md
+- reporte_negociacion_vc_copycar.md
+- reporte_optimizacion_avanzada.md
+- reporte_optimizacion_deep_learning.md
+- reporte_optimizacion_ultra_avanzada.md
+- reporte_predicciones_ia_avanzado.md
+- reporte_validacion_implementacion.md
+- reporte_vertical_automotriz.md
+- resumen-final-documentos-2025.pdf
+- resumen-mejoras-conciencia-artificial-suprema-2025.pdf
+- resumen-mejoras-cuanticas-2025.pdf
+- resumen-mejoras-divino-eterno-2025.pdf
+- resumen-mejoras-eternidad-divina-2025.pdf
+- resumen-mejoras-formulas-2025.pdf
+- resumen-mejoras-infinitas-2025.pdf
+- resumen-mejoras-infinito-absoluto-2025.pdf
+- resumen-mejoras-neurociencia-cuantica-2025.pdf
+- resumen-mejoras-omniversal-2025.pdf
+- resumen-mejoras-omniversales-2025.pdf
+- resumen-mejoras-perfeccion-absoluta-2025.pdf
+- resumen-mejoras-singularidad-2025.pdf
+- resumen-mejoras-singularidad-tecnologica-2025.pdf
+- resumen-mejoras-supremas-2025.pdf
+- resumen-mejoras-supremo-absoluto-2025.pdf
+- resumen-mejoras-transcendencia-absoluta-2025.pdf
+- resumen-refactorizacion-formulas.pdf
+- SETUP_REPORT.md
+- ULTRA_ORGANIZATION_REPORT.md
+- webinar_marketing_Bonos_Exclusivos_Personalizados.pdf
+

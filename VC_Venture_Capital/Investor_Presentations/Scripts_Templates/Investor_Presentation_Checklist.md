@@ -1,3 +1,11 @@
+---
+title: "Investor Presentation Checklist"
+category: "Vc_venture_capital"
+tags: ["checklist"]
+created: "2025-10-29"
+path: "Vc_venture_capital/Investor_presentations/Scripts_templates/investor_presentation_checklist.md"
+---
+
 # ✅ Investor Presentation Checklist - AI Marketing SaaS
 ## Complete Preparation Guide for Successful Investor Meetings
 

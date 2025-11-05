@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920">
+  <defs>
+    <linearGradient id="bg-glitch" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#000000"/>
+      <stop offset="50%" stop-color="#0A0A1A"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+    <linearGradient id="glitch-magenta" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF00FF"/>
+      <stop offset="50%" stop-color="#FF00AA"/>
+      <stop offset="100%" stop-color="#FF0088"/>
+    </linearGradient>
+    <linearGradient id="glitch-cyan" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00FFFF"/>
+      <stop offset="50%" stop-color="#00AAFF"/>
+      <stop offset="100%" stop-color="#0088FF"/>
+    </linearGradient>
+    <linearGradient id="glitch-green" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00FF00"/>
+      <stop offset="50%" stop-color="#00FF88"/>
+      <stop offset="100%" stop-color="#00FFAA"/>
+    </linearGradient>
+    <filter id="glitch-glow" x="-200%" y="-200%" width="500%" height="500%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blur"/>
+      <feOffset in="blur" dx="0" dy="0" result="offsetBlur"/>
+      <feFlood flood-color="#FF00FF" flood-opacity="0.7"/>
+      <feComposite in2="offsetBlur" operator="in" result="magenta"/>
+      <feFlood flood-color="#00FFFF" flood-opacity="0.5"/>
+      <feComposite in2="offsetBlur" operator="in" result="cyan"/>
+      <feMerge>
+        <feMergeNode in="magenta"/>
+        <feMergeNode in="cyan"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="glitch-shadow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="10"/>
+      <feOffset dx="0" dy="12" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.5"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      @font-face { font-family: Inter; src: local('Inter'), local('Arial'); }
+      .headline { font: 900 64px/1.1 Inter, system-ui, -apple-system; fill: #FFFFFF; letter-spacing: -1px; text-anchor: middle; filter: url(#glitch-glow); }
+      .subhead { font: 600 26px/1.3 Inter, system-ui, -apple-system; fill: #E0E0FF; text-anchor: middle; filter: url(#glitch-glow); }
+      .chip { font: 800 24px/1.2 Inter, system-ui, -apple-system; fill: #FFFFFF; text-anchor: middle; }
+      .cta-text { font: 900 42px/1 Inter, system-ui, -apple-system; fill: #000000; text-anchor: middle; }
+      .benefit { font: 500 20px/1.4 Inter, system-ui, -apple-system; fill: #E0F0FF; }
+    </style>
+    <g id="glitch-bar-h">
+      <rect x="0" y="0" width="180" height="3" fill="url(#glitch-magenta)" filter="url(#glitch-glow)"/>
+      <rect x="0" y="0" width="180" height="1.5" fill="url(#glitch-cyan)" opacity="0.7" filter="url(#glitch-glow)"/>
+    </g>
+    <g id="glitch-bar-v">
+      <rect x="0" y="0" width="3" height="180" fill="url(#glitch-cyan)" filter="url(#glitch-glow)"/>
+      <rect x="0" y="0" width="1.5" height="180" fill="url(#glitch-magenta)" opacity="0.7" filter="url(#glitch-glow)"/>
+    </g>
+    <g id="glitch-fragment">
+      <rect x="0" y="0" width="40" height="20" fill="url(#glitch-magenta)" opacity="0.6" filter="url(#glitch-glow)"/>
+      <rect x="2" y="2" width="36" height="16" fill="url(#glitch-cyan)" opacity="0.4" filter="url(#glitch-glow)"/>
+    </g>
+    <g id="cta-glitch">
+      <rect x="0" y="0" width="920" height="120" rx="16" fill="rgba(0,0,0,0.9)"/>
+      <rect x="0" y="0" width="920" height="120" rx="16" fill="url(#glitch-magenta)" opacity="0.15"/>
+      <rect x="0" y="0" width="920" height="60" rx="16" fill="rgba(255,0,255,0.1)"/>
+      <rect x="0" y="0" width="920" height="120" rx="16" fill="none" stroke="url(#glitch-magenta)" stroke-width="3" filter="url(#glitch-glow)"/>
+      <use href="#glitch-bar-h" transform="translate(30,20) scale(0.6)"/>
+      <use href="#glitch-bar-h" transform="translate(30,100) scale(0.6)"/>
+    </g>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#bg-glitch)"/>
+  <g opacity="0.4">
+    <use href="#glitch-bar-h" transform="translate(150,200)"/>
+    <use href="#glitch-bar-h" transform="translate(650,240)"/>
+    <use href="#glitch-bar-v" transform="translate(300,250)"/>
+    <use href="#glitch-bar-v" transform="translate(800,280)"/>
+    <use href="#glitch-fragment" transform="translate(250,220) rotate(15)"/>
+    <use href="#glitch-fragment" transform="translate(700,260) rotate(-20)"/>
+    <use href="#glitch-fragment" transform="translate(350,1650) rotate(25)"/>
+    <use href="#glitch-fragment" transform="translate(800,1680) rotate(-15)"/>
+  </g>
+  <g transform="translate(60,80)" filter="url(#glitch-shadow)">
+    <rect x="0" y="0" width="960" height="100" rx="12" fill="rgba(0,0,0,0.8)"/>
+    <rect x="0" y="0" width="960" height="100" rx="12" fill="url(#glitch-magenta)" opacity="0.15"/>
+    <rect x="0" y="0" width="960" height="50" rx="12" fill="rgba(255,0,255,0.1)"/>
+    <rect x="0" y="0" width="960" height="100" rx="12" fill="none" stroke="url(#glitch-magenta)" stroke-width="3" filter="url(#glitch-glow)"/>
+    <use href="#glitch-bar-h" transform="translate(40,20) scale(0.5)"/>
+    <use href="#glitch-bar-h" transform="translate(40,80) scale(0.5)"/>
+    <text x="480" y="65" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="28" font-weight="900">[FECHA] [HORA]</text>
+  </g>
+  <g transform="translate(540,240)">
+    <text x="0" y="0" class="headline">Webinar Exclusivo</text>
+    <text x="0" y="40" class="subhead">Descubre el Futuro de la IA</text>
+  </g>
+  <g transform="translate(540,400)">
+    <g transform="translate(0,-50)" filter="url(#glitch-shadow)">
+      <rect x="-220" y="0" width="220" height="90" rx="16" fill="rgba(0,0,0,0.7)"/>
+      <rect x="-220" y="0" width="220" height="90" rx="16" fill="url(#glitch-magenta)" opacity="0.1"/>
+      <rect x="-220" y="0" width="220" height="90" rx="16" fill="none" stroke="url(#glitch-magenta)" stroke-width="3" filter="url(#glitch-glow)"/>
+      <use href="#glitch-bar-h" transform="translate(-190,20) scale(0.5)"/>
+      <text x="-150" y="35" class="benefit">✓ Beneficio 1</text>
+      <text x="-150" y="65" class="benefit" fill="#FFB8FF" font-size="16">Descripción</text>
+    </g>
+    <g transform="translate(0,-50)" filter="url(#glitch-shadow)">
+      <rect x="0" y="0" width="220" height="90" rx="16" fill="rgba(0,0,0,0.7)"/>
+      <rect x="0" y="0" width="220" height="90" rx="16" fill="url(#glitch-cyan)" opacity="0.1"/>
+      <rect x="0" y="0" width="220" height="90" rx="16" fill="none" stroke="url(#glitch-cyan)" stroke-width="3" filter="url(#glitch-glow)"/>
+      <use href="#glitch-bar-h" transform="translate(30,20) scale(0.5)"/>
+      <text x="70" y="35" class="benefit">✓ Beneficio 2</text>
+      <text x="70" y="65" class="benefit" fill="#B8FFFF" font-size="16">Descripción</text>
+    </g>
+  </g>
+  <g transform="translate(540,600)" filter="url(#glitch-shadow)">
+    <g transform="translate(0,-50)">
+      <rect x="-220" y="0" width="220" height="90" rx="16" fill="rgba(0,0,0,0.7)"/>
+      <rect x="-220" y="0" width="220" height="90" rx="16" fill="url(#glitch-green)" opacity="0.1"/>
+      <rect x="-220" y="0" width="220" height="90" rx="16" fill="none" stroke="url(#glitch-green)" stroke-width="3" filter="url(#glitch-glow)"/>
+      <use href="#glitch-bar-h" transform="translate(-190,20) scale(0.5)"/>
+      <text x="-150" y="35" class="benefit">✓ Beneficio 3</text>
+      <text x="-150" y="65" class="benefit" fill="#B8FFB8" font-size="16">Descripción</text>
+    </g>
+  </g>
+  <g transform="translate(540,800)" filter="url(#glitch-shadow)">
+    <use href="#cta-glitch"/>
+    <text x="460" y="70" class="cta-text">REGISTRARME</text>
+  </g>
+  <g transform="translate(540,980)">
+    <g transform="translate(-120,0)" filter="url(#glitch-shadow)">
+      <rect x="0" y="0" width="160" height="52" rx="14" fill="rgba(255,0,255,0.2)" stroke="url(#glitch-magenta)" stroke-width="2.5" filter="url(#glitch-glow)"/>
+      <use href="#glitch-bar-h" transform="translate(12,10) scale(0.4)"/>
+      <text x="80" y="35" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="20" font-weight="900">🔥 Cupos</text>
+    </g>
+    <g transform="translate(120,0)" filter="url(#glitch-shadow)">
+      <rect x="0" y="0" width="160" height="52" rx="14" fill="rgba(0,255,255,0.2)" stroke="url(#glitch-cyan)" stroke-width="2.5" filter="url(#glitch-glow)"/>
+      <use href="#glitch-bar-h" transform="translate(12,10) scale(0.4)"/>
+      <text x="80" y="35" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="20" font-weight="900">🎤 En vivo</text>
+    </g>
+  </g>
+  <g transform="translate(540,1680)">
+    <g transform="translate(-120,-40)">
+      <rect x="0" y="0" width="80" height="80" rx="12" fill="#FFFFFF" stroke="url(#glitch-magenta)" stroke-width="3" filter="url(#glitch-glow)"/>
+      <use href="#glitch-bar-v" transform="translate(20,10) scale(0.3)"/>
+      <text x="40" y="95" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="12" font-weight="500">[URL]</text>
+    </g>
+    <g transform="translate(60,-40)">
+      <rect x="0" y="0" width="260" height="80" rx="14" fill="rgba(255,255,255,0.1)" stroke="url(#glitch-magenta)" stroke-width="2.5" opacity="0.6" filter="url(#glitch-glow)"/>
+      <use href="#glitch-bar-h" transform="translate(10,10) scale(0.5)"/>
+      <text x="130" y="48" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="18" font-weight="600">TU LOGO</text>
+    </g>
+  </g>
+  <text x="540" y="1900" text-anchor="middle" fill="#666666" font-family="Inter" font-size="13" font-weight="400">Términos y condiciones aplican</text>
+</svg>

@@ -1,0 +1,7 @@
+dimension,peso,metrica,valor,score_formula,score
+Adopcion,40,usuarios_activos_pct,,=IF({valor}="",,ROUND({valor}*40,2)),
+Valor,30,roi_reportado,,=IF({valor}="",,ROUND({valor}*30,2)),
+Soporte,20,slas_cumplidos_pct,,=IF({valor}="",,ROUND({valor}*20,2)),
+Riesgo,10,riesgos_activos, ,=IF({valor}="",,ROUND((1-{valor})*10,2)),
+TOTAL,, , ,=SUM(fila_adopcion:fila_riesgo),
+Clasificacion,, , ,=IF(TOTAL>=80,"Saludable",IF(TOTAL>=60,"Atencion","Riesgo")),

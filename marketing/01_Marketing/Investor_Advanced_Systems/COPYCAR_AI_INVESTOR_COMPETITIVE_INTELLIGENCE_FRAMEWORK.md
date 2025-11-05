@@ -1,3 +1,11 @@
+---
+title: "Copycar Ai Investor Competitive Intelligence Framework"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Investor_advanced_systems/copycar_ai_investor_competitive_intelligence_framework.md"
+---
+
 # COPYCAR.AI INVESTOR COMPETITIVE INTELLIGENCE FRAMEWORK
 ## The Complete Guide to Competitive Intelligence Excellence
 

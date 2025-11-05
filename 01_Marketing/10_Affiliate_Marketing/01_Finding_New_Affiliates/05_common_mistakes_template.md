@@ -1,3 +1,11 @@
+---
+title: "05 Common Mistakes Template"
+category: "01_marketing"
+tags: ["business", "marketing", "template"]
+created: "2025-10-29"
+path: "01_marketing/10_affiliate_marketing/01_finding_new_affiliates/05_common_mistakes_template.md"
+---
+
 # ⚠️ Finding New Affiliates - Advanced Common Mistakes Template
 
 ## Template: AI-Powered Mistake Prevention in Affiliate Outreach

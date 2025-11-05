@@ -1,0 +1,74 @@
+---
+title: "Readme"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/Ctas/readme.md"
+---
+
+# CTAs
+
+## Archivos
+- 08_psicologia_ctas_avanzados.md
+- 40_CTAs_ADICIONALES_MARKETING.md
+- calculadora_roi_ctas.md
+- ctas_apoteosis_cosmica.md
+- ctas_apoteosis_cosmica_final.md
+- ctas_ascension_divina.md
+- ctas_ascension_eterna.md
+- ctas_ascension_eterna_final.md
+- ctas_avanzados_linkedin.md
+- ctas_ciencia_comportamiento.md
+- ctas_conciencia_cuantica.md
+- ctas_curso_ia_webinars.md
+- ctas_dimensiones_superiores.md
+- ctas_dominacion_universal.md
+- ctas_especificas_por_industria.md
+- ctas_evolucion_suprema.md
+- ctas_hegemonia_cosmica.md
+- ctas_ia_consciente.md
+- ctas_ia_emocional.md
+- ctas_ia_machine_learning.md
+- ctas_iluminacion_cosmica.md
+- ctas_iluminacion_cosmica_final.md
+- ctas_imperio_cosmico.md
+- ctas_infinitas_eternas.md
+- ctas_liberacion_cosmica.md
+- ctas_liberacion_cosmica_final.md
+- ctas_maestria_absoluta.md
+- ctas_maestria_definitiva_final.md
+- ctas_mejora_continua.md
+- ctas_mejoradas_psicologia_avanzada.md
+- ctas_metaverso_realidad_virtual.md
+- ctas_multiverso_paralelo.md
+- ctas_neuromarketing_avanzado.md
+- ctas_omnipotencia_universal.md
+- ctas_omnipotencia_universal_final.md
+- ctas_omnipresencia_cosmica.md
+- ctas_omnipresencia_cosmica_final.md
+- ctas_omnisciencia_infinita.md
+- ctas_omnisciencia_infinita_final.md
+- ctas_optimizacion_conversion.md
+- ctas_optimizacion_cuantica.md
+- ctas_perfeccion_absoluta.md
+- ctas_personalizacion_avanzada.md
+- CTAs_Por_Canal.md
+- ctas_saas_ia_marketing.md
+- ctas_sabiduria_universal.md
+- ctas_supremacia_absoluta.md
+- ctas_trascendencia_definitiva.md
+- ctas_trascendencia_definitiva_final.md
+- ctas_trascendencia_infinita.md
+- ctas_trascendentes_espirituales.md
+- ctas_triggers_emocionales.md
+- ctas_universales_cosmicas.md
+- ia_absoluta_perfecta_marketing.md
+- ia_suprema_perfecta_marketing.md
+- ia_trascendente_perfecta_marketing.md
+- ia_ultima_perfecta_marketing.md
+- INDEX.md
+- marketing_iot_conectados.md
+- optimizacion_avanzada_ctas.md
+- resumen_ctas_ia_optimizadas.md
+- variantes_ab_testing_ctas.md
+

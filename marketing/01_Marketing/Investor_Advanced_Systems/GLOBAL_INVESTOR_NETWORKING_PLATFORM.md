@@ -1,3 +1,11 @@
+---
+title: "Global Investor Networking Platform"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Investor_advanced_systems/global_investor_networking_platform.md"
+---
+
 # GLOBAL INVESTOR NETWORKING PLATFORM
 ## Plataforma Global de Networking con Inversores
 

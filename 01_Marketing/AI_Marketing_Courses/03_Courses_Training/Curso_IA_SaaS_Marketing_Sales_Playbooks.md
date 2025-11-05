@@ -1,3 +1,11 @@
+---
+title: "Curso Ia Saas Marketing Sales Playbooks"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/Ai_marketing_courses/03_courses_training/curso_ia_saas_marketing_sales_playbooks.md"
+---
+
 # 🚀 Curso Avanzado: IA y SaaS Aplicado al Marketing - Desarrollo de Sales Playbooks Personalizados
 
 ## 📋 Información del Curso

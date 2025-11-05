@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "flows": [
+    {
+      "id": "lm_capture",
+      "name": "Lead Magnet Capture",
+      "trigger": { "app": "Typeform", "event": "New Entry" },
+      "filters": [ { "field": "product", "op": "in", "value": ["curso","saas","bulk"] } ],
+      "actions": [
+        { "app": "Airtable", "event": "Upsert Record", "table": "Leads" },
+        { "app": "Airtable", "event": "Create Record", "table": "Eventos", "data": { "tipo": "descarga" } },
+        { "app": "MailerLite", "event": "Send Email", "template": "entrega_lead_magnet" },
+        { "app": "Zapier", "event": "Delay For", "duration": "48h" },
+        { "app": "MailerLite", "event": "Send Email", "template": "seguimiento_valor" }
+      ]
+    },
+    {
+      "id": "webinar_sequence",
+      "name": "Webinar Reminders + Replay",
+      "trigger": { "app": "Airtable", "event": "New Record", "table": "Webinars" },
+      "actions": [
+        { "app": "Zapier", "event": "Schedule", "at": "T-24h", "action": { "app": "MailerLite", "event": "Send Email", "template": "reminder_24h" } },
+        { "app": "Zapier", "event": "Schedule", "at": "T-2h",  "action": { "app": "MailerLite", "event": "Send Email", "template": "reminder_2h" } },
+        { "app": "Zapier", "event": "Schedule", "at": "T+1h",  "action": { "app": "MailerLite", "event": "Send Email", "template": "replay_offer" } }
+      ]
+    },
+    {
+      "id": "tripwire_purchase",
+      "name": "Tripwire Purchase → Cross-sell Core",
+      "trigger": { "app": "Stripe", "event": "Checkout Session Completed" },
+      "actions": [
+        { "app": "Airtable", "event": "Create Record", "table": "Compras" },
+        { "app": "MailerLite", "event": "Send Email", "template": "onboarding_tripwire" },
+        { "app": "Zapier", "event": "Delay For", "duration": "72h" },
+        { "app": "MailerLite", "event": "Send Email", "template": "oferta_core_deadline" }
+      ]
+    },
+    {
+      "id": "demo_flow",
+      "name": "Calendly Demo → Checklist + Propuesta",
+      "trigger": { "app": "Calendly", "event": "Invitee Created" },
+      "actions": [
+        { "app": "Airtable", "event": "Create Record", "table": "Demos" },
+        { "app": "Airtable", "event": "Create Record", "table": "Tareas", "data": { "tipo": "pre-demo_checklist" } },
+        { "app": "Zapier", "event": "Schedule", "at": "T+1h", "action": { "app": "MailerLite", "event": "Send Email", "template": "resumen_propuesta" } }
+      ]
+    }
+  ]
+}
+

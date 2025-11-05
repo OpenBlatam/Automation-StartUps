@@ -1,3 +1,11 @@
+---
+title: "Pitch Master Checklist"
+category: "Marketing"
+tags: ["business", "checklist", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Documents/pitch_master_checklist.md"
+---
+
 # ✅ AI Marketing SaaS Pitch Master Checklist
 ## Complete Pre-Pitch, During-Pitch, and Post-Pitch Checklist
 

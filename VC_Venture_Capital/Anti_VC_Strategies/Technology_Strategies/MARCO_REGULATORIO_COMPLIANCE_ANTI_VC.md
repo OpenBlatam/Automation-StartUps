@@ -1,3 +1,11 @@
+---
+title: "Marco Regulatorio Compliance Anti Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Anti_vc_strategies/Technology_strategies/marco_regulatorio_compliance_anti_vc.md"
+---
+
 # ⚖️ **MARCO REGULATORIO Y COMPLIANCE**
 
 ## **CUMPLIMIENTO LEGAL PARA STARTUPS SAAS IA LATAM**

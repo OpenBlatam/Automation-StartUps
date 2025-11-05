@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0B1229"/>
+      <stop offset="100%" stop-color="#10314A"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00E5A8"/>
+      <stop offset="100%" stop-color="#00B4D8"/>
+    </linearGradient>
+    <filter id="sh" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5"/>
+      <feOffset dx="0" dy="6" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.4"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="pulse" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur">
+        <animate attributeName="stdDeviation" values="8;16;8" dur="2s" repeatCount="indefinite"/>
+      </feGaussianBlur>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      @font-face { font-family: Inter; src: local('Inter'), local('Arial'); }
+      .headline { font: 900 76px/1.1 Inter, system-ui, -apple-system; fill: #FFFFFF; letter-spacing: -1px; }
+      .subhead { font: 600 30px/1.3 Inter, system-ui, -apple-system; fill: #BFEFE8; }
+      .cta-text { font: 900 50px/1 Inter, system-ui, -apple-system; fill: #062A2D; text-anchor: middle; }
+      .pulse-text { font: 800 36px/1 Inter, system-ui, -apple-system; fill: #FF3B3B; text-anchor: middle; }
+    </style>
+    <!-- Animaciones preparadas -->
+    <g id="pulse-ring">
+      <circle r="60" fill="none" stroke="#00E5A8" stroke-width="3" opacity="0.6">
+        <animate attributeName="r" values="60;90;60" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.6;0;0.6" dur="2s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+    <g id="glow-dot">
+      <circle r="8" fill="#00E5A8">
+        <animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/>
+        <animate attributeName="r" values="8;12;8" dur="1.5s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+  </defs>
+  
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  
+  <!-- Partículas animadas fondo -->
+  <g opacity="0.4">
+    <use href="#glow-dot" transform="translate(300,200)"/>
+    <use href="#glow-dot" transform="translate(1620,880)"/>
+    <use href="#glow-dot" transform="translate(500,700)"/>
+    <use href="#glow-dot" transform="translate(1400,300)"/>
+  </g>
+  
+  <!-- Header -->
+  <g transform="translate(120,80)" filter="url(#sh)">
+    <rect x="0" y="0" width="1680" height="100" rx="16" fill="url(#accent)"/>
+    <text x="840" y="66" text-anchor="middle" fill="#062A2D" font-family="Inter, system-ui, -apple-system" font-size="42" font-weight="900">
+      Webinar gratis: Cómo doblar tus ventas online
+    </text>
+  </g>
+  
+  <!-- Headline con animación preparada -->
+  <g transform="translate(160,250)">
+    <text x="0" y="0" class="headline">Transforma tu negocio con IA</text>
+    <text x="0" y="50" class="subhead">[FECHA] · [HORA] (GMT-5)</text>
+  </g>
+  
+  <!-- Countdown animado -->
+  <g transform="translate(960,420)">
+    <rect x="-200" y="-60" width="400" height="120" rx="16" fill="#0E3740" stroke="#00C1BE" stroke-width="2" filter="url(#sh)"/>
+    <use href="#pulse-ring" transform="translate(0,0)"/>
+    <text x="0" y="10" class="pulse-text">⚠️ CUPOS LIMITADOS</text>
+    <text x="0" y="40" text-anchor="middle" fill="#C7FFFA" font-family="Inter, system-ui, -apple-system" font-size="24" font-weight="700">
+      [COUNTDOWN]
+    </text>
+  </g>
+  
+  <!-- Beneficios con efectos -->
+  <g transform="translate(160,580)">
+    <g filter="url(#sh)">
+      <rect x="0" y="0" width="380" height="140" rx="18" fill="rgba(255,255,255,0.08)" stroke="#00C1BE" stroke-width="2"/>
+      <circle cx="50" cy="70" r="28" fill="#00E5A8" opacity="0.25"/>
+      <circle cx="50" cy="70" r="18" fill="#00E5A8"/>
+      <circle cx="50" cy="70" r="8" fill="#FFFFFF"/>
+      <text x="100" y="50" fill="#E9FFFB" font-family="Inter, system-ui, -apple-system" font-size="26" font-weight="700">Prompts que bajan CPA</text>
+      <text x="100" y="85" fill="#BFEFE8" font-family="Inter, system-ui, -apple-system" font-size="20">Estrategias probadas</text>
+    </g>
+    
+    <g transform="translate(400,0)" filter="url(#sh)">
+      <rect x="0" y="0" width="380" height="140" rx="18" fill="rgba(255,255,255,0.08)" stroke="#00C1BE" stroke-width="2"/>
+      <circle cx="50" cy="70" r="28" fill="#00E5A8" opacity="0.25"/>
+      <circle cx="50" cy="70" r="18" fill="#00E5A8"/>
+      <circle cx="50" cy="70" r="8" fill="#FFFFFF"/>
+      <text x="100" y="50" fill="#E9FFFB" font-family="Inter, system-ui, -apple-system" font-size="26" font-weight="700">Creatividades en minutos</text>
+      <text x="100" y="85" fill="#BFEFE8" font-family="Inter, system-ui, -apple-system" font-size="20">Sin diseño</text>
+    </g>
+    
+    <g transform="translate(800,0)" filter="url(#sh)">
+      <rect x="0" y="0" width="380" height="140" rx="18" fill="rgba(255,255,255,0.08)" stroke="#00C1BE" stroke-width="2"/>
+      <circle cx="50" cy="70" r="28" fill="#00E5A8" opacity="0.25"/>
+      <circle cx="50" cy="70" r="18" fill="#00E5A8"/>
+      <circle cx="50" cy="70" r="8" fill="#FFFFFF"/>
+      <text x="100" y="50" fill="#E9FFFB" font-family="Inter, system-ui, -apple-system" font-size="26" font-weight="700">Automatizaciones</text>
+      <text x="100" y="85" fill="#BFEFE8" font-family="Inter, system-ui, -apple-system" font-size="20">Sin código</text>
+    </g>
+  </g>
+  
+  <!-- CTA con pulso -->
+  <g transform="translate(960,800)" filter="url(#pulse)">
+    <rect x="-280" y="-60" width="560" height="120" rx="20" fill="url(#accent)"/>
+    <rect x="-280" y="-60" width="560" height="120" rx="20" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="3"/>
+    <text x="0" y="30" class="cta-text">Únete gratis</text>
+    <path d="M220,0 L250,0 L235,-12 L270,0 L235,12 L250,0 Z" fill="#062A2D" opacity="0.8"/>
+  </g>
+  
+  <!-- Logo + QR -->
+  <g transform="translate(1680,60)">
+    <rect x="0" y="0" width="160" height="60" rx="8" fill="rgba(255,255,255,0.10)" stroke="rgba(255,255,255,0.20)"/>
+    <text x="80" y="40" text-anchor="middle" fill="#E9FFFB" font-family="Inter, system-ui, -apple-system" font-size="20" font-weight="800">TU LOGO</text>
+  </g>
+  <g transform="translate(1620,870)" filter="url(#sh)">
+    <rect x="0" y="0" width="180" height="180" rx="12" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)"/>
+    <text x="90" y="100" text-anchor="middle" fill="#E9FFFB" font-family="Inter, system-ui, -apple-system" font-size="16" font-weight="700">QR → [URL]</text>
+  </g>
+</svg>

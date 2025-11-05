@@ -1,3 +1,11 @@
+---
+title: "Resumen Ejecutivo Tiktok Ia"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Md_files/resumen_ejecutivo_tiktok_ia.md"
+---
+
 # 📊 RESUMEN EJECUTIVO - ESTRATEGIA TIKTOK IA
 
 ## 🎯 OBJETIVO

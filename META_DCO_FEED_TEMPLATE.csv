@@ -1,0 +1,13 @@
+id,landing_url,producto,ventana,h1,cta,fondo,cta_style,utm_source,utm_medium,utm_campaign,utm_content,utm_term,alt_text
+curso_3d_a,https://tusitio.com/curso-ia,cursoia,3d,h1_directo,cta_rojo,fondo_claro,red,facebook,remarketing,cursoia_cart_3d_2025-10,h1_directo_cta_rojo_fondo_claro,mx_3d,Curso IA con webinars, carrito, envio gratis
+curso_7d_b,https://tusitio.com/curso-ia,cursoia,7d,h1_beneficio,cta_amarillo,fondo_degradado,yellow,facebook,remarketing,cursoia_cart_7d_2025-10,h1_beneficio_cta_amarillo_fondo_degradado,mx_7d,Curso IA con webinars, carrito, envio gratis
+curso_14d_c,https://tusitio.com/curso-ia,cursoia,14d,h1_urgencia,cta_rojo,fondo_dark,red,instagram,remarketing,cursoia_cart_14d_2025-10,h1_urgencia_cta_rojo_fondo_dark,mx_14d,Curso IA con webinars, carrito, envio gratis
+saas_3d_a,https://tusitio.com/saas-ia,saasia,3d,h1_directo,cta_amarillo,fondo_degradado,yellow,facebook,remarketing,saasia_cart_3d_2025-10,h1_directo_cta_amarillo_fondo_degradado,co_3d,SaaS IA dashboard, carrito, envio gratis
+saas_7d_b,https://tusitio.com/saas-ia,saasia,7d,h1_beneficio,cta_rojo,fondo_claro,red,facebook,remarketing,saasia_cart_7d_2025-10,h1_beneficio_cta_rojo_fondo_claro,co_7d,SaaS IA dashboard, carrito, envio gratis
+saas_14d_c,https://tusitio.com/saas-ia,saasia,14d,h1_urgencia,cta_rojo,fondo_dark,red,instagram,remarketing,saasia_cart_14d_2025-10,h1_urgencia_cta_rojo_fondo_dark,co_14d,SaaS IA dashboard, carrito, envio gratis
+bulk_3d_a,https://tusitio.com/ia-bulk,iabulk,3d,h1_directo,cta_rojo,fondo_claro,red,facebook,remarketing,iabulk_cart_3d_2025-10,h1_directo_cta_rojo_fondo_claro,ar_3d,IA genera 3 documentos, carrito, envio gratis
+bulk_7d_b,https://tusitio.com/ia-bulk,iabulk,7d,h1_beneficio,cta_amarillo,fondo_degradado,yellow,facebook,remarketing,iabulk_cart_7d_2025-10,h1_beneficio_cta_amarillo_fondo_degradado,ar_7d,IA genera 3 documentos, carrito, envio gratis
+bulk_14d_c,https://tusitio.com/ia-bulk,iabulk,14d,h1_urgencia,cta_rojo,fondo_dark,red,instagram,remarketing,iabulk_cart_14d_2025-10,h1_urgencia_cta_rojo_fondo_dark,ar_14d,IA genera 3 documentos, carrito, envio gratis
+
+
+

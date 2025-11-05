@@ -1,0 +1,30 @@
+offer,niche,language,tone,text,cta_group,cta_text,notes
+AI Course,ecommerce,ES,tuteo,¿Te paso el link? Quedan 8.,A,RESERVA,24-48h después
+AI Course,general,EN,neutral,Want the link? 8 seats.,A,RESERVE,24-48h later
+AI Course,education,PT,neutral,Te mando o link? 8 vagas.,A,RESERVAR,24-48h depois
+AI SaaS,B2B,ES,usted,¿Agendo 15'? ROI en vivo.,B,AGENDA,Responder a interés tibio
+AI SaaS,startup,EN,neutral,15' to see it live?,B,DEMO,Fast ask
+AI SaaS,agencias,ES,tuteo,¿Probamos 7 min? UGC listo.,B,DEMO,Directo
+AI Bulk,consultoria,ES,tuteo,¿Te envío el PDF ejemplo?,C,SÍ,Social proof
+AI Bulk,real_estate,ES,usted,¿Muestro comparables en 2'?,C,QUIERO,Concreto
+AI Bulk,general,EN,neutral,Send sample doc?,C,YES,Follow-up simple
+AI Course,agencias,ES,tuteo,¿Hacemos 1 prueba hoy?,A,RESERVA,Low commitment
+AI Course,general,ES,usted,¿Le comparto el acceso?,A,RESERVA,Formal
+AI Course,general,EN,neutral,Quick link?,A,RESERVE,Very short
+AI Course,education,ES,tuteo,¿Te guardo 1 cupo?,A,RESERVA,Scarcity soft
+AI SaaS,enterprise,ES,usted,¿Le agendo 15'?,B,AGENDA,Formal short
+AI SaaS,startup,EN,neutral,Calendar link?,B,DEMO,Direct
+AI SaaS,agencias,ES,tuteo,¿Lo vemos en vivo?,B,DEMO,Live ROI
+AI SaaS,general,PT,neutral,Te mando o link?,B,DEMO,PT breve
+AI Bulk,producto,ES,tuteo,¿Te paso un sample?,C,SÍ,Sample ask
+AI Bulk,real_estate,EN,neutral,2' comps?,C,YES,Concrete ask
+AI Bulk,consultoria,ES,usted,¿Le envío el ejemplo?,C,QUIERO,Formal
+AI Course,ecommerce,EN,neutral,8 seats—link?,A,RESERVE,Scarcity EN
+AI Course,education,PT,neutral,8 vagas—link?,A,RESERVAR,Scarcity PT
+AI SaaS,B2B,EN,neutral,15' live?,B,DEMO,Short ask EN
+AI SaaS,ecommerce,ES,tuteo,¿UGC en 7 min?,B,DEMO,Hook concreto
+AI Bulk,education,PT,neutral,PDF exemplo?,C,SIM,PT sample
+AI Bulk,general,ES,vos,¿Te paso el doc?,C,SÍ,vos rioplatense
+AI Course,general,ES,neutral,¿Link rápido?,A,RESERVA,Genérico útil
+AI SaaS,general,ES,neutral,¿Calendly?,B,AGENDA,Genérico útil
+

@@ -1,3 +1,11 @@
+---
+title: "Investor Presentation Summary Final"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Investor_presentations/Scripts_templates/investor_presentation_summary_final.md"
+---
+
 # 📋 Investor Presentation Summary - Final Version
 ## Complete Toolkit for AI Marketing SaaS Investor Presentations
 

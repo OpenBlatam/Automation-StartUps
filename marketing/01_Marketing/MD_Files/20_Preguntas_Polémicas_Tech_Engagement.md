@@ -1,3 +1,11 @@
+---
+title: "20 Preguntas Polémicas Tech Engagement"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Md_files/20_preguntas_polémicas_tech_engagement.md"
+---
+
 # 🚨 20 PREGUNTAS POLÉMICAS PERO RESPETUOSAS SOBRE TEMAS TECH CONTROVERTIDOS
 ## *Sistema Neurocientífico para Generar Debate y Maximizar Engagement*
 

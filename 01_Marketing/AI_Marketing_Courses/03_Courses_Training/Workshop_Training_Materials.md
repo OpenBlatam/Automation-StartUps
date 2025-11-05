@@ -1,3 +1,11 @@
+---
+title: "Workshop Training Materials"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/Ai_marketing_courses/03_courses_training/workshop_training_materials.md"
+---
+
 # 🎓 Neural Marketing Consciousness System - Workshop & Training Materials
 ## Comprehensive Training Programs and Educational Resources
 

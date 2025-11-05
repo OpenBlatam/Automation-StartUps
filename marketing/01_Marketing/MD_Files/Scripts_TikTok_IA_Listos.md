@@ -1,3 +1,11 @@
+---
+title: "Scripts Tiktok Ia Listos"
+category: "Marketing"
+tags: ["business", "marketing", "script"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Md_files/scripts_tiktok_ia_listos.md"
+---
+
 # 📝 SCRIPTS DE TIKTOK IA - LISTOS PARA USAR
 
 ## 🎬 SCRIPTS COMPLETOS CON TIMESTAMPS

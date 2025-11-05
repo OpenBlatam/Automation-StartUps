@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0B1229"/>
+      <stop offset="100%" stop-color="#10314A"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00E5A8"/>
+      <stop offset="100%" stop-color="#00B4D8"/>
+    </linearGradient>
+    <filter id="sh" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="0" dy="4" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      @font-face { font-family: Inter; src: local('Inter'), local('Arial'); }
+      .headline { font: 900 52px/1.1 Inter, system-ui, -apple-system; fill: #FFFFFF; text-anchor: middle; letter-spacing: -0.5px; }
+      .metric-number { font: 900 40px/1.2 Inter, system-ui, -apple-system; fill: url(#accent); text-anchor: middle; }
+      .metric-label { font: 600 18px/1.3 Inter, system-ui, -apple-system; fill: #C7FFFA; text-anchor: middle; }
+      .metric-sub { font: 500 14px/1.4 Inter, system-ui, -apple-system; fill: #9FB6FF; text-anchor: middle; }
+      .testimonial-text { font: 500 18px/1.5 Inter, system-ui, -apple-system; fill: #BFEFE8; font-style: italic; }
+      .testimonial-author { font: 600 14px/1.3 Inter, system-ui, -apple-system; fill: #9FB6FF; }
+      .cta-text { font: 900 32px/1 Inter, system-ui, -apple-system; fill: #062A2D; text-anchor: middle; }
+      .date { font: 800 22px/1.2 Inter, system-ui, -apple-system; fill: #C7FFFA; text-anchor: middle; }
+    </style>
+    <!-- Icono de crecimiento reutilizable -->
+    <g id="growth-icon">
+      <polyline points="0,40 20,35 40,30 60,22 80,15 100,8" fill="none" stroke="#00E5A8" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="100" cy="8" r="6" fill="#00E5A8"/>
+    </g>
+  </defs>
+  
+  <rect width="1080" height="1080" fill="url(#bg)"/>
+  
+  <!-- Elementos decorativos -->
+  <g opacity="0.12">
+    <circle cx="150" cy="150" r="80" fill="#00E5A8"/>
+    <circle cx="930" cy="930" r="90" fill="#00B4D8"/>
+  </g>
+  
+  <!-- Header -->
+  <g transform="translate(60,50)" filter="url(#sh)">
+    <rect x="0" y="0" width="960" height="76" rx="12" fill="url(#accent)"/>
+    <text x="30" y="50" fill="#062A2D" font-family="Inter, system-ui, -apple-system" font-size="28" font-weight="900">
+      Webinar gratis: Cómo doblar tus ventas online
+    </text>
+  </g>
+  
+  <!-- Headline -->
+  <text x="540" y="190" class="headline">Únete a +2,500 profesionales</text>
+  
+  <!-- Chips fecha/hora -->
+  <g transform="translate(540,250)">
+    <rect x="-200" y="-32" width="200" height="64" rx="10" fill="#0E3740" stroke="#00C1BE" stroke-width="2"/>
+    <text x="-100" y="8" class="date">15 Nov 2025</text>
+    <rect x="20" y="-32" width="180" height="64" rx="10" fill="#0E3740" stroke="#00C1BE" stroke-width="2"/>
+    <text x="110" y="8" class="date">18:00</text>
+  </g>
+  
+  <!-- Social proof stats -->
+  <g transform="translate(540,360)">
+    <!-- Métrica 1 -->
+    <g transform="translate(-240,-70)" filter="url(#sh)">
+      <rect x="0" y="0" width="200" height="140" rx="14" fill="#0E3740" stroke="#00C1BE" stroke-width="2"/>
+      <g transform="translate(100,25)">
+        <use href="#growth-icon" transform="scale(0.6) translate(-83,-13)"/>
+      </g>
+      <text x="100" y="65" class="metric-number">2,500+</text>
+      <text x="100" y="90" class="metric-label">Inscritos</text>
+      <text x="100" y="110" class="metric-sub">último webinar</text>
+    </g>
+    
+    <!-- Métrica 2 -->
+    <g transform="translate(40,-70)" filter="url(#sh)">
+      <rect x="0" y="0" width="200" height="140" rx="14" fill="#0E3740" stroke="#00C1BE" stroke-width="2"/>
+      <circle cx="100" cy="25" r="18" fill="#00E5A8" opacity="0.2"/>
+      <text x="100" y="32" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="20">⭐</text>
+      <text x="100" y="65" class="metric-number">4.9★</text>
+      <text x="100" y="90" class="metric-label">Calificación</text>
+      <text x="100" y="110" class="metric-sub">de 850 reviews</text>
+    </g>
+    
+    <!-- Métrica 3 -->
+    <g transform="translate(-100,80)" filter="url(#sh)">
+      <rect x="0" y="0" width="200" height="140" rx="14" fill="#0E3740" stroke="#00C1BE" stroke-width="2"/>
+      <rect x="75" y="15" width="50" height="25" rx="5" fill="#00E5A8" opacity="0.2"/>
+      <text x="100" y="32" text-anchor="middle" fill="#00E5A8" font-family="Inter" font-size="20" font-weight="800">✓</text>
+      <text x="100" y="65" class="metric-number">87%</text>
+      <text x="100" y="90" class="metric-label">Aplican</text>
+      <text x="100" y="110" class="metric-sub">lo aprendido</text>
+    </g>
+  </g>
+  
+  <!-- Testimonio -->
+  <g transform="translate(540,580)" filter="url(#sh)">
+    <rect x="-420" y="-50" width="840" height="100" rx="14" fill="rgba(255,255,255,0.08)" stroke="#00C1BE" stroke-width="1.5" opacity="0.9"/>
+    <!-- Comillas decorativas -->
+    <g opacity="0.4">
+      <path d="M -390 -20 L -400 -30 L -390 -40" stroke="#00E5A8" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M 390 -20 L 400 -30 L 390 -40" stroke="#00E5A8" stroke-width="2" fill="none" stroke-linecap="round"/>
+    </g>
+    <text x="-380" y="-15" class="testimonial-text">"Aumenté mis ventas 3x en 2 semanas</text>
+    <text x="-380" y="5" class="testimonial-text">con las estrategias del webinar."</text>
+    <text x="-380" y="30" class="testimonial-author">— María G., E-commerce Manager</text>
+  </g>
+  
+  <!-- CTA -->
+  <g transform="translate(540,700)" filter="url(#sh)">
+    <rect x="-220" y="-42" width="440" height="84" rx="14" fill="url(#accent)"/>
+    <rect x="-220" y="-42" width="440" height="84" rx="14" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="2"/>
+    <text x="0" y="8" class="cta-text">Únete gratis</text>
+    <path d="M190,0 L210,0 L200,-10 L220,0 L200,10 L210,0 Z" fill="#062A2D" opacity="0.8"/>
+  </g>
+  
+  <!-- Logos clientes -->
+  <g transform="translate(540,820)">
+    <text x="0" y="0" text-anchor="middle" fill="#9FB6FF" font-family="Inter, system-ui, -apple-system" font-size="16">Confiado por equipos de:</text>
+    <g transform="translate(0,20)">
+      <rect x="-140" y="0" width="120" height="40" rx="6" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.1)"/>
+      <rect x="-20" y="0" width="120" height="40" rx="6" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.1)"/>
+      <rect x="100" y="0" width="120" height="40" rx="6" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.1)"/>
+      <rect x="220" y="0" width="120" height="40" rx="6" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.1)"/>
+    </g>
+  </g>
+  
+  <!-- Badge -->
+  <g transform="translate(780,170)" filter="url(#sh)">
+    <rect x="0" y="0" width="180" height="48" rx="12" fill="#FF3B3B"/>
+    <text x="90" y="32" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="20" font-weight="900">Cupos limitados</text>
+  </g>
+  
+  <!-- Logo -->
+  <g transform="translate(860,50)">
+    <rect x="0" y="0" width="160" height="60" rx="8" fill="rgba(255,255,255,0.10)" stroke="rgba(255,255,255,0.20)"/>
+    <text x="80" y="40" text-anchor="middle" fill="#E9FFFB" font-family="Inter, system-ui, -apple-system" font-size="18" font-weight="800">TU MARCA</text>
+  </g>
+  
+  <!-- QR -->
+  <g transform="translate(780,930)" filter="url(#sh)">
+    <rect x="0" y="0" width="160" height="160" rx="10" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)"/>
+    <text x="80" y="90" text-anchor="middle" fill="#E9FFFB" font-family="Inter, system-ui, -apple-system" font-size="14" font-weight="700">QR → https://tu-dominio.com/webinar?utm_source=youtube&utm_medium=preroll&utm_campaign=nov_2025&utm_content=all_variants</text>
+  </g>
+</svg>

@@ -1,3 +1,11 @@
+---
+title: "Vc Case Studies 2024"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Negotiation/Case_studies/vc_case_studies_2024.md"
+---
+
 # 📚 VC Negotiation Case Studies 2024
 ## Real-World Examples of Successful VC Negotiations
 

@@ -1,0 +1,5 @@
+metric,descripcion,valor,formula
+Total_tareas,Conteo total de tareas en Origen,,=COUNTA(Origen!A2:A)
+Completadas,Tareas con estado Done,,=COUNTIF(Origen!C:C,"Done")
+Vencidas,Tareas con due_date < HOY y estado != Done,,=COUNTIFS(Origen!E:E,"<"&TODAY(),Origen!C:C,"<>Done")
+ROI_mensual,ROI mensual desde ROI_Snapshot,,=INDEX(ROI_Snapshot!C:C, MATCH("ROI mensual", ROI_Snapshot!A:A, 0))

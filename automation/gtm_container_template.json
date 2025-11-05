@@ -1,0 +1,20 @@
+{
+  "container": {
+    "name": "EscaleraValor",
+    "version": 1,
+    "ga4_measurement_id": "G-XXXXXXXXXX"
+  },
+  "triggers": [
+    {"id": "t_form_lm", "type": "form_submit", "selector": "form[data-lm='true']"},
+    {"id": "t_click_tripwire", "type": "click", "selector": "[data-cta='tripwire']"},
+    {"id": "t_click_core", "type": "click", "selector": "[data-cta='core']"},
+    {"id": "t_event_demo", "type": "custom_event", "event_name": "demo_booked"}
+  ],
+  "tags": [
+    {"id": "ga4_config", "type": "ga4_config", "fields": {"measurement_id": "G-XXXXXXXXXX"}},
+    {"id": "e_lm_submit", "type": "ga4_event", "event": "lead_magnet_submit", "trigger": "t_form_lm"},
+    {"id": "e_tripwire_purchase", "type": "ga4_event", "event": "tripwire_purchase", "trigger": "t_click_tripwire"},
+    {"id": "e_core_purchase", "type": "ga4_event", "event": "core_purchase", "trigger": "t_click_core"},
+    {"id": "e_demo_booked", "type": "ga4_event", "event": "demo_booked", "trigger": "t_event_demo"}
+  ]
+}

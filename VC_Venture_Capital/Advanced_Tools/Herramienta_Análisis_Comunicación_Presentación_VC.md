@@ -1,3 +1,11 @@
+---
+title: "Herramienta Análisis Comunicación Presentación Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Advanced_tools/herramienta_análisis_comunicación_presentación_vc.md"
+---
+
 # Herramienta de Análisis de Comunicación y Presentación VC
 
 ## Descripción

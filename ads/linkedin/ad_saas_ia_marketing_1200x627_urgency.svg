@@ -1,0 +1,166 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="627" viewBox="0 0 1200 627">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0B2B45"/>
+      <stop offset="100%" stop-color="#17202B"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#60A5FA"/>
+    </linearGradient>
+    <linearGradient id="urgent" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FF6B6B"/>
+      <stop offset="100%" stop-color="#FF8787"/>
+    </linearGradient>
+    <style>
+      @font-face { font-family: Inter; src: local('Inter'), local('Arial'); }
+      .eyebrow { font: 700 13px/1.2 Inter, Arial, sans-serif; letter-spacing: 0.15em; fill: #93C5FD; text-transform: uppercase; }
+      .headline { font: 800 64px/1.1 Inter, Arial, sans-serif; fill: #FFFFFF; letter-spacing: -0.02em; }
+      .headline-accent { font: 800 64px/1.1 Inter, Arial, sans-serif; fill: url(#accent); letter-spacing: -0.02em; }
+      .sub { font: 400 24px/1.5 Inter, Arial, sans-serif; fill: #E5E7EB; }
+      .cta { font: 700 24px/1 Inter, Arial, sans-serif; fill: #0B2B45; letter-spacing: 0.02em; }
+      .urgentText { font: 700 19px/1.2 Inter, Arial, sans-serif; fill: #FFFFFF; letter-spacing: 0.03em; }
+      .small { font: 500 15px/1.4 Inter, Arial, sans-serif; fill: #94A3B8; }
+    </style>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="0" dy="4" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="urgentShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="0" dy="3" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.4"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="urgentGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <linearGradient id="badgeGradient" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#111827" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#0F1B26" stop-opacity="0.95"/>
+    </linearGradient>
+    <linearGradient id="badgeBorderGradient" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3B82F6" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#60A5FA" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#3B82F6" stop-opacity="0.8"/>
+    </linearGradient>
+    <filter id="badgeGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="urgentBadgeGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <linearGradient id="urgentBorderGradient" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#FF6B6B" stop-opacity="0.9"/>
+      <stop offset="50%" stop-color="#FFD93D" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#FF6B6B" stop-opacity="0.9"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#111827" stroke-width="0.5" opacity="0.1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="627" fill="url(#bg)"/>
+
+  <g opacity="0.15">
+    <circle cx="1060" cy="140" r="170" fill="#293545"/>
+    <circle cx="1000" cy="300" r="130" fill="#293545"/>
+  </g>
+  <!-- Additional depth layer -->
+  <g opacity="0.08">
+    <ellipse cx="1120" cy="180" rx="200" ry="100" fill="#0A1620"/>
+    <ellipse cx="980" cy="350" rx="150" ry="80" fill="#0A1620"/>
+  </g>
+  <!-- Subtle grid pattern overlay -->
+  <rect width="1200" height="627" fill="url(#grid)" opacity="0.3"/>
+
+  <!-- Urgency Badge Top -->
+  <g transform="translate(820,44)">
+    <rect width="340" height="44" rx="22" fill="url(#urgent)" filter="url(#urgentShadow)"/>
+    <rect width="340" height="44" rx="22" fill="none" stroke="url(#urgentBorderGradient)" stroke-width="1.5" opacity="0.6" filter="url(#urgentBadgeGlow)"/>
+    <text class="urgentText" x="170" y="29" text-anchor="middle" filter="url(#urgentGlow)">⚡ Prueba gratis 30 días</text>
+  </g>
+
+  <g transform="translate(56,48)">
+    <rect x="0" y="0" width="72" height="72" rx="12" fill="#0A1620" stroke="#293545"/>
+    <g transform="translate(16,16)">
+      <rect x="0" y="20" width="12" height="28" rx="2" fill="#60A5FA"/>
+      <rect x="18" y="12" width="12" height="36" rx="2" fill="#3B82F6"/>
+      <rect x="36" y="0" width="12" height="48" rx="2" fill="#2563EB"/>
+    </g>
+  </g>
+
+  <g transform="translate(56,158)">
+    <text class="eyebrow" x="0" y="0">Automatización · Datos propios</text>
+    <text class="headline" x="0" y="64">Mejora tu ROI en</text>
+    <text class="headline-accent" x="0" y="132">+20%</text>
+    <text class="headline" x="0" y="200">con SaaS de IA para Marketing</text>
+    <text class="sub" x="0" y="245" dy="28">Segmentación, creatividades y reporting conectados a tu stack.</text>
+  </g>
+
+  <!-- Double CTA -->
+  <g transform="translate(56,380)">
+    <rect width="280" height="64" rx="16" fill="url(#accent)" filter="url(#shadow)"/>
+    <rect width="280" height="64" rx="16" fill="none" stroke="url(#accent)" stroke-width="1" opacity="0.3"/>
+    <text class="cta" x="140" y="40" text-anchor="middle">Empieza gratis</text>
+    <g filter="url(#glow)" fill="#0B2B45">
+      <path d="M 250 32 L 270 40 L 250 48" stroke="#0B2B45" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+  
+  <g transform="translate(356,380)">
+    <rect width="220" height="64" rx="16" fill="none" stroke="#60A5FA" stroke-width="2.5"/>
+    <rect width="220" height="64" rx="16" fill="none" stroke="#60A5FA" stroke-width="1" opacity="0.3"/>
+    <text class="cta" x="110" y="40" text-anchor="middle" fill="#60A5FA">Ver demo</text>
+    <g filter="url(#glow)" fill="#60A5FA">
+      <path d="M 190 32 L 210 40 L 190 48" stroke="#60A5FA" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+  <!-- Decorative sparkles/accents -->
+  <g opacity="0.6" transform="translate(850,300)">
+    <circle cx="0" cy="0" r="3" fill="#93C5FD"/>
+    <circle cx="20" cy="15" r="2" fill="#60A5FA"/>
+    <circle cx="40" cy="-10" r="2.5" fill="#3B82F6"/>
+  </g>
+
+  <!-- Scarcity Indicator -->
+  <g transform="translate(56,456)">
+    <text class="small" fill="#FFD93D">🎁 Sin tarjeta · Configuración en 15 min</text>
+  </g>
+
+  <g transform="translate(56,562)">
+    <text class="small">LinkedIn 1200×627 · Urgencia/Performance · Azul/Gris</text>
+  </g>
+</svg>
+

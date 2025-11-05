@@ -1,0 +1,12 @@
+id,lead_id,oferta_id,monto,fecha,cupon,metodo
+c-1,lead-2,o-cur-trp-2,27,2025-10-30T12:00:00Z,,card
+c-2,lead-8,o-cur-core-1,297,2025-11-05T18:00:00Z,EARLY10,card
+c-3,lead-7,o-saas-trp-1,27,2025-10-30T11:00:00Z,,card
+c-4,lead-7,o-saas-core-1,297,2025-11-02T10:00:00Z,,invoice
+c-5,lead-6,o-bulk-trp-1,27,2025-10-31T09:00:00Z,,card
+c-6,lead-6,o-bulk-core-1,497,2025-11-03T10:00:00Z,,invoice
+c-7,lead-1,o-cur-trp-1,17,2025-10-30T10:30:00Z,,card
+c-8,lead-3,o-bulk-trp-1,27,2025-10-30T10:50:00Z,,card
+c-9,lead-10,o-saas-trp-1,27,2025-10-30T11:30:00Z,,card
+c-10,lead-10,o-saas-ht-1,2000,2025-11-10T15:00:00Z,NEG,wire
+

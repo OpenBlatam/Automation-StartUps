@@ -1,3 +1,11 @@
+---
+title: "Herramienta Análisis Ventaja Competitiva Sostenible Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Financial_models/herramienta_análisis_ventaja_competitiva_sostenible_vc.md"
+---
+
 # 🏆 Herramienta de Análisis de Ventaja Competitiva Sostenible VC
 
 ## 🎯 Objetivo

@@ -1,3 +1,11 @@
+---
+title: "Vc Negotiation Playbook 2024"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Negotiation/vc_negotiation_playbook_2024.md"
+---
+
 # 🚀 VC Negotiation Mastery Playbook 2024
 ## Advanced Strategies for AI Course & Marketing SaaS Success
 

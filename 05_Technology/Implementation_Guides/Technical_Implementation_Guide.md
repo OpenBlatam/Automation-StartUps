@@ -1,3 +1,11 @@
+---
+title: "Technical Implementation Guide"
+category: "05_technology"
+tags: ["guide", "technical", "technology"]
+created: "2025-10-29"
+path: "05_technology/Implementation_guides/technical_implementation_guide.md"
+---
+
 # 🔧 Neural Marketing Consciousness System - Technical Implementation Guide
 ## Complete Technical Setup and Integration Documentation
 

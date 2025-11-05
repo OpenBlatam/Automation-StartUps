@@ -1,3 +1,11 @@
+---
+title: "Anexo A Templates Legales Vc"
+category: "Vc_venture_capital"
+tags: ["template"]
+created: "2025-10-29"
+path: "Vc_venture_capital/Due_diligence/Legal_templates/anexo_a_templates_legales_vc.md"
+---
+
 # 📋 ANEXO A: TEMPLATES LEGALES VC
 ## Templates Específicos para SaaS IA Copywriting LATAM
 

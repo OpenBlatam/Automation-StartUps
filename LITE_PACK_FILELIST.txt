@@ -1,0 +1,11 @@
+README_QUICKSTART_OUTREACH.md
+GUIA_RAPIDA_PERSONALIZACION_DM.md
+DM_saas_ia_marketing.md
+DM_curso_ia_webinars.md
+DM_ia_bulk_documentos.md
+SISTEMA_SEGUIMIENTO_DM.md
+PLANTILLAS_RESPUESTAS_DM.md
+KPI_DASHBOARD_TEMPLATE.md
+
+
+

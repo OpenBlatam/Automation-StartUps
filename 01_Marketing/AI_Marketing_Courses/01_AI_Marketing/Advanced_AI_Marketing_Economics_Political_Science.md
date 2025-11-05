@@ -1,3 +1,11 @@
+---
+title: "Advanced Ai Marketing Economics Political Science"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/Ai_marketing_courses/01_ai_marketing/advanced_ai_marketing_economics_political_science.md"
+---
+
 # 🏛️ Advanced AI Marketing Economics & Political Science
 
 ## 💰 Economics-Based AI Marketing Framework

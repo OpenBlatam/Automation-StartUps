@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1A1F35"/>
+      <stop offset="50%" stop-color="#2D3563"/>
+      <stop offset="100%" stop-color="#1A1F35"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6366F1"/>
+      <stop offset="100%" stop-color="#8B5CF6"/>
+    </linearGradient>
+    <filter id="blur-bg" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="18"/>
+    </filter>
+    <filter id="glass" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="8"/>
+      <feOffset dx="0" dy="4" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.15"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="glow" x="-150%" y="-150%" width="400%" height="400%">
+      <feGaussianBlur stdDeviation="10" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      @font-face { font-family: Inter; src: local('Inter'), local('Arial'); }
+      .headline { font: 900 72px/1.1 Inter, system-ui, -apple-system; fill: #FFFFFF; letter-spacing: -1px; }
+      .subhead { font: 500 30px/1.4 Inter, system-ui, -apple-system; fill: #E0E7FF; }
+      .cta-text { font: 900 48px/1 Inter, system-ui, -apple-system; fill: #FFFFFF; text-anchor: middle; }
+      .chip { font: 800 28px/1.2 Inter, system-ui, -apple-system; fill: #FFFFFF; text-anchor: middle; }
+    </style>
+  </defs>
+
+  <rect width="1080" height="1920" fill="url(#bg)"/>
+
+  <!-- Fondos borrosos -->
+  <g opacity="0.6" filter="url(#blur-bg)">
+    <rect x="140" y="200" width="380" height="260" rx="30" fill="#6366F1"/>
+    <rect x="600" y="1200" width="380" height="260" rx="30" fill="#8B5CF6"/>
+  </g>
+
+  <!-- Header glass -->
+  <g transform="translate(60,80)" filter="url(#glass)">
+    <rect x="0" y="0" width="960" height="120" rx="20" fill="rgba(255,255,255,0.1)"/>
+    <rect x="0" y="0" width="960" height="120" rx="20" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
+    <text x="480" y="78" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="40" font-weight="900">
+      Webinar gratis: Doblar ventas online
+    </text>
+  </g>
+
+  <!-- Headline -->
+  <g transform="translate(80,260)">
+    <text x="0" y="0" class="headline">Transforma tu marketing</text>
+    <text x="0" y="60" class="subhead">Con IA y automatizaciones</text>
+  </g>
+
+  <!-- Chips fecha/hora glass -->
+  <g transform="translate(80,400)">
+    <g filter="url(#glass)">
+      <rect x="0" y="-40" width="440" height="80" rx="16" fill="rgba(255,255,255,0.1)"/>
+      <rect x="0" y="-40" width="440" height="80" rx="16" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
+      <text x="220" y="12" class="chip">[FECHA]</text>
+    </g>
+    <g transform="translate(460,0)" filter="url(#glass)">
+      <rect x="0" y="-40" width="420" height="80" rx="16" fill="rgba(255,255,255,0.1)"/>
+      <rect x="0" y="-40" width="420" height="80" rx="16" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
+      <text x="210" y="12" class="chip">[HORA] (GMT-5)</text>
+    </g>
+  </g>
+
+  <!-- CTA glass -->
+  <g transform="translate(80,960)" filter="url(#glow)">
+    <rect x="0" y="0" width="920" height="130" rx="24" fill="url(#accent)" opacity="0.9"/>
+    <rect x="0" y="0" width="920" height="130" rx="24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+    <text x="460" y="84" class="cta-text">Únete gratis</text>
+  </g>
+
+  <!-- Logo + QR -->
+  <g transform="translate(840,80)" filter="url(#glass)">
+    <rect x="0" y="0" width="160" height="60" rx="12" fill="rgba(255,255,255,0.08)"/>
+    <rect x="0" y="0" width="160" height="60" rx="12" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
+    <text x="80" y="40" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="18" font-weight="700">TU LOGO</text>
+  </g>
+  <g transform="translate(820,1640)" filter="url(#glass)">
+    <rect x="0" y="0" width="180" height="180" rx="20" fill="rgba(255,255,255,0.08)"/>
+    <rect x="0" y="0" width="180" height="180" rx="20" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
+    <text x="90" y="100" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="16" font-weight="700">QR → [URL]</text>
+  </g>
+</svg>

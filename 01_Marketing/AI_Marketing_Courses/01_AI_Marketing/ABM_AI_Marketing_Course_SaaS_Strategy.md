@@ -1,3 +1,11 @@
+---
+title: "Abm Ai Marketing Course Saas Strategy"
+category: "01_marketing"
+tags: ["business", "marketing", "strategy"]
+created: "2025-10-29"
+path: "01_marketing/Ai_marketing_courses/01_ai_marketing/abm_ai_marketing_course_saas_strategy.md"
+---
+
 # 🎯 AI Marketing Course & SaaS: Advanced ABM Strategy Framework
 ## Complete Solution for Account-Based Marketing with AI Integration
 

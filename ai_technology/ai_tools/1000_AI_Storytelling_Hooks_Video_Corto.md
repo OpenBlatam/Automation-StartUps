@@ -1,3 +1,11 @@
+---
+title: "1000 Ai Storytelling Hooks Video Corto"
+category: "Ai_technology"
+tags: ["technical", "technology"]
+created: "2025-10-29"
+path: "Ai_technology/Ai_tools/1000_ai_storytelling_hooks_video_corto.md"
+---
+
 # 🎬 1000 HOOKS DE STORYTELLING PARA VIDEOS CORTOS SOBRE IA
 
 > **Colección definitiva de hooks de storytelling diseñados específicamente para videos cortos sobre Inteligencia Artificial. Cada hook está optimizado para capturar la atención en los primeros 3 segundos y mantener el engagement durante 15-60 segundos.**

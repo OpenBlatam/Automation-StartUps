@@ -1,3 +1,11 @@
+---
+title: "Vc Templates Scripts"
+category: "Vc_venture_capital"
+tags: ["script", "template"]
+created: "2025-10-29"
+path: "Vc_venture_capital/Negotiation/Templates/vc_templates_scripts.md"
+---
+
 # 📝 VC Templates & Scripts 2024
 ## Ready-to-Use Tools for VC Negotiations
 

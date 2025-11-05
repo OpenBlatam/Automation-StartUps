@@ -1,0 +1,21 @@
+---
+title: "Readme"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/Copycar_ai_investor_package/readme.md"
+---
+
+# CopyCar_AI_Investor_Package
+
+## Archivos
+- COPYCAR_AI_DUE_DILIGENCE_PREPARATION.md
+- COPYCAR_AI_INVESTOR_FINAL_MASTER_SUMMARY.md
+- COPYCAR_AI_INVESTOR_IMPLEMENTATION_GUIDE.md
+- COPYCAR_AI_INVESTOR_MEETING_PREPARATION.md
+- COPYCAR_AI_INVESTOR_PRESENTATION_SCRIPT.md
+- COPYCAR_AI_INVESTOR_PSYCHOLOGY_MASTERCLASS_ADVANCED.md
+- COPYCAR_AI_TERM_SHEET_NEGOTIATION_GUIDE.md
+- INDEX.md
+- PITCH_DECK_FINAL_COPYCAR_AI.md
+

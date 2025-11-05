@@ -1,3 +1,11 @@
+---
+title: "Vc Negotiation System 2024"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Negotiation/vc_negotiation_system_2024.md"
+---
+
 # 🚀 Ultimate VC Negotiation System 2024
 ## The Complete 5-Layer Framework for VC Negotiation Mastery
 

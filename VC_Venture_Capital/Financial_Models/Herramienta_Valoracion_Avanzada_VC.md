@@ -1,3 +1,11 @@
+---
+title: "Herramienta Valoracion Avanzada Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Financial_models/herramienta_valoracion_avanzada_vc.md"
+---
+
 # 💎 HERRAMIENTA DE VALUACIÓN AVANZADA VC
 ## Sistema de Valuación Multi-Método para SaaS IA Copywriting LATAM
 

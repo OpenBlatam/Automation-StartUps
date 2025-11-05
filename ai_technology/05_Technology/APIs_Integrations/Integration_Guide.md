@@ -1,3 +1,11 @@
+---
+title: "Integration Guide"
+category: "Ai_technology"
+tags: ["guide", "technical", "technology"]
+created: "2025-10-29"
+path: "Ai_technology/05_technology/Apis_integrations/integration_guide.md"
+---
+
 # 🔗 Neural Marketing Consciousness System - Integration Guide
 
 ## 📖 Table of Contents

@@ -1,3 +1,11 @@
+---
+title: "Code Of Conduct"
+category: "code_of_conduct.md"
+tags: []
+created: "2025-10-29"
+path: "code_of_conduct.md"
+---
+
 # Código de Conducta - CFDI 4.0 IA 2025
 
 ## Nuestro Compromiso

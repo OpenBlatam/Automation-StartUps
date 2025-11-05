@@ -1,9 +1,14 @@
-# Development Tools
+---
+title: "Readme"
+category: "Ai_technology"
+tags: ["technical", "technology"]
+created: "2025-10-29"
+path: "Ai_technology/05_technology/Development_tools/readme.md"
+---
 
-Subcategoría de 05_Technology
+# Development_Tools
 
-## Archivos:
-
+## Archivos
 - DUE_DILIGENCE_AUTOMATION_SCRIPT.py
-- README.md
 - scripts-ventas-telefonicas-ia.md
+

@@ -1,3 +1,11 @@
+---
+title: "Herramienta Inteligencia Competitiva Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Advanced_tools/herramienta_inteligencia_competitiva_vc.md"
+---
+
 # 🕵️ HERRAMIENTA DE INTELIGENCIA COMPETITIVA VC
 ## Análisis de Mercado y Competidores para SaaS IA Copywriting LATAM
 

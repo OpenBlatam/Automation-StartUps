@@ -1,34 +1,87 @@
-# AI & Artificial Intelligence
-
-## 📋 Descripción
-Sistemas de IA, algoritmos y tecnologías avanzadas
-
-## 📁 Subcategorías
-- **Advanced_AI**: Advanced Ai
-- **Tools**: Tools
-- **Computer_Vision**: Computer Vision
-- **Strategies**: Strategies
-- **Robotics**: Robotics
-- **Machine_Learning**: Machine Learning
-- **Transcendent_AI**: Transcendent Ai
-- **Deep_Learning**: Deep Learning
-- **Natural_Language_Processing**: Natural Language Processing
-- **Guides**: Guides
-- **Templates**: Templates
-- **Neural_Networks**: Neural Networks
-- **Quantum_Computing**: Quantum Computing
-- **Consciousness_Systems**: Consciousness Systems
-- **Reports**: Reports
-
-## 🔍 Cómo usar
-1. Navega por las subcategorías para encontrar documentos específicos
-2. Usa la búsqueda para encontrar contenido específico
-3. Consulta el índice maestro para una visión general
-
-## 📊 Estadísticas
-- **Total de archivos**: 283
-- **Última actualización**: 2025-10-01 14:47:06
-
 ---
-*Categoría: AI & Artificial Intelligence*
-*Mantenido por: Sistema de Organización Permanente*
+title: "Readme"
+category: "Ai_technology"
+tags: ["technical", "technology"]
+created: "2025-10-29"
+path: "Ai_technology/08_ai_artificial_intelligence/Core_files/readme.md"
+---
+
+# Core_Files
+
+## Subcarpetas
+- ai-courses-saas-content-strategy_split/
+- ai-marketing-webinar-blog-post-refactored_split/
+- ai-marketing-webinar-blog-post_split/
+
+## Archivos
+- 03_AI_Course_Business_Plan.docx
+- 06-saas-ai-integration.md
+- 09-ai-ethics-compliance.md
+- 10-ai-tools-comparison.md
+- __init__.py
+- Advanced_AI_Integration_Techniques.md
+- Advanced_Analytics_Dashboard_Mockups.md
+- ai-course-documentation.md
+- ai-courses-saas-content-strategy.md
+- ai-marketing-course-ab-testing.md
+- ai-marketing-course-curriculum.md
+- ai-marketing-course-outline.md
+- ai-marketing-saas-platform.md
+- ai-marketing-webinar-additional-content.md
+- ai-marketing-webinar-blog-post-refactored.md
+- ai-marketing-webinar-blog-post.md
+- ai-marketing-webinar-course-outline.md
+- AI_Job_Negotiation_Scripts_Documentation.html
+- AI_Marketing_Advanced_Features.html
+- AI_Marketing_Advanced_Sections.html
+- AI_Marketing_Advanced_Tools_Suite.html
+- AI_Marketing_Case_Studies.html
+- AI_Marketing_Course_Proposal_Script.md
+- AI_Marketing_Course_SaaS_Framework.md
+- AI_Marketing_Implementation_Roadmap.html
+- AI_Marketing_ROI_Calculator.html
+- AI_Marketing_SaaS_CRM_Course.md
+- AI_Marketing_Sales_Playbook_Strategy.md
+- AI_Marketing_Webinar_Documentation.html
+- AI_Marketing_Webinar_Enhanced_Features.html
+- AI_Powered_Learning_Platform.md
+- ai_response_engine.py
+- aiOptimizationService.js
+- ARQUITECTURA_SAAS_IA_MARKETING.md
+- blockchain.js
+- Blockchain_Learning_Ecosystem.md
+- blog-post-ai-saas-marketing-titles.md
+- COPYCAR_AI_ABM_MASTERY_SYSTEM.md
+- COPYCAR_AI_ABM_SYSTEM.md
+- COPYCAR_AI_PROMPTS_LIBRARY.md
+- curso-ai-saas-marketing.md
+- curso-inteligencia-artificial-empresas.md
+- demo_training.py
+- EJERCICIOS_CUANTICOS_V3.md
+- ENHANCED_AI_DECISION_ENGINE.md
+- grpo_train.py
+- IA_NEXT_GENERATION_ANTI_VC.md
+- implementacion-practica-consciencia-artificial.md
+- INDEX.md
+- kf_grpo_train.py
+- main.py
+- maintain_organization.py
+- maintain_project.py
+- meta_learning.py
+- Metaverse_Learning_Dimension.md
+- neural.js
+- Neural_Interface_Learning_System.md
+- neural_network_ai.py
+- practical-examples-and-case-studies.md
+- run_training.py
+- saas-ai-marketing-architecture.md
+- saas-ai-marketing-tool.md
+- sales-copy-ai-marketing-course-saas.md
+- sistema-blockchain-contratos-inteligentes.md
+- sustainability-esg-marketing.md
+- Transhuman_Learning_Institute.md
+- trascendencia-absoluta-absoluta-absoluta-absoluta-absoluta-absoluta-universo.md
+- trascendencia-absoluta-universo.md
+- webinar-advanced-ai-automation-mastery.md
+- Webinar_Email_Sequence.md
+

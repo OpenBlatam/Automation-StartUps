@@ -1,3 +1,11 @@
+---
+title: "Copycar Ai Investor Meeting Preparation"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/Copycar_ai_investor_package/copycar_ai_investor_meeting_preparation.md"
+---
+
 # 🎯 CopyCar.ai - Preparación para Reuniones con Inversionistas
 
 ## Guía Completa para Maximizar el Éxito en Reuniones VC

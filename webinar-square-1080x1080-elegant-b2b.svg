@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="50%" stop-color="#F8F9FA"/>
+      <stop offset="100%" stop-color="#FFFFFF"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1E40AF"/>
+      <stop offset="100%" stop-color="#3B82F6"/>
+    </linearGradient>
+    <linearGradient id="card-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F1F5F9"/>
+    </linearGradient>
+    <filter id="sh" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="0" dy="2" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.12"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      @font-face { font-family: Inter; src: local('Inter'), local('Arial'); }
+      .eyebrow { font: 700 14px/1.2 Inter, system-ui, -apple-system; fill: #64748B; letter-spacing: 0.2em; text-transform: uppercase; }
+      .headline { font: 900 58px/1.05 Inter, system-ui, -apple-system; fill: #0F172A; letter-spacing: -1px; text-anchor: middle; }
+      .subhead { font: 500 24px/1.4 Inter, system-ui, -apple-system; fill: #475569; text-anchor: middle; }
+      .card-title { font: 700 22px/1.3 Inter, system-ui, -apple-system; fill: #1E293B; }
+      .card-desc { font: 500 18px/1.4 Inter, system-ui, -apple-system; fill: #64748B; }
+      .cta { font: 700 40px/1 Inter, system-ui, -apple-system; fill: #FFFFFF; text-anchor: middle; }
+    </style>
+  </defs>
+
+  <rect width="1080" height="1080" fill="url(#bg)"/>
+
+  <!-- Header -->
+  <g transform="translate(60,80)">
+    <text x="480" y="0" text-anchor="middle" class="eyebrow">WEBINAR EXCLUSIVO</text>
+    <text x="480" y="70" text-anchor="middle" class="headline">Cómo doblar tus ventas online</text>
+    <text x="480" y="120" text-anchor="middle" class="subhead">Estrategias de IA para empresas</text>
+  </g>
+
+  <!-- Cards fila 1 -->
+  <g transform="translate(90,220)">
+    <g filter="url(#sh)">
+      <rect x="0" y="0" width="280" height="160" rx="16" fill="url(#card-gradient)" stroke="#E2E8F0"/>
+      <text x="24" y="40" class="eyebrow" fill="#3B82F6">FECHA</text>
+      <text x="24" y="86" class="card-title">15 Nov 2025</text>
+      <text x="24" y="118" class="card-desc">Día completo</text>
+    </g>
+    <g transform="translate(310,0)" filter="url(#sh)">
+      <rect x="0" y="0" width="280" height="160" rx="16" fill="url(#card-gradient)" stroke="#E2E8F0"/>
+      <text x="24" y="40" class="eyebrow" fill="#3B82F6">HORA</text>
+      <text x="24" y="86" class="card-title">18:00</text>
+      <text x="24" y="118" class="card-desc">GMT-5 · 60 min</text>
+    </g>
+    <g transform="translate(620,0)" filter="url(#sh)">
+      <rect x="0" y="0" width="280" height="160" rx="16" fill="url(#card-gradient)" stroke="#E2E8F0"/>
+      <text x="24" y="40" class="eyebrow" fill="#3B82F6">INCLUYE</text>
+      <text x="24" y="86" class="card-title">Grabación + Material</text>
+      <text x="24" y="118" class="card-desc">Plantillas descargables</text>
+    </g>
+  </g>
+
+  <!-- CTA -->
+  <g transform="translate(90,430)" filter="url(#sh)">
+    <rect x="0" y="0" width="900" height="110" rx="16" fill="url(#accent)"/>
+    <text x="450" y="70" class="cta">Reservar mi asiento</text>
+  </g>
+
+  <!-- Logo + QR -->
+  <g transform="translate(840,60)" filter="url(#sh)">
+    <rect x="0" y="0" width="160" height="60" rx="8" fill="url(#card-gradient)" stroke="#E2E8F0"/>
+    <text x="80" y="40" text-anchor="middle" fill="#1E293B" font-family="Inter" font-size="18" font-weight="700">TU MARCA</text>
+  </g>
+  <g transform="translate(840,840)" filter="url(#sh)">
+    <rect x="0" y="0" width="160" height="160" rx="12" fill="url(#card-gradient)" stroke="#E2E8F0"/>
+    <text x="80" y="90" text-anchor="middle" fill="#64748B" font-family="Inter" font-size="16" font-weight="600">QR → https://tu-dominio.com/webinar?utm_source=youtube&utm_medium=preroll&utm_campaign=nov_2025&utm_content=all_variants</text>
+  </g>
+</svg>
+

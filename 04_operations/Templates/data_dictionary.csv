@@ -1,0 +1,18 @@
+metric_or_dimension,name,type,definition,calculation,notes
+metric,spend,currency,Total ad spend,,Currency and timezone
+metric,impressions,integer,Ad impressions,,De-duplicated by platform
+metric,clicks,integer,Ad clicks,,
+metric,ctr,percentage,Click-through rate,clicks/impressions,
+metric,cpc,currency,Cost per click,spend/clicks,
+metric,conversions,integer,Goal completions,,Define event name
+metric,cvr,percentage,Conversion rate,conversions/clicks,
+metric,cpa,currency,Cost per acquisition,spend/conversions,
+metric,revenue,currency,Attributed revenue,,Net vs gross
+metric,roas,ratio,Return on ad spend,revenue/spend,
+metric,mer,ratio,Marketing efficiency ratio,total_revenue/total_spend,
+dimension,date,date,Date of event,,Timezone
+dimension,channel,string,Marketing channel,,Controlled list
+dimension,campaign,string,Campaign name,,Naming convention
+dimension,audience,string,Audience/segment,,
+dimension,creative,string,Creative/asset id,,
+dimension,landing,string,Landing page,,

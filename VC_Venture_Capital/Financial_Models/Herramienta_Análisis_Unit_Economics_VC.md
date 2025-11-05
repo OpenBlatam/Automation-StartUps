@@ -1,3 +1,11 @@
+---
+title: "Herramienta Análisis Unit Economics Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Financial_models/herramienta_análisis_unit_economics_vc.md"
+---
+
 # 📊 Herramienta de Análisis de Unit Economics para VC
 
 ## 📋 Descripción General

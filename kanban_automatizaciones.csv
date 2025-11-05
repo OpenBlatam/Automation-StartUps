@@ -1,0 +1,7 @@
+id,titulo,doc,lane,owner,due,checklist
+KAN-001,Registro→Confirmación→Recordatorios,curso-ia-webinars.md,Backlog,ops_marketing,2025-11-05,"Conexiones;Plantillas;Caso feliz;Errores;Dashboard"
+KAN-002,Certificados desde asistencia,curso-ia-webinars.md,Ready,ops_marketing,2025-11-06,"Plantilla Docs;Script;Pruebas;KPIs;Rollback"
+KAN-003,Dunning + suspensión/reactivación,saas-ia-marketing.md,Doing,revops,2025-11-07,"Webhooks Stripe;Serie dunning;Flags;Pruebas;Alertas"
+KAN-004,Enriquecimiento + scoring,saas-ia-marketing.md,Backlog,revops,2025-11-08,"Proveedor;Mapeo campos;Score;Asignación;QA"
+KAN-005,Lote 3-docs desde Sheets,ia-bulk-3docs.md,Ready,content_ops,2025-11-09,"Validaciones;Post-proceso;QA;Distribución;Costos"
+

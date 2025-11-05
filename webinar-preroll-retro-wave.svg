@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0A0E27"/>
+      <stop offset="50%" stop-color="#1A0F2E"/>
+      <stop offset="100%" stop-color="#2D1B3D"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF0080"/>
+      <stop offset="50%" stop-color="#FF8C00"/>
+      <stop offset="100%" stop-color="#40E0D0"/>
+    </linearGradient>
+    <linearGradient id="wave-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FF0080" stop-opacity="0.6"/>
+      <stop offset="50%" stop-color="#FF8C00" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#40E0D0" stop-opacity="0.3"/>
+    </linearGradient>
+    <filter id="glow-retro" x="-200%" y="-200%" width="500%" height="500%">
+      <feGaussianBlur stdDeviation="16" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="sh" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6"/>
+      <feOffset dx="0" dy="8" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.4"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      @font-face { font-family: Inter; src: local('Inter'), local('Arial'); }
+      .headline-retro { font: 900 86px/1.05 Inter, system-ui, -apple-system; fill: #FFFFFF; letter-spacing: -1px; filter: url(#glow-retro); }
+      .subhead-retro { font: 600 32px/1.4 Inter, system-ui, -apple-system; fill: #40E0D0; }
+      .cta-retro { font: 900 54px/1 Inter, system-ui, -apple-system; fill: #0A0E27; text-anchor: middle; }
+      .feature-retro { font: 700 28px/1.3 Inter, system-ui, -apple-system; fill: #FFFFFF; }
+    </style>
+    <!-- Grid pattern retro -->
+    <pattern id="grid-retro" width="80" height="80" patternUnits="userSpaceOnUse">
+      <path d="M 80 0 L 0 0 0 80" fill="none" stroke="#FF0080" stroke-width="1" opacity="0.2"/>
+    </pattern>
+  </defs>
+  
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  
+  <!-- Grid retro -->
+  <rect width="1920" height="1080" fill="url(#grid-retro)" opacity="0.3"/>
+  
+  <!-- Waves decorativas -->
+  <g opacity="0.4" filter="url(#glow-retro)">
+    <path d="M 0 300 Q 480 250 960 300 T 1920 300" stroke="url(#accent)" stroke-width="4" fill="none"/>
+    <path d="M 0 800 Q 480 750 960 800 T 1920 800" stroke="url(#accent)" stroke-width="4" fill="none"/>
+    <path d="M 0 550 Q 480 500 960 550 T 1920 550" stroke="#FF0080" stroke-width="3" fill="none" opacity="0.6"/>
+  </g>
+  
+  <!-- Header retro -->
+  <g transform="translate(120,80)" filter="url(#glow-retro)">
+    <rect x="0" y="0" width="1680" height="110" rx="0" fill="url(#accent)"/>
+    <!-- Lines retro -->
+    <rect x="0" y="0" width="1680" height="4" fill="#40E0D0"/>
+    <rect x="0" y="106" width="1680" height="4" fill="#FF0080"/>
+    <text x="840" y="72" text-anchor="middle" fill="#0A0E27" font-family="Inter, system-ui, -apple-system" font-size="44" font-weight="900">
+      WEBINAR GRATIS: CÓMO DOBLAR TUS VENTAS ONLINE
+    </text>
+  </g>
+  
+  <!-- Headline con glow -->
+  <g transform="translate(160,260)">
+    <text x="0" y="0" class="headline-retro">DOBLA TUS VENTAS</text>
+    <text x="0" y="70" class="subhead-retro">Con IA y automatizaciones retro-futuristas</text>
+  </g>
+  
+  <!-- Features retro -->
+  <g transform="translate(160,420)">
+    <g filter="url(#glow-retro)">
+      <rect x="0" y="0" width="500" height="120" rx="0" fill="rgba(255,0,128,0.2)" stroke="#FF0080" stroke-width="3"/>
+      <rect x="0" y="0" width="500" height="4" fill="#FF0080"/>
+      <text x="30" y="45" class="feature-retro">▶ PROMPTS OPTIMIZADOS</text>
+      <text x="30" y="80" fill="#40E0D0" font-family="Inter" font-size="22">Reduce CPA hasta -35%</text>
+    </g>
+    <g transform="translate(540,0)" filter="url(#glow-retro)">
+      <rect x="0" y="0" width="500" height="120" rx="0" fill="rgba(255,140,0,0.2)" stroke="#FF8C00" stroke-width="3"/>
+      <rect x="0" y="0" width="500" height="4" fill="#FF8C00"/>
+      <text x="30" y="45" class="feature-retro">▶ CREATIVIDADES IA</text>
+      <text x="30" y="80" fill="#40E0D0" font-family="Inter" font-size="22">Variaciones en minutos</text>
+    </g>
+    <g transform="translate(1080,0)" filter="url(#glow-retro)">
+      <rect x="0" y="0" width="500" height="120" rx="0" fill="rgba(64,224,208,0.2)" stroke="#40E0D0" stroke-width="3"/>
+      <rect x="0" y="0" width="500" height="4" fill="#40E0D0"/>
+      <text x="30" y="45" class="feature-retro">▶ AUTOMATIZACIONES</text>
+      <text x="30" y="80" fill="#40E0D0" font-family="Inter" font-size="22">Sin código, listo en 1h</text>
+    </g>
+  </g>
+  
+  <!-- Chips fecha/hora retro -->
+  <g transform="translate(160,580)">
+    <g filter="url(#glow-retro)">
+      <rect x="0" y="-40" width="420" height="80" rx="0" fill="rgba(255,0,128,0.3)" stroke="#FF0080" stroke-width="3"/>
+      <text x="210" y="12" text-anchor="middle" fill="#FFFFFF" font-family="Inter, system-ui, -apple-system" font-size="32" font-weight="900">15 Nov 2025</text>
+    </g>
+    <g transform="translate(440,0)" filter="url(#glow-retro)">
+      <rect x="0" y="-40" width="380" height="80" rx="0" fill="rgba(255,140,0,0.3)" stroke="#FF8C00" stroke-width="3"/>
+      <text x="190" y="12" text-anchor="middle" fill="#FFFFFF" font-family="Inter, system-ui, -apple-system" font-size="32" font-weight="900">18:00</text>
+    </g>
+  </g>
+  
+  <!-- CTA retro con glow -->
+  <g transform="translate(160,680)" filter="url(#glow-retro)">
+    <rect x="0" y="0" width="600" height="140" rx="0" fill="url(#accent)"/>
+    <rect x="0" y="0" width="600" height="4" fill="#40E0D0"/>
+    <rect x="0" y="136" width="600" height="4" fill="#FF0080"/>
+    <text x="300" y="88" text-anchor="middle" class="cta-retro">▶ ÚNETE GRATIS</text>
+  </g>
+  
+  <!-- Badge retro -->
+  <g transform="translate(1540,240)" filter="url(#glow-retro)">
+    <rect x="0" y="0" width="280" height="75" rx="0" fill="#FF0080" stroke="#40E0D0" stroke-width="3"/>
+    <text x="140" y="48" text-anchor="middle" fill="#FFFFFF" font-family="Inter, system-ui, -apple-system" font-size="26" font-weight="900">⚠ CUPOS LIMITADOS</text>
+  </g>
+  
+  <!-- Logo + QR retro -->
+  <g transform="translate(1680,60)" filter="url(#glow-retro)">
+    <rect x="0" y="0" width="160" height="60" rx="0" fill="rgba(255,0,128,0.3)" stroke="#FF0080" stroke-width="2"/>
+    <text x="80" y="40" text-anchor="middle" fill="#FFFFFF" font-family="Inter, system-ui, -apple-system" font-size="20" font-weight="800">TU MARCA</text>
+  </g>
+  <g transform="translate(1620,870)" filter="url(#sh)">
+    <rect x="0" y="0" width="180" height="180" rx="0" fill="rgba(255,0,128,0.2)" stroke="#FF0080" stroke-width="2"/>
+    <text x="90" y="100" text-anchor="middle" fill="#FFFFFF" font-family="Inter, system-ui, -apple-system" font-size="16" font-weight="700">QR → https://tu-dominio.com/webinar?utm_source=youtube&utm_medium=preroll&utm_campaign=nov_2025&utm_content=all_variants</text>
+  </g>
+</svg>
+

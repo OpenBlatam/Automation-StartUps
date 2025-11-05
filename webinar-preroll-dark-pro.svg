@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0B1229"/>
+      <stop offset="100%" stop-color="#10314A"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00E5A8"/>
+      <stop offset="100%" stop-color="#00B4D8"/>
+    </linearGradient>
+    <linearGradient id="graphGradient" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00E5A8" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#00B4D8" stop-opacity="0.05"/>
+    </linearGradient>
+    <filter id="sh" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="rgba(0,0,0,0.5)"/>
+    </filter>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4" result="blur"/>
+      <feOffset in="blur" dx="0" dy="0" result="offsetBlur"/>
+      <feFlood flood-color="#00E5A8" flood-opacity="0.3"/>
+      <feComposite in2="offsetBlur" operator="in"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Fondo -->
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  
+  <!-- Gráfico de crecimiento decorativo (fondo) -->
+  <g opacity="0.25" transform="translate(180,220)">
+    <polyline fill="none" stroke="#00E5A8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"
+      points="0,520 150,480 300,450 450,380 600,360 750,300 900,220 1050,180"/>
+    <g fill="#00B4D8">
+      <circle cx="150" cy="480" r="8" opacity="0.6"/>
+      <circle cx="300" cy="450" r="8" opacity="0.6"/>
+      <circle cx="450" cy="380" r="8" opacity="0.6"/>
+      <circle cx="600" cy="360" r="8" opacity="0.6"/>
+      <circle cx="750" cy="300" r="8" opacity="0.6"/>
+      <circle cx="900" cy="220" r="8" opacity="0.6"/>
+      <circle cx="1050" cy="180" r="8" opacity="0.6"/>
+    </g>
+  </g>
+  
+  <!-- Zona segura YouTube -->
+  <rect x="120" y="80" width="1680" height="920" rx="20" fill="none" stroke="rgba(255,255,255,0.08)" opacity="0.5"/>
+  
+  <!-- Barra título -->
+  <g transform="translate(120,80)" filter="url(#sh)">
+    <rect x="0" y="0" width="1240" height="88" rx="14" fill="url(#accent)"/>
+    <text x="30" y="58" fill="#062A2D" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="36" font-weight="900">
+      Webinar gratis: Cómo doblar tus ventas online
+    </text>
+  </g>
+  
+  <!-- Headline principal -->
+  <text x="160" y="280" fill="#FFFFFF" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="82" font-weight="900" letter-spacing="-0.5">
+    Duplica tus ventas con IA
+  </text>
+  <text x="160" y="342" fill="#BFEFE8" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="32" font-weight="600">
+    Anuncios, landing y CRM listos para implementar
+  </text>
+  
+  <!-- Chips fecha/hora -->
+  <g transform="translate(160,400)">
+    <rect x="0" y="-42" width="420" height="84" rx="12" fill="#0E3740" stroke="#00C1BE" stroke-width="2"/>
+    <text x="210" y="12" text-anchor="middle" fill="#C7FFFA" font-family="Inter, system-ui, -apple-system" font-size="30" font-weight="800">15 Nov 2025</text>
+    <rect x="440" y="-42" width="380" height="84" rx="12" fill="#0E3740" stroke="#00C1BE" stroke-width="2"/>
+    <text x="630" y="12" text-anchor="middle" fill="#C7FFFA" font-family="Inter, system-ui, -apple-system" font-size="30" font-weight="800">18:00 (GMT-5)</text>
+  </g>
+  
+  <!-- Beneficios con iconos -->
+  <g transform="translate(160,500)">
+    <g transform="translate(0,0)">
+      <circle cx="14" cy="14" r="8" fill="#00E5A8" opacity="0.3"/>
+      <circle cx="14" cy="14" r="4" fill="#00E5A8"/>
+      <text x="32" y="20" fill="#E9FFFB" font-family="Inter, system-ui, -apple-system" font-size="28" font-weight="500">Prompts que reducen CPA</text>
+    </g>
+    <g transform="translate(0,40)">
+      <circle cx="14" cy="14" r="8" fill="#00E5A8" opacity="0.3"/>
+      <circle cx="14" cy="14" r="4" fill="#00E5A8"/>
+      <text x="32" y="20" fill="#E9FFFB" font-family="Inter, system-ui, -apple-system" font-size="28" font-weight="500">Creatividades y variaciones en minutos</text>
+    </g>
+    <g transform="translate(0,80)">
+      <circle cx="14" cy="14" r="8" fill="#00E5A8" opacity="0.3"/>
+      <circle cx="14" cy="14" r="4" fill="#00E5A8"/>
+      <text x="32" y="20" fill="#E9FFFB" font-family="Inter, system-ui, -apple-system" font-size="28" font-weight="500">Automatizaciones sin código</text>
+    </g>
+  </g>
+  
+  <!-- CTA principal con icono -->
+  <g transform="translate(160,640)" filter="url(#sh)">
+    <rect x="0" y="0" width="540" height="114" rx="16" fill="url(#accent)"/>
+    <rect x="0" y="0" width="540" height="114" rx="16" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="2"/>
+    <text x="270" y="74" text-anchor="middle" fill="#062A2D" font-family="Inter, system-ui, -apple-system" font-size="46" font-weight="900">Únete gratis</text>
+    <!-- Flecha decorativa -->
+    <path d="M470,57 L490,57 L485,47 L500,57 L485,67 L490,57 Z" fill="#062A2D" opacity="0.8"/>
+  </g>
+  
+  <!-- Badge urgencia con icono -->
+  <g transform="translate(1540,120)" filter="url(#sh)">
+    <rect x="0" y="0" width="240" height="64" rx="14" fill="#FF3B3B"/>
+    <path d="M30,32 L24,26 L30,20 M30,32 L36,26 L30,20" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+    <text x="120" y="42" text-anchor="middle" fill="#FFFFFF" font-family="Inter, system-ui, -apple-system" font-size="24" font-weight="900">Cupos limitados</text>
+  </g>
+  
+  <!-- Sello en vivo con icono -->
+  <g transform="translate(1540,200)" filter="url(#sh)">
+    <rect x="0" y="0" width="260" height="64" rx="14" fill="#F59E0B"/>
+    <circle cx="40" cy="32" r="12" fill="#0B1229" opacity="0.2"/>
+    <circle cx="40" cy="32" r="8" fill="#0B1229" opacity="0.4"/>
+    <circle cx="40" cy="32" r="4" fill="#FFFFFF"/>
+    <text x="130" y="42" text-anchor="middle" fill="#0B1229" font-family="Inter, system-ui, -apple-system" font-size="24" font-weight="900">En vivo + Q&A</text>
+  </g>
+  
+  <!-- Logo placeholder -->
+  <g transform="translate(1680,60)">
+    <rect x="0" y="0" width="160" height="60" rx="8" fill="rgba(255,255,255,0.10)" stroke="rgba(255,255,255,0.20)"/>
+    <text x="80" y="40" text-anchor="middle" fill="#E9FFFB" font-family="Inter, system-ui, -apple-system" font-size="20" font-weight="800">TU MARCA</text>
+  </g>
+  
+  <!-- QR con UTM -->
+  <g transform="translate(1620,870)" filter="url(#sh)">
+    <rect x="0" y="0" width="180" height="180" rx="12" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)"/>
+    <text x="90" y="88" text-anchor="middle" fill="#E9FFFB" font-family="Inter, system-ui, -apple-system" font-size="16" font-weight="700">QR → https://tu-dominio.com/webinar?utm_source=youtube&utm_medium=preroll&utm_campaign=nov_2025&utm_content=all_variants</text>
+    <text x="90" y="110" text-anchor="middle" fill="#9FB6FF" font-family="Inter, system-ui, -apple-system" font-size="12" font-weight="500">utm_source=youtube</text>
+    <text x="90" y="128" text-anchor="middle" fill="#9FB6FF" font-family="Inter, system-ui, -apple-system" font-size="12" font-weight="500">utm_medium=preroll</text>
+  </g>
+  
+  <!-- Pie legal -->
+  <g transform="translate(120,980)" opacity="0.85">
+    <text x="0" y="0" fill="rgba(255,255,255,0.75)" font-family="Inter, system-ui, -apple-system" font-size="24" font-weight="400">Grabación incluida · Política: tu-dominio.com/privacidad</text>
+  </g>
+</svg>
+

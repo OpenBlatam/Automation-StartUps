@@ -1,0 +1,252 @@
+{
+  "templates": {
+    "webinar-preroll-benefits-focused": {
+      "file": "webinar-preroll-benefits-focused.svg",
+      "dimensions": "1920×1080",
+      "use_case": "Webinar educativo, curso IA",
+      "variables": ["FECHA", "HORA", "EVENTO", "CTA", "URL"],
+      "router_rules": {
+        "keywords": ["curso", "webinar", "educativo"],
+        "default": true
+      }
+    },
+    "webinar-preroll-social-proof": {
+      "file": "webinar-preroll-social-proof.svg",
+      "dimensions": "1920×1080",
+      "use_case": "Webinars con testimonios",
+      "variables": ["TESTIMONIO", "NOMBRE", "COMPANY", "FECHA", "HORA"],
+      "router_rules": {
+        "keywords": ["testimonial", "caso", "éxito"]
+      }
+    },
+    "webinar-preroll-elegant": {
+      "file": "webinar-preroll-elegant.svg",
+      "dimensions": "1920×1080",
+      "use_case": "Webinars premium",
+      "variables": ["EVENTO", "PONENTE", "FECHA", "HORA"],
+      "router_rules": {
+        "keywords": ["premium", "exclusivo", "masterclass"]
+      }
+    },
+    "webinar-preroll-speaker-focused": {
+      "file": "webinar-preroll-speaker-focused.svg",
+      "dimensions": "1920×1080",
+      "use_case": "Webinars con expertos",
+      "variables": ["PONENTE", "BIO", "EVENTO", "FECHA", "HORA"],
+      "router_rules": {
+        "keywords": ["ponente", "speaker", "experto", "invitado"]
+      }
+    },
+    "webinar-preroll-urgent-v2": {
+      "file": "webinar-preroll-urgent-v2.svg",
+      "dimensions": "1920×1080",
+      "use_case": "Cupos limitados, urgencia",
+      "variables": ["FECHA_CIERRE", "CUPOS", "EVENTO", "CTA"],
+      "router_rules": {
+        "keywords": ["último", "cupos", "limitado", "urgente"]
+      }
+    },
+    "webinar-preroll-video-thumbnail": {
+      "file": "webinar-preroll-video-thumbnail.svg",
+      "dimensions": "1920×1080",
+      "use_case": "YouTube thumbnails optimizados",
+      "variables": ["TÍTULO", "MÉTRICA", "CTA"],
+      "router_rules": {
+        "keywords": ["thumbnail", "youtube", "video"]
+      }
+    },
+    "webinar-preroll-compare": {
+      "file": "webinar-preroll-compare.svg",
+      "dimensions": "1920×1080",
+      "use_case": "Comparación Antes/Después, casos de éxito",
+      "variables": ["ANTES", "DESPUÉS", "MÉTRICA", "EVENTO"],
+      "router_rules": {
+        "keywords": ["comparar", "antes", "después", "caso", "éxito"]
+      }
+    },
+    "webinar-preroll-numbers": {
+      "file": "webinar-preroll-numbers.svg",
+      "dimensions": "1920×1080",
+      "use_case": "Métricas destacadas, resultados numéricos",
+      "variables": ["NÚMERO", "LABEL", "EVENTO", "CTA"],
+      "router_rules": {
+        "keywords": ["métrica", "número", "resultado", "estadística"]
+      }
+    },
+    "webinar-square-1080x1080-dark": {
+      "file": "webinar-square-1080x1080-dark.svg",
+      "dimensions": "1080×1080",
+      "use_case": "Instagram Stories, LinkedIn, formato cuadrado",
+      "variables": ["FECHA", "HORA", "EVENTO", "CTA", "URL"],
+      "router_rules": {
+        "platform": ["instagram", "linkedin", "facebook"],
+        "format": "square",
+        "theme": "dark"
+      }
+    },
+    "webinar-square-1080x1080-light": {
+      "file": "webinar-square-1080x1080-light.svg",
+      "dimensions": "1080×1080",
+      "use_case": "LinkedIn, Facebook Stories, formato cuadrado",
+      "variables": ["FECHA", "HORA", "EVENTO", "CTA"],
+      "router_rules": {
+        "platform": ["linkedin", "facebook"],
+        "format": "square",
+        "theme": "light"
+      }
+    },
+    "webinar-square-1080x1080-benefits": {
+      "file": "webinar-square-1080x1080-benefits.svg",
+      "dimensions": "1080×1080",
+      "use_case": "Webinars con beneficios destacados",
+      "variables": ["BENEFICIO_1", "BENEFICIO_2", "BENEFICIO_3", "EVENTO"],
+      "router_rules": {
+        "keywords": ["beneficio", "valor", "ventaja"],
+        "format": "square"
+      }
+    },
+    "webinar-square-1080x1080-social-proof": {
+      "file": "webinar-square-1080x1080-social-proof.svg",
+      "dimensions": "1080×1080",
+      "use_case": "Webinars con testimonios, prueba social",
+      "variables": ["TESTIMONIO", "NOMBRE", "EVENTO", "CTA"],
+      "router_rules": {
+        "keywords": ["testimonial", "testimonio", "social proof"],
+        "format": "square"
+      }
+    },
+    "webinar-vertical-1080x1920": {
+      "file": "webinar-vertical-1080x1920.svg",
+      "dimensions": "1080×1920",
+      "use_case": "Instagram Stories, TikTok, YouTube Shorts",
+      "variables": ["EVENTO", "FECHA", "HORA", "CTA", "URL"],
+      "router_rules": {
+        "platform": ["instagram", "tiktok", "youtube", "linkedin"],
+        "format": "vertical"
+      }
+    },
+    "instagram_antes_despues_template": {
+      "file": "instagram_antes_despues_template.svg",
+      "dimensions": "1080×1350",
+      "use_case": "Casos de éxito, transformación",
+      "variables": ["PROBLEMA", "RESULTADO", "MÉTRICA", "PRODUCTO", "TESTIMONIO"],
+      "router_rules": {
+        "triggers": ["testimonial_submit", "deal_won"],
+        "keywords": ["caso", "éxito", "resultado"]
+      }
+    }
+  },
+  "products": {
+    "curso_ia": {
+      "linkedin_templates": {
+        "horizontal_1200x627": [
+          "ads/linkedin/ad_curso_ia_1200x627_metrics.svg",
+          "ads/linkedin/ad_curso_ia_1200x627_v2.svg"
+        ],
+        "square_1080x1080": [
+          "ads/linkedin/ad_curso_ia_1080x1080.svg",
+          "ads/linkedin/ad_curso_ia_1080x1080_metrics.svg"
+        ],
+        "vertical_1080x1920": [
+          "ads/linkedin/ad_curso_ia_1080x1920.svg",
+          "ads/linkedin/ad_curso_ia_1080x1920_metrics.svg"
+        ]
+      },
+      "default_hook": "Prompts que reducen CPA",
+      "default_cta": "Empieza gratis"
+    },
+    "saas_ia_marketing": {
+      "linkedin_templates": {
+        "horizontal_1200x627": [
+          "ads/linkedin/ad_saas_ia_marketing_1200x627_metrics.svg",
+          "ads/linkedin/ad_saas_ia_marketing_1200x627_urgency.svg",
+          "ads/linkedin/ad_saas_ia_marketing_1200x627_v2.svg"
+        ],
+        "square_1080x1080": [
+          "ads/linkedin/ad_saas_ia_marketing_1080x1080.svg",
+          "ads/linkedin/ad_saas_ia_marketing_1080x1080_metrics.svg"
+        ],
+        "vertical_1080x1920": [
+          "ads/linkedin/ad_saas_ia_marketing_1080x1920.svg",
+          "ads/linkedin/ad_saas_ia_marketing_1080x1920_metrics.svg"
+        ]
+      },
+      "default_hook": "CTR 3x mayor",
+      "default_cta": "Prueba 14 días gratis"
+    },
+    "ia_bulk": {
+      "linkedin_templates": {
+        "horizontal_1200x627": [
+          "ads/linkedin/ad_ia_bulk_1200x627_metrics.svg",
+          "ads/linkedin/ad_ia_bulk_1200x627_v2.svg"
+        ],
+        "square_1080x1080": [
+          "ads/linkedin/ad_ia_bulk_1080x1080.svg",
+          "ads/linkedin/ad_ia_bulk_1080x1080_metrics.svg"
+        ],
+        "vertical_1080x1920": [
+          "ads/linkedin/ad_ia_bulk_1080x1920.svg",
+          "ads/linkedin/ad_ia_bulk_1080x1920_metrics.svg"
+        ]
+      },
+      "default_hook": "Documentos en minutos",
+      "default_cta": "Ver demo"
+    }
+  },
+  "carousels": {
+    "carousel_slide_1_hook": {
+      "file": "ads/linkedin/carousel_slide_1_hook_1080x1080.svg",
+      "order": 1,
+      "variables": ["HOOK", "MÉTRICA", "PRODUCTO"]
+    },
+    "carousel_slide_2_curso": {
+      "file": "ads/linkedin/carousel_slide_2_curso_1080x1080.svg",
+      "order": 2,
+      "variables": ["BENEFICIO_1", "BENEFICIO_2", "CTA"]
+    },
+    "carousel_slide_3_saas": {
+      "file": "ads/linkedin/carousel_slide_3_saas_1080x1080.svg",
+      "order": 3,
+      "variables": ["MÉTRICA", "TESTIMONIO", "CTA"]
+    },
+    "carousel_slide_4_bulk": {
+      "file": "ads/linkedin/carousel_slide_4_bulk_1080x1080.svg",
+      "order": 4,
+      "variables": ["BENEFICIO", "CASO_USO", "CTA"]
+    },
+    "carousel_slide_5_cta": {
+      "file": "ads/linkedin/carousel_slide_5_cta_1080x1080.svg",
+      "order": 5,
+      "variables": ["CTA", "URL", "OFERTA"]
+    }
+  },
+  "utm_content_mapping": {
+    "webinar-preroll-*": "[product]-webinar-[template]-[variant]",
+    "instagram_*": "[product]-instagram-[template]-[metric_variant]",
+    "linkedin_ad_*": "[product]-linkedin-[hook]-[cta]"
+  },
+  "output_formats": {
+    "webinar-preroll": {
+      "png": "1920×1080",
+      "mp4": "1920×1080, 30fps, H.264"
+    },
+    "webinar-square": {
+      "png": "1080×1080"
+    },
+    "instagram": {
+      "png": "1080×1350"
+    },
+    "linkedin": {
+      "horizontal": {
+        "png": "1200×627"
+      },
+      "square": {
+        "png": "1080×1080"
+      },
+      "carousel": {
+        "png": "1080×1080 (cada slide)"
+      }
+    }
+  }
+}
+

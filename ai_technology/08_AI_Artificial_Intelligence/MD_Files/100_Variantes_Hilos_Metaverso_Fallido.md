@@ -1,3 +1,11 @@
+---
+title: "100 Variantes Hilos Metaverso Fallido"
+category: "Ai_technology"
+tags: ["technical", "technology"]
+created: "2025-10-29"
+path: "Ai_technology/08_ai_artificial_intelligence/Md_files/100_variantes_hilos_metaverso_fallido.md"
+---
+
 # 🚀 100 Variantes de Hilos sobre "Por qué el Metaverso Falló y Qué Viene Ahora"
 
 ## 📋 Estructura de cada hilo:

@@ -1,0 +1,60 @@
+---
+title: "Readme"
+category: "06_documentation"
+tags: []
+created: "2025-10-29"
+path: "06_documentation/Resumes/readme.md"
+---
+
+# Resumes
+
+## Archivos
+- FINAL_SUMMARY.md
+- Final_Summary_Recommendations.md
+- INDEX.md
+- RESUMEN_EJECUTIVO.md
+- RESUMEN_EJECUTIVO_COMPLETO.md
+- resumen_ejecutivo_consolidado_cadenas_suministro_ia.md
+- resumen_ejecutivo_final.md
+- resumen_ejecutivo_final_kpis.md
+- resumen_ejecutivo_kpis.md
+- RESUMEN_EJECUTIVO_MAPA_PROCESOS_CRITICOS.md
+- resumen_ejecutivo_palancas_crecimiento.md
+- RESUMEN_FINAL.md
+- resumen_final_completo.md
+- RESUMEN_FINAL_COMPLETO.txt
+- resumen_final_completo_ultimo.md
+- resumen_final_definitivo.md
+- resumen_final_definitivo_ultimo.md
+- RESUMEN_FINAL_DIVINIDAD_SUPREMA_COMPLETO.md
+- RESUMEN_FINAL_EXISTENCIA_ABSOLUTA_COMPLETO.md
+- resumen_final_implementacion.md
+- resumen_final_mejorado.md
+- resumen_final_mejoras.md
+- RESUMEN_FINAL_OMNIPOTENTE_COMPLETO.md
+- RESUMEN_FINAL_PERFECCION_INFINITA_COMPLETO.md
+- RESUMEN_FINAL_REVOLUCIONARIO_COMPLETO.md
+- RESUMEN_FINAL_TRASCENDENCIA_ABSOLUTA_COMPLETO.md
+- RESUMEN_FINAL_TRASCENDENTE_COMPLETO.md
+- resumen_final_ultimo.md
+- RESUMEN_FINAL_V28_PODER.py
+- RESUMEN_FINAL_V36_DIVINIDAD.py
+- RESUMEN_FINAL_V37_COSMOS.py
+- RESUMEN_FINAL_V38_ETERNIDAD.py
+- RESUMEN_FINAL_V41_CONCIENCIA.py
+- RESUMEN_FINAL_V42_DOMINIO.py
+- RESUMEN_FINAL_V43_PODER.py
+- RESUMEN_FINAL_V44_EVOLUCION.py
+- RESUMEN_FINAL_V45_REALIDAD.py
+- RESUMEN_FINAL_V46_CONCIENCIA.py
+- RESUMEN_FINAL_V47_DOMINIO.py
+- RESUMEN_FINAL_V48_PODER.py
+- RESUMEN_FINAL_V49_EVOLUCION.py
+- RESUMEN_FINAL_V50_REALIDAD.py
+- RESUMEN_FINAL_V51_CONCIENCIA.py
+- RESUMEN_FINAL_V52_DOMINIO.py
+- RESUMEN_FINAL_V53_PODER.py
+- RESUMEN_FINAL_V54_EVOLUCION.py
+- RESUMEN_FINAL_VANGUARDIA_COMPLETO.md
+- RESUMEN_VISUAL_FINAL.txt
+

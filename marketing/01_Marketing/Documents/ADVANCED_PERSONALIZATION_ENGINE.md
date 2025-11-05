@@ -1,3 +1,11 @@
+---
+title: "Advanced Personalization Engine"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Documents/advanced_personalization_engine.md"
+---
+
 # ADVANCED PERSONALIZATION ENGINE
 ## Motor Avanzado de Personalización de Pitches
 

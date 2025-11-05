@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920" role="img" aria-label="-35% en Curso de IA + Webinars por 48 horas">
+  <title>-35% en Curso de IA + Webinars · Solo 48 horas</title>
+  <desc>Story 1080x1920 con descuento del 35%, sello de 48 horas, CTA, guía de área segura y placeholder de logo.</desc>
+  <defs>
+    <linearGradient id="bgGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1E90FF"/>
+      <stop offset="100%" stop-color="#7B2FF7"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#000000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#bgGradient)"/>
+
+  <!-- Guía de área segura 250px arriba/abajo (oculta por defecto) -->
+  <g id="safe-area" opacity="0.12" display="none">
+    <rect x="60" y="250" width="960" height="1420" fill="#FFFFFF" stroke="#FFFFFF" stroke-dasharray="12 12" rx="24"/>
+  </g>
+
+  <!-- Logo -->
+  <g transform="translate(980, 100)">
+    <circle r="36" fill="#ffffff"/>
+    <text text-anchor="end" x="-12" y="8" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="18" fill="#7B2FF7">LOGO</text>
+  </g>
+
+  <!-- Sello 48 horas -->
+  <g transform="translate(160, 320)" filter="url(#shadow)">
+    <rect x="-10" y="-50" rx="14" ry="14" width="300" height="88" fill="#000000" opacity="0.35" stroke="#ffffff" stroke-opacity="0.35"/>
+    <text x="0" y="0" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="40" font-weight="800" fill="#ffffff">Solo 48 horas</text>
+  </g>
+
+  <!-- Descuento -->
+  <g transform="translate(120, 620)" filter="url(#shadow)">
+    <text x="0" y="0" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="260" font-weight="900" letter-spacing="-6" fill="#ffffff">-35 %</text>
+  </g>
+
+  <!-- Cupón -->
+  <g transform="translate(120, 700)" filter="url(#shadow)">
+    <rect x="0" y="-44" rx="16" ry="16" width="380" height="84" fill="#ffffff" opacity="0.95"/>
+    <text x="190" y="0" text-anchor="middle" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="36" font-weight="900" fill="#7B2FF7">CUPÓN: 35IA</text>
+  </g>
+
+  <!-- Título -->
+  <g transform="translate(120, 760)">
+    <text x="0" y="0" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="64" font-weight="800" fill="#ffffff">en Curso de IA + Webinars</text>
+  </g>
+
+  <!-- Subcopy -->
+  <g transform="translate(120, 830)" opacity="0.95">
+    <text x="0" y="0" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="36" fill="#F0F4FF">Domina fundamentos y aplicaciones prácticas con sesiones en vivo.</text>
+  </g>
+
+  <!-- CTA -->
+  <g transform="translate(120, 1000)" filter="url(#shadow)">
+    <rect x="0" y="-70" rx="18" ry="18" width="520" height="120" fill="#ffffff" stroke="#7B2FF7" stroke-width="5"/>
+    <text x="260" y="0" text-anchor="middle" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="48" font-weight="900" fill="#7B2FF7">Aprovecha hoy</text>
+  </g>
+
+  <!-- Pie -->
+  <g transform="translate(120, 1800)" opacity="0.9">
+    <text x="0" y="0" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="32" fill="#E9EDFF">tu-sitio.com · @tu_marca</text>
+  </g>
+
+  <!-- QR placeholder -->
+  <g transform="translate(880, 1700)" opacity="0.9" filter="url(#shadow)">
+    <rect x="0" y="0" width="160" height="160" rx="14" ry="14" fill="#ffffff"/>
+    <text x="80" y="90" text-anchor="middle" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="32" font-weight="900" fill="#7B2FF7">QR</text>
+  </g>
+</svg>
+
+

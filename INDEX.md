@@ -1,310 +1,339 @@
-# 📚 Índice Completo - Documentos BLATAM
-
-> **Navegación rápida a todos los recursos del ecosistema**
-
+---
+title: "Index"
+category: "INDEX.md"
+tags: []
+encoded_with: "utf-8"
+created: "2025-10-29"
+path: "INDEX.md"
 ---
 
-## 🎯 **Navegación Rápida**
-
-### 📋 **Por Tipo de Usuario**
-- **[🚀 Emprendedores](#-emprendedores)** - Recursos para startups
-- **[🏢 Empresas](#-empresas)** - Recursos para empresas establecidas
-- **[🤖 Desarrolladores](#-desarrolladores)** - Recursos técnicos
-- **[📈 Marketers](#-marketers)** - Recursos de marketing
-
-### 📁 **Por Categoría**
-- **[🤖 IA y Tecnología](#-ia-y-tecnología)** - Inteligencia artificial
-- **[💼 Negocios](#-negocios)** - Estrategias empresariales
-- **[📈 Marketing](#-marketing)** - Estrategias de marketing
-- **[🔧 Desarrollo](#-desarrollo)** - Desarrollo técnico
-
----
-
-## 🚀 **Emprendedores**
-
-### 📋 **Planes de Negocio**
-- [Business Strategy](04_Business_Strategy/README.md) - Estrategias empresariales
-- [Financial Models](detailed_financial_models.md) - Modelos financieros
-- [Business Plan Templates](04_Business_Strategy/README.md) - Plantillas
-- [Launch Strategy](LAUNCH_STRATEGY.md) - Estrategias de lanzamiento
-
-### 🎯 **Marketing y Ventas**
-- [Marketing Digital](01_Marketing/README.md) - Estrategias de marketing
-- [Sales Strategies](09_Sales/) - Técnicas de venta
-- [Customer Acquisition](customer_acquisition_growth_framework.md) - Adquisición
-- [Content Marketing](01_Marketing/Content_Marketing/README.md) - Contenido
-
-### 🤖 **Tecnología**
-- [AI Implementation](08_AI_Artificial_Intelligence/README.md) - Implementación de IA
-- [System Architecture](11_System_Architecture/) - Arquitectura
-- [Technology Stack](05_Technology/) - Stack tecnológico
-
----
-
-## 🏢 **Empresas**
-
-### ⚙️ **Operaciones**
-- [Operations Management](04_Operations/README.md) - Gestión operacional
-- [HR Management](03_Human_Resources/README.md) - Recursos humanos
-- [Quality Assurance](12_Quality_Assurance/) - Aseguramiento de calidad
-- [Risk Management](07_Risk_Management/) - Gestión de riesgos
-
-### 📊 **Análisis y Métricas**
-- [Data Analytics](16_Data_Analytics/) - Análisis de datos
-- [KPI Dashboard](dashboard_metricas_kpis.md) - Métricas
-- [Business Intelligence](data_analytics_business_intelligence.md) - BI
-- [Performance Optimization](performance-optimization-guide.md) - Optimización
-
-### 🎯 **Experiencia del Cliente**
-- [Customer Experience](15_Customer_Experience/) - Experiencia del cliente
-- [Customer Service](10_Customer_Service/) - Servicio al cliente
-- [Customer Success](customer_success_retention_strategy.md) - Éxito del cliente
-
----
-
-## 🤖 **Desarrolladores**
-
-### 🏗️ **Arquitectura**
-- [System Architecture](11_System_Architecture/) - Arquitectura de sistemas
-- [AI Development](08_AI_Artificial_Intelligence/README.md) - Desarrollo con IA
-- [Technology Stack](05_Technology/) - Stack tecnológico
-- [DevOps](devops_automation/) - DevOps y automatización
-
-### 🔧 **Desarrollo**
-- [Quality Assurance](12_Quality_Assurance/) - Testing y QA
-- [Technical Documentation](06_Documentation/README.md) - Documentación
-- [API Development](05_Technology/) - Desarrollo de APIs
-- [Testing](12_Quality_Assurance/) - Testing y validación
-
-### 📚 **Documentación**
-- [User Guides](12_User_Guides/) - Guías de usuario
-- [Technical Docs](06_Documentation/README.md) - Documentación técnica
-- [API Documentation](05_Technology/) - Documentación de APIs
-
----
-
-## 📈 **Marketers**
-
-### 📝 **Contenido**
-- [Content Marketing](01_Marketing/Content_Marketing/README.md) - Marketing de contenido
-- [Content Generation](01_Marketing/Content_Generation/README.md) - Generación
-- [Creative Assets](01_Marketing/README.md) - Recursos creativos
-- [Brand Guidelines](brand_guidelines_visual_identity.md) - Guías de marca
-
-### 🎯 **Estrategias**
-- [Marketing Strategy](01_Marketing/README.md) - Estrategias de marketing
-- [Campaign Management](01_Marketing/Campaign_Management/README.md) - Campañas
-- [Social Media](01_Marketing/README.md) - Redes sociales
-- [Email Marketing](email_sequence_marketing.md) - Email marketing
-
-### 📊 **Analytics**
-- [Marketing Analytics](01_Marketing/Analytics_Marketing/README.md) - Analytics
-- [Performance Tracking](analytics_tracking_system.md) - Seguimiento
-- [ROI Analysis](calculadora_roi_ctas.md) - Análisis de ROI
-- [Conversion Optimization](conversion_optimization_strategies.md) - Optimización
-
----
-
-## 🤖 **IA y Tecnología**
-
-### 🧠 **Inteligencia Artificial**
-- [AI Implementation](08_AI_Artificial_Intelligence/README.md) - Implementación
-- [Machine Learning](ai_technology/08_AI_Artificial_Intelligence/Machine_Learning/README.md) - ML
-- [Deep Learning](ai_technology/08_AI_Artificial_Intelligence/Deep_Learning/README.md) - DL
-- [Neural Networks](ai_technology/08_AI_Artificial_Intelligence/Neural_Networks/README.md) - Redes neuronales
-
-### 🔬 **Investigación**
-- [Research & Development](08_Research_Development/README.md) - I+D
-- [Innovation Lab](17_Innovation/) - Laboratorio de innovación
-- [Advanced Features](07_Advanced_Features/) - Características avanzadas
-- [AI Ethics](ai_ethics/) - Ética de IA
-
-### 🏗️ **Arquitectura**
-- [System Architecture](11_System_Architecture/) - Arquitectura
-- [Cloud Native](cloud_native/) - Cloud nativo
-- [Microservices](05_Technology/) - Microservicios
-- [API Gateway](05_Technology/) - API Gateway
-
----
-
-## 💼 **Negocios**
-
-### 📋 **Estrategia**
-- [Business Strategy](04_Business_Strategy/README.md) - Estrategias
-- [Strategic Planning](06_Strategy/) - Planificación estratégica
-- [Market Analysis](competitive_analysis_market_positioning.md) - Análisis de mercado
-- [Competitive Intelligence](competitive_intelligence_monitoring.md) - Inteligencia competitiva
-
-### 💰 **Finanzas**
-- [Financial Models](detailed_financial_models.md) - Modelos financieros
-- [Revenue Streams](financial_models_and_projections.md) - Flujos de ingresos
-- [Investment Analysis](exit_strategy_ma_analysis.md) - Análisis de inversión
-- [ROI Calculators](calculadora_roi_ctas.md) - Calculadoras de ROI
-
-### 🏢 **Organización**
-- [Human Resources](03_Human_Resources/README.md) - Recursos humanos
-- [Operations](04_Operations/README.md) - Operaciones
-- [Project Management](20_Project_Management/) - Gestión de proyectos
-- [Change Management](change_management_organizational_development.md) - Gestión del cambio
-
----
-
-## 📈 **Marketing**
-
-### 🎯 **Estrategias**
-- [Marketing Strategy](01_Marketing/README.md) - Estrategias
-- [Content Strategy](01_Marketing/Content_Marketing/README.md) - Estrategia de contenido
-- [Social Media Strategy](01_Marketing/README.md) - Redes sociales
-- [Email Marketing](email_sequence_marketing.md) - Email marketing
-
-### 📊 **Analytics**
-- [Marketing Analytics](01_Marketing/Analytics_Marketing/README.md) - Analytics
-- [Performance Metrics](dashboard_metricas_kpis.md) - Métricas
-- [Conversion Tracking](analytics_tracking_system.md) - Seguimiento
-- [ROI Analysis](calculadora_roi_ctas.md) - Análisis de ROI
-
-### 🎨 **Creatividad**
-- [Creative Assets](01_Marketing/README.md) - Recursos creativos
-- [Brand Guidelines](brand_guidelines_visual_identity.md) - Guías de marca
-- [Visual Identity](brand_guidelines_visual_identity.md) - Identidad visual
-- [Content Templates](01_Marketing/README.md) - Templates de contenido
-
----
-
-## 🔧 **Desarrollo**
-
-### 💻 **Tecnología**
-- [Technology Stack](05_Technology/) - Stack tecnológico
-- [System Architecture](11_System_Architecture/) - Arquitectura
-- [API Development](05_Technology/) - Desarrollo de APIs
-- [Database Design](05_Technology/) - Diseño de base de datos
-
-### 🔧 **Herramientas**
-- [Development Tools](05_Technology/) - Herramientas de desarrollo
-- [Testing Tools](12_Quality_Assurance/) - Herramientas de testing
-- [DevOps Tools](devops_automation/) - Herramientas de DevOps
-- [Monitoring Tools](05_Technology/) - Herramientas de monitoreo
-
-### 📚 **Documentación**
-- [Technical Documentation](06_Documentation/README.md) - Documentación técnica
-- [API Documentation](05_Technology/) - Documentación de APIs
-- [User Guides](12_User_Guides/) - Guías de usuario
-- [Developer Guides](05_Technology/) - Guías de desarrollador
-
----
-
-## 🎯 **Recursos por Industria**
-
-### 🏭 **Industrias Tradicionales**
-- [Manufacturing](32_Manufacturing/) - Manufactura
-- [Retail](33_Retail/) - Retail
-- [Real Estate](22_Real_Estate/) - Bienes raíces
-- [Healthcare](23_Healthcare/) - Salud
-
-### 💻 **Industrias Digitales**
-- [E-Commerce](34_E_Commerce/) - Comercio electrónico
-- [Technology](05_Technology/) - Tecnología
-- [AI & ML](08_AI_Artificial_Intelligence/README.md) - IA y ML
-- [Data Analytics](16_Data_Analytics/) - Analytics
-
-### 🎯 **Servicios**
-- [Consulting](30_Consulting/) - Consultoría
-- [Professional Services](31_Professional_Services/) - Servicios profesionales
-- [Education](24_Education/) - Educación
-- [Government](25_Government/) - Gobierno
-
----
-
-## 🛠️ **Herramientas y Utilidades**
-
-### 📊 **Dashboards**
-- [CFDI Dashboard](Dashboard_CFDI_IA_2025.html) - Dashboard de facturación
-- [KPI Dashboard](dashboard_metricas_kpis.md) - Dashboard de KPIs
-- [Supply Chain Dashboard](dashboard_kpis_metricas_seguimiento_cadenas_suministro.md) - Cadena de suministro
-- [Analytics Dashboard](analytics_tracking_system.md) - Dashboard de analytics
-
-### 🧮 **Calculadoras**
-- [ROI Calculator](calculadora_roi_ctas.md) - Calculadora de ROI
-- [LTV Calculator](calculadora_roi_ltv.md) - Calculadora de LTV
-- [CFDI Calculator](Guia_Completa_CFDI_4.0_IA_2025.md) - Calculadora de CFDI
-- [Financial Calculator](detailed_financial_models.md) - Calculadora financiera
-
-### 📋 **Templates**
-- [Business Templates](04_Business_Strategy/README.md) - Templates de negocio
-- [Marketing Templates](01_Marketing/README.md) - Templates de marketing
-- [HR Templates](03_Human_Resources/README.md) - Templates de RRHH
-- [Technical Templates](06_Documentation/README.md) - Templates técnicos
-
----
-
-## 📚 **Guías de Implementación**
-
-### 🚀 **Nivel Básico**
-- [Quick Start](README.md#-inicio-rápido) - Inicio rápido
-- [Basic Setup](06_Documentation/README.md) - Configuración básica
-- [Templates](04_Business_Strategy/README.md) - Plantillas
-- [Simple Analytics](dashboard_metricas_kpis.md) - Analytics básico
-
-### 📈 **Nivel Intermedio**
-- [Advanced Setup](06_Documentation/README.md) - Configuración avanzada
-- [AI Integration](08_AI_Artificial_Intelligence/README.md) - Integración de IA
-- [Business Strategy](04_Business_Strategy/README.md) - Estrategia empresarial
-- [Operations Optimization](04_Operations/README.md) - Optimización operacional
-
-### 🎯 **Nivel Avanzado**
-- [Complete Ecosystem](ai_business_ecosystem_platform.md) - Ecosistema completo
-- [Advanced Analytics](16_Data_Analytics/) - Analytics avanzado
-- [System Architecture](11_System_Architecture/) - Arquitectura de sistemas
-- [Enterprise Solutions](04_Operations/README.md) - Soluciones empresariales
-
----
-
-## 🔗 **Enlaces Rápidos**
-
-### 📋 **Documentos Principales**
-- [README Principal](README.md) - Navegación central
-- [Índice Completo](INDEX.md) - Este archivo
-- [Documentación](06_Documentation/README.md) - Centro de documentación
-- [Guías de Usuario](12_User_Guides/) - Guías paso a paso
-
-### 🎯 **Recursos Especializados**
-- [AI Implementation](08_AI_Artificial_Intelligence/README.md) - Implementación de IA
-- [Business Strategy](04_Business_Strategy/README.md) - Estrategias de negocio
-- [Marketing Automation](01_Marketing/README.md) - Automatización de marketing
-- [Data Analytics](16_Data_Analytics/) - Análisis de datos
-
-### 🛠️ **Herramientas**
-- [CFDI 4.0](Guia_Completa_CFDI_4.0_IA_2025.md) - Facturación electrónica
-- [Dashboard CFDI](Dashboard_CFDI_IA_2025.html) - Dashboard interactivo
-- [ROI Calculators](calculadora_roi_ctas.md) - Calculadoras de ROI
-- [Templates](04_Business_Strategy/README.md) - Plantillas y templates
-
----
-
-**🎯 ¡Navega fácilmente por todo el ecosistema de Documentos BLATAM!**
-
-*Última actualización: Enero 2025 | Versión: 2025.1*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Índice - /
+
+Generado: 2025-10-29 19:35:20
+
+Breadcrumbs: /
+
+
+Resumen: 143 carpetas, 166 archivos
+
+
+## Carpetas
+
+- [00_version_management](./00_version_management/) — 0 archivos
+- [01_marketing](./01_marketing/) — 13 archivos
+- [01_webinar_campaign](./01_webinar_campaign/) — 0 archivos
+- [02_consciousness_systems](./02_consciousness_systems/) — 0 archivos
+- [02_finance](./02_finance/) — 0 archivos
+- [03_human_resources](./03_human_resources/) — 0 archivos
+- [04_business_strategy](./04_business_strategy/) — 1 archivos
+- [04_operations](./04_operations/) — 0 archivos
+- [05_technology](./05_technology/) — 0 archivos
+- [06_documentation](./06_documentation/) — 6 archivos
+- [06_strategy](./06_strategy/) — 0 archivos
+- [07_advanced_features](./07_advanced_features/) — 0 archivos
+- [07_risk_management](./07_risk_management/) — 0 archivos
+- [08_ai_artificial_intelligence](./08_ai_artificial_intelligence/) — 0 archivos
+- [08_research_development](./08_research_development/) — 0 archivos
+- [09_sales](./09_sales/) — 0 archivos
+- [10_customer_service](./10_customer_service/) — 0 archivos
+- [11_research_development](./11_research_development/) — 0 archivos
+- [11_system_architecture](./11_system_architecture/) — 0 archivos
+- [12_quality_assurance](./12_quality_assurance/) — 0 archivos
+- [12_user_guides](./12_user_guides/) — 0 archivos
+- [13_legal_compliance](./13_legal_compliance/) — 0 archivos
+- [14_procurement](./14_procurement/) — 0 archivos
+- [14_product_management](./14_product_management/) — 0 archivos
+- [14_thought_leadership](./14_thought_leadership/) — 0 archivos
+- [15_customer_experience](./15_customer_experience/) — 0 archivos
+- [16_data_analytics](./16_data_analytics/) — 0 archivos
+- [17_innovation](./17_innovation/) — 0 archivos
+- [18_sustainability](./18_sustainability/) — 0 archivos
+- [19_international_business](./19_international_business/) — 0 archivos
+- [20_project_management](./20_project_management/) — 0 archivos
+- [21_supply_chain](./21_supply_chain/) — 0 archivos
+- [22_real_estate](./22_real_estate/) — 0 archivos
+- [23_healthcare](./23_healthcare/) — 0 archivos
+- [24_education](./24_education/) — 0 archivos
+- [25_government](./25_government/) — 0 archivos
+- [26_non_profit](./26_non_profit/) — 0 archivos
+- [27_entertainment](./27_entertainment/) — 0 archivos
+- [28_sports](./28_sports/) — 0 archivos
+- [29_media](./29_media/) — 0 archivos
+- [30_consulting](./30_consulting/) — 0 archivos
+- [31_professional_services](./31_professional_services/) — 0 archivos
+- [32_manufacturing](./32_manufacturing/) — 0 archivos
+- [33_retail](./33_retail/) — 0 archivos
+- [34_e_commerce](./34_e_commerce/) — 0 archivos
+- [5g_networks](./5g_networks/) — 0 archivos
+- [97_analysis_reports](./97_analysis_reports/) — 0 archivos
+- [Accessibility](./Accessibility/) — 0 archivos
+- [Advanced_analytics](./Advanced_analytics/) — 0 archivos
+- [Advanced_materials](./Advanced_materials/) — 0 archivos
+- [Advanced_optimization](./Advanced_optimization/) — 0 archivos
+- [Ai_ethics](./Ai_ethics/) — 0 archivos
+- [Ai_features](./Ai_features/) — 0 archivos
+- [Ai_models](./Ai_models/) — 0 archivos
+- [Ai_technology](./Ai_technology/) — 0 archivos
+- [Aitestimonialsaas](./Aitestimonialsaas/) — 0 archivos
+- [Artificial_general_intelligence](./Artificial_general_intelligence/) — 0 archivos
+- [Augmented_reality](./Augmented_reality/) — 0 archivos
+- [Autonomous_systems](./Autonomous_systems/) — 0 archivos
+- [Bin](./Bin/) — 0 archivos
+- [Biotech_ai](./Biotech_ai/) — 0 archivos
+- [Brain_computer](./Brain_computer/) — 0 archivos
+- [Business_strategy](./Business_strategy/) — 0 archivos
+- [Case_studies](./Case_studies/) — 0 archivos
+- [Cloud_native](./Cloud_native/) — 0 archivos
+- [Collaboration](./Collaboration/) — 0 archivos
+- [Compliance_legal](./Compliance_legal/) — 0 archivos
+- [Cyber_security](./Cyber_security/) — 0 archivos
+- [Dashboard](./Dashboard/) — 0 archivos
+- [Devops_automation](./Devops_automation/) — 0 archivos
+- [Digital_twins](./Digital_twins/) — 0 archivos
+- [Docs](./Docs/) — 0 archivos
+- [Docuementos](./Docuementos/) — 0 archivos
+- [Evaluation_tools](./Evaluation_tools/) — 0 archivos
+- [Examples](./Examples/) — 0 archivos
+- [Follow_up_resources](./Follow_up_resources/) — 0 archivos
+- [Frontend](./Frontend/) — 0 archivos
+- [Gamification](./Gamification/) — 0 archivos
+- [Implementation_guides](./Implementation_guides/) — 0 archivos
+- [Innovation_research](./Innovation_research/) — 0 archivos
+- [Instance](./Instance/) — 0 archivos
+- [Integration_guides](./Integration_guides/) — 0 archivos
+- [Internationalization](./Internationalization/) — 0 archivos
+- [Iot_edge](./Iot_edge/) — 0 archivos
+- [Logs](./Logs/) — 0 archivos
+- [Marketing](./Marketing/) — 0 archivos
+- [Marketing_canva_ia_split](./Marketing_canva_ia_split/) — 0 archivos
+- [Metrics_dashboards](./Metrics_dashboards/) — 0 archivos
+- [Ml_models](./Ml_models/) — 0 archivos
+- [Mobile_resources](./Mobile_resources/) — 0 archivos
+- [Nanotech](./Nanotech/) — 0 archivos
+- [Neural_networks](./Neural_networks/) — 0 archivos
+- [Neural_supremacy](./Neural_supremacy/) — 0 archivos
+- [Neural_supremacy_v2](./Neural_supremacy_v2/) — 0 archivos
+- [Neural_supremacy_v3](./Neural_supremacy_v3/) — 0 archivos
+- [Neuralmarketingsaas](./Neuralmarketingsaas/) — 0 archivos
+- [Omniversal_ai](./Omniversal_ai/) — 0 archivos
+- [Omniversal_supremacy](./Omniversal_supremacy/) — 0 archivos
+- [Omniversal_supremacy_v2](./Omniversal_supremacy_v2/) — 0 archivos
+- [Omniversal_supremacy_v3](./Omniversal_supremacy_v3/) — 0 archivos
+- [Operations_management](./Operations_management/) — 0 archivos
+- [Perfect_ai](./Perfect_ai/) — 0 archivos
+- [Perfect_supremacy_v2](./Perfect_supremacy_v2/) — 0 archivos
+- [Perfect_supremacy_v3](./Perfect_supremacy_v3/) — 0 archivos
+- [Predictive_models](./Predictive_models/) — 0 archivos
+- [Quality_assurance](./Quality_assurance/) — 0 archivos
+- [Quantum_biology](./Quantum_biology/) — 0 archivos
+- [Quantum_computing](./Quantum_computing/) — 0 archivos
+- [Quantum_supremacy](./Quantum_supremacy/) — 0 archivos
+- [Quantum_supremacy_v2](./Quantum_supremacy_v2/) — 0 archivos
+- [Quantum_supremacy_v3](./Quantum_supremacy_v3/) — 0 archivos
+- [Quick_reference](./Quick_reference/) — 0 archivos
+- [Research_development](./Research_development/) — 0 archivos
+- [Robotics](./Robotics/) — 0 archivos
+- [Routes](./Routes/) — 1 archivos
+- [Saas](./Saas/) — 0 archivos
+- [Sales_customer](./Sales_customer/) — 0 archivos
+- [Scripts](./Scripts/) — 0 archivos
+- [Security_compliance](./Security_compliance/) — 0 archivos
+- [Services](./Services/) — 0 archivos
+- [Space_tech](./Space_tech/) — 0 archivos
+- [Static](./Static/) — 0 archivos
+- [Support_resources](./Support_resources/) — 0 archivos
+- [Synthetic_biology](./Synthetic_biology/) — 0 archivos
+- [System_architecture](./System_architecture/) — 0 archivos
+- [Technical_documentation](./Technical_documentation/) — 0 archivos
+- [Templates](./Templates/) — 0 archivos
+- [Testing_framework](./Testing_framework/) — 0 archivos
+- [Tests](./Tests/) — 0 archivos
+- [Tracking_tools](./Tracking_tools/) — 0 archivos
+- [Training_resources](./Training_resources/) — 0 archivos
+- [Transcendence_supremacy](./Transcendence_supremacy/) — 0 archivos
+- [Transcendence_supremacy_v2](./Transcendence_supremacy_v2/) — 0 archivos
+- [Transcendence_supremacy_v3](./Transcendence_supremacy_v3/) — 0 archivos
+- [Transport_demand_prediction](./Transport_demand_prediction/) — 0 archivos
+- [Truthgpt](./Truthgpt/) — 0 archivos
+- [Ultimate_ai](./Ultimate_ai/) — 0 archivos
+- [Ultimate_supremacy_v2](./Ultimate_supremacy_v2/) — 0 archivos
+- [Ultimate_supremacy_v3](./Ultimate_supremacy_v3/) — 0 archivos
+- [Utils](./Utils/) — 1 archivos
+- [Vc](./Vc/) — 0 archivos
+- [Vc_venture_capital](./Vc_venture_capital/) — 0 archivos
+- [Very](./Very/) — 0 archivos
+
+## Archivos
+
+- [00_guia_rapida_secuencias_email.md](./00_guia_rapida_secuencias_email.md) — 8.1KB
+- [00_indice_dms_completos.md](./00_indice_dms_completos.md) — 27.4KB
+- [01_dm_curso_ia_webinars_ultimate.md](./01_dm_curso_ia_webinars_ultimate.md) — 28.4KB
+- [02_DM_SAAS_IA_MARKETING_ULTIMATE.md](./02_DM_SAAS_IA_MARKETING_ULTIMATE.md) — 36.1KB
+- [02_secuencia_saas_ia_marketing.md](./02_secuencia_saas_ia_marketing.md) — 25.2KB
+- [03_dm_ia_bulk_documentos_ultimate.md](./03_dm_ia_bulk_documentos_ultimate.md) — 20.6KB
+- [03_secuencia_ia_bulk_documentos.md](./03_secuencia_ia_bulk_documentos.md) — 30.8KB
+- [04_automatizacion_escalamiento_dms.md](./04_automatizacion_escalamiento_dms.md) — 12.1KB
+- [05_casos_uso_avanzados.md](./05_casos_uso_avanzados.md) — 11.9KB
+- [06_RECURSOS_AVANZADOS_STRATEGY.md](./06_RECURSOS_AVANZADOS_STRATEGY.md) — 9.0KB
+- [07_checklists_actionables.md](./07_checklists_actionables.md) — 21.9KB
+- [08_templates_respuestas_rapidas.md](./08_templates_respuestas_rapidas.md) — 22.5KB
+- [09_resumen_ejecutivo_completo.md](./09_resumen_ejecutivo_completo.md) — 14.2KB
+- [10_templates_visuales_presentaciones.md](./10_templates_visuales_presentaciones.md) — 18.5KB
+- [11_library_metricas_publicas.md](./11_library_metricas_publicas.md) — 11.7KB
+- [12_guia_investigacion_leads.md](./12_guia_investigacion_leads.md) — 10.4KB
+- [13_secuencias_email_completas.md](./13_secuencias_email_completas.md) — 11.5KB
+- [14_calculadoras_formulas_roi.md](./14_calculadoras_formulas_roi.md) — 22.7KB
+- [15_playbook_closing.md](./15_playbook_closing.md) — 13.2KB
+- [16_quick_reference_guide.md](./16_quick_reference_guide.md) — 7.6KB
+- [17_analisis_competencia_strategy.md](./17_analisis_competencia_strategy.md) — 12.3KB
+- [18_crisis_communication_playbook.md](./18_crisis_communication_playbook.md) — 9.1KB
+- [19_analytics_dashboard_templates.md](./19_analytics_dashboard_templates.md) — 4.6KB
+- [20_crm_integrations_playbook.md](./20_crm_integrations_playbook.md) — 3.4KB
+- [21_prompts_personalizacion_library.md](./21_prompts_personalizacion_library.md) — 3.3KB
+- [22_call_scripts_discovery_guide.md](./22_call_scripts_discovery_guide.md) — 3.6KB
+- [23_qa_rubric_dm_copy.md](./23_qa_rubric_dm_copy.md) — 2.0KB
+- [25_INDUSTRY_SPECIFIC_PLAYBOOKS.md](./25_INDUSTRY_SPECIFIC_PLAYBOOKS.md) — 8.3KB
+- [26_ADVANCED_AUTOMATION_WORKFLOWS.md](./26_ADVANCED_AUTOMATION_WORKFLOWS.md) — 7.5KB
+- [27_SALES_ENABLEMENT_KITS.md](./27_SALES_ENABLEMENT_KITS.md) — 3.2KB
+- [28_BRAND_TONE_GUARDRAILS.md](./28_BRAND_TONE_GUARDRAILS.md) — 2.7KB
+- [29_PRICING_PACKAGING_STRATEGY.md](./29_PRICING_PACKAGING_STRATEGY.md) — 3.0KB
+- [30_GOVERNANCE_VERSIONING_GUIDE.md](./30_GOVERNANCE_VERSIONING_GUIDE.md) — 2.5KB
+- [advanced_analysis.json](./advanced_analysis.json) — 158.3KB
+- [advanced_analyzer.py](./advanced_analyzer.py) — 13.8KB
+- [advanced_dashboard.html](./advanced_dashboard.html) — 8.5KB
+- [api_documentation.md](./api_documentation.md) — 6.4KB
+- [app.py](./app.py) — 7.3KB
+- [apply_suggestions.py](./apply_suggestions.py) — 1.3KB
+- [arbol_decision_rapido.md](./arbol_decision_rapido.md) — 2.4KB
+- [attributions.md](./attributions.md) — 3.7KB
+- [cadencia_ratelimits.md](./cadencia_ratelimits.md) — 1.5KB
+- [calculadora_roi.md](./calculadora_roi.md) — 2.7KB
+- [calculadora_roi_rapida.md](./calculadora_roi_rapida.md) — 5.3KB
+- [casos_estudio_reales.md](./casos_estudio_reales.md) — 3.8KB
+- [casos_uso_recomendaciones.md](./casos_uso_recomendaciones.md) — 16.4KB
+- [changelog.md](./changelog.md) — 3.3KB
+- [channel_variants_dm.md](./channel_variants_dm.md) — 2.8KB
+- [cheatsheet_frases_ganadoras.md](./cheatsheet_frases_ganadoras.md) — 2.1KB
+- [checklist_calidad_pre_envio.md](./checklist_calidad_pre_envio.md) — 4.6KB
+- [checklist_cumplimiento_legal.md](./checklist_cumplimiento_legal.md) — 6.9KB
+- [checklist_onboarding_equipo.md](./checklist_onboarding_equipo.md) — 5.9KB
+- [checklist_outreach_dm.md](./checklist_outreach_dm.md) — 2.0KB
+- [cleanup_temp_files.py](./cleanup_temp_files.py) — 3.3KB
+- [code_of_conduct.md](./code_of_conduct.md) — 2.6KB
+- [comparativa_herramientas_recomendaciones.md](./comparativa_herramientas_recomendaciones.md) — 14.4KB
+- [config.json](./config.json) — 668.0B
+- [config.py](./config.py) — 2.9KB
+- [contributing.md](./contributing.md) — 6.5KB
+- [cta_experimentos_log.csv](./cta_experimentos_log.csv) — 357.0B
+- [cta_testing_matrix.md](./cta_testing_matrix.md) — 1.4KB
+- [CTAs_Por_Canal.md](./CTAs_Por_Canal.md) — 5.2KB
+- [deduplicate_files.py](./deduplicate_files.py) — 4.2KB
+- [dm_1_curso_ia.md](./dm_1_curso_ia.md) — 2.9KB
+- [dm_2_saas_ia_marketing.md](./dm_2_saas_ia_marketing.md) — 3.1KB
+- [dm_3_bulk_ia.md](./dm_3_bulk_ia.md) — 3.0KB
+- [dm_curso_ia_webinars.md](./dm_curso_ia_webinars.md) — 2.2KB
+- [dm_ia_bulk_documentos.md](./dm_ia_bulk_documentos.md) — 2.0KB
+- [dm_saas_ia_marketing.md](./dm_saas_ia_marketing.md) — 2.0KB
+- [dm_variants_master.csv](./dm_variants_master.csv) — 6.5KB
+- [dms_curso_ia_webinars.md](./dms_curso_ia_webinars.md) — 52.8KB
+- [dms_ia_bulk_documentos.md](./dms_ia_bulk_documentos.md) — 32.8KB
+- [dms_mejorados_variaciones.md](./dms_mejorados_variaciones.md) — 46.1KB
+- [dms_saas_ia_marketing.md](./dms_saas_ia_marketing.md) — 30.8KB
+ - [panel_combinado.csv](./panel_combinado.csv) — KPI combinado Sequences+ROI
+ - [panel_combinado_guia.md](./panel_combinado_guia.md) — Guía de configuración Sheets
+ - [panel_combinado_lite.csv](./panel_combinado_lite.csv) — Versión Lite (4 KPIs)
+ - [panel_ejecutivo.csv](./panel_ejecutivo.csv) — Vista Ejecutiva (4 KPIs)
+ - [panel_combinado_enterprise.csv](./panel_combinado_enterprise.csv) — Versión Enterprise (multi-equipo)
+- [docker_compose.yml](./docker_compose.yml) — 1.3KB
+- [dockerfile](./dockerfile) — 703.0B
+- [documentacion_tecnica_recomendaciones.md](./documentacion_tecnica_recomendaciones.md) — 35.3KB
+- [duplicates_report.csv](./duplicates_report.csv) — 135.0KB
+- [duplicates_report.json](./duplicates_report.json) — 171.0KB
+- [ejemplos_codigo_recomendaciones.md](./ejemplos_codigo_recomendaciones.md) — 24.1KB
+- [ejemplos_completos_listos.md](./ejemplos_completos_listos.md) — 5.6KB
+- [env.example](./env.example) — 1.1KB
+- [escalabilidad_performance_recomendaciones.md](./escalabilidad_performance_recomendaciones.md) — 39.5KB
+- [estrategias_avanzadas_recomendaciones.md](./estrategias_avanzadas_recomendaciones.md) — 13.7KB
+- [faq_recomendaciones_completo.md](./faq_recomendaciones_completo.md) — 10.6KB
+- [Flows_DM_to_Cierre.md](./Flows_DM_to_Cierre.md) — 3.9KB
+- [guia_implementacion_completa.md](./guia_implementacion_completa.md) — 13.6KB
+- [guia_rapida_personalizacion_dm.md](./guia_rapida_personalizacion_dm.md) — 2.7KB
+- [index_dm_outreach.md](./index_dm_outreach.md) — 6.8KB
+- [indice_completo.md](./indice_completo.md) — 5.3KB
+- [indice_navegacion_maestro.md](./indice_navegacion_maestro.md) — 4.3KB
+- [init_db.py](./init_db.py) — 7.4KB
+- [install.sh](./install.sh) — 2.2KB
+- [integracion_herramientas_recomendaciones.md](./integracion_herramientas_recomendaciones.md) — 26.1KB
+- [jestconfig.js](./jestconfig.js) — 634.0B
+- [KPI_DASHBOARD_TEMPLATE.md](./KPI_DASHBOARD_TEMPLATE.md) — 2.8KB
+- [kpis_dashboard_formulas.md](./kpis_dashboard_formulas.md) — 4.1KB
+- [KPIs_Dashboard_Template.csv](./KPIs_Dashboard_Template.csv) — 454.0B
+- [learning_data.json](./learning_data.json) — 9.7MB
+- [license](./license) — 1.1KB
+- [maintenance_tools.py](./maintenance_tools.py) — 3.5KB
+- [makefile](./makefile) — 1.0KB
+- [MASTER_QUICK_REFERENCE.md](./MASTER_QUICK_REFERENCE.md) — 3.2KB
+- [mejores_practicas_comprobadas.md](./mejores_practicas_comprobadas.md) — 3.8KB
+- [metricas_dashboard_recomendaciones.md](./metricas_dashboard_recomendaciones.md) — 8.7KB
+- [models.py](./models.py) — 3.1KB
+- [nginx.conf](./nginx.conf) — 2.1KB
+- [nvm_setup.sh](./nvm_setup.sh) — 1012.0B
+- [onboarding_nuevo_usuario.md](./onboarding_nuevo_usuario.md) — 3.3KB
+- [optimization_report.json](./optimization_report.json) — 474.0B
+- [organization_report.html](./organization_report.html) — 675.0B
+- [organization_suggestions.json](./organization_suggestions.json) — 2.0B
+- [organize_advanced.py](./organize_advanced.py) — 10.4KB
+- [organize_all_folders.py](./organize_all_folders.py) — 19.5KB
+- [organize_deep_cleanup.py](./organize_deep_cleanup.py) — 11.2KB
+- [organize_files.py](./organize_files.py) — 15.9KB
+- [organize_folders.py](./organize_folders.py) — 10.5KB
+- [organize_folders_improved.py](./organize_folders_improved.py) — 15.3KB
+- [organize_other_folders.py](./organize_other_folders.py) — 12.2KB
+- [organize_ultimate.py](./organize_ultimate.py) — 9.2KB
+- [package.json](./package.json) — 1.8KB
+- [plantillas_automatizacion_crm.md](./plantillas_automatizacion_crm.md) — 7.1KB
+- [PLANTILLAS_RESPUESTAS_DM.md](./PLANTILLAS_RESPUESTAS_DM.md) — 2.1KB
+- [Playbook_Objections.md](./Playbook_Objections.md) — 3.4KB
+- [project_structure.md](./project_structure.md) — 7.2KB
+- [quick_start_30_minutos.md](./quick_start_30_minutos.md) — 5.8KB
+- [QuickStart.md](./QuickStart.md) — 4.6KB
+- [quickstart_30min.md](./quickstart_30min.md) — 4.2KB
+- [readme.md](./readme.md) — 12.3KB
+- [readme_ig_dms.md](./readme_ig_dms.md) — 5.1KB
+- [README_QUICKSTART_OUTREACH.md](./README_QUICKSTART_OUTREACH.md) — 1.7KB
+- [requirements.txt](./requirements.txt) — 402.0B
+- [Respuestas_CopyPaste.md](./Respuestas_CopyPaste.md) — 900.0B
+- [resumen_ejecutivo.md](./resumen_ejecutivo.md) — 5.5KB
+- [resumen_final_ultimate.md](./resumen_final_ultimate.md) — 5.2KB
+- [resumen_organizacion_final_completa.md](./resumen_organizacion_final_completa.md) — 5.3KB
+- [resumen_proyecto_recomendaciones.md](./resumen_proyecto_recomendaciones.md) — 5.4KB
+- [resumen_visual_sistema.md](./resumen_visual_sistema.md) — 8.5KB
+- [robots.txt](./robots.txt) — 530.0B
+- [schedule_weekly_examples.md](./schedule_weekly_examples.md) — 1.8KB
+- [script_analisis_metricas.py](./script_analisis_metricas.py) — 6.9KB
+- [scripts_automatizacion_avanzada.md](./scripts_automatizacion_avanzada.md) — 749.0B
+ - [apps_script_panel_refresh.gs](./apps_script_panel_refresh.gs) — Auto-refresh KPIs (menú Panel, trigger 6h)
+- [seguimiento_postevento_cierre.md](./seguimiento_postevento_cierre.md) — 3.8KB
+- [seguridad_privacidad_recomendaciones.md](./seguridad_privacidad_recomendaciones.md) — 28.6KB
+- [sesion_revision_semanal.md](./sesion_revision_semanal.md) — 5.6KB
+- [sitemap.xml](./sitemap.xml) — 9.4KB
+- [smart_organizer.py](./smart_organizer.py) — 14.9KB
+- [start_here.md](./start_here.md) — 3.9KB
+- [subject_library_dm.md](./subject_library_dm.md) — 2.5KB
+- [swagger.json](./swagger.json) — 4.9KB
+- [Tecnicas_Personalizacion_Avanzada.md](./Tecnicas_Personalizacion_Avanzada.md) — 2.0KB
+- [template_analisis_competencia.md](./template_analisis_competencia.md) — 5.5KB
+- [template_proyeccion_presupuesto.md](./template_proyeccion_presupuesto.md) — 5.9KB
+- [Templates_MultiCanal.md](./Templates_MultiCanal.md) — 4.2KB
+- [templates_prompts_recomendaciones.md](./templates_prompts_recomendaciones.md) — 16.0KB
+- [TEMPLATES_SEGUIMIENTO_LINKEDIN_EMAIL.md](./TEMPLATES_SEGUIMIENTO_LINKEDIN_EMAIL.md) — 2.1KB
+- [testing_qa_recomendaciones.md](./testing_qa_recomendaciones.md) — 59.0KB
+- [troubleshooting_rapido.md](./troubleshooting_rapido.md) — 4.4KB
+- [troubleshooting_recomendaciones.md](./troubleshooting_recomendaciones.md) — 14.1KB
+- [tsconfig.json](./tsconfig.json) — 817.0B
+- [UTM_GUIDE_OUTREACH.md](./UTM_GUIDE_OUTREACH.md) — 2.0KB
+- [Variantes_Ecommerce_Tu.md](./Variantes_Ecommerce_Tu.md) — 1.6KB
+- [Variantes_UltraCortas.md](./Variantes_UltraCortas.md) — 6.8KB
+- [vercel.json](./vercel.json) — 302.0B
+- [verify_organization.py](./verify_organization.py) — 5.3KB
+- [warm_outreach_networking.md](./warm_outreach_networking.md) — 7.0KB

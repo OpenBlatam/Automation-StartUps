@@ -1,0 +1,12 @@
+id,lead_id,tipo,producto,metadata_json,timestamp
+evt-1,lead-1,descarga,curso,"{\"asset\":\"guia_microlearning\"}",2025-10-30T10:01:00Z
+evt-2,lead-2,registro_webinar,curso,"{\"webinar_id\":\"web-1\"}",2025-10-30T10:06:00Z
+evt-3,lead-3,descarga,bulk,"{\"asset\":\"sandbox_template\"}",2025-10-30T10:11:00Z
+evt-4,lead-4,registro_webinar,curso,"{\"webinar_id\":\"web-1\"}",2025-10-30T10:16:00Z
+evt-5,lead-5,descarga,curso,"{\"asset\":\"checklist_pre_webinar\"}",2025-10-30T10:21:00Z
+evt-6,lead-6,descarga,bulk,"{\"asset\":\"sandbox_template\"}",2025-10-30T10:26:00Z
+evt-7,lead-7,solicita_demo,saas,"{\"canal\":\"Calendly\"}",2025-10-30T10:31:00Z
+evt-8,lead-8,asistencia_webinar,curso,"{\"duracion_min\":\"42\"}",2025-11-05T16:45:00Z
+evt-9,lead-9,descarga,bulk,"{\"asset\":\"guide_guardrails\"}",2025-10-30T10:41:00Z
+evt-10,lead-10,descarga,saas,"{\"asset\":\"creative_audit_template\"}",2025-10-30T10:46:00Z
+

@@ -1,3 +1,11 @@
+---
+title: "Powerpoint Slide Templates"
+category: "01_marketing"
+tags: ["business", "marketing", "template"]
+created: "2025-10-29"
+path: "01_marketing/Ai_marketing_courses/09_marketing_materials/powerpoint_slide_templates.md"
+---
+
 # 🎨 Neural Marketing Consciousness System - PowerPoint Slide Templates
 ## Professional Presentation Design Guidelines
 

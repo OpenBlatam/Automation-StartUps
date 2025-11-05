@@ -1,0 +1,25 @@
+{
+  "verify": {
+    "dry_run": true
+  },
+  "deduplicate": {
+    "enabled": true,
+    "dry_run": true,
+    "quarantine_dir": "99_Quarantine/Duplicates"
+  },
+  "cleanup_temp": {
+    "enabled": true,
+    "dry_run": true,
+    "older_than_days": 180,
+    "quarantine_dir": "99_Quarantine/Temp"
+  },
+  "analyzer": {
+    "enabled": true
+  },
+  "paths": {
+    "base": "."
+  }
+}
+
+
+

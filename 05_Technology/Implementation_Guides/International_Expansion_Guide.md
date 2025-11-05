@@ -1,3 +1,11 @@
+---
+title: "International Expansion Guide"
+category: "05_technology"
+tags: ["guide", "technical", "technology"]
+created: "2025-10-29"
+path: "05_technology/Implementation_guides/international_expansion_guide.md"
+---
+
 # 🌍 Neural Marketing Consciousness System - International Expansion Guide
 ## Comprehensive Global Market Entry and Localization Strategy
 

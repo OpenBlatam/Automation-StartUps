@@ -1,0 +1,16 @@
+Nombre,Empresa,Industria,Oferta,Fecha Envío,Hora Envío,Variante Usada,Idioma,Tono,Nicho,Respuesta,Respuesta Timestamp,Click Reserva,Agenda Demo,Asistió,Asistencia Timestamp,Venta,Cierre Timestamp,Opt Out,Notas
+María González,Tienda Online,Ecommerce,Curso,2024-11-01,09:30,DM1-A3,ES,tuteo,ecommerce,SÍ,2024-11-01 14:20,SÍ,2024-11-03 19:00,SÍ,2024-11-03 19:05,SÍ,2024-11-05 16:30,NO,Interesada en ecommerce
+Juan Pérez,Tech Startup,B2B SaaS,SaaS,2024-11-01,10:15,DM2-B1,ES,tuteo,B2B,NO,,,,,,NO,,Sin tiempo
+Ana Silva,Agencia Marketing,Agencias,IA Bulk,2024-11-01,11:00,DM3-C1,ES,tuteo,consultoria,SÍ,2024-11-01 18:45,SÍ,2024-11-04 15:00,SÍ,2024-11-04 15:02,SÍ,2024-11-06 10:00,NO,Necesitaba propuestas
+Carlos Mendoza,Inmobiliaria XYZ,Real Estate,Curso,2024-11-02,08:45,DM1-A7,ES,tuteo,real_estate,NO,,,,,,NO,,No respondió
+Laura Fernández,Consultoría ABC,Consultoría,IA Bulk,2024-11-02,09:30,DM3-C7,ES,vos,consultoria,SÍ,2024-11-02 16:00,SÍ,2024-11-05 10:00,NO,,,,NO,Canceló último minuto
+Miguel Torres,EdTech Solutions,Educación,Curso,2024-11-02,13:20,DM1-A10,ES,tuteo,educacion,SÍ,2024-11-02 20:15,SÍ,2024-11-06 19:00,NO,,,,NO,Aplazó para siguiente mes
+Emma Wilson,Retail Corp,Ecommerce,SaaS,2024-11-03,09:00,DM2-B9,ES,tuteo,ecommerce,NO,,,,,,NO,,Sin presupuesto
+David Chen,Enterprise Inc,B2B SaaS,SaaS,2024-11-03,10:30,DM2-B2,ES,usted,B2B,SÍ,2024-11-03 15:00,NO,SÍ,2024-11-08 14:00,SÍ,2024-11-08 14:30,NO,En proceso evaluación
+Sofía Ramírez,Propiedades Premium,Real Estate,IA Bulk,2024-11-03,11:15,DM3-C6,ES,tuteo,real_estate,SÍ,2024-11-03 19:30,SÍ,2024-11-06 16:00,SÍ,2024-11-06 16:05,NO,2024-11-10 11:00,NO,Evaluando opciones
+Ricardo López,Escuela Online,Educación,Curso,2024-11-04,08:30,DM1-A10,ES,tuteo,educacion,NO,,,,,,NO,,Sin interés
+Patricia Santos,Ecom Plus,Ecommerce,Curso,2024-11-04,09:45,DM1-A3,ES,tuteo,ecommerce,SÍ,2024-11-04 14:00,SÍ,2024-11-07 20:00,SÍ,2024-11-07 20:02,SÍ,2024-11-09 09:15,NO,Muy interesada
+Fernando García,Dev Solutions,B2B SaaS,IA Bulk,2024-11-04,10:20,DM3-C2,ES,usted,B2B,SÍ,2024-11-04 17:30,NO,NO,,,,NO,Interesado pero no asistió
+Isabella Rodríguez,Marketing Pro,Agencias,SaaS,2024-11-05,09:00,DM2-B3,ES,tuteo,agencias,SÍ,2024-11-05 15:45,SÍ,2024-11-08 11:00,SÍ,2024-11-08 11:05,NO,2024-11-12 14:00,NO,Evaluando opciones
+Diego Morales,Fashion Store,Ecommerce,Curso,2024-11-05,10:15,DM1-A3,ES,tuteo,ecommerce,NO,,,,,,NO,STOP,Opt-out explícito
+Valentina Cruz,Consulting Group,Consultoría,IA Bulk,2024-11-05,11:30,DM3-C1,ES,tuteo,consultoria,SÍ,2024-11-05 18:00,SÍ,2024-11-09 15:00,SÍ,2024-11-09 15:03,SÍ,2024-11-11 10:30,NO,Cerró rápido

@@ -1,3 +1,11 @@
+---
+title: "Anexo C Due Diligence Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Due_diligence/Legal_templates/anexo_c_due_diligence_vc.md"
+---
+
 # 🔍 ANEXO C: DUE DILIGENCE COMPLETO
 ## Checklist y Análisis para VC - SaaS IA Copywriting LATAM
 

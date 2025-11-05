@@ -1,3 +1,11 @@
+---
+title: "Competitive Analysis"
+category: "06_strategy"
+tags: []
+created: "2025-10-29"
+path: "06_strategy/Competitive_analysis/competitive_analysis.md"
+---
+
 # 🏆 Neural Marketing Consciousness System - Competitive Analysis
 
 ## 📊 Market Overview

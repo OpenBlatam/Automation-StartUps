@@ -1,3 +1,11 @@
+---
+title: "Vc Negotiation Checklist 2024"
+category: "Vc_venture_capital"
+tags: ["checklist"]
+created: "2025-10-29"
+path: "Vc_venture_capital/Negotiation/vc_negotiation_checklist_2024.md"
+---
+
 # ✅ VC Negotiation Checklist 2024
 ## Your Complete Pre, During, and Post-Negotiation Guide
 

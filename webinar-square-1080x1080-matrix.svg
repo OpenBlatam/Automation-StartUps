@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080">
+  <defs>
+    <linearGradient id="bg-matrix" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#000000"/>
+      <stop offset="50%" stop-color="#000500"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+    <linearGradient id="matrix-green" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#00FF41" stop-opacity="1"/>
+      <stop offset="50%" stop-color="#00FF88" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#00FF41" stop-opacity="0.3"/>
+    </linearGradient>
+    <filter id="matrix-glow" x="-200%" y="-200%" width="500%" height="500%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="matrix-glow-intense" x="-200%" y="-200%" width="500%" height="500%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blur"/>
+      <feOffset in="blur" dx="0" dy="0" result="offsetBlur"/>
+      <feFlood flood-color="#00FF41" flood-opacity="0.8"/>
+      <feComposite in2="offsetBlur" operator="in" result="green"/>
+      <feMerge>
+        <feMergeNode in="green"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="matrix-shadow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="10"/>
+      <feOffset dx="0" dy="12" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.5"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      @font-face { font-family: 'Courier New'; src: local('Courier New'), local('monospace'); }
+      .headline { font: 900 52px/1.1 'Courier New', monospace; fill: #00FF41; letter-spacing: 2px; text-anchor: middle; filter: url(#matrix-glow-intense); }
+      .subhead { font: 600 22px/1.3 'Courier New', monospace; fill: #00FF88; text-anchor: middle; filter: url(#matrix-glow); }
+      .chip { font: 800 20px/1.2 'Courier New', monospace; fill: #00FF41; text-anchor: middle; filter: url(#matrix-glow-intense); }
+      .cta-text { font: 900 36px/1 'Courier New', monospace; fill: #000000; text-anchor: middle; }
+      .benefit { font: 500 18px/1.4 'Courier New', monospace; fill: #00FF88; }
+      .code-text { font: 400 11px/1.6 'Courier New', monospace; fill: #00FF41; opacity: 0.45; }
+    </style>
+    <g id="matrix-column">
+      <text x="0" y="0" class="code-text">01010101</text>
+      <text x="0" y="16" class="code-text" fill="#00FF88" opacity="0.7">11001100</text>
+      <text x="0" y="32" class="code-text">00110011</text>
+      <text x="0" y="48" class="code-text" fill="#FFFFFF" opacity="0.8">11110000</text>
+      <text x="0" y="64" class="code-text">10101010</text>
+      <text x="0" y="80" class="code-text" fill="#00FF88" opacity="0.6">01011010</text>
+      <text x="0" y="96" class="code-text">11111100</text>
+    </g>
+    <g id="cta-matrix">
+      <rect x="0" y="0" width="360" height="80" rx="0" fill="rgba(0,0,0,0.9)"/>
+      <rect x="0" y="0" width="360" height="80" rx="0" fill="none" stroke="#00FF41" stroke-width="3" filter="url(#matrix-glow-intense)"/>
+      <line x1="10" y1="10" x2="350" y2="10" stroke="#00FF41" stroke-width="1" opacity="0.5" filter="url(#matrix-glow)"/>
+      <line x1="10" y1="70" x2="350" y2="70" stroke="#00FF41" stroke-width="1" opacity="0.5" filter="url(#matrix-glow)"/>
+    </g>
+    <pattern id="matrix-grid" width="15" height="15" patternUnits="userSpaceOnUse">
+      <path d="M 15 0 L 0 0 0 15" fill="none" stroke="#00FF41" stroke-width="0.2" opacity="0.2"/>
+    </pattern>
+  </defs>
+  <rect width="1080" height="1080" fill="url(#bg-matrix)"/>
+  <rect width="1080" height="1080" fill="url(#matrix-grid)" opacity="0.2"/>
+  <g opacity="0.3">
+    <use href="#matrix-column" transform="translate(100,100)"/>
+    <use href="#matrix-column" transform="translate(250,80)"/>
+    <use href="#matrix-column" transform="translate(400,110)"/>
+    <use href="#matrix-column" transform="translate(650,95)"/>
+    <use href="#matrix-column" transform="translate(850,105)"/>
+    <use href="#matrix-column" transform="translate(150,850)"/>
+    <use href="#matrix-column" transform="translate(450,880)"/>
+    <use href="#matrix-column" transform="translate(700,860)"/>
+    <use href="#matrix-column" transform="translate(950,875)"/>
+  </g>
+  <g transform="translate(60,60)" filter="url(#matrix-shadow)">
+    <rect x="0" y="0" width="960" height="70" rx="0" fill="rgba(0,0,0,0.9)"/>
+    <rect x="0" y="0" width="960" height="70" rx="0" fill="none" stroke="#00FF41" stroke-width="3" filter="url(#matrix-glow-intense)"/>
+    <line x1="10" y1="10" x2="950" y2="10" stroke="#00FF41" stroke-width="1" opacity="0.5" filter="url(#matrix-glow)"/>
+    <line x1="10" y1="60" x2="950" y2="60" stroke="#00FF41" stroke-width="1" opacity="0.5" filter="url(#matrix-glow)"/>
+    <text x="950" y="18" text-anchor="end" class="code-text">[SYS]</text>
+    <text x="480" y="47" text-anchor="middle" fill="#00FF41" font-family="Courier New" font-size="20" font-weight="900">[FECHA] [HORA]</text>
+  </g>
+  <g transform="translate(540,200)">
+    <text x="0" y="0" class="headline">WEBINAR.exe</text>
+    <text x="0" y="35" class="subhead">> FUTURO_IA</text>
+  </g>
+  <g transform="translate(540,320)">
+    <g transform="translate(-200,-40)" filter="url(#matrix-shadow)">
+      <rect x="0" y="0" width="180" height="70" rx="0" fill="rgba(0,0,0,0.8)"/>
+      <rect x="0" y="0" width="180" height="70" rx="0" fill="none" stroke="#00FF41" stroke-width="3" filter="url(#matrix-glow-intense)"/>
+      <line x1="10" y1="10" x2="170" y2="10" stroke="#00FF41" stroke-width="1" opacity="0.5" filter="url(#matrix-glow)"/>
+      <text x="15" y="30" class="benefit">> BENEFICIO_1</text>
+      <text x="15" y="55" class="benefit" fill="#00FF88" font-size="14">> DESCRIPCION</text>
+    </g>
+    <g transform="translate(0,-40)" filter="url(#matrix-shadow)">
+      <rect x="0" y="0" width="180" height="70" rx="0" fill="rgba(0,0,0,0.8)"/>
+      <rect x="0" y="0" width="180" height="70" rx="0" fill="none" stroke="#00FF41" stroke-width="3" filter="url(#matrix-glow-intense)"/>
+      <line x1="10" y1="10" x2="170" y2="10" stroke="#00FF41" stroke-width="1" opacity="0.5" filter="url(#matrix-glow)"/>
+      <text x="15" y="30" class="benefit">> BENEFICIO_2</text>
+      <text x="15" y="55" class="benefit" fill="#00FF88" font-size="14">> DESCRIPCION</text>
+    </g>
+    <g transform="translate(200,-40)" filter="url(#matrix-shadow)">
+      <rect x="0" y="0" width="180" height="70" rx="0" fill="rgba(0,0,0,0.8)"/>
+      <rect x="0" y="0" width="180" height="70" rx="0" fill="none" stroke="#00FF41" stroke-width="3" filter="url(#matrix-glow-intense)"/>
+      <line x1="10" y1="10" x2="170" y2="10" stroke="#00FF41" stroke-width="1" opacity="0.5" filter="url(#matrix-glow)"/>
+      <text x="15" y="30" class="benefit">> BENEFICIO_3</text>
+      <text x="15" y="55" class="benefit" fill="#00FF88" font-size="14">> DESCRIPCION</text>
+    </g>
+  </g>
+  <g transform="translate(540,480)" filter="url(#matrix-shadow)">
+    <use href="#cta-matrix"/>
+    <text x="180" y="50" class="cta-text">REGISTRARME</text>
+    <text x="180" y="68" text-anchor="middle" class="code-text" fill="#00FF88">> EXECUTE</text>
+  </g>
+  <g transform="translate(540,600)">
+    <g transform="translate(-120,0)" filter="url(#matrix-shadow)">
+      <rect x="0" y="0" width="140" height="48" rx="0" fill="rgba(0,0,0,0.9)" stroke="#00FF41" stroke-width="3" filter="url(#matrix-glow-intense)"/>
+      <line x1="10" y1="10" x2="130" y2="10" stroke="#00FF41" stroke-width="1" opacity="0.5" filter="url(#matrix-glow)"/>
+      <text x="70" y="32" text-anchor="middle" fill="#00FF41" font-family="Courier New" font-size="16" font-weight="900">> CUPOS</text>
+    </g>
+    <g transform="translate(120,0)" filter="url(#matrix-shadow)">
+      <rect x="0" y="0" width="140" height="48" rx="0" fill="rgba(0,0,0,0.9)" stroke="#00FF41" stroke-width="3" filter="url(#matrix-glow-intense)"/>
+      <line x1="10" y1="10" x2="130" y2="10" stroke="#00FF41" stroke-width="1" opacity="0.5" filter="url(#matrix-glow)"/>
+      <text x="70" y="32" text-anchor="middle" fill="#00FF41" font-family="Courier New" font-size="16" font-weight="900">> EN_VIVO</text>
+    </g>
+  </g>
+  <g transform="translate(540,700)">
+    <g transform="translate(-120,-40)">
+      <rect x="0" y="0" width="70" height="70" rx="0" fill="#FFFFFF" stroke="#00FF41" stroke-width="3" filter="url(#matrix-glow-intense)"/>
+      <text x="35" y="85" text-anchor="middle" fill="#00FF41" font-family="Courier New" font-size="10" font-weight="500">[URL]</text>
+    </g>
+    <g transform="translate(50,-40)">
+      <rect x="0" y="0" width="240" height="70" rx="0" fill="rgba(0,0,0,0.9)" stroke="#00FF41" stroke-width="2.5" opacity="0.6" filter="url(#matrix-glow-intense)"/>
+      <line x1="10" y1="10" x2="230" y2="10" stroke="#00FF41" stroke-width="1" opacity="0.5" filter="url(#matrix-glow)"/>
+      <text x="120" y="43" text-anchor="middle" fill="#00FF41" font-family="Courier New" font-size="14" font-weight="600">TU_LOGO.log</text>
+    </g>
+  </g>
+  <text x="540" y="1050" text-anchor="middle" fill="#00FF41" font-family="Courier New" font-size="10" font-weight="400" opacity="0.4">> TERMINOS_Y_CONDICIONES</text>
+</svg>

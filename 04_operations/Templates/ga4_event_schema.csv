@@ -1,0 +1,19 @@
+event_name,parameter,required,type,description
+page_view,page_location,yes,string,URL of page
+select_content,cta_id,yes,string,CTA identifier
+select_content,variant,no,string,Creative variant
+begin_form,form_id,yes,string,Form identifier
+generate_lead,lead_id,yes,string,Lead identifier
+generate_lead,value,no,number,Monetary value
+generate_lead,currency,no,string,ISO currency
+purchase,transaction_id,yes,string,Transaction id
+purchase,value,yes,number,Monetary value
+purchase,currency,yes,string,ISO currency
+_common,client_id,yes,string,Client id
+_common,user_id,no,string,User id (if logged in)
+_common,consent,yes,boolean,Consent flag
+_common,utm_source,no,string,Source
+_common,utm_medium,no,string,Medium
+_common,utm_campaign,no,string,Campaign
+_common,utm_content,no,string,Content
+_common,utm_term,no,string,Term

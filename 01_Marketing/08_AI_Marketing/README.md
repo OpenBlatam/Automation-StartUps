@@ -1,158 +1,38 @@
-# 🤖 AI Marketing
-
-## 📊 **Resumen del Área**
-- **Propósito**: Implementar marketing con inteligencia artificial
-- **Objetivo**: Automatizar, personalizar y optimizar con IA
-- **Foco**: Automation, personalization, predictive analytics, chatbots
-
-## 🎯 **AI Marketing Capabilities**
-
-### 🤖 **Marketing Automation**
-- Email automation sequences
-- Triggered campaigns
-- Behavioral targeting
-- Lead scoring automation
-- Drip campaigns
-
-### 🎯 **Personalization**
-- Dynamic content
-- Product recommendations
-- Personalized messaging
-- Behavioral targeting
-- Audience segmentation
-
-### 📊 **Predictive Analytics**
-- Lead scoring models
-- Churn prediction
-- Lifetime value forecasting
-- Conversion probability
-- Optimal send times
-
-### 💬 **AI Chatbots**
-- Customer service automation
-- Lead qualification
-- FAQ automation
-- Appointment scheduling
-- 24/7 availability
-
+---
+title: "Readme"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/08_ai_marketing/readme.md"
 ---
 
-## 🚀 **AI Tools & Technologies**
+# 08_AI_Marketing
 
-### 📝 **Content Generation**
-- AI copywriting tools
-- Blog post generation
-- Social media content
-- Email subject lines
-- Meta descriptions
-
-### 📊 **Analytics & Insights**
-- Automated reporting
-- Predictive modeling
-- Trend analysis
-- Anomaly detection
-- Performance forecasting
-
-### 🎯 **Optimization**
-- A/B testing automation
-- Bid optimization
-- Ad creative testing
-- Landing page optimization
-- Conversion optimization
-
----
-
-## 📈 **AI Use Cases**
-
-### ✉️ **Email Marketing**
-- Subject line optimization
-- Send time optimization
-- Content personalization
-- Segmentation automation
-- Send frequency optimization
-
-### 📱 **Social Media**
-- Content scheduling
-- Hashtag suggestions
-- Engagement optimization
-- Competitor analysis
-- Trend identification
-
-### 🔍 **Search Marketing**
-- Keyword research
-- Content optimization
-- Bid management
-- Performance analysis
-- Competitor tracking
-
-### 📊 **Attribution & Analytics**
-- Multi-touch attribution
-- Predictive analytics
-- Customer journey mapping
-- ROI optimization
-- Budget allocation
-
----
-
-## 📊 **Key Metrics**
-
-### 🤖 **AI Performance Metrics**
-- **Automation Rate**: % of campaigns automated
-- **Personalization Score**: Level of personalization
-- **Prediction Accuracy**: Model accuracy %
-- **Response Time**: Chatbot response time
-- **Cost Savings**: Reduction vs manual
-
----
-
-## 🚀 **Implementation Roadmap**
-
-### Phase 1: Foundation (Month 1)
-- [ ] Marketing automation platform setup
-- [ ] Basic workflows implementation
-- [ ] Lead scoring model
-- [ ] Email automation sequences
-
-### Phase 2: Expansion (Month 2-3)
-- [ ] Advanced segmentation
-- [ ] Predictive analytics models
-- [ ] Chatbot implementation
-- [ ] Personalization engines
-
-### Phase 3: Optimization (Month 4+)
-- [ ] Performance analysis
-- [ ] Model refinement
-- [ ] Advanced automation
-- [ ] ROI optimization
-
----
-
-## ⚙️ **AI Tools Stack**
-
-### 🤖 **Automation Platforms**
-- HubSpot
-- Marketo
-- Pardot
-- Mailchimp
-- ActiveCampaign
-
-### 🧠 **AI-Powered Tools**
-- Jasper (Copywriting)
-- ChatGPT (Content)
-- Midjourney (Visuals)
-- Grammarly (Writing)
-- Loom (Video)
-
-### 📊 **Analytics & Attribution**
-- Google Analytics AI
-- Adobe Analytics
-- Rockerbox
-- Triple Whale
-- Klaviyo Predict
-
----
-
-*Última actualización: 2025-01-27*
-
-
+## Archivos
+- 00_INDICE_DMS_COMPLETOS.md
+- 01_DM_CURSO_IA_WEBINARS_ULTIMATE 2.md
+- 02_DM_SAAS_IA_MARKETING_ULTIMATE.md
+- 03_DM_IA_BULK_DOCUMENTOS_ULTIMATE.md
+- ai-marketing-certification-program.md
+- ai-marketing-global-expansion.md
+- ai-marketing-industry-specializations.md
+- ai-marketing-innovation-lab.md
+- AUTO_DMS_GENERADOS.md
+- AUTO_DMS_MULTI_IDIOMA.md
+- DM_1_Curso_IA.md
+- DM_2_SaaS_IA_Marketing.md
+- DM_3_Bulk_IA.md
+- DM_curso_ia_webinars.md
+- DM_ia_bulk_documentos.md
+- DM_saas_ia_marketing.md
+- DM_Variants_Master.csv
+- DM_Variants_Short.csv
+- DMs_Curso_IA_Webinars.md
+- DMs_IA_Bulk_Documentos.md
+- DMs_Mejorados_Variaciones.md
+- DMs_SaaS_IA_Marketing.md
+- Flows_DM_to_Cierre.md
+- INDEX.md
+- MULTILINGUAL_DM_GENERATOR_PROMPTS.md
+- SCRIPTS_DM_POR_ROL.md
 

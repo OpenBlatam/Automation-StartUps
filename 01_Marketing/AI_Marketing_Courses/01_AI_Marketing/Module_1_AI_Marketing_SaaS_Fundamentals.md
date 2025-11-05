@@ -1,3 +1,11 @@
+---
+title: "Module 1 Ai Marketing Saas Fundamentals"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/Ai_marketing_courses/01_ai_marketing/module_1_ai_marketing_saas_fundamentals.md"
+---
+
 # Module 1: AI Marketing SaaS Fundamentals
 *Duration: 10 hours | Weeks 1-2*
 

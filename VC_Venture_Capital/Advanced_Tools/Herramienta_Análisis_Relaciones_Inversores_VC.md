@@ -1,3 +1,11 @@
+---
+title: "Herramienta Análisis Relaciones Inversores Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Advanced_tools/herramienta_análisis_relaciones_inversores_vc.md"
+---
+
 # Herramienta de Análisis de Relaciones con Inversores VC
 
 ## Descripción

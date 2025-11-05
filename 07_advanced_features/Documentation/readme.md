@@ -1,0 +1,27 @@
+---
+title: "Readme"
+category: "07_advanced_features"
+tags: []
+created: "2025-10-29"
+path: "07_advanced_features/readme.md"
+---
+
+# Advanced Features
+
+## 📋 Descripción
+Esta categoría contiene documentos relacionados con Advanced Features.
+
+## 📁 Subcategorías
+
+## 🔍 Cómo usar
+1. Navega por las subcategorías para encontrar documentos específicos
+2. Usa la búsqueda para encontrar contenido específico
+3. Consulta el índice maestro para una visión general
+
+## 📊 Estadísticas
+- **Total de archivos**: 5 
+- **Última actualización**: 2025-10-01 14:15:48
+
+---
+*Categoría: Advanced Features*
+*Mantenido por: Sistema de Organización Automática*

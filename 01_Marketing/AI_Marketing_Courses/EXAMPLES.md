@@ -1,3 +1,11 @@
+---
+title: "Examples"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/Ai_marketing_courses/examples.md"
+---
+
 # 🌟 Ejemplos Universales - Sistema de Marketing Trascendente
 
 ## 🚀 Ejemplos de Implementación Universal

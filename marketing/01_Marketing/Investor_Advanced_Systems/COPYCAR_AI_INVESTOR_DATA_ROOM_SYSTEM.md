@@ -1,3 +1,11 @@
+---
+title: "Copycar Ai Investor Data Room System"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Investor_advanced_systems/copycar_ai_investor_data_room_system.md"
+---
+
 # COPYCAR.AI INVESTOR DATA ROOM SYSTEM
 ## The Complete Guide to Data Room Excellence
 

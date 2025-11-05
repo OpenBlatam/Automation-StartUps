@@ -1,3 +1,11 @@
+---
+title: "Casos Estudio Saas Ia Latam Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Financial_models/casos_estudio_saas_ia_latam_vc.md"
+---
+
 # 📚 CASOS DE ESTUDIO: SaaS IA en LATAM
 ## Análisis de Negociaciones VC Exitosas y Fallidas
 

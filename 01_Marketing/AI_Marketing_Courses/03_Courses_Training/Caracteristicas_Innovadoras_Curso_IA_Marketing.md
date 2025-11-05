@@ -1,3 +1,11 @@
+---
+title: "Caracteristicas Innovadoras Curso Ia Marketing"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/Ai_marketing_courses/03_courses_training/caracteristicas_innovadoras_curso_ia_marketing.md"
+---
+
 # 🚀 Características Innovadoras del Curso IA Marketing
 
 ## 🌟 **Innovaciones Únicas en el Mercado**

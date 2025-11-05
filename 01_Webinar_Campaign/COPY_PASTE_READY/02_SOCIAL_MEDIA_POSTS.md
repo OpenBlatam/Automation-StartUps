@@ -1,3 +1,11 @@
+---
+title: "02 Social Media Posts"
+category: "01_webinar_campaign"
+tags: ["ai", "artificial-intelligence"]
+created: "2025-10-29"
+path: "01_webinar_campaign/Copy_paste_ready/02_social_media_posts.md"
+---
+
 # 📱 POSTS PARA REDES SOCIALES - LISTO PARA COPIAR Y PEGAR
 ## *200+ Posts Neurocientíficos para LinkedIn, Twitter, Facebook e Instagram*
 

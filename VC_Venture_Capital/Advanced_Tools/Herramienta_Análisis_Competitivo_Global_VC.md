@@ -1,3 +1,11 @@
+---
+title: "Herramienta Análisis Competitivo Global Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Advanced_tools/herramienta_análisis_competitivo_global_vc.md"
+---
+
 # Herramienta de Análisis Competitivo Global VC
 
 ## Descripción

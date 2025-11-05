@@ -1,3 +1,11 @@
+---
+title: "Advanced Ai Marketing Law Legal Studies"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/Ai_marketing_courses/01_ai_marketing/advanced_ai_marketing_law_legal_studies.md"
+---
+
 # ⚖️ Advanced AI Marketing Law & Legal Studies
 
 ## 📚 Law-Based AI Marketing Framework

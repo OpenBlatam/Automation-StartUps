@@ -1,3 +1,11 @@
+---
+title: "Roi Metricas Avanzadas"
+category: "02_finance"
+tags: ["business", "finance"]
+created: "2025-10-29"
+path: "02_finance/Financial_models/roi_metricas_avanzadas.md"
+---
+
 # 📊 ROI Y MÉTRICAS AVANZADAS - TIKTOK IA MARKETING
 
 ## 🎯 ANÁLISIS DE ROI COMPLETO

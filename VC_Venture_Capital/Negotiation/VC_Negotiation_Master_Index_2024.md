@@ -1,3 +1,11 @@
+---
+title: "Vc Negotiation Master Index 2024"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Negotiation/vc_negotiation_master_index_2024.md"
+---
+
 # 🎯 VC Negotiation Master Index 2024
 ## Complete System Overview & Navigation Guide
 
@@ -7,11 +15,11 @@
 
 ### 🎯 **Core System Files**
 1. **[VC_Negotiation_System_2024.md](VC_Negotiation_System_2024.md)** - The Master Playbook
-2. **[VC_Psychology_Guide.md](VC_Psychology_Guide.md)** - Psychological Mastery
-3. **[VC_Templates_Scripts.md](VC_Templates_Scripts.md)** - Practical Tools
+2. **[VC_Psychology_Guide.md](Psychology/vc_psychology_guide.md)** - Psychological Mastery
+3. **[VC_Templates_Scripts.md](Templates/vc_templates_scripts.md)** - Practical Tools
 4. **[VC_Quick_Reference.md](VC_Quick_Reference.md)** - Quick Access Guide
 5. **[VC_Market_Intelligence_2024.md](VC_Market_Intelligence_2024.md)** - Market Research
-6. **[VC_Advanced_Closing_Techniques_2024.md](VC_Advanced_Closing_Techniques_2024.md)** - Deal Closure
+6. **[VC_Advanced_Closing_Techniques_2024.md](Closing_techniques/vc_advanced_closing_techniques_2024.md)** - Deal Closure
 
 ---
 

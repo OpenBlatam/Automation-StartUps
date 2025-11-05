@@ -1,0 +1,26 @@
+{
+  "es": {
+    "source": "instagram",
+    "medium": "social",
+    "campaign": "35IA_48h_ES",
+    "content": "feed",
+    "term": "promo"
+  },
+  "en": {
+    "source": "instagram",
+    "medium": "social",
+    "campaign": "35AI_48h_EN",
+    "content": "feed",
+    "term": "promo"
+  },
+  "pt": {
+    "source": "instagram",
+    "medium": "social",
+    "campaign": "35IA_48h_PT",
+    "content": "feed",
+    "term": "promo"
+  }
+}
+
+
+

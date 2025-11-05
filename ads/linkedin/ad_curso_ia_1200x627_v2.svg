@@ -1,0 +1,199 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="627" viewBox="0 0 1200 627">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#092A44"/>
+      <stop offset="100%" stop-color="#1F2D3D"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2E86DE"/>
+      <stop offset="100%" stop-color="#54A0FF"/>
+    </linearGradient>
+    <style>
+      @font-face { font-family: Inter; src: local('Inter'), local('Arial'); }
+      .eyebrow { font: 700 13px/1.2 Inter, Arial, sans-serif; letter-spacing: 0.15em; fill: #93C5FD; text-transform: uppercase; }
+      .headline { font: 800 64px/1.1 Inter, Arial, sans-serif; fill: #FFFFFF; letter-spacing: -0.02em; }
+      .headline-accent { font: 800 64px/1.1 Inter, Arial, sans-serif; fill: url(#accent); letter-spacing: -0.02em; }
+      .sub { font: 400 24px/1.5 Inter, Arial, sans-serif; fill: #E5E7EB; }
+      .cta { font: 700 24px/1 Inter, Arial, sans-serif; fill: #0A2740; letter-spacing: 0.02em; }
+      .small { font: 500 15px/1.4 Inter, Arial, sans-serif; fill: #94A3B8; }
+      .metric { font: 800 32px/1.2 Inter, Arial, sans-serif; fill: url(#accent); }
+      .metric-label { font: 500 14px/1.4 Inter, Arial, sans-serif; fill: #94A3B8; text-transform: uppercase; letter-spacing: 0.1em; }
+      .testimonial { font: 400 19px/1.5 Inter, Arial, sans-serif; fill: #DBEAFE; font-style: italic; }
+      .author { font: 600 17px/1.3 Inter, Arial, sans-serif; fill: #93C5FD; }
+    </style>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="0" dy="4" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <linearGradient id="badgeGradient" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1A202C" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#0F2130" stop-opacity="0.95"/>
+    </linearGradient>
+    <linearGradient id="badgeBorderGradient" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2E86DE" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#54A0FF" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#2E86DE" stop-opacity="0.8"/>
+    </linearGradient>
+    <filter id="badgeGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="metricBoxGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="testimonialGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <linearGradient id="metricBorderGradient" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2B3A4A" stop-opacity="0.6"/>
+      <stop offset="50%" stop-color="#3B4A5A" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#2B3A4A" stop-opacity="0.6"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1A202C" stroke-width="0.5" opacity="0.1"/>
+    </pattern>
+    <g id="growth">
+      <rect x="0" y="40" width="18" height="60" rx="3" fill="#A5D8FF" filter="url(#glow)" opacity="0.9"/>
+      <rect x="28" y="20" width="18" height="80" rx="3" fill="#74C0FC" filter="url(#glow)" opacity="0.9"/>
+      <rect x="56" y="0" width="18" height="100" rx="3" fill="#4DABF7" filter="url(#glow)" opacity="0.9"/>
+      <polyline points="0,120 28,100 56,78 74,68" fill="none" stroke="#54A0FF" stroke-width="4" filter="url(#glow)"/>
+      <circle cx="74" cy="68" r="6" fill="#54A0FF" filter="url(#glow)"/>
+    </g>
+  </defs>
+
+  <rect width="1200" height="627" fill="url(#bg)"/>
+
+  <g opacity="0.15">
+    <circle cx="1060" cy="140" r="170" fill="#2B3A4A"/>
+    <circle cx="1000" cy="300" r="130" fill="#2B3A4A"/>
+    <circle cx="1120" cy="430" r="150" fill="#2B3A4A"/>
+  </g>
+  <!-- Additional depth layer -->
+  <g opacity="0.08">
+    <ellipse cx="1120" cy="180" rx="200" ry="100" fill="#0F1720"/>
+    <ellipse cx="980" cy="350" rx="150" ry="80" fill="#0F1720"/>
+  </g>
+  <!-- Subtle grid pattern overlay -->
+  <rect width="1200" height="627" fill="url(#grid)" opacity="0.3"/>
+
+  <g transform="translate(56,48)">
+    <rect x="0" y="0" width="72" height="72" rx="12" fill="#0F1720" stroke="#2B3A4A"/>
+    <g transform="translate(16,16)">
+      <rect x="0" y="20" width="12" height="28" rx="2" fill="#74C0FC"/>
+      <rect x="18" y="12" width="12" height="36" rx="2" fill="#4DABF7"/>
+      <rect x="36" y="0" width="12" height="48" rx="2" fill="#1E78D0"/>
+    </g>
+    <text x="96" y="38" class="small" fill="#E2E8F0">Marca/Logo</text>
+  </g>
+
+  <g transform="translate(56,158)">
+    <text class="eyebrow" x="0" y="0">Formación aplicada · Marketing</text>
+    <text class="headline" x="0" y="64">Mejora tu ROI en</text>
+    <text class="headline-accent" x="0" y="132">+20%</text>
+    <text class="headline" x="0" y="200">con Curso de IA + Webinars</text>
+    <text class="sub" x="0" y="245" dy="28">Casos reales, plantillas y playbooks para equipos de marketing.</text>
+  </g>
+  
+  <!-- Métricas destacadas -->
+  <g transform="translate(640,158)">
+    <rect width="260" height="140" rx="16" fill="#0F2130" stroke="url(#metricBorderGradient)" stroke-width="1.5" filter="url(#metricBoxGlow)"/>
+    <text class="metric-label" x="20" y="28">Leads</text>
+    <text class="metric" x="20" y="60">+27%</text>
+    <text class="metric-label" x="20" y="88">CPA</text>
+    <text class="metric" x="20" y="120">-32%</text>
+    <text class="small" x="140" y="60" fill="#64748B">incremento</text>
+    <text class="small" x="140" y="120" fill="#64748B">reducción</text>
+  </g>
+
+  <!-- Testimonial Box -->
+  <g transform="translate(56,318)">
+    <rect width="520" height="110" rx="16" fill="#0F2130" stroke="#2E86DE" stroke-width="1.5" opacity="0.85" filter="url(#testimonialGlow)"/>
+    <g opacity="0.3">
+      <path d="M 30 55 L 20 45 L 30 35" stroke="#2E86DE" stroke-width="2" fill="none"/>
+      <path d="M 470 55 L 490 45 L 470 35" stroke="#2E86DE" stroke-width="2" fill="none"/>
+    </g>
+    <text class="testimonial" x="30" y="38">"Aplicamos las plantillas en 2 semanas y nuestro ROI subió +24%.</text>
+    <text class="testimonial" x="30" y="63">La formación es práctica y lista para usar desde el día 1."</text>
+    <text class="author" x="30" y="88">— Carlos R., Director Marketing, GrowthCo</text>
+  </g>
+
+  <!-- CTA Button -->
+  <g transform="translate(56,448)">
+    <rect width="300" height="64" rx="16" fill="url(#accent)" filter="url(#shadow)"/>
+    <rect width="300" height="64" rx="16" fill="none" stroke="url(#accent)" stroke-width="1" opacity="0.3"/>
+    <text class="cta" x="150" y="40" text-anchor="middle">Ver temario</text>
+    <!-- Arrow icon -->
+    <g filter="url(#glow)" fill="#0A2740">
+      <path d="M 250 32 L 270 40 L 250 48" stroke="#0A2740" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+
+  <!-- Badge for value prop -->
+  <g transform="translate(374,436)">
+    <rect width="200" height="40" rx="20" fill="url(#badgeGradient)" stroke="url(#badgeBorderGradient)" stroke-width="1.5" opacity="0.95" filter="url(#badgeGlow)"/>
+    <text class="small" x="100" y="26" text-anchor="middle" fill="#93C5FD">✨ Plantillas incluidas</text>
+  </g>
+  <!-- Decorative sparkles/accents -->
+  <g opacity="0.6" transform="translate(850,350)">
+    <circle cx="0" cy="0" r="3" fill="#93C5FD"/>
+    <circle cx="20" cy="15" r="2" fill="#74C0FC"/>
+    <circle cx="40" cy="-10" r="2.5" fill="#54A0FF"/>
+  </g>
+
+  <!-- Features section -->
+  <g transform="translate(600,318)">
+    <text class="small" x="0" y="0" fill="#94A3B8">Características clave:</text>
+    <g transform="translate(0,28)">
+      <!-- Feature 1 -->
+      <rect x="0" y="0" width="180" height="38" rx="8" fill="#0F2130" stroke="#2B3A4A"/>
+      <circle cx="14" cy="19" r="4" fill="#2E86DE"/>
+      <text class="small" x="26" y="24" fill="#DBEAFE">Plantillas descargables</text>
+      
+      <!-- Feature 2 -->
+      <rect x="200" y="0" width="140" height="38" rx="8" fill="#0F2130" stroke="#2B3A4A"/>
+      <circle cx="214" cy="19" r="4" fill="#2E86DE"/>
+      <text class="small" x="226" y="24" fill="#DBEAFE">Sesiones en vivo</text>
+      
+      <!-- Feature 3 -->
+      <rect x="0" y="48" width="160" height="38" rx="8" fill="#0F2130" stroke="#2B3A4A"/>
+      <circle cx="14" cy="67" r="4" fill="#2E86DE"/>
+      <text class="small" x="26" y="72" fill="#DBEAFE">Playbooks prácticos</text>
+    </g>
+  </g>
+
+  <g transform="translate(980,180) scale(2.5)">
+    <use href="#growth"/>
+  </g>
+
+  <g transform="translate(56,562)">
+    <text class="small">LinkedIn 1200×627 · Azul/Gris · Contraste optimizado</text>
+  </g>
+</svg>
+
+
+

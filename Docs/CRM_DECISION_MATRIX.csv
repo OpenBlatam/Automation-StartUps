@@ -1,0 +1,11 @@
+criterio,peso,hubspot,pipedrive,activecampaign,close,zoho,salesforce,nota
+precio,0.2,4,4,3,3,5,2,menor costo=mayor puntaje
+facilidad_uso,0.2,4,5,3,4,3,3,adopcion por equipo
+pipeline,0.2,4,5,3,4,4,5,visual y etapas
+automatizacion,0.15,4,3,5,4,4,5,workflows nativos
+reportes,0.1,4,3,3,3,3,5,profundidad y personalizacion
+integraciones,0.1,5,4,4,3,4,5,ecosistema y conectores
+voip_llamadas,0.05,2,3,1,5,2,3,nativo o integrable
+
+
+

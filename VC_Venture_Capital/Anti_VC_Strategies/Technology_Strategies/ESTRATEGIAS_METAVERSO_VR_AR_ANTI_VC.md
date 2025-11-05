@@ -1,3 +1,11 @@
+---
+title: "Estrategias Metaverso Vr Ar Anti Vc"
+category: "Vc_venture_capital"
+tags: ["strategy"]
+created: "2025-10-29"
+path: "Vc_venture_capital/Anti_vc_strategies/Technology_strategies/estrategias_metaverso_vr_ar_anti_vc.md"
+---
+
 # 🥽 **ESTRATEGIAS METAVERSO, VR Y AR**
 
 ## **EXPANSIÓN VIRTUAL PARA STARTUPS SAAS IA LATAM**

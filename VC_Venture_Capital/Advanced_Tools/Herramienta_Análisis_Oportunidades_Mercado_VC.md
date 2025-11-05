@@ -1,3 +1,11 @@
+---
+title: "Herramienta Análisis Oportunidades Mercado Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Advanced_tools/herramienta_análisis_oportunidades_mercado_vc.md"
+---
+
 # Herramienta de Análisis de Oportunidades de Mercado VC
 
 ## Descripción

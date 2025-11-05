@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#667EEA"/>
+      <stop offset="50%" stop-color="#764BA2"/>
+      <stop offset="100%" stop-color="#F093FB"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFE53B"/>
+      <stop offset="50%" stop-color="#FF006E"/>
+      <stop offset="100%" stop-color="#8338EC"/>
+    </linearGradient>
+    <filter id="sh" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6"/>
+      <feOffset dx="0" dy="8" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.5"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="glow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="10" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      @font-face { font-family: Inter; src: local('Inter'), local('Arial'); }
+      .headline { font: 900 82px/1.1 Inter, system-ui, -apple-system; fill: #FFFFFF; letter-spacing: -1px; text-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+      .subhead { font: 600 32px/1.3 Inter, system-ui, -apple-system; fill: #FFFFFF; opacity: 0.9; }
+      .cta-text { font: 900 54px/1 Inter, system-ui, -apple-system; fill: #FFFFFF; text-anchor: middle; text-shadow: 0 2px 10px rgba(0,0,0,0.4); }
+      .feature { font: 600 28px/1.4 Inter, system-ui, -apple-system; fill: #FFFFFF; opacity: 0.95; }
+    </style>
+    <!-- Iconos modernos -->
+    <g id="bolt">
+      <path d="M 25 5 L 35 25 L 25 25 L 30 45 L 15 25 L 25 25 Z" fill="#FFE53B"/>
+    </g>
+    <g id="spark">
+      <circle cx="20" cy="20" r="3" fill="#FFE53B"/>
+      <path d="M 20 10 L 20 30 M 10 20 L 30 20" stroke="#FFE53B" stroke-width="2" stroke-linecap="round"/>
+    </g>
+  </defs>
+  
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  
+  <!-- Sparkles decorativos -->
+  <g opacity="0.4">
+    <use href="#spark" transform="translate(200,180)"/>
+    <use href="#spark" transform="translate(1720,900)"/>
+    <use href="#spark" transform="translate(400,750)"/>
+    <use href="#spark" transform="translate(1500,250)"/>
+  </g>
+  
+  <!-- Header con gradiente -->
+  <g transform="translate(120,80)" filter="url(#glow)">
+    <rect x="0" y="0" width="1680" height="110" rx="20" fill="url(#accent)" opacity="0.95"/>
+    <text x="840" y="72" text-anchor="middle" fill="#FFFFFF" font-family="Inter, system-ui, -apple-system" font-size="44" font-weight="900">
+      Webinar gratis: Cómo doblar tus ventas online
+    </text>
+    <text x="840" y="98" text-anchor="middle" fill="#FFFFFF" font-family="Inter, system-ui, -apple-system" font-size="24" font-weight="600" opacity="0.9">
+      15 Nov 2025 · 18:00 (GMT-5)
+    </text>
+  </g>
+  
+  <!-- Headline centrado -->
+  <g transform="translate(960,280)">
+    <text x="0" y="0" text-anchor="middle" class="headline">Transforma tu negocio</text>
+    <text x="0" y="70" text-anchor="middle" class="subhead">Con estrategias de IA que generan resultados reales</text>
+  </g>
+  
+  <!-- Features con iconos -->
+  <g transform="translate(960,440)">
+    <g transform="translate(-400,-30)">
+      <use href="#bolt" transform="translate(0,20) scale(1.2)"/>
+      <text x="50" y="32" class="feature">Prompts optimizados</text>
+    </g>
+    <g transform="translate(0,-30)">
+      <use href="#bolt" transform="translate(0,20) scale(1.2)"/>
+      <text x="50" y="32" class="feature">Creatividades IA</text>
+    </g>
+    <g transform="translate(400,-30)">
+      <use href="#bolt" transform="translate(0,20) scale(1.2)"/>
+      <text x="50" y="32" class="feature">Automatizaciones</text>
+    </g>
+  </g>
+  
+  <!-- CTA destacado -->
+  <g transform="translate(960,620)" filter="url(#glow)">
+    <rect x="-300" y="-70" width="600" height="140" rx="24" fill="url(#accent)" opacity="0.98"/>
+    <rect x="-300" y="-70" width="600" height="140" rx="24" fill="none" stroke="#FFFFFF" stroke-width="3" opacity="0.6"/>
+    <text x="0" y="30" class="cta-text">Únete gratis</text>
+    <use href="#bolt" transform="translate(250,0) scale(1.5)"/>
+  </g>
+  
+  <!-- Badge moderno -->
+  <g transform="translate(1540,240)" filter="url(#glow)">
+    <rect x="0" y="0" width="280" height="70" rx="16" fill="rgba(255,255,255,0.25)"/>
+    <rect x="0" y="0" width="280" height="70" rx="16" fill="none" stroke="#FFFFFF" stroke-width="2" opacity="0.6"/>
+    <text x="140" y="45" text-anchor="middle" fill="#FFFFFF" font-family="Inter, system-ui, -apple-system" font-size="26" font-weight="900">🎯 Cupos limitados</text>
+  </g>
+  
+  <!-- Logo + QR -->
+  <g transform="translate(1680,60)">
+    <rect x="0" y="0" width="160" height="60" rx="8" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)"/>
+    <text x="80" y="40" text-anchor="middle" fill="#FFFFFF" font-family="Inter, system-ui, -apple-system" font-size="20" font-weight="800">TU MARCA</text>
+  </g>
+  <g transform="translate(1620,870)" filter="url(#sh)">
+    <rect x="0" y="0" width="180" height="180" rx="12" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.3)"/>
+    <text x="90" y="100" text-anchor="middle" fill="#FFFFFF" font-family="Inter, system-ui, -apple-system" font-size="16" font-weight="700">QR → https://tu-dominio.com/webinar?utm_source=youtube&utm_medium=preroll&utm_campaign=nov_2025&utm_content=all_variants</text>
+  </g>
+</svg>
+

@@ -1,0 +1,20 @@
+criterio,SDR_outbound,Inbound_marketing,Bajo_presupuesto,hubspot,pipedrive,activecampaign,close,zoho,salesforce
+precio,0.15,0.15,0.25,4,4,3,3,5,2
+facilidad_uso,0.15,0.15,0.20,4,5,3,4,3,3
+pipeline,0.25,0.15,0.15,4,5,3,4,4,5
+automatizacion,0.10,0.25,0.10,4,3,5,4,4,5
+reportes,0.10,0.15,0.10,4,3,3,3,3,5
+integraciones,0.15,0.10,0.10,5,4,4,3,4,5
+voip_llamadas,0.10,0.05,0.10,2,3,1,5,2,3
+TOTAL_SDR,=SUMPRODUCT(B2:B8,E2:E8),, ,=SUMPRODUCT(B2:B8,E2:E8),=SUMPRODUCT(B2:B8,F2:F8),=SUMPRODUCT(B2:B8,G2:G8),=SUMPRODUCT(B2:B8,H2:H8),=SUMPRODUCT(B2:B8,I2:I8),=SUMPRODUCT(B2:B8,J2:J8)
+TOTAL_Inbound,,=SUMPRODUCT(C2:C8,E2:E8), ,=SUMPRODUCT(C2:C8,E2:E8),=SUMPRODUCT(C2:C8,F2:F8),=SUMPRODUCT(C2:C8,G2:G8),=SUMPRODUCT(C2:C8,H2:H8),=SUMPRODUCT(C2:C8,I2:I8),=SUMPRODUCT(C2:C8,J2:J8)
+TOTAL_Budget,, ,=SUMPRODUCT(D2:D8,E2:E8),=SUMPRODUCT(D2:D8,E2:E8),=SUMPRODUCT(D2:D8,F2:F8),=SUMPRODUCT(D2:D8,G2:G8),=SUMPRODUCT(D2:D8,H2:H8),=SUMPRODUCT(D2:D8,I2:I8),=SUMPRODUCT(D2:D8,J2:J8)
+
+# Instrucciones:
+# 1) Importa este CSV en Google Sheets.
+# 2) Ajusta los pesos por escenario (columnas B-D) y las puntuaciones (columnas E-J).
+# 3) Las filas TOTAL_* calculan el score por CRM para cada escenario.
+
+
+
+

@@ -1,3 +1,11 @@
+---
+title: "Vc Negotiation Templates"
+category: "Vc_venture_capital"
+tags: ["template"]
+created: "2025-10-29"
+path: "Vc_venture_capital/Negotiation/Templates/vc_negotiation_templates.md"
+---
+
 # VC Negotiation Templates & Scripts
 ## Practical Resources for AI Course & Marketing SaaS
 

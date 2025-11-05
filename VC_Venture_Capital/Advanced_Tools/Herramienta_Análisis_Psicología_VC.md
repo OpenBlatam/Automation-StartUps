@@ -1,3 +1,11 @@
+---
+title: "Herramienta Análisis Psicología Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Advanced_tools/herramienta_análisis_psicología_vc.md"
+---
+
 # Herramienta de Análisis de Psicología VC
 
 ## Descripción

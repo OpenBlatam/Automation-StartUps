@@ -1,3 +1,11 @@
+---
+title: "Curso Ia Marketing 100 Variantes"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Md_files/curso_ia_marketing_100_variantes.md"
+---
+
 # 🚀 CURSO IA APLICADO AL MARKETING - 100+ VARIANTES ULTIMATE
 
 > **Transforma tu Marketing con Inteligencia Artificial** - La guía más completa para dominar IA en marketing digital

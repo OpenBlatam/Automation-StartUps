@@ -1,3 +1,11 @@
+---
+title: "100 Tech Gadget Tweets"
+category: "Ai_technology"
+tags: ["technical", "technology"]
+created: "2025-10-29"
+path: "Ai_technology/05_technology/Md_files/100_tech_gadget_tweets.md"
+---
+
 # 🚀 100 Tech Gadget Tweets - #TechReview
 
 ## 📱 Colección de tweets de gadgets tecnológicos optimizados para engagement

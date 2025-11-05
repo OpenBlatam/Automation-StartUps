@@ -1,3 +1,11 @@
+---
+title: "Modelado Financiero Avanzado Anti Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Anti_vc_strategies/modelado_financiero_avanzado_anti_vc.md"
+---
+
 # 📊 **MODELADO FINANCIERO AVANZADO ANTI-DEPENDENCIA VC**
 
 ## **HERRAMIENTAS DE ANÁLISIS FINANCIERO AVANZADO PARA STARTUPS SAAS IA LATAM**

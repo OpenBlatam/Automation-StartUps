@@ -1,3 +1,11 @@
+---
+title: "Roadmap Estrategico Anti Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Anti_vc_strategies/Market_strategies/roadmap_estrategico_anti_vc.md"
+---
+
 # 🗺️ **ROADMAP ESTRATÉGICO ANTI-DEPENDENCIA VC**
 
 ## **PLANIFICACIÓN ESTRATÉGICA PARA STARTUPS SAAS IA LATAM**

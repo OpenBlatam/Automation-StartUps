@@ -1,3 +1,11 @@
+---
+title: "Copycar Ai Investor Negotiation Masterclass Advanced"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Investor_advanced_systems/copycar_ai_investor_negotiation_masterclass_advanced.md"
+---
+
 # COPYCAR.AI INVESTOR NEGOTIATION MASTERCLASS - ADVANCED EDITION
 ## The Complete Guide to Negotiation Excellence
 

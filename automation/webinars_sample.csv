@@ -1,0 +1,12 @@
+id,titulo,fecha,url_registro,registrados,asistentes,ventas
+web-1,Sistema de recomendaciones con IA,2025-11-05T16:00:00Z,https://tuwebinar.example.com/reg,250,82,14
+web-2,Micro-learning que convierte,2025-11-12T17:00:00Z,https://tuwebinar.example.com/reg2,190,60,10
+web-3,Creative testing continuo (cookieless),2025-11-07T15:00:00Z,https://tuwebinar.example.com/saas1,320,104,18
+web-4,Predicción de fatiga creativa,2025-11-14T15:00:00Z,https://tuwebinar.example.com/saas2,280,92,16
+web-5,1 consulta → 3 documentos,2025-11-08T14:00:00Z,https://tuwebinar.example.com/bulk1,210,68,12
+web-6,Operaciones sin cuello de botella,2025-11-15T14:00:00Z,https://tuwebinar.example.com/bulk2,180,55,9
+web-7,ROI del micro-learning,2025-11-19T16:00:00Z,https://tuwebinar.example.com/curso3,230,70,11
+web-8,Protege tu ROAS en 2025,2025-11-21T15:00:00Z,https://tuwebinar.example.com/saas3,340,110,20
+web-9,Automatización documental avanzada,2025-11-22T13:00:00Z,https://tuwebinar.example.com/bulk3,200,62,10
+web-10,Stack IA para educación,2025-11-26T17:00:00Z,https://tuwebinar.example.com/curso4,260,84,15
+

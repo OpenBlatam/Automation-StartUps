@@ -1,0 +1,6 @@
+metric,period,value,notes
+reply_rate_dm,7d,0.24,DM replies over last 7 days
+reply_rate_email,7d,0.13,Email replies over last 7 days
+dm_to_demo,14d,0.11,Unique demos per unique DM leads (14d)
+no_show_rate,30d,0.18,No-shows over attended+no-shows (30d)
+roi_mensual_usd,30d,8200,Sum ahorro + ingresos estimados

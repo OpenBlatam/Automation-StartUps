@@ -1,0 +1,17 @@
+{
+  "_comment": "Copia este archivo a tokens.json. Se sincroniza automáticamente con Instagram desde tools/sync_tokens_all_platforms.js",
+  "url": "https://ejemplo.com",
+  "handle": "@mi_marca",
+  "coupon": "35IA",
+  "cta": "Aprovecha hoy",
+  "companyName": "Mi Empresa",
+  "website": "https://ejemplo.com",
+  "_sync_note": "Ejecuta 'node tools/sync_tokens_all_platforms.js' para sincronizar desde Instagram",
+  "_linkedin_specific": {
+    "companyName": "Nombre de tu empresa en LinkedIn",
+    "website": "Sitio web principal (puede diferir de URL de campaña)"
+  }
+}
+
+
+

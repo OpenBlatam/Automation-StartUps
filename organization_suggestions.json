@@ -1,0 +1,86 @@
+{
+  "/Users/adan/Documents/documentos_blatam/01_Marketing": [
+    {
+      "file": "CONTENIDO_SERIAL_EDUCATIVO.md",
+      "move_to": "Documentation/CONTENIDO_SERIAL_EDUCATIVO.md"
+    },
+    {
+      "file": "ANALISIS_COMPETITIVO_EMAIL.md",
+      "move_to": "Documentation/ANALISIS_COMPETITIVO_EMAIL.md"
+    },
+    {
+      "file": "ESTRATEGIAS_RECUPERACION_CHURN.md",
+      "move_to": "Documentation/ESTRATEGIAS_RECUPERACION_CHURN.md"
+    },
+    {
+      "file": "ESTRATEGIAS_ESCALAMIENTO_EQUIPOS.md",
+      "move_to": "Documentation/ESTRATEGIAS_ESCALAMIENTO_EQUIPOS.md"
+    },
+    {
+      "file": "LANDING_PAGE_COPY_WEBINAR_IA.md",
+      "move_to": "Documentation/LANDING_PAGE_COPY_WEBINAR_IA.md"
+    },
+    {
+      "file": "RESUMEN_EJECUTIVO_COMPLETO.md",
+      "move_to": "Documentation/RESUMEN_EJECUTIVO_COMPLETO.md"
+    },
+    {
+      "file": "AUTOMATIZACIONES_AVANZADAS_EMAIL.md",
+      "move_to": "Documentation/AUTOMATIZACIONES_AVANZADAS_EMAIL.md"
+    },
+    {
+      "file": "PLAYBOOK_CRISIS_EMAIL.md",
+      "move_to": "Documentation/PLAYBOOK_CRISIS_EMAIL.md"
+    },
+    {
+      "file": "TEMPLATES_HTML_EMAILS.md",
+      "move_to": "Documentation/TEMPLATES_HTML_EMAILS.md"
+    },
+    {
+      "file": "01_secuencia_course_webinars_ia.md",
+      "move_to": "Documentation/01_secuencia_course_webinars_ia.md"
+    },
+    {
+      "file": "OPTIMIZACIONES_ESTACIONALES_2024.md",
+      "move_to": "Documentation/OPTIMIZACIONES_ESTACIONALES_2024.md"
+    },
+    {
+      "file": "INTEGRACIONES_TECNICAS_ESPECIFICAS.md",
+      "move_to": "Documentation/INTEGRACIONES_TECNICAS_ESPECIFICAS.md"
+    },
+    {
+      "file": "OPTIMIZACION_COSTOS_ROI_EMAIL.md",
+      "move_to": "Documentation/OPTIMIZACION_COSTOS_ROI_EMAIL.md"
+    }
+  ],
+  "/Users/adan/Documents/documentos_blatam/06_Documentation": [
+    {
+      "file": "INDICE_MAESTRO_ORGANIZACION.md",
+      "move_to": "Documentation/INDICE_MAESTRO_ORGANIZACION.md"
+    },
+    {
+      "file": "ORGANIZACION_COMPLETA.md",
+      "move_to": "Documentation/ORGANIZACION_COMPLETA.md"
+    },
+    {
+      "file": "deep_indexes.py",
+      "move_to": "Scripts/deep_indexes.py"
+    },
+    {
+      "file": "RESUMEN_MEJORA_ORGANIZACION.md",
+      "move_to": "Documentation/RESUMEN_MEJORA_ORGANIZACION.md"
+    },
+    {
+      "file": "frontmatter_robusto.py",
+      "move_to": "Scripts/frontmatter_robusto.py"
+    },
+    {
+      "file": "RESUMEN_FINAL_ORGANIZACION_MEJORADA.md",
+      "move_to": "Documentation/RESUMEN_FINAL_ORGANIZACION_MEJORADA.md"
+    },
+    {
+      "file": "RESUMEN_ORGANIZACION_ARCHIVOS_RAIZ.md",
+      "move_to": "Documentation/RESUMEN_ORGANIZACION_ARCHIVOS_RAIZ.md"
+    }
+  ]
+}

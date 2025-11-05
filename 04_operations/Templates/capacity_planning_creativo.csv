@@ -1,0 +1,5 @@
+recurso,rol,hrs_disp_sem,hrs_asignadas_sem,utilizacion_pct,entregable,deadline,prioridad,nota
+Nombre 1,Designer,40,,=IF(C2=0,"",ROUND(D2/C2*100,1)),Creativos Meta v3,__/__/____,Alta,
+Nombre 2,Copywriter,40,,=IF(C3=0,"",ROUND(D3/C3*100,1)),Copys LinkedIn v2,__/__/____,Media,
+TOTAL,,=SUM(C2:C3),=SUM(D2:D3),=IF(C4=0,"",ROUND(D4/C4*100,1)),,,,
+Reglas,Tope recomendado, , ,80%,,,,

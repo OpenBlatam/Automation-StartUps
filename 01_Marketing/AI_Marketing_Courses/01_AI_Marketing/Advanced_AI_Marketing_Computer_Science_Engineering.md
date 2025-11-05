@@ -1,3 +1,11 @@
+---
+title: "Advanced Ai Marketing Computer Science Engineering"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/Ai_marketing_courses/01_ai_marketing/advanced_ai_marketing_computer_science_engineering.md"
+---
+
 # 💻 Advanced AI Marketing Computer Science & Engineering
 
 ## 🔧 Computer Science Foundations of AI Marketing

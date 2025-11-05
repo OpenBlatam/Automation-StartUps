@@ -1,0 +1,12 @@
+id,producto,escalon,precio,url_checkout,estado
+o-cur-trp-1,curso,tripwire,17,https://checkout.example.com/curso-trp-17,activo
+o-cur-trp-2,curso,tripwire,27,https://checkout.example.com/curso-trp-27,activo
+o-cur-core-1,curso,core,297,https://checkout.example.com/curso-core-297,activo
+o-cur-core-2,curso,core,397,https://checkout.example.com/curso-core-397,activo
+o-cur-ht-1,curso,high_ticket,1500,https://checkout.example.com/curso-ht-1500,activo
+o-saas-trp-1,saas,tripwire,27,https://checkout.example.com/saas-trp-27,activo
+o-saas-core-1,saas,core,297,https://checkout.example.com/saas-core-297,activo
+o-saas-ht-1,saas,high_ticket,2000,https://checkout.example.com/saas-ht-2000,activo
+o-bulk-trp-1,bulk,tripwire,27,https://checkout.example.com/bulk-trp-27,activo
+o-bulk-core-1,bulk,core,497,https://checkout.example.com/bulk-core-497,activo
+

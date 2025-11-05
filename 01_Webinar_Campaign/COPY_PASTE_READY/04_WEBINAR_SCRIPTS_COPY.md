@@ -1,3 +1,11 @@
+---
+title: "04 Webinar Scripts Copy"
+category: "01_webinar_campaign"
+tags: ["ai", "artificial-intelligence", "script"]
+created: "2025-10-29"
+path: "01_webinar_campaign/Copy_paste_ready/04_webinar_scripts_copy.md"
+---
+
 # 🎭 SCRIPTS DE WEBINAR - LISTO PARA COPIAR Y PEGAR
 ## *100+ Variantes de Scripts para Cada Sección del Webinar*
 

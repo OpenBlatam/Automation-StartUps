@@ -1,3 +1,11 @@
+---
+title: "Ultra Investment Agreement"
+category: "13_legal_compliance"
+tags: []
+created: "2025-10-29"
+path: "13_legal_compliance/Ultra_output/Ultra_documents/ultra_investment_agreement.md"
+---
+
 
 # INVESTMENT AGREEMENT ULTRA AVANZADO
 

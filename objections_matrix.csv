@@ -1,0 +1,7 @@
+objection,context,short_response,long_response,proof_asset,next_step
+"No hay presupuesto","SaaS B2B","Si no compensa en 30 días, paramos. ¿Te muestro el modelo ROI con tus datos?","Propongo un piloto acotado (2 semanas, 1 segmento). Si no vemos ≥15% lift en reply→demo, pausamos sin coste adicional.","ROI_calculator, Caso_estudio_par","Agenda demo 15'"
+"Ahora no es prioridad","Top-of-funnel","Arranquemos con 1 hipótesis en 14 días sin tocar stack. Si no mueve aguja, pausamos.","Te enseño 2 ideas de bajo esfuerzo aplicables a [empresa], con calendario de 2 semanas.","One_pager_lite, Roadmap_14_dias","Enviar one-pager y proponer slot"
+"Ya usamos otra herramienta","Stack establecido","Nos integramos con tu stack (HubSpot/SF/Pipedrive). Podemos sumar lift sin reemplazos.","Muéstrame tu flujo actual y vemos dónde aportar 10–20% lift incremental.","Mapa_integraciones, Caso_incremental","Discovery 15'"
+"Dudas de cumplimiento","Legal/Compliance","Trabajamos con GDPR/LGPD/CAN‑SPAM; tengo respuestas estándar y registros.","Puedo compartir el pack de compliance y ejemplos de copy conforme a normativa.","Compliance_pack, Ejemplos_copy_compliant","Enviar pack y agendar revisión"
+"No quiero más reuniones","C-level ocupado","Te envío el playbook (2 páginas). Si ves encaje, me devuelves 2 opciones de horario.","También puedo compartir un video de 3 min con resultados y pasos.","Mini_deck, Video_3min","Enviar assets y esperar respuesta"
+

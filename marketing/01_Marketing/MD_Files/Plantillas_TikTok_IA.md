@@ -1,3 +1,11 @@
+---
+title: "Plantillas Tiktok Ia"
+category: "Marketing"
+tags: ["business", "marketing", "template"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Md_files/plantillas_tiktok_ia.md"
+---
+
 # 📋 PLANTILLAS DE TIKTOK PARA CONTENIDO DE IA
 
 ## 🎯 PLANTILLAS LISTAS PARA USAR

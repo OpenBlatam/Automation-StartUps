@@ -1,3 +1,11 @@
+---
+title: "Team Structure Template"
+category: "01_marketing"
+tags: ["business", "marketing", "template"]
+created: "2025-10-29"
+path: "01_marketing/10_team_management/team_structure_template.md"
+---
+
 # 👥 Marketing Team Structure Template
 
 ## 🏗️ **Team Organization**

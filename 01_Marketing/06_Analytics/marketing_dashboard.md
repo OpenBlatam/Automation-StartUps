@@ -1,3 +1,11 @@
+---
+title: "Marketing Dashboard"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/06_analytics/marketing_dashboard.md"
+---
+
 # 📊 Marketing Performance Dashboard
 
 ## 🎯 Executive Summary

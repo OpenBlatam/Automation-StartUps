@@ -1,0 +1,5 @@
+base_url,utm_source,utm_medium,utm_campaign,utm_content,utm_term,lead_id,final_url,notes
+https://example.com/demo,linkedin,dm,book_demo_q4,hypoA,,{lead_id},,DM LinkedIn variante A
+https://example.com/demo,email,email,book_demo_q4,subjectA,,{lead_id},,Email variante subject A
+https://example.com/demo,whatsapp,wa,book_demo_q4,scriptA,,{lead_id},,WhatsApp script A
+

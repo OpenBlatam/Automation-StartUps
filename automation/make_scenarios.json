@@ -1,0 +1,78 @@
+{
+  "version": 1,
+  "scenarios": [
+    {
+      "id": "lm_capture_make",
+      "name": "Lead Magnet Capture (Make)",
+      "modules": [
+        { "id": 1, "app": "Typeform", "op": "Watch Responses" },
+        { "id": 2, "app": "Airtable", "op": "Create/Update Record", "table": "Leads" },
+        { "id": 3, "app": "Airtable", "op": "Create Record", "table": "Eventos", "data": { "tipo": "descarga" } },
+        { "id": 4, "app": "Gmail", "op": "Send Email", "template": "entrega_lead_magnet" },
+        { "id": 5, "app": "Tools", "op": "Sleep", "duration": "PT48H" },
+        { "id": 6, "app": "Gmail", "op": "Send Email", "template": "seguimiento_valor" }
+      ],
+      "connections": [
+        { "from": 1, "to": 2 },
+        { "from": 2, "to": 3 },
+        { "from": 3, "to": 4 },
+        { "from": 4, "to": 5 },
+        { "from": 5, "to": 6 }
+      ]
+    },
+    {
+      "id": "webinar_sequence_make",
+      "name": "Webinar Reminders + Replay (Make)",
+      "modules": [
+        { "id": 1, "app": "Airtable", "op": "Watch Records", "table": "Webinars" },
+        { "id": 2, "app": "Scheduler", "op": "Sleep Until", "offset": "P1D" },
+        { "id": 3, "app": "Gmail", "op": "Send Email", "template": "reminder_24h" },
+        { "id": 4, "app": "Scheduler", "op": "Sleep Until", "offset": "PT2H" },
+        { "id": 5, "app": "Gmail", "op": "Send Email", "template": "reminder_2h" },
+        { "id": 6, "app": "Scheduler", "op": "Sleep Until", "offset": "PT1H" },
+        { "id": 7, "app": "Gmail", "op": "Send Email", "template": "replay_offer" }
+      ],
+      "connections": [
+        { "from": 1, "to": 2 },
+        { "from": 2, "to": 3 },
+        { "from": 3, "to": 4 },
+        { "from": 4, "to": 5 },
+        { "from": 5, "to": 6 },
+        { "from": 6, "to": 7 }
+      ]
+    },
+    {
+      "id": "tripwire_purchase_make",
+      "name": "Tripwire Purchase → Cross-sell Core (Make)",
+      "modules": [
+        { "id": 1, "app": "Stripe", "op": "Watch Events", "event": "checkout.session.completed" },
+        { "id": 2, "app": "Airtable", "op": "Create Record", "table": "Compras" },
+        { "id": 3, "app": "Gmail", "op": "Send Email", "template": "onboarding_tripwire" },
+        { "id": 4, "app": "Tools", "op": "Sleep", "duration": "PT72H" },
+        { "id": 5, "app": "Gmail", "op": "Send Email", "template": "oferta_core_deadline" }
+      ],
+      "connections": [
+        { "from": 1, "to": 2 },
+        { "from": 2, "to": 3 },
+        { "from": 3, "to": 4 },
+        { "from": 4, "to": 5 }
+      ]
+    },
+    {
+      "id": "demo_flow_make",
+      "name": "Calendly Demo → Checklist + Propuesta (Make)",
+      "modules": [
+        { "id": 1, "app": "Calendly", "op": "Watch Events", "event": "invitee.created" },
+        { "id": 2, "app": "Airtable", "op": "Create Record", "table": "Demos" },
+        { "id": 3, "app": "Airtable", "op": "Create Record", "table": "Tareas", "data": { "tipo": "pre-demo_checklist" } },
+        { "id": 4, "app": "Gmail", "op": "Send Email", "template": "resumen_propuesta" }
+      ],
+      "connections": [
+        { "from": 1, "to": 2 },
+        { "from": 2, "to": 3 },
+        { "from": 3, "to": 4 }
+      ]
+    }
+  ]
+}
+

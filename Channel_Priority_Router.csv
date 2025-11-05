@@ -1,0 +1,9 @@
+country,niche,timezone_local,weekday,hour_block_local,priority_order,notes
+AR,ecommerce,America/Argentina/Buenos_Aires,Mon-Thu,10-13|16-19,instagram>whatsapp>email>linkedin,IG performa mejor en ecom; WA si opt-in
+MX,b2b_saas,America/Mexico_City,Mon-Fri,09-12|15-18,linkedin>email>instagram>whatsapp,LI/Email mejor respuesta B2B
+BR,general,America/Sao_Paulo,Mon-Fri,09-12|14-17,instagram>whatsapp>email>linkedin,PT copy; WA si plantillas aprobadas
+US,real_estate,America/New_York,Mon-Thu,10-12|16-19,instagram>email>whatsapp>linkedin,IG DMs y email funcionan RE
+ES,enterprise,Europe/Madrid,Mon-Thu,10-13|16-18,email>linkedin>instagram>whatsapp,Formal primero Email/LI
+CL,education,America/Santiago,Mon-Fri,10-12|17-19,instagram>email>whatsapp>linkedin,IG+Email funcionan edu
+ANY,any,UTC,Mon-Fri,09-18,instagram>whatsapp>email>linkedin,Default si no hay match
+

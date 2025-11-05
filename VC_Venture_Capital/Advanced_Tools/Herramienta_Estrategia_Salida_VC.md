@@ -1,3 +1,11 @@
+---
+title: "Herramienta Estrategia Salida Vc"
+category: "Vc_venture_capital"
+tags: ["strategy"]
+created: "2025-10-29"
+path: "Vc_venture_capital/Advanced_tools/herramienta_estrategia_salida_vc.md"
+---
+
 # Herramienta de Estrategia de Salida VC
 
 ## Descripción

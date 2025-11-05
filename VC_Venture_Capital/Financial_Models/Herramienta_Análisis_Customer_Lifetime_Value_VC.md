@@ -1,3 +1,11 @@
+---
+title: "Herramienta Análisis Customer Lifetime Value Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Financial_models/herramienta_análisis_customer_lifetime_value_vc.md"
+---
+
 # 💎 Herramienta de Análisis de Customer Lifetime Value para VC
 
 ## 📋 Descripción General

@@ -1,0 +1,13 @@
+id,language,text,label
+TS-001,ES,"Sí, reservo para mañana a las 11",interested
+TS-002,ES,"No gracias, no me interesa",optout
+TS-003,ES,"¿Qué precio tiene el curso?",objection
+TS-004,ES,"Ahora no, escríbeme la próxima semana",not_now
+TS-005,ES,"Pásame el link",interested
+TS-006,EN,"Yes, book me for Thursday 3pm",interested
+TS-007,EN,"Not now, maybe later",not_now
+TS-008,EN,"How much is it?",objection
+TS-009,PT,"Sim, pode marcar para amanhã 10h",interested
+TS-010,PT,"Retire meu contato, por favor",optout
+
+

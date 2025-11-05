@@ -1,0 +1,5 @@
+recurso,rol,hrs_disp_sem,hrs_asignadas_sem,utilizacion_pct,proyecto,prioridad,nota
+Nombre 1,Paid Media Specialist,40,,=IF(C2=0,"",ROUND(D2/C2*100,1)),Campaña A,Alta,
+Nombre 2,Paid Media Specialist,40,,=IF(C3=0,"",ROUND(D3/C3*100,1)),Campaña B,Media,
+TOTAL,,=SUM(C2:C3),=SUM(D2:D3),=IF(C4=0,"",ROUND(D4/C4*100,1)),,,
+Reglas,Tope recomendado, , ,80%,,,

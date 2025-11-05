@@ -1,3 +1,11 @@
+---
+title: "Vc Term Sheet Mastery 2024"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Negotiation/vc_term_sheet_mastery_2024.md"
+---
+
 # 📋 VC Term Sheet Mastery 2024
 ## The Complete Guide to Optimizing Your Investment Terms
 

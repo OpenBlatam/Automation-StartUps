@@ -1,3 +1,11 @@
+---
+title: "11 Advanced Workflows"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/10_affiliate_marketing/01_finding_new_affiliates/11_advanced_workflows.md"
+---
+
 # 🔄 Advanced AI-Powered Workflows for Affiliate Marketing
 
 ## 📋 Complete Workflow Automation System

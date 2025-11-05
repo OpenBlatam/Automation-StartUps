@@ -1,0 +1,3812 @@
+{
+  "generated_at": "2025-10-29T19:40:21.099420",
+  "groups": [
+    {
+      "count": 3,
+      "size_bytes": 12531,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/organize_other_folders.py",
+        "/Users/adan/Documents/documentos_blatam/06_documentation/Other/organize_other_folders.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/ce5511046d1bd2312ceccf3be56cec87e7bc9b2beff2f79b910e1c69c0a54ccd/organize_other_folders.py"
+      ]
+    },
+    {
+      "count": 3,
+      "size_bytes": 10689,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/organize_advanced.py",
+        "/Users/adan/Documents/documentos_blatam/06_documentation/Other/organize_advanced.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/0cfb158b318e7143e52b5f708af0064c9fc1b0de3c0e1be13aeae20fba4e1ba0/organize_advanced.py"
+      ]
+    },
+    {
+      "count": 3,
+      "size_bytes": 11476,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/organize_deep_cleanup.py",
+        "/Users/adan/Documents/documentos_blatam/06_documentation/Other/organize_deep_cleanup.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/a43fc63838f6087fd84fa5c750e9d969e84055de31ef4bf682763c7dc39d284f/organize_deep_cleanup.py"
+      ]
+    },
+    {
+      "count": 3,
+      "size_bytes": 16297,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/organize_files.py",
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_scripts/organize_files.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/ad92a25a1f830715d10fd2da0b9bde2dc29ad28adf9d0008eaff2f964ce79982/organize_files.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 2627,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/16_data_analytics/Kpis_metrics/kpis_dashboard_template.csv",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/6fa83f49a81824be0454419bdb98d74651002db4774c13fa54db0381d8b6eb13/KPIs_Dashboard_Template.csv"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 91,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/08_ai_artificial_intelligence/Other/__init__.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/c0a14978ffbbc8390f6d8f7b612bb9998f50338d82a55ec5a537e3b9fbd13142/__init__.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 24792,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/08_ai_artificial_intelligence/Other/Machine_learning/meta_learning.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/13d8e014516751befe46bcd92bd9da8c7047205ca57bf77bd0adf894b1634ec9/meta_learning.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 36902,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/08_ai_artificial_intelligence/Other/Ai_systems/aioptimizationservice.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/ac402d0c3661af176fbf6dce5976237bcf1539a1e2d684bb53f4624e1de727a9/aiOptimizationService.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 26212,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/08_ai_artificial_intelligence/Other/Ai_systems/ai_marketing_webinar_additional_content.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/962d64fd6ffd430198b09b1b7bf10d4f623004975d924be7a83db7d2901a7107/ai-marketing-webinar-additional-content.md"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 11703,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/08_ai_artificial_intelligence/Other/Scripts/maintain_project.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/26e445cabd0348e3976fd5d573d247d8ac5411f0d43c6d702abf4263936c4686/maintain_project.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 13050,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/08_ai_artificial_intelligence/Other/Scripts/maintain_organization.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/2572156cea2e172b05386093576d4df37831bad45d899fbcc62c082716c3fa66/maintain_organization.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 26583,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/08_ai_artificial_intelligence/Other/Scripts/kf_grpo_train.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/5d44ebf2a0ec212c183ed0acab0d21d19ae07595dedef4f6a84c5bf21690bbc0/kf_grpo_train.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 15451,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/08_ai_artificial_intelligence/Other/Scripts/demo_training.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/3ffb32484f85b497dc210fc7adf4738b230d9e5c08bbce0376f9ef7649cb8f1f/demo_training.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 9254,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/08_ai_artificial_intelligence/Other/Scripts/grpo_train.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/de926401d94b6d1995a585118f58c9093f249928273da54f1d5e36a87539dd95/grpo_train.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 20145,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/08_ai_artificial_intelligence/Other/Scripts/main.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/2fb69811fa4bb62752a90975c36490cfed63723eebcd36d74d9f833bd2e506e3/main.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 7136,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/08_ai_artificial_intelligence/Other/Scripts/run_training.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/788e83372e2e19588821b5b319fee6a66c6b19ff2a78ad72235b8cd7eab1f82a/run_training.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 10825,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/08_ai_artificial_intelligence/Other/Scripts/blockchain.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/5654af7877b99a6990c7ed35cbd6d24b75ef1e0cee9e4901f07194da7e22b4fe/blockchain.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 19180,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/08_ai_artificial_intelligence/Ai_systems/ai_marketing_webinar_enhanced_features.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/02e9bce8f4a610df28040c649ed55525350ed31d9d707238d2fed6d2b997eae1/AI_Marketing_Webinar_Enhanced_Features.html"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 22549,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/08_ai_artificial_intelligence/Ai_systems/ai_marketing_case_studies.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e08a64e518f50139380767dce6fb99b2078e79c48c42e46460069d98d2cdbfbc/AI_Marketing_Case_Studies.html"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 39940,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/08_ai_artificial_intelligence/Ai_systems/ai_marketing_advanced_sections.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/a8723919a0f96a73fd7aa1da53762a6cd6185f2f168552f6f4556fc5927dccbc/AI_Marketing_Advanced_Sections.html"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 21245,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/08_ai_artificial_intelligence/Ai_systems/ai_marketing_advanced_tools_suite.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/7fcdc9f5b90c8c6cb136d28a9ee545963783cdb4748b88d1672e9b1d4b055cd9/AI_Marketing_Advanced_Tools_Suite.html"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 2687,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/08_ai_artificial_intelligence/Ai_systems/ai_response_engine.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/9250e6d5702ab8e845f35d33feb6fef5824a6204b9f1593ac17c39ca84d8b034/ai_response_engine.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 6037,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/08_ai_artificial_intelligence/Ai_systems/01_ai_course_executive_summary.pdf",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/62f230987986a9f520f7684a044f6a548428d7dca416749f1b2b40d9acd82445/01_AI_Course_Executive_Summary.pdf"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 406325,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/08_ai_artificial_intelligence/Ai_systems/ai_job_negotiation_scripts_documentation.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/fd09976304df2457b7dbaf1a992bb6065329e5cc5843d7ea8558ade11f0a6c3b/AI_Job_Negotiation_Scripts_Documentation.html"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 20567,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/08_ai_artificial_intelligence/Ai_systems/03_ai_course_business_plan.docx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/a7eab17fc9806425d10fff052992865e7578c0b732b9774aeecc96dd23eb0848/03_AI_Course_Business_Plan.docx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 15187,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/08_ai_artificial_intelligence/Ai_systems/ai_marketing_roi_calculator.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/aee17ce823979b298f239149abfbb0ca57b46ab2feda596e027e34804158a2e8/AI_Marketing_ROI_Calculator.html"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 997708,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/08_ai_artificial_intelligence/Ai_systems/ai_marketing_webinar_documentation.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/971622aaafd9943b65e5b3f043ee3f7bc675f3139b96e7a88474fe2bb0cecd01/AI_Marketing_Webinar_Documentation.html"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 48760,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/08_ai_artificial_intelligence/Ai_systems/ai_marketing_advanced_features.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/5bad179a8b830e530046b02e221bef452bc3378c4da964d9b00e3ac6736675dc/AI_Marketing_Advanced_Features.html"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 16804,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/08_ai_artificial_intelligence/Ai_systems/ai_marketing_implementation_roadmap.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/0bccacb88334d1f739314856c6552a64aac6359dff9c0272686abb99fedf38ca/AI_Marketing_Implementation_Roadmap.html"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 6650,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/08_ai_artificial_intelligence/Neural_networks/neural.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/a3723cbadd9c72f84eafe5656bf62eea7d4f2aae51a6723da6726f6b839aa12b/neural.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 19710,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/08_ai_artificial_intelligence/Neural_networks/neural_network_ai.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/6920315e8baeab113b63d154d7229f1bc61a392ab30f567177e33f767ebc7edb/neural_network_ai.py"
+      ]
+    },
+    {
+      "count": 3,
+      "size_bytes": 3,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/04_business_strategy/Other/Plans/launch_planning_example.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/6a3cf5192354f71615ac51034b3e97c20eda99643fcaf5bbe6d41ad59bd12167/startup_screening_template.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/6a3cf5192354f71615ac51034b3e97c20eda99643fcaf5bbe6d41ad59bd12167/vc_screening_process_documentation.md"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 667,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/04_business_strategy/Other/Templates/lead_readiness_template.csv",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/51d2715ba44ceae3aed3c28a3f7c2780713a2c028d917dcb719db8e7bccefd2a/LEAD_READINESS_TEMPLATE.csv"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 13855,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/06_strategy/Strategy_other/edgecomputing.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/0703290093c9b7e4df0cd4064d7c8ab3049897d2bbc3bc6c55d6e03a137340bb/EdgeComputing.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 10545,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/06_strategy/Strategy_other/holographic.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/b36eb7c928cadfd8b28d0a7935087c4a3693449fa5e2ccb82703de023d7631a1/holographic.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 9810,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/06_strategy/Strategy_other/collective.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/059fee9b23d472f9cf695a60aff125a9c91c87aa037a76d6f7701c3a168ef33c/collective.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 1538,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/06_documentation/ORGANIZACION_COMPLETA.md",
+        "/Users/adan/Documents/documentos_blatam/06_documentation/Documentation/organizacion_completa.md"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 217,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/06_documentation/Other/lite_pack_filelist.txt",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/23667471329874241008ac9610dcff1d7bd8d76552aa264a062eb30f5488b132/LITE_PACK_FILELIST.txt"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 8375,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/06_documentation/Other/soluciones_ecuaciones_diferenciales.pdf",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/77cfa9930f330a872f646de779f17824ef6b1119ef3bee5f47f608a9baff4238/Copia de soluciones_ecuaciones_diferenciales.pdf"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 8427,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/06_documentation/Other/Guides/guia_herramientas_ia_canva.txt",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/624e83e14ba84921848c77abb94b3fca26ff78eefe3daf34baa9b98d6c9f2cdd/guia_ia_canva_optimizada.txt"
+      ]
+    },
+    {
+      "count": 3,
+      "size_bytes": 13378,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/04_software_development/api_server.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/9fe0d6e16d26305feda96e136447c3d7434afceb53a174a311612308ee2b3ded/api_server_1.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/9fe0d6e16d26305feda96e136447c3d7434afceb53a174a311612308ee2b3ded/api_server.py"
+      ]
+    },
+    {
+      "count": 3,
+      "size_bytes": 26613,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/04_software_development/graphql_api.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/0091085f1df01166e3d6fc3c4d4ffcbf1df4353e3efad0e187b7181a3750cafb/graphql_api_1.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/0091085f1df01166e3d6fc3c4d4ffcbf1df4353e3efad0e187b7181a3750cafb/graphql_api.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 25964,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Ai_scripts/aimlengine.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/d14e72987d2aff0154dd60a2a4a9fadfd0ed6e53dcd0b1e2553861b11ea39f3a/aiMLEngine_1.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 10234,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Implementation_guides/setup_project.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/2b9386d80f450ae61b83527c224d15c46510505f13041c341ba6ad1c5806298c/setup_project.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 14942,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Implementation_guides/setup_organization.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/c4c9d4f437a967a63dc91463f0f5862465733aecac8a97b6ee4d3a99bce5a902/setup_organization.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 18214,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Implementation_guides/05_technical_implementation/saas_ab_testing_platform.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/8eee6d9ff4c8fb9d2e9ff28e99f5d6177476b998595c6d669ddd9470db201a2a/saas-ab-testing-platform.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 1090,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Implementation_guides/05_technical_implementation/prometheus.yml",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/100a9c43e074f961b77a7dbebeabb7bfd4cb6bb853f94f6a18c6d5cb97dcdd4a/prometheus.yml"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 35068,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Technical_specs/neural_sales_dashboard.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/21b95a5adbe533c126cb8b879152b3d9f3c6d03b658dfb20d0d3dc3c21a2680a/neural-sales-dashboard.html"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 12372,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Typescript_scripts/advancedanalytics_1.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/b7747346354127ba43be940a3845f25c3eb745bff49a5574cf8fb5973b0a8558/advancedAnalytics.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 14480,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Typescript_scripts/feedbackmiddleware_1.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/ffa0974f23a28f63cf9808391ad0f7cfb8a223a48906dc8f1e3a0bf3488cf0ea/feedbackMiddleware.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 1766,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Typescript_scripts/index_1.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/48de8fcee8d038844261824bd6229e643ac94e8fb2b195342a677a9defecad9b/index.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 15152,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Typescript_scripts/feedbackcontroller_1.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/eb47cbfae47fc3416874e6f4b98a7ee24b056650373d20dce85d12a4c854a5a7/feedbackController.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 14401,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Typescript_scripts/feedbackmiddleware_3.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/393dae788eab301d6ea572294e22ff6d899aa75094f4e11c317209b52b020756/feedbackMiddleware_4.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 10834,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Typescript_scripts/feedbackanalytics_1.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/ee51a30f5d65076b708f43b78f8153b1e666400b1041efbb1f3745958f81950e/feedbackAnalytics.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 6186,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Typescript_scripts/app_1.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/da28d4c32d6379025708c2db01da46a9e7252bfbfbf3ca3e3b847c3054219067/app.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 4723,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Typescript_scripts/server_1.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/02dc234c925c71ea04a12f3a9151b9291316622ec1f95b7f5c00368c5e3cc722/server.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 16915,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Typescript_scripts/advancedfeatures_1.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/8e2d84b7da83c67fd48747ea7bb34dddda257a9ce349347a5890e9b1af312ebf/advancedFeatures.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 7700,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Typescript_scripts/content_1.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e711e498ad92c7f2b226ff9f97a24a05e716b9c0ac1bed001d5a7fa874c3afa2/content.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 9900,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Typescript_scripts/customerfeedback_1.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/c00be69a74512c26971687d02a6b3e456be9dd00f9903e237455cbe3946a5d37/customerFeedback.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 21172,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Typescript_scripts/advancedfeedbackprocessor_1.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/cd95be52ba3a73d63e587b53776d925f313949f9137b7c8cf97c04314e3692ea/advancedFeedbackProcessor.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 12371,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Typescript_scripts/advancedanalytics_2.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/de08ecc103dc78d21babe8f211e87f9b0c902161c5ec102bacac130e3a0094e5/advancedAnalytics_3.ts"
+      ]
+    },
+    {
+      "count": 3,
+      "size_bytes": 14633,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/01_ai_machine_learning/maintenance_system.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/a63a3dd592097cc554add3d508c80b7b07464fe8387f73a8a571c78deb31359f/maintenance_system_1.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/a63a3dd592097cc554add3d508c80b7b07464fe8387f73a8a571c78deb31359f/maintenance_system.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 4418,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_scripts/script_shortlinks_generator.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/b7009bd853238b4eee7afd2dad53eca4f4c9736f383e2105029ef33d06a9c212/SCRIPT_SHORTLINKS_GENERATOR.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 1163,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_scripts/app_module.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/9d56cea474d46be4b0b638861ff5f093cbcaa411aaeaac7de5fe940a10f6f9c7/app_module.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 5979,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_scripts/script_generador_dm.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/ab1ee127be912eb9f0a27ddcb0d0e542f0b7f7946cd48d9845378dacc4ea69b7/SCRIPT_GENERADOR_DM.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 8391,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_scripts/validador_dm.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/c6baee8322e332e6a72a087467f5bfa02fd224153ccb1bcaa03c29729a3c65cb/VALIDADOR_DM.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 10136,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Configuration_files/neural_marketing_deployment.yaml",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/c040edb0f271347119a27984041d9929381351067154a5b95a8bfba79f83eb56/neural-marketing-deployment.yaml"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 977,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Configuration_files/chart.yaml",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e282c265faf529a089e1881545a4a4a0482992b5366458b33f05d3aec88a72b7/Chart.yaml"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 4799,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Configuration_files/organization_config.json",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/04b49bac8da3cd62f14541eb62d749d0355e8d37ca26b042e4fb45713b708245/organization_config.json"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 5971,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Configuration_files/config.yaml",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/ee7b5e68e15ba78ba29e7b80e2311242ff2cd800796fe129feb1a591885216d7/config.yaml"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 5934,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Configuration_files/alert_rules.yml",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/3b2115d9530c40fc57cedff2d40fa124e573e2a5c9683f0e42095fdc4a3ad00e/alert_rules.yml"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 1560,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Configuration_files/package.json",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/d86a02b0f4d58dc80c0d23a5a48065040e8bd6ac66b3b6d526b354382f141d20/package.json"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 1379,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Configuration_files/tsconfig.json",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/a359c625faca5cb3389c006748c6e849ce57e86fa673796a4e7c5491fcbf6d5d/tsconfig.json"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 6968,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Configuration_files/neural_marketing_dashboard.json",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/9f320467c6c3dcc0c4afda07691747b638ab79ab4df04ba7c5bc5649977ee55b/neural-marketing-dashboard.json"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 6418,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Configuration_files/values.yaml",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/4b339830a4e6c8fbce4d96fd444b6d66ac670d4481d7cad181fd64695a8acec3/values.yaml"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 1210,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Configuration_files/prometheus.yml",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/60aa59eec2b643d7d57c4b7cac7d1d6eba220bfe78766b60b1d0475fa8e90800/prometheus.yml"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 7244,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Configuration_files/ci_cd.yml",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/ce2c53356c9e95cc89599ec03c15c094c61035ab333689d264398f2576b4e267/ci-cd.yml"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 16853,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Other/24_blockchain_business_platform.xlsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/6f6ec4338c4ab3a4e7f35d1513d1c5822238c7b3d46d778213f83c903e3ec0db/24_Blockchain_Business_Platform.xlsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 3077,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Other/license",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/ceda90a47866253ef482445f6ca5fb5df9b28a21c3b33b7406ba04e4303d5b74/LICENSE"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 1274,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Other/requirements.txt",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/42de5f26922c1a7a69c7a17c47347ccb8ea09efaa5bb96777900c89887e489f8/requirements.txt"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 16093,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Other/styles.css",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/d87e6faccc98682c4ef2f85192acba839448440c06d982fed7cfcf1d2a7ab62d/styles.css"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 7988,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Other/init.sql",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/d58ded7199434e533193447d71dfe9112c6c6ba3956eb064014ff9c179995077/init.sql"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 5491,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Other/nginx.conf",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/5d50dff2ad327e5446a2c1666b54a6b6f02bea7372e2887321694ea8a90c37ec/nginx.conf"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 3191,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Other/env.example",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/6f2919b41415c96079a5402dc005d5ac30760431464f5279bdc0479c06e2d5ca/env.example"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 11596,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Automation_scripts/automation.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/ff5a15adcefd95ae49481159b338d010646c001c64fbc31338e1c6f809bd465b/automation.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 12860,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Automation_scripts/monitoringservice.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/22235017bafddbcc63ce32cd94d8108278d0daa3388b33cdfb22fd6cac40c302/MonitoringService.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 26841,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Automation_scripts/ultra_organizer.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/1f4b021e5853bc2dad83116d60a510e1de7d402b7d8ab5c18f989e9bc767daf4/ultra_organizer.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 15175,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Automation_scripts/predictiveanalytics.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/15573d30a6be4f17e3f7d47c1d493369101a68e54ccc156034c73e59d2d55808/PredictiveAnalytics.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 5604,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Automation_scripts/ratelimit.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/a6e5d7b2499ffbc62fb0997bb33d4b8cebe11c0ba24aae44c30b31e98915307f/rateLimit.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 13616,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Automation_scripts/temporalmanipulation.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/ad6a304f06c7d75817bc600d71c65bfee4298f696601933a670ecd6332f464bd/TemporalManipulation.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 6869,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Automation_scripts/viral_train.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/475035bf92f790d418e7954d83d8cde1805de3b706f117dbaed42baa1c45872a/viral_train.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 24007,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Automation_scripts/workflow_automation.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/0a4a83dd5b6545356854f35aeb057f2b459aed281564fae800e052637a97c6a2/workflow_automation.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 11288,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Automation_scripts/temporal.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/55eea50136af97ccc0c320b616f88521f1483be0963ea4554f4082229ca5bb2a/temporal.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 30660,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Automation_scripts/permanent_organizer.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/9ce6e0197a1edc0543eb711ce176becaf5154b0f1514fe9f8b0cf2b4e1b084bc/permanent_organizer.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 39995,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Automation_scripts/immersive_analyzer.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/a795e8a37e6fe28241d38954569bdcf18b10c8b3fc8c372d870ece8fc5a869e0/immersive_analyzer.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 6351,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Automation_scripts/video_processor.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/0491627a86129d39342c621a871e24ebb57172c467ab6a93c73eea514e725214/video_processor.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 9844,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Automation_scripts/user.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/cb7074e734803aaf4f7377dcf5347ee5b3a5adacc0618247d88e69e8b7eebe0f/User.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 4403,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Automation_scripts/auth.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/967e1b6858413ae5d498a371ce6051a9f7ce413079dd0382e88b0cca0e8d034b/auth.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 32647,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Automation_scripts/final_organizer.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/b9a9e5fe859a920d16c526e205fba3373c9f33a22a4897d6e14afc8f27f84878/final_organizer.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 10182,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Automation_scripts/swagger.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/3592308debb6878caa8df54d28e56310ced134bf97523f3dcb692e8cc101e797/swagger.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 20141,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Automation_scripts/index.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/ac547b8c53eaff9a03e28a6c723a3e4b502f534b6719e1b0e83d9e8ba4a30f31/index.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 9408,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Automation_scripts/edge.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/478cef93dc2d4a213034f55d53f1fdfa8bf4dfda8f96c71640c54795be83c047/edge.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 22245,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Automation_scripts/organize_project.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/52f7fbd065a8c19ab999c52117a57503eb21b4f233e0d1c7dd8eda01d71aa848/organize_project.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 11437,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Automation_scripts/dashboard_config.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/7099cd03600a075e6f6ecdc2b9c8555ca39cf5d4e8bff2a6148d44f410598975/dashboard-config.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 6136,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Automation_scripts/errorhandler.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/34e69c25f139e31c72f4b140bc14db47b39791ff407a363493be704033ae2775/errorHandler.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 10908,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Automation_scripts/viral_clipper.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/2f8971e36a5a8c47fa37d55bfa1d69065b95348787e85989e7830bfe0b054651/viral_clipper.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 13485,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Automation_scripts/neural_dashboard_advanced_config.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/fe1e19a659967ab3faf5cde4884bb75af9945bba173a8e9ee9d7f58424900897/neural-dashboard-advanced-config.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 11049,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Automation_scripts/verify_organization.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/9f961fcbd306658a9ca968722708ae41f155c9d1c67e8d5cc28216ba44cb387f/verify_organization.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 16090,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Automation_scripts/20_ai_business_automation_suite.xlsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/cfbcfba556368101b48e0a29ad4fa267fd2e4ff66d7adf4b2e59a1026510b745/20_AI_Business_Automation_Suite.xlsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 14802,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Automation_scripts/auto_organize.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/7ae9fb8a8b6b9e6cc5ab6370d730eb388bca41bc270433fa503c84c0358b7fd5/auto_organize.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 21803,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Automation_scripts/25_advanced_automation_suite.xlsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/75dcb267ef1a55c765eab6db3c782829663b6ad31dd56abfa5e964d53383b930/25_Advanced_Automation_Suite.xlsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 13790,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Automation_scripts/notificationservice.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e8aac25f85d5c2de61cfef0d625e96fd3193138e58d1925dabcaed982000afd1/NotificationService.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 26467,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Automation_scripts/due_diligence_automation_script.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e4389664063fda404ca5f7be2c4ecfc6075d136c560c4350bdb283a737ca7398/DUE_DILIGENCE_AUTOMATION_SCRIPT.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 22967,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Automation_scripts/analizador_competencia_anchor_texts.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/6ce779906ef76b20af9e8d94136abef4134a20a58a281d840f6bdaa8f5d772b9/analizador-competencia-anchor-texts.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 20012,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Test_files/frontend_ab_testing.jsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/b15fd0a23baba17adaa796f8f68573258e2f8e6eda9d723b457ded13ca02dfa6/frontend-ab-testing.jsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 30150,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/advanced_template_system.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/ec41e4ad82b11295d9920f515b07109e09549971bb7f2ff72edf82af298bef3c/advanced_template_system.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 23640,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/mobile_app.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/1060f8c4cb90913271ba77694dcb29973636e26561dcd51ef6097481fecd8983/mobile_app.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 3929,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/convert_to_pdf.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/add4f598275f1a0bfc6d198618de6b3a3b7ad645731886bfea5b66ef5203bfcc/convert_to_pdf.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 21563,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/collaboration_system.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/d75f18e2516ec42c5d2986146d65f2a1c10048cd8f178aef45c741fd4ed088de/collaboration_system.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 20904,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/monitoring_dashboard.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/da4ac3d8e5767e573cca9fd607f849dce774be3a2903bc636b80cbcab25e4e13/monitoring_dashboard.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 8512,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/demo_brand_analyzer.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/d4429afb6cb0525f9bc90e23f55761d0789a1ed1a4ae25655c796d9511107146/demo_brand_analyzer.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 4149,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/convert_to_pdf_weasyprint.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/b6b7578d27a50e846a367bf664eb48d7dfbfc51d180202f7fd0fd62f86f4729d/convert_to_pdf_weasyprint.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 14833,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/convert_to_docs.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/6bd0578615958e4697766bc050a29f5aed19a538f71d19d147aa878109c131de/convert_to_docs.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 19903,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/ai_content_analyzer.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/b2bd6cfecd2971ac08746f38e248bde54d5546278bad839f4580938af209ba72/ai_content_analyzer.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 19934,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/convert_to_docs_alternative.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/c8cd338327b8db6e5424e56adffd8a7aa394fb42ff096b57e04fb8cd82f45d6d/convert_to_docs_alternative.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 17148,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/voice_commands.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e394d4dd06d0a806060e8d4e019dd5a4adf35b5a5b554f5e7f7ff300a9cd5ddb/voice_commands.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 17549,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/quick_start.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/98af175adc999a6c86e734db3535df7f7a7a1c021afa0f00e7a442da133c8442/quick_start.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 21057,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/edge_computing_system.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/5cd2e6905be74701504adaacf60f429052469b3ef349dc85e74052330ee75a26/edge_computing_system.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 6703,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/convert_advanced.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/1067daf35d358bc4fe3f879a3b8ff7eadec7d5005f6183b4aa11c1f007409859/convert_advanced.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 10054,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/organize_remaining.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/03e8198739053d57d3fac4b27c10ad016cd27f845988af4d2217e9abf31874c1/organize_remaining.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 3757,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/convert_testimonial.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/7252757ec6aac620c4d41aa07534423b6897f138ab38a686a767e07394fb5373/convert-testimonial.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 19805,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/cloud_sync.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/104950c9f5a118f74c8efe38d44c36de60d31e1396e11a4108ce48ea284c3809/cloud_sync.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 2353,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/open_documents.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/1506808de93ebbbc3bcfc7a3cda577589bb1fe12f621f932b0d9ca4e9e0fddc1/open_documents.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 21043,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/conversational_ai_system.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/ef86bb5a017b238afd2a3dde4c94e02a4a807d05662434511ce65de06ddac466/conversational_ai_system.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 24146,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/iot_integration_system.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/71037804a07aa68fe827a7d68ac8fc048199b9192ee628ee37533726794b9b07/iot_integration_system.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 8667,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/setup.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/35db38c00d9e2bfe2363fa7a8b78a63ffb3638fc58f52f52d93da28d550abb04/setup.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 24229,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/predictive_ai_system.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/c7fd72817466ab4e2048d7f614490a66e2b41240f3b39aad13bd849be0317c5f/predictive_ai_system.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 21618,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/blockchain_integrity.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/3424882e088df0b65e81f2bfc4f75f7af7ca302660a067ddfc8ffab1727e8959/blockchain_integrity.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 19925,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/web_interface.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/4d145c8b6b47496b5508eca18433f0a8d67267431f47ae913bff1a042cd07493/web_interface.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 16119,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/auto_organize.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/176fafc31182e046b4d0a43e2fa41c293527dedd3631f7bd4438cbcfb7571409/auto_organize.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 12542,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/backup_system.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/d035a08f021e0a71b0a5a385a7fa9aba5442f5936b2cffe150103f1d0a5b1c69/backup_system.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 11532,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/system_manager.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/180bd4b239c0068a4e17152d85e8b673f8f0570ecf0e24880778d51237bb7a15/system_manager.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 28593,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/autonomous_ai_system.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/78f9280b1a33dd5e78936d31b10b001b8963e7b7fe2b7a1e6c6cb1b54e917e7c/autonomous_ai_system.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 21212,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/convert_to_docs_final.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/f6506bd7a5040988b16de57ef74a1611a82acc456adfa877711629ef94c156aa/convert_to_docs_final.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 28600,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/advanced_demo.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/41a587bbd452a641834c96b1e9ec9a6c1e32ae4144a7e6b0376e16f7f0faf12f/advanced_demo.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 34840,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/template_system.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/5e7a2dba4b37974b8b22fa6e5bb88bfeb41aa94fff851a722ece26d1cf496181/template_system.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 7244,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/organize_files.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/6f4b1d2fbd2fcea48d3da16611e2358ffccb39146416fb11da41e5b6c90d56ee/organize_files.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 8061,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/search_documents.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/4c969495f79952db77712febcdbedd4d9f9778d6e48870bae8eca80cfe2a41c5/search_documents.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 18725,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/advanced_analytics_engine.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/954b67f71fe20c23e0d9df2c974b73f0586d1cd2c8dcd51f95c529cc1de56987/advanced_analytics_engine.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 17237,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/enhanced_search.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/2d948989e0af525901b4ff661a063e859c0cac8a42f1d736df11d44e416d6f5e/enhanced_search.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 25137,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/cybersecurity_system.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/790f340c79e62ec1953ce52194b7a4f9de5431a07dcede091f121bb8be9bdf3e/cybersecurity_system.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 4531,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Code_examples/generate_pdfs.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/bfe7c019778d3303ce270317c3619ef94f236b0935c8506bc8078042aa6d2e01/generate_pdfs.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 9662,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Data_scripts/dataintegration.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/cecba6bf951667ec761c3c588c92e82edf92d224c4b6dcc832cd7dc3ad53c15c/dataIntegration_1.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 9633,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Neural_networks/neuralinsights_1.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/cf449f35ad35c0e7fac49b2d674c55d6eb22fe6b08be0c684481ce02954e69fc/neuralInsights.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 2523,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Auth_scripts/auth_4.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/ea90ccd58b55e0e40ab2d2452f1f691ab8f2e7a6895194f80b084a703af626cd/auth_3.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 6571,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Auth_scripts/auth_5.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/c4f593482169e58808d6b34c769c0e9dd880dd04187194114e2e4785ce6e1be4/auth_2.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 3411,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Auth_scripts/auth_6.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/cefe308507dc4ec7fbcdc3a507d373c8bead025779e2bcbea07074435278dbeb/auth_7.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 9677,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Auth_scripts/auth.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/707848ebd43f9739b13c60ba0f6d95bcb551a4564e62e390f671afc57be25eaa/auth_1.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 16054,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Services/neuralmarketpredictionservice_1.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/28a6e22bdeb107da1b3cd95e33e1ed02d1494048c9e9a0043415e0c86e5764fc/neuralMarketPredictionService.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 6145,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Services/contentservice_1.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/71ecfe55cfdf719284f174ee9792de5b6af411d008e92c23197342b3eb7553f1/contentService.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 19715,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Services/feedbackanalyticsservice_1.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/f209e27fe691bebf29c65c27e8ece90939628039c823cbdb1c5bcb40559826d7/feedbackAnalyticsService.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 21032,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Services/advancedanalyticsservice_2.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/529a9be5b3c95678f332e440b065eb6615f3fc07bfed4a7ae9ff7fe9ea627532/advancedAnalyticsService_3.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 17808,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Services/realtimenotificationservice_1.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/805111ffd8aaf042cb1fdc023a9e2f1d3ab4fe96d25e06862aa01040be26564b/realTimeNotificationService.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 16267,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Services/neuralcollaborationservice.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/6bb3b7d87bd9a38211087cf3a2309f2cbb7d62b4985f9dc4634bbd88633348a5/neuralCollaborationService_1.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 14224,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Services/neurallearningservice.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/1359baa9e6d69be33207b1421209e2bb783a23b2b3d024e35795a479529bbe4d/neuralLearningService_1.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 14508,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Services/neuralarservice.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/49e7a538a7e98f27d5dfd4dcd4b1b67d64b368bb25f08600fe57af28ce61509d/neuralARService_1.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 17766,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Services/neuralblockchainservice.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/66db5878cb5b4a9683466bff8792966d18b16fd204455bf3c4cfce3035e6058c/neuralBlockchainService_1.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 25393,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Services/customerfeedbackservice_1.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/687f0e3c2b25404686a3b9ec0b963c1104e86f09c6bcfa72a8f5c33ad1fb770c/customerFeedbackService.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 17463,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Services/neuralaiservice.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/8e6da99458850d827c1fc1d8424f992ce78e127f70983225c77ec1293f622a72/neuralAIService_1.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 25643,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Services/customerfeedbackservice_3.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/5a4a304e63e20f5c9dc5a273a9aeb18a9c60380ecec9dcf02846bc774ae697c3/customerFeedbackService_4.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 21238,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Services/dataintegrationservice.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/3b807981234c2e4cc45048b41543f58f3eed94f1790cc4f41059f774b9e84ef4/dataIntegrationService_1.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 19882,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Services/neuralautomationservice.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/8ce7a7ad3cdceea51bafea8dea2d8c3a6851e36c97f4b2348f52814ea196cc7f/neuralAutomationService_1.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 13936,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Services/neuralinsightsservice.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/f778b9208970ace590057ff47da676f285491a965e92d53fa153dafffc303d84/neuralInsightsService_1.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 19482,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Services/machinelearningservice.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/4d24ed66bfcde0c77604368cabf5264d6466ea7cff6361aeb0869dc66a49e107/machineLearningService_1.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 18799,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Services/neuraldimensionservice_1.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/8fa3a25e3fb26bc1c53bdc31e628533a69c7fd7256317cefbb14dc755b361c77/neuralDimensionService.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 17916,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Services/neuraltimetravelservice.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/d35691a7d009c791ae4264fd709bec56ed3637f0b036e447953cf788083eed3f/neuralTimeTravelService_1.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 19005,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Services/neuralmetaverseservice.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/ff5bb23463de9613c37b7e04fdc5d036568196af8ea4069d14a255b53c520c61/neuralMetaverseService_1.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 17896,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Services/neuraltelepathyservice.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/ad71ea8c58737fcba088fbfbc86eda113281e90f131381dd21c8ba4cca696385/neuralTelepathyService_1.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 21033,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/05_technology/Services/advancedanalyticsservice_1.ts",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/2f0b19c330170e45b3b40d271778e6ff3daf21de7b9e6d5135c42411e552265f/advancedAnalyticsService.ts"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 722952,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/00_version_management/Archived_versions/frases_populares_busqueda_google_2024_ultra_completo_final.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/ca2cb1d2248fdc7dd9fe1070b10cee6717f9a36d6c95fa8eee94965e3c2b837d/frases-populares-busqueda-google-2024-ultra-completo-final.html"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 1174330,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/00_version_management/Archived_versions/frases_populares_busqueda_google_2024_ultra_completo_final.pdf",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/02cfe0579625279ada5365b324192d784e1edaa38388b5484c96c98365889c20/frases-populares-busqueda-google-2024-ultra-completo-final.pdf"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 3398,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/04_operations/Other/app.tsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/4aa370fdf18dab4b523f7876be5216cc626a6b47f59453700084d581cabf855c/App.tsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 21,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/04_operations/Other/head",
+        "/Users/adan/Documents/documentos_blatam/.git/HEAD"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 6978,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/24_education/Data_Files/saas_ia_marketing_pl.json",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/4ae23e342a2dfcd814cbd2c12d1f96dd8735a0438660bcd02e3dedc5bb54d214/saas_ia_marketing_P&L.json"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 4511,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/24_education/Data_Files/curso_ia_webinars_pl.json",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/4b30a270402ae3f5629f8340d34068dd6dfbcbf7439eabb2fa73074afe3994d3/curso_ia_webinars_P&L.json"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 21644,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/Vc_venture_capital/Analysis_tools/dashboard_ia_anti_vc_dependencia.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/a3f840ae7a949356ceba5ed5baad1e85e528bf01335496cd9c83f19402f7de95/DASHBOARD_IA_ANTI_VC_DEPENDENCIA.html"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 8758,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/Vc_venture_capital/Analysis_tools/calculadora_anti_vc_dependencia.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/26436de76174822d03585e11af3eb05234f1985af97523a31bb54bf05ea96acb/CALCULADORA_ANTI_VC_DEPENDENCIA.html"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 27514,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/Vc_venture_capital/Analysis_tools/calculadora_avanzada_anti_vc.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/98f07480abd455e516ac5c231b27f6fa62206834eb5c1576cb37f11e2ee62a2c/CALCULADORA_AVANZADA_ANTI_VC.html"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 18407,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/02_finance/Other/neuralinsights.tsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/6767fe183c5f7d19d119774eb84a816ec755be867ec7c4c25c22c3d3b4cb8a18/NeuralInsights.tsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 9505,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/02_finance/Other/deploy.sh",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/c1bd644583ebe7ba005b518b0a44dd0b15aae0f0047a655c5fb6b418b2adac68/deploy.sh"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 37300,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/02_finance/Dashboards/due_diligence_dashboard_v2.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/065407bd5224b25e710f345149d47024b1d25029d1413b8d2c33168ab3bc18da/DUE_DILIGENCE_DASHBOARD_V2.html"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 17613,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/02_finance/Scripts/deepseek_v3.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/2566f98cd267cf9c33b6fed85189343c33c90449150fbce4e4c44cefc6a3a657/deepseek_v3.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 20185,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/02_finance/Automations/neuralautomation.tsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/68e0cfbabb90a6c8829bb4807ecad3444b322fd563daf00acb1eb845f2bf019a/NeuralAutomation.tsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 8667,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/CONTENIDO_SERIAL_EDUCATIVO.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/ba6b8e3ebbfccae16ef6fe2764113378c4f71cb483a4895258b851e218c6566a/CONTENIDO_SERIAL_EDUCATIVO.md"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 5515,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/ANALISIS_COMPETITIVO_EMAIL.md",
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Documentation/analisis_competitivo_email.md"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 10289,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/ESTRATEGIAS_RECUPERACION_CHURN.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/4cbb7d44e5ad906571f5bbab4876e68da8c10dbf1905db079b28d61b0f655859/ESTRATEGIAS_RECUPERACION_CHURN.md"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 8486,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/ESTRATEGIAS_ESCALAMIENTO_EQUIPOS.md",
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Documentation/estrategias_escalamiento_equipos.md"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 10769,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/LANDING_PAGE_COPY_WEBINAR_IA.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/34b60baa136eaea651a7f1571694c0f528472a9893ba235b7027355486a24885/LANDING_PAGE_COPY_WEBINAR_IA.md"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 5996,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/RESUMEN_EJECUTIVO_COMPLETO.md",
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Documentation/resumen_ejecutivo_completo.md"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 17985,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/AUTOMATIZACIONES_AVANZADAS_EMAIL.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/ae36c1df66050c1ce3b3f0bed79cc747fe5900793277d7cc1b95cbd0319de146/AUTOMATIZACIONES_AVANZADAS_EMAIL.md"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 8174,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/PLAYBOOK_CRISIS_EMAIL.md",
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Documentation/playbook_crisis_email.md"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 2980,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/TEMPLATES_HTML_EMAILS.md",
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Documentation/templates_html_emails.md"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 6104,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/OPTIMIZACIONES_ESTACIONALES_2024.md",
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Documentation/optimizaciones_estacionales_2024.md"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 13149,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/INTEGRACIONES_TECNICAS_ESPECIFICAS.md",
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Documentation/integraciones_tecnicas_especificas.md"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 8645,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/OPTIMIZACION_COSTOS_ROI_EMAIL.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/1fd19ac66f7d75d374d864a8442ee4ae011e064ac032c018b6cc7af3d2b2d9d7/OPTIMIZACION_COSTOS_ROI_EMAIL.md"
+      ]
+    },
+    {
+      "count": 4,
+      "size_bytes": 52902,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Neural_marketing/neural_sales_dashboard.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/05735b0767b9981e887e05affdeeee034cda3db41d46bcefd4f98fb6b0a84a4f/neural-sales-dashboard_1.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/05735b0767b9981e887e05affdeeee034cda3db41d46bcefd4f98fb6b0a84a4f/neural-sales-dashboard.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/05735b0767b9981e887e05affdeeee034cda3db41d46bcefd4f98fb6b0a84a4f/neural-sales-dashboard_2.html"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 313,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/07_campaign_management/activecampaign_import_fields.csv",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/5f0fe688dcf1cfa10bb4d894a2b39d280b8ddf7ad56ff46224a61731bb2f4e2c/ACTIVECAMPAIGN_IMPORT_FIELDS.csv"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 13980,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/05_lead_generation/outreach_messages_ready.csv",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/7e11058e7c96d010298ae5a6f22514b831ccfa5d4b5393acb94b0b37d4ee14ef/OUTREACH_MESSAGES_READY.csv"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 3340,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/05_lead_generation/sample_leads_outreach.csv",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/81e92f545aef4c551cdcd411898364fcc528e612e0484fc12526ba0bd43df6ab/SAMPLE_LEADS_OUTREACH.csv"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 198,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/05_lead_generation/crm_outreach_fields.csv",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/6aa371fa1c5084f076783277d14e8a40b7267d47e1639ab64d1ed9e1addf7dd1/CRM_OUTREACH_FIELDS.csv"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 8071,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Checklists/comprehensive_due_diligence_checklist.csv",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/c01dafa6d1de815c12a4d8c315e3dc1770cd65b29080f7c30828a471f4358f98/COMPREHENSIVE_DUE_DILIGENCE_CHECKLIST.csv"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 19937,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Checklists/comprehensive_due_diligence_checklist.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/49d57cf790671194e01900a7de8faecde1b845e15e629b8342e35fffec870cb8/COMPREHENSIVE_DUE_DILIGENCE_CHECKLIST.html"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 106,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Checklists/comprehensive_due_diligence_checklist.xlsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/fc277e278dc844f48d1edae0eabb2b0f60fcd1099394b726d9aa184db4b3bfd8/COMPREHENSIVE_DUE_DILIGENCE_CHECKLIST.xlsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 14863,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Checklists/comprehensive_due_diligence_checklist.rtf",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/4810ad80f75f93cd8f6f2ddafc3f973e2498182d1aa40084f126b1c4a55d0ec1/COMPREHENSIVE_DUE_DILIGENCE_CHECKLIST.rtf"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 98,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Checklists/comprehensive_due_diligence_checklist.docx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/6c81a8135ef8016e0a14d7989e7ce2d59a8e5788d55ca71e3bafb36edaf9ccab/COMPREHENSIVE_DUE_DILIGENCE_CHECKLIST.docx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 102,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Checklists/comprehensive_due_diligence_checklist.pdf",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/a4f9d00b5bb63d8fe447e78f2e0e1b70bca0ccf2c5a5b0a197941daa8673bfbe/COMPREHENSIVE_DUE_DILIGENCE_CHECKLIST.pdf"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 2783,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/push_to_checkout.sample",
+        "/Users/adan/Documents/documentos_blatam/.git/hooks/push-to-checkout.sample"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 1374,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/pre_push.sample",
+        "/Users/adan/Documents/documentos_blatam/.git/hooks/pre-push.sample"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 1607,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/scaler_deep_learning.pkl",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/70c820d7b41454cdd8cd8ae820c0f6ad5598fa1bf198b64a31cfaab41b4f743a/scaler_deep_learning.pkl"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 6472,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/neuralstatespanel.css",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e9459af35718e28ed806b40f5f2c68dedd41dd017c2d3381de95055afaf681e9/NeuralStatesPanel.css"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 544,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/pre_receive.sample",
+        "/Users/adan/Documents/documentos_blatam/.git/hooks/pre-receive.sample"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 8138,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/customerintelligencepanel.css",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/8c524114cc383261bc0abdb4f386b6542c930e148b07d7498f58fc6cb52420c3/CustomerIntelligencePanel.css"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 896,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/commit_msg.sample",
+        "/Users/adan/Documents/documentos_blatam/.git/hooks/commit-msg.sample"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 2290,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/organization.log",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/1956b20af43f8db0276d3e8f9575a60575f8b1a457f26394ca7c9f38c29457cc/organization.log"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 416,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/pre_merge_commit.sample",
+        "/Users/adan/Documents/documentos_blatam/.git/hooks/pre-merge-commit.sample"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 424,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/pre_applypatch.sample",
+        "/Users/adan/Documents/documentos_blatam/.git/hooks/pre-applypatch.sample"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 14619,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/neuralnotifications.tsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/15a4907a334652eae46fff4d37a160516ed3543d91bbfd240ed060af40b53fe9/NeuralNotifications.tsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 4726,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/fsmonitor_watchman.sample",
+        "/Users/adan/Documents/documentos_blatam/.git/hooks/fsmonitor-watchman.sample"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 1492,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/prepare_commit_msg.sample",
+        "/Users/adan/Documents/documentos_blatam/.git/hooks/prepare-commit-msg.sample"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 18885,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/neuralgamification.tsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/2da4990d97ddfd5f8783b9d32b09b10216a94f074cb243f85160c96fa7773d22/NeuralGamification.tsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 1629,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/dockerfile",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/27ca1ce49aba6fabab175d610f03062d0cd385c5e9210961c089c4abb70168dc/Dockerfile"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 1643,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/pre_commit.sample",
+        "/Users/adan/Documents/documentos_blatam/.git/hooks/pre-commit.sample"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 1118,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/encoders_deep_learning.pkl",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/b643629614ef779a91c693c40269c511f504ab9f8a2b1d6d80e84253f265cbb6/encoders_deep_learning.pkl"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 3012,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/schema.prisma",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/62623b3add172092fabc10ca2fd602fe707116527bfbc7b88636a40f05f32a09/schema.prisma"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 6061,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/permanent_organization.log",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/534f01842edd8eaaf5f09beb0d824cad8c41b6017fc06d519b728b5fcbc43236/permanent_organization.log"
+      ]
+    },
+    {
+      "count": 3,
+      "size_bytes": 240,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/exclude",
+        "/Users/adan/Documents/documentos_blatam/.git/info/exclude",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/6671fe83b7a07c8932ee89164d1f2793b2318058eb8b98dc5c06ee0a5a3b0ec1/exclude"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 2064,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/ultra_organization.log",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/4b067a51c27b329ffa2f33891ca207b3149566216aaaf4ef905e0850214a4b7a/ultra_organization.log"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 4898,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/pre_rebase.sample",
+        "/Users/adan/Documents/documentos_blatam/.git/hooks/pre-rebase.sample"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 11204,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/testimonial_ia_marketing_rtf.rtf",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/db6884422af27970b3c19fc0dc9ce74527eb3b7c92b5393c3a9d25661884411e/testimonial-ia-marketing-rtf.rtf"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 2102,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/final_organization.log",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/1772d24d93c4881324d2b8ea2dc7d0272e7bc94428790c0765f4046408f7591c/final_organization.log"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 478,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/applypatch_msg.sample",
+        "/Users/adan/Documents/documentos_blatam/.git/hooks/applypatch-msg.sample"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 3650,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/update.sample",
+        "/Users/adan/Documents/documentos_blatam/.git/hooks/update.sample"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 1313,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/env.example",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/5cabc0d6aadc031d930730184247b2accc4e8e53ddfdc50392a30a663782cabe/env.example"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 189,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/post_update.sample",
+        "/Users/adan/Documents/documentos_blatam/.git/hooks/post-update.sample"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 22706,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/Strategies/estrategia_anchor_text_ia_marketing.txt",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/d542380b2be74697975eb4d2353452444031df64cf9779d3983a3f9600ed9942/estrategia-anchor-text-ia-marketing.txt"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 73,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/Scripts/description",
+        "/Users/adan/Documents/documentos_blatam/.git/description"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 3401,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/Scripts/app.jsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/0fedf9fdbeade657f701323c850cdb2e044661aa9fcfd4ec63859fc136e15e32/App.jsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 7604,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/Scripts/neuralstatespanel.jsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/0b1c6fce7696771d269fcac68384f195aa55db90e027b0caeff59826e596c40f/NeuralStatesPanel.jsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 12070,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Other/Scripts/customerintelligencepanel.jsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/8e56e28cffbd445ea69e0eb0227f436400fca0edcf15102efd3dee1ee026ec60/CustomerIntelligencePanel.jsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 7617,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Content/contentgenerationpanel.css",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/5bb12037769a3aed053360a8a07ca91a112c7efbfc2508d40f560e9be9c0bffa/ContentGenerationPanel.css"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 21365,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Content/neuralcontentgenerator.tsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/ce1c350d057b991759ac8b15f096bd2b5d732bd0cea882e03da254e8bd6b147a/NeuralContentGenerator.tsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 9331,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Content/content.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/355da150182045df988e84e61df3718ccf75bbdf0a7646dffb0c3fa07c15d0c8/content.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 10614,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Content/content_generator.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/6a8ac4162df27e49d18b683a1093cec6f659194c40e36dc54fbc16b04fba0acf/content_generator.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 6598,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/08_ai_marketing/dm_variants_short.csv",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/908e3619a4bf63f077d6fa98f9311b9dfd964c283363e14e88063cfe80ff92b6/DM_Variants_Short.csv"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 87563,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Data_files/anchor_texts_completos_20250915_200244.json",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/cc5501636e851410d308cc55ad902b21f8a89d3b78ea67ddf5c2dd9c5b461fa4/anchor_texts_completos_20250915_200244.json"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 127498,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Data_files/casos_uso_anchor_texts_20250915_135922.json",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/98e4d3551ff3ed61a78eff40cd96001f5986db182a065cea51d6379dfb18874e/casos_uso_anchor_texts_20250915_135922.json"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 10647,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Data_files/05_ai_course_financial_model.xlsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/acd50ea239929bb73b999fea5365220680ee96fe91a847e148ca6d121053ae38/05_AI_Course_Financial_Model.xlsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 2792,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Data_files/webinar_attendee_tracking.csv",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/529ff7b08c5dfe242b6ffc5aabb0467e82eed47ea09c6e545b92430433eef30e/Webinar_Attendee_Tracking.csv"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 7600,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Data_files/optimizaciones_completas_20250915_200244.json",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/745999bd964913cfc65f623e1d10414df3913bcfee5d37e281d484f4ce896cd3/optimizaciones_completas_20250915_200244.json"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 55026,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Data_files/anchor_texts_multilenguaje_20250915_202814.json",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/3c8d51a9e36a1253f49c0dfb569d51895240d39aff46881c1c295e08481916e0/anchor_texts_multilenguaje_20250915_202814.json"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 15703,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Data_files/resultados_finales_pipeline_20250915_135925.json",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/449d5939266ff99fc1f1472beeb4074a3aabe6baf64d7972344c24b9d1cba5ed/resultados_finales_pipeline_20250915_135925.json"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 2408,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Data_files/ai_marketing_tools_comparison.csv",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/eeb30be6b237873686ecd9bfff94b947c0bde08ab8e894659d4a43dce059f710/AI_Marketing_Tools_Comparison.csv"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 8497,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Data_files/due_diligence_config.json",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/a48547aa96632a8747928aa073e58aa3f9801b9fc7a3b4cff3dd31fb5ce3c857/DUE_DILIGENCE_CONFIG.json"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 2961,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Data_files/resultados_sistema_completo_20250915_200244.json",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/582c97715bba353a9f0e5f3aa190b66a0c2852b6ada328122933cda92e482bea/resultados_sistema_completo_20250915_200244.json"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 3463,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Data_files/backup_copycar_20251002_190119.json",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/b68bd803f7514d753f487c7b4d982e3af091d2ddeba8d4f1b51af4e48699c8fa/backup_copycar_20251002_190119.json"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 15862,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Data_files/15_advanced_financial_model_pro.xlsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/a98cc67b3284e82cc60d98b9068312ac53e375aa8d299c5840e57c9fb485cb36/15_Advanced_Financial_Model_Pro.xlsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 127480,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Data_files/casos_uso_anchor_texts_20250915_135639.json",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/9d957d69b73885d47d19e807a298005cd2c8c36b4c3a18ef971f66100ed5006d/casos_uso_anchor_texts_20250915_135639.json"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 15297,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Data_files/predicciones_completas_20250915_200244.json",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/840a7bfb86b4a9c77d7f71edc1cc33bd8f2811fb34d587fb0fd66277f300ac44/predicciones_completas_20250915_200244.json"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 11085,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Data_files/06_ai_marketing_saas_financial_model.xlsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/70058385089493d5332050ff84fe7ed1122611eefe77a338424629090b3d4ffd/06_AI_Marketing_SaaS_Financial_Model.xlsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 162217,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Data_files/ab_test_anchor_texts_20250915_195400.json",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/7fc7de4e42eabf6e87a517c4b28f6d00069e3487474896ea60cae6048e2adfea/ab_test_anchor_texts_20250915_195400.json"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 649,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Data_files/market_data.json",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/2681860e425902307fc807e52c0428162098279125b7dfd2d87cc867b6d7182c/market_data.json"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 187,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Data_files/mailchimp_export_template.csv",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/de57ce7682858377ff9fb4b3084a2c2aef0eb074c6a5d203cba29ae53a78117e/MAILCHIMP_EXPORT_TEMPLATE.csv"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 6060,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Data_files/dm_linkedin_variants_localized_completo.json",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/b73687f0c28d4a6e841d57fe3dbc51735b3b9fbd2027ccdfabfaf82b68194b24/dm_linkedin_variants_localized_completo.json"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 2451,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Data_files/backup_copycar_20251002_185915.json",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/36793cfd48759ac4f46a49e08971d04ce7af8595a0b42518786814f13fc6e72d/backup_copycar_20251002_185915.json"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 7307,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Data_files/due_diligence_excel_tracker.xlsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/036b937cfe5707bf0c50f0e24b9bc531a4a06576cc2d1b6ec18b7cb27651047a/DUE_DILIGENCE_EXCEL_TRACKER.xlsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 123316,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Data_files/anchor_texts_multilenguaje_20250915_200714.json",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/d2db83f8a2633510c53f2f2e64755f34d618903dbf4d6c4381cec3c823bf33ce/anchor_texts_multilenguaje_20250915_200714.json"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 20541,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Guides/13_operational_procedures_manual.docx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/484755787a950ee280d14099ae098381832ea60e2edcc7ed0f447859d47f11f2/13_Operational_Procedures_Manual.docx"
+      ]
+    },
+    {
+      "count": 3,
+      "size_bytes": 41375,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Guides/manual_compliance_regulaciones_fintech.pdf",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/f7fe85a5def7ac917fb0721df7b74eb2d3370c12c98b03f7787746f5570c636e/manual-compliance-regulaciones-fintech_1.pdf",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/f7fe85a5def7ac917fb0721df7b74eb2d3370c12c98b03f7787746f5570c636e/manual-compliance-regulaciones-fintech.pdf"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 6002,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Sequences/1000_ai_marketing_campaigns.csv",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/75c4cb27ae086a22c0268087323a49beebcd6c628066087e635469093f2c79e5/ai_marketing_campaigns_1000.csv"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 12678,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Sequences/11_marketing_campaign_tracker.xlsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/7eafb2d0630b6d7c4805075321c2d076434a5613300f05e57670cc3ade047c2e/11_Marketing_Campaign_Tracker.xlsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 2068,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/dm_linkedin_export_crm.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/a54644e5e8220d1b093524ff81acb0f581469b8ffdc003a84f369796a86e1e14/dm_linkedin_export_crm.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 24590,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/integrador_apis_anchor_texts.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/de9ceedb817b65998185d3cf54181862f9b742e8d615d22a7fbc2f79da1621a1/integrador-apis-anchor-texts.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 14000,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/generador_anchor_texts.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/b2d593911dc923c17f1f031c4b12151549354e6780002b30a46302368d37014c/generador-anchor-texts.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 20981,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/analizador_mercado_vertical_automotriz.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/8ddd00f2cfb88678e512d21a5d334a8a47d4cbf4c039dc079776d94d2cda3c4c/ANALIZADOR_MERCADO_VERTICAL_AUTOMOTRIZ.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 26894,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/brand_verification.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/87c6481b2032053ef806d83c9a5b33f2eddb72f752078bf8dec4166e89d64687/brand_verification.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 17477,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/generador_avanzado_anchor_texts.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/58b56cbbc7510c422fbe2d814db051d9eeaa238eedb22f8456b5dc2caed7dc36/generador-avanzado-anchor-texts.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 8353,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/metaverse.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/58845d72a641707231e4fc9e1d7c585ed9eb5b15e3677f751e1a5ccee597ea78/metaverse.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 29227,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/generador_variantes_extras.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/18da15e164a71f6e86f461df31a4388c18617096cf00f1c930deec1397971983/generador-variantes-extras.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 23539,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/analizador_tendencias_anchor_texts.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/385e2f188128e9b30a3134eb1ae0976d8d1efbb4f376898bf7fe1e64f1e0543b/analizador-tendencias-anchor-texts.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 39084,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/brand_analyzer.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/7e404b618121d012654705d515e3a3ac77bf3f63a9b226dd46742b0924d35b51/brand_analyzer.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 26541,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/generador_personalizado_anchor_texts.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/d9b81937c635e8800143c9c2ccba674b460c99fda0b92203429e599d25ef9ddf/generador-personalizado-anchor-texts.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 28967,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/generador_formatos_especializados.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/9b56e3e7832ec7433fa09a6384bf17206f115efe78524eefe1b77e9c1b255919/generador-formatos-especializados.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 27398,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/predictor_ia_anchor_texts.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/460dbba2277e90556ec0f43a61a2933257eaad009e15c3920aca9fcd27db1257/predictor-ia-anchor-texts.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 26395,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/generador_multi_formato.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/b27962cf238bf0eb1adcede17273732a311220219481169fceff9321e8e05f5f/generador-multi-formato.py"
+      ]
+    },
+    {
+      "count": 4,
+      "size_bytes": 19274,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/advanced_organize.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/c32607e08edb6f649b66b1eafee47497e16d6175981981c8d390a09bc16c0018/advanced_organize_2.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/c32607e08edb6f649b66b1eafee47497e16d6175981981c8d390a09bc16c0018/advanced_organize.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/c32607e08edb6f649b66b1eafee47497e16d6175981981c8d390a09bc16c0018/advanced_organize_1.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 593,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/__init__.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/de0fbb7ed0b37e2496a81424ae08599d7fe70afd9aa2779d603fd712e1a2a0c2/__init__.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 13488,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/dimensionalmarketing.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/30e4878b461bbc9d6717a3d7574b928ef7b3a0142d1dad75c103a35a6277e13b/DimensionalMarketing.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 16262,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/automatizador_completo_anchor_texts.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/0852f0c2d8dd46972497758fb5f6866adaaed932966d678644dd16502727b0b3/automatizador-completo-anchor-texts.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 2135,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/dm_linkedin_qa_pre_send.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/a939dcc5165e8720b0d968d234c9b8bd1f971863d3f7a596e69862fc4ccc431e/dm_linkedin_qa_pre_send.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 26738,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/generador_a_b_test_anchor_texts.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/ce136273749fa60eba77b1555c9a934fe0d818bf08963c8529af8b03a7e39955/generador-a-b-test-anchor-texts.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 9062,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/website_scraper.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/3102bf92a335a4447d32fe76105133cd043fb8e55be6277e205b25fe6acc675a/website_scraper.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 27829,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/deep_learning_dilucion_optimizer.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/391ec3f818e2e9b7bb24985c0b6957650b3d15f165bf2685cd80fc884e78ded5/DEEP_LEARNING_DILUCION_OPTIMIZER.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 10650,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/dimensional.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/83a12f54f3401a84511c9275071003e3e42bb73ec73004046a37f6667cf92866/dimensional.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 19068,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/optimizador_anchor_texts.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/68f5edc31ca11109128664d61e9430114320cfc8c9c02acd9b19bee9f63bce67/optimizador-anchor-texts.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 4485,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/generar_documento.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/4e22296b3385a65270668339898b404a66ecf87f7818e6fa56fb6f48dff32b9c/generar-documento.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 24854,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/federated_brand_analyzer.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/dd93790354e08a4a12dec6d544ba4039fcfd34166659a14278873750c7998bdf/federated_brand_analyzer.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 16853,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/ecosistema_completo_copycar.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/d5739782e87651214c311cd027f4c80b19d2f3d29df6802bb00c394b597c4ca4/ECOSISTEMA_COMPLETO_COPYCAR.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 34253,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/generador_casos_uso_anchor_texts.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/d5e656abbe6bc03c30afd33d903aa303285856dc5d5670e918afc5fd8373aa47/generador-casos-uso-anchor-texts.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 28062,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/automatizador_implementacion_completo.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/20906fc5bfb58f371645b2083df9c05c5431bfa8d7cbd01324c98ca2919c48ed/AUTOMATIZADOR_IMPLEMENTACION_COMPLETO.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 31913,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/generador_variantes_ultra.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/4a388a1f25935dfb9bbca81501d623cd3b6d71cd437bdf9e987815619f317908/generador-variantes-ultra.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 13194,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/blockchainmarketing.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/99d0ddf751acf8ebe08f5f184f1b375158d2d77eb35381be03bd38ab464c118b/BlockchainMarketing.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 10803,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/contentgenerationpanel.jsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/10c611bb3efd53a2e5ce35291695f4de3c67b53e08b03e275744c893f0d71be8/ContentGenerationPanel.jsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 13140,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/metaversemarketing.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/34075b3977a97e1536d069a1bab4ec43e331da8826a527b3ba957ae231a1c649/MetaverseMarketing.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 12250,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/brand_train.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/3e505d0783f450f1df9345c804f500d8e9e40c23359f90caa4538efeaade6570/brand_train.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 6177,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/demo.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/f75eb06fb24dfe9680377054f181270fd17f1064a3b6e7216bebe1c5490318f8/demo.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 22230,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/analizador_sentimientos_anchor_texts.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/ac1498ad139b7eab3434e1f7da2e9c824c814948ba09b34b8d4c25c872f1b5a2/analizador-sentimientos-anchor-texts.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 19158,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/estrategia_precios_copycar.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/defcccff4cb29ccc9c6e67075bec727197636f938624bdbf5716d4d7dc56144f/ESTRATEGIA_PRECIOS_COPYCAR.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 28798,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/generador_multilenguaje_anchor_texts.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/5737e58a5000ae18b1bfd71ba9b924f8e2d3890bc8299ffcb0a923ce42fe12cd/generador-multilenguaje-anchor-texts.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 29835,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/optimizador_avanzado_anchor_texts.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/49b301f8d9edb947f949d1f9895cacd21cc1ae1c00cec997bdb74fad3ce91177/optimizador-avanzado-anchor-texts.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 27626,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/sistema_completo_ia_anchor_texts.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/af470cdd600a0097d300a8112d360ade2d647a156f52553da81978f85a78e832/sistema-completo-ia-anchor-texts.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 29934,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Scripts/mobile_brand_analyzer.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/4b4dc182689ed10a55323f02fff16f494adcbf156a4cfa7626da043db87828b8/mobile_brand_analyzer.py"
+      ]
+    },
+    {
+      "count": 3,
+      "size_bytes": 28191,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Templates/cierre_ventas_curso_ia_mejorado.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/f48057e9dbc131bb369de3c56b62558d5ea17400e80404c17100f03db658a52c/cierre-ventas-curso-ia-mejorado.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/f48057e9dbc131bb369de3c56b62558d5ea17400e80404c17100f03db658a52c/cierre-ventas-curso-ia-mejorado_1.html"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 96734,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Templates/estrategias_avanzadas_trafico_organico_2024_refactored.docx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/733df91d540f1b3143bda0ea138980932159ee74b212732e4265d26d865fe117/Estrategias-Avanzadas-Trafico-Organico-2024-REFACTORED.docx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 65221,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Templates/resumen_ejecutivo_copy_ventas_ia_marketing.docx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/c78b1d8b60eef0dbb332ea737d1b141bd57f46f01676c9b1fb154dd1465128e3/Resumen-Ejecutivo-Copy-Ventas-IA-Marketing.docx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 20239,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Templates/04_ai_marketing_saas_business_plan.docx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/fe7e376f139322793af03550f0dfa8680d3be8150fc5eb4bf94f5b3d358c0eeb/04_AI_Marketing_SaaS_Business_Plan.docx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 48623,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Templates/frases_populares_busqueda_google_2024.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/0e2e07baed3217db7458b5721ef2dd35ba71bf87c468b02d4255af8a8623381b/frases-populares-busqueda-google-2024.html"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 35926,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Templates/estrategia_anchor_text_ia_marketing.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/4fb4dc91123f9a651262b6f097a953ccb3cd3e3e0c5394ec282613413f14e7a9/estrategia-anchor-text-ia-marketing.html"
+      ]
+    },
+    {
+      "count": 3,
+      "size_bytes": 5232,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Templates/performance_review_templates.csv",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/9e2052b7c814286f7fe1fe82f85477a4d7aa0a2bb3284fe208ed544e6c9a11b9/Performance_Review_Templates.csv",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/9e2052b7c814286f7fe1fe82f85477a4d7aa0a2bb3284fe208ed544e6c9a11b9/Performance_Review_Templates_1.csv"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 26232,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Templates/index.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/051265f2bd9a7aceffb4365926adcdef27f08c1e9edc0286b288eeaf55e46eb6/index.html"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 29766,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Templates/casos_estudio.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/7f124b8cc01ae1bd1beee22b10b4b41a0af27ceaee4e907264ac403f9e949d43/casos-estudio.html"
+      ]
+    },
+    {
+      "count": 3,
+      "size_bytes": 40348,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Templates/cierre_ventas_curso_ia.docx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/35a8e50b852049b22d55a8b98d95bb73406af7ecedc9d3ab552b57f1b5ac49b4/cierre-ventas-curso-ia.docx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/35a8e50b852049b22d55a8b98d95bb73406af7ecedc9d3ab552b57f1b5ac49b4/cierre-ventas-curso-ia_1.docx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 23464,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Templates/sistema_marketing_ultra_revolucionario_interactive.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/1367b1a81bd724e0fa16613494e9dc9b545c9b6b22490ec23a30ba9b0da9c2e9/Sistema_Marketing_Ultra_Revolucionario_Interactive.html"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 22383,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Templates/12_legal_documents_template.docx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/64d0d63cf4c6ad1ec675833a7da790083c2ac6293ec7c05528a8e0e6cd0faa0a/12_Legal_Documents_Template.docx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 6652,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Templates/guia_rapida_anchor_texts_20250912_140730.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/f13b4f121ef7abd6908b741296dde59288d6f9fbb64384c39820a245a3acabc7/guia_rapida_anchor_texts_20250915_135922.html"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 33000,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Templates/index_v2.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/bd80deac80dab393d1151dfcd02b0b2401d6aa6753969913fbcc367cf19647d1/index-v2.html"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 54794,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Templates/estrategias_avanzadas_trafico_organico_2024.docx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/fc929f65a0d5d227b16c72027b980eb214763212e3e4b0374e5377a37a62a52d/Estrategias-Avanzadas-Trafico-Organico-2024.docx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 20572,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Templates/testimonial_ia_marketing.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/eac63d3858a7a88ee9eab051ed4de2676e3f2a071666eef63625b0f8de6ce4e2/testimonial-ia-marketing.html"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 14591,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Templates/resumen_curso_ia_marketing.docx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/a3b580db083880aa89669e0f92e8aaafc9e4b645f85aa1d9407304adfc99a84e/Resumen_Curso_IA_Marketing.docx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 39053,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Templates/index_v3.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/7f9cbae1306811b36ef96e55325f619e0b3b99455412c4ab262b8cef7eb6d296/index-v3.html"
+      ]
+    },
+    {
+      "count": 3,
+      "size_bytes": 24287,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Templates/modelos_negocio_financial_analysis.xlsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/3e81987f11df4205e09299f6504ce10e917199a887d634c407ea4acf77d90e86/Modelos_Negocio_Financial_Analysis_1.xlsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/3e81987f11df4205e09299f6504ce10e917199a887d634c407ea4acf77d90e86/Modelos_Negocio_Financial_Analysis.xlsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 46110,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Templates/frases_populares_busqueda_google_2024.docx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/dd94227ad967561bec7c7a2bc7d1129f3d0027312fc200f9e2a6e824e490b7b3/frases-populares-busqueda-google-2024.docx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 32135,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Templates/curso_detallado.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/5ad8468d84d2d777753ec4172dd84d30d4b5f5e9f0cb7da96b81c6f86e15ad3c/curso-detallado.html"
+      ]
+    },
+    {
+      "count": 3,
+      "size_bytes": 48550,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Templates/cierre_ventas_curso_ia_ultra_avanzado.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/76930e443cc503ab82f235f4efac5000e6862031cd0120da86a669d570022a72/cierre-ventas-curso-ia-ultra-avanzado_1.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/76930e443cc503ab82f235f4efac5000e6862031cd0120da86a669d570022a72/cierre-ventas-curso-ia-ultra-avanzado.html"
+      ]
+    },
+    {
+      "count": 3,
+      "size_bytes": 18072,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Templates/cierre_ventas_curso_ia.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/057e1fa407c81549ce0836197f28482a45bb0bff10ee4dda1e5ffb2dc739bb4a/cierre-ventas-curso-ia_1.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/057e1fa407c81549ce0836197f28482a45bb0bff10ee4dda1e5ffb2dc739bb4a/cierre-ventas-curso-ia.html"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 27284,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Templates/reporte_modelos_negocio_ultra_revolucionario.docx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/f7b82242270b63c26f4c5cff8a8253becb6ba75b1b16cd6a167c167551e5c21f/Reporte_Modelos_Negocio_Ultra_Revolucionario.docx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 61671,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Templates/frases_populares_busqueda_google_2024_ultra_completo.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/2e894a8bb3a68d00bfc035b75b6238b92ce89de02c9f6f574cbe26257f81a045/frases-populares-busqueda-google-2024-ultra-completo.html"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 152709,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Templates/frases_populares_busqueda_google_2024_ultra_completo_final.docx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e05639eaef8374f61edfc732a219354bb2a9d343401304e8c535aeada4c74bfd/frases-populares-busqueda-google-2024-ultra-completo-final.docx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 14049,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Automations/marketingautomationpanel.jsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/f4844e171ae2522a4f69f624d14e8b3db0ca4d3aeb8a61c900e0816f6947e49d/MarketingAutomationPanel.jsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 14732,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Automations/marketingautomation.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e5d3f7f94e0d13ced928b210a532b48cfeb78e08b265f55c344aa8f918998bce/MarketingAutomation.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 8706,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Automations/marketingautomationpanel.css",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/a4ceddbc97ce829fcd4d356d82475cb8a78a8a1d281a1f50d03242fa1cef46fe/MarketingAutomationPanel.css"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 23601,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Automations/due_diligence_automation_script.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e24f455c5f737c07f9a6ba40ad3426966bdf0d195c75deef333048ccd5501145/DUE_DILIGENCE_AUTOMATION_SCRIPT.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 11662,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/02_content_marketing/contentgenerator.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/a4d79184dd9d79c3ec8131939d9c90ad849652d26e1730200f4d1bd994d2162b/ContentGenerator.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 14579,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/02_content_marketing/contentgenerator.tsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/0a4a559e48975fc03b01bc0d9a253df33b91675b36acaf07515a75b67f505e37/ContentGenerator.tsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 3433,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/docker_compose.yml",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/bcbc9e370c147f59536257e103c06fa0ee4b2702b2417d2b4f56ee2dbf45eb0e/docker-compose.yml"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 7079,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/server.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/5ff707a6f87d2a2be380c8a938ab96f88a0fbdf10293028980360603757b6e11/server.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 2261,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/env.example",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e8dc272fe4888c22ce215807033678cfd1c26a0849aec813fc08912683c98882/env.example"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 7971,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Middleware/auth.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/4570e962cdb3dbf044ae93f9c722de9a05e08d985532db90c8602edf28bf01a5/auth.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 8079,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Models/contenttemplate.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/04336a6babac87d818ab978ffac1f913db91b9b1c7013099d7f9120eb7dbf10b/ContentTemplate.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 6467,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Models/user.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/d5c71565eae2c44cfd2581ba645db9eb486a563c6a8fb17d3597024fab4ec6ad/User.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 8085,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Models/generatedcontent.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/c4312a794290e8b25e5c18b891c882e1a28b76c68b0597dff610edc6300f1ee6/GeneratedContent.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 9883,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Client/tailwindconfig.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/1a5585e367c289e344fe345a8132883bdd62b050c9c4f933666e70df903a4dab/tailwind.config.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 2215,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Client/package.json",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e1842b409d4284ec88793425bc0441210bf2b6ca7ae7b6a69b7aa801a9e4ef3b/package.json"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 5076,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Client/Src/app.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/9b2cf642ff24fe95306d5065569c2b995f5667088397abc18ff0864c39004bd3/App.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 6301,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Client/Src/Components/Content/variableinputs.jsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/f59d8a7414381be1f7cd51c0b7cdf47170754cc1014fc86f79ffb33291377f9a/VariableInputs.jsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 11025,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Client/Src/Components/Content/templateselector.jsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e6980b6de8d6824c1945117f102f5b8cf52a231ed846136c60154c7b94af8758/TemplateSelector.jsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 8495,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Client/Src/Components/Content/contentpreview.jsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/d1bb9b2c55f836026174929fb6debe536f90b8db6ccca4ff836ba1cbde66bea2/ContentPreview.jsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 9846,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Client/Src/Components/Content/usagestats.jsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/b09aa0760cc7d4ccc29cca0d68da601dca12f1df979ac94f9e0b0c568a6fc826/UsageStats.jsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 10991,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Client/Src/Components/Content/aisettings.jsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/52c673dcf56af7e7d2d9e13b9d57aafa5fabefa3cfc67ebb76fd755e02535aca/AISettings.jsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 19525,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Client/Src/Pages/contentgenerator.jsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/f8750e3b2233e609dffdf7153d0fe8878e5f86754afe8d73ac336a2ada61646f/ContentGenerator.jsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 4942,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Routes/automation.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/29e290ca2d4f194ff3b7628f9444e35463dedf7c27e4604361bfa1bb87f277b2/automation.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 15467,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Routes/advancedautomation.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/25f1eaca3726355ac43b17198b42f2702ac04bf5ed85904888449b09de877181/advancedAutomation.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 6249,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Routes/predictiveanalytics.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/c0f08915d50dd892d9ceedbdfc7d4982c1c102af4847571827fe73799030fd28/predictiveAnalytics.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 14345,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Routes/optimization.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/28eaedcde08be50d94511fa8a4ae564180f1b5e9e822aa268aef0d0f390cd1f9/optimization.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 11401,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Routes/auth.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/91b5645a2d50a94f04dc5a2b60a17ded4d3248ff3e73b7c22f9291224d05189d/auth.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 14176,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Routes/multimediacontent.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/688979c3f7208e35d1d4279201ac94c790379bc10d62c4406e2d50477b140903/multimediaContent.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 14269,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Routes/aiinsights.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/a6c4d981c954696228cc3e31d2e22ad63342ff8325937b2cf43b15d01352c612/aiInsights.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 12174,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Routes/performance.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/8da7cb409b4a1ae2979c2a8032e5eca86c2ea1d352b439487f593087bacbee26/performance.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 8040,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Routes/contentanalysis.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/bca972817660593b29594ee2f0e715b166c08bafbdcff7ac3f98fd4be345760c/contentAnalysis.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 11324,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Routes/integrations.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/25859dece913400b3d9c5f4a4f6c47597c8f77ca2239211bc2a0d22cb4e7716f/integrations.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 15794,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Routes/content.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/c0a098ecb899d0ec29cbda6b7eebe351b3f33fe2e8eb3e9926ae8372b6a6a79d/content.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 11687,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Routes/templates.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/8787c776ae0585d3d8463d8dc76f5c02d763d64b318b69c09f10a3d98cf9fb6c/templates.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 13287,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Routes/abtesting.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/075956ad19c464486f659fcd901a2b11d32fa8bdc67051e074cc1230e39a3ec8/abTesting.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 12622,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Routes/personalization.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/ea359666a2624866d98c850292be902be8437109d9d7692653e2a0b31f193c20/personalization.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 11508,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Routes/notifications.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/b428f018ee18df2423245ad3a41cf96f5f96f14b8005327c51267cb5d4671781/notifications.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 24476,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Routes/contentstrategy.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/87d5d20dd222468a5fa2a3bb3c919fb0ac88fd8321b87ade2071a1843502d853/contentStrategy.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 12748,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Routes/collaboration.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/b1558b14bc49992b776bdf9f6168019d5ab0d2a3112fdc71cb83e69418cb66a6/collaboration.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 19388,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Services/automationservice.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/99ce295dca6e4859c89553593357fc991e08b73007089221ae8f641def6dd819/automationService.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 11958,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Services/aiservice.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/fc2510ffc2d8760856fb34e022878c471790df868fa7c615d33e74acffc48910/aiService.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 16617,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Services/realtimeservice.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/9d3e8de7cb7ea21bfd33639b570836327db11d9dca739b932783cd264538b722/realTimeService.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 45200,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Services/aicontentstrategyservice.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/0303cf55bbdc8a62ed69533e1c90eac53a93bc08d889e1135582e82abf4f2ca4/aiContentStrategyService.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 19728,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Services/abtestingservice.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/055ed887a9dfb958f850321020bac1f1d45fe61d16778c5f1013a44b6f1eb0ec/abTestingService.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 10367,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Services/advancedautomationservice.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/21b8f4ee30d04d546113a5e21e699ca06449b19fa95231432a844470316158c3/advancedAutomationService.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 14332,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Services/securityservice.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/dcc0c96d71befe5b1905cd5b25dade7185eaec38c72a314fc155e471d5d8a41d/securityService.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 25111,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Services/aipredictiveanalyticsservice.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/702ffa2d4bd174169d381ff4334ae06a3aeb4dd31ed70809e13f27214895520c/aiPredictiveAnalyticsService.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 11986,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Services/multimediacontentservice.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/c5ed22ca9b04aa7bb7bdcf6b05357fa94b0924bc53b9a46a0ebc435a5718004b/multimediaContentService.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 20033,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Services/advancedaiservice.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/8fcbede2a4f22f8c4a149878049e6305daa7944eea75e87544222a5e9909fbbd/advancedAIService.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 21244,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Services/personalizationservice.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/3f62761f1da9f676efe2544bd3132d95284dbe8a1ffd25fa012eb1acafa4c569/personalizationService.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 30546,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Services/machinelearningservice.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/c247ada13f78060a6b3d23d4352813053fabcb559092811cef06268a66a52e93/machineLearningService.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 5353,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Services/contentanalysisservice.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/cfff511072b28a32773e78ee514bc43d07ad70cff56751004c7faefc752e6507/contentAnalysisService.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 30921,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Services/integrationservice.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/f735325bece53b364344c22e9e06d991fa47534306f9736736cc6b6019655c6f/integrationService.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 38667,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Services/aiinsightsservice.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/b109a791bfdebbfd07975a6002b9cac346f6eea60ef8113d2925dde2ddc824d2/aiInsightsService.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 19218,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Services/collaborationservice.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/c05a285c68b7574953a5bc832126a25e0be416e04145803cf132530b9fe4598f/collaborationService.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 17943,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Services/performanceservice.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/1132260f3c77e26b3906443696082223ef48ab81c49e50cf4b4a7a8ae606707b/performanceService.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 24292,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Services/analyticsservice.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/b4715e6773905a06b7aadbd08a1bea2e0bb3341b0f38afd4d6a76d339bef948c/analyticsService.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 17294,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Saasaimarketingplatform/Services/notificationservice.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/7d65eaf9acdb91b246f70e636ef6fc95ab3ddefcc932fcb11a68bb4c52099861/notificationService.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 13700,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Analytics/07_kpi_tracking_dashboard.xlsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/474fd1f7293d11ea8f7fad20eb5b7bf20338d80e89ec9741b397b248129e6f67/07_KPI_Tracking_Dashboard.xlsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 18046,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Analytics/analisis_anchor_texts_20250915_125503.json",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/aad4ffd8843c9769d7ae08bcea31d523da68ed3fd2ab2d8a14e34abef9b24951/analisis_anchor_texts_20250915_135922.json"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 17271,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Analytics/17_ai_business_intelligence_dashboard.xlsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/5072fd5d606531d27305c858d0dc80be1f9bdb65f74b008bfc3bd5aeae4149f3/17_AI_Business_Intelligence_Dashboard.xlsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 4136,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Analytics/ai_marketing_advanced_analytics.csv",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/c4577f353a99f3aa3586568b7ea87ba37e7b9008fe4d70131bbdd6c532953381/AI_Marketing_Advanced_Analytics.csv"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 30260,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Analytics/advanced_due_diligence_dashboard_v3.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/62a1751cfbea317cc2ee2814a244a95937661d167b9e97a8c96647c06c5c252f/ADVANCED_DUE_DILIGENCE_DASHBOARD_V3.html"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 16451,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Analytics/neuralanalytics.tsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/ee8af40530bc31304ad5e08b7868cc2708a4cff2c6133da1d3136b967f781c22/NeuralAnalytics.tsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 5245,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Analytics/neuraldashboard.jsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/db8d1e5c85f8f5ef0998320f64eeb076e78055eb39edae905995fa37181abb94/NeuralDashboard.jsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 31290,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Analytics/advanced_analytics.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/857f58d9c1a2db5453d38d88234b3282bf894b3ca10aef21546a0d55700083f8/advanced_analytics.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 10728,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Analytics/analytics.js",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/c606c1441ca893877d87dc175968d46c861d904d2ecbbf3299c228d3a970924e/analytics.js"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 3897,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Analytics/neuraldashboard.css",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/4c732ed463f1e8f652894a42782c16e5fff11c11b99104c36afaaa649c0d164d/NeuralDashboard.css"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 57374,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Analytics/dashboard_anchor_texts_20250915_195403.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/9bcbb433edfbbe77e5f1a4f735dde7d7486cb0444f6e87411f3a33eb68c5be98/dashboard_anchor_texts_20250915_195403.html"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 17600,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Analytics/27_predictive_analytics_engine.xlsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/53f9fa35b17ba8d35753bfc8f571b967ff3f2685d055e57762150aadc9ebe344/27_Predictive_Analytics_Engine.xlsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 30825,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Analytics/dashboard_interactivo_anchor_texts.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/16d8ddb3948809440dc37c902976f1c2bd59db3b6797f0eb304a507c17c7fd0d/dashboard-interactivo-anchor-texts.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 694,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Analytics/analisis_anchor_texts_20250915_125503.txt",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/136854b698efbef8e2ba4ca8f8a65de510f8d3132fc79efc799ceb94b8f100ea/analisis_anchor_texts_20250915_135922.txt"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 26942,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Analytics/analizador_metricas_anchor_texts.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/fad649aa5772948b9a546cd35aa750e6611c36aa1ba24aeff645dd2be542984c/analizador-metricas-anchor-texts.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 27475,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Analytics/due_diligence_dashboard.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/3dcca4a3fb323626ec1acb0c325908517304c7c48175f35ce392e7267a82d57e/DUE_DILIGENCE_DASHBOARD.html"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 16861,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Analytics/21_advanced_analytics_dashboard.xlsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/7f61e230a634cfd6ad7a5acfc479e19315264b404448793e200da04cc3ec5b7c/21_Advanced_Analytics_Dashboard.xlsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 23820,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Analytics/sales_kpi_dashboard.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/08d510080e2219c36d542be594d8f4270756721c66b1d361c9596fbb90854606/sales-kpi-dashboard.html"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 9510,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/06_analytics/analyticspanel.css",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/c1a1db4b205de3b0e670c508055fca15a0ff9f535e59b4013197b654a3cecbfe/AnalyticsPanel.css"
+      ]
+    },
+    {
+      "count": 3,
+      "size_bytes": 11772,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/06_analytics/analytics_system.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/f5f4759699cb595416ad08bdfb1c9ee28e5ec9fe853f9f4beffe678bf3e432d2/analytics_system_1.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/f5f4759699cb595416ad08bdfb1c9ee28e5ec9fe853f9f4beffe678bf3e432d2/analytics_system.py"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 12620,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/06_analytics/analyticspanel.jsx",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/5ed22ac883871ba978eaca7e4cdb50af8423035ce12759360234cd94f043ae58/AnalyticsPanel.jsx"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 82905,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Reports/formulas_avanzadas_anchor_texts_mejorado.pdf",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/279a11c9c69028c2ee47933d0fe99402135534d985a0a21efcfd2e7078fa580d/formulas-avanzadas-anchor-texts-mejorado.pdf"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 3982,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Reports/guia_marketing_saas.pdf",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/d0d57bb0045025789b9454e34d21959c46a2d38358b4930c9da4bc8e8a16f63b/guia-marketing-saas.pdf"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 6196,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Reports/02_ai_marketing_saas_executive_summary.pdf",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e0f112b18768f3dceb60803bad565c8298cb815342aa730e8e043fd38ced9ada/02_AI_Marketing_SaaS_Executive_Summary.pdf"
+      ]
+    },
+    {
+      "count": 3,
+      "size_bytes": 28416,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Reports/estrategia_gtm_saas_fintech.pdf",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/6b5b951510854ec45c48b866384d6edf66512a91103f36e3a956d37a282c4ecc/estrategia-gtm-saas-fintech.pdf",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/6b5b951510854ec45c48b866384d6edf66512a91103f36e3a956d37a282c4ecc/estrategia-gtm-saas-fintech_1.pdf"
+      ]
+    },
+    {
+      "count": 3,
+      "size_bytes": 8381,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Reports/cierre_ventas_curso_ia.pdf",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/b063448d2690cad212a102f275f849c80990f09142c412e376657ef902666e6e/cierre-ventas-curso-ia_1.pdf",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/b063448d2690cad212a102f275f849c80990f09142c412e376657ef902666e6e/cierre-ventas-curso-ia.pdf"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 15811,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Reports/curso_inteligencia_artificial_empresas.pdf",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/88efc440e3f914cb631155c0439eaa5e432b265d04b97f86457b9ffd4fe57a12/curso-inteligencia-artificial-empresas.pdf"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 11858,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Reports/indice_documentos_completos.pdf",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/5b4294e91b8b5f73f29a5d720c29d485cc5f6469f94f1cbba9bb13ac4727fe3a/indice-documentos-completos.pdf"
+      ]
+    },
+    {
+      "count": 3,
+      "size_bytes": 24279,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Reports/guia_implementacion_ia_fintech.pdf",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/97c64c7cc805b7aaee0e053deb8fcfd51ad3bcbe4a80b2668b71e7fc276e896a/guia-implementacion-ia-fintech_1.pdf",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/97c64c7cc805b7aaee0e053deb8fcfd51ad3bcbe4a80b2668b71e7fc276e896a/guia-implementacion-ia-fintech.pdf"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 30353,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Reports/formulas_avanzadas_anchor_texts_refactorizado.pdf",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/52e6615d2abc5406d564027b3bd778fd9bd9c406b678b255dbf1aa4522fc73e6/formulas-avanzadas-anchor-texts-refactorizado.pdf"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 84128,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Reports/formulas_avanzadas_anchor_texts.pdf",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/dcee319fab1e867ab8cd70f6983f277a176ca1c8354de23f0fb23fff041b8021/formulas-avanzadas-anchor-texts.pdf"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 12632,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Reports/resumen_refactorizacion_formulas.pdf",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/bad395913da49e7364303e741d4ce04ef633f63d31cb639d94e2bf73a26f5d90/resumen-refactorizacion-formulas.pdf"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 20910,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Reports/remote_company_culture_strategy.pdf",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/71c455be06283c7ecc3b1957da3c4ba5f51dbdadd41dbb7b241a1874ef2c294b/remote-company-culture-strategy.pdf"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 16480,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/01_marketing/Reports/resumen_mejoras_omniversales_2025.pdf",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/a7cfdbdaf94e99613b4587665bfb5451961f4be931332765cbc20f9c56be0c73/resumen-mejoras-omniversales-2025.pdf"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 3919,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/.git/logs/HEAD",
+        "/Users/adan/Documents/documentos_blatam/.git/logs/refs/heads/main"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 41,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/.git/refs/heads/main",
+        "/Users/adan/Documents/documentos_blatam/.git/refs/remotes/origin/main"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 661136,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/backups/backup_ultra_avanzado_20251006_132017/bulk-documents-1760126024349.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/bef96b46a60a283075694d32d7798f596e01fe28cff46b81322a6700e6a640e7/bulk-documents-1760126025348.md"
+      ]
+    },
+    {
+      "count": 22,
+      "size_bytes": 0,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/AI_Marketing_Formula_Advanced_Entertainment.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/AI_Marketing_Newsletter_Template_Mejorado_Practico_Real.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/optimizacion_precios_ia_avanzada.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/QUICKSTART.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/post_linkedin_saas_ia_marketing.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/organization_log.txt",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/estrategias_pricing_social.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/AI_Marketing_Lead_Enrichment_Task.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/AI_Webinar_Narrativas_MEJORADAS.rtf",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/AI_Webinar_Narrativas_MEJORADAS.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/GUIA_MAESTRA_IA_MARKETING_CONSOLIDADA.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/Copywriting_Webinar_IA_Marketing_ULTRA_MAESTRO_FINAL.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/Copywriting_Webinar_IA_Marketing_VERSION_FINAL_DEFINITIVA.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/brand_strategy.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/ARQUITECTURA_PLATAFORMA_IA_MARKETING_ULTRA_AVANZADA.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/Entregable2_Semana4_AdanPablo.pdf",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/create_improved_word.py",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/ganchos_saas_ia_marketing.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/resumen_final_completo.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/Curso_Marketing_IA_ULTRA_MEJORADO.html",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/AI_Marketing_Newsletter_Enhanced.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/Curso_Marketing_IA_ULTRA_MEJORADO.md"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 5571,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/47839b320772f6686b6bf6e483a4757bbfe8bdb27c08ec41535f9d35adfd31e1/sistema-marketing-ultra-revolucionario-ultra-transformador-ultra-evolutivo-ultra-consciente-ultra-iluminado-ultra-divino-ultra-trascendental-ultra-infinito-ultra-eterno_1.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/47839b320772f6686b6bf6e483a4757bbfe8bdb27c08ec41535f9d35adfd31e1/sistema-marketing-ultra-revolucionario-ultra-transformador-ultra-evolutivo-ultra-consciente-ultra-iluminado-ultra-divino-ultra-trascendental-ultra-infinito-ultra-eterno.md"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 10517,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/b57f27ca01aa401e2c7b68c4163246fd3757b9723bfa6b149777e01a612d400b/ai-marketing-innovation-lab.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/b57f27ca01aa401e2c7b68c4163246fd3757b9723bfa6b149777e01a612d400b/ai-marketing-innovation-lab_1.md"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 6051,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/5e96d138a12a2f57ac686e3c369880b82993dfad3bfe0cd1cec1bbb4fa2d1ace/sistema-marketing-ultra-revolucionario-ultra-transformador-ultra-evolutivo-ultra-consciente-ultra-iluminado-ultra-divino-ultra-trascendental-ultra-infinito_1.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/5e96d138a12a2f57ac686e3c369880b82993dfad3bfe0cd1cec1bbb4fa2d1ace/sistema-marketing-ultra-revolucionario-ultra-transformador-ultra-evolutivo-ultra-consciente-ultra-iluminado-ultra-divino-ultra-trascendental-ultra-infinito.md"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 4,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/545c38b0922de19734fbffde62792c37c2aef6a3216cfa472449173165220f7d/content_calendar_implementation.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/545c38b0922de19734fbffde62792c37c2aef6a3216cfa472449173165220f7d/ia_ultima_suprema_marketing.md"
+      ]
+    },
+    {
+      "count": 10,
+      "size_bytes": 14095,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/719f7c457e50343e757c09eda0bc6c8a31202cd9c66394131951d254b38acc55/SALESOPS_CLI_IMPROVED_V3.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/719f7c457e50343e757c09eda0bc6c8a31202cd9c66394131951d254b38acc55/SALESOPS_CLI_IMPROVED_V2.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/719f7c457e50343e757c09eda0bc6c8a31202cd9c66394131951d254b38acc55/SALESOPS_CLI_IMPROVED_V6.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/719f7c457e50343e757c09eda0bc6c8a31202cd9c66394131951d254b38acc55/SALESOPS_CLI_REFACTORED_FINAL.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/719f7c457e50343e757c09eda0bc6c8a31202cd9c66394131951d254b38acc55/SALESOPS_CLI_IMPROVED_FINAL.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/719f7c457e50343e757c09eda0bc6c8a31202cd9c66394131951d254b38acc55/SALESOPS_CLI_REFACTORED.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/719f7c457e50343e757c09eda0bc6c8a31202cd9c66394131951d254b38acc55/SALESOPS_CLI_IMPROVED.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/719f7c457e50343e757c09eda0bc6c8a31202cd9c66394131951d254b38acc55/SALESOPS_CLI_IMPROVED_V5.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/719f7c457e50343e757c09eda0bc6c8a31202cd9c66394131951d254b38acc55/SALESOPS_CLI_ENHANCED_FINAL.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/719f7c457e50343e757c09eda0bc6c8a31202cd9c66394131951d254b38acc55/SALESOPS_CLI_IMPROVED_V4.md"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 10354,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/0d8b0eb487009d313adb0397950bde053d3f616281d614a7b5d6c5d18777cebc/EXECUTIVE_SUMMARY_LATAM.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/0d8b0eb487009d313adb0397950bde053d3f616281d614a7b5d6c5d18777cebc/EXECUTIVE_SUMMARY_LATAM_1.md"
+      ]
+    },
+    {
+      "count": 3,
+      "size_bytes": 11974,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/7f94cfd97f62eb5beaf7919fd2f3afb68a8da2c967693b48626ca340f015a2a4/lesson2-ml-basics.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/7f94cfd97f62eb5beaf7919fd2f3afb68a8da2c967693b48626ca340f015a2a4/lesson2-ml-basics_1.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/7f94cfd97f62eb5beaf7919fd2f3afb68a8da2c967693b48626ca340f015a2a4/lesson2-ml-basics_2.md"
+      ]
+    },
+    {
+      "count": 3,
+      "size_bytes": 14702,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e635129d9b54a390e42b339f01fd09e341ec2ab0bce001825bb604e7fdf996b4/lesson3-nlp_2.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e635129d9b54a390e42b339f01fd09e341ec2ab0bce001825bb604e7fdf996b4/lesson3-nlp.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/e635129d9b54a390e42b339f01fd09e341ec2ab0bce001825bb604e7fdf996b4/lesson3-nlp_1.md"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 10951,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/69de91e14215cb2f36c9b5aa6c7b028b4326588869bb04b3a9d3fe16dddc860c/ai-marketing-certification-program_1.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/69de91e14215cb2f36c9b5aa6c7b028b4326588869bb04b3a9d3fe16dddc860c/ai-marketing-certification-program.md"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 11420,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/ce90c0f3a6001078034f61888ce519aed9a9b3386b66ffe9aaaedb78439d9d63/sistema-marketing-ultra-consciente-ultra-avanzado-ultra-trascendental-ultra-divino-ultra-iluminado-ultra-supremo-ultra-absoluto-ultra-infinito-ultra-eterno-ultra-trascendental-ultra-divino-ultra-supremo-ultra-absoluto-ultra-infinito-ultra-eterno.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/ce90c0f3a6001078034f61888ce519aed9a9b3386b66ffe9aaaedb78439d9d63/sistema-marketing-ultra-consciente-ultra-avanzado-ultra-trascendental-ultra-divino-ultra-iluminado-ultra-supremo-ultra-absoluto-ultra-infinito-ultra-eterno.md"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 3524,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/ee95c1cd94e3d01ccc1815a00df4ae3d062b3d5cea36f92f160522ca743934d2/QUICK_SCORING_LEADS_1.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/ee95c1cd94e3d01ccc1815a00df4ae3d062b3d5cea36f92f160522ca743934d2/QUICK_SCORING_LEADS.md"
+      ]
+    },
+    {
+      "count": 3,
+      "size_bytes": 8112,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/a2aa80059900452f293a1d01c76448146d4517c8ac6dd562e259531428fca599/ORGANIZACION_MAESTRA_2.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/a2aa80059900452f293a1d01c76448146d4517c8ac6dd562e259531428fca599/ORGANIZACION_MAESTRA_1.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/a2aa80059900452f293a1d01c76448146d4517c8ac6dd562e259531428fca599/ORGANIZACION_MAESTRA.md"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 12219,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/dfcb1725ff706976d14a6d3a340aa1bec16a61c90f51185ec796db87471fa447/ai-marketing-global-expansion_1.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/dfcb1725ff706976d14a6d3a340aa1bec16a61c90f51185ec796db87471fa447/ai-marketing-global-expansion.md"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 26549,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/82dcfc08a4d9db173dfcbec2c1ece4e8819c5b9b6a661c40d1fdd2d4b7c704a2/VIP_Program_Customer_Documentation.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/82dcfc08a4d9db173dfcbec2c1ece4e8819c5b9b6a661c40d1fdd2d4b7c704a2/VIP_Program_Customer_Documentation_1.md"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 13301,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/041f54827ba72eec82e9d04969c2032ee11752a5e222ff6735f29490c2d85a40/ai-marketing-industry-specializations.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/041f54827ba72eec82e9d04969c2032ee11752a5e222ff6735f29490c2d85a40/ai-marketing-industry-specializations_1.md"
+      ]
+    },
+    {
+      "count": 3,
+      "size_bytes": 4833,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/7e08aedd1391b7c90e49b5cf84de69278dd0122e841086fb8d3196c0dd2bcc37/lesson1-introduction_2.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/7e08aedd1391b7c90e49b5cf84de69278dd0122e841086fb8d3196c0dd2bcc37/lesson1-introduction_1.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/7e08aedd1391b7c90e49b5cf84de69278dd0122e841086fb8d3196c0dd2bcc37/lesson1-introduction.md"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 21725,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/56405848f7b94b74f7b1b1094d9802ae9c0ca324bfc45be226a08e9340905d6f/VIP_Program_Sales_Documentation_1.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/56405848f7b94b74f7b1b1094d9802ae9c0ca324bfc45be226a08e9340905d6f/VIP_Program_Sales_Documentation.md"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 27187,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/53a29883bcedd08da85181502c9792b453c41b6e0a3d4ba42663ea2a6624f8d4/VC_Advanced_Psychology_Mastery_2024.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/53a29883bcedd08da85181502c9792b453c41b6e0a3d4ba42663ea2a6624f8d4/VC_Advanced_Psychology_Mastery_2024_1.md"
+      ]
+    },
+    {
+      "count": 14,
+      "size_bytes": 1,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b/checklist_ia_bulk_documentos.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b/kpis_ia_bulk_documentos.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b/informe_ejecutivo_marketing.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b/captura_lead_magnet_saas_ia_marketing.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b/guia_ai_healthcare.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b/lead_magnets_ia_bulk_documentos.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b/ai_startup_bulk_emails.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b/LEAD_MAGNET_3_IA_BULK_DOCUMENTOS.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b/checklist_saas_ia_marketing_1.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b/ai_bulk_document_generator_pitch_deck.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b/checklist_7_pasos_saas_ia_marketing.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b/curso_ia_seo_guest_posting.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b/03_secuencia_ia_bulk_documentos_1.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b/captura_lead_magnet_ia_bulk_documentos.md"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 20289,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/2a7f3aafa462d03be4177ba245b351c5d63d4633d261b4329a9ec4f21009aa3c/ai-course-documentation_1.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/2a7f3aafa462d03be4177ba245b351c5d63d4633d261b4329a9ec4f21009aa3c/ai-course-documentation.md"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 251710,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/98d0e9dcee6ab57d1f016ca57f8e8c7164728ac2dedcd3b862eb53fecba81dc2/sistema-marketing-ultra-revolucionario-final_1.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/98d0e9dcee6ab57d1f016ca57f8e8c7164728ac2dedcd3b862eb53fecba81dc2/sistema-marketing-ultra-revolucionario-final.md"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 11886,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/a2010655ed0a4a40141bc9332f34aed4f7981a15ced67c6e61f070bb69bd3e84/sistema-marketing-ultra-consciente-ultra-avanzado-ultra-trascendental-ultra-divino-ultra-iluminado-ultra-supremo-ultra-absoluto-ultra-infinito.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/a2010655ed0a4a40141bc9332f34aed4f7981a15ced67c6e61f070bb69bd3e84/sistema-marketing-ultra-consciente-ultra-avanzado-ultra-trascendental-ultra-divino-ultra-iluminado-ultra-supremo-ultra-absoluto-ultra-infinito-ultra-eterno-ultra-trascendental-ultra-divino-ultra-supremo-ultra-absoluto-ultra-infinito.md"
+      ]
+    },
+    {
+      "count": 5,
+      "size_bytes": 6,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/d088784b7ecb87f1ea17e6f982fa968ffefcc07b79de6ecc548fc00242868da6/estrategia_engagement_avanzada.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/d088784b7ecb87f1ea17e6f982fa968ffefcc07b79de6ecc548fc00242868da6/optimizacion_conversion_linkedin.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/d088784b7ecb87f1ea17e6f982fa968ffefcc07b79de6ecc548fc00242868da6/script_saas_marketing_ia_60s.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/d088784b7ecb87f1ea17e6f982fa968ffefcc07b79de6ecc548fc00242868da6/analisis_competitivo_linkedin.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/d088784b7ecb87f1ea17e6f982fa968ffefcc07b79de6ecc548fc00242868da6/post_linkedin_ia_bulk_documentos_variacion.md"
+      ]
+    },
+    {
+      "count": 2,
+      "size_bytes": 188447,
+      "files": [
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/11a141fa4e0bace34234ed4ea93eb98277adcab5924472ae5d63a003ff8461aa/curso-ia-saas-ventas-ultra-revolucionario.md",
+        "/Users/adan/Documents/documentos_blatam/backups/duplicates/11a141fa4e0bace34234ed4ea93eb98277adcab5924472ae5d63a003ff8461aa/curso-ia-saas-ventas-ultra-revolucionario_1.md"
+      ]
+    }
+  ]
+}

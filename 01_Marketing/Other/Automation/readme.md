@@ -1,0 +1,13 @@
+---
+title: "Readme"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/Other/Automation/readme.md"
+---
+
+# Automation
+
+## Archivos
+- ganchos_automatizacion.md
+

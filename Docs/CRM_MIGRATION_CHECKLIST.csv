@@ -1,0 +1,14 @@
+orden,tarea,detalle,owner,fecha_objetivo,estado,notas
+1,AUDITORIA_EXPORT,Exportar datos actuales (contactos,deals,campos),,,backlog,
+2,MODELO_DATOS,Definir campos destino y normalizar valores,,,backlog,
+3,PILOTO,Importar 200 registros y probar 2 semanas,,,backlog,
+4,VALIDACION,Validar reportes clave y adopcion equipo,,,backlog,
+5,MIGRACION_TOTAL,Planificar ventana, backup y rollback,,,backlog,
+6,INTEGRACIONES,Conectar email, calendly, facturacion,,,backlog,
+7,WORKFLOWS,Configurar automatizaciones basicas (asignacion,recordatorios),,,backlog,
+8,PERMISOS,Roles, permisos y naming conventions,,,backlog,
+9,FORMACION,Playbooks y office hours (2-4 semanas),,,backlog,
+10,CIERRE_ANTERIOR,Cerrar sistema anterior tras mes en paralelo,,,backlog,
+
+
+

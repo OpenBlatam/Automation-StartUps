@@ -1,0 +1,11 @@
+objective,channel,variant,snippet,tone,length_chars,emoji_allowed,hypothesis
+book_demo,linkedin,A,"Vi que [empresa] creció [métrica]% en [año]. ¿Vale explorar 15' para replicarlo con [producto]? Martes 10:30 o 15:00.",consultative,140,true,"Métrica pública + propuesta de valor breve aumenta respuestas"
+book_demo,linkedin,B,"¿Tiene sentido revisar cómo [rol] de [par] bajó CAC 18% con [producto]? Tengo 2 ideas aplicables a [empresa]. 10:30 o 15:00?",peer-based,160,true,"Prueba social de par + 2 ideas concretas mejora interés"
+book_demo,email,A,"Asunto: 2 ideas para subir reply→demo en [empresa]\nCuerpo: Vi [dato]. Puedo mostrar cómo clientes tipo [par] subieron reply→demo 22% en 21 días. ¿Mar/Mié 10:00?",credible,220,false,"Datos + ventana específica reduce fricción y aumenta bookings"
+book_demo,email,B,"Asunto: Quick win en 21 días\nCuerpo: Si en 21 días no subimos reply→demo ≥15%, no facturas. 15' para ver encaje. ¿Mié 10:00?",direct,200,false,"Garantía condicionada acelera decisión para ICP claro"
+reengage,whatsapp,A,"Hola [nombre], vi que retomaron [iniciativa]. Tengo un shortcut de 2 pasos para [resultado] sin tocar stack. ¿Te lo mando y agendamos si encaja?",friendly,170,true,"Barrera baja con entrega de valor primero reabre conversación"
+reengage,whatsapp,B,"Si no movemos [métrica] ≥10% en 14 días, te digo por qué no. ¿Te paso el play y vemos 15'?",challenger,150,true,"Compromiso de verdad + next step claro re-activa leads fríos"
+nurture,linkedin,A,"Acabo de documentar cómo [rol] prioriza A/B en top-of-funnel con ejemplos reales. ¿Te comparto el one-pager?",helpful,150,true,"Ofrecer recurso útil sin CTA dura mantiene calor"
+nurture,email,B,"Asunto: Benchmark por industria [sector]\nCuerpo: Tabla comparativa de reply, demo, no-show en [sector] 2024. ¿Quieres la plantilla y 10' para calibrar?",informative,230,false,"Benchmark + plantilla impulsa micro-compromiso"
+objection_budget,linkedin,A,"Si el coste no compensa en ≤30 días, paramos. ¿Te muestro el modelo ROI con tus datos?",reassuring,150,false,"Compromiso de stop-loss reduce riesgo percibido"
+objection_timing,email,A,"Asunto: Timing y riesgo cero\nCuerpo: Podemos arrancar con 1 segmento, 2 semanas, riesgo acotado. Si no hay lift, pausamos. ¿Te va mar 15:00?",structured,240,false,"Piloto pequeño baja barreras por timing"

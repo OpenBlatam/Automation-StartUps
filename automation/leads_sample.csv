@@ -1,0 +1,12 @@
+id,nombre,email,linkedin_url,empresa,rol,pais,fuente,utm_source,utm_campaign,score,owner,etapa,created_at
+lead-1,Juan Perez,juan1@example.com,https://linkedin.com/in/juan1,Acme Inc,CMO,MX,landing,li,curso_lm_v1,6,adan,Identificado,2025-10-30T10:00:00Z
+lead-2,Ana Ruiz,ana@example.com,https://linkedin.com/in/anaruiz,Marketly,Head of Growth,ES,dm,email,saas_lm_v1,7,adan,Contactado,2025-10-30T10:05:00Z
+lead-3,Carlos Soto,carlos@example.com,https://linkedin.com/in/csoto,Creativa,CEO,AR,landing,li,bulk_lm_v1,5,adan,Identificado,2025-10-30T10:10:00Z
+lead-4,Laura Diaz,laura@example.com,https://linkedin.com/in/lauradiaz,OmniShop,Performance Lead,CL,ads,meta,saas_lm_v1,8,adan,Contactado,2025-10-30T10:15:00Z
+lead-5,Pedro Lima,pedro@example.com,https://linkedin.com/in/plima,EdTechPro,Program Manager,PE,landing,li,curso_lm_v1,4,adan,Identificado,2025-10-30T10:20:00Z
+lead-6,Sofia Mena,sofia@example.com,https://linkedin.com/in/sofiamena,AgenciaX,Ops Lead,CO,dm,wa,bulk_lm_v1,7,adan,Contactado,2025-10-30T10:25:00Z
+lead-7,Diego Rios,diego@example.com,https://linkedin.com/in/drios,FinAds,CMO,MX,ads,google,saas_lm_v1,9,adan,Demo,2025-10-30T10:30:00Z
+lead-8,Marta Gil,marta@example.com,https://linkedin.com/in/martagil,FormUp,Director,ES,landing,li,curso_lm_v1,6,adan,Registrado Webinar,2025-10-30T10:35:00Z
+lead-9,Elena Paz,elena@example.com,https://linkedin.com/in/elenapaz,SalesPro,RevOps,UY,dm,li,bulk_lm_v1,5,adan,Identificado,2025-10-30T10:40:00Z
+lead-10,Ramon Sol,ramon@example.com,https://linkedin.com/in/ramonsol,DataWave,VP Marketing,US,ads,tiktok,saas_lm_v1,8,adan,Contactado,2025-10-30T10:45:00Z
+

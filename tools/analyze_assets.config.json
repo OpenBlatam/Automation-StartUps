@@ -1,0 +1,46 @@
+{
+  "thresholds": {
+    "max_dom_nodes": 500,
+    "max_filters": 5,
+    "max_gradients": 10,
+    "min_health_score": 75,
+    "max_file_size_kb": 200,
+    "max_empty_svgs_percent": 5,
+    "max_security_issues": 0,
+    "max_broken_links": 10
+  },
+  "cache": {
+    "validity_seconds": 3600,
+    "enabled": true
+  },
+  "progress": {
+    "enabled": true,
+    "show_percent": true
+  },
+  "alerts": {
+    "on_critical": true,
+    "on_warning": false,
+    "on_success": false
+  },
+  "analysis": {
+    "check_accessibility": true,
+    "check_security": true,
+    "check_seo": true,
+    "check_performance": true,
+    "check_palette": true,
+    "check_video_resources": true
+  },
+  "reporting": {
+    "generate_html": false,
+    "generate_csv": false,
+    "generate_json": false,
+    "generate_sarif": false,
+    "generate_jsonl": false,
+    "generate_module_reports": false
+  },
+  "parallel": {
+    "enabled": false,
+    "max_workers": 4
+  }
+}
+

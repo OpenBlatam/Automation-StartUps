@@ -1,0 +1,68 @@
+# 🎯 Esquema de Propiedades CRM (importación)
+
+objects:
+  contact:
+    properties:
+      - name: dm_variant
+        label: DM Variant
+        type: enumeration
+        options: [A, B, C, D, E, F]
+      - name: lead_score
+        label: Lead Score
+        type: number
+        min: 0
+        max: 10
+      - name: best_send_hour
+        label: Best Send Hour (Local)
+        type: number
+        min: 0
+        max: 23
+      - name: primary_objection
+        label: Primary Objection
+        type: enumeration
+        options: [timing, presupuesto, competidor, tono, otros]
+      - name: channel
+        label: Channel
+        type: enumeration
+        options: [LinkedIn, Email, WhatsApp]
+      - name: industry
+        label: Industry
+        type: text
+      - name: language
+        label: Language
+        type: enumeration
+        options: [es, en, pt]
+  deal:
+    properties:
+      - name: demo_booked_at
+        label: Demo Booked At
+        type: datetime
+      - name: outcome_pricing
+        label: Outcome Pricing
+        type: boolean
+      - name: package_tier
+        label: Package Tier
+        type: enumeration
+        options: [Starter, Growth, Scale, Enterprise]
+      - name: mrr_delta_expected
+        label: MRR Delta Expected
+        type: currency
+      - name: kpi_baseline
+        label: KPI Baseline
+        type: number
+      - name: kpi_target
+        label: KPI Target
+        type: number
+
+events:
+  - name: DM_SENT
+    required_fields: [contactId, channel, variant, timestamp]
+  - name: DM_REPLY
+    required_fields: [contactId, timestamp]
+  - name: DEMO_BOOKED
+    required_fields: [contactId, dealId, timestamp]
+  - name: DEAL_WON
+    required_fields: [dealId, amount, timestamp]
+  - name: DEAL_LOST
+    required_fields: [dealId, reason, timestamp]
+

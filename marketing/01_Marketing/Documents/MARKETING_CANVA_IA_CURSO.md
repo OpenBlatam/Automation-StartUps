@@ -1,3 +1,11 @@
+---
+title: "Marketing Canva Ia Curso"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Documents/marketing_canva_ia_curso.md"
+---
+
 # 🚀 LÍNEA DE PRODUCCIÓN MARKETING CANVA - CURSO IA APLICADO AL MARKETING
 
 ## 📋 ESTRUCTURA DE CONTENIDOS

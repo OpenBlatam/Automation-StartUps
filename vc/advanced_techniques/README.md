@@ -1,3 +1,11 @@
+---
+title: "Readme"
+category: "Vc"
+tags: []
+created: "2025-10-29"
+path: "Vc/Advanced_techniques/readme.md"
+---
+
 # 🎯 VC ADVANCED TECHNIQUES
 ## 📁 Técnicas Avanzadas de Venture Capital
 

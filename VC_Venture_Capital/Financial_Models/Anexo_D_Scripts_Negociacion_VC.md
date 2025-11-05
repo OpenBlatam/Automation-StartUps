@@ -1,3 +1,11 @@
+---
+title: "Anexo D Scripts Negociacion Vc"
+category: "Vc_venture_capital"
+tags: ["script"]
+created: "2025-10-29"
+path: "Vc_venture_capital/Financial_models/anexo_d_scripts_negociacion_vc.md"
+---
+
 # 🎭 ANEXO D: SCRIPTS DE NEGOCIACIÓN VC
 ## Guiones y Técnicas para Negociación Efectiva
 

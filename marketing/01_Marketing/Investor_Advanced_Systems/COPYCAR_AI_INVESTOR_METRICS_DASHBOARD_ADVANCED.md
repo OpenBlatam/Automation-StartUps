@@ -1,3 +1,11 @@
+---
+title: "Copycar Ai Investor Metrics Dashboard Advanced"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Investor_advanced_systems/copycar_ai_investor_metrics_dashboard_advanced.md"
+---
+
 # COPYCAR.AI INVESTOR METRICS DASHBOARD - ADVANCED EDITION
 ## The Complete Guide to Investor Metrics and Analytics
 

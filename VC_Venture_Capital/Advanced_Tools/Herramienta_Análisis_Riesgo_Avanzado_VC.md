@@ -1,3 +1,11 @@
+---
+title: "Herramienta Análisis Riesgo Avanzado Vc"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Advanced_tools/herramienta_análisis_riesgo_avanzado_vc.md"
+---
+
 # Herramienta de Análisis de Riesgo Avanzado VC
 
 ## Descripción

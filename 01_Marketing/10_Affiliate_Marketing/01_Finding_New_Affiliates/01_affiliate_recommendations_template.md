@@ -1,3 +1,11 @@
+---
+title: "01 Affiliate Recommendations Template"
+category: "01_marketing"
+tags: ["business", "marketing", "template"]
+created: "2025-10-29"
+path: "01_marketing/10_affiliate_marketing/01_finding_new_affiliates/01_affiliate_recommendations_template.md"
+---
+
 # 🎯 Finding New Affiliates - Advanced Affiliate Recommendations Template
 
 ## Template: AI-Powered Affiliate Recommendations for AI Course & SaaS Marketing

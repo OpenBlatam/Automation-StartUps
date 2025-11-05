@@ -1,0 +1,19 @@
+---
+title: "Readme"
+category: "20_project_management"
+tags: []
+created: "2025-10-29"
+path: "20_project_management/Process_maps/readme.md"
+---
+
+# Process_Maps
+
+## Archivos
+- DIAGRAMA_PROCESOS_CRITICOS.md
+- INDEX.md
+- MAPA_PROCESOS_CRITICOS_HIPER_REVOLUCIONARIO.md
+- MAPA_PROCESOS_CRITICOS_HIPER_REVOLUCIONARIO_FINAL.md
+- MAPA_PROCESOS_CRITICOS_NEGOCIO.md
+- MAPA_PROCESOS_CRITICOS_ULTRA_REVOLUCIONARIO.md
+- MAPA_PROCESOS_CRITICOS_ULTRA_REVOLUCIONARIO_FINAL.md
+

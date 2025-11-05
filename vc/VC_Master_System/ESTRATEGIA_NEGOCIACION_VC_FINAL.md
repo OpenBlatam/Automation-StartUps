@@ -1,3 +1,11 @@
+---
+title: "Estrategia Negociacion Vc Final"
+category: "Vc"
+tags: ["strategy"]
+created: "2025-10-29"
+path: "Vc/Vc_master_system/estrategia_negociacion_vc_final.md"
+---
+
 # 🚀 CopyCar.ai - Estrategia de Negociación VC Final
 
 ## Sistema Completo de Negociación para Serie A - $5M

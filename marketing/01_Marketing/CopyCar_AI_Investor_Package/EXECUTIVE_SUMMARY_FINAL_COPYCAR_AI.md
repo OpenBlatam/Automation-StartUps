@@ -1,3 +1,11 @@
+---
+title: "Executive Summary Final Copycar Ai"
+category: "Marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "Marketing/01_marketing/Copycar_ai_investor_package/executive_summary_final_copycar_ai.md"
+---
+
 # 📋 CopyCar.ai - Executive Summary Final
 
 ## Resumen Ejecutivo Optimizado para Serie A - $5M

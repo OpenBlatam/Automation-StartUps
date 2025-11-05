@@ -1,0 +1,23 @@
+{
+  "version": "v10",
+  "platform_version": "v10",
+  "type": "zap",
+  "name": "SaaS: Dunning + Suspensión/React.",
+  "description": "Gestiona cobros fallidos, suspensión tras N reintentos y reactivación al pagar",
+  "trigger": {"app": "stripe", "event": "charge_failed"},
+  "steps": [
+    {"app": "customer_io", "event": "start_campaign", "mapping": {"campaign": "dunning_series", "email": "{{stripe.customer_email}}"}},
+    {"app": "delay", "event": "delay_for", "mapping": {"unit": "hours", "value": 48}},
+    {"app": "filter", "event": "only_if", "mapping": {"condition": "{{stripe.retries}} >= 3"}},
+    {"app": "webhook", "event": "post", "mapping": {"url": "{{secrets.BASE_URL}}/suspend", "body": {"customerId": "{{stripe.customer_id}}", "reason": "payment_failed", "retries": "{{stripe.retries}}"}}}
+  ],
+  "secondary": [
+    {"name": "SaaS: Reactivación", "trigger": {"app": "stripe", "event": "invoice_payment_succeeded"}, "steps": [
+      {"app": "webhook", "event": "post", "mapping": {"url": "{{secrets.BASE_URL}}/reactivate", "body": {"customerId": "{{stripe.customer_id}}"}}},
+      {"app": "gmail", "event": "send_email", "mapping": {"to": "{{stripe.customer_email}}", "subject": "¡Listo! Tu cuenta fue reactivada", "body": "Tu acceso ya está disponible."}}
+    ]}
+  ],
+  "variables": [
+    {"key": "secrets.BASE_URL", "value": "https://api.ejemplo.com"}
+  ]
+}

@@ -1,0 +1,5 @@
+recurso,rol,hrs_disp_sem,hrs_asignadas_sem,utilizacion_pct,tarea,deadline,prioridad,nota
+Nombre 1,Marketing Ops,40,,=IF(C2=0,"",ROUND(D2/C2*100,1)),GTM/SSC Ajustes,__/__/____,Alta,
+Nombre 2,Data Analyst,40,,=IF(C3=0,"",ROUND(D3/C3*100,1)),Dashboard táctico,__/__/____,Media,
+TOTAL,,=SUM(C2:C3),=SUM(D2:D3),=IF(C4=0,"",ROUND(D4/C4*100,1)),,,,
+Reglas,Tope recomendado, , ,80%,,,,

@@ -1,0 +1,37 @@
+{
+  "defaults": {
+    "fallback_variant": "Problema_A",
+    "business_hours": [9, 17]
+  },
+  "industry": {
+    "ecommerce": ["Resultado_B", "Problema_A"],
+    "saas": ["ROI_A", "Resultado_B", "Problema_A"],
+    "agencia": ["Caso_A", "Resultado_B"],
+    "educacion": ["Resultado_B", "Problema_A"],
+    "salud": ["Problema_A", "Caso_A"]
+  },
+  "seniority": {
+    "executive": ["ROI_A", "Resultado_B"],
+    "manager": ["Resultado_B", "Problema_A"],
+    "ic": ["Problema_A", "Resultado_B"]
+  },
+  "timing": {
+    "morning": ["Resultado_B"],
+    "afternoon": ["Problema_A"],
+    "evening": ["SocialProof_C"]
+  },
+  "locale": {
+    "es-mx": {
+      "timing_hours": [9, 18],
+      "priority": ["Resultado_B", "Problema_A"]
+    },
+    "es-es": {
+      "timing_hours": [9, 17],
+      "priority": ["Problema_A", "Resultado_B"]
+    },
+    "en-us": {
+      "timing_hours": [8, 16],
+      "priority": ["ROI_A", "Resultado_B"]
+    }
+  }
+}

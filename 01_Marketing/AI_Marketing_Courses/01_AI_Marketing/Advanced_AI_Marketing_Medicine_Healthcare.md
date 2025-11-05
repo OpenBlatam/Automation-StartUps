@@ -1,3 +1,11 @@
+---
+title: "Advanced Ai Marketing Medicine Healthcare"
+category: "01_marketing"
+tags: ["business", "marketing"]
+created: "2025-10-29"
+path: "01_marketing/Ai_marketing_courses/01_ai_marketing/advanced_ai_marketing_medicine_healthcare.md"
+---
+
 # 🏥 Advanced AI Marketing Medicine & Healthcare
 
 ## 🩺 Medicine-Based AI Marketing Framework

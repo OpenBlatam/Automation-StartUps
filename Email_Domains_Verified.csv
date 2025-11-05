@@ -1,0 +1,6 @@
+domain,provider,verified,spf,dkim,dmarc,notes,last_checked
+empresa.com,Google Workspace,true,true,true,quarantine,Primary domain OK,2025-10-30
+midominio.com,Microsoft 365,true,true,true,reject,High trust,2025-10-30
+send-only.io,SMTP Relay,false,false,false,none,Pendiente verificación,2025-10-30
+landingmail.co,Transaccional,true,true,true,none,Revisar política DMARC,2025-10-30
+

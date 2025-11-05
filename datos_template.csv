@@ -1,0 +1,4 @@
+lead_id,company,industry,region,channel,variant,personalization_level,sent_at,replied_at,reply_type,meeting_scheduled_at,deal_amount_usd,product
+L-0001,Acme Inc,Marketing,US,linkedin,A,2,2025-10-01T14:10:00Z,2025-10-02T09:05:00Z,positive,2025-10-03T15:00:00Z,12000,marketing
+L-0002,Globex,EdTech,MX,email,B,3,2025-10-01T16:30:00Z,,none,,,curso
+L-0003,Initech,Legal,ES,linkedin,C,1,2025-10-02T10:00:00Z,2025-10-02T18:40:00Z,info,2025-10-04T12:30:00Z,,docs

@@ -1,3 +1,11 @@
+---
+title: "Glosario Terminos Vc Completo"
+category: "Vc_venture_capital"
+tags: []
+created: "2025-10-29"
+path: "Vc_venture_capital/Glossary/glosario_terminos_vc_completo.md"
+---
+
 # Glosario Completo de Términos VC
 
 ## Descripción

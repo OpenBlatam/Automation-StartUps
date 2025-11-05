@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080">
+  <defs>
+    <linearGradient id="bg-liquid" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0A0F1A"/>
+      <stop offset="50%" stop-color="#1A1F2E"/>
+      <stop offset="100%" stop-color="#0F141F"/>
+    </linearGradient>
+    <linearGradient id="liquid-blue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00D9FF"/>
+      <stop offset="50%" stop-color="#0066FF"/>
+      <stop offset="100%" stop-color="#0040CC"/>
+    </linearGradient>
+    <linearGradient id="liquid-purple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF00CC"/>
+      <stop offset="50%" stop-color="#CC00FF"/>
+      <stop offset="100%" stop-color="#9900CC"/>
+    </linearGradient>
+    <linearGradient id="liquid-green" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00FF99"/>
+      <stop offset="50%" stop-color="#00CC66"/>
+      <stop offset="100%" stop-color="#009933"/>
+    </linearGradient>
+    <radialGradient id="liquid-spot" cx="50%" cy="40%">
+      <stop offset="0%" stop-color="rgba(0,217,255,0.25)"/>
+      <stop offset="50%" stop-color="rgba(255,0,204,0.15)"/>
+      <stop offset="100%" stop-color="rgba(0,255,153,0)"/>
+    </radialGradient>
+    <filter id="liquid-blur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="liquid-glow" x="-200%" y="-200%" width="500%" height="500%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blur"/>
+      <feOffset in="blur" dx="0" dy="0" result="offsetBlur"/>
+      <feFlood flood-color="#00D9FF" flood-opacity="0.6"/>
+      <feComposite in2="offsetBlur" operator="in" result="cyan"/>
+      <feFlood flood-color="#FF00CC" flood-opacity="0.4"/>
+      <feComposite in2="offsetBlur" operator="in" result="magenta"/>
+      <feMerge>
+        <feMergeNode in="cyan"/>
+        <feMergeNode in="magenta"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="liquid-shadow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="10"/>
+      <feOffset dx="0" dy="12" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.5"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      @font-face { font-family: Inter; src: local('Inter'), local('Arial'); }
+      .headline { font: 900 52px/1.1 Inter, system-ui, -apple-system; fill: url(#liquid-blue); letter-spacing: -1px; text-anchor: middle; filter: url(#liquid-glow); }
+      .subhead { font: 600 22px/1.3 Inter, system-ui, -apple-system; fill: #FFFFFF; text-anchor: middle; filter: url(#liquid-glow); }
+      .chip { font: 800 20px/1.2 Inter, system-ui, -apple-system; fill: #FFFFFF; text-anchor: middle; }
+      .cta-text { font: 900 36px/1 Inter, system-ui, -apple-system; fill: #000000; text-anchor: middle; }
+      .benefit { font: 500 18px/1.4 Inter, system-ui, -apple-system; fill: #E0F0FF; }
+    </style>
+    <path id="blob1" d="M 0 0 Q 60 30 120 0 T 240 0 Q 300 50 360 0 T 480 0 Q 540 30 600 0 L 600 90 Q 540 120 480 90 T 360 90 Q 300 120 240 90 T 120 90 Q 60 120 0 90 Z" fill="url(#liquid-blue)" opacity="0.25" filter="url(#liquid-blur)"/>
+    <g id="liquid-drop">
+      <ellipse cx="20" cy="25" rx="12" ry="18" fill="url(#liquid-blue)" filter="url(#liquid-glow)"/>
+      <path d="M 2 25 Q 2 10 20 10 Q 38 10 38 25" fill="url(#liquid-blue)" opacity="0.6"/>
+      <circle cx="20" cy="12" r="4" fill="rgba(255,255,255,0.4)"/>
+    </g>
+    <g id="liquid-wave">
+      <path d="M 0 30 Q 30 15 60 30 T 120 30" fill="none" stroke="url(#liquid-blue)" stroke-width="2.5" stroke-linecap="round" filter="url(#liquid-glow)"/>
+      <path d="M 0 40 Q 30 25 60 40 T 120 40" fill="none" stroke="url(#liquid-purple)" stroke-width="2" stroke-linecap="round" opacity="0.7" filter="url(#liquid-glow)"/>
+    </g>
+    <g id="cta-liquid">
+      <rect x="0" y="0" width="360" height="80" rx="20" fill="url(#liquid-blue)"/>
+      <rect x="0" y="0" width="360" height="80" rx="20" fill="url(#liquid-purple)" opacity="0.4"/>
+      <rect x="0" y="0" width="360" height="40" rx="20" fill="rgba(255,255,255,0.3)"/>
+      <rect x="0" y="0" width="360" height="80" rx="20" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="3" filter="url(#liquid-glow)"/>
+      <ellipse cx="180" cy="18" rx="150" ry="30" fill="rgba(255,255,255,0.2)" opacity="0.8"/>
+    </g>
+  </defs>
+  <rect width="1080" height="1080" fill="url(#bg-liquid)"/>
+  <rect width="1080" height="1080" fill="url(#liquid-spot)"/>
+  <g transform="translate(0,150)">
+    <use href="#blob1" opacity="0.12"/>
+  </g>
+  <g opacity="0.5">
+    <use href="#liquid-drop" transform="translate(150,180) scale(0.8)"/>
+    <use href="#liquid-drop" transform="translate(900,880) scale(1.1) rotate(15)"/>
+  </g>
+  <g opacity="0.4">
+    <use href="#liquid-wave" transform="translate(100,150)"/>
+    <use href="#liquid-wave" transform="translate(900,860) rotate(90)"/>
+  </g>
+  <g transform="translate(60,60)" filter="url(#liquid-shadow)">
+    <rect x="0" y="0" width="960" height="70" rx="16" fill="rgba(0,0,0,0.6)"/>
+    <rect x="0" y="0" width="960" height="35" rx="16" fill="url(#liquid-blue)" opacity="0.15"/>
+    <rect x="0" y="0" width="960" height="70" rx="16" fill="none" stroke="url(#liquid-blue)" stroke-width="3" filter="url(#liquid-glow)"/>
+    <text x="480" y="47" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="22" font-weight="900">[FECHA] [HORA]</text>
+  </g>
+  <g transform="translate(540,200)">
+    <text x="0" y="0" class="headline">Webinar Exclusivo</text>
+    <text x="0" y="35" class="subhead">Descubre el Futuro de la IA</text>
+  </g>
+  <g transform="translate(540,320)">
+    <g transform="translate(-200,-40)" filter="url(#liquid-shadow)">
+      <rect x="0" y="0" width="180" height="70" rx="18" fill="rgba(0,0,0,0.5)"/>
+      <rect x="0" y="0" width="180" height="70" rx="18" fill="none" stroke="url(#liquid-blue)" stroke-width="3" filter="url(#liquid-glow)"/>
+      <use href="#liquid-drop" transform="translate(25,25) scale(0.35)"/>
+      <text x="50" y="30" class="benefit">✓ Beneficio 1</text>
+      <text x="50" y="55" class="benefit" fill="#B8D8FF" font-size="14">Descripción</text>
+    </g>
+    <g transform="translate(0,-40)" filter="url(#liquid-shadow)">
+      <rect x="0" y="0" width="180" height="70" rx="18" fill="rgba(0,0,0,0.5)"/>
+      <rect x="0" y="0" width="180" height="70" rx="18" fill="none" stroke="url(#liquid-purple)" stroke-width="3" filter="url(#liquid-glow)"/>
+      <use href="#liquid-drop" transform="translate(25,25) scale(0.35)"/>
+      <text x="50" y="30" class="benefit">✓ Beneficio 2</text>
+      <text x="50" y="55" class="benefit" fill="#E8B8FF" font-size="14">Descripción</text>
+    </g>
+    <g transform="translate(200,-40)" filter="url(#liquid-shadow)">
+      <rect x="0" y="0" width="180" height="70" rx="18" fill="rgba(0,0,0,0.5)"/>
+      <rect x="0" y="0" width="180" height="70" rx="18" fill="none" stroke="url(#liquid-green)" stroke-width="3" filter="url(#liquid-glow)"/>
+      <use href="#liquid-drop" transform="translate(25,25) scale(0.35)"/>
+      <text x="50" y="30" class="benefit">✓ Beneficio 3</text>
+      <text x="50" y="55" class="benefit" fill="#B8FFD8" font-size="14">Descripción</text>
+    </g>
+  </g>
+  <g transform="translate(540,480)" filter="url(#liquid-shadow)">
+    <use href="#cta-liquid"/>
+    <text x="180" y="50" class="cta-text">REGISTRARME</text>
+  </g>
+  <g transform="translate(540,600)">
+    <g transform="translate(-120,0)" filter="url(#liquid-shadow)">
+      <rect x="0" y="0" width="140" height="48" rx="16" fill="rgba(0,217,255,0.2)" stroke="url(#liquid-blue)" stroke-width="2.5" filter="url(#liquid-glow)"/>
+      <text x="70" y="32" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="18" font-weight="900">🔥 Cupos</text>
+    </g>
+    <g transform="translate(120,0)" filter="url(#liquid-shadow)">
+      <rect x="0" y="0" width="140" height="48" rx="16" fill="rgba(255,0,204,0.2)" stroke="url(#liquid-purple)" stroke-width="2.5" filter="url(#liquid-glow)"/>
+      <text x="70" y="32" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="18" font-weight="900">🎤 En vivo</text>
+    </g>
+  </g>
+  <g transform="translate(540,700)">
+    <g transform="translate(-120,-40)">
+      <rect x="0" y="0" width="70" height="70" rx="12" fill="#FFFFFF" stroke="url(#liquid-blue)" stroke-width="3" filter="url(#liquid-glow)"/>
+      <text x="35" y="85" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="11" font-weight="500">[URL]</text>
+    </g>
+    <g transform="translate(50,-40)">
+      <rect x="0" y="0" width="240" height="70" rx="14" fill="rgba(255,255,255,0.1)" stroke="url(#liquid-blue)" stroke-width="2.5" opacity="0.6" filter="url(#liquid-glow)"/>
+      <text x="120" y="43" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-size="16" font-weight="600">TU LOGO</text>
+    </g>
+  </g>
+  <text x="540" y="1050" text-anchor="middle" fill="#666666" font-family="Inter" font-size="12" font-weight="400">Términos y condiciones aplican</text>
+</svg>

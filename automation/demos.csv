@@ -1,0 +1,3 @@
+id,lead_id,fecha,resultado,notas,siguiente_paso
+ demo-1,sample-1,2025-11-02T15:00:00Z,realizada,"interes en piloto",enviar_propuesta
+
