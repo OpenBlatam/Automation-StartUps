@@ -27,6 +27,118 @@ from airflow.exceptions import AirflowFailException
 from data.airflow.plugins.etl_callbacks import on_task_failure, sla_miss_callback
 from data.airflow.plugins.etl_notifications import notify_slack
 
+# Importar configuración centralizada del plugin
+from data.airflow.plugins.approval_cleanup_config import (
+    APPROVALS_DB_CONN,
+    MAX_RETENTION_YEARS,
+    MIN_RETENTION_YEARS,
+    MAX_NOTIFICATION_RETENTION_MONTHS,
+    MIN_NOTIFICATION_RETENTION_MONTHS,
+    STALE_THRESHOLD_DAYS,
+    BATCH_SIZE,
+    BATCH_SIZE_MIN,
+    BATCH_SIZE_MAX,
+    BATCH_SIZE_ADAPTIVE,
+    MAX_QUERY_TIMEOUT_SECONDS,
+    QUERY_TIMEOUT_SECONDS,
+    REPORT_EXPORT_DIR,
+    REPORT_RETENTION_DAYS,
+    PERFORMANCE_HISTORY_DAYS,
+    SLOW_TASK_THRESHOLD_MS,
+    ANOMALY_Z_SCORE_THRESHOLD,
+    PERFORMANCE_HISTORY_WINDOW,
+    PREDICTION_WINDOW_DAYS,
+    PROMETHEUS_ENABLED,
+    PROMETHEUS_PUSHGATEWAY_URL,
+    PROMETHEUS_METRICS_ENABLED,
+    PROMETHEUS_PUSHGATEWAY,
+    ENABLE_SMART_ALERTS,
+    S3_EXPORT_ENABLED,
+    S3_BUCKET,
+    ENABLE_SECURITY_ANALYSIS,
+    ENABLE_QUERY_OPTIMIZATION,
+    ENABLE_MISSING_INDEX_ANALYSIS,
+    MAX_PARALLEL_WORKERS,
+    CACHE_ENABLED,
+    CACHE_TTL_SECONDS,
+    ENABLE_HEALTH_SCORING,
+    ENABLE_METRIC_CORRELATION,
+    ENABLE_PREDICTIVE_ANALYTICS,
+    AUTO_TUNING_ENABLED as ENABLE_AUTO_TUNING,
+    ENABLE_AUTO_INDEX_OPTIMIZATION,
+    ENABLE_COST_ANALYSIS,
+    ENABLE_ADVANCED_REMEDIATION,
+    ENABLE_USAGE_PATTERN_ANALYSIS,
+    ENABLE_BOTTLENECK_ANALYSIS,
+    ENABLE_ADAPTIVE_ALERTING,
+    ENABLE_QUERY_RECOMMENDATIONS,
+    ENABLE_SCALABILITY_ANALYSIS,
+    ENABLE_SEASONAL_ANALYSIS,
+    ENABLE_ROOT_CAUSE_ANALYSIS,
+    ENABLE_ADAPTIVE_THRESHOLDS,
+    ENABLE_PERFORMANCE_PROFILING,
+    ENABLE_INTELLIGENT_RECOMMENDATIONS,
+    ENABLE_IMPACT_ANALYSIS,
+    ENABLE_ADVANCED_DASHBOARD,
+    ENABLE_RESILIENCE_ANALYSIS,
+    ENABLE_COMPLIANCE_ANALYSIS,
+    ENABLE_CONTINUOUS_LEARNING,
+    ENABLE_ADVANCED_BUSINESS_METRICS,
+    ENABLE_INTELLIGENT_ALERTING,
+    ENABLE_ADVANCED_DEPENDENCY_ANALYSIS,
+    ENABLE_SCORING_SYSTEM,
+    ENABLE_TREND_FORECASTING,
+    CIRCUIT_BREAKER_FAILURE_THRESHOLD,
+    CIRCUIT_BREAKER_CHECK_WINDOW_HOURS,
+)
+
+# Importar funciones de operaciones del plugin
+from data.airflow.plugins.approval_cleanup_ops import (
+    get_pg_hook,
+    execute_query_with_timeout,
+    process_batch,
+    calculate_optimal_batch_size,
+    track_performance,
+)
+
+# Importar utilidades del plugin
+from data.airflow.plugins.approval_cleanup_utils import (
+    log_with_context,
+    check_circuit_breaker,
+    detect_deadlock_retry,
+    validate_params,
+    export_to_multiple_formats,
+    format_duration_ms,
+    format_bytes,
+    safe_divide,
+    calculate_percentage_change,
+)
+
+# Importar funciones de análisis del plugin
+from data.airflow.plugins.approval_cleanup_analytics import (
+    calculate_percentiles,
+    detect_anomaly,
+    analyze_query_performance,
+    predict_capacity_need,
+    analyze_table_sizes,
+    analyze_slow_queries,
+    analyze_trends,
+)
+
+# Importar queries del plugin
+from data.airflow.plugins.approval_cleanup_queries import (
+    check_table_exists,
+    create_archive_table,
+    get_old_requests_to_archive,
+    archive_requests_batch,
+    delete_notifications_batch,
+    get_stale_pending_requests,
+    get_database_size,
+    get_table_sizes,
+    get_request_counts,
+    get_cleanup_history,
+)
+
 # Librerías mejoradas
 try:
     from tenacity import (
@@ -47,143 +159,8 @@ except Exception:
 
 logger = logging.getLogger(__name__)
 
-APPROVALS_DB_CONN = os.getenv("APPROVALS_DB_CONN_ID", "approvals_db")
-
-# Constantes de configuración
-MAX_RETENTION_YEARS = 10
-MIN_RETENTION_YEARS = 1
-MAX_NOTIFICATION_RETENTION_MONTHS = 24
-MIN_NOTIFICATION_RETENTION_MONTHS = 1
-STALE_THRESHOLD_DAYS = 90
-BATCH_SIZE = 1000  # Tamaño de lote para operaciones grandes
-MAX_QUERY_TIMEOUT_SECONDS = 300  # 5 minutos para queries largas
-REPORT_EXPORT_DIR = os.getenv("APPROVAL_CLEANUP_REPORT_DIR", "/tmp/approval_cleanup_reports")
-REPORT_RETENTION_DAYS = 90  # Días de retención de archivos exportados
-PERFORMANCE_HISTORY_DAYS = 30  # Días de historial para análisis de tendencias
-SLOW_TASK_THRESHOLD_MS = 60000  # 1 minuto - umbral para tareas lentas
-
-# Configuración avanzada
-ANOMALY_Z_SCORE_THRESHOLD = float(os.getenv('APPROVAL_CLEANUP_ANOMALY_Z_SCORE', '2.5'))
-PERFORMANCE_HISTORY_WINDOW = int(os.getenv('APPROVAL_CLEANUP_PERF_HISTORY_WINDOW', '20'))
-BATCH_SIZE_MIN = 100
-BATCH_SIZE_MAX = 10000
-BATCH_SIZE_ADAPTIVE = os.getenv('APPROVAL_CLEANUP_BATCH_ADAPTIVE', 'true').lower() == 'true'
-PREDICTION_WINDOW_DAYS = 30
-PROMETHEUS_ENABLED = os.getenv("APPROVAL_CLEANUP_PROMETHEUS_ENABLED", "false").lower() == "true"
-PROMETHEUS_PUSHGATEWAY_URL = os.getenv("APPROVAL_CLEANUP_PROMETHEUS_GATEWAY", "")
-ENABLE_SMART_ALERTS = os.getenv("APPROVAL_CLEANUP_SMART_ALERTS", "true").lower() == "true"
-S3_EXPORT_ENABLED = os.getenv("APPROVAL_CLEANUP_S3_EXPORT_ENABLED", "false").lower() == "true"
-S3_BUCKET = os.getenv("APPROVAL_CLEANUP_S3_BUCKET", "")
-ENABLE_SECURITY_ANALYSIS = os.getenv("APPROVAL_CLEANUP_SECURITY_ANALYSIS", "true").lower() == "true"
-ENABLE_QUERY_OPTIMIZATION = os.getenv("APPROVAL_CLEANUP_QUERY_OPTIMIZATION", "true").lower() == "true"
-ENABLE_MISSING_INDEX_ANALYSIS = os.getenv("APPROVAL_CLEANUP_MISSING_INDEXES", "true").lower() == "true"
-MAX_PARALLEL_WORKERS = int(os.getenv("APPROVAL_CLEANUP_MAX_WORKERS", "4"))
-CACHE_ENABLED = os.getenv("APPROVAL_CLEANUP_CACHE_ENABLED", "true").lower() == "true"
-CACHE_TTL_SECONDS = int(os.getenv("APPROVAL_CLEANUP_CACHE_TTL", "300"))  # 5 minutos
-ENABLE_HEALTH_SCORING = os.getenv("APPROVAL_CLEANUP_HEALTH_SCORING", "true").lower() == "true"
-ENABLE_METRIC_CORRELATION = os.getenv("APPROVAL_CLEANUP_METRIC_CORRELATION", "true").lower() == "true"
-ENABLE_PREDICTIVE_ANALYTICS = os.getenv("APPROVAL_CLEANUP_PREDICTIVE_ANALYTICS", "true").lower() == "true"
-AUTO_TUNING_ENABLED = os.getenv("APPROVAL_CLEANUP_AUTO_TUNING", "true").lower() == "true"
-ENABLE_AUTO_INDEX_OPTIMIZATION = os.getenv("APPROVAL_CLEANUP_AUTO_INDEX_OPT", "true").lower() == "true"
-ENABLE_COST_ANALYSIS = os.getenv("APPROVAL_CLEANUP_COST_ANALYSIS", "true").lower() == "true"
-ENABLE_ADVANCED_REMEDIATION = os.getenv("APPROVAL_CLEANUP_ADV_REMEDIATION", "true").lower() == "true"
-PROMETHEUS_METRICS_ENABLED = os.getenv("APPROVAL_CLEANUP_PROMETHEUS", "false").lower() == "true"
-PROMETHEUS_PUSHGATEWAY = os.getenv("APPROVAL_CLEANUP_PROMETHEUS_GATEWAY", "")
-ENABLE_USAGE_PATTERN_ANALYSIS = os.getenv("APPROVAL_CLEANUP_USAGE_PATTERNS", "true").lower() == "true"
-ENABLE_BOTTLENECK_ANALYSIS = os.getenv("APPROVAL_CLEANUP_BOTTLENECK_ANALYSIS", "true").lower() == "true"
-ENABLE_ADAPTIVE_ALERTING = os.getenv("APPROVAL_CLEANUP_ADAPTIVE_ALERTS", "true").lower() == "true"
-ENABLE_QUERY_RECOMMENDATIONS = os.getenv("APPROVAL_CLEANUP_QUERY_RECS", "true").lower() == "true"
-ENABLE_SCALABILITY_ANALYSIS = os.getenv("APPROVAL_CLEANUP_SCALABILITY", "true").lower() == "true"
-ENABLE_SEASONAL_ANALYSIS = os.getenv("APPROVAL_CLEANUP_SEASONAL", "true").lower() == "true"
-ENABLE_ROOT_CAUSE_ANALYSIS = os.getenv("APPROVAL_CLEANUP_ROOT_CAUSE", "true").lower() == "true"
-ENABLE_ADAPTIVE_THRESHOLDS = os.getenv("APPROVAL_CLEANUP_ADAPTIVE_THRESHOLDS", "true").lower() == "true"
-ENABLE_PERFORMANCE_PROFILING = os.getenv("APPROVAL_CLEANUP_PERF_PROFILING", "true").lower() == "true"
-ENABLE_INTELLIGENT_RECOMMENDATIONS = os.getenv("APPROVAL_CLEANUP_INTELLIGENT_RECS", "true").lower() == "true"
-ENABLE_IMPACT_ANALYSIS = os.getenv("APPROVAL_CLEANUP_IMPACT_ANALYSIS", "true").lower() == "true"
-ENABLE_ADVANCED_DASHBOARD = os.getenv("APPROVAL_CLEANUP_ADV_DASHBOARD", "true").lower() == "true"
-ENABLE_RESILIENCE_ANALYSIS = os.getenv("APPROVAL_CLEANUP_RESILIENCE", "true").lower() == "true"
-ENABLE_COMPLIANCE_ANALYSIS = os.getenv("APPROVAL_CLEANUP_COMPLIANCE", "true").lower() == "true"
-ENABLE_CONTINUOUS_LEARNING = os.getenv("APPROVAL_CLEANUP_LEARNING", "true").lower() == "true"
-ENABLE_ADVANCED_BUSINESS_METRICS = os.getenv("APPROVAL_CLEANUP_BUSINESS_METRICS", "true").lower() == "true"
-ENABLE_INTELLIGENT_ALERTING = os.getenv("APPROVAL_CLEANUP_INTELLIGENT_ALERTS", "true").lower() == "true"
-ENABLE_ADVANCED_DEPENDENCY_ANALYSIS = os.getenv("APPROVAL_CLEANUP_ADV_DEPS", "true").lower() == "true"
-ENABLE_SCORING_SYSTEM = os.getenv("APPROVAL_CLEANUP_SCORING", "true").lower() == "true"
-ENABLE_TREND_FORECASTING = os.getenv("APPROVAL_CLEANUP_TREND_FORECAST", "true").lower() == "true"
-ENABLE_EXECUTION_PLAN_ANALYSIS = os.getenv("APPROVAL_CLEANUP_EXEC_PLAN", "true").lower() == "true"
-ENABLE_HOT_TABLE_DETECTION = os.getenv("APPROVAL_CLEANUP_HOT_TABLES", "true").lower() == "true"
-ENABLE_CHECKPOINT_ANALYSIS = os.getenv("APPROVAL_CLEANUP_CHECKPOINT", "true").lower() == "true"
-ENABLE_DATA_SKEW_ANALYSIS = os.getenv("APPROVAL_CLEANUP_DATA_SKEW", "true").lower() == "true"
-ENABLE_WAL_ANALYSIS = os.getenv("APPROVAL_CLEANUP_WAL", "true").lower() == "true"
-ENABLE_DEADLOCK_ANALYSIS = os.getenv("APPROVAL_CLEANUP_DEADLOCK", "true").lower() == "true"
-ENABLE_PREPARED_STATEMENT_ANALYSIS = os.getenv("APPROVAL_CLEANUP_PREPARED_STMT", "true").lower() == "true"
-ENABLE_N_PLUS_ONE_DETECTION = os.getenv("APPROVAL_CLEANUP_N_PLUS_ONE", "true").lower() == "true"
-ENABLE_AUTOMATED_TESTING = os.getenv("APPROVAL_CLEANUP_AUTO_TEST", "true").lower() == "true"
-ENABLE_REAL_TIME_MONITORING = os.getenv("APPROVAL_CLEANUP_REALTIME", "true").lower() == "true"
-ENABLE_QUERY_CACHE_ANALYSIS = os.getenv("APPROVAL_CLEANUP_QUERY_CACHE", "true").lower() == "true"
-ENABLE_CONNECTION_POOL_ANALYSIS = os.getenv("APPROVAL_CLEANUP_CONN_POOL", "true").lower() == "true"
-ENABLE_TRANSACTION_ANALYSIS = os.getenv("APPROVAL_CLEANUP_TRANSACTIONS", "true").lower() == "true"
-ENABLE_DATA_DRIVEN_RECOMMENDATIONS = os.getenv("APPROVAL_CLEANUP_DATA_DRIVEN_REC", "true").lower() == "true"
-ENABLE_BUSINESS_IMPACT_ANALYSIS = os.getenv("APPROVAL_CLEANUP_BUSINESS_IMPACT", "true").lower() == "true"
-ENABLE_DATA_DISTRIBUTION_ANALYSIS = os.getenv("APPROVAL_CLEANUP_DATA_DIST", "true").lower() == "true"
-ENABLE_ACCESS_PATTERN_ANALYSIS = os.getenv("APPROVAL_CLEANUP_ACCESS_PATTERNS", "true").lower() == "true"
-ENABLE_USAGE_ANOMALY_DETECTION = os.getenv("APPROVAL_CLEANUP_USAGE_ANOMALIES", "true").lower() == "true"
-ENABLE_AUTO_INDEX_OPTIMIZATION = os.getenv("APPROVAL_CLEANUP_AUTO_INDEX_OPT", "true").lower() == "true"
-ENABLE_DATA_QUALITY_ANALYSIS = os.getenv("APPROVAL_CLEANUP_DATA_QUALITY", "true").lower() == "true"
-ENABLE_WORKLOAD_PREDICTION = os.getenv("APPROVAL_CLEANUP_WORKLOAD_PRED", "true").lower() == "true"
-ENABLE_ADVANCED_CONCURRENCY_ANALYSIS = os.getenv("APPROVAL_CLEANUP_ADV_CONCURRENCY", "true").lower() == "true"
-ENABLE_CAPACITY_PREDICTION = os.getenv("APPROVAL_CLEANUP_CAPACITY_PRED", "true").lower() == "true"
-ENABLE_AUTO_INDEX_OPTIMIZATION = os.getenv("APPROVAL_CLEANUP_AUTO_INDEX_OPT", "true").lower() == "true"
-ENABLE_TABLE_DEPENDENCY_ANALYSIS = os.getenv("APPROVAL_CLEANUP_TABLE_DEPS", "true").lower() == "true"
-ENABLE_ADVANCED_SCORING = os.getenv("APPROVAL_CLEANUP_ADV_SCORING", "true").lower() == "true"
-ENABLE_CROSS_CORRELATION_ANALYSIS = os.getenv("APPROVAL_CLEANUP_CROSS_CORR", "true").lower() == "true"
-ENABLE_THROUGHPUT_ANALYSIS = os.getenv("APPROVAL_CLEANUP_THROUGHPUT", "true").lower() == "true"
-ENABLE_ADVANCED_ANOMALY_DETECTION = os.getenv("APPROVAL_CLEANUP_ADV_ANOMALY", "true").lower() == "true"
-ENABLE_DATA_REDUNDANCY_ANALYSIS = os.getenv("APPROVAL_CLEANUP_DATA_REDUNDANCY", "true").lower() == "true"
-ENABLE_INDEX_FRAGMENTATION_ANALYSIS = os.getenv("APPROVAL_CLEANUP_INDEX_FRAG", "true").lower() == "true"
-ENABLE_DUPLICATE_QUERY_DETECTION = os.getenv("APPROVAL_CLEANUP_DUP_QUERIES", "true").lower() == "true"
-ENABLE_SYSTEM_FAILURE_PREDICTION = os.getenv("APPROVAL_CLEANUP_FAILURE_PRED", "true").lower() == "true"
-ENABLE_ENERGY_EFFICIENCY_ANALYSIS = os.getenv("APPROVAL_CLEANUP_ENERGY_EFF", "true").lower() == "true"
-ENABLE_SECURITY_PATTERN_ANALYSIS = os.getenv("APPROVAL_CLEANUP_SEC_PATTERNS", "true").lower() == "true"
-ENABLE_DATA_MIGRATION_ANALYSIS = os.getenv("APPROVAL_CLEANUP_DATA_MIGRATION", "true").lower() == "true"
-ENABLE_METRIC_CORRELATION_ADVANCED = os.getenv("APPROVAL_CLEANUP_METRIC_CORR", "true").lower() == "true"
-ENABLE_PREDICTIVE_ALERTING = os.getenv("APPROVAL_CLEANUP_PREDICTIVE_ALERTS", "true").lower() == "true"
-ENABLE_AUTOMATED_HEALING = os.getenv("APPROVAL_CLEANUP_AUTO_HEALING", "true").lower() == "true"
-ENABLE_PERFORMANCE_DEGRADATION_DETECTION = os.getenv("APPROVAL_CLEANUP_PERF_DEGRADATION", "true").lower() == "true"
-ENABLE_RESOURCE_EFFICIENCY_ANALYSIS = os.getenv("APPROVAL_CLEANUP_RESOURCE_EFF", "true").lower() == "true"
-ENABLE_ADVANCED_USAGE_PATTERNS = os.getenv("APPROVAL_CLEANUP_ADV_USAGE", "true").lower() == "true"
-ENABLE_AUTOMATED_RECOMMENDATIONS = os.getenv("APPROVAL_CLEANUP_AUTO_RECS", "true").lower() == "true"
-ENABLE_CAPACITY_SCALABILITY_DEEP = os.getenv("APPROVAL_CLEANUP_CAPACITY_DEEP", "true").lower() == "true"
-ENABLE_CONTINUOUS_MONITORING = os.getenv("APPROVAL_CLEANUP_CONT_MONITORING", "true").lower() == "true"
-ENABLE_CHANGE_IMPACT_ANALYSIS = os.getenv("APPROVAL_CLEANUP_CHANGE_IMPACT", "true").lower() == "true"
-ENABLE_ADVANCED_OPTIMIZATION = os.getenv("APPROVAL_CLEANUP_ADV_OPT", "true").lower() == "true"
-ENABLE_INTELLIGENT_SCHEDULING = os.getenv("APPROVAL_CLEANUP_INTELLIGENT_SCHED", "true").lower() == "true"
-ENABLE_COST_SAVINGS_ANALYSIS = os.getenv("APPROVAL_CLEANUP_COST_SAVINGS", "true").lower() == "true"
-ENABLE_SYSTEM_ARCHITECTURE_ANALYSIS = os.getenv("APPROVAL_CLEANUP_ARCH_ANALYSIS", "true").lower() == "true"
-ENABLE_PERFORMANCE_BENCHMARKING = os.getenv("APPROVAL_CLEANUP_PERF_BENCH", "true").lower() == "true"
-ENABLE_CACHE_HIT_RATIO_ANALYSIS = os.getenv("APPROVAL_CLEANUP_CACHE_HIT", "true").lower() == "true"
-ENABLE_TEMP_FILES_ANALYSIS = os.getenv("APPROVAL_CLEANUP_TEMP_FILES", "true").lower() == "true"
-ENABLE_BLOAT_ANALYSIS = os.getenv("APPROVAL_CLEANUP_BLOAT", "true").lower() == "true"
-ENABLE_VACUUM_EFFICIENCY_ANALYSIS = os.getenv("APPROVAL_CLEANUP_VACUUM_EFF", "true").lower() == "true"
-ENABLE_TRANSACTION_RATE_ANALYSIS = os.getenv("APPROVAL_CLEANUP_TX_RATE", "true").lower() == "true"
-ENABLE_DEAD_TUPLES_ANALYSIS = os.getenv("APPROVAL_CLEANUP_DEAD_TUPLES", "true").lower() == "true"
-ENABLE_BLOCKER_QUERY_ANALYSIS = os.getenv("APPROVAL_CLEANUP_BLOCKER_QUERIES", "true").lower() == "true"
-ENABLE_REPLICATION_LAG_ANALYSIS = os.getenv("APPROVAL_CLEANUP_REPLICATION_LAG", "true").lower() == "true"
-ENABLE_CONNECTION_LEAK_DETECTION = os.getenv("APPROVAL_CLEANUP_CONN_LEAK", "true").lower() == "true"
-ENABLE_QUERY_PLAN_ANALYSIS = os.getenv("APPROVAL_CLEANUP_QUERY_PLAN", "true").lower() == "true"
-ENABLE_TABLE_STATISTICS_ANALYSIS = os.getenv("APPROVAL_CLEANUP_TABLE_STATS", "true").lower() == "true"
-ENABLE_INDEX_MAINTENANCE_ANALYSIS = os.getenv("APPROVAL_CLEANUP_INDEX_MAINT", "true").lower() == "true"
-ENABLE_QUERY_WORKLOAD_ANALYSIS = os.getenv("APPROVAL_CLEANUP_QUERY_WORKLOAD", "true").lower() == "true"
-ENABLE_DB_GROWTH_TREND_ANALYSIS = os.getenv("APPROVAL_CLEANUP_DB_GROWTH", "true").lower() == "true"
-ENABLE_INDEX_USAGE_PATTERNS = os.getenv("APPROVAL_CLEANUP_INDEX_PATTERNS", "true").lower() == "true"
-ENABLE_POSTGRES_CONFIG_ANALYSIS = os.getenv("APPROVAL_CLEANUP_PG_CONFIG", "true").lower() == "true"
-ENABLE_WAL_ANALYSIS_ADVANCED = os.getenv("APPROVAL_CLEANUP_WAL_ADV", "true").lower() == "true"
-ENABLE_LOCK_ANALYSIS_ADVANCED = os.getenv("APPROVAL_CLEANUP_LOCK_ADV", "true").lower() == "true"
-ENABLE_PARTITION_ANALYSIS = os.getenv("APPROVAL_CLEANUP_PARTITION", "true").lower() == "true"
-ENABLE_EXTENSION_ANALYSIS = os.getenv("APPROVAL_CLEANUP_EXTENSIONS", "true").lower() == "true"
-ENABLE_ROLE_PERMISSION_ANALYSIS = os.getenv("APPROVAL_CLEANUP_ROLES", "true").lower() == "true"
-ENABLE_TRIGGER_ANALYSIS = os.getenv("APPROVAL_CLEANUP_TRIGGERS", "true").lower() == "true"
-ENABLE_FUNCTION_ANALYSIS = os.getenv("APPROVAL_CLEANUP_FUNCTIONS", "true").lower() == "true"
-ENABLE_CONSTRAINT_ANALYSIS = os.getenv("APPROVAL_CLEANUP_CONSTRAINTS", "true").lower() == "true"
+# Alias para compatibilidad con código existente
+AUTO_TUNING_ENABLED = ENABLE_AUTO_TUNING
 
 # Cache simple en memoria para queries frecuentes
 _query_cache: Dict[str, Tuple[Any, float]] = {}
@@ -379,591 +356,17 @@ def _optimize_batch_size(
 def approval_cleanup() -> None:
     """Pipeline de limpieza y mantenimiento del sistema de aprobaciones."""
     
-    def _log_with_context(level: str, message: str, **kwargs) -> None:
-        """Logging estructurado con contexto del DAG run."""
-        context = get_current_context()
-        dag_run = context.get('dag_run')
-        task_instance = context.get('task_instance')
-        
-        log_data = {
-            'dag_id': context.get('dag').dag_id if context.get('dag') else None,
-            'dag_run_id': dag_run.run_id if dag_run else None,
-            'task_id': task_instance.task_id if task_instance else None,
-            'execution_date': str(dag_run.execution_date) if dag_run else None,
-            **kwargs
-        }
-        
-        log_message = f"{message} | Context: {json.dumps(log_data)}"
-        
-        if level == 'info':
-            logger.info(log_message)
-        elif level == 'warning':
-            logger.warning(log_message)
-        elif level == 'error':
-            logger.error(log_message)
-        elif level == 'debug':
-            logger.debug(log_message)
-        else:
-            logger.info(log_message)
+    # Usar funciones de plugins directamente - no crear alias innecesarios
+    # get_pg_hook, execute_query_with_timeout, etc. ya están importadas
     
-    def _check_circuit_breaker() -> Dict[str, Any]:
-        """Verifica si el circuit breaker está activo (demasiados fallos recientes)."""
-        try:
-            pg_hook = _get_pg_hook()
-            
-            # Verificar fallos recientes en historial
-            check_sql = """
-                SELECT COUNT(*) 
-                FROM approval_cleanup_history
-                WHERE cleanup_date >= NOW() - INTERVAL '%s hours'
-                  AND archived_count = 0
-                  AND deleted_count = 0
-                  AND notifications_deleted = 0
-                  AND database_size_bytes = 0
-            """
-            
-            # Si no hay tabla de historial, permitir ejecución
-            try:
-                recent_failures = pg_hook.get_first(
-                    check_sql,
-                    parameters=(CIRCUIT_BREAKER_CHECK_WINDOW_HOURS,)
-                )
-                failure_count = recent_failures[0] if recent_failures else 0
-            except Exception:
-                # Tabla no existe o error, permitir ejecución
-                return {'active': False, 'reason': 'history_table_unavailable'}
-            
-            if failure_count >= CIRCUIT_BREAKER_FAILURE_THRESHOLD:
-                _log_with_context(
-                    'warning',
-                    f'Circuit breaker ACTIVE: {failure_count} failures in last {CIRCUIT_BREAKER_CHECK_WINDOW_HOURS}h',
-                    failure_count=failure_count,
-                    threshold=CIRCUIT_BREAKER_FAILURE_THRESHOLD
-                )
-                return {
-                    'active': True,
-                    'failure_count': failure_count,
-                    'threshold': CIRCUIT_BREAKER_FAILURE_THRESHOLD,
-                    'reason': 'too_many_failures'
-                }
-            
-            return {'active': False, 'failure_count': failure_count}
-            
-        except Exception as e:
-            _log_with_context('warning', f'Circuit breaker check failed: {e}', error=str(e))
-            # Si falla el check, permitir ejecución (fail open)
-            return {'active': False, 'reason': 'check_failed'}
+    # Usar funciones del plugin directamente
+    _get_optimal_batch_size = lambda op_name, est_count, hook=None: calculate_optimal_batch_size(
+        est_count, op_name, hook
+    )
+    _track_performance = track_performance
     
-    def _execute_query_with_timeout(
-        pg_hook: PostgresHook,
-        sql: str,
-        parameters: Optional[Tuple] = None,
-        timeout_seconds: int = QUERY_TIMEOUT_SECONDS,
-        operation_name: str = "query"
-    ) -> Any:
-        """Ejecuta query con timeout configurable."""
-        conn = pg_hook.get_conn()
-        cursor = conn.cursor()
-        
-        try:
-            # Establecer timeout
-            cursor.execute(f"SET statement_timeout = {timeout_seconds * 1000};")  # PostgreSQL usa milisegundos
-            
-            # Ejecutar query
-            start_time = perf_counter()
-            if parameters:
-                cursor.execute(sql, parameters)
-            else:
-                cursor.execute(sql)
-            
-            result = cursor.fetchall() if cursor.description else None
-            duration_ms = (perf_counter() - start_time) * 1000
-            
-            _log_with_context(
-                'debug',
-                f'{operation_name} completed',
-                duration_ms=round(duration_ms, 2),
-                timeout_seconds=timeout_seconds
-            )
-            
-            # Reset timeout
-            cursor.execute("RESET statement_timeout;")
-            conn.commit()
-            
-            return result
-            
-        except Exception as e:
-            conn.rollback()
-            error_msg = str(e)
-            if 'timeout' in error_msg.lower() or 'statement_timeout' in error_msg:
-                _log_with_context(
-                    'error',
-                    f'{operation_name} timed out after {timeout_seconds}s',
-                    timeout_seconds=timeout_seconds,
-                    error=error_msg
-                )
-                raise AirflowFailException(f"Query timeout after {timeout_seconds}s: {error_msg}")
-            raise
-        finally:
-            cursor.close()
-            conn.close()
-    
-    def _analyze_query_performance(
-        pg_hook: PostgresHook,
-        sql: str,
-        parameters: Optional[Tuple] = None
-    ) -> Dict[str, Any]:
-        """Analiza performance de una query usando EXPLAIN ANALYZE."""
-        try:
-            explain_sql = f"EXPLAIN (ANALYZE, BUFFERS, VERBOSE, FORMAT JSON) {sql}"
-            
-            conn = pg_hook.get_conn()
-            cursor = conn.cursor()
-            
-            try:
-                if parameters:
-                    cursor.execute(explain_sql, parameters)
-                else:
-                    cursor.execute(explain_sql)
-                
-                result = cursor.fetchone()
-                if result and result[0]:
-                    plan = json.loads(result[0][0]) if isinstance(result[0], (list, tuple)) else result[0]
-                    
-                    # Extraer métricas clave
-                    execution_time = plan[0].get('Execution Time', 0) if isinstance(plan, list) else plan.get('Execution Time', 0)
-                    planning_time = plan[0].get('Planning Time', 0) if isinstance(plan, list) else plan.get('Planning Time', 0)
-                    
-                    return {
-                        'execution_time_ms': execution_time,
-                        'planning_time_ms': planning_time,
-                        'total_time_ms': execution_time + planning_time,
-                        'plan': plan
-                    }
-                
-                return {'execution_time_ms': 0, 'planning_time_ms': 0, 'total_time_ms': 0}
-                
-            finally:
-                cursor.close()
-                conn.close()
-                
-        except Exception as e:
-            _log_with_context('warning', f'Query analysis failed: {e}', error=str(e))
-            return {'error': str(e)}
-    
-    def _detect_deadlock_retry(
-        func,
-        max_retries: int = 3,
-        retry_delay: float = 1.0
-    ) -> Any:
-        """Wrapper para detectar deadlocks y reintentar automáticamente."""
-        import time
-        
-        for attempt in range(max_retries):
-            try:
-                return func()
-            except Exception as e:
-                error_str = str(e).lower()
-                is_deadlock = (
-                    'deadlock' in error_str or
-                    'could not obtain lock' in error_str or
-                    'lock_not_available' in error_str or
-                    'serialization failure' in error_str
-                )
-                
-                if is_deadlock and attempt < max_retries - 1:
-                    wait_time = retry_delay * (2 ** attempt)  # Exponential backoff
-                    _log_with_context(
-                        'warning',
-                        f'Deadlock detected, retrying in {wait_time}s (attempt {attempt + 1}/{max_retries})',
-                        attempt=attempt + 1,
-                        max_retries=max_retries,
-                        error=error_str
-                    )
-                    time.sleep(wait_time)
-                    continue
-                
-                # No es deadlock o se agotaron los reintentos
-                raise
-    
-    def _calculate_percentiles(values: List[float]) -> Dict[str, float]:
-        """Calcula percentiles (p50, p95, p99) de una lista de valores."""
-        if not values:
-            return {'p50': 0, 'p95': 0, 'p99': 0, 'min': 0, 'max': 0, 'avg': 0}
-        
-        sorted_values = sorted(values)
-        n = len(sorted_values)
-        
-        def percentile(p: float) -> float:
-            index = int((p / 100) * n)
-            if index >= n:
-                index = n - 1
-            return sorted_values[index]
-        
-        return {
-            'p50': percentile(50),
-            'p95': percentile(95),
-            'p99': percentile(99),
-            'min': min(sorted_values),
-            'max': max(sorted_values),
-            'avg': sum(sorted_values) / n
-        }
-    
-    def _detect_anomaly(
-        value: float,
-        metric_name: str,
-        pg_hook: Optional[PostgresHook] = None
-    ) -> Dict[str, Any]:
-        """
-        Detecta anomalías usando Z-score basado en historial.
-        
-        Returns:
-            Dict con 'is_anomaly', 'z_score', 'mean', 'std', 'threshold'
-        """
-        try:
-            if not pg_hook:
-                pg_hook = _get_pg_hook()
-            
-            # Obtener historial de métricas
-            history_sql = """
-                SELECT archived_count, deleted_count, notifications_deleted,
-                       database_size_bytes, cleanup_date
-                FROM approval_cleanup_history
-                WHERE cleanup_date >= NOW() - INTERVAL '%s days'
-                ORDER BY cleanup_date DESC
-                LIMIT %s
-            """
-            
-            try:
-                history = pg_hook.get_records(
-                    history_sql,
-                    parameters=(PERFORMANCE_HISTORY_DAYS, PERFORMANCE_HISTORY_WINDOW)
-                )
-            except Exception:
-                # Tabla no existe o no hay datos suficientes
-                return {
-                    'is_anomaly': False,
-                    'z_score': 0,
-                    'mean': 0,
-                    'std': 0,
-                    'threshold': ANOMALY_Z_SCORE_THRESHOLD,
-                    'reason': 'insufficient_history'
-                }
-            
-            if len(history) < 3:
-                return {
-                    'is_anomaly': False,
-                    'z_score': 0,
-                    'mean': 0,
-                    'std': 0,
-                    'threshold': ANOMALY_Z_SCORE_THRESHOLD,
-                    'reason': 'insufficient_data'
-                }
-            
-            # Extraer valores históricos según métrica
-            metric_map = {
-                'archived_count': 0,
-                'deleted_count': 1,
-                'notifications_deleted': 2,
-                'database_size_bytes': 3
-            }
-            
-            if metric_name not in metric_map:
-                return {
-                    'is_anomaly': False,
-                    'z_score': 0,
-                    'mean': 0,
-                    'std': 0,
-                    'threshold': ANOMALY_Z_SCORE_THRESHOLD,
-                    'reason': 'unknown_metric'
-                }
-            
-            col_idx = metric_map[metric_name]
-            historical_values = [float(row[col_idx] or 0) for row in history]
-            
-            # Calcular media y desviación estándar
-            mean = sum(historical_values) / len(historical_values)
-            
-            if len(historical_values) < 2:
-                std = 0
-            else:
-                variance = sum((x - mean) ** 2 for x in historical_values) / (len(historical_values) - 1)
-                std = variance ** 0.5
-            
-            # Calcular Z-score
-            if std == 0:
-                z_score = 0
-            else:
-                z_score = abs((value - mean) / std)
-            
-            is_anomaly = z_score > ANOMALY_Z_SCORE_THRESHOLD
-            
-            return {
-                'is_anomaly': is_anomaly,
-                'z_score': round(z_score, 3),
-                'mean': round(mean, 2),
-                'std': round(std, 2),
-                'threshold': ANOMALY_Z_SCORE_THRESHOLD,
-                'historical_values_count': len(historical_values),
-                'reason': 'calculated'
-            }
-            
-        except Exception as e:
-            _log_with_context('warning', f'Anomaly detection failed: {e}', error=str(e))
-            return {
-                'is_anomaly': False,
-                'z_score': 0,
-                'mean': 0,
-                'std': 0,
-                'threshold': ANOMALY_Z_SCORE_THRESHOLD,
-                'reason': 'error',
-                'error': str(e)
-            }
-    
-    def _get_optimal_batch_size(
-        operation_name: str,
-        estimated_count: int,
-        pg_hook: Optional[PostgresHook] = None
-    ) -> int:
-        """
-        Calcula batch size óptimo basado en performance histórico.
-        
-        Returns:
-            Batch size óptimo entre BATCH_SIZE_MIN y BATCH_SIZE_MAX
-        """
-        if not BATCH_SIZE_ADAPTIVE or estimated_count < BATCH_SIZE:
-            return BATCH_SIZE
-        
-        try:
-            if not pg_hook:
-                pg_hook = _get_pg_hook()
-            
-            # Obtener performance histórico de operaciones similares
-            perf_sql = """
-                SELECT batch_size, duration_ms, records_processed
-                FROM approval_cleanup_performance
-                WHERE operation_name = %s
-                  AND cleanup_date >= NOW() - INTERVAL '%s days'
-                ORDER BY cleanup_date DESC
-                LIMIT %s
-            """
-            
-            try:
-                perf_history = pg_hook.get_records(
-                    perf_sql,
-                    parameters=(operation_name, PERFORMANCE_HISTORY_DAYS, 10)
-                )
-            except Exception:
-                # Tabla no existe o no hay datos
-                return BATCH_SIZE
-            
-            if not perf_history:
-                return BATCH_SIZE
-            
-            # Calcular throughput promedio por batch size
-            throughput_by_batch = {}
-            for row in perf_history:
-                batch_size, duration_ms, records = row[0] or BATCH_SIZE, row[1] or 0, row[2] or 0
-                if duration_ms > 0 and records > 0:
-                    throughput = records / (duration_ms / 1000)  # records per second
-                    if batch_size not in throughput_by_batch:
-                        throughput_by_batch[batch_size] = []
-                    throughput_by_batch[batch_size].append(throughput)
-            
-            if not throughput_by_batch:
-                return BATCH_SIZE
-            
-            # Encontrar batch size con mejor throughput promedio
-            best_batch_size = BATCH_SIZE
-            best_avg_throughput = 0
-            
-            for batch_size, throughputs in throughput_by_batch.items():
-                avg_throughput = sum(throughputs) / len(throughputs)
-                if avg_throughput > best_avg_throughput:
-                    best_avg_throughput = avg_throughput
-                    best_batch_size = batch_size
-            
-            # Asegurar que está en rango válido
-            optimal_size = max(BATCH_SIZE_MIN, min(BATCH_SIZE_MAX, best_batch_size))
-            
-            _log_with_context(
-                'debug',
-                f'Optimal batch size calculated: {optimal_size}',
-                operation=operation_name,
-                estimated_count=estimated_count,
-                best_throughput=round(best_avg_throughput, 2)
-            )
-            
-            return int(optimal_size)
-            
-        except Exception as e:
-            _log_with_context('warning', f'Failed to calculate optimal batch size: {e}', error=str(e))
-            return BATCH_SIZE
-    
-    def _track_performance(
-        operation_name: str,
-        duration_ms: float,
-        records_processed: int,
-        batch_size: int,
-        pg_hook: Optional[PostgresHook] = None
-    ) -> None:
-        """Registra métricas de performance para análisis futuro."""
-        try:
-            if not pg_hook:
-                pg_hook = _get_pg_hook()
-            
-            # Crear tabla de performance si no existe
-            create_sql = """
-                CREATE TABLE IF NOT EXISTS approval_cleanup_performance (
-                    id BIGSERIAL PRIMARY KEY,
-                    operation_name VARCHAR(255) NOT NULL,
-                    duration_ms FLOAT NOT NULL,
-                    records_processed INTEGER NOT NULL,
-                    batch_size INTEGER NOT NULL,
-                    throughput_per_sec FLOAT,
-                    cleanup_date TIMESTAMPTZ DEFAULT NOW()
-                );
-                
-                CREATE INDEX IF NOT EXISTS idx_perf_operation_date 
-                    ON approval_cleanup_performance(operation_name, cleanup_date DESC);
-            """
-            
-            pg_hook.run(create_sql)
-            
-            throughput = records_processed / (duration_ms / 1000) if duration_ms > 0 else 0
-            
-            insert_sql = """
-                INSERT INTO approval_cleanup_performance 
-                    (operation_name, duration_ms, records_processed, batch_size, throughput_per_sec)
-                VALUES (%s, %s, %s, %s, %s)
-            """
-            
-            pg_hook.run(
-                insert_sql,
-                parameters=(operation_name, duration_ms, records_processed, batch_size, throughput)
-            )
-            
-            # Limpiar datos antiguos (mantener solo últimos N días)
-            cleanup_sql = """
-                DELETE FROM approval_cleanup_performance
-                WHERE cleanup_date < NOW() - INTERVAL '%s days'
-            """
-            pg_hook.run(cleanup_sql, parameters=(PERFORMANCE_HISTORY_DAYS * 2,))
-            
-        except Exception as e:
-            _log_with_context('debug', f'Failed to track performance: {e}', error=str(e))
-    
-    def _predict_capacity_need(
-        pg_hook: Optional[PostgresHook] = None,
-        days_ahead: int = 30
-    ) -> Dict[str, Any]:
-        """
-        Predice necesidades futuras de capacidad basado en tendencias históricas.
-        
-        Returns:
-            Dict con predicciones de crecimiento, capacidad necesaria, etc.
-        """
-        try:
-            if not pg_hook:
-                pg_hook = _get_pg_hook()
-            
-            # Obtener historial de crecimiento
-            growth_sql = """
-                SELECT 
-                    cleanup_date,
-                    database_size_bytes,
-                    archived_count,
-                    deleted_count,
-                    total_pending,
-                    total_completed
-                FROM approval_cleanup_history
-                WHERE cleanup_date >= NOW() - INTERVAL '%s days'
-                ORDER BY cleanup_date ASC
-            """
-            
-            try:
-                history = pg_hook.get_records(
-                    growth_sql,
-                    parameters=(PERFORMANCE_HISTORY_DAYS * 2,)
-                )
-            except Exception:
-                return {
-                    'prediction_available': False,
-                    'reason': 'insufficient_history'
-                }
-            
-            if len(history) < 5:
-                return {
-                    'prediction_available': False,
-                    'reason': 'insufficient_data_points'
-                }
-            
-            # Calcular tasa de crecimiento promedio
-            sizes = [float(row[1] or 0) for row in history]
-            if len(sizes) < 2:
-                return {'prediction_available': False, 'reason': 'no_size_data'}
-            
-            # Calcular crecimiento promedio diario
-            growth_rates = []
-            for i in range(1, len(sizes)):
-                if sizes[i-1] > 0:
-                    growth_rate = (sizes[i] - sizes[i-1]) / sizes[i-1]
-                    growth_rates.append(growth_rate)
-            
-            if not growth_rates:
-                return {'prediction_available': False, 'reason': 'no_growth_data'}
-            
-            avg_growth_rate = sum(growth_rates) / len(growth_rates)
-            
-            # Predicción lineal simple
-            current_size = sizes[-1]
-            predicted_size = current_size * (1 + avg_growth_rate) ** days_ahead
-            
-            # Calcular cuándo se alcanzará el límite (asumiendo un límite de 100GB)
-            size_limit_gb = 100
-            size_limit_bytes = size_limit_gb * (1024 ** 3)
-            
-            days_to_limit = None
-            if avg_growth_rate > 0 and current_size < size_limit_bytes:
-                # Calcular días hasta alcanzar límite
-                days_to_limit = int((size_limit_bytes / current_size - 1) / avg_growth_rate) if avg_growth_rate > 0 else None
-            
-            # Predicción de registros pendientes
-            pending_values = [int(row[4] or 0) for row in history]
-            if len(pending_values) >= 2:
-                pending_growth = (pending_values[-1] - pending_values[0]) / len(pending_values) if len(pending_values) > 1 else 0
-                predicted_pending = pending_values[-1] + (pending_growth * days_ahead)
-            else:
-                predicted_pending = pending_values[-1] if pending_values else 0
-                pending_growth = 0
-            
-            return {
-                'prediction_available': True,
-                'current_size_bytes': current_size,
-                'predicted_size_bytes': round(predicted_size, 0),
-                'predicted_size_gb': round(predicted_size / (1024 ** 3), 2),
-                'avg_growth_rate_daily': round(avg_growth_rate * 100, 4),  # Como porcentaje
-                'days_ahead': days_ahead,
-                'days_to_limit': days_to_limit,
-                'size_limit_gb': size_limit_gb,
-                'current_pending': pending_values[-1] if pending_values else 0,
-                'predicted_pending': round(predicted_pending, 0),
-                'pending_growth_daily': round(pending_growth, 2),
-                'recommendations': _generate_capacity_recommendations(
-                    avg_growth_rate,
-                    current_size,
-                    size_limit_bytes,
-                    days_to_limit
-                )
-            }
-            
-        except Exception as e:
-            _log_with_context('warning', f'Capacity prediction failed: {e}', error=str(e))
-            return {
-                'prediction_available': False,
-                'reason': 'error',
-                'error': str(e)
-            }
+    # Usar función del plugin directamente
+    _predict_capacity_need = predict_capacity_need
     
     def _generate_capacity_recommendations(
         growth_rate: float,
@@ -1019,7 +422,7 @@ def approval_cleanup() -> None:
         """
         try:
             if not pg_hook:
-                pg_hook = _get_pg_hook()
+                pg_hook = get_pg_hook()
             
             # Analizar patrones por día de semana
             weekday_pattern_sql = """
@@ -1091,7 +494,7 @@ def approval_cleanup() -> None:
             }
             
         except Exception as e:
-            _log_with_context('warning', f'Temporal pattern analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Temporal pattern analysis failed: {e}', error=str(e))
             return {
                 'weekday_patterns': [],
                 'monthly_patterns': [],
@@ -1123,11 +526,11 @@ def approval_cleanup() -> None:
             if cache_key in _query_cache:
                 cached_result, cached_time = _query_cache[cache_key]
                 if current_time - cached_time < ttl_seconds:
-                    _log_with_context('debug', f'Cache hit for {cache_key}')
+                    log_with_context('debug', f'Cache hit for {cache_key}')
                     return cached_result
             
             # Cache miss o expirado, ejecutar query
-            _log_with_context('debug', f'Cache miss for {cache_key}, executing query')
+            log_with_context('debug', f'Cache miss for {cache_key}, executing query')
             result = query_func()
             _query_cache[cache_key] = (result, current_time)
             
@@ -1219,7 +622,7 @@ def approval_cleanup() -> None:
                     results['results'].extend(batch_result['results'])
                     results['processed'] += len(batch)
                     
-                    _log_with_context(
+                    log_with_context(
                         'debug',
                         f'Batch processed: {batch_result["successful"]}/{len(batch)} successful',
                         batch_size=len(batch),
@@ -1229,7 +632,7 @@ def approval_cleanup() -> None:
                 except Exception as e:
                     results['failed'] += len(batch)
                     results['errors'].append(f"Batch processing error: {str(e)}")
-                    _log_with_context('error', f'Batch processing failed: {e}', error=str(e))
+                    log_with_context('error', f'Batch processing failed: {e}', error=str(e))
         
         return results
     
@@ -1263,7 +666,7 @@ def approval_cleanup() -> None:
         if 'ORDER BY' in sql.upper() and 'LIMIT' not in sql.upper():
             # Solo para queries de análisis, agregar límite razonable
             if 'SELECT' in sql.upper() and 'COUNT' not in sql.upper():
-                _log_with_context(
+                log_with_context(
                     'debug',
                     f'Query has ORDER BY without LIMIT, consider adding LIMIT for performance',
                     table=table_name
@@ -1282,7 +685,7 @@ def approval_cleanup() -> None:
                 indexes = pg_hook.get_records(index_check_sql, parameters=(table_name, column_patterns))
                 
                 if not indexes:
-                    _log_with_context(
+                    log_with_context(
                         'warning',
                         f'No indexes found for columns {columns} in table {table_name}',
                         table=table_name,
@@ -1293,59 +696,10 @@ def approval_cleanup() -> None:
         
         return optimized_sql
     
-    def _export_to_multiple_formats(
-        data: Dict[str, Any],
-        base_filename: str,
-        export_dir: Path,
-        formats: List[str] = ['json', 'csv']
-    ) -> Dict[str, str]:
-        """
-        Exporta datos a múltiples formatos (JSON, CSV, etc.).
-        
-        Args:
-            data: Datos a exportar
-            base_filename: Nombre base del archivo (sin extensión)
-            export_dir: Directorio de exportación
-            formats: Lista de formatos a exportar
-            
-        Returns:
-            Dict con paths de archivos exportados
-        """
-        exported_files = {}
-        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        
-        export_dir.mkdir(parents=True, exist_ok=True)
-        
-        # Exportar a JSON
-        if 'json' in formats:
-            json_file = export_dir / f"{base_filename}_{timestamp}.json"
-            try:
-                with open(json_file, 'w') as f:
-                    json.dump(data, f, indent=2, default=str)
-                exported_files['json'] = str(json_file)
-                _log_with_context('info', f'Exported to JSON: {json_file}')
-            except Exception as e:
-                _log_with_context('warning', f'Failed to export JSON: {e}', error=str(e))
-        
-        # Exportar a CSV (si data es una lista de dicts)
-        if 'csv' in formats and isinstance(data, dict):
-            # Intentar exportar valores tabulares
-            csv_file = export_dir / f"{base_filename}_{timestamp}.csv"
-            try:
-                # Buscar listas en el dict que puedan ser tabulares
-                for key, value in data.items():
-                    if isinstance(value, list) and value and isinstance(value[0], dict):
-                        with open(csv_file, 'w', newline='') as f:
-                            writer = csv.DictWriter(f, fieldnames=value[0].keys())
-                            writer.writeheader()
-                            writer.writerows(value)
-                        exported_files['csv'] = str(csv_file)
-                        _log_with_context('info', f'Exported to CSV: {csv_file}')
-                        break
-            except Exception as e:
-                _log_with_context('debug', f'CSV export not applicable or failed: {e}')
-        
-        return exported_files
+    # Usar función del plugin directamente
+    _export_to_multiple_formats = lambda data, base_filename, export_dir, formats=['json', 'csv']: export_to_multiple_formats(
+        data, base_filename, str(export_dir), formats
+    )
     
     def _analyze_table_dependencies(
         pg_hook: Optional[PostgresHook] = None
@@ -1358,7 +712,7 @@ def approval_cleanup() -> None:
         """
         try:
             if not pg_hook:
-                pg_hook = _get_pg_hook()
+                pg_hook = get_pg_hook()
             
             # Analizar foreign keys y dependencias
             deps_sql = """
@@ -1418,14 +772,14 @@ def approval_cleanup() -> None:
                 }
                 
             except Exception as e:
-                _log_with_context('warning', f'Failed to analyze dependencies: {e}', error=str(e))
+                log_with_context('warning', f'Failed to analyze dependencies: {e}', error=str(e))
                 return {
                     'dependencies': {},
                     'error': str(e)
                 }
                 
         except Exception as e:
-            _log_with_context('warning', f'Table dependencies analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Table dependencies analysis failed: {e}', error=str(e))
             return {'dependencies': {}, 'error': str(e)}
     
     def _analyze_security_permissions(
@@ -1442,7 +796,7 @@ def approval_cleanup() -> None:
         
         try:
             if not pg_hook:
-                pg_hook = _get_pg_hook()
+                pg_hook = get_pg_hook()
             
             # Verificar permisos de tablas
             perms_sql = """
@@ -1514,14 +868,14 @@ def approval_cleanup() -> None:
                 }
                 
             except Exception as e:
-                _log_with_context('warning', f'Failed to analyze permissions: {e}', error=str(e))
+                log_with_context('warning', f'Failed to analyze permissions: {e}', error=str(e))
                 return {
                     'permissions': {},
                     'error': str(e)
                 }
                 
         except Exception as e:
-            _log_with_context('warning', f'Security analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Security analysis failed: {e}', error=str(e))
             return {'permissions': {}, 'error': str(e)}
     
     def _calculate_sla_metrics(
@@ -1535,7 +889,7 @@ def approval_cleanup() -> None:
         """
         try:
             if not pg_hook:
-                pg_hook = _get_pg_hook()
+                pg_hook = get_pg_hook()
             
             # Definir SLAs (en horas)
             sla_targets = {
@@ -1622,11 +976,11 @@ def approval_cleanup() -> None:
                 return {'sla_metrics': {}, 'error': 'no_data'}
                 
             except Exception as e:
-                _log_with_context('warning', f'Failed to calculate SLA metrics: {e}', error=str(e))
+                log_with_context('warning', f'Failed to calculate SLA metrics: {e}', error=str(e))
                 return {'sla_metrics': {}, 'error': str(e)}
                 
         except Exception as e:
-            _log_with_context('warning', f'SLA calculation failed: {e}', error=str(e))
+            log_with_context('warning', f'SLA calculation failed: {e}', error=str(e))
             return {'sla_metrics': {}, 'error': str(e)}
     
     def _calculate_health_score(
@@ -1752,7 +1106,7 @@ def approval_cleanup() -> None:
             }
             
         except Exception as e:
-            _log_with_context('warning', f'Health scoring failed: {e}', error=str(e))
+            log_with_context('warning', f'Health scoring failed: {e}', error=str(e))
             return {'overall_score': 50, 'error': str(e)}
     
     def _generate_health_recommendations(
@@ -1873,7 +1227,7 @@ def approval_cleanup() -> None:
             }
             
         except Exception as e:
-            _log_with_context('warning', f'Metric correlation analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Metric correlation analysis failed: {e}', error=str(e))
             return {'correlations': [], 'error': str(e)}
     
     def _predict_failures(
@@ -1960,7 +1314,7 @@ def approval_cleanup() -> None:
             }
             
         except Exception as e:
-            _log_with_context('warning', f'Failure prediction failed: {e}', error=str(e))
+            log_with_context('warning', f'Failure prediction failed: {e}', error=str(e))
             return {'predictions': [], 'error': str(e)}
     
     def _optimize_indexes_automatically(
@@ -1979,7 +1333,7 @@ def approval_cleanup() -> None:
         
         try:
             if not pg_hook:
-                pg_hook = _get_pg_hook()
+                pg_hook = get_pg_hook()
             
             optimizations = []
             
@@ -2075,7 +1429,7 @@ def approval_cleanup() -> None:
             }
             
         except Exception as e:
-            _log_with_context('warning', f'Auto index optimization failed: {e}', error=str(e))
+            log_with_context('warning', f'Auto index optimization failed: {e}', error=str(e))
             return {'optimizations': [], 'error': str(e)}
     
     def _calculate_detailed_costs(
@@ -2179,7 +1533,7 @@ def approval_cleanup() -> None:
             return costs
             
         except Exception as e:
-            _log_with_context('warning', f'Cost analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Cost analysis failed: {e}', error=str(e))
             return {'error': str(e)}
     
     def _advanced_auto_remediation(
@@ -2200,7 +1554,7 @@ def approval_cleanup() -> None:
         
         try:
             if not pg_hook:
-                pg_hook = _get_pg_hook()
+                pg_hook = get_pg_hook()
             
             context = get_current_context()
             params = context.get('params', {})
@@ -2236,9 +1590,9 @@ def approval_cleanup() -> None:
                                     'severity': 'high',
                                     'success': True
                                 })
-                                _log_with_context('info', f'Auto-remediated: Cleaned {len(cleaned)} orphaned notifications')
+                                log_with_context('info', f'Auto-remediated: Cleaned {len(cleaned)} orphaned notifications')
                         except Exception as e:
-                            _log_with_context('warning', f'Failed to remediate orphaned notifications: {e}')
+                            log_with_context('warning', f'Failed to remediate orphaned notifications: {e}')
             
             # 2. Remediar problemas de health score bajo
             if health_score.get('overall_score', 100) < 60:
@@ -2290,7 +1644,7 @@ def approval_cleanup() -> None:
             }
             
         except Exception as e:
-            _log_with_context('warning', f'Advanced auto-remediation failed: {e}', error=str(e))
+            log_with_context('warning', f'Advanced auto-remediation failed: {e}', error=str(e))
             return {'remediations': [], 'error': str(e)}
     
     def _export_prometheus_metrics(
@@ -2364,7 +1718,7 @@ def approval_cleanup() -> None:
         except ImportError:
             return {'exported': False, 'reason': 'requests_not_available'}
         except Exception as e:
-            _log_with_context('warning', f'Prometheus export failed: {e}', error=str(e))
+            log_with_context('warning', f'Prometheus export failed: {e}', error=str(e))
             return {'exported': False, 'error': str(e)}
     
     def _generate_intelligent_recommendations(
@@ -2502,7 +1856,7 @@ def approval_cleanup() -> None:
             }
             
         except Exception as e:
-            _log_with_context('warning', f'Intelligent recommendations failed: {e}', error=str(e))
+            log_with_context('warning', f'Intelligent recommendations failed: {e}', error=str(e))
             return {'recommendations': [], 'error': str(e)}
     
     def _analyze_impact(
@@ -2598,7 +1952,7 @@ def approval_cleanup() -> None:
             }
             
         except Exception as e:
-            _log_with_context('warning', f'Impact analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Impact analysis failed: {e}', error=str(e))
             return {'impact_analysis': {}, 'error': str(e)}
     
     def _generate_advanced_dashboard_data(
@@ -2685,7 +2039,7 @@ def approval_cleanup() -> None:
             return dashboard_data
             
         except Exception as e:
-            _log_with_context('warning', f'Advanced dashboard data generation failed: {e}', error=str(e))
+            log_with_context('warning', f'Advanced dashboard data generation failed: {e}', error=str(e))
             return {'dashboard_data': {}, 'error': str(e)}
     
     def _analyze_resilience(
@@ -2786,7 +2140,7 @@ def approval_cleanup() -> None:
             }
             
         except Exception as e:
-            _log_with_context('warning', f'Resilience analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Resilience analysis failed: {e}', error=str(e))
             return {'resilience_score': 50, 'error': str(e)}
     
     def _analyze_compliance(
@@ -2920,7 +2274,7 @@ def approval_cleanup() -> None:
             }
             
         except Exception as e:
-            _log_with_context('warning', f'Compliance analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Compliance analysis failed: {e}', error=str(e))
             return {'compliance_items': [], 'error': str(e)}
     
     def _continuous_learning_update(
@@ -2940,7 +2294,7 @@ def approval_cleanup() -> None:
         
         try:
             if not pg_hook:
-                pg_hook = _get_pg_hook()
+                pg_hook = get_pg_hook()
             
             updates = {}
             
@@ -3014,7 +2368,7 @@ def approval_cleanup() -> None:
             }
             
         except Exception as e:
-            _log_with_context('warning', f'Continuous learning update failed: {e}', error=str(e))
+            log_with_context('warning', f'Continuous learning update failed: {e}', error=str(e))
             return {'updates': {}, 'error': str(e)}
     
     def _analyze_advanced_business_metrics(
@@ -3034,7 +2388,7 @@ def approval_cleanup() -> None:
         
         try:
             if not pg_hook:
-                pg_hook = _get_pg_hook()
+                pg_hook = get_pg_hook()
             
             metrics = {}
             
@@ -3142,7 +2496,7 @@ def approval_cleanup() -> None:
             }
             
         except Exception as e:
-            _log_with_context('warning', f'Advanced business metrics analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Advanced business metrics analysis failed: {e}', error=str(e))
             return {'business_metrics': {}, 'error': str(e)}
     
     def _intelligent_alerting_system(
@@ -3274,7 +2628,7 @@ def approval_cleanup() -> None:
             }
             
         except Exception as e:
-            _log_with_context('warning', f'Intelligent alerting failed: {e}', error=str(e))
+            log_with_context('warning', f'Intelligent alerting failed: {e}', error=str(e))
             return {'alerts': [], 'error': str(e)}
     
     def _advanced_dependency_analysis(
@@ -3293,7 +2647,7 @@ def approval_cleanup() -> None:
         
         try:
             if not pg_hook:
-                pg_hook = _get_pg_hook()
+                pg_hook = get_pg_hook()
             
             analysis = {}
             
@@ -3349,7 +2703,7 @@ def approval_cleanup() -> None:
             return analysis
             
         except Exception as e:
-            _log_with_context('warning', f'Advanced dependency analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Advanced dependency analysis failed: {e}', error=str(e))
             return {'analysis': {}, 'error': str(e)}
     
     def _calculate_comprehensive_scores(
@@ -3442,7 +2796,7 @@ def approval_cleanup() -> None:
             }
             
         except Exception as e:
-            _log_with_context('warning', f'Comprehensive scoring failed: {e}', error=str(e))
+            log_with_context('warning', f'Comprehensive scoring failed: {e}', error=str(e))
             return {'scores': {}, 'error': str(e)}
     
     def _forecast_trends(
@@ -3536,7 +2890,7 @@ def approval_cleanup() -> None:
             }
             
         except Exception as e:
-            _log_with_context('warning', f'Trend forecasting failed: {e}', error=str(e))
+            log_with_context('warning', f'Trend forecasting failed: {e}', error=str(e))
             return {'forecasts': {}, 'error': str(e)}
     
     def _benchmark_comparison(
@@ -3660,7 +3014,7 @@ def approval_cleanup() -> None:
             }
             
         except Exception as e:
-            _log_with_context('warning', f'Benchmarking failed: {e}', error=str(e))
+            log_with_context('warning', f'Benchmarking failed: {e}', error=str(e))
             return {'benchmarks': {}, 'error': str(e)}
     
     def _calculate_roi_analysis(
@@ -3774,7 +3128,7 @@ def approval_cleanup() -> None:
             }
             
         except Exception as e:
-            _log_with_context('warning', f'ROI analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'ROI analysis failed: {e}', error=str(e))
             return {'roi_analysis': {}, 'error': str(e)}
     
     def _generate_data_driven_recommendations(
@@ -3899,7 +3253,7 @@ def approval_cleanup() -> None:
             }
             
         except Exception as e:
-            _log_with_context('warning', f'Data-driven recommendations failed: {e}', error=str(e))
+            log_with_context('warning', f'Data-driven recommendations failed: {e}', error=str(e))
             return {'recommendations': [], 'error': str(e)}
     
     def _analyze_business_impact(
@@ -4021,7 +3375,7 @@ def approval_cleanup() -> None:
             }
             
         except Exception as e:
-            _log_with_context('warning', f'Business impact analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Business impact analysis failed: {e}', error=str(e))
             return {'impact_analysis': {}, 'error': str(e)}
     
     def _advanced_export_system(
@@ -4138,7 +3492,7 @@ def approval_cleanup() -> None:
             }
             
         except Exception as e:
-            _log_with_context('warning', f'Advanced export failed: {e}', error=str(e))
+            log_with_context('warning', f'Advanced export failed: {e}', error=str(e))
             return {'exported_files': {}, 'error': str(e)}
     
     def _analyze_automated_testing(
@@ -4227,11 +3581,11 @@ def approval_cleanup() -> None:
             tests['test_coverage'] = (total_tests / 10) * 100 if total_tests > 0 else 0  # 10 tests totales objetivo
             tests['test_score'] = (tests['tests_passed'] / total_tests * 100) if total_tests > 0 else 0
             
-            _log_with_context('info', f'Automated testing: {tests["tests_passed"]}/{total_tests} passed, score: {tests["test_score"]:.1f}%')
+            log_with_context('info', f'Automated testing: {tests["tests_passed"]}/{total_tests} passed, score: {tests["test_score"]:.1f}%')
             
             return tests
         except Exception as e:
-            _log_with_context('warning', f'Automated testing failed: {e}', error=str(e))
+            log_with_context('warning', f'Automated testing failed: {e}', error=str(e))
             return {'tests_executed': [], 'test_score': 0, 'error': str(e)}
     
     def _analyze_real_time_monitoring(
@@ -4287,11 +3641,11 @@ def approval_cleanup() -> None:
             score -= len(monitoring['alerts']) * 15
             monitoring['monitoring_score'] = max(0, min(100, score))
             
-            _log_with_context('info', f'Real-time monitoring: Score {monitoring["monitoring_score"]}/100, {len(monitoring["alerts"])} alerts')
+            log_with_context('info', f'Real-time monitoring: Score {monitoring["monitoring_score"]}/100, {len(monitoring["alerts"])} alerts')
             
             return monitoring
         except Exception as e:
-            _log_with_context('warning', f'Real-time monitoring failed: {e}', error=str(e))
+            log_with_context('warning', f'Real-time monitoring failed: {e}', error=str(e))
             return {'real_time_metrics': {}, 'monitoring_score': 0, 'error': str(e)}
     
     def _analyze_query_cache(
@@ -4345,11 +3699,11 @@ def approval_cleanup() -> None:
             else:
                 cache_analysis['cache_score'] = 100
             
-            _log_with_context('info', f'Query cache analysis: Hit rate {cache_analysis["cache_hit_rate"]:.1f}%, effectiveness: {cache_analysis["cache_effectiveness"]}')
+            log_with_context('info', f'Query cache analysis: Hit rate {cache_analysis["cache_hit_rate"]:.1f}%, effectiveness: {cache_analysis["cache_effectiveness"]}')
             
             return cache_analysis
         except Exception as e:
-            _log_with_context('warning', f'Query cache analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Query cache analysis failed: {e}', error=str(e))
             return {'cache_hit_rate': 0, 'cache_score': 0, 'error': str(e)}
     
     def _analyze_connection_pool(
@@ -4406,11 +3760,11 @@ def approval_cleanup() -> None:
             else:
                 pool_analysis['pool_score'] = 30
             
-            _log_with_context('info', f'Connection pool analysis: {active}/{max_conn} connections ({utilization:.1f}% utilization)')
+            log_with_context('info', f'Connection pool analysis: {active}/{max_conn} connections ({utilization:.1f}% utilization)')
             
             return pool_analysis
         except Exception as e:
-            _log_with_context('warning', f'Connection pool analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Connection pool analysis failed: {e}', error=str(e))
             return {'connection_utilization': 0, 'pool_score': 0, 'error': str(e)}
     
     def _analyze_transactions(
@@ -4474,11 +3828,11 @@ def approval_cleanup() -> None:
             else:
                 transaction_analysis['transaction_score'] = 40
             
-            _log_with_context('info', f'Transaction analysis: Health {transaction_analysis["transaction_health"]}')
+            log_with_context('info', f'Transaction analysis: Health {transaction_analysis["transaction_health"]}')
             
             return transaction_analysis
         except Exception as e:
-            _log_with_context('warning', f'Transaction analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Transaction analysis failed: {e}', error=str(e))
             return {'transaction_metrics': {}, 'transaction_score': 0, 'error': str(e)}
     
     def _analyze_data_distribution(
@@ -4539,11 +3893,11 @@ def approval_cleanup() -> None:
             score -= len(distribution_analysis['distribution_issues']) * 10
             distribution_analysis['distribution_score'] = max(0, min(100, score))
             
-            _log_with_context('info', f'Data distribution analysis: Score {distribution_analysis["distribution_score"]}/100, skew detected: {distribution_analysis["skew_detected"]}')
+            log_with_context('info', f'Data distribution analysis: Score {distribution_analysis["distribution_score"]}/100, skew detected: {distribution_analysis["skew_detected"]}')
             
             return distribution_analysis
         except Exception as e:
-            _log_with_context('warning', f'Data distribution analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Data distribution analysis failed: {e}', error=str(e))
             return {'table_distributions': [], 'distribution_score': 0, 'error': str(e)}
     
     def _analyze_access_patterns(
@@ -4622,11 +3976,11 @@ def approval_cleanup() -> None:
                 score -= 10  # Muchas tablas frías pueden indicar desbalance
             access_analysis['pattern_score'] = max(0, min(100, score))
             
-            _log_with_context('info', f'Access pattern analysis: Score {access_analysis["pattern_score"]}/100, {len(access_analysis["hot_tables"])} hot tables')
+            log_with_context('info', f'Access pattern analysis: Score {access_analysis["pattern_score"]}/100, {len(access_analysis["hot_tables"])} hot tables')
             
             return access_analysis
         except Exception as e:
-            _log_with_context('warning', f'Access pattern analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Access pattern analysis failed: {e}', error=str(e))
             return {'access_patterns': [], 'pattern_score': 0, 'error': str(e)}
     
     def _detect_usage_anomalies(
@@ -4704,11 +4058,11 @@ def approval_cleanup() -> None:
             score -= anomaly_detection['severity_distribution'].get('critical', 0) * 20
             anomaly_detection['anomaly_score'] = max(0, min(100, score))
             
-            _log_with_context('info', f'Usage anomaly detection: {anomaly_detection["anomaly_count"]} anomalies detected, score: {anomaly_detection["anomaly_score"]}/100')
+            log_with_context('info', f'Usage anomaly detection: {anomaly_detection["anomaly_count"]} anomalies detected, score: {anomaly_detection["anomaly_score"]}/100')
             
             return anomaly_detection
         except Exception as e:
-            _log_with_context('warning', f'Usage anomaly detection failed: {e}', error=str(e))
+            log_with_context('warning', f'Usage anomaly detection failed: {e}', error=str(e))
             return {'anomalies': [], 'anomaly_score': 0, 'error': str(e)}
     
     def _analyze_data_quality(
@@ -4775,11 +4129,11 @@ def approval_cleanup() -> None:
             score -= max(0, (quality_analysis['quality_metrics']['pending_ratio'] - 10) * 2)
             quality_analysis['quality_score'] = max(0, min(100, score))
             
-            _log_with_context('info', f'Data quality analysis: Score {quality_analysis["quality_score"]}/100, {len(integrity_issues)} integrity issues')
+            log_with_context('info', f'Data quality analysis: Score {quality_analysis["quality_score"]}/100, {len(integrity_issues)} integrity issues')
             
             return quality_analysis
         except Exception as e:
-            _log_with_context('warning', f'Data quality analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Data quality analysis failed: {e}', error=str(e))
             return {'quality_metrics': {}, 'quality_score': 0, 'error': str(e)}
     
     def _predict_workload(
@@ -4865,11 +4219,11 @@ def approval_cleanup() -> None:
             
             workload_prediction['prediction_score'] = max(0, min(100, score))
             
-            _log_with_context('info', f'Workload prediction: Trend {workload_prediction["workload_trend"]}, score: {workload_prediction["prediction_score"]}/100')
+            log_with_context('info', f'Workload prediction: Trend {workload_prediction["workload_trend"]}, score: {workload_prediction["prediction_score"]}/100')
             
             return workload_prediction
         except Exception as e:
-            _log_with_context('warning', f'Workload prediction failed: {e}', error=str(e))
+            log_with_context('warning', f'Workload prediction failed: {e}', error=str(e))
             return {'predictions': {}, 'prediction_score': 0, 'error': str(e)}
     
     def _analyze_advanced_concurrency(
@@ -4953,11 +4307,11 @@ def approval_cleanup() -> None:
             
             concurrency_analysis['concurrency_score'] = max(0, min(100, score))
             
-            _log_with_context('info', f'Advanced concurrency analysis: Score {concurrency_analysis["concurrency_score"]}/100, {waiting_locks} waiting locks')
+            log_with_context('info', f'Advanced concurrency analysis: Score {concurrency_analysis["concurrency_score"]}/100, {waiting_locks} waiting locks')
             
             return concurrency_analysis
         except Exception as e:
-            _log_with_context('warning', f'Advanced concurrency analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Advanced concurrency analysis failed: {e}', error=str(e))
             return {'concurrency_metrics': {}, 'concurrency_score': 0, 'error': str(e)}
     
     def _analyze_data_redundancy(
@@ -4996,10 +4350,10 @@ def approval_cleanup() -> None:
             redundancy_pct = redundancy_analysis['redundancy_metrics']['redundancy_percentage']
             score = 100 - (redundancy_pct * 2)
             redundancy_analysis['redundancy_score'] = max(0, min(100, score))
-            _log_with_context('info', f'Data redundancy analysis: Score {redundancy_analysis["redundancy_score"]}/100')
+            log_with_context('info', f'Data redundancy analysis: Score {redundancy_analysis["redundancy_score"]}/100')
             return redundancy_analysis
         except Exception as e:
-            _log_with_context('warning', f'Data redundancy analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Data redundancy analysis failed: {e}', error=str(e))
             return {'redundancy_metrics': {}, 'redundancy_score': 0, 'error': str(e)}
     
     def _analyze_index_fragmentation(
@@ -5042,10 +4396,10 @@ def approval_cleanup() -> None:
                 score -= 15
             score -= len(unused_indexes) * 2
             fragmentation_analysis['fragmentation_score'] = max(0, min(100, score))
-            _log_with_context('info', f'Index fragmentation analysis: Score {fragmentation_analysis["fragmentation_score"]}/100')
+            log_with_context('info', f'Index fragmentation analysis: Score {fragmentation_analysis["fragmentation_score"]}/100')
             return fragmentation_analysis
         except Exception as e:
-            _log_with_context('warning', f'Index fragmentation analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Index fragmentation analysis failed: {e}', error=str(e))
             return {'fragmented_indexes': [], 'fragmentation_score': 0, 'error': str(e)}
     
     def _detect_duplicate_queries(
@@ -5088,10 +4442,10 @@ def approval_cleanup() -> None:
             score = 100
             score -= min(50, duplicate_analysis['duplicate_count'] * 5)
             duplicate_analysis['duplicate_score'] = max(0, min(100, score))
-            _log_with_context('info', f'Duplicate query detection: {duplicate_analysis["duplicate_count"]} duplicates found')
+            log_with_context('info', f'Duplicate query detection: {duplicate_analysis["duplicate_count"]} duplicates found')
             return duplicate_analysis
         except Exception as e:
-            _log_with_context('warning', f'Duplicate query detection failed: {e}', error=str(e))
+            log_with_context('warning', f'Duplicate query detection failed: {e}', error=str(e))
             return {'duplicate_groups': [], 'duplicate_score': 0, 'error': str(e)}
     
     def _predict_system_failures(
@@ -5145,10 +4499,10 @@ def approval_cleanup() -> None:
                 failure_prediction['prediction_confidence'] = 'low'
             score = 100 - failure_prediction['failure_probability']
             failure_prediction['prediction_score'] = max(0, min(100, score))
-            _log_with_context('info', f'System failure prediction: Probability {failure_prediction["failure_probability"]:.1f}%')
+            log_with_context('info', f'System failure prediction: Probability {failure_prediction["failure_probability"]:.1f}%')
             return failure_prediction
         except Exception as e:
-            _log_with_context('warning', f'System failure prediction failed: {e}', error=str(e))
+            log_with_context('warning', f'System failure prediction failed: {e}', error=str(e))
             return {'predicted_failures': [], 'failure_probability': 0, 'prediction_score': 0, 'error': str(e)}
     
     def _analyze_energy_efficiency(
@@ -5187,10 +4541,10 @@ def approval_cleanup() -> None:
             elif avg_duration > 300:
                 score -= 15
             energy_analysis['efficiency_score'] = max(0, min(100, score))
-            _log_with_context('info', f'Energy efficiency analysis: Score {energy_analysis["efficiency_score"]}/100')
+            log_with_context('info', f'Energy efficiency analysis: Score {energy_analysis["efficiency_score"]}/100')
             return energy_analysis
         except Exception as e:
-            _log_with_context('warning', f'Energy efficiency analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Energy efficiency analysis failed: {e}', error=str(e))
             return {'energy_metrics': {}, 'efficiency_score': 0, 'error': str(e)}
     
     def _analyze_security_patterns(
@@ -5232,10 +4586,10 @@ def approval_cleanup() -> None:
             score -= len(critical_issues) * 20
             score -= len(security_issues) * 5
             security_patterns['security_score'] = max(0, min(100, score))
-            _log_with_context('info', f'Security pattern analysis: Score {security_patterns["security_score"]}/100')
+            log_with_context('info', f'Security pattern analysis: Score {security_patterns["security_score"]}/100')
             return security_patterns
         except Exception as e:
-            _log_with_context('warning', f'Security pattern analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Security pattern analysis failed: {e}', error=str(e))
             return {'security_patterns': [], 'security_score': 0, 'error': str(e)}
     
     def _analyze_performance_degradation(
@@ -5286,10 +4640,10 @@ def approval_cleanup() -> None:
             elif degradation_analysis['degradation_trend'] == 'improving':
                 score += 10
             degradation_analysis['degradation_score'] = max(0, min(100, score))
-            _log_with_context('info', f'Performance degradation detection: Trend {degradation_analysis["degradation_trend"]}')
+            log_with_context('info', f'Performance degradation detection: Trend {degradation_analysis["degradation_trend"]}')
             return degradation_analysis
         except Exception as e:
-            _log_with_context('warning', f'Performance degradation detection failed: {e}', error=str(e))
+            log_with_context('warning', f'Performance degradation detection failed: {e}', error=str(e))
             return {'degradation_indicators': [], 'degradation_score': 0, 'error': str(e)}
     
     def _analyze_resource_efficiency(
@@ -5339,10 +4693,10 @@ def approval_cleanup() -> None:
             if efficiency_analysis['resource_metrics']['connection_efficiency'] < 50:
                 score -= 20
             efficiency_analysis['efficiency_score'] = max(0, min(100, score))
-            _log_with_context('info', f'Resource efficiency analysis: Score {efficiency_analysis["efficiency_score"]}/100')
+            log_with_context('info', f'Resource efficiency analysis: Score {efficiency_analysis["efficiency_score"]}/100')
             return efficiency_analysis
         except Exception as e:
-            _log_with_context('warning', f'Resource efficiency analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Resource efficiency analysis failed: {e}', error=str(e))
             return {'resource_metrics': {}, 'efficiency_score': 0, 'error': str(e)}
     
     def _analyze_advanced_usage_patterns(
@@ -5383,10 +4737,10 @@ def approval_cleanup() -> None:
             score = 100
             score -= len(advanced_patterns['pattern_anomalies']) * 10
             advanced_patterns['pattern_score'] = max(0, min(100, score))
-            _log_with_context('info', f'Advanced usage patterns: Score {advanced_patterns["pattern_score"]}/100')
+            log_with_context('info', f'Advanced usage patterns: Score {advanced_patterns["pattern_score"]}/100')
             return advanced_patterns
         except Exception as e:
-            _log_with_context('warning', f'Advanced usage patterns failed: {e}', error=str(e))
+            log_with_context('warning', f'Advanced usage patterns failed: {e}', error=str(e))
             return {'usage_insights': [], 'pattern_score': 0, 'error': str(e)}
     
     def _generate_automated_recommendations(
@@ -5430,10 +4784,10 @@ def approval_cleanup() -> None:
             score = 100
             score -= len([r for r in recommendations['automated_recommendations'] if r.get('priority') == 'high']) * 15
             recommendations['recommendation_score'] = max(0, min(100, score))
-            _log_with_context('info', f'Automated recommendations: {len(recommendations["automated_recommendations"])} recommendations')
+            log_with_context('info', f'Automated recommendations: {len(recommendations["automated_recommendations"])} recommendations')
             return recommendations
         except Exception as e:
-            _log_with_context('warning', f'Automated recommendations failed: {e}', error=str(e))
+            log_with_context('warning', f'Automated recommendations failed: {e}', error=str(e))
             return {'automated_recommendations': [], 'recommendation_score': 0, 'error': str(e)}
     
     def _analyze_capacity_scalability_deep(
@@ -5477,10 +4831,10 @@ def approval_cleanup() -> None:
             elif deep_analysis['capacity_analysis']['growth_rate'] > 20:
                 score -= 15
             deep_analysis['capacity_score'] = max(0, min(100, score))
-            _log_with_context('info', f'Deep capacity scalability: Score {deep_analysis["capacity_score"]}/100')
+            log_with_context('info', f'Deep capacity scalability: Score {deep_analysis["capacity_score"]}/100')
             return deep_analysis
         except Exception as e:
-            _log_with_context('warning', f'Deep capacity scalability failed: {e}', error=str(e))
+            log_with_context('warning', f'Deep capacity scalability failed: {e}', error=str(e))
             return {'capacity_analysis': {}, 'capacity_score': 0, 'error': str(e)}
     
     def _analyze_change_impact(
@@ -5523,10 +4877,10 @@ def approval_cleanup() -> None:
             elif impact_analysis['risk_level'] == 'medium':
                 score -= 15
             impact_analysis['impact_score'] = max(0, min(100, score))
-            _log_with_context('info', f'Change impact analysis: Risk level {impact_analysis["risk_level"]}, score: {impact_analysis["impact_score"]}/100')
+            log_with_context('info', f'Change impact analysis: Risk level {impact_analysis["risk_level"]}, score: {impact_analysis["impact_score"]}/100')
             return impact_analysis
         except Exception as e:
-            _log_with_context('warning', f'Change impact analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Change impact analysis failed: {e}', error=str(e))
             return {'change_indicators': [], 'impact_score': 0, 'error': str(e)}
     
     def _get_pg_hook() -> PostgresHook:
@@ -5762,7 +5116,7 @@ def approval_cleanup() -> None:
                     'skipped': True
                 }
             
-            _log_with_context('info', f'Found {count} old requests to archive', count=count)
+            log_with_context('info', f'Found {count} old requests to archive', count=count)
             
             # Determinar si usar batching basado en el tamaño
             use_batching = count > BATCH_SIZE
@@ -5789,7 +5143,7 @@ def approval_cleanup() -> None:
                 try:
                     if use_batching:
                         # Procesar en lotes para operaciones grandes
-                        _log_with_context(
+                        log_with_context(
                             'info',
                             f'Processing {count} requests in batches of {optimal_batch_size}',
                             total_count=count,
@@ -5831,7 +5185,7 @@ def approval_cleanup() -> None:
                             archived_ids_batch = [row[0] for row in cursor.fetchall()]
                             all_archived_ids.extend(archived_ids_batch)
                             
-                            _log_with_context(
+                            log_with_context(
                                 'info',
                                 f'Archived batch: {len(archived_ids_batch)}/{len(batch_ids)} (total: {len(all_archived_ids)}/{count})',
                                 batch_size=len(archived_ids_batch),
@@ -7908,7 +7262,7 @@ def approval_cleanup() -> None:
             deps = _analyze_table_dependencies(pg_hook)
             
             if deps.get('critical_tables'):
-                _log_with_context(
+                log_with_context(
                     'info',
                     f'Found {len(deps["critical_tables"])} critical tables with many dependencies',
                     critical_tables=deps['critical_tables']
@@ -7917,7 +7271,7 @@ def approval_cleanup() -> None:
             return deps
             
         except Exception as e:
-            _log_with_context('warning', f'Table dependencies analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Table dependencies analysis failed: {e}', error=str(e))
             return {'dependencies': {}, 'error': str(e)}
     
     @task(task_id='analyze_security_permissions', on_failure_callback=on_task_failure)
@@ -7944,7 +7298,7 @@ def approval_cleanup() -> None:
             return security
             
         except Exception as e:
-            _log_with_context('warning', f'Security analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Security analysis failed: {e}', error=str(e))
             return {'permissions': {}, 'error': str(e)}
     
     @task(task_id='calculate_sla_metrics', on_failure_callback=on_task_failure)
@@ -7971,7 +7325,7 @@ def approval_cleanup() -> None:
             return sla
             
         except Exception as e:
-            _log_with_context('warning', f'SLA metrics calculation failed: {e}', error=str(e))
+            log_with_context('warning', f'SLA metrics calculation failed: {e}', error=str(e))
             return {'sla_metrics': {}, 'error': str(e)}
     
     @task(task_id='analyze_usage_patterns', on_failure_callback=on_task_failure)
@@ -7984,7 +7338,7 @@ def approval_cleanup() -> None:
             patterns = _analyze_usage_patterns(pg_hook, history_result)
             
             if patterns.get('insights'):
-                _log_with_context(
+                log_with_context(
                     'info',
                     f'Found {patterns["insight_count"]} usage pattern insights',
                     insight_count=patterns.get('insight_count', 0)
@@ -7993,7 +7347,7 @@ def approval_cleanup() -> None:
             return patterns
             
         except Exception as e:
-            _log_with_context('warning', f'Usage pattern analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Usage pattern analysis failed: {e}', error=str(e))
             return {'patterns': {}, 'error': str(e)}
     
     @task(task_id='analyze_bottlenecks', on_failure_callback=on_task_failure)
@@ -8011,7 +7365,7 @@ def approval_cleanup() -> None:
             )
             
             if bottlenecks.get('high_severity_count', 0) > 0:
-                _log_with_context(
+                log_with_context(
                     'warning',
                     f'Found {bottlenecks["high_severity_count"]} high severity bottlenecks',
                     high_severity=bottlenecks['high_severity_count'],
@@ -8033,7 +7387,7 @@ def approval_cleanup() -> None:
             return bottlenecks
             
         except Exception as e:
-            _log_with_context('warning', f'Bottleneck analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Bottleneck analysis failed: {e}', error=str(e))
             return {'bottlenecks': [], 'error': str(e)}
     
     @task(task_id='generate_query_recommendations', on_failure_callback=on_task_failure)
@@ -8046,7 +7400,7 @@ def approval_cleanup() -> None:
             recommendations = _generate_query_recommendations(pg_hook, slow_queries_result)
             
             if recommendations.get('high_priority_count', 0) > 0:
-                _log_with_context(
+                log_with_context(
                     'info',
                     f'Generated {recommendations["high_priority_count"]} high priority query recommendations',
                     high_priority=recommendations['high_priority_count'],
@@ -8056,7 +7410,7 @@ def approval_cleanup() -> None:
             return recommendations
             
         except Exception as e:
-            _log_with_context('warning', f'Query recommendations failed: {e}', error=str(e))
+            log_with_context('warning', f'Query recommendations failed: {e}', error=str(e))
             return {'recommendations': [], 'error': str(e)}
     
     @task(task_id='analyze_scalability_needs', on_failure_callback=on_task_failure)
@@ -8074,7 +7428,7 @@ def approval_cleanup() -> None:
             )
             
             if analysis.get('scalability_concern') == 'high':
-                _log_with_context(
+                log_with_context(
                     'warning',
                     f'Scalability concern: {analysis.get("message", "High growth detected")}',
                     concern=analysis.get('scalability_concern'),
@@ -8084,7 +7438,7 @@ def approval_cleanup() -> None:
             return analysis
             
         except Exception as e:
-            _log_with_context('warning', f'Scalability analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Scalability analysis failed: {e}', error=str(e))
             return {'error': str(e)}
     
     @task(task_id='analyze_seasonal_patterns', on_failure_callback=on_task_failure)
@@ -8097,7 +7451,7 @@ def approval_cleanup() -> None:
             patterns = _analyze_seasonal_patterns(pg_hook, history_result)
             
             if patterns.get('seasonal_variation'):
-                _log_with_context(
+                log_with_context(
                     'info',
                     f'Seasonal variation: {patterns["seasonal_variation"]:.1f}%',
                     seasonal_variation=patterns.get('seasonal_variation', 0)
@@ -8106,7 +7460,7 @@ def approval_cleanup() -> None:
             return patterns
             
         except Exception as e:
-            _log_with_context('warning', f'Seasonal pattern analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Seasonal pattern analysis failed: {e}', error=str(e))
             return {'patterns': {}, 'error': str(e)}
     
     @task(task_id='perform_root_cause_analysis', on_failure_callback=on_task_failure)
@@ -8126,7 +7480,7 @@ def approval_cleanup() -> None:
             )
             
             if analysis.get('critical_root_causes', 0) > 0:
-                _log_with_context(
+                log_with_context(
                     'warning',
                     f'Found {analysis["critical_root_causes"]} critical root causes',
                     critical_count=analysis.get('critical_root_causes', 0)
@@ -8135,7 +7489,7 @@ def approval_cleanup() -> None:
             return analysis
             
         except Exception as e:
-            _log_with_context('warning', f'Root cause analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Root cause analysis failed: {e}', error=str(e))
             return {'root_causes': [], 'error': str(e)}
     
     @task(task_id='calculate_adaptive_thresholds', on_failure_callback=on_task_failure)
@@ -8148,7 +7502,7 @@ def approval_cleanup() -> None:
             thresholds = _calculate_adaptive_thresholds(history_result, current_report)
             
             if thresholds.get('warnings', 0) > 0:
-                _log_with_context(
+                log_with_context(
                     'warning',
                     f'{thresholds["warnings"]} metrics exceed adaptive thresholds',
                     warnings=thresholds.get('warnings', 0)
@@ -8157,7 +7511,7 @@ def approval_cleanup() -> None:
             return thresholds
             
         except Exception as e:
-            _log_with_context('warning', f'Adaptive threshold calculation failed: {e}', error=str(e))
+            log_with_context('warning', f'Adaptive threshold calculation failed: {e}', error=str(e))
             return {'thresholds': {}, 'error': str(e)}
     
     @task(task_id='profile_performance', on_failure_callback=on_task_failure)
@@ -8171,7 +7525,7 @@ def approval_cleanup() -> None:
             
             if profile.get('cleanup_operations'):
                 throughput = profile['cleanup_operations'].get('throughput_records_per_second', 0)
-                _log_with_context(
+                log_with_context(
                     'info',
                     f'Performance throughput: {throughput:.2f} records/second',
                     throughput=throughput
@@ -8180,7 +7534,7 @@ def approval_cleanup() -> None:
             return profile
             
         except Exception as e:
-            _log_with_context('warning', f'Performance profiling failed: {e}', error=str(e))
+            log_with_context('warning', f'Performance profiling failed: {e}', error=str(e))
             return {'profile': {}, 'error': str(e)}
     
     @task(task_id='generate_intelligent_recommendations', on_failure_callback=on_task_failure)
@@ -8204,7 +7558,7 @@ def approval_cleanup() -> None:
             )
             
             if recommendations.get('critical_count', 0) > 0:
-                _log_with_context(
+                log_with_context(
                     'warning',
                     f'Generated {recommendations["critical_count"]} critical recommendations',
                     critical=recommendations.get('critical_count', 0),
@@ -8214,7 +7568,7 @@ def approval_cleanup() -> None:
             return recommendations
             
         except Exception as e:
-            _log_with_context('warning', f'Intelligent recommendations failed: {e}', error=str(e))
+            log_with_context('warning', f'Intelligent recommendations failed: {e}', error=str(e))
             return {'recommendations': [], 'error': str(e)}
     
     @task(task_id='analyze_impact', on_failure_callback=on_task_failure)
@@ -8232,7 +7586,7 @@ def approval_cleanup() -> None:
             )
             
             if impact.get('has_significant_impact'):
-                _log_with_context(
+                log_with_context(
                     'info',
                     'Recommendations have significant potential impact',
                     has_impact=impact.get('has_significant_impact')
@@ -8241,7 +7595,7 @@ def approval_cleanup() -> None:
             return impact
             
         except Exception as e:
-            _log_with_context('warning', f'Impact analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Impact analysis failed: {e}', error=str(e))
             return {'impact_analysis': {}, 'error': str(e)}
     
     @task(task_id='generate_advanced_dashboard_data', on_failure_callback=on_task_failure)
@@ -8276,15 +7630,15 @@ def approval_cleanup() -> None:
                 dashboard_file = export_dir / f"dashboard_data_{timestamp}.json"
                 with open(dashboard_file, 'w') as f:
                     json.dump(dashboard_data, f, indent=2, default=str)
-                _log_with_context('info', f'Dashboard data exported to: {dashboard_file}')
+                log_with_context('info', f'Dashboard data exported to: {dashboard_file}')
                 dashboard_data['export_file'] = str(dashboard_file)
             except Exception as e:
-                _log_with_context('warning', f'Failed to export dashboard data: {e}')
+                log_with_context('warning', f'Failed to export dashboard data: {e}')
             
             return dashboard_data
             
         except Exception as e:
-            _log_with_context('warning', f'Advanced dashboard data generation failed: {e}', error=str(e))
+            log_with_context('warning', f'Advanced dashboard data generation failed: {e}', error=str(e))
             return {'dashboard_data': {}, 'error': str(e)}
     
     @task(task_id='analyze_resilience', on_failure_callback=on_task_failure)
@@ -8306,7 +7660,7 @@ def approval_cleanup() -> None:
             )
             
             if resilience.get('resilience_score', 100) < 70:
-                _log_with_context(
+                log_with_context(
                     'warning',
                     f'Resilience score is low: {resilience["resilience_score"]:.1f}/100',
                     resilience_score=resilience.get('resilience_score', 0),
@@ -8316,7 +7670,7 @@ def approval_cleanup() -> None:
             return resilience
             
         except Exception as e:
-            _log_with_context('warning', f'Resilience analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Resilience analysis failed: {e}', error=str(e))
             return {'resilience_score': 50, 'error': str(e)}
     
     @task(task_id='analyze_compliance', on_failure_callback=on_task_failure)
@@ -8336,7 +7690,7 @@ def approval_cleanup() -> None:
             )
             
             if compliance.get('compliance_status') == 'non_compliant':
-                _log_with_context(
+                log_with_context(
                     'warning',
                     f'Compliance status: {compliance["compliance_status"]}, Score: {compliance["overall_compliance"]:.1f}%',
                     compliance_status=compliance.get('compliance_status'),
@@ -8347,7 +7701,7 @@ def approval_cleanup() -> None:
             return compliance
             
         except Exception as e:
-            _log_with_context('warning', f'Compliance analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Compliance analysis failed: {e}', error=str(e))
             return {'compliance_items': [], 'error': str(e)}
     
     @task(task_id='continuous_learning_update', on_failure_callback=on_task_failure)
@@ -8366,7 +7720,7 @@ def approval_cleanup() -> None:
             
             if updates.get('updates', {}).get('optimal_batch_size'):
                 optimal = updates['updates']['optimal_batch_size']
-                _log_with_context(
+                log_with_context(
                     'info',
                     f'Learned optimal batch size: {optimal["learned_value"]} (throughput: {optimal["throughput"]:.2f})',
                     optimal_batch_size=optimal.get('learned_value'),
@@ -8376,7 +7730,7 @@ def approval_cleanup() -> None:
             return updates
             
         except Exception as e:
-            _log_with_context('warning', f'Continuous learning update failed: {e}', error=str(e))
+            log_with_context('warning', f'Continuous learning update failed: {e}', error=str(e))
             return {'updates': {}, 'error': str(e)}
     
     @task(task_id='automated_testing', on_failure_callback=on_task_failure)
@@ -8622,7 +7976,7 @@ def approval_cleanup() -> None:
             
             if metrics.get('summary'):
                 summary = metrics['summary']
-                _log_with_context(
+                log_with_context(
                     'info',
                     f'Business metrics: Conversion={summary.get("conversion_rate", 0):.1f}%, '
                     f'Efficiency={summary.get("system_efficiency", 0):.1f}%',
@@ -8633,7 +7987,7 @@ def approval_cleanup() -> None:
             return metrics
             
         except Exception as e:
-            _log_with_context('warning', f'Advanced business metrics analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Advanced business metrics analysis failed: {e}', error=str(e))
             return {'business_metrics': {}, 'error': str(e)}
     
     @task(task_id='intelligent_alerting', on_failure_callback=on_task_failure)
@@ -8672,7 +8026,7 @@ def approval_cleanup() -> None:
             return alerts
             
         except Exception as e:
-            _log_with_context('warning', f'Intelligent alerting failed: {e}', error=str(e))
+            log_with_context('warning', f'Intelligent alerting failed: {e}', error=str(e))
             return {'alerts': [], 'error': str(e)}
     
     @task(task_id='advanced_dependency_analysis', on_failure_callback=on_task_failure)
@@ -8690,7 +8044,7 @@ def approval_cleanup() -> None:
             )
             
             if analysis.get('max_dependency_depth', 0) > 5:
-                _log_with_context(
+                log_with_context(
                     'warning',
                     f'High dependency depth detected: {analysis["max_dependency_depth"]}',
                     max_depth=analysis.get('max_dependency_depth', 0)
@@ -8699,7 +8053,7 @@ def approval_cleanup() -> None:
             return analysis
             
         except Exception as e:
-            _log_with_context('warning', f'Advanced dependency analysis failed: {e}', error=str(e))
+            log_with_context('warning', f'Advanced dependency analysis failed: {e}', error=str(e))
             return {'analysis': {}, 'error': str(e)}
     
     @task(task_id='calculate_comprehensive_scores', on_failure_callback=on_task_failure)
@@ -8721,7 +8075,7 @@ def approval_cleanup() -> None:
             )
             
             overall = scores.get('scores', {}).get('overall', {})
-            _log_with_context(
+            log_with_context(
                 'info',
                 f'Comprehensive system score: {overall.get("score", 0):.1f}/100 ({overall.get("status", "unknown")})',
                 overall_score=overall.get('score', 0),
@@ -8731,7 +8085,7 @@ def approval_cleanup() -> None:
             return scores
             
         except Exception as e:
-            _log_with_context('warning', f'Comprehensive scoring failed: {e}', error=str(e))
+            log_with_context('warning', f'Comprehensive scoring failed: {e}', error=str(e))
             return {'scores': {}, 'error': str(e)}
     
     @task(task_id='benchmark_comparison', on_failure_callback=on_task_failure)
@@ -8797,7 +8151,7 @@ def approval_cleanup() -> None:
             
             if forecasts.get('forecasts', {}).get('database_size'):
                 db_forecast = forecasts['forecasts']['database_size']
-                _log_with_context(
+                log_with_context(
                     'info',
                     f'Database growth forecast: {db_forecast.get("growth_rate_pct", 0):.2f}% growth, '
                     f'90d forecast: {db_forecast.get("forecast_90d_gb", 0):.2f} GB',
@@ -8808,7 +8162,7 @@ def approval_cleanup() -> None:
             return forecasts
             
         except Exception as e:
-            _log_with_context('warning', f'Trend forecasting failed: {e}', error=str(e))
+            log_with_context('warning', f'Trend forecasting failed: {e}', error=str(e))
             return {'forecasts': {}, 'error': str(e)}
     
     @task(task_id='backup_critical_data', on_failure_callback=on_task_failure)
@@ -9065,7 +8419,7 @@ def approval_cleanup() -> None:
                         for size in report['table_sizes']:
                             writer.writerow(size)
                     export_files['table_sizes_csv'] = str(csv_file_sizes)
-                    _log_with_context('info', f'Table sizes exported to CSV: {csv_file_sizes}')
+                    log_with_context('info', f'Table sizes exported to CSV: {csv_file_sizes}')
                 
                 # Exportar CSV de unused indexes
                 if unused_indexes:
@@ -9077,16 +8431,16 @@ def approval_cleanup() -> None:
                         for idx in unused_indexes[:20]:
                             writer.writerow(idx)
                     export_files['unused_indexes_csv'] = str(csv_file_indexes)
-                    _log_with_context('info', f'Unused indexes exported to CSV: {csv_file_indexes}')
+                    log_with_context('info', f'Unused indexes exported to CSV: {csv_file_indexes}')
                 
                 if export_files:
-                    _log_with_context(
+                    log_with_context(
                         'info',
                         f'Report exported to multiple formats',
                         export_files=export_files
                     )
             except Exception as e:
-                _log_with_context('warning', f'Failed to export report to files: {e}', error=str(e))
+                log_with_context('warning', f'Failed to export report to files: {e}', error=str(e))
             
             # Agregar export_files al reporte
             report['export_files'] = export_files
@@ -9769,7 +9123,7 @@ def approval_cleanup() -> None:
             prediction = _predict_capacity_need(pg_hook, days_ahead=30)
             
             if prediction.get('prediction_available'):
-                _log_with_context(
+                log_with_context(
                     'info',
                     f'Capacity prediction: {prediction["predicted_size_gb"]:.2f} GB in 30 days',
                     prediction=prediction
@@ -9792,7 +9146,7 @@ def approval_cleanup() -> None:
             return prediction
             
         except Exception as e:
-            _log_with_context('warning', f'Capacity prediction task failed: {e}', error=str(e))
+            log_with_context('warning', f'Capacity prediction task failed: {e}', error=str(e))
             return {'prediction_available': False, 'error': str(e)}
     
     @task(task_id='analyze_capacity_planning', on_failure_callback=on_task_failure)
@@ -22844,7 +22198,7 @@ For more information, refer to the detailed reports in {REPORT_EXPORT_DIR}.
             patterns = _analyze_temporal_patterns(pg_hook)
             
             if patterns.get('busiest_day'):
-                _log_with_context(
+                log_with_context(
                     'info',
                     f'Temporal patterns: Busiest day is {patterns["busiest_day"]["day_of_week"]}',
                     patterns=patterns
@@ -22853,7 +22207,7 @@ For more information, refer to the detailed reports in {REPORT_EXPORT_DIR}.
             return patterns
             
         except Exception as e:
-            _log_with_context('warning', f'Temporal patterns analysis task failed: {e}', error=str(e))
+            log_with_context('warning', f'Temporal patterns analysis task failed: {e}', error=str(e))
             return {'weekday_patterns': [], 'error': str(e)}
     
     @task(task_id='analyze_capacity_and_resources', on_failure_callback=on_task_failure)

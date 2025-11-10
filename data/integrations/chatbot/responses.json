@@ -1,0 +1,38 @@
+{
+  "greeting": {
+    "es": "¡Hola! 👋 Soy tu asistente virtual. Estoy aquí para ayudarte con cualquier pregunta sobre nuestros productos y servicios. ¿En qué puedo ayudarte hoy?",
+    "en": "Hello! 👋 I'm your virtual assistant. I'm here to help you with any questions about our products and services. How can I help you today?",
+    "pt": "Olá! 👋 Sou seu assistente virtual. Estou aqui para ajudá-lo com qualquer dúvida sobre nossos produtos e serviços. Como posso ajudá-lo hoje?",
+    "fr": "Bonjour! 👋 Je suis votre assistant virtuel. Je suis là pour vous aider avec toutes vos questions sur nos produits et services. Comment puis-je vous aider aujourd'hui?"
+  },
+  "escalation": {
+    "es": "Entiendo que necesitas atención inmediata. He creado un ticket de soporte prioritario para tu consulta. Un agente especializado se pondrá en contacto contigo en los próximos minutos.",
+    "en": "I understand you need immediate attention. I've created a priority support ticket for your inquiry. A specialized agent will contact you within the next few minutes.",
+    "pt": "Entendo que você precisa de atenção imediata. Criei um ticket de suporte prioritário para sua consulta. Um agente especializado entrará em contato com você nos próximos minutos.",
+    "fr": "Je comprends que vous avez besoin d'une attention immédiate. J'ai créé un ticket de support prioritaire pour votre demande. Un agent spécialisé vous contactera dans les prochaines minutes."
+  },
+  "default": {
+    "es": "Lo siento, no estoy seguro de haber entendido completamente tu pregunta. ¿Podrías reformularla de otra manera? También puedo ayudarte con:\n\n• Preguntas sobre funcionalidades\n• Información de precios y planes\n• Soporte técnico\n• Configuración de cuenta\n\n¿Sobre qué te gustaría saber más?",
+    "en": "I'm sorry, I'm not sure I fully understood your question. Could you rephrase it? I can also help you with:\n\n• Feature questions\n• Pricing and plan information\n• Technical support\n• Account setup\n\nWhat would you like to know more about?",
+    "pt": "Desculpe, não tenho certeza se entendi completamente sua pergunta. Você poderia reformulá-la? Também posso ajudá-lo com:\n\n• Perguntas sobre funcionalidades\n• Informações de preços e planos\n• Suporte técnico\n• Configuração de conta\n\nSobre o que você gostaria de saber mais?",
+    "fr": "Je suis désolé, je ne suis pas sûr d'avoir bien compris votre question. Pourriez-vous la reformuler? Je peux également vous aider avec:\n\n• Questions sur les fonctionnalités\n• Informations sur les prix et les plans\n• Support technique\n• Configuration du compte\n\nSur quoi aimeriez-vous en savoir plus?"
+  },
+  "goodbye": {
+    "es": "¡Fue un placer ayudarte! 😊 Si tienes más preguntas, no dudes en volver. ¡Que tengas un excelente día!",
+    "en": "It was a pleasure helping you! 😊 If you have more questions, feel free to come back. Have a great day!",
+    "pt": "Foi um prazer ajudá-lo! 😊 Se tiver mais perguntas, não hesite em voltar. Tenha um ótimo dia!",
+    "fr": "Ce fut un plaisir de vous aider! 😊 Si vous avez d'autres questions, n'hésitez pas à revenir. Passez une excellente journée!"
+  },
+  "satisfaction_request": {
+    "es": "¿Te fue útil mi respuesta? Por favor, califica del 1 al 5 ⭐",
+    "en": "Was my response helpful? Please rate from 1 to 5 ⭐",
+    "pt": "Minha resposta foi útil? Por favor, avalie de 1 a 5 ⭐",
+    "fr": "Ma réponse vous a-t-elle été utile? Veuillez noter de 1 à 5 ⭐"
+  },
+  "thank_you": {
+    "es": "¡Gracias por tu calificación! 🙏 Tu feedback nos ayuda a mejorar.",
+    "en": "Thank you for your rating! 🙏 Your feedback helps us improve.",
+    "pt": "Obrigado pela sua avaliação! 🙏 Seu feedback nos ajuda a melhorar.",
+    "fr": "Merci pour votre note! 🙏 Vos commentaires nous aident à nous améliorer."
+  }
+}

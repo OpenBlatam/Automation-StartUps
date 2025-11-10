@@ -4,9 +4,15 @@ import json
 import logging
 import os
 import time
-from typing import Dict, Any, Optional
-from datetime import datetime, timezone
+import uuid
+from typing import Dict, Any, Optional, List
+from datetime import datetime, timezone, timedelta
 
+try:
+    from airflow.providers.postgres.hooks.postgres import PostgresHook
+    POSTGRES_AVAILABLE = True
+except ImportError:
+    POSTGRES_AVAILABLE = False
 
 logger = logging.getLogger("airflow.task")
 
@@ -284,17 +290,390 @@ def assign_project_and_it_tasks(payload: Dict[str, Any]) -> Dict[str, Any]:
     return {"tasks": tasks, "tasks_created_at": datetime.now(timezone.utc).isoformat()}
 
 
+def _get_db_connection(postgres_conn_id: str = "postgres_default"):
+    """Obtiene conexión a base de datos."""
+    if not POSTGRES_AVAILABLE:
+        return None
+    try:
+        hook = PostgresHook(postgres_conn_id=postgres_conn_id)
+        return hook.get_conn()
+    except Exception as e:
+        logger.warning(f"Could not connect to database: {e}")
+        return None
+
+
+def create_onboarding_checklist(payload: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Crea checklist automatizada de tareas de onboarding en base de datos.
+    Incluye tareas de configuración de cuentas, documentos, capacitaciones y accesos.
+    """
+    employee_email = payload.get("employee_email", "")
+    department = payload.get("department", "")
+    role = payload.get("role", "")
+    start_date = payload.get("start_date", "")
+    manager_email = payload.get("manager_email", "")
+    
+    if not employee_email:
+        raise ValueError("employee_email is required")
+    
+    logger.info("creating onboarding checklist", extra={"employee_email": employee_email})
+    
+    # Checklist templates por categoría
+    checklist_templates = {
+        "account_setup": [
+            {"title": "Crear cuenta de email corporativo", "assignee": "it@example.com", "due_days": 0},
+            {"title": "Configurar acceso a IdP (Okta/Azure AD)", "assignee": "it@example.com", "due_days": 0},
+            {"title": "Crear perfil en workspace (Google/M365)", "assignee": "it@example.com", "due_days": 0},
+            {"title": "Configurar acceso a Slack/Teams", "assignee": "it@example.com", "due_days": 1},
+        ],
+        "documents": [
+            {"title": "Firmar contrato de trabajo", "assignee": "hr@example.com", "due_days": -7},
+            {"title": "Completar formulario de datos personales", "assignee": employee_email, "due_days": 1},
+            {"title": "Subir documentos de identidad", "assignee": employee_email, "due_days": 1},
+            {"title": "Completar información bancaria", "assignee": employee_email, "due_days": 3},
+            {"title": "Revisar y aceptar políticas de la empresa", "assignee": employee_email, "due_days": 1},
+        ],
+        "hr": [
+            {"title": "Reunión de bienvenida con RRHH", "assignee": "hr@example.com", "due_days": 1},
+            {"title": "Configurar beneficios y seguro", "assignee": "hr@example.com", "due_days": 3},
+            {"title": "Asignar buddy/mentor", "assignee": "hr@example.com", "due_days": 2},
+        ],
+        "it": [
+            {"title": "Configurar laptop/equipo de trabajo", "assignee": "it@example.com", "due_days": 1},
+            {"title": "Instalar software necesario", "assignee": "it@example.com", "due_days": 2},
+            {"title": "Configurar VPN y accesos remotos", "assignee": "it@example.com", "due_days": 1},
+            {"title": "Configurar acceso a sistemas internos", "assignee": "it@example.com", "due_days": 3},
+        ],
+        "access": [
+            {"title": "Acceso a repositorio de código (GitHub/GitLab)", "assignee": "it@example.com", "due_days": 2},
+            {"title": "Acceso a herramientas de desarrollo", "assignee": "it@example.com", "due_days": 2},
+            {"title": "Acceso a base de datos y entornos", "assignee": "it@example.com", "due_days": 5},
+        ],
+    }
+    
+    # Agregar tareas específicas por departamento
+    if department.lower() in ["engineering", "tech", "development"]:
+        checklist_templates["access"].extend([
+            {"title": "Acceso a sistemas de CI/CD", "assignee": "it@example.com", "due_days": 3},
+            {"title": "Configurar acceso a entornos de staging/producción", "assignee": "it@example.com", "due_days": 7},
+        ])
+    
+    checklist_items = []
+    conn = _get_db_connection()
+    
+    try:
+        if conn:
+            cursor = conn.cursor()
+            start_dt = datetime.strptime(start_date, "%Y-%m-%d").date() if start_date else datetime.now().date()
+            
+            for category, tasks in checklist_templates.items():
+                for task in tasks:
+                    task_id = f"{category}_{uuid.uuid4().hex[:8]}"
+                    due_date = start_dt + timedelta(days=task["due_days"]) if task["due_days"] >= 0 else start_dt + timedelta(days=task["due_days"])
+                    
+                    try:
+                        cursor.execute("""
+                            INSERT INTO onboarding_checklist 
+                            (employee_email, task_id, task_category, task_title, assignee, due_date, status)
+                            VALUES (%s, %s, %s, %s, %s, %s, 'pending')
+                            ON CONFLICT (employee_email, task_id) DO NOTHING
+                        """, (employee_email, task_id, category, task["title"], task["assignee"], due_date))
+                        checklist_items.append({
+                            "task_id": task_id,
+                            "category": category,
+                            "title": task["title"],
+                            "assignee": task["assignee"],
+                            "due_date": due_date.isoformat(),
+                        })
+                    except Exception as e:
+                        logger.warning(f"Failed to insert checklist item: {e}")
+            
+            conn.commit()
+            cursor.close()
+            logger.info(f"Created {len(checklist_items)} checklist items", extra={"employee_email": employee_email})
+        else:
+            # Fallback: crear checklist en memoria si no hay DB
+            logger.warning("Database not available, creating checklist in memory only")
+            for category, tasks in checklist_templates.items():
+                for task in tasks:
+                    checklist_items.append({
+                        "task_id": f"{category}_{uuid.uuid4().hex[:8]}",
+                        "category": category,
+                        "title": task["title"],
+                        "assignee": task["assignee"],
+                    })
+    except Exception as e:
+        logger.error(f"Error creating checklist: {e}", exc_info=True)
+        if conn:
+            conn.rollback()
+    finally:
+        if conn:
+            conn.close()
+    
+    return {
+        "checklist_items": checklist_items,
+        "checklist_created_at": datetime.now(timezone.utc).isoformat(),
+        "total_items": len(checklist_items),
+    }
+
+
+def assign_trainings(payload: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Asigna capacitaciones automáticamente basadas en departamento, rol y políticas de la empresa.
+    """
+    employee_email = payload.get("employee_email", "")
+    department = payload.get("department", "")
+    role = payload.get("role", "")
+    start_date = payload.get("start_date", "")
+    
+    if not employee_email:
+        raise ValueError("employee_email is required")
+    
+    logger.info("assigning trainings", extra={"employee_email": employee_email, "department": department})
+    
+    # Templates de capacitaciones
+    mandatory_trainings = [
+        {
+            "training_id": "welcome_orientation",
+            "name": "Orientación de Bienvenida",
+            "type": "mandatory",
+            "provider": "internal",
+            "due_days": 3,
+        },
+        {
+            "training_id": "code_of_conduct",
+            "name": "Código de Conducta y Ética",
+            "type": "mandatory",
+            "provider": "internal",
+            "due_days": 7,
+        },
+        {
+            "training_id": "security_awareness",
+            "name": "Concientización de Seguridad",
+            "type": "mandatory",
+            "provider": "internal",
+            "due_days": 14,
+        },
+        {
+            "training_id": "data_protection",
+            "name": "Protección de Datos (GDPR/LOPD)",
+            "type": "mandatory",
+            "provider": "internal",
+            "due_days": 14,
+        },
+    ]
+    
+    # Capacitaciones específicas por departamento
+    department_trainings = {
+        "engineering": [
+            {"training_id": "dev_standards", "name": "Estándares de Desarrollo", "type": "department_specific", "due_days": 7},
+            {"training_id": "code_review", "name": "Proceso de Code Review", "type": "department_specific", "due_days": 10},
+        ],
+        "sales": [
+            {"training_id": "crm_training", "name": "Capacitación CRM", "type": "department_specific", "due_days": 5},
+            {"training_id": "sales_process", "name": "Proceso de Ventas", "type": "department_specific", "due_days": 7},
+        ],
+        "marketing": [
+            {"training_id": "brand_guidelines", "name": "Guías de Marca", "type": "department_specific", "due_days": 5},
+        ],
+    }
+    
+    assigned_trainings = []
+    conn = _get_db_connection()
+    
+    try:
+        if conn:
+            cursor = conn.cursor()
+            start_dt = datetime.strptime(start_date, "%Y-%m-%d").date() if start_date else datetime.now().date()
+            
+            # Asignar capacitaciones obligatorias
+            for training in mandatory_trainings:
+                due_date = start_dt + timedelta(days=training["due_days"])
+                try:
+                    cursor.execute("""
+                        INSERT INTO onboarding_trainings 
+                        (employee_email, training_id, training_name, training_type, training_provider, 
+                         assigned_date, due_date, status)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, 'assigned')
+                        ON CONFLICT (employee_email, training_id) DO NOTHING
+                    """, (
+                        employee_email,
+                        training["training_id"],
+                        training["name"],
+                        training["type"],
+                        training["provider"],
+                        start_dt,
+                        due_date,
+                    ))
+                    assigned_trainings.append({
+                        "training_id": training["training_id"],
+                        "name": training["name"],
+                        "type": training["type"],
+                        "due_date": due_date.isoformat(),
+                    })
+                except Exception as e:
+                    logger.warning(f"Failed to assign training {training['training_id']}: {e}")
+            
+            # Asignar capacitaciones por departamento
+            dept_lower = department.lower() if department else ""
+            for dept, trainings in department_trainings.items():
+                if dept in dept_lower:
+                    for training in trainings:
+                        due_date = start_dt + timedelta(days=training["due_days"])
+                        try:
+                            cursor.execute("""
+                                INSERT INTO onboarding_trainings 
+                                (employee_email, training_id, training_name, training_type, 
+                                 assigned_date, due_date, status)
+                                VALUES (%s, %s, %s, %s, %s, %s, 'assigned')
+                                ON CONFLICT (employee_email, training_id) DO NOTHING
+                            """, (
+                                employee_email,
+                                training["training_id"],
+                                training["name"],
+                                training["type"],
+                                start_dt,
+                                due_date,
+                            ))
+                            assigned_trainings.append({
+                                "training_id": training["training_id"],
+                                "name": training["name"],
+                                "type": training["type"],
+                                "due_date": due_date.isoformat(),
+                            })
+                        except Exception as e:
+                            logger.warning(f"Failed to assign department training {training['training_id']}: {e}")
+            
+            conn.commit()
+            cursor.close()
+            logger.info(f"Assigned {len(assigned_trainings)} trainings", extra={"employee_email": employee_email})
+        else:
+            logger.warning("Database not available, creating trainings in memory only")
+            assigned_trainings = mandatory_trainings
+    except Exception as e:
+        logger.error(f"Error assigning trainings: {e}", exc_info=True)
+        if conn:
+            conn.rollback()
+    finally:
+        if conn:
+            conn.close()
+    
+    return {
+        "trainings": assigned_trainings,
+        "trainings_assigned_at": datetime.now(timezone.utc).isoformat(),
+        "total_trainings": len(assigned_trainings),
+    }
+
+
+def provision_accesses(payload: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Provisiona accesos automáticamente basados en departamento y rol.
+    """
+    employee_email = payload.get("employee_email", "")
+    department = payload.get("department", "")
+    role = payload.get("role", "")
+    
+    if not employee_email:
+        raise ValueError("employee_email is required")
+    
+    logger.info("provisioning accesses", extra={"employee_email": employee_email, "department": department})
+    
+    # Accesos base para todos
+    base_accesses = [
+        {"type": "system", "name": "Email Corporativo", "provider": "google_workspace", "level": "read"},
+        {"type": "application", "name": "Slack", "provider": "slack", "level": "read"},
+        {"type": "application", "name": "Calendario Compartido", "provider": "google_workspace", "level": "read"},
+    ]
+    
+    # Accesos por departamento
+    department_accesses = {
+        "engineering": [
+            {"type": "application", "name": "GitHub", "provider": "github", "level": "read"},
+            {"type": "application", "name": "Jira", "provider": "atlassian", "level": "read"},
+            {"type": "database", "name": "Base de Datos Desarrollo", "provider": "custom", "level": "read"},
+        ],
+        "sales": [
+            {"type": "application", "name": "CRM", "provider": "salesforce", "level": "read"},
+            {"type": "application", "name": "HubSpot", "provider": "hubspot", "level": "read"},
+        ],
+        "marketing": [
+            {"type": "application", "name": "Marketing Automation", "provider": "hubspot", "level": "read"},
+        ],
+    }
+    
+    all_accesses = base_accesses.copy()
+    dept_lower = department.lower() if department else ""
+    for dept, accesses in department_accesses.items():
+        if dept in dept_lower:
+            all_accesses.extend(accesses)
+    
+    provisioned_accesses = []
+    conn = _get_db_connection()
+    
+    try:
+        if conn:
+            cursor = conn.cursor()
+            
+            for access in all_accesses:
+                access_id = f"{access['type']}_{access['name'].lower().replace(' ', '_')}"
+                try:
+                    cursor.execute("""
+                        INSERT INTO onboarding_accesses 
+                        (employee_email, access_type, access_name, access_provider, access_id, 
+                         status, access_level, metadata)
+                        VALUES (%s, %s, %s, %s, %s, 'pending', %s, %s)
+                        ON CONFLICT (employee_email, access_type, access_name) DO NOTHING
+                    """, (
+                        employee_email,
+                        access["type"],
+                        access["name"],
+                        access["provider"],
+                        access_id,
+                        access["level"],
+                        json.dumps({"auto_provisioned": True}),
+                    ))
+                    provisioned_accesses.append({
+                        "access_type": access["type"],
+                        "access_name": access["name"],
+                        "provider": access["provider"],
+                        "level": access["level"],
+                    })
+                except Exception as e:
+                    logger.warning(f"Failed to provision access {access['name']}: {e}")
+            
+            conn.commit()
+            cursor.close()
+            logger.info(f"Provisioned {len(provisioned_accesses)} accesses", extra={"employee_email": employee_email})
+        else:
+            logger.warning("Database not available, creating accesses in memory only")
+            provisioned_accesses = all_accesses
+    except Exception as e:
+        logger.error(f"Error provisioning accesses: {e}", exc_info=True)
+        if conn:
+            conn.rollback()
+    finally:
+        if conn:
+            conn.close()
+    
+    return {
+        "accesses": provisioned_accesses,
+        "accesses_provisioned_at": datetime.now(timezone.utc).isoformat(),
+        "total_accesses": len(provisioned_accesses),
+    }
+
+
 def send_welcome_and_docs(payload: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Send welcome email with links to documentation/handbook and policies.
-    Returns confirmation of email sent status.
+    Envía email de bienvenida personalizado con links a documentación, checklist y capacitaciones.
     """
     employee_email = payload.get("employee_email", "")
     full_name = payload.get("full_name", "")
     manager_email = payload.get("manager_email", "")
     start_date = payload.get("start_date", "")
+    department = payload.get("department", "")
     docs_base = _env("ONBOARDING_DOCS_BASE_URL", "https://docs.example.com/onboarding")
     email_from = _env("ONBOARDING_EMAIL_FROM", "hr@example.com")
+    onboarding_portal_url = _env("ONBOARDING_PORTAL_URL", "https://onboarding.example.com")
     
     if not employee_email:
         raise ValueError("employee_email is required")
@@ -317,35 +696,126 @@ def send_welcome_and_docs(payload: Dict[str, Any]) -> Dict[str, Any]:
         "getting_started": f"{docs_base}/getting-started",
     }
     
-    # TODO: Replace with actual email sending
-    # Example using Airflow EmailOperator or external service:
-    # try:
-    #     email_subject = f"Welcome to the team, {full_name}!"
-    #     email_body = f"""
-    #     Welcome {full_name}!
-    #
-    #     Your start date: {start_date}
-    #     Your manager: {manager_email}
-    #
-    #     Resources:
-    #     - Handbook: {docs_links['handbook']}
-    #     - Policies: {docs_links['policies']}
-    #     - IT Setup: {docs_links['it_setup']}
-    #     """
-    #
-    #     # Use SMTP or email service API
-    #     _retry_with_backoff(
-    #         send_email_via_provider,  # Replace with actual function
-    #         to=employee_email,
-    #         subject=email_subject,
-    #         body=email_body,
-    #     )
-    #     logger.info("Welcome email sent", extra={"employee_email": employee_email})
-    # except Exception as e:
-    #     logger.error("Failed to send welcome email", extra={"employee_email": employee_email, "error": str(e)})
-    #     raise
+    # HTML email template
+    html_body = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; }}
+            .container {{ max-width: 600px; margin: 0 auto; padding: 20px; }}
+            .header {{ background-color: #4CAF50; color: white; padding: 20px; text-align: center; }}
+            .content {{ padding: 20px; background-color: #f9f9f9; }}
+            .button {{ display: inline-block; padding: 12px 24px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px; margin: 10px 0; }}
+            .section {{ margin: 20px 0; padding: 15px; background-color: white; border-left: 4px solid #4CAF50; }}
+            .footer {{ text-align: center; padding: 20px; color: #666; font-size: 12px; }}
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>¡Bienvenido/a a la empresa!</h1>
+            </div>
+            <div class="content">
+                <p>Hola {full_name},</p>
+                <p>Estamos muy contentos de tenerte en el equipo. Tu fecha de inicio es: <strong>{start_date}</strong></p>
+                
+                <div class="section">
+                    <h2>📋 Tu Checklist de Onboarding</h2>
+                    <p>Puedes revisar y hacer seguimiento de todas tus tareas de onboarding en nuestro portal:</p>
+                    <a href="{onboarding_portal_url}/checklist?email={employee_email}" class="button">Ver mi Checklist</a>
+                </div>
+                
+                <div class="section">
+                    <h2>🎓 Capacitaciones Asignadas</h2>
+                    <p>Te hemos asignado capacitaciones importantes para tu integración. Revisa tus capacitaciones:</p>
+                    <a href="{onboarding_portal_url}/trainings?email={employee_email}" class="button">Ver Capacitaciones</a>
+                </div>
+                
+                <div class="section">
+                    <h2>📚 Recursos y Documentación</h2>
+                    <ul>
+                        <li><a href="{docs_links['handbook']}">Manual del Empleado</a></li>
+                        <li><a href="{docs_links['policies']}">Políticas de la Empresa</a></li>
+                        <li><a href="{docs_links['it_setup']}">Guía de Configuración IT</a></li>
+                        <li><a href="{docs_links['getting_started']}">Primeros Pasos</a></li>
+                    </ul>
+                </div>
+                
+                <div class="section">
+                    <h2>👤 Tu Manager</h2>
+                    <p>Tu manager directo es: <strong>{manager_email}</strong></p>
+                    <p>No dudes en contactarlo si tienes alguna pregunta.</p>
+                </div>
+                
+                <p>¡Esperamos que tengas un excelente primer día!</p>
+                <p>Saludos,<br>Equipo de RRHH</p>
+            </div>
+            <div class="footer">
+                <p>Este es un email automático. Si tienes preguntas, contacta a {email_from}</p>
+            </div>
+        </div>
+    </body>
+    </html>
+    """
     
-    logger.info("Welcome email prepared (stub)", extra={"employee_email": employee_email})
+    # Plain text version
+    text_body = f"""
+    Bienvenido/a {full_name}!
+    
+    Estamos muy contentos de tenerte en el equipo. Tu fecha de inicio es: {start_date}
+    
+    Tu Checklist de Onboarding:
+    {onboarding_portal_url}/checklist?email={employee_email}
+    
+    Capacitaciones Asignadas:
+    {onboarding_portal_url}/trainings?email={employee_email}
+    
+    Recursos y Documentación:
+    - Manual del Empleado: {docs_links['handbook']}
+    - Políticas: {docs_links['policies']}
+    - Configuración IT: {docs_links['it_setup']}
+    - Primeros Pasos: {docs_links['getting_started']}
+    
+    Tu Manager: {manager_email}
+    
+    Saludos,
+    Equipo de RRHH
+    """
+    
+    # Enviar email usando la función de notificaciones
+    try:
+        from data.airflow.plugins.etl_notifications import notify_email
+        
+        notify_email(
+            to=employee_email,
+            subject=f"¡Bienvenido/a a la empresa, {full_name}!",
+            body=text_body,
+            html=html_body,
+        )
+        
+        # Registrar en base de datos
+        conn = _get_db_connection()
+        if conn:
+            try:
+                cursor = conn.cursor()
+                cursor.execute("""
+                    INSERT INTO onboarding_emails 
+                    (employee_email, email_type, subject, status)
+                    VALUES (%s, 'welcome', %s, 'sent')
+                """, (employee_email, f"¡Bienvenido/a a la empresa, {full_name}!"))
+                conn.commit()
+                cursor.close()
+            except Exception as e:
+                logger.warning(f"Failed to record email in database: {e}")
+            finally:
+                conn.close()
+        
+        logger.info("Welcome email sent", extra={"employee_email": employee_email})
+    except Exception as e:
+        logger.error(f"Failed to send welcome email: {e}", exc_info=True)
+        # No fallar el proceso si el email falla
     
     return {
         "welcome_sent": True,

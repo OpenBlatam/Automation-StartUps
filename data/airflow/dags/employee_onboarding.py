@@ -23,7 +23,19 @@ from data.airflow.plugins.onboarding_integrations import (
     assign_project_and_it_tasks,
     send_welcome_and_docs,
     record_progress_and_notify,
+    create_onboarding_checklist,
+    assign_trainings,
+    provision_accesses,
 )
+
+# Contract management integration
+try:
+    from data.airflow.plugins.contract_integrations import (
+        create_contract_for_employee_onboarding,
+    )
+    CONTRACT_MANAGEMENT_AVAILABLE = True
+except ImportError:
+    CONTRACT_MANAGEMENT_AVAILABLE = False
 
 try:
     from airflow.stats import Stats  # type: ignore
@@ -77,20 +89,44 @@ def _validate_employee(payload: Dict[str, Any]) -> Dict[str, Any]:
         "email_on_retry": False,
     },
     doc_md="""
-    ### Employee Onboarding
+    ### Employee Onboarding - Sistema Completo Automatizado
     
-    Automatiza creación de cuentas, asignación de tareas, envío de documentación y seguimiento.
+    Automatiza completamente el proceso de onboarding de nuevos empleados:
+    - ✅ Checklist automatizada con tareas categorizadas
+    - ✅ Asignación automática de capacitaciones
+    - ✅ Provisionamiento de accesos basado en departamento/rol
+    - ✅ Creación de cuentas (IdP, email, workspace)
+    - ✅ Emails de bienvenida personalizados con HTML
+    - ✅ Validación robusta de datos
+    - ✅ Idempotencia con TTL configurable
+    - ✅ Persistencia en base de datos PostgreSQL
+    - ✅ Tracking completo de progreso
     
-    **Características mejoradas**:
-    - ✅ Validación robusta de datos (formato de emails, fechas, prevención de auto-asignación)
-    - ✅ Idempotencia con TTL configurable por parámetro
-    - ✅ Logging estructurado con correlación
-    - ✅ Integración opcional con HRIS para enriquecer datos
-    - ✅ Métricas de performance en Stats
-    - ✅ Notificaciones Slack en éxito/fallo
-    - ✅ Persistencia de progreso en Airflow Variables
+    **Workflow automatizado:**
+    1. Validación de datos de entrada
+    2. Verificación de idempotencia
+    3. Enriquecimiento desde HRIS (opcional)
+    4. Creación de checklist automatizada
+    5. Asignación de capacitaciones
+    6. Provisionamiento de accesos
+    7. Creación de cuentas (IdP, email, workspace)
+    8. Creación de tareas en tracker
+    9. Envío de email de bienvenida
+    10. Registro de progreso y notificaciones
     
-    Dispara manualmente con parámetros del empleado o desde Camunda vía API.
+    **Parámetros:**
+    - `employee_email`: Email del empleado (requerido)
+    - `full_name`: Nombre completo (requerido)
+    - `start_date`: Fecha de inicio YYYY-MM-DD (requerido)
+    - `manager_email`: Email del manager (requerido)
+    - `department`: Departamento (opcional, para personalización)
+    - `role`: Rol/Cargo (opcional)
+    
+    **Base de datos:**
+    Requiere que el esquema `employee_onboarding_schema.sql` esté ejecutado.
+    
+    **Disparo automático:**
+    Puede dispararse manualmente desde Airflow UI o automáticamente vía webhook/API cuando se contrata un nuevo empleado.
     """,
     params={
         "employee_email": Param("", type="string", description="Email del empleado (requerido)"),
@@ -106,6 +142,9 @@ def _validate_employee(payload: Dict[str, Any]) -> Dict[str, Any]:
         "hris_lookup": Param(True, type="boolean", description="Buscar datos adicionales en HRIS"),
         "idempotency_key": Param("", type="string", description="Clave de idempotencia personalizada"),
         "idempotency_ttl_hours": Param(24, type="integer", minimum=1, maximum=168, description="TTL del lock de idempotencia (horas)"),
+        "create_contract": Param(True, type="boolean", description="Crear contrato laboral automáticamente"),
+        "contract_template_id": Param("employment_contract_v1", type="string", description="ID de plantilla de contrato"),
+        "contract_esignature_provider": Param("docusign", type="string", description="Proveedor de firma: docusign, pandadoc, manual"),
     },
     description="Automated onboarding orchestration with HRIS integration and robust validation",
     tags=["onboarding", "it", "hr", "automation"],
@@ -220,6 +259,110 @@ def employee_onboarding() -> None:
         
         return {**payload, **result}
 
+    @task(task_id="create_checklist", on_failure_callback=on_task_failure, pool=ONBOARDING_POOL, retries=1)
+    def create_checklist(payload: Dict[str, Any]) -> Dict[str, Any]:
+        """Crea checklist automatizada de tareas de onboarding."""
+        if Stats:
+            try:
+                Stats.incr("onboarding.create_checklist.start", 1)
+            except Exception:
+                pass
+        
+        result = create_onboarding_checklist(payload)
+        
+        if Stats:
+            try:
+                Stats.incr("onboarding.create_checklist.success", 1)
+            except Exception:
+                pass
+        
+        return {**payload, **result}
+
+    @task(task_id="create_contract", on_failure_callback=on_task_failure, pool=ONBOARDING_POOL, retries=1)
+    def create_contract_task(payload: Dict[str, Any]) -> Dict[str, Any]:
+        """Crea contrato laboral automáticamente si está habilitado."""
+        if not bool(payload.get("create_contract", True)):
+            logger.info("contract creation disabled, skipping", extra={"employee_email": payload.get("employee_email")})
+            return payload
+        
+        if not CONTRACT_MANAGEMENT_AVAILABLE:
+            logger.warning("contract management not available, skipping", extra={"employee_email": payload.get("employee_email")})
+            return payload
+        
+        if Stats:
+            try:
+                Stats.incr("onboarding.create_contract.start", 1)
+            except Exception:
+                pass
+        
+        try:
+            result = create_contract_for_employee_onboarding(
+                employee_email=payload.get("employee_email"),
+                employee_name=payload.get("full_name"),
+                start_date=payload.get("start_date"),
+                manager_email=payload.get("manager_email"),
+                department=payload.get("department"),
+                position=payload.get("role"),
+                template_id=payload.get("contract_template_id", "employment_contract_v1"),
+                auto_send_for_signature=bool(payload.get("create_contract", True)),
+                esignature_provider=payload.get("contract_esignature_provider", "docusign")
+            )
+            
+            if Stats:
+                try:
+                    Stats.incr("onboarding.create_contract.success", 1)
+                except Exception:
+                    pass
+            
+            return {**payload, "contract_id": result.get("contract_id"), "contract_created": True}
+        except Exception as e:
+            logger.error(f"Error creando contrato durante onboarding: {e}", extra={"employee_email": payload.get("employee_email")})
+            if Stats:
+                try:
+                    Stats.incr("onboarding.create_contract.failed", 1)
+                except Exception:
+                    pass
+            # No fallar el onboarding completo si falla el contrato
+            return {**payload, "contract_created": False, "contract_error": str(e)}
+
+    @task(task_id="assign_trainings", on_failure_callback=on_task_failure, pool=ONBOARDING_POOL, retries=1)
+    def assign_trainings_task(payload: Dict[str, Any]) -> Dict[str, Any]:
+        """Asigna capacitaciones automáticamente."""
+        if Stats:
+            try:
+                Stats.incr("onboarding.assign_trainings.start", 1)
+            except Exception:
+                pass
+        
+        result = assign_trainings(payload)
+        
+        if Stats:
+            try:
+                Stats.incr("onboarding.assign_trainings.success", 1)
+            except Exception:
+                pass
+        
+        return {**payload, **result}
+
+    @task(task_id="provision_accesses", on_failure_callback=on_task_failure, pool=ONBOARDING_POOL, retries=1)
+    def provision_accesses_task(payload: Dict[str, Any]) -> Dict[str, Any]:
+        """Provisiona accesos automáticamente."""
+        if Stats:
+            try:
+                Stats.incr("onboarding.provision_accesses.start", 1)
+            except Exception:
+                pass
+        
+        result = provision_accesses(payload)
+        
+        if Stats:
+            try:
+                Stats.incr("onboarding.provision_accesses.success", 1)
+            except Exception:
+                pass
+        
+        return {**payload, **result}
+
     @task(task_id="create_accounts", on_failure_callback=on_task_failure, pool=ONBOARDING_POOL, retries=2)
     def create_accounts(payload: Dict[str, Any]) -> Dict[str, Any]:
         """Creación de cuentas en IdP, email y workspace."""
@@ -312,9 +455,33 @@ def employee_onboarding() -> None:
     validated = validate_input()
     locked = idempotency_lock(validated)
     enriched = hris_prefetch_task(locked)
-    accounts = create_accounts(enriched)
+    
+    # Crear checklist, crear contrato y asignar capacitaciones (pueden ejecutarse en paralelo)
+    checklist_result = create_checklist(enriched)
+    contract_result = create_contract_task(enriched)
+    trainings_result = assign_trainings_task(enriched)
+    accesses_result = provision_accesses_task(enriched)
+    
+    # Combinar resultados para siguiente paso
+    @task(task_id="merge_checklist_contract_trainings_accesses", pool=ONBOARDING_POOL)
+    def merge_results(checklist: Dict[str, Any], contract: Dict[str, Any], trainings: Dict[str, Any], accesses: Dict[str, Any]) -> Dict[str, Any]:
+        """Combina resultados de checklist, contract, trainings y accesses."""
+        merged = {**checklist}
+        merged.update({k: v for k, v in contract.items() if k not in merged})
+        merged.update({k: v for k, v in trainings.items() if k not in merged})
+        merged.update({k: v for k, v in accesses.items() if k not in merged})
+        return merged
+    
+    merged = merge_results(checklist_result, contract_result, trainings_result, accesses_result)
+    
+    # Crear cuentas después de que se hayan creado las estructuras base
+    accounts = create_accounts(merged)
+    
+    # Crear tareas en tracker y enviar docs
     tasks = assign_tasks(accounts)
     docs = send_docs(tasks)
+    
+    # Tracking final
     track_progress(docs)
     
     return None

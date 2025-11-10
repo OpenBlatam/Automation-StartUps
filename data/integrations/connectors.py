@@ -1104,20 +1104,630 @@ class SalesforceConnector(BaseConnector):
         return results
 
 
+class NetSuiteConnector(BaseConnector):
+    """Conector para NetSuite ERP"""
+    
+    def connect(self) -> bool:
+        """Conecta a NetSuite REST API usando Token-Based Authentication"""
+        try:
+            import requests
+            from requests.auth import HTTPBasicAuth
+            
+            account_id = self.config.get("account_id")
+            consumer_key = self.config.get("consumer_key")
+            consumer_secret = self.config.get("consumer_secret")
+            token_id = self.config.get("token_id")
+            token_secret = self.config.get("token_secret")
+            sandbox = self.config.get("sandbox", False)
+            
+            if not all([account_id, consumer_key, consumer_secret, token_id, token_secret]):
+                raise ValueError("NetSuite requiere account_id, consumer_key, consumer_secret, token_id, token_secret")
+            
+            self.account_id = account_id
+            self.consumer_key = consumer_key
+            self.consumer_secret = consumer_secret
+            self.token_id = token_id
+            self.token_secret = token_secret
+            
+            # Determinar base URL
+            if sandbox:
+                self.base_url = f"https://{account_id}.suitetalk.api.netsuite.com"
+            else:
+                self.base_url = f"https://{account_id}.suitetalk.api.netsuite.com"
+            
+            # Test connection
+            url = f"{self.base_url}/services/rest/record/v1/metadata-catalog"
+            response = requests.get(
+                url,
+                auth=HTTPBasicAuth(token_id, token_secret),
+                headers={
+                    "Content-Type": "application/json",
+                    "Prefer": "transient"
+                },
+                timeout=10
+            )
+            response.raise_for_status()
+            self.logger.info("Conexión a NetSuite establecida")
+            return True
+        except Exception as e:
+            self.logger.error(f"Error conectando a NetSuite: {e}")
+            return False
+    
+    def disconnect(self) -> None:
+        """No requiere desconexión para API REST"""
+        pass
+    
+    def health_check(self) -> Dict[str, Any]:
+        """Health check de NetSuite"""
+        try:
+            import requests
+            from requests.auth import HTTPBasicAuth
+            from datetime import datetime
+            
+            start_time = datetime.now()
+            
+            url = f"{self.base_url}/services/rest/record/v1/metadata-catalog"
+            response = requests.get(
+                url,
+                auth=HTTPBasicAuth(self.token_id, self.token_secret),
+                headers={
+                    "Content-Type": "application/json",
+                    "Prefer": "transient"
+                },
+                timeout=5
+            )
+            response.raise_for_status()
+            
+            latency_ms = (datetime.now() - start_time).total_seconds() * 1000
+            
+            return {
+                "status": "healthy",
+                "latency_ms": latency_ms,
+                "response_code": response.status_code
+            }
+        except Exception as e:
+            return {
+                "status": "unhealthy",
+                "error": str(e)
+            }
+    
+    def _get_auth(self):
+        """Obtiene autenticación para requests"""
+        from requests.auth import HTTPBasicAuth
+        return HTTPBasicAuth(self.token_id, self.token_secret)
+    
+    def _get_headers(self) -> Dict[str, str]:
+        """Obtiene headers estándar para requests"""
+        return {
+            "Content-Type": "application/json",
+            "Prefer": "transient"
+        }
+    
+    def read_records(
+        self,
+        filters: Optional[Dict[str, Any]] = None,
+        limit: Optional[int] = None
+    ) -> List[SyncRecord]:
+        """Lee registros de NetSuite usando SuiteQL o REST API"""
+        import requests
+        
+        record_type = filters.get("record_type", "transaction") if filters else "transaction"
+        query = filters.get("query") if filters else None
+        
+        records = []
+        
+        try:
+            if query:
+                # Usar SuiteQL para queries personalizadas
+                url = f"{self.base_url}/services/rest/query/v1/suiteql"
+                payload = {
+                    "q": query
+                }
+                if limit:
+                    payload["limit"] = limit
+                
+                response = requests.post(
+                    url,
+                    auth=self._get_auth(),
+                    headers=self._get_headers(),
+                    json=payload,
+                    timeout=60
+                )
+                response.raise_for_status()
+                data = response.json()
+                
+                for item in data.get("items", []):
+                    record = SyncRecord(
+                        source_id=str(item.get("id", "")),
+                        source_type=f"netsuite_{record_type}",
+                        data=item,
+                        metadata={"netsuite_query": query}
+                    )
+                    records.append(record)
+            else:
+                # Usar REST API para buscar registros por tipo
+                url = f"{self.base_url}/services/rest/record/v1/{record_type}"
+                params = {}
+                if limit:
+                    params["limit"] = limit
+                
+                response = requests.get(
+                    url,
+                    auth=self._get_auth(),
+                    headers=self._get_headers(),
+                    params=params,
+                    timeout=60
+                )
+                response.raise_for_status()
+                data = response.json()
+                
+                for item in data.get("items", []):
+                    record = SyncRecord(
+                        source_id=str(item.get("id", "")),
+                        source_type=f"netsuite_{record_type}",
+                        data=item,
+                        metadata={"netsuite_type": record_type}
+                    )
+                    records.append(record)
+            
+            self.logger.info(f"Leídos {len(records)} registros de NetSuite")
+            return records
+        except Exception as e:
+            self.logger.error(f"Error leyendo de NetSuite: {e}")
+            return []
+    
+    def write_records(self, records: List[SyncRecord]) -> List[SyncRecord]:
+        """Crea registros en NetSuite"""
+        import requests
+        
+        results = []
+        
+        for record in records:
+            record_type = record.data.get("record_type", "transaction")
+            url = f"{self.base_url}/services/rest/record/v1/{record_type}"
+            
+            try:
+                # Preparar payload para NetSuite
+                payload = record.data.get("fields", record.data)
+                
+                response = requests.post(
+                    url,
+                    auth=self._get_auth(),
+                    headers=self._get_headers(),
+                    json=payload,
+                    timeout=30
+                )
+                response.raise_for_status()
+                
+                result_data = response.json()
+                record.target_id = str(result_data.get("id", ""))
+                record.status = "synced"
+                record.synced_at = datetime.now()
+                results.append(record)
+            except Exception as e:
+                record.status = "failed"
+                record.error_message = str(e)
+                self.logger.error(f"Error escribiendo registro {record.source_id}: {e}")
+                results.append(record)
+        
+        return results
+    
+    def update_records(self, records: List[SyncRecord]) -> List[SyncRecord]:
+        """Actualiza registros en NetSuite"""
+        import requests
+        
+        results = []
+        
+        for record in records:
+            if not record.target_id:
+                record.status = "failed"
+                record.error_message = "target_id requerido para actualización"
+                results.append(record)
+                continue
+            
+            record_type = record.data.get("record_type", "transaction")
+            url = f"{self.base_url}/services/rest/record/v1/{record_type}/{record.target_id}"
+            
+            try:
+                payload = record.data.get("fields", record.data)
+                
+                response = requests.patch(
+                    url,
+                    auth=self._get_auth(),
+                    headers=self._get_headers(),
+                    json=payload,
+                    timeout=30
+                )
+                response.raise_for_status()
+                
+                record.status = "synced"
+                record.synced_at = datetime.now()
+                results.append(record)
+            except Exception as e:
+                record.status = "failed"
+                record.error_message = str(e)
+                self.logger.error(f"Error actualizando registro {record.target_id}: {e}")
+                results.append(record)
+        
+        return results
+    
+    def get_financial_metrics(
+        self,
+        start_date: str,
+        end_date: str,
+        metrics: Optional[List[str]] = None
+    ) -> Dict[str, Any]:
+        """
+        Extrae métricas financieras de NetSuite usando SuiteQL.
+        
+        Args:
+            start_date: Fecha inicio (YYYY-MM-DD)
+            end_date: Fecha fin (YYYY-MM-DD)
+            metrics: Lista de métricas a extraer (revenue, expenses, etc.)
+        
+        Returns:
+            Diccionario con métricas financieras
+        """
+        import requests
+        
+        if metrics is None:
+            metrics = ["revenue", "expenses", "gross_profit", "net_income", "orders_count", "customers_count"]
+        
+        results = {}
+        
+        try:
+            # Query para métricas financieras
+            query = f"""
+            SELECT 
+                SUM(amount) as revenue,
+                COUNT(DISTINCT transaction) as orders_count,
+                COUNT(DISTINCT customer) as customers_count
+            FROM transaction
+            WHERE type IN ('SalesOrd', 'CustInvc', 'CustCred')
+            AND trandate >= '{start_date}'
+            AND trandate <= '{end_date}'
+            AND status != 'Void'
+            """
+            
+            url = f"{self.base_url}/services/rest/query/v1/suiteql"
+            payload = {"q": query}
+            
+            response = requests.post(
+                url,
+                auth=self._get_auth(),
+                headers=self._get_headers(),
+                json=payload,
+                timeout=60
+            )
+            response.raise_for_status()
+            data = response.json()
+            
+            if data.get("items"):
+                item = data["items"][0]
+                results = {
+                    "revenue": float(item.get("revenue", 0) or 0),
+                    "orders_count": int(item.get("orders_count", 0) or 0),
+                    "customers_count": int(item.get("customers_count", 0) or 0),
+                    "start_date": start_date,
+                    "end_date": end_date
+                }
+            
+            self.logger.info(f"Métricas financieras extraídas: {results}")
+            return results
+        except Exception as e:
+            self.logger.error(f"Error extrayendo métricas financieras: {e}")
+            return {}
+
+
+class PipedriveConnector(BaseConnector):
+    """Conector para Pipedrive CRM"""
+    
+    def connect(self) -> bool:
+        """Conecta a Pipedrive API"""
+        try:
+            import requests
+            api_token = self.config.get("api_token")
+            company_domain = self.config.get("company_domain")
+            
+            if not api_token or not company_domain:
+                raise ValueError("Pipedrive requiere api_token y company_domain")
+            
+            # Test connection
+            url = f"https://{company_domain}.pipedrive.com/api/v1/users/me"
+            response = requests.get(
+                url,
+                params={"api_token": api_token},
+                timeout=10
+            )
+            response.raise_for_status()
+            
+            self.api_token = api_token
+            self.company_domain = company_domain
+            self.base_url = f"https://{company_domain}.pipedrive.com/api/v1"
+            
+            self.logger.info("Conexión a Pipedrive establecida")
+            return True
+        except Exception as e:
+            self.logger.error(f"Error conectando a Pipedrive: {e}")
+            return False
+    
+    def disconnect(self) -> None:
+        """No requiere desconexión para API REST"""
+        self.api_token = None
+        self.company_domain = None
+        self.base_url = None
+    
+    def health_check(self) -> Dict[str, Any]:
+        """Health check de Pipedrive"""
+        try:
+            import requests
+            if not hasattr(self, 'base_url') or not self.base_url:
+                return {"status": "unhealthy", "error": "No conectado"}
+            
+            start_time = datetime.now()
+            response = requests.get(
+                f"{self.base_url}/users/me",
+                params={"api_token": self.api_token},
+                timeout=5
+            )
+            response.raise_for_status()
+            
+            latency_ms = (datetime.now() - start_time).total_seconds() * 1000
+            
+            return {
+                "status": "healthy",
+                "latency_ms": latency_ms,
+                "response_code": response.status_code
+            }
+        except Exception as e:
+            return {
+                "status": "unhealthy",
+                "error": str(e)
+            }
+    
+    def read_records(
+        self,
+        filters: Optional[Dict[str, Any]] = None,
+        limit: Optional[int] = None
+    ) -> List[SyncRecord]:
+        """Lee personas/deals de Pipedrive"""
+        import requests
+        resource_type = filters.get("resource_type", "persons") if filters else "persons"
+        
+        records = []
+        try:
+            url = f"{self.base_url}/{resource_type}"
+            params = {"api_token": self.api_token}
+            
+            if limit:
+                params["limit"] = limit
+            if filters and "since" in filters:
+                params["since"] = filters["since"]
+            
+            response = requests.get(
+                url,
+                params=params,
+                timeout=30
+            )
+            response.raise_for_status()
+            data = response.json()
+            
+            items = data.get("data", [])
+            for item in items:
+                record = SyncRecord(
+                    source_id=str(item.get("id", "")),
+                    source_type=f"pipedrive_{resource_type}",
+                    data=item,
+                    metadata={"pipedrive_data": item}
+                )
+                records.append(record)
+            
+            self.logger.info(f"Leídos {len(records)} registros de Pipedrive")
+            return records
+        except Exception as e:
+            self.logger.error(f"Error leyendo de Pipedrive: {e}")
+            return []
+    
+    def write_records(self, records: List[SyncRecord]) -> List[SyncRecord]:
+        """Crea registros en Pipedrive (Personas o Deals)"""
+        import requests
+        resource_type = self.config.get("resource_type", "persons")
+        results = []
+        
+        for record in records:
+            url = f"{self.base_url}/{resource_type}"
+            
+            try:
+                response = requests.post(
+                    url,
+                    params={"api_token": self.api_token},
+                    json=record.data,
+                    timeout=30
+                )
+                response.raise_for_status()
+                
+                result_data = response.json()
+                if result_data.get("success"):
+                    data = result_data.get("data", {})
+                    record.target_id = str(data.get("id", ""))
+                    record.status = "synced"
+                    record.synced_at = datetime.now()
+                else:
+                    record.status = "failed"
+                    record.error_message = result_data.get("error", "Unknown error")
+                
+                results.append(record)
+            except Exception as e:
+                record.status = "failed"
+                record.error_message = str(e)
+                self.logger.error(f"Error escribiendo registro {record.source_id}: {e}")
+                results.append(record)
+        
+        return results
+    
+    def update_records(self, records: List[SyncRecord]) -> List[SyncRecord]:
+        """Actualiza registros en Pipedrive"""
+        import requests
+        resource_type = self.config.get("resource_type", "persons")
+        results = []
+        
+        for record in records:
+            if not record.target_id:
+                record.status = "failed"
+                record.error_message = "target_id requerido para actualización"
+                results.append(record)
+                continue
+            
+            url = f"{self.base_url}/{resource_type}/{record.target_id}"
+            
+            try:
+                response = requests.put(
+                    url,
+                    params={"api_token": self.api_token},
+                    json=record.data,
+                    timeout=30
+                )
+                response.raise_for_status()
+                
+                result_data = response.json()
+                if result_data.get("success"):
+                    record.status = "synced"
+                    record.synced_at = datetime.now()
+                else:
+                    record.status = "failed"
+                    record.error_message = result_data.get("error", "Unknown error")
+                
+                results.append(record)
+            except Exception as e:
+                record.status = "failed"
+                record.error_message = str(e)
+                self.logger.error(f"Error actualizando registro {record.target_id}: {e}")
+                results.append(record)
+        
+        return results
+    
+    def create_deal(
+        self,
+        title: str,
+        person_id: Optional[int] = None,
+        org_id: Optional[int] = None,
+        stage_id: Optional[int] = None,
+        value: Optional[float] = None,
+        currency: str = "USD",
+        **kwargs
+    ) -> Optional[str]:
+        """Crea un deal en Pipedrive"""
+        import requests
+        
+        deal_data = {
+            "title": title,
+            **kwargs
+        }
+        
+        if person_id:
+            deal_data["person_id"] = person_id
+        if org_id:
+            deal_data["org_id"] = org_id
+        if stage_id:
+            deal_data["stage_id"] = stage_id
+        if value:
+            deal_data["value"] = value
+            deal_data["currency"] = currency
+        
+        try:
+            url = f"{self.base_url}/deals"
+            response = requests.post(
+                url,
+                params={"api_token": self.api_token},
+                json=deal_data,
+                timeout=30
+            )
+            response.raise_for_status()
+            
+            result_data = response.json()
+            if result_data.get("success"):
+                return str(result_data.get("data", {}).get("id", ""))
+            return None
+        except Exception as e:
+            self.logger.error(f"Error creando deal en Pipedrive: {e}")
+            return None
+    
+    def add_activity(
+        self,
+        subject: str,
+        type: str,
+        due_date: Optional[str] = None,
+        person_id: Optional[int] = None,
+        deal_id: Optional[int] = None,
+        **kwargs
+    ) -> Optional[str]:
+        """Agrega una actividad (tarea, llamada, email) en Pipedrive"""
+        import requests
+        
+        activity_data = {
+            "subject": subject,
+            "type": type,
+            **kwargs
+        }
+        
+        if due_date:
+            activity_data["due_date"] = due_date
+        if person_id:
+            activity_data["person_id"] = person_id
+        if deal_id:
+            activity_data["deal_id"] = deal_id
+        
+        try:
+            url = f"{self.base_url}/activities"
+            response = requests.post(
+                url,
+                params={"api_token": self.api_token},
+                json=activity_data,
+                timeout=30
+            )
+            response.raise_for_status()
+            
+            result_data = response.json()
+            if result_data.get("success"):
+                return str(result_data.get("data", {}).get("id", ""))
+            return None
+        except Exception as e:
+            self.logger.error(f"Error agregando actividad en Pipedrive: {e}")
+            return None
+
+
 def create_connector(connector_type: str, config: Dict[str, Any]) -> BaseConnector:
-    """Factory function para crear conectores"""
+    """
+    Factory function para crear conectores según el tipo.
+    
+    Args:
+        connector_type: Tipo de conector (hubspot, salesforce, pipedrive, etc.)
+        config: Configuración específica del conector
+    
+    Returns:
+        Instancia del conector apropiado
+    
+    Raises:
+        ValueError: Si el tipo de conector no es soportado
+    """
     connectors = {
         "hubspot": HubSpotConnector,
+        "salesforce": SalesforceConnector,
+        "pipedrive": PipedriveConnector,
         "quickbooks": QuickBooksConnector,
         "google_sheets": GoogleSheetsConnector,
         "database": DatabaseConnector,
-        "postgresql": DatabaseConnector,
+        "postgres": DatabaseConnector,
         "mysql": DatabaseConnector,
-        "salesforce": SalesforceConnector,
+        "netsuite": NetSuiteConnector,
     }
     
     connector_class = connectors.get(connector_type.lower())
     if not connector_class:
-        raise ValueError(f"Tipo de conector desconocido: {connector_type}. Disponibles: {list(connectors.keys())}")
+        raise ValueError(
+            f"Tipo de conector no soportado: {connector_type}. "
+            f"Tipos disponibles: {', '.join(connectors.keys())}"
+        )
     
     return connector_class(config)
+

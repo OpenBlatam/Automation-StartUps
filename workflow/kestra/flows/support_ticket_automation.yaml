@@ -357,14 +357,99 @@ tasks:
       {{ outputs.priority_calculation.result = result | json }}
   
   # ========================================================================
-  # FASE 4: Enrutamiento Inteligente
+  # FASE 3.5: Categorización Automática (si no existe)
+  # ========================================================================
+  - id: auto_categorization
+    type: io.kestra.core.tasks.scripts.Python
+    description: Categoriza automáticamente el ticket si no tiene categoría
+    inputFiles:
+      support_auto_categorization.py: |
+        {{ read('workflow/kestra/flows/lib/support_auto_categorization.py') }}
+    runner: DOCKER
+    docker:
+      image: python:3.11-slim
+    env:
+      DB_HOST: "{{ vars.db_host }}"
+      DB_NAME: "{{ vars.db_name }}"
+      DB_USER: "{{ vars.db_user }}"
+      DB_PASSWORD: "{{ vars.db_password }}"
+    script: |
+      import sys
+      import json
+      import os
+      import psycopg2
+      from support_auto_categorization import SupportAutoCategorizer
+      
+      # Cargar datos
+      normalized = json.loads('''{{ outputs.validate_input.normalized }}''')
+      
+      # Si ya tiene categoría, usar esa
+      if normalized.get("category") and normalized["category"] != "general":
+          result = {
+              "category": normalized["category"],
+              "subcategory": normalized.get("subcategory"),
+              "confidence": 1.0,
+              "reasoning": "Categoría ya existente",
+              "keywords_matched": []
+          }
+          print(json.dumps(result))
+          {{ outputs.auto_categorization.result = result | json }}
+          sys.exit(0)
+      
+      # Conectar a BD
+      db_conn = None
+      if {{ inputs.enable_db_persistence | lower }} == "true":
+          try:
+              db_conn = psycopg2.connect(
+                  host=os.getenv("DB_HOST"),
+                  database=os.getenv("DB_NAME"),
+                  user=os.getenv("DB_USER"),
+                  password=os.getenv("DB_PASSWORD")
+              )
+          except Exception as e:
+              print(f"Warning: No se pudo conectar a BD: {e}")
+      
+      # Categorizar
+      categorizer = SupportAutoCategorizer(db_connection=db_conn)
+      
+      category_result = categorizer.categorize(
+          subject=normalized.get("subject"),
+          description=normalized["description"],
+          existing_category=normalized.get("category"),
+          customer_email=normalized["customer_email"]
+      )
+      
+      # Actualizar categoría en normalized
+      normalized["category"] = category_result.category
+      normalized["subcategory"] = category_result.subcategory
+      
+      # Cerrar conexión
+      if db_conn:
+          db_conn.close()
+      
+      # Guardar resultado
+      result = {
+          "category": category_result.category,
+          "subcategory": category_result.subcategory,
+          "confidence": category_result.confidence,
+          "reasoning": category_result.reasoning,
+          "keywords_matched": category_result.keywords_matched
+      }
+      
+      print(json.dumps(result))
+      {{ outputs.auto_categorization.result = result | json }}
+  
+  # ========================================================================
+  # FASE 4: Enrutamiento Inteligente (Mejorado con Expertise)
   # ========================================================================
   - id: intelligent_routing
     type: io.kestra.core.tasks.scripts.Python
-    description: Enruta ticket a departamento/agente apropiado
+    description: Enruta ticket a departamento/agente apropiado usando expertise
     inputFiles:
       support_routing.py: |
         {{ read('workflow/kestra/flows/lib/support_routing.py') }}
+      support_expertise_routing.py: |
+        {{ read('workflow/kestra/flows/lib/support_expertise_routing.py') }}
     runner: DOCKER
     docker:
       image: python:3.11-slim
@@ -384,6 +469,15 @@ tasks:
       normalized = json.loads('''{{ outputs.validate_input.normalized }}''')
       priority_result = json.loads('''{{ outputs.priority_calculation.result }}''')
       chatbot_result = json.loads('''{{ outputs.chatbot_processing.result }}''')
+      
+      # Obtener categoría (de categorización automática o existente)
+      try:
+          cat_result = json.loads('''{{ outputs.auto_categorization.result }}''')
+          category = cat_result.get("category") or normalized.get("category")
+          subcategory = cat_result.get("subcategory")
+      except:
+          category = normalized.get("category")
+          subcategory = None
       
       # Si el chatbot resolvió, no enrutar
       if chatbot_result.get("chatbot_resolved"):
@@ -411,11 +505,11 @@ tasks:
           except Exception as e:
               print(f"Warning: No se pudo conectar a BD: {e}")
       
-      # Enrutar
+      # Enrutar usando routing básico primero
       router = SupportRouter(db_connection=db_conn)
       
       routing = router.route_ticket(
-          category=normalized.get("category") or chatbot_result.get("intent_detected"),
+          category=category or chatbot_result.get("intent_detected"),
           priority=priority_result["priority"],
           tags=normalized.get("tags", []),
           subject=normalized["subject"],
@@ -424,16 +518,36 @@ tasks:
           customer_id=normalized.get("customer_id")
       )
       
-      # Intentar asignar agente si está habilitado
+      # Si está habilitado, usar expertise routing para asignación
       if {{ inputs.enable_auto_assign | lower }} == "true" and routing.department:
-          agent = router.find_available_agent(
-              department=routing.department,
-              specialties=None
-          )
-          if agent:
-              routing.agent_id = agent["agent_id"]
-              routing.agent_name = agent["agent_name"]
-              routing.auto_assign = True
+          try:
+              from support_expertise_routing import SupportExpertiseRouter
+              expertise_router = SupportExpertiseRouter(db_connection=db_conn)
+              
+              # Intentar asignar por expertise
+              match = expertise_router.find_best_agent(
+                  category=category or "general",
+                  subcategory=subcategory,
+                  department=routing.department,
+                  priority=priority_result["priority"]
+              )
+              
+              if match:
+                  routing.agent_id = match.agent_id
+                  routing.agent_name = match.agent_name
+                  routing.reason = f"{routing.reason} | Asignado por expertise: {match.reasoning}"
+                  routing.auto_assign = True
+          except Exception as e:
+              print(f"Warning: Error en expertise routing: {e}")
+              # Fallback a routing básico
+              agent = router.find_available_agent(
+                  department=routing.department,
+                  specialties=None
+              )
+              if agent:
+                  routing.agent_id = agent["agent_id"]
+                  routing.agent_name = agent["agent_name"]
+                  routing.auto_assign = True
       
       # Cerrar conexión
       if db_conn:
@@ -471,6 +585,7 @@ tasks:
           customer_name,
           customer_id,
           category,
+          subcategory,
           tags,
           priority,
           priority_score,
@@ -494,7 +609,8 @@ tasks:
           '{{ outputs.validate_input.normalized.customer_email }}',
           {{ outputs.validate_input.normalized.customer_name | sql }},
           {{ outputs.validate_input.normalized.customer_id | sql }},
-          {{ outputs.validate_input.normalized.category | sql }},
+          COALESCE({{ outputs.auto_categorization.result.category | sql }}, {{ outputs.validate_input.normalized.category | sql }}),
+          COALESCE({{ outputs.auto_categorization.result.subcategory | sql }}, NULL),
           ARRAY[{{ outputs.validate_input.normalized.tags | join(',') | sql }}],
           '{{ outputs.priority_calculation.result.priority }}',
           {{ outputs.priority_calculation.result.priority_score }},
@@ -556,7 +672,172 @@ tasks:
     disabled: "{{ not inputs.enable_db_persistence or not outputs.chatbot_processing.result.chatbot_attempted }}"
   
   # ========================================================================
-  # FASE 7: Sincronización con HubSpot (opcional)
+  # FASE 7: Escalación de Urgentes (si aplica)
+  # ========================================================================
+  - id: check_and_escalate_urgent
+    type: io.kestra.core.tasks.scripts.Python
+    description: Escala automáticamente tickets urgentes/críticos
+    inputFiles:
+      support_urgent_escalation.py: |
+        {{ read('workflow/kestra/flows/lib/support_urgent_escalation.py') }}
+    runner: DOCKER
+    docker:
+      image: python:3.11-slim
+    env:
+      DB_HOST: "{{ vars.db_host }}"
+      DB_NAME: "{{ vars.db_name }}"
+      DB_USER: "{{ vars.db_user }}"
+      DB_PASSWORD: "{{ vars.db_password }}"
+    script: |
+      import sys
+      import json
+      import os
+      import psycopg2
+      from support_urgent_escalation import SupportUrgentEscalation
+      
+      # Cargar datos
+      priority_result = json.loads('''{{ outputs.priority_calculation.result }}''')
+      ticket_id = '''{{ outputs.validate_input.normalized.ticket_id }}'''
+      
+      # Solo escalar si es urgente o crítico
+      if priority_result["priority"] not in ["urgent", "critical"]:
+          result = {
+              "escalated": False,
+              "reason": "No requiere escalación - prioridad no es urgente/crítica"
+          }
+          print(json.dumps(result))
+          {{ outputs.check_and_escalate_urgent.result = result | json }}
+          sys.exit(0)
+      
+      # Conectar a BD
+      db_conn = None
+      if {{ inputs.enable_db_persistence | lower }} == "true":
+          try:
+              db_conn = psycopg2.connect(
+                  host=os.getenv("DB_HOST"),
+                  database=os.getenv("DB_NAME"),
+                  user=os.getenv("DB_USER"),
+                  password=os.getenv("DB_PASSWORD")
+              )
+          except Exception as e:
+              print(f"Warning: No se pudo conectar a BD: {e}")
+              result = {"escalated": False, "reason": f"Error de conexión: {e}"}
+              print(json.dumps(result))
+              {{ outputs.check_and_escalate_urgent.result = result | json }}
+              sys.exit(0)
+      
+      # Escalar
+      escalation = SupportUrgentEscalation(db_connection=db_conn)
+      escalation_result = escalation.escalate_ticket(
+          ticket_id=ticket_id,
+          reason="auto_urgent_on_creation"
+      )
+      
+      # Cerrar conexión
+      if db_conn:
+          db_conn.close()
+      
+      # Guardar resultado
+      result = {
+          "escalated": escalation_result.escalated,
+          "actions": [a.action_type for a in escalation_result.actions],
+          "new_priority": escalation_result.new_priority,
+          "new_agent_id": escalation_result.new_agent_id,
+          "supervisor_notified": escalation_result.supervisor_notified,
+          "reason": escalation_result.reason
+      }
+      
+      print(json.dumps(result))
+      {{ outputs.check_and_escalate_urgent.result = result | json }}
+    disabled: "{{ outputs.priority_calculation.result.priority not in ['urgent', 'critical'] }}"
+  
+  # ========================================================================
+  # FASE 8: Notificación de Status Inicial
+  # ========================================================================
+  - id: send_initial_status_notification
+    type: io.kestra.core.tasks.scripts.Python
+    description: Envía notificación inicial al cliente sobre el ticket creado
+    inputFiles:
+      support_status_notifications.py: |
+        {{ read('workflow/kestra/flows/lib/support_status_notifications.py') }}
+      support_notifications_multi.py: |
+        {{ read('workflow/kestra/flows/lib/support_notifications_multi.py') }}
+    runner: DOCKER
+    docker:
+      image: python:3.11-slim
+    env:
+      DB_HOST: "{{ vars.db_host }}"
+      DB_NAME: "{{ vars.db_name }}"
+      DB_USER: "{{ vars.db_user }}"
+      DB_PASSWORD: "{{ vars.db_password }}"
+      EMAIL_API_URL: "{{ vars.email_api_url }}"
+    script: |
+      import sys
+      import json
+      import os
+      import psycopg2
+      from support_status_notifications import SupportStatusNotifier
+      from support_notifications_multi import (
+          SupportNotificationManager,
+          NotificationChannel,
+          NotificationConfig
+      )
+      
+      ticket_id = '''{{ outputs.validate_input.normalized.ticket_id }}'''
+      initial_status = '''{{ outputs.persist_to_database.result.status }}'''
+      
+      # Configurar notificaciones
+      notification_configs = [
+          NotificationConfig(
+              channel=NotificationChannel.EMAIL,
+              enabled=True,
+              priority=1,
+              config={"api_url": os.getenv("EMAIL_API_URL")}
+          )
+      ]
+      
+      notification_manager = SupportNotificationManager(notification_configs)
+      
+      # Conectar a BD
+      db_conn = None
+      if {{ inputs.enable_db_persistence | lower }} == "true":
+          try:
+              db_conn = psycopg2.connect(
+                  host=os.getenv("DB_HOST"),
+                  database=os.getenv("DB_NAME"),
+                  user=os.getenv("DB_USER"),
+                  password=os.getenv("DB_PASSWORD")
+              )
+          except Exception as e:
+              print(f"Warning: No se pudo conectar a BD: {e}")
+              result = {"sent": False, "reason": f"Error de conexión: {e}"}
+              print(json.dumps(result))
+              {{ outputs.send_initial_status_notification.result = result | json }}
+              sys.exit(0)
+      
+      # Enviar notificación
+      notifier = SupportStatusNotifier(
+          db_connection=db_conn,
+          notification_manager=notification_manager
+      )
+      
+      sent = notifier.send_status_notification(
+          ticket_id=ticket_id,
+          new_status=initial_status,
+          old_status=None
+      )
+      
+      # Cerrar conexión
+      if db_conn:
+          db_conn.close()
+      
+      result = {"sent": sent, "status": initial_status}
+      print(json.dumps(result))
+      {{ outputs.send_initial_status_notification.result = result | json }}
+    disabled: "{{ not inputs.enable_notifications }}"
+  
+  # ========================================================================
+  # FASE 9: Sincronización con HubSpot (opcional)
   # ========================================================================
   - id: sync_to_hubspot
     type: io.kestra.core.tasks.flows.Http

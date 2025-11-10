@@ -49,6 +49,144 @@ ORDER BY score_range;
 
 ## 🎪 Gestión de Campañas
 
+### Automatización de Email Marketing
+
+**Beneficio Principal:**
+La automatización del email marketing (campañas, seguimientos, recordatorios) permite mantener contacto con leads/clientes sin intervención manual, mejorando significativamente la retención y las conversiones. Esto libera tiempo del equipo de ventas para enfocarse en actividades de alto valor mientras se mantiene una comunicación constante y oportuna.
+
+**Tips para Implementarla:**
+
+1. **Empezar con una "Serie de Bienvenida" Automática**
+   - Crea una secuencia de bienvenida para nuevos contactos que se active automáticamente
+   - Incluye 3-5 emails con información progresiva sobre tu producto/servicio
+   - Intervalo recomendado: Email 1 (inmediato), Email 2 (48h), Email 3 (7 días), etc.
+   
+   **Ejemplo de Serie de Bienvenida:**
+   ```json
+   {
+     "name": "welcome_series_new_contacts",
+     "campaign_type": "email_sequence",
+     "trigger_criteria": {
+       "score_min": 20,
+       "days_since_created": 0
+     },
+     "steps_config": [
+       {
+         "step": 1,
+         "type": "email",
+         "delay_hours": 0,
+         "subject_template": "¡Bienvenido {{first_name}}! Conoce cómo podemos ayudarte",
+         "body_template": "Hola {{first_name}}, gracias por tu interés..."
+       },
+       {
+         "step": 2,
+         "type": "email",
+         "delay_hours": 48,
+         "subject_template": "{{first_name}}, aquí tienes más información",
+         "body_template": "Basado en tu interés..."
+       },
+       {
+         "step": 3,
+         "type": "email",
+         "delay_hours": 168,
+         "subject_template": "Último recurso para ti, {{first_name}}",
+         "body_template": "Queríamos compartir contigo..."
+       }
+     ]
+   }
+   ```
+
+2. **Segmenta tu Audiencia**
+   - Segmenta por fuente de lead (orgánico, paid, referral, etc.)
+   - Segmenta por score de lead (alto, medio, bajo)
+   - Segmenta por industria o tipo de empresa
+   - Segmenta por etapa del pipeline
+   - Personaliza mensajes según segmento
+   
+   **Configuración de Segmentación:**
+   ```sql
+   -- Crear campañas específicas por segmento
+   INSERT INTO sales_campaigns (name, campaign_type, trigger_criteria, steps_config, enabled)
+   VALUES (
+     'email_sequence_high_score',
+     'email_sequence',
+     '{"score_min": 70, "priority": "high"}'::jsonb,
+     '[...]'::jsonb,
+     true
+   ),
+   (
+     'email_sequence_organic_source',
+     'email_sequence',
+     '{"source": "organic", "score_min": 30}'::jsonb,
+     '[...]'::jsonb,
+     true
+   );
+   ```
+   
+   **Usar Segmentación Avanzada en Lead Nurturing:**
+   - Habilitar `enable_segmentation: true` en el DAG `lead_nurturing`
+   - Configurar `segment_by_source: true` para segmentar por fuente
+   - Configurar `segment_by_score_range: true` para segmentar por rango de score
+
+3. **A/B Testing de Asuntos y Timing**
+   - Prueba diferentes asuntos de email para optimizar apertura
+   - Prueba diferentes horarios de envío para maximizar engagement
+   - Prueba diferentes longitudes de contenido
+   - Analiza métricas: open rate, click rate, reply rate
+   
+   **Habilitar A/B Testing:**
+   ```python
+   # En parámetros del DAG lead_nurturing
+   {
+     "enable_ab_testing": true,
+     "ab_test_percentage": 10  # 10% de leads reciben variante B
+   }
+   ```
+   
+   **Configurar Variantes A/B en Campañas:**
+   ```json
+   {
+     "step": 1,
+     "type": "email",
+     "delay_hours": 0,
+     "subject_template": "Asunto A - Default",
+     "subject_template_b": "Asunto B - Variante",
+     "body_template": "Cuerpo A",
+     "body_template_b": "Cuerpo B - Más corto y directo"
+   }
+   ```
+   
+   **Analizar Resultados A/B:**
+   ```sql
+   -- Comparar performance de variantes
+   SELECT 
+     ce.metadata->>'variant' AS variant,
+     COUNT(*) AS total_sent,
+     COUNT(*) FILTER (WHERE ce.status = 'completed') AS completed,
+     AVG((ce.metadata->>'open_rate')::numeric) AS avg_open_rate,
+     AVG((ce.metadata->>'click_rate')::numeric) AS avg_click_rate
+   FROM sales_campaign_events ce
+   WHERE ce.event_type = 'email_sent'
+   AND ce.metadata ? 'variant'
+   GROUP BY variant;
+   ```
+
+**Integración con Herramientas Externas:**
+
+- **NetSuite**: Sincronizar leads y campañas con NetSuite para unificación de datos
+- **Statisfy**: Integrar feedback y satisfacción del cliente en las campañas
+- **Workday Blog**: Usar contenido del blog para nutrir leads con información valiosa
+
+**Mejores Prácticas Adicionales:**
+
+- **Personalización**: Usa variables dinámicas como `{{first_name}}`, `{{company}}`, `{{product_interest}}`
+- **Timing Inteligente**: Usa el DAG `sales_timing_optimizer` para optimizar automáticamente horarios de envío
+- **Pausar Secuencias Inactivas**: Habilita `enable_auto_pause: true` para pausar secuencias sin engagement
+- **Métricas**: Monitorea regularmente open rates, click rates, reply rates y conversión
+- **Limpieza de Lista**: Elimina o pausa contactos que no responden después de múltiples intentos
+- **Call-to-Action Claro**: Cada email debe tener un CTA claro y específico
+- **Mobile-First**: Asegúrate de que los emails se vean bien en dispositivos móviles
+
 ### Estructura de Campañas Recomendada
 
 **Campaña de Onboarding (Qualified Leads):**

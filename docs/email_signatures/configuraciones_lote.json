@@ -1,0 +1,65 @@
+[
+  {
+    "nombre": "Juan Pérez",
+    "cargo": "Instructor de Inteligencia Artificial",
+    "email": "juan@cursoia.com",
+    "telefono": "+34 600 123 456",
+    "website": "https://www.cursoia.com",
+    "empresa": "CursoIA Academy",
+    "url_curso": "https://www.cursoia.com/curso-avanzado",
+    "url_webinar": "https://www.cursoia.com/webinar-proximo",
+    "fecha_webinar": "15 de Marzo, 2024",
+    "url_linkedin": "https://linkedin.com/in/juanperez",
+    "url_twitter": "https://twitter.com/juanperez",
+    "url_youtube": "https://youtube.com/@juanperez",
+    "url_unsubscribe": "https://www.cursoia.com/unsubscribe"
+  },
+  {
+    "nombre": "María García",
+    "cargo": "Consultora Senior de IA",
+    "email": "maria@consultoriaia.com",
+    "telefono": "+34 600 654 321",
+    "website": "https://www.consultoriaia.com",
+    "empresa": "Consultoría IA Pro",
+    "url_consulta": "https://www.consultoriaia.com/solicitar-consulta",
+    "url_linkedin": "https://linkedin.com/in/mariagarcia",
+    "url_twitter": "https://twitter.com/mariagarcia",
+    "url_unsubscribe": "https://www.consultoriaia.com/unsubscribe"
+  },
+  {
+    "nombre": "Carlos Rodríguez",
+    "cargo": "CEO & Fundador",
+    "email": "carlos@marketingai.com",
+    "telefono": "+1 555 123 4567",
+    "website": "https://www.marketingai.com",
+    "empresa": "MarketingAI Pro",
+    "nombre_saas": "MarketingAI Pro",
+    "url_demo": "https://www.marketingai.com/demo",
+    "url_pricing": "https://www.marketingai.com/precios",
+    "url_linkedin": "https://linkedin.com/in/carlosrodriguez",
+    "url_twitter": "https://twitter.com/carlos_marketing",
+    "url_facebook": "https://facebook.com/marketingaipro",
+    "url_unsubscribe": "https://www.marketingai.com/unsubscribe"
+  },
+  {
+    "nombre": "Ana Martínez",
+    "cargo": "Lead Developer",
+    "email": "ana@docai.com",
+    "telefono": "+34 600 789 012",
+    "website": "https://www.docai.com",
+    "empresa": "DocAI Solutions",
+    "nombre_producto": "DocAI Generator",
+    "url_try_now": "https://www.docai.com/try-free",
+    "url_examples": "https://www.docai.com/examples",
+    "url_linkedin": "https://linkedin.com/in/anamartinez",
+    "url_github": "https://github.com/anamartinez",
+    "url_twitter": "https://twitter.com/ana_dev",
+    "url_unsubscribe": "https://www.docai.com/unsubscribe"
+  }
+]
+
+
+
+
+
+

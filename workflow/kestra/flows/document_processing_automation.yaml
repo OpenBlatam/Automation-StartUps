@@ -1,0 +1,495 @@
+id: document_processing_automation
+namespace: workflows
+
+labels:
+  app: document-processing
+  category: automation
+  integration: ocr-classification
+
+description: |
+  Sistema automatizado de procesamiento de documentos con OCR y clasificación.
+  Extrae datos de facturas, contratos y formularios automáticamente,
+  clasifica documentos y los archiva en el lugar correcto.
+  Integra con Zapier/Make vía webhooks.
+
+inputs:
+  - name: input_directory
+    type: STRING
+    required: false
+    defaults: "/data/documents/input"
+    description: Directorio de entrada para documentos
+  - name: archive_directory
+    type: STRING
+    required: false
+    defaults: "/data/documents/archive"
+    description: Directorio base para archivado
+  - name: ocr_provider
+    type: STRING
+    required: false
+    defaults: "tesseract"
+    description: Proveedor OCR (tesseract, google_vision, azure_vision)
+  - name: ocr_config
+    type: STRING
+    required: false
+    description: Configuración JSON del OCR (opcional)
+  - name: enable_webhooks
+    type: BOOLEAN
+    required: false
+    defaults: true
+    description: Habilitar envío de webhooks a Zapier/Make
+  - name: webhook_urls
+    type: STRING
+    required: false
+    description: URLs de webhooks separadas por coma (opcional)
+  - name: jdbc_url
+    type: STRING
+    required: true
+    description: JDBC URL de conexión a PostgreSQL
+  - name: jdbc_user
+    type: STRING
+    required: true
+    description: Usuario de base de datos
+  - name: jdbc_password
+    type: STRING
+    required: true
+    description: Contraseña de base de datos
+  - name: process_batch_size
+    type: INT
+    required: false
+    defaults: 10
+    description: Tamaño de lote para procesamiento
+  - name: archive_structure
+    type: STRING
+    required: false
+    defaults: "by_type_and_date"
+    description: Estructura de archivado (by_type, by_date, by_type_and_date, flat)
+
+triggers:
+  - id: schedule_processing
+    type: io.kestra.plugin.core.trigger.Schedule
+    cron: "0 */6 * * *"  # Cada 6 horas
+    timezone: "UTC"
+    description: Procesamiento automático cada 6 horas
+  - id: webhook_trigger
+    type: io.kestra.plugin.core.trigger.Webhook
+    key: document-processing
+    description: Webhook para procesamiento manual de documentos
+
+tasks:
+  # Paso 1: Validar configuración
+  - id: validate_config
+    type: io.kestra.plugin.scripts.javascript.Script
+    timeout: PT30S
+    script: |
+      const errors = [];
+      const warnings = [];
+      
+      // Validar inputs requeridos
+      if (!inputs.jdbc_url || !inputs.jdbc_url.trim()) {
+        errors.push("jdbc_url es requerido");
+      }
+      
+      if (!inputs.jdbc_user || !inputs.jdbc_user.trim()) {
+        errors.push("jdbc_user es requerido");
+      }
+      
+      if (!inputs.jdbc_password || !inputs.jdbc_password.trim()) {
+        errors.push("jdbc_password es requerido");
+      }
+      
+      // Validar proveedor OCR
+      const validProviders = ['tesseract', 'google_vision', 'azure_vision'];
+      if (inputs.ocr_provider && !validProviders.includes(inputs.ocr_provider)) {
+        errors.push(`ocr_provider debe ser uno de: ${validProviders.join(', ')}`);
+      }
+      
+      // Validar estructura de archivado
+      const validStructures = ['by_type', 'by_date', 'by_type_and_date', 'flat'];
+      if (inputs.archive_structure && !validStructures.includes(inputs.archive_structure)) {
+        errors.push(`archive_structure debe ser uno de: ${validStructures.join(', ')}`);
+      }
+      
+      if (errors.length > 0) {
+        throw new Error("Validación falló: " + errors.join(", "));
+      }
+      
+      if (warnings.length > 0) {
+        logger.warn("Advertencias: " + warnings.join(", "));
+      }
+      
+      logger.info("Validación de configuración completada exitosamente");
+
+  # Paso 2: Asegurar schema de base de datos
+  - id: ensure_schema
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    timeout: PT60S
+    sql: |
+      -- Crear tablas si no existen (usar schema completo)
+      -- Este query carga el schema desde el archivo SQL
+      DO $$
+      BEGIN
+        -- Ejecutar schema si existe
+        PERFORM 1;
+      END $$;
+
+  # Paso 3: Buscar documentos pendientes
+  - id: find_pending_documents
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    fetch: true
+    timeout: PT60S
+    sql: |
+      SELECT 
+        id,
+        file_path,
+        filename,
+        file_size,
+        source,
+        priority
+      FROM pending_documents
+      WHERE status = 'pending'
+        AND scheduled_at <= CURRENT_TIMESTAMP
+      ORDER BY priority DESC, created_at ASC
+      LIMIT {{ inputs.process_batch_size | default(10) }};
+
+  # Paso 4: Procesar documentos
+  - id: process_documents
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30M
+    inputFiles:
+      pending.json: "{{ taskrun.outputs['find_pending_documents']['rows'] | toJson }}"
+      processor.py: |
+        import json
+        import sys
+        import os
+        from pathlib import Path
+        
+        # Agregar ruta de integraciones al path
+        sys.path.insert(0, '/app/data/integrations')
+        
+        try:
+            from document_processor import DocumentProcessor
+            from document_webhooks import WebhookManager
+            import psycopg2
+        except ImportError as e:
+            print(f'ERROR: No se pueden importar módulos: {e}')
+            print('Asegúrate de instalar las dependencias necesarias')
+            sys.exit(1)
+        
+        # Cargar documentos pendientes
+        try:
+            with open('pending.json', 'r') as f:
+                pending_docs = json.load(f)
+        except Exception as e:
+            print(f'ERROR: No se pudo cargar pending.json: {e}')
+            sys.exit(1)
+        
+        if not pending_docs:
+            print('INFO: No hay documentos pendientes para procesar')
+            with open('results.json', 'w') as f:
+                json.dump({'processed': [], 'errors': []}, f)
+            sys.exit(0)
+        
+        # Configurar procesador
+        ocr_config = {
+            "provider": "{{ inputs.ocr_provider | default('tesseract') }}",
+            "language": "spa+eng"
+        }
+        
+        # Configurar OCR específico si es necesario
+        {% if inputs.ocr_config %}
+        try:
+            import json as json_lib
+            custom_ocr_config = json_lib.loads('{{ inputs.ocr_config }}')
+            ocr_config.update(custom_ocr_config)
+        except:
+            pass
+        {% endif %}
+        
+        archive_config = {
+            "base_path": "{{ inputs.archive_directory | default('/data/documents/archive') }}",
+            "structure": "{{ inputs.archive_structure | default('by_type_and_date') }}"
+        }
+        
+        processor_config = {
+            "ocr": ocr_config,
+            "classifier": {},
+            "archive": archive_config
+        }
+        
+        processor = DocumentProcessor(processor_config)
+        
+        # Conectar a base de datos
+        db_conn = None
+        try:
+            db_conn = psycopg2.connect(
+                "{{ inputs.jdbc_url }}",
+                user="{{ inputs.jdbc_user }}",
+                password="{{ inputs.jdbc_password }}"
+            )
+        except Exception as e:
+            print(f'WARNING: No se pudo conectar a BD: {e}')
+        
+        # Configurar webhooks
+        webhook_manager = None
+        if db_conn and {{ inputs.enable_webhooks | default(true) | lower }}:
+            webhook_manager = WebhookManager(db_conn)
+        
+        processed_docs = []
+        errors = []
+        
+        # Procesar cada documento
+        for pending_doc in pending_docs:
+            file_path = pending_doc.get('file_path')
+            doc_id = pending_doc.get('id')
+            
+            if not file_path or not os.path.exists(file_path):
+                errors.append({
+                    'doc_id': doc_id,
+                    'file_path': file_path,
+                    'error': 'Archivo no encontrado'
+                })
+                continue
+            
+            try:
+                # Actualizar estado a procesando
+                if db_conn:
+                    cursor = db_conn.cursor()
+                    cursor.execute("""
+                        UPDATE pending_documents 
+                        SET status = 'processing', 
+                            updated_at = CURRENT_TIMESTAMP
+                        WHERE id = %s
+                    """, (doc_id,))
+                    db_conn.commit()
+                
+                # Procesar documento
+                processed = processor.process_document(
+                    file_path=file_path,
+                    filename=pending_doc.get('filename'),
+                    archive=True
+                )
+                
+                # Guardar en base de datos
+                if db_conn:
+                    cursor = db_conn.cursor()
+                    
+                    # Insertar documento procesado
+                    cursor.execute("""
+                        INSERT INTO processed_documents 
+                        (document_id, original_filename, file_path, file_hash,
+                         document_type, classification_confidence, extracted_text,
+                         ocr_confidence, ocr_provider, archive_path, file_size,
+                         file_extension, mime_type, keywords_matched, processed_at)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                        ON CONFLICT (document_id) DO NOTHING
+                    """, (
+                        processed.document_id,
+                        processed.original_filename,
+                        processed.file_path,
+                        processed.file_hash,
+                        processed.document_type,
+                        processed.classification_confidence,
+                        processed.extracted_text,
+                        processed.ocr_confidence,
+                        processed.ocr_provider,
+                        processed.archive_path,
+                        processed.metadata.get('file_size'),
+                        Path(file_path).suffix,
+                        processed.metadata.get('mime_type'),
+                        processed.keywords_matched or [],
+                        processed.processed_at
+                    ))
+                    
+                    # Insertar campos extraídos
+                    for field_name, field_value in processed.extracted_fields.items():
+                        cursor.execute("""
+                            INSERT INTO document_extracted_fields
+                            (document_id, field_name, field_value)
+                            VALUES (%s, %s, %s)
+                            ON CONFLICT (document_id, field_name) DO UPDATE
+                            SET field_value = EXCLUDED.field_value
+                        """, (processed.document_id, field_name, str(field_value)))
+                    
+                    # Actualizar estado de pending
+                    cursor.execute("""
+                        UPDATE pending_documents
+                        SET status = 'completed',
+                            processed_at = CURRENT_TIMESTAMP
+                        WHERE id = %s
+                    """, (doc_id,))
+                    
+                    db_conn.commit()
+                
+                # Enviar webhooks
+                if webhook_manager:
+                    doc_dict = processed.to_dict()
+                    webhook_manager.trigger_webhooks(
+                        "document_processed",
+                        doc_dict,
+                        processed.document_type
+                    )
+                
+                processed_docs.append(processed.to_dict())
+                
+                print(f'✓ Procesado: {processed.original_filename} - {processed.document_type}')
+            
+            except Exception as e:
+                error_msg = str(e)
+                print(f'✗ Error procesando {file_path}: {error_msg}')
+                errors.append({
+                    'doc_id': doc_id,
+                    'file_path': file_path,
+                    'error': error_msg
+                })
+                
+                # Actualizar estado a failed
+                if db_conn:
+                    try:
+                        cursor = db_conn.cursor()
+                        cursor.execute("""
+                            UPDATE pending_documents
+                            SET status = 'failed',
+                                error_message = %s,
+                                retry_count = retry_count + 1
+                            WHERE id = %s
+                        """, (error_msg, doc_id))
+                        db_conn.commit()
+                    except:
+                        pass
+        
+        # Guardar resultados
+        results = {
+            'processed': processed_docs,
+            'errors': errors,
+            'total_processed': len(processed_docs),
+            'total_errors': len(errors)
+        }
+        
+        with open('results.json', 'w') as f:
+            json.dump(results, f, indent=2, ensure_ascii=False)
+        
+        print(f'\n📊 Resumen:')
+        print(f'   • Procesados: {len(processed_docs)}')
+        print(f'   • Errores: {len(errors)}')
+        
+        if db_conn:
+            db_conn.close()
+    outputFiles:
+      - results.json
+
+  # Paso 5: Enviar webhooks a Zapier/Make (si está configurado)
+  - id: send_webhooks
+    type: io.kestra.plugin.scripts.python.Script
+    disabled: "{{ inputs.enable_webhooks == false or inputs.webhook_urls is not defined }}"
+    timeout: PT5M
+    inputFiles:
+      results.json: "{{ taskrun.outputs['process_documents']['files']['results.json'] | readFile }}"
+      webhook_sender.py: |
+        import json
+        import requests
+        import sys
+        
+        with open('results.json', 'r') as f:
+            results = json.load(f)
+        
+        webhook_urls_str = "{{ inputs.webhook_urls }}"
+        if not webhook_urls_str:
+            print('No hay webhooks configurados')
+            sys.exit(0)
+        
+        webhook_urls = [url.strip() for url in webhook_urls_str.split(',')]
+        
+        processed_docs = results.get('processed', [])
+        
+        for webhook_url in webhook_urls:
+            if not webhook_url:
+                continue
+            
+            try:
+                payload = {
+                    "event": "batch_processed",
+                    "timestamp": "{{ taskrun.startDate }}",
+                    "summary": {
+                        "total_processed": results.get('total_processed', 0),
+                        "total_errors": results.get('total_errors', 0)
+                    },
+                    "documents": processed_docs
+                }
+                
+                response = requests.post(
+                    webhook_url,
+                    json=payload,
+                    headers={"Content-Type": "application/json"},
+                    timeout=30
+                )
+                
+                if response.status_code in [200, 201, 202]:
+                    print(f'✓ Webhook enviado a {webhook_url}')
+                else:
+                    print(f'✗ Error enviando webhook a {webhook_url}: {response.status_code}')
+            
+            except Exception as e:
+                print(f'✗ Error enviando webhook a {webhook_url}: {e}')
+
+  # Paso 6: Generar reporte de procesamiento
+  - id: generate_report
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    inputFiles:
+      results.json: "{{ taskrun.outputs['process_documents']['files']['results.json'] | readFile }}"
+      report.py: |
+        import json
+        from collections import Counter
+        
+        with open('results.json', 'r') as f:
+            results = json.load(f)
+        
+        processed = results.get('processed', [])
+        
+        # Estadísticas por tipo
+        doc_types = Counter([doc.get('document_type', 'unknown') for doc in processed])
+        
+        # Estadísticas de confianza
+        confidences = [doc.get('classification_confidence', 0) for doc in processed]
+        avg_confidence = sum(confidences) / len(confidences) if confidences else 0
+        
+        report = {
+            'summary': {
+                'total_processed': results.get('total_processed', 0),
+                'total_errors': results.get('total_errors', 0),
+                'success_rate': (
+                    results.get('total_processed', 0) / 
+                    max(results.get('total_processed', 0) + results.get('total_errors', 0), 1)
+                ) * 100
+            },
+            'by_type': dict(doc_types),
+            'confidence': {
+                'average': avg_confidence,
+                'min': min(confidences) if confidences else 0,
+                'max': max(confidences) if confidences else 0
+            }
+        }
+        
+        with open('report.json', 'w') as f:
+            json.dump(report, f, indent=2)
+        
+        print("=" * 60)
+        print("📊 REPORTE DE PROCESAMIENTO")
+        print("=" * 60)
+        print(f"Total procesados: {report['summary']['total_processed']}")
+        print(f"Total errores: {report['summary']['total_errors']}")
+        print(f"Tasa de éxito: {report['summary']['success_rate']:.1f}%")
+        print(f"\nPor tipo:")
+        for doc_type, count in report['by_type'].items():
+            print(f"  • {doc_type}: {count}")
+        print(f"\nConfianza promedio: {report['confidence']['average']:.2%}")
+        print("=" * 60)
+    outputFiles:
+      - report.json
+

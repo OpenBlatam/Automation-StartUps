@@ -1,0 +1,57 @@
+{
+  "critical": [
+    "error crítico",
+    "sistema caído",
+    "no funciona",
+    "urgente",
+    "crítico",
+    "emergencia",
+    "sistema no responde",
+    "pérdida de datos",
+    "hackeado",
+    "brecha de seguridad",
+    "critical error",
+    "system down",
+    "not working",
+    "urgent",
+    "emergency",
+    "system not responding",
+    "data loss",
+    "hacked",
+    "security breach"
+  ],
+  "high": [
+    "problema",
+    "error",
+    "bug",
+    "fallo",
+    "no puedo",
+    "no funciona correctamente",
+    "problema técnico",
+    "issue",
+    "problem",
+    "technical issue",
+    "can't",
+    "doesn't work properly"
+  ],
+  "medium": [
+    "pregunta",
+    "duda",
+    "consulta",
+    "información",
+    "cómo",
+    "question",
+    "doubt",
+    "inquiry",
+    "information",
+    "how"
+  ],
+  "low": [
+    "gracias",
+    "ok",
+    "entendido",
+    "thanks",
+    "okay",
+    "understood"
+  ]
+}

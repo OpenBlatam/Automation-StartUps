@@ -26,9 +26,10 @@
 
 ### Para Nuevos Usuarios
 
-1. **Leer el README Principal**: `README.md` - Visión general completa de la plataforma
-2. **Quickstart**: Guía de inicio rápido paso a paso en el README principal
-3. **Configuración Inicial**: Ver sección de [Inicio Rápido en README](../README.md#-inicio-rápido)
+1. **[README de Documentación](./README.md)** ⭐ **Lee esto primero** - Introducción a la documentación
+2. **[Quick Start Guide](./QUICK_START.md)** ⭐ **Empieza aquí** - Guía rápida de 15 minutos
+3. **Leer el README Principal**: `README.md` - Visión general completa de la plataforma
+4. **Configuración Inicial**: Ver sección de [Inicio Rápido en README](../README.md#-inicio-rápido)
 
 ### Por Rol
 
@@ -213,6 +214,79 @@
 
 ## 📖 Documentos Especializados
 
+### 📚 Documentación Técnica Completa
+
+**Guías Principales** (Nuevas):
+- **[Arquitectura](./ARQUITECTURA.md)** ⭐ - Arquitectura completa del sistema
+  - Componentes principales
+  - Patrones arquitectónicos
+  - Flujos de datos
+  - Decisiones arquitectónicas
+- **[Guía de Desarrollo](./DESARROLLO.md)** ⭐ - Guía para desarrolladores
+  - Configuración del entorno
+  - Crear DAGs, workflows, workers
+  - Testing y code review
+  - Mejores prácticas
+- **[Operación y Mantenimiento](./OPERACION.md)** ⭐ - Guía para operaciones
+  - Monitoreo y alertas
+  - Mantenimiento rutinario
+  - Backup y recuperación
+  - Performance tuning
+- **[Troubleshooting](./TROUBLESHOOTING.md)** ⭐ - Resolución de problemas
+  - Problemas comunes
+  - Comandos útiles
+  - Escalación
+- **[Deployment](./DEPLOYMENT.md)** ⭐ - Guía de despliegue
+  - Despliegue en dev/staging/prod
+  - Post-deployment
+  - Rollback procedures
+- **[Sistema de Aprobaciones](./APPROVAL_SYSTEM.md)** - Documentación técnica
+  - Arquitectura modular
+  - Plugins y componentes
+  - Configuración y uso
+- **[Mejoras del Sistema de Aprobaciones](./APPROVAL_SYSTEM_MEJORAS.md)** ⭐ Nuevo - Guía de mejoras
+  - Problemas identificados
+  - Plan de refactorización
+  - Optimizaciones de performance
+  - Mejoras de código
+- **[Ejemplos Prácticos](./EJEMPLOS_PRACTICOS.md)** ⭐ Nuevo - Ejemplos y casos de uso
+  - Ejemplos de Airflow
+  - Ejemplos de Kestra
+  - Integraciones
+  - Casos de uso completos
+- **[Guía de Migración](./GUIA_MIGRACION.md)** ⭐ Nuevo - Migración paso a paso
+  - Migración de approval_cleanup.py
+  - Migración de DAGs legacy
+  - Checklist completo
+- **[Quick Start Guide](./QUICK_START.md)** ⭐ Nuevo - Guía rápida de 15 minutos
+  - Setup inicial
+  - Primer DAG
+  - Ejecución y monitoreo
+- **[Mejores Prácticas](./BEST_PRACTICES.md)** ⭐ Nuevo - Patrones y recomendaciones
+  - Principios generales
+  - Prácticas de Airflow
+  - Prácticas de código
+  - Anti-patrones
+- **[FAQ](./FAQ.md)** ⭐ Nuevo - Preguntas frecuentes
+  - Preguntas generales
+  - Airflow, Kubernetes, Base de datos
+  - Sistema de aprobaciones
+  - Performance y troubleshooting
+- **[Mejoras de Arquitectura con Librerías](./MEJORAS_LIBRERIAS.md)** ⭐ Nuevo - Análisis y mejoras
+  - Análisis completo de arquitectura actual
+  - Librerías recomendadas por categoría
+  - Plan de implementación
+  - Guía de migración
+- **[Guía de Implementación de Mejoras](./GUIA_IMPLEMENTACION_MEJORAS.md)** ⭐ Nuevo - Guía práctica
+  - Ejemplos por categoría
+  - Patrones de migración
+  - Best practices
+  - Checklist de implementación
+- **[Resumen Ejecutivo: Mejoras](./RESUMEN_MEJORAS_LIBRERIAS.md)** ⭐ Nuevo - Resumen rápido
+  - Quick wins
+  - Impacto esperado
+  - Próximos pasos
+
 ### Escalabilidad
 
 **Arquitectura de Escalabilidad**
@@ -275,6 +349,20 @@ airflow dags trigger outreach_multichannel \
 
 ## 🔍 Guías de Referencia Rápida
 
+### Referencias Rápidas
+
+- **[Referencia Rápida](./REFERENCIA_RAPIDA.md)** ⭐ **Nuevo** - Comandos y APIs de referencia
+  - Comandos de Airflow, Kubernetes, PostgreSQL
+  - Variables de entorno
+  - APIs y endpoints
+  - Plugins disponibles
+
+- **[Diagramas](./DIAGRAMAS.md)** ⭐ **Nuevo** - Diagramas de arquitectura
+  - Arquitectura de alto nivel
+  - Flujos de datos
+  - Arquitectura de aprobaciones
+  - Arquitectura de Kubernetes
+
 ### Por Tarea Común
 
 #### Configurar Observabilidad
@@ -300,6 +388,7 @@ airflow dags trigger outreach_multichannel \
 3. Ver dashboard de KPIs en tiempo real
 
 #### Troubleshooting
+- **Guía Completa**: [`docs/TROUBLESHOOTING.md`](./TROUBLESHOOTING.md) ⭐ - Guía completa de troubleshooting
 - **Airflow**: [`data/airflow/dags/INDEX_ETL_IMPROVED.md`](../data/airflow/dags/INDEX_ETL_IMPROVED.md) - Sección "Troubleshooting"
 - **Observabilidad**: [`observability/README.md`](../observability/README.md) - Sección "Troubleshooting"
 - **General**: [`README.md`](../README.md) - Sección "Troubleshooting"
@@ -308,8 +397,13 @@ airflow dags trigger outreach_multichannel \
 
 | Área | Archivos Clave |
 |------|----------------|
+| **Arquitectura** | [`docs/ARQUITECTURA.md`](./ARQUITECTURA.md), [`docs/ESCALABILIDAD.md`](./ESCALABILIDAD.md) |
+| **Desarrollo** | [`docs/DESARROLLO.md`](./DESARROLLO.md), [`data/airflow/dags/INDEX_ETL_IMPROVED.md`](../data/airflow/dags/INDEX_ETL_IMPROVED.md) |
+| **Operación** | [`docs/OPERACION.md`](./OPERACION.md), [`docs/DEPLOYMENT.md`](./DEPLOYMENT.md) |
+| **Troubleshooting** | [`docs/TROUBLESHOOTING.md`](./TROUBLESHOOTING.md), [`docs/APPROVAL_SYSTEM.md`](./APPROVAL_SYSTEM.md) |
+| **Mejoras y Librerías** | [`docs/MEJORAS_LIBRERIAS.md`](./MEJORAS_LIBRERIAS.md), [`docs/GUIA_IMPLEMENTACION_MEJORAS.md`](./GUIA_IMPLEMENTACION_MEJORAS.md) |
 | **ETL** | `data/airflow/dags/INDEX_ETL_IMPROVED.md`, `data/airflow/dags/etl_example.py` |
-| **KPIs** | `docs/KPI_SYSTEM.md`, `web/kpis-next/README.md` |
+| **KPIs** | [`docs/KPI_SYSTEM.md`](./KPI_SYSTEM.md), `web/kpis-next/README.md` |
 | **Infraestructura** | `infra/README.md`, `platform.yaml` |
 | **Observabilidad** | `observability/README.md`, `observability/prometheus/alertrules.yaml` |
 | **Seguridad** | `security/README.md`, `security/secrets/externalsecrets-*.yaml` |

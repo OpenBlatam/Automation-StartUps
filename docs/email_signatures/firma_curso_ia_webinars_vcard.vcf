@@ -1,0 +1,22 @@
+BEGIN:VCARD
+VERSION:3.0
+FN:[Tu Nombre]
+N:[Tu Nombre];;;;
+ORG:[Tu Empresa/Organización]
+TITLE:Instructor de Inteligencia Artificial
+URL:[URL_WEBSITE]
+EMAIL;TYPE=INTERNET;TYPE=WORK:[tu-email@ejemplo.com]
+TEL;TYPE=WORK,VOICE:[+1234567890]
+NOTE:Curso de IA Avanzado | Webinars Exclusivos
+URL;TYPE=WORK:[URL_CURSO]
+URL;TYPE=WORK:[URL_WEBINAR]
+X-SOCIALPROFILE;TYPE=linkedin:[URL_LINKEDIN]
+X-SOCIALPROFILE;TYPE=twitter:[URL_TWITTER]
+X-SOCIALPROFILE;TYPE=youtube:[URL_YOUTUBE]
+END:VCARD
+
+
+
+
+
+

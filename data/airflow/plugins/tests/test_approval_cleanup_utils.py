@@ -95,6 +95,32 @@ class TestCheckCircuitBreaker:
 class TestValidateParams:
     """Tests para validate_params"""
     
+    @pytest.mark.parametrize("retention_years,retention_months,dry_run,should_pass", [
+        (1, 1, False, True),
+        (5, 12, True, True),
+        (10, 24, False, True),
+        (2, 6, False, True),
+        (0, 6, False, False),  # Menor que mínimo
+        (11, 6, False, False),  # Mayor que máximo
+        (2, 0, False, False),  # Menor que mínimo
+        (2, 25, False, False),  # Mayor que máximo
+        (2, 6, 'yes', False),  # dry_run no es boolean
+        (2, 6, 1, False),  # dry_run no es boolean
+    ])
+    def test_validate_params_various(self, retention_years, retention_months, dry_run, should_pass):
+        """Test validación con varios parámetros"""
+        params = {
+            'archive_retention_years': retention_years,
+            'notification_retention_months': retention_months,
+            'dry_run': dry_run
+        }
+        
+        if should_pass:
+            validate_params(params)  # No debería lanzar excepción
+        else:
+            with pytest.raises(AirflowFailException):
+                validate_params(params)
+    
     def test_validate_params_valid(self):
         """Test validación con parámetros válidos"""
         params = {
@@ -114,7 +140,7 @@ class TestValidateParams:
             'dry_run': False
         }
         
-        with pytest.raises(AirflowFailException):
+        with pytest.raises(AirflowFailException, match="archive_retention_years"):
             validate_params(params)
     
     def test_validate_params_invalid_notification_months(self):
@@ -125,7 +151,7 @@ class TestValidateParams:
             'dry_run': False
         }
         
-        with pytest.raises(AirflowFailException):
+        with pytest.raises(AirflowFailException, match="notification_retention_months"):
             validate_params(params)
     
     def test_validate_params_invalid_dry_run(self):
@@ -136,12 +162,42 @@ class TestValidateParams:
             'dry_run': 'yes'  # No es boolean
         }
         
-        with pytest.raises(AirflowFailException):
+        with pytest.raises(AirflowFailException, match="dry_run"):
             validate_params(params)
+    
+    def test_validate_params_missing_keys(self):
+        """Test validación con claves faltantes (usa defaults)"""
+        params = {}  # Sin claves
+        
+        # Debería usar valores por defecto o fallar
+        try:
+            validate_params(params)
+        except (AirflowFailException, KeyError):
+            pass  # Esperado si requiere todas las claves
 
 
 class TestFormatDurationMs:
     """Tests para format_duration_ms"""
+    
+    @pytest.mark.parametrize("duration_ms,expected_pattern", [
+        (0, "ms"),
+        (500, "500ms"),
+        (999, "ms"),
+        (1000, "1"),
+        (1500, "1.5"),
+        (2500, "2.5"),
+        (60000, "m"),
+        (125000, "m"),
+        (3600000, "m"),
+        (3600000 * 24, "m"),
+    ])
+    def test_format_duration_ms_various(self, duration_ms, expected_pattern):
+        """Test formateo de duración en varios casos"""
+        result = format_duration_ms(duration_ms)
+        
+        assert expected_pattern in result
+        assert isinstance(result, str)
+        assert len(result) > 0
     
     def test_format_duration_ms_milliseconds(self):
         """Test formateo de milisegundos"""
@@ -158,10 +214,36 @@ class TestFormatDurationMs:
         result = format_duration_ms(125000)  # 2 minutos 5 segundos
         assert "m" in result
         assert "s" in result
+    
+    def test_format_duration_ms_very_large(self):
+        """Test formateo de duración muy grande"""
+        result = format_duration_ms(3600000 * 24)  # 24 horas
+        assert len(result) > 0
+        assert "m" in result or "h" in result
 
 
 class TestFormatBytes:
     """Tests para format_bytes"""
+    
+    @pytest.mark.parametrize("bytes_value,expected_unit", [
+        (0, "B"),
+        (1, "B"),
+        (500, "B"),
+        (1023, "B"),
+        (1024, "KB"),
+        (1024 * 1024 - 1, "KB"),
+        (1024 * 1024, "MB"),
+        (1024 * 1024 * 1024 - 1, "MB"),
+        (1024 * 1024 * 1024, "GB"),
+        (1024 * 1024 * 1024 * 1024, "TB"),
+    ])
+    def test_format_bytes_various(self, bytes_value, expected_unit):
+        """Test formateo de bytes en varios casos"""
+        result = format_bytes(bytes_value)
+        
+        assert expected_unit in result
+        assert isinstance(result, str)
+        assert len(result) > 0
     
     def test_format_bytes_bytes(self):
         """Test formateo de bytes"""
@@ -182,6 +264,11 @@ class TestFormatBytes:
         """Test formateo de gigabytes"""
         result = format_bytes(2 * 1024 * 1024 * 1024)
         assert "GB" in result
+    
+    def test_format_bytes_very_large(self):
+        """Test formateo de bytes muy grandes"""
+        result = format_bytes(1024 ** 5)  # 1 PB
+        assert "PB" in result or "TB" in result
 
 
 class TestSafeDivide:

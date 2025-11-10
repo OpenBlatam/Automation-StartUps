@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador Interactivo de Firmas de Email</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .header p {
+            opacity: 0.9;
+        }
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+        .form-section, .preview-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .preview {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 20px;
+            min-height: 400px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        .template-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .template-btn {
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+        .template-btn:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+        .template-btn.active {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+        .alert {
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 15px;
+            display: none;
+        }
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 Generador Interactivo de Firmas de Email</h1>
+            <p>Personaliza tu firma de email en tiempo real</p>
+        </div>
+        <div class="content">
+            <div class="form-section">
+                <h2 style="margin-bottom: 20px; color: #333;">Configuración</h2>
+                
+                <div class="template-selector">
+                    <div class="template-btn active" data-template="curso">Curso IA</div>
+                    <div class="template-btn" data-template="saas">SaaS Marketing</div>
+                    <div class="template-btn" data-template="bulk">IA Bulk</div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Nombre Completo</label>
+                    <input type="text" id="nombre" placeholder="Tu Nombre" value="[Tu Nombre]">
+                </div>
+                
+                <div class="form-group">
+                    <label>Cargo / Posición</label>
+                    <input type="text" id="cargo" placeholder="Tu Cargo" value="[Tu Cargo]">
+                </div>
+                
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="email" placeholder="tu-email@ejemplo.com" value="[tu-email@ejemplo.com]">
+                </div>
+                
+                <div class="form-group">
+                    <label>Teléfono</label>
+                    <input type="tel" id="telefono" placeholder="+1 234 567 890" value="[+1 234 567 890]">
+                </div>
+                
+                <div class="form-group">
+                    <label>Website</label>
+                    <input type="url" id="website" placeholder="https://www.tuwebsite.com" value="[URL_WEBSITE]">
+                </div>
+                
+                <div class="form-group">
+                    <label>LinkedIn</label>
+                    <input type="url" id="linkedin" placeholder="https://linkedin.com/in/tu-perfil" value="[URL_LINKEDIN]">
+                </div>
+                
+                <div class="form-group">
+                    <label>Twitter</label>
+                    <input type="url" id="twitter" placeholder="https://twitter.com/tu-usuario" value="[URL_TWITTER]">
+                </div>
+                
+                <div class="form-group">
+                    <label>Versión de Plantilla</label>
+                    <select id="version">
+                        <option value="completa">Completa</option>
+                        <option value="compacta">Compacta</option>
+                        <option value="minimalista">Minimalista</option>
+                        <option value="simple">Simple</option>
+                    </select>
+                </div>
+                
+                <div class="buttons">
+                    <button class="btn-primary" onclick="actualizarPreview()">🔄 Actualizar Vista Previa</button>
+                    <button class="btn-success" onclick="copiarHTML()">📋 Copiar HTML</button>
+                    <button class="btn-secondary" onclick="descargarHTML()">💾 Descargar</button>
+                </div>
+                
+                <div class="alert alert-success" id="alert">
+                    ¡HTML copiado al portapapeles!
+                </div>
+            </div>
+            
+            <div class="preview-section">
+                <h2 style="margin-bottom: 20px; color: #333;">Vista Previa</h2>
+                <div class="preview" id="preview">
+                    <p style="color: #999; text-align: center; padding: 50px;">
+                        Completa el formulario y haz clic en "Actualizar Vista Previa"
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let templateActual = 'curso';
+        
+        // Cambiar plantilla
+        document.querySelectorAll('.template-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.template-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                templateActual = this.dataset.template;
+                actualizarPreview();
+            });
+        });
+        
+        function obtenerValores() {
+            return {
+                nombre: document.getElementById('nombre').value || '[Tu Nombre]',
+                cargo: document.getElementById('cargo').value || '[Tu Cargo]',
+                email: document.getElementById('email').value || '[tu-email@ejemplo.com]',
+                telefono: document.getElementById('telefono').value || '[+1 234 567 890]',
+                website: document.getElementById('website').value || '[URL_WEBSITE]',
+                linkedin: document.getElementById('linkedin').value || '[URL_LINKEDIN]',
+                twitter: document.getElementById('twitter').value || '[URL_TWITTER]'
+            };
+        }
+        
+        function reemplazarPlaceholders(html, valores) {
+            let resultado = html;
+            const reemplazos = {
+                '[Tu Nombre]': valores.nombre,
+                '[Tu Cargo]': valores.cargo,
+                '[tu-email@ejemplo.com]': valores.email,
+                '[+1 234 567 890]': valores.telefono,
+                '[URL_WEBSITE]': valores.website,
+                '[www.tuwebsite.com]': valores.website.replace('https://', '').replace('http://', ''),
+                '[URL_LINKEDIN]': valores.linkedin,
+                '[URL_TWITTER]': valores.twitter,
+                '[URL_YOUTUBE]': valores.linkedin, // Placeholder
+                '[URL_CURSO]': valores.website + '/curso',
+                '[URL_WEBINAR]': valores.website + '/webinar',
+                '[Fecha]': 'Próximamente'
+            };
+            
+            for (const [placeholder, valor] of Object.entries(reemplazos)) {
+                resultado = resultado.replace(new RegExp(placeholder.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), valor);
+            }
+            
+            return resultado;
+        }
+        
+        async function cargarPlantilla(template, version) {
+            const archivo = `firma_${template}_ia_${template === 'curso' ? 'webinars' : template === 'saas' ? 'marketing' : 'documentos'}${version !== 'completa' ? '_' + version : ''}.html`;
+            
+            try {
+                const response = await fetch(archivo);
+                if (!response.ok) throw new Error('Plantilla no encontrada');
+                return await response.text();
+            } catch (error) {
+                return '<p style="color: red;">Error: No se pudo cargar la plantilla. Asegúrate de que el archivo existe.</p>';
+            }
+        }
+        
+        async function actualizarPreview() {
+            const valores = obtenerValores();
+            const version = document.getElementById('version').value;
+            const previewDiv = document.getElementById('preview');
+            
+            previewDiv.innerHTML = '<p style="text-align: center; color: #999;">Cargando...</p>';
+            
+            try {
+                let html = await cargarPlantilla(templateActual, version);
+                html = reemplazarPlaceholders(html, valores);
+                previewDiv.innerHTML = html;
+            } catch (error) {
+                previewDiv.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        }
+        
+        async function copiarHTML() {
+            const valores = obtenerValores();
+            const version = document.getElementById('version').value;
+            
+            try {
+                let html = await cargarPlantilla(templateActual, version);
+                html = reemplazarPlaceholders(html, valores);
+                
+                await navigator.clipboard.writeText(html);
+                
+                const alert = document.getElementById('alert');
+                alert.style.display = 'block';
+                setTimeout(() => {
+                    alert.style.display = 'none';
+                }, 3000);
+            } catch (error) {
+                alert('Error al copiar: ' + error.message);
+            }
+        }
+        
+        async function descargarHTML() {
+            const valores = obtenerValores();
+            const version = document.getElementById('version').value;
+            
+            try {
+                let html = await cargarPlantilla(templateActual, version);
+                html = reemplazarPlaceholders(html, valores);
+                
+                const blob = new Blob([html], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `firma_${templateActual}_${version}.html`;
+                a.click();
+                URL.revokeObjectURL(url);
+            } catch (error) {
+                alert('Error al descargar: ' + error.message);
+            }
+        }
+        
+        // Auto-actualizar preview cuando cambian los valores
+        document.querySelectorAll('input, select').forEach(input => {
+            input.addEventListener('input', () => {
+                if (document.getElementById('preview').innerHTML !== '<p style="color: #999; text-align: center; padding: 50px;">Completa el formulario y haz clic en "Actualizar Vista Previa"</p>') {
+                    actualizarPreview();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+

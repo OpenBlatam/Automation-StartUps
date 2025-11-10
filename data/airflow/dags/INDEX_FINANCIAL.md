@@ -2,7 +2,7 @@
 
 ## Visión General
 
-Sistema completo de automatización financiera que cubre facturación, recordatorios de pago, conciliación bancaria, reportes y análisis. Reduce errores manuales y ahorra horas de trabajo administrativo.
+Sistema completo de automatización financiera que cubre facturación automática, transacciones recurrentes, recordatorios de pago, conciliación bancaria, reportes y análisis. Reduce errores manuales y ahorra horas de trabajo administrativo. Integración completa con Stripe y QuickBooks.
 
 ## Componentes Principales
 
@@ -29,6 +29,22 @@ Sistema completo de automatización financiera que cubre facturación, recordato
   - Numeración automática (CN-000001)
   - Actualización de estado de factura
   - Notificación por email
+
+#### `recurring_billing`
+- **Archivo**: `data/airflow/dags/recurring_billing.py`
+- **Schedule**: Diario a las 01:00 UTC
+- **Función**: Procesa transacciones recurrentes y suscripciones automáticamente
+- **Características**:
+  - Obtiene suscripciones activas de Stripe
+  - Identifica suscripciones que necesitan facturación
+  - Genera facturas automáticas para ciclos recurrentes
+  - Procesa pagos automáticos
+  - Maneja pagos fallidos y reintentos
+  - Envía recordatorios de renovación de suscripciones
+  - Sincronización opcional con QuickBooks
+  - Tracking completo en base de datos
+  - Prevención de facturas duplicadas
+  - Notificaciones automáticas a clientes
 
 ### 2. Gestión de Pagos
 
@@ -215,6 +231,18 @@ Sistema completo de automatización financiera que cubre facturación, recordato
 ## Flujo de Datos
 
 ```
+Stripe Subscriptions (Recurring)
+    │
+    ▼
+recurring_billing (daily 01:00)
+    ├─→ Fetch active subscriptions
+    ├─→ Identify billing needed
+    ├─→ Generate invoices
+    ├─→ Process payments
+    ├─→ Handle failed payments
+    ├─→ Send renewal reminders
+    └─→ Sync to QuickBooks (optional)
+
 Stripe/DB Sales
     │
     ▼
@@ -311,6 +339,11 @@ PostgreSQL
 - `QUICKBOOKS_USE_SANDBOX` - Usar sandbox de QuickBooks (default: "true")
 - `STRIPE_FEES_LOOKBACK_DAYS` - Días hacia atrás para buscar pagos (default: "1")
 
+#### Recurring Billing
+- `RECURRING_BILLING_LOOKAHEAD_DAYS` - Días de anticipación para facturación (default: "1")
+- `RECURRING_BILLING_MAX_RETRIES` - Máximo de reintentos para pagos fallidos (default: "3")
+- `RECURRING_BILLING_SYNC_QUICKBOOKS` - Sincronizar con QuickBooks (default: "false")
+
 ### Variables de Entorno
 
 - `STRIPE_API_KEY` - API key Stripe (opcional)
@@ -350,21 +383,22 @@ airflow dags trigger credit_notes \
 
 ## Archivos Creados
 
-### DAGs Financieros (14 total)
+### DAGs Financieros (15 total)
 1. `invoice_generate.py` - Generación de facturas
-2. `payment_reminders.py` - Recordatorios de pago
-3. `invoice_mark_paid.py` - Marcado automático
-4. `payment_partial.py` - Pagos parciales
-5. `stripe_fees_to_quickbooks.py` - Tarifas Stripe → QuickBooks
-6. `bank_reconcile.py` - Conciliación bancaria
-7. `financial_reports.py` - Refrescar vistas
-8. `financial_export.py` - Exportación CSV
-9. `export_accounting.py` - Exportación OFX
-10. `invoice_alerts.py` - Alertas críticas
-11. `credit_notes.py` - Notas de crédito
-12. `invoice_audit.py` - Audit trail
-13. `financial_summary.py` - Resumen semanal
-14. `invoice_deduplication.py` - Detección duplicados
+2. `recurring_billing.py` - **NUEVO** Procesamiento de transacciones recurrentes
+3. `payment_reminders.py` - Recordatorios de pago
+4. `invoice_mark_paid.py` - Marcado automático
+5. `payment_partial.py` - Pagos parciales
+6. `stripe_fees_to_quickbooks.py` - Tarifas Stripe → QuickBooks
+7. `bank_reconcile.py` - Conciliación bancaria
+8. `financial_reports.py` - Refrescar vistas
+9. `financial_export.py` - Exportación CSV
+10. `export_accounting.py` - Exportación OFX
+11. `invoice_alerts.py` - Alertas críticas
+12. `credit_notes.py` - Notas de crédito
+13. `invoice_audit.py` - Audit trail
+14. `financial_summary.py` - Resumen semanal
+15. `invoice_deduplication.py` - Detección duplicados
 
 ### Next.js
 - `web/kpis-next/components/Dashboard.tsx` (actualizado)
@@ -411,18 +445,20 @@ airflow dags trigger credit_notes \
 ## Próximos Pasos
 
 1. ✅ Facturación automática completa
-2. ✅ Recordatorios escalonados
-3. ✅ Conciliación bancaria
-4. ✅ Reportes financieros
-5. ✅ Exportaciones (CSV, OFX)
-6. ✅ Alertas y validaciones
-7. ✅ Dashboard interactivo
-8. ✅ Soporte multi-moneda
-9. ✅ Pagos parciales
-10. ✅ Notas de crédito
-11. ✅ Audit trail
-12. ✅ Métricas avanzadas
-13. ✅ Integración QuickBooks (tarifas Stripe)
+2. ✅ **Transacciones recurrentes y suscripciones** (NUEVO)
+3. ✅ Recordatorios escalonados
+4. ✅ Conciliación bancaria
+5. ✅ Reportes financieros
+6. ✅ Exportaciones (CSV, OFX)
+7. ✅ Alertas y validaciones
+8. ✅ Dashboard interactivo
+9. ✅ Soporte multi-moneda
+10. ✅ Pagos parciales
+11. ✅ Notas de crédito
+12. ✅ Audit trail
+13. ✅ Métricas avanzadas
+14. ✅ Integración QuickBooks (tarifas Stripe)
+15. ✅ Recordatorios de renovación de suscripciones (NUEVO)
 
 **El sistema financiero está completo y listo para producción.**
 

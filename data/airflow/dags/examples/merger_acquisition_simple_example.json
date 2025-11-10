@@ -1,0 +1,73 @@
+{
+  "description": "Ejemplo simple de configuración mínima",
+  "scenario": "Integración básica de dos sistemas PostgreSQL",
+  
+  "company_a_config": {
+    "systems": [
+      {
+        "type": "postgres",
+        "name": "system_a",
+        "conn_id": "postgres_default",
+        "tables": ["customers", "orders"]
+      }
+    ]
+  },
+  
+  "company_b_config": {
+    "systems": [
+      {
+        "type": "postgres",
+        "name": "system_b",
+        "conn_id": "postgres_default",
+        "tables": ["clients", "transactions"]
+      }
+    ]
+  },
+  
+  "unified_system_config": {
+    "type": "postgres",
+    "conn_id": "postgres_default",
+    "schema": "unified"
+  },
+  
+  "transformation_rules": {
+    "mappings": {
+      "customers": {
+        "company_a": ["customers"],
+        "company_b": ["clients"],
+        "field_mapping": {
+          "email": ["email"],
+          "name": ["name", "full_name"],
+          "phone": ["phone"]
+        }
+      },
+      "orders": {
+        "company_a": ["orders"],
+        "company_b": ["transactions"],
+        "field_mapping": {
+          "order_id": ["order_id", "id"],
+          "customer_id": ["customer_id", "client_id"],
+          "amount": ["amount", "total"],
+          "date": ["date", "created_at"]
+        }
+      }
+    }
+  },
+  
+  "dry_run": true,
+  "validation_strict": true,
+  "generate_detailed_report": true
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

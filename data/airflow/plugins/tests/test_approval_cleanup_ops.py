@@ -1,11 +1,13 @@
 """
 Tests para approval_cleanup_ops.py
+Mejorado con parametrización, mejores mocks y casos edge adicionales.
 """
 from __future__ import annotations
 
 import pytest
-from unittest.mock import Mock, patch, MagicMock
+from unittest.mock import Mock, patch, MagicMock, call
 from airflow.providers.postgres.hooks.postgres import PostgresHook
+from airflow.exceptions import AirflowFailException
 
 from data.airflow.plugins.approval_cleanup_ops import (
     get_pg_hook,
@@ -47,89 +49,206 @@ class TestGetPgHook:
 class TestExecuteQueryWithTimeout:
     """Tests para execute_query_with_timeout"""
     
-    @patch('data.airflow.plugins.approval_cleanup_ops.time.perf_counter')
-    def test_execute_query_success(self, mock_perf_counter):
-        """Test ejecución exitosa de query"""
+    @pytest.fixture
+    def mock_db_setup(self):
+        """Fixture para setup de mocks de base de datos"""
         mock_hook = Mock()
         mock_conn = Mock()
         mock_cursor = Mock()
         
         mock_hook.get_conn.return_value = mock_conn
         mock_conn.cursor.return_value = mock_cursor
-        mock_cursor.description = [('col1',)]
-        mock_cursor.fetchall.return_value = [('result',)]
         
+        return {
+            'hook': mock_hook,
+            'conn': mock_conn,
+            'cursor': mock_cursor
+        }
+    
+    @patch('data.airflow.plugins.approval_cleanup_ops.time.perf_counter')
+    def test_execute_query_success(self, mock_perf_counter, mock_db_setup):
+        """Test ejecución exitosa de query"""
+        mock_db_setup['cursor'].description = [('col1',)]
+        mock_db_setup['cursor'].fetchall.return_value = [('result',)]
         mock_perf_counter.side_effect = [0, 0.1]  # start, end
         
         result = execute_query_with_timeout(
-            mock_hook,
+            mock_db_setup['hook'],
             "SELECT 1",
             timeout_seconds=30
         )
         
         assert result == [('result',)]
-        mock_cursor.execute.assert_called()
-        mock_conn.commit.assert_called()
+        assert mock_db_setup['cursor'].execute.call_count >= 2  # SET timeout + query
+        mock_db_setup['conn'].commit.assert_called_once()
+        mock_db_setup['cursor'].close.assert_called_once()
+        mock_db_setup['conn'].close.assert_called_once()
     
-    def test_execute_query_with_parameters(self):
-        """Test ejecución de query con parámetros"""
-        mock_hook = Mock()
-        mock_conn = Mock()
-        mock_cursor = Mock()
-        
-        mock_hook.get_conn.return_value = mock_conn
-        mock_conn.cursor.return_value = mock_cursor
-        mock_cursor.description = None
+    @pytest.mark.parametrize("sql,parameters,expected_calls", [
+        ("SELECT * FROM table WHERE id = %s", (1,), 2),
+        ("INSERT INTO table VALUES (%s, %s)", (1, 'test'), 2),
+        ("UPDATE table SET col = %s", ('value',), 2),
+        ("DELETE FROM table WHERE id = %s", (1,), 2),
+    ])
+    def test_execute_query_with_parameters(self, mock_db_setup, sql, parameters, expected_calls):
+        """Test ejecución de query con diferentes parámetros"""
+        mock_db_setup['cursor'].description = None
         
         execute_query_with_timeout(
-            mock_hook,
-            "SELECT * FROM table WHERE id = %s",
-            parameters=(1,),
+            mock_db_setup['hook'],
+            sql,
+            parameters=parameters,
             timeout_seconds=30
         )
         
-        # Verificar que se ejecutó con parámetros
-        assert mock_cursor.execute.call_count >= 2  # SET timeout + query
-        mock_conn.commit.assert_called()
+        assert mock_db_setup['cursor'].execute.call_count >= expected_calls
+        mock_db_setup['conn'].commit.assert_called_once()
+    
+    @patch('data.airflow.plugins.approval_cleanup_ops.time.perf_counter')
+    def test_execute_query_timeout_error(self, mock_perf_counter, mock_db_setup):
+        """Test cuando se excede el timeout"""
+        mock_perf_counter.side_effect = [0, 35]  # Simula que pasó el timeout
+        mock_db_setup['cursor'].execute.side_effect = Exception("statement_timeout exceeded")
+        
+        with pytest.raises(AirflowFailException, match="timeout"):
+            execute_query_with_timeout(
+                mock_db_setup['hook'],
+                "SELECT * FROM large_table",
+                timeout_seconds=30
+            )
+        
+        mock_db_setup['conn'].rollback.assert_called_once()
+    
+    def test_execute_query_no_results(self, mock_db_setup):
+        """Test query que no retorna resultados (INSERT/UPDATE/DELETE)"""
+        mock_db_setup['cursor'].description = None
+        
+        result = execute_query_with_timeout(
+            mock_db_setup['hook'],
+            "INSERT INTO table VALUES (1)",
+            timeout_seconds=30
+        )
+        
+        assert result is None
+        mock_db_setup['conn'].commit.assert_called_once()
+    
+    def test_execute_query_connection_error(self, mock_db_setup):
+        """Test manejo de error de conexión"""
+        mock_db_setup['hook'].get_conn.side_effect = Exception("Connection failed")
+        
+        with pytest.raises(Exception, match="Connection"):
+            execute_query_with_timeout(
+                mock_db_setup['hook'],
+                "SELECT 1",
+                timeout_seconds=30
+            )
 
 
 class TestProcessBatch:
     """Tests para process_batch"""
     
-    def test_process_batch_success(self):
-        """Test procesamiento exitoso de batch"""
-        items = [1, 2, 3, 4, 5]
-        batch_size = 2
-        
+    @pytest.mark.parametrize("items,batch_size,expected_batches", [
+        ([1, 2, 3, 4, 5], 2, 3),
+        ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3, 4),
+        ([1, 2, 3], 5, 1),
+        ([], 10, 0),
+        (list(range(1, 101)), 25, 4),
+    ])
+    def test_process_batch_success(self, items, batch_size, expected_batches):
+        """Test procesamiento exitoso de batch con diferentes tamaños"""
         def processor(batch):
             return {'processed': len(batch), 'items': batch}
         
         result = process_batch(items, batch_size, processor, "test_operation")
         
-        assert result['total_items'] == 5
-        assert result['processed'] == 5
+        assert result['total_items'] == len(items)
+        assert result['processed'] == len(items)
         assert result['failed'] == 0
-        assert result['batches'] == 3
+        assert result['batches'] == expected_batches
         assert result['success_rate'] == 100.0
     
-    def test_process_batch_with_failures(self):
-        """Test procesamiento de batch con fallos"""
+    @pytest.mark.parametrize("failure_batch,expected_failed", [
+        (1, 2),  # Falla en primer batch
+        (2, 3),  # Falla en segundo batch
+        (3, 5),  # Falla en último batch
+    ])
+    def test_process_batch_with_failures(self, failure_batch, expected_failed):
+        """Test procesamiento de batch con fallos en diferentes posiciones"""
         items = [1, 2, 3, 4, 5]
         batch_size = 2
         
         call_count = [0]
         def processor(batch):
             call_count[0] += 1
-            if call_count[0] == 2:  # Falla en el segundo batch
-                raise Exception("Batch failed")
+            if call_count[0] == failure_batch:
+                raise Exception(f"Batch {failure_batch} failed")
             return {'processed': len(batch), 'items': batch}
         
         result = process_batch(items, batch_size, processor, "test_operation")
         
         assert result['total_items'] == 5
-        assert result['processed'] == 2  # Solo el primer batch
-        assert result['failed'] == 3  # El segundo y tercer batch fallaron
+        assert result['failed'] == expected_failed
         assert result['success_rate'] < 100.0
+        assert result['processed'] == (5 - expected_failed)
+    
+    def test_process_batch_all_failures(self):
+        """Test cuando todos los batches fallan"""
+        items = [1, 2, 3, 4, 5]
+        
+        def processor(batch):
+            raise Exception("Always fails")
+        
+        result = process_batch(items, 2, processor, "test_operation")
+        
+        assert result['total_items'] == 5
+        assert result['processed'] == 0
+        assert result['failed'] == 5
+        assert result['success_rate'] == 0.0
+    
+    def test_process_batch_single_item(self):
+        """Test procesamiento con un solo item"""
+        items = [1]
+        
+        def processor(batch):
+            return {'processed': len(batch)}
+        
+        result = process_batch(items, 10, processor, "test_operation")
+        
+        assert result['total_items'] == 1
+        assert result['processed'] == 1
+        assert result['batches'] == 1
+        assert result['success_rate'] == 100.0
+    
+    def test_process_batch_empty_list(self):
+        """Test procesamiento con lista vacía"""
+        items = []
+        
+        def processor(batch):
+            return {'processed': len(batch)}
+        
+        result = process_batch(items, 10, processor, "test_operation")
+        
+        assert result['total_items'] == 0
+        assert result['processed'] == 0
+        assert result['batches'] == 0
+        assert result['success_rate'] == 100.0
+    
+    def test_process_batch_partial_success(self):
+        """Test cuando algunos items fallan pero otros tienen éxito"""
+        items = [1, 2, 3, 4, 5]
+        
+        def processor(batch):
+            # Falla si el batch contiene el número 3
+            if 3 in batch:
+                raise Exception("Item 3 failed")
+            return {'processed': len(batch)}
+        
+        result = process_batch(items, 2, processor, "test_operation")
+        
+        assert result['total_items'] == 5
+        assert result['failed'] > 0
+        assert result['processed'] < 5
+        assert 0 < result['success_rate'] < 100.0
 
 
 class TestCalculateOptimalBatchSize:
