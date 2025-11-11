@@ -1391,5 +1391,157 @@ def optimize_campaign_with_rewards(user_id, campaign_id):
 
 ---
 
+## 🔗 Integración con Stack de Marketing
+
+### Integración con Google Ads API
+
+**Webhook de Campaña Completada:**
+```json
+{
+  "event": "campaign_completed",
+  "user_id": "12345",
+  "campaign_id": "camp_001",
+  "google_ads_campaign_id": "123456789",
+  "metrics": {
+    "spend": 1000,
+    "impressions": 50000,
+    "clicks": 2500,
+    "conversions": 150,
+    "revenue": 1355
+  },
+  "roi": 35.5,
+  "objectives_achieved": ["obj_1", "obj_2"]
+}
+```
+
+**Cálculo de Puntos:**
+- Base por campaña: 50 puntos
+- ROI >30%: +25 puntos
+- ROI >50%: +50 puntos
+- Objetivos alcanzados: +200 puntos por objetivo
+- **Total ejemplo:** 50 + 25 + 400 = 475 puntos
+
+---
+
+### Integración con Facebook Marketing API
+
+**Evento: Campaña de Facebook**
+```json
+{
+  "event": "facebook_campaign_completed",
+  "user_id": "12345",
+  "campaign_id": "fb_camp_001",
+  "metrics": {
+    "spend": 800,
+    "reach": 40000,
+    "link_clicks": 2000,
+    "purchases": 120,
+    "revenue": 1100
+  },
+  "roi": 37.5
+}
+```
+
+---
+
+## 💻 Código de Integración Marketing
+
+### Clase: MarketingPointsEngine
+
+```python
+class MarketingPointsEngine:
+    def __init__(self, db, analytics_service):
+        self.db = db
+        self.analytics = analytics_service
+    
+    def calculate_campaign_points(self, campaign_data):
+        """Calcula puntos basados en resultados de campaña"""
+        base_points = 50
+        
+        # Bonus por ROI
+        roi = campaign_data['metrics']['roi']
+        if roi > 100:
+            roi_bonus = 100
+        elif roi > 50:
+            roi_bonus = 50
+        elif roi > 30:
+            roi_bonus = 25
+        else:
+            roi_bonus = 0
+        
+        # Bonus por objetivos
+        objectives_bonus = len(campaign_data['objectives_achieved']) * 200
+        
+        # Bonus por volumen
+        conversions = campaign_data['metrics'].get('conversions', 0)
+        if conversions > 200:
+            volume_bonus = 50
+        elif conversions > 100:
+            volume_bonus = 25
+        else:
+            volume_bonus = 0
+        
+        total = base_points + roi_bonus + objectives_bonus + volume_bonus
+        
+        return {
+            'base_points': base_points,
+            'roi_bonus': roi_bonus,
+            'objectives_bonus': objectives_bonus,
+            'volume_bonus': volume_bonus,
+            'total_points': total
+        }
+```
+
+---
+
+## 🛠️ Troubleshooting Marketing Específico
+
+### Problema: ROI No Validado
+
+**Síntomas:**
+- Puntos otorgados por ROI pero métricas no coinciden
+- Discrepancia entre ROI reportado y real
+
+**Solución:**
+```python
+def validate_roi(campaign_data):
+    """Valida ROI calculado vs reportado"""
+    metrics = campaign_data['metrics']
+    reported_roi = campaign_data['roi']
+    
+    # Calcular ROI real
+    if metrics['spend'] > 0:
+        calculated_roi = ((metrics['revenue'] - metrics['spend']) / metrics['spend']) * 100
+    else:
+        calculated_roi = 0
+    
+    # Tolerancia del 5%
+    if abs(reported_roi - calculated_roi) > 5:
+        raise ValueError(f"ROI mismatch: reported {reported_roi}%, calculated {calculated_roi}%")
+    
+    return calculated_roi
+```
+
+---
+
+## 📊 Métricas de Marketing Avanzadas
+
+### Dashboard de Impacto en ROI
+
+**Métricas Clave:**
+- ROI promedio antes del programa: [X]%
+- ROI promedio después del programa: [Y]%
+- Incremento atribuible al programa: [Z]%
+- Campañas optimizadas con recompensas: [X]%
+- Ahorro en costos de optimización: $[X]
+
+**Visualizaciones:**
+- Gráfico de tendencia de ROI (antes/después)
+- Heatmap de ROI por tipo de campaña
+- Correlación entre puntos y ROI
+- Impacto de upgrades premium en ROI
+
+---
+
 *Este catálogo está diseñado para ser flexible y adaptable. Las recompensas y puntos pueden ajustarse según el desempeño del programa y feedback de los usuarios.*
 

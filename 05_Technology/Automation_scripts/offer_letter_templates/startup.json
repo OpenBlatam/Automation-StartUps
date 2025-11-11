@@ -1,0 +1,23 @@
+{
+  "name": "startup",
+  "description": "Plantilla para startups con equity y beneficios flexibles",
+  "created": "1762813205.189995",
+  "data": {
+    "position_title": "Software Engineer",
+    "salary_amount": "120000",
+    "start_date": "2024-03-15",
+    "benefits": [
+      "Health insurance - 100% company-paid",
+      "Dental and vision coverage",
+      "401k matching",
+      "Unlimited PTO",
+      "Home office stipend",
+      "Learning and development budget"
+    ],
+    "location": "Remote",
+    "company_name": "[Company Name]",
+    "employment_type": "Full-time",
+    "pay_frequency": "Bi-weekly",
+    "format_style": "professional"
+  }
+}

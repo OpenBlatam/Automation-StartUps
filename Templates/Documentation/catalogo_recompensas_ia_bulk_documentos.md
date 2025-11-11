@@ -1433,5 +1433,206 @@ def optimize_processing_with_rewards(user_id, batch_id):
 
 ---
 
+## 🔗 Integración con Sistemas de Documentos
+
+### Integración con SharePoint
+
+**Webhook de Lote Procesado:**
+```json
+{
+  "event": "batch_processed",
+  "user_id": "12345",
+  "batch_id": "batch_001",
+  "source": "sharepoint",
+  "document_count": 150,
+  "document_types": ["contracts", "invoices"],
+  "quality_score": 98.5,
+  "processing_time_seconds": 45,
+  "metadata": {
+    "sharepoint_site": "https://company.sharepoint.com/sites/legal",
+    "library_name": "Contracts"
+  }
+}
+```
+
+**Cálculo de Puntos:**
+- Base por lote 50+ docs: 100 puntos
+- Volumen 100+ docs: +50 puntos
+- Calidad >98%: +100 puntos
+- **Total:** 250 puntos
+
+---
+
+### Integración con Google Drive
+
+**Evento: Procesamiento desde Drive**
+```json
+{
+  "event": "drive_batch_processed",
+  "user_id": "12345",
+  "batch_id": "batch_002",
+  "source": "google_drive",
+  "folder_id": "abc123",
+  "document_count": 200,
+  "quality_score": 97.8
+}
+```
+
+---
+
+## 💻 Código de Integración IA Bulk
+
+### Clase: BulkProcessingPointsEngine
+
+```python
+class BulkProcessingPointsEngine:
+    def __init__(self, db, quality_validator):
+        self.db = db
+        self.quality = quality_validator
+    
+    def calculate_batch_points(self, batch_data):
+        """Calcula puntos basados en procesamiento de lote"""
+        doc_count = batch_data['document_count']
+        quality = batch_data['quality_score']
+        
+        # Puntos base
+        if doc_count >= 100:
+            base_points = 150
+        elif doc_count >= 50:
+            base_points = 100
+        else:
+            base_points = 50
+        
+        # Bonus por volumen
+        if doc_count >= 500:
+            volume_bonus = 200
+        elif doc_count >= 200:
+            volume_bonus = 100
+        elif doc_count >= 100:
+            volume_bonus = 50
+        else:
+            volume_bonus = 0
+        
+        # Bonus por calidad
+        if quality >= 99:
+            quality_bonus = 200
+        elif quality >= 98:
+            quality_bonus = 100
+        elif quality >= 95:
+            quality_bonus = 50
+        else:
+            quality_bonus = 0
+        
+        # Bonus por velocidad
+        processing_time = batch_data.get('processing_time_seconds', 0)
+        if processing_time > 0:
+            docs_per_second = doc_count / processing_time
+            if docs_per_second > 5:
+                speed_bonus = 50
+            elif docs_per_second > 3:
+                speed_bonus = 25
+            else:
+                speed_bonus = 0
+        else:
+            speed_bonus = 0
+        
+        total = base_points + volume_bonus + quality_bonus + speed_bonus
+        
+        return {
+            'base_points': base_points,
+            'volume_bonus': volume_bonus,
+            'quality_bonus': quality_bonus,
+            'speed_bonus': speed_bonus,
+            'total_points': total
+        }
+    
+    def calculate_savings_points(self, savings_data):
+        """Calcula puntos basados en ahorros"""
+        amount_saved = savings_data['amount_saved']
+        time_saved_hours = savings_data['time_saved_hours']
+        
+        # 2 puntos por cada dólar ahorrado
+        money_points = int(amount_saved * 2)
+        
+        # 10 puntos por cada hora ahorrada
+        time_points = int(time_saved_hours * 10)
+        
+        # Bonus por ahorro significativo
+        if amount_saved >= 5000:
+            bonus = 750
+        elif amount_saved >= 1000:
+            bonus = 300
+        elif amount_saved >= 500:
+            bonus = 150
+        else:
+            bonus = 0
+        
+        total = money_points + time_points + bonus
+        
+        return {
+            'money_points': money_points,
+            'time_points': time_points,
+            'bonus': bonus,
+            'total_points': total
+        }
+```
+
+---
+
+## 🛠️ Troubleshooting IA Bulk Específico
+
+### Problema: Calidad No Validada
+
+**Síntomas:**
+- Puntos otorgados por calidad pero validación manual muestra errores
+- Discrepancia entre calidad reportada y real
+
+**Solución:**
+```python
+def validate_quality(batch_data, sample_documents):
+    """Valida calidad de procesamiento"""
+    reported_quality = batch_data['quality_score']
+    
+    # Validar muestra aleatoria
+    sample_size = min(10, len(sample_documents))
+    sample = random.sample(sample_documents, sample_size)
+    
+    errors = 0
+    for doc in sample:
+        if not validate_document_quality(doc):
+            errors += 1
+    
+    calculated_quality = ((sample_size - errors) / sample_size) * 100
+    
+    # Tolerancia del 2%
+    if abs(reported_quality - calculated_quality) > 2:
+        raise ValueError(f"Quality mismatch: reported {reported_quality}%, calculated {calculated_quality}%")
+    
+    return calculated_quality
+```
+
+---
+
+## 📊 Métricas de Eficiencia Avanzadas
+
+### Dashboard de Impacto en Procesamiento
+
+**Métricas Clave:**
+- Tiempo promedio antes: [X] horas por 100 docs
+- Tiempo promedio después: [Y] horas por 100 docs
+- Reducción de tiempo: [Z]%
+- Calidad promedio antes: [X]%
+- Calidad promedio después: [Y]%
+- Mejora de calidad: [Z] puntos porcentuales
+- Ahorro total acumulado: $[X]
+
+**Visualizaciones:**
+- Gráfico de tendencia de eficiencia
+- Heatmap de calidad por tipo de documento
+- Correlación entre templates personalizados y calidad
+- Impacto de automatizaciones en tiempo
+
+---
+
 *Este catálogo está diseñado para ser flexible y adaptable. Las recompensas y puntos pueden ajustarse según el desempeño del programa y feedback de los usuarios.*
 

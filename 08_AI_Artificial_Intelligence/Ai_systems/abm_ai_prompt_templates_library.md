@@ -4669,115 +4669,392 @@ INFORMACIÓN BÁSICA:
 - Empresa: {COMPANY}
 - Modelo: {BUSINESS_MODEL}
 - Objetivo: {GROWTH_OBJECTIVE} (revenue, customers, market share)
+- Mercado objetivo: {TARGET_MARKET}
+- Presupuesto: {BUDGET}
+- Timeline: {TIMELINE}
 
 GENERA ESTRATEGIA DE ACQUISITION Y GROWTH:
 
 1. **ANÁLISIS DE CANALES DE ADQUISICIÓN**
    - Canales actuales y performance:
-     * Paid advertising
-     * Organic (SEO, content)
-     * Referrals
-     * Partnerships
-     * Sales
-     * Events
-   - CAC por canal
-   - Conversion rate por canal
+     * Paid advertising (Google Ads, LinkedIn, Facebook, display)
+     * Organic (SEO, content marketing, blog)
+     * Referrals y word-of-mouth
+     * Partnerships y alliances
+     * Direct sales (inside, outside, SDR)
+     * Events (webinars, conferences, trade shows)
+     * Email marketing
+     * Social media
+     * Affiliate programs
+   - CAC por canal (histórico y proyectado)
+   - Conversion rate por canal y por etapa
    - LTV:CAC ratio por canal
-   - ROI por canal
+   - ROI y payback period por canal
+   - Volumen de leads por canal
+   - Quality score de leads por canal
+   - Channel attribution y multi-touch analysis
+   - Channel saturation y opportunities
 
 2. **GROWTH FUNNEL ANALYSIS**
-   - Funnel completo:
-     * Awareness
-     * Interest
-     * Consideration
-     * Intent
-     * Purchase
-   - Conversion rates por etapa
-   - Drop-off analysis
-   - Bottlenecks identificados
-   - Optimization opportunities
+   - Funnel completo y detallado:
+     * Awareness (impressions, reach, brand mentions)
+     * Interest (website visits, content engagement)
+     * Consideration (demo requests, content downloads)
+     * Intent (pricing page visits, trial signups)
+     * Purchase (conversions, closed deals)
+     * Post-purchase (onboarding, activation)
+   - Conversion rates por etapa (baseline y benchmarks)
+   - Drop-off analysis (donde se pierden más leads)
+   - Time-to-convert por etapa
+   - Bottlenecks identificados con data
+   - Optimization opportunities priorizadas
+   - Funnel health score
+   - Segment-specific funnel performance
+   - Seasonal patterns en el funnel
 
 3. **CUSTOMER ACQUISITION STRATEGIES**
-   - Inbound strategies:
-     * Content marketing
-     * SEO
-     * Social media
-     * Webinars
-   - Outbound strategies:
-     * Cold outreach
-     * Paid advertising
-     * Events
-     * Partnerships
-   - Product-led growth
-   - Community-led growth
-   - Viral growth mechanisms
+   - Inbound strategies detalladas:
+     * Content marketing (blog, ebooks, whitepapers, case studies)
+     * SEO (keyword strategy, technical SEO, content SEO)
+     * Social media (LinkedIn, Twitter, industry forums)
+     * Webinars y virtual events
+     * Podcasts y thought leadership
+     * Community building
+   - Outbound strategies detalladas:
+     * Cold outreach (email sequences, LinkedIn, phone)
+     * Paid advertising (PPC, retargeting, display)
+     * Events (trade shows, conferences, meetups)
+     * Partnerships (co-marketing, integrations)
+     * Direct mail y ABM campaigns
+   - Product-led growth (PLG):
+     * Free trials y freemium models
+     * Self-service onboarding
+     * In-product growth loops
+     * Feature discovery y adoption
+   - Community-led growth:
+     * User communities
+     * Forums y discussion groups
+     * User-generated content
+   - Viral growth mechanisms:
+     * Referral programs
+     * Share features
+     * Network effects
+     * Social proof loops
 
 4. **GROWTH HACKING Y EXPERIMENTS**
-   - Growth experiments:
-     * A/B tests
-     * Landing page optimization
-     * CTA optimization
-     * Pricing tests
-   - Viral loops
-   - Referral programs
-   - Incentive structures
-   - Quick wins identificados
+   - Growth experiments framework:
+     * Hypothesis formulation
+     * Test design (A/B, multivariate)
+     * Sample size y statistical significance
+     * Results analysis
+   - Specific experiments:
+     * Landing page optimization (headlines, CTAs, forms)
+     * CTA optimization (copy, placement, design)
+     * Pricing tests (tiers, discounts, packaging)
+     * Email subject line tests
+     * Ad creative tests
+     * Onboarding flow optimization
+   - Viral loops identificados y optimizados
+   - Referral programs (incentives, mechanics, tracking)
+   - Incentive structures (tiered rewards, gamification)
+   - Quick wins identificados (low effort, high impact)
+   - Experiment backlog y prioritization
+   - Learning velocity y iteration speed
 
 5. **SEGMENTATION Y TARGETING**
-   - Segmentación de mercado
-   - Target segments prioritarios
-   - ICP refinement
-   - Account-based approach
-   - Personalization strategies
+   - Segmentación de mercado (demographic, firmographic, behavioral, psychographic)
+   - Target segments prioritarios con scoring
+   - ICP refinement (ideal customer profile)
+   - Account-based approach (ABM):
+     * Target account list (TAL)
+     * Account scoring
+     * Multi-touch attribution
+   - Personalization strategies:
+     * Dynamic content
+     * Personalized messaging
+     * Account-specific campaigns
+   - Segment-specific acquisition strategies
+   - Channel preferences por segmento
 
 6. **CONTENT Y MESSAGING**
-   - Content strategy para acquisition
-   - Messaging por segmento
-   - Value propositions
-   - Proof points y social proof
-   - Content distribution
+   - Content strategy para acquisition:
+     * Content calendar
+     * Content types por funnel stage
+     * Content distribution channels
+     * Content performance metrics
+   - Messaging por segmento:
+     * Value propositions
+     * Pain points addressed
+     * Benefits vs features
+     * Competitive differentiation
+   - Proof points y social proof:
+     * Case studies
+     * Testimonials
+     * Customer logos
+     * Metrics y ROI stories
+   - Content distribution strategy:
+     * Owned channels
+     * Earned channels
+     * Paid channels
+     * Partner channels
+   - Content optimization (SEO, conversion, engagement)
 
 7. **PARTNERSHIPS Y ECOSYSTEM**
-   - Partnership opportunities
-   - Integration partnerships
-   - Co-marketing
-   - Referral partnerships
-   - Ecosystem growth
+   - Partnership opportunities:
+     * Integration partners
+     * Technology partners
+     * Channel partners
+     * Strategic alliances
+   - Integration partnerships (API, native integrations)
+   - Co-marketing opportunities:
+     * Joint webinars
+     * Co-branded content
+     * Event partnerships
+   - Referral partnerships:
+     * Partner referral programs
+     * Incentive structures
+     * Tracking y attribution
+   - Ecosystem growth:
+     * Developer ecosystem
+     * Marketplace strategy
+     * App store optimization
+   - Partner enablement y support
 
 8. **SALES ENABLEMENT**
-   - Sales process optimization
-   - Sales materials
-   - Training y enablement
-   - Tools y technology
-   - Performance management
+   - Sales process optimization:
+     * Sales methodology (MEDDIC, BANT, etc.)
+     * Sales stages y definitions
+     * Qualification criteria
+     * Handoff processes
+   - Sales materials:
+     * Pitch decks
+     * Battle cards
+     * ROI calculators
+     * Case studies
+     * Competitive comparisons
+   - Training y enablement:
+     * Product training
+     * Sales training
+     * Industry knowledge
+     * Objection handling
+   - Tools y technology:
+     * CRM optimization
+     * Sales automation
+     * Sales intelligence
+     * Communication tools
+   - Performance management:
+     * Sales metrics (activity, conversion, revenue)
+     * Coaching y feedback
+     * Best practices sharing
 
 9. **MEASUREMENT Y OPTIMIZATION**
-   - Growth metrics:
-     * CAC
+   - Growth metrics dashboard:
+     * CAC (Customer Acquisition Cost)
      * Payback period
-     * Growth rate
-     * Conversion rates
-   - Funnel metrics
-   - Channel performance
-   - ROI tracking
-   - Continuous optimization
+     * Growth rate (MoM, YoY)
+     * Conversion rates (por etapa)
+     * LTV:CAC ratio
+     * Magic number (efficiency metric)
+   - Funnel metrics (leads, MQLs, SQLs, opportunities, customers)
+   - Channel performance (volume, quality, cost, ROI)
+   - ROI tracking (por campaign, channel, segment)
+   - Attribution modeling (first-touch, last-touch, multi-touch)
+   - Continuous optimization process:
+     * Weekly reviews
+     * Monthly deep dives
+     * Quarterly planning
+   - Benchmarking vs industry standards
+   - Predictive analytics para forecasting
 
 10. **SCALING STRATEGIES**
-   - Scaling por canal
-   - Resource requirements
-   - Budget allocation
-   - Team scaling
-   - Technology scaling
+   - Scaling por canal:
+     * Channel capacity analysis
+     * Scaling constraints identificados
+     * Solutions para scaling
+   - Resource requirements:
+     * Team size y structure
+     * Budget requirements
+     * Technology needs
+   - Budget allocation:
+     * Channel mix optimization
+     * ROI-based allocation
+     * Test vs scale budget split
+   - Team scaling:
+     * Hiring plan
+     * Training y onboarding
+     * Performance management
+   - Technology scaling:
+     * Marketing automation
+     * Sales tools
+     * Analytics y reporting
+     * Infrastructure needs
 
-11. **ROADMAP DE GROWTH**
-   - Growth targets
-   - Channel priorities
-   - Experiments plan
-   - Timeline
-   - Resources
-   - Success metrics
+11. **COMPETITIVE ACQUISITION ANALYSIS**
+   - Competitive channels analysis
+   - Competitive messaging y positioning
+   - Competitive advantages en acquisition
+   - Market share analysis
+   - Differentiation strategies
 
-FORMATO: Estrategia de acquisition y growth de 2200 palabras con análisis de canales, funnel, strategies, experiments, segmentation, content, partnerships, sales enablement, métricas, scaling y roadmap"
+12. **CUSTOMER JOURNEY OPTIMIZATION**
+   - Journey mapping por segmento:
+     * Awareness stage (touchpoints, channels, content)
+     * Consideration stage (evaluation criteria, resources)
+     * Decision stage (decision makers, process, timeline)
+     * Onboarding stage (activation, time to value)
+     * Expansion stage (upsell/cross-sell opportunities)
+   - Touchpoint analysis:
+     * All touchpoints mapped
+     * Touchpoint effectiveness
+     * Touchpoint gaps identificados
+     * Optimization opportunities
+   - Experience optimization:
+     * Friction reduction strategies
+     * Speed to value improvements
+     * Personalization opportunities
+     * Automation opportunities
+   - Friction points identificados:
+     * High-friction touchpoints
+     * Drop-off points
+     * Complexity barriers
+     * Information gaps
+   - Delight moments creados:
+     * Surprise and delight opportunities
+     * Value-add interactions
+     * Personalized experiences
+     * Proactive support
+
+13. **RETENTION Y EXPANSION EN ACQUISITION**
+   - Retention strategies desde acquisition:
+     * Onboarding excellence
+     * Early engagement programs
+     * Value realization acceleration
+     * Success metrics tracking
+   - Expansion opportunities:
+     * Upsell triggers identificados
+     * Cross-sell opportunities
+     * Feature adoption paths
+     * Usage expansion strategies
+   - Customer health scoring:
+     * Health indicators
+     * Risk signals
+     * Engagement metrics
+     * Value realization tracking
+   - Churn prevention:
+     * Early warning signals
+     * Intervention strategies
+     * Win-back campaigns
+     * Retention offers
+
+14. **TECHNOLOGY STACK Y AUTOMATION**
+   - Marketing automation:
+     * Email automation workflows
+     * Lead nurturing sequences
+     * Behavioral triggers
+     * Scoring automation
+   - Sales automation:
+     * CRM optimization
+     * Sales sequence automation
+     * Proposal automation
+     * Contract automation
+   - Analytics y reporting:
+     * Real-time dashboards
+     * Attribution modeling tools
+     * Predictive analytics
+     * AI/ML applications
+   - Integration requirements:
+     * CRM integrations
+     * Marketing platform integrations
+     * Analytics integrations
+     * Data warehouse connections
+
+15. **BUDGET OPTIMIZATION Y ALLOCATION**
+   - Budget analysis:
+     * Current spend por canal
+     * ROI por dollar spent
+     * Efficiency metrics
+     * Waste identification
+   - Optimal budget allocation:
+     * Channel mix optimization
+     * Test vs scale allocation
+     * Seasonal adjustments
+     * Growth investment priorities
+   - Budget efficiency:
+     * CAC optimization
+     * Payback period reduction
+     * LTV:CAC improvement
+     * Channel efficiency gains
+   - Budget forecasting:
+     * Growth projections
+     * Channel capacity planning
+     * Resource requirements
+     * ROI projections
+
+16. **TEAM STRUCTURE Y CAPABILITIES**
+   - Team requirements:
+     * Marketing team structure
+     * Sales team structure
+     * SDR/BDR requirements
+     * Support team needs
+   - Skills y capabilities:
+     * Required skillsets
+     * Training needs
+     * Hiring priorities
+     * Performance standards
+   - Cross-functional collaboration:
+     * Marketing-sales alignment
+     * Product-marketing alignment
+     * Customer success integration
+     * Operations support
+   - Performance management:
+     * KPIs por role
+     * Goal setting
+     * Regular reviews
+     * Continuous improvement
+
+17. **ROADMAP DE GROWTH DETALLADO**
+   - Growth targets (30/60/90 días, quarterly, anual):
+     * Revenue targets (ARR/MRR, bookings)
+     * Customer targets (new customers, expansion)
+     * Market share targets
+     * Channel-specific targets
+   - Channel priorities (test, scale, optimize, sunset):
+     * Test channels (new opportunities)
+     * Scale channels (proven performers)
+     * Optimize channels (improve efficiency)
+     * Sunset channels (low ROI)
+   - Experiments plan (prioritized backlog):
+     * High-impact experiments
+     * Quick wins
+     * Long-term tests
+     * Resource requirements
+   - Timeline detallado con milestones:
+     * Phase 1: Foundation (0-30 días)
+     * Phase 2: Optimization (30-60 días)
+     * Phase 3: Scaling (60-90 días)
+     * Phase 4: Growth (90-180 días)
+   - Resource allocation (budget, people, time):
+     * Budget por fase y canal
+     * Team requirements por fase
+     * Technology investments
+     * Training y enablement
+   - Success metrics y KPIs:
+     * Leading indicators
+     * Lagging indicators
+     * Channel-specific metrics
+     * Overall growth metrics
+   - Risk mitigation strategies:
+     * Channel risks
+     * Market risks
+     * Competitive risks
+     * Operational risks
+   - Contingency plans:
+     * Plan B scenarios
+     * Budget reallocation
+     * Channel pivots
+     * Resource adjustments
+
+FORMATO: Estrategia de acquisition y growth de 2800 palabras con análisis completo de canales, funnel detallado, strategies comprehensivas, experiments framework, segmentation avanzada, content strategy, partnerships, sales enablement completo, métricas avanzadas, scaling strategies, competitive analysis, journey optimization, retention y expansion, technology stack, budget optimization, team structure y roadmap detallado por fases con milestones y contingencies"
 ```
 
 ### **Template 1.37: Análisis de Competitive Intelligence**
@@ -4875,20 +5152,143 @@ GENERA ESTRATEGIA DE COMPETITIVE INTELLIGENCE:
    - Innovation speed
 
 11. **SWOT COMPETITIVO**
-   - SWOT de cada competidor principal
-   - SWOT comparativo
-   - Opportunities identificadas
-   - Threats a mitigar
+   - SWOT de cada competidor principal:
+     * Strengths detallados
+     * Weaknesses identificados
+     * Opportunities en el mercado
+     * Threats competitivos
+   - SWOT comparativo:
+     * Matriz comparativa
+     * Posicionamiento relativo
+     * Ventajas competitivas relativas
+   - Opportunities identificadas:
+     * Market gaps
+     * Competitive weaknesses
+     * Innovation opportunities
+     * Market timing
+   - Threats a mitigar:
+     * Competitive threats
+     * Market threats
+     * Technology threats
+     * Strategic threats
 
-12. **ROADMAP DE COMPETITIVE INTELLIGENCE**
-   - Monitoring plan
-   - Analysis schedule
-   - Reporting structure
-   - Action planning
-   - Resources
-   - Success metrics
+12. **COMPETITIVE POSITIONING MATRIX**
+   - Positioning map:
+     * Price vs value
+     * Features vs simplicity
+     * Innovation vs stability
+     * Enterprise vs SMB
+   - Competitive positioning:
+     * Our position
+     * Competitor positions
+     * White space opportunities
+     * Repositioning strategies
+   - Differentiation factors:
+     * Unique value propositions
+     * Competitive moats
+     * Switching costs
+     * Brand positioning
 
-FORMATO: Estrategia de competitive intelligence de 2400 palabras con mapeo competitivo completo, análisis de producto, pricing, marketing, customer success, talento, financiero, monitoreo, advantages, response strategy, SWOT y roadmap"
+13. **COMPETITIVE INTELLIGENCE FRAMEWORK**
+   - Intelligence gathering:
+     * Primary research methods
+     * Secondary research sources
+     * Customer intelligence
+     * Partner intelligence
+     * Employee intelligence
+   - Analysis framework:
+     * Competitive scoring
+     * Threat assessment
+     * Opportunity identification
+     * Strategic implications
+   - Intelligence distribution:
+     * Stakeholder communication
+     * Regular updates
+     * Alert system
+     * Dashboard y reporting
+   - Intelligence tools:
+     * Monitoring platforms
+     * Research tools
+     * Analytics tools
+     * Collaboration tools
+
+14. **COMPETITIVE RESPONSE PLAYBOOK**
+   - Response scenarios:
+     * Price competition
+     * Feature competition
+     * Marketing competition
+     * Partnership competition
+   - Response strategies:
+     * Immediate responses
+     * Strategic responses
+     * Long-term responses
+     * No-response scenarios
+   - Response decision framework:
+     * When to respond
+     * How to respond
+     * Response intensity
+     * Resource allocation
+   - Competitive counter-strategies:
+     * Differentiation tactics
+     * Innovation acceleration
+     * Customer lock-in
+     * Market expansion
+
+15. **COMPETITIVE ADVANTAGE SUSTAINABILITY**
+   - Sustainable advantages:
+     * Technology moats
+     * Network effects
+     * Brand strength
+     * Customer relationships
+   - Advantage erosion:
+     * Competitive copying
+     * Technology shifts
+     * Market changes
+     * Customer preferences
+   - Advantage reinforcement:
+     * Continuous innovation
+     * Customer success
+     * Ecosystem building
+     * Strategic partnerships
+   - New advantage creation:
+     * Innovation opportunities
+     * Market timing
+     * Strategic moves
+     * Resource allocation
+
+16. **ROADMAP DE COMPETITIVE INTELLIGENCE DETALLADO**
+   - Intelligence priorities:
+     * High-priority competitors
+     * Key intelligence gaps
+     * Strategic questions
+     * Research priorities
+   - Monitoring schedule:
+     * Daily monitoring
+     * Weekly analysis
+     * Monthly deep dives
+     * Quarterly strategy reviews
+   - Intelligence initiatives:
+     * Research projects
+     * Analysis projects
+     * Tool implementation
+     * Team training
+   - Timeline y milestones:
+     * Phase 1: Foundation (0-30 días)
+     * Phase 2: Expansion (30-60 días)
+     * Phase 3: Optimization (60-90 días)
+     * Phase 4: Advanced (90-180 días)
+   - Resources y budget:
+     * Team requirements
+     * Tool investments
+     * Research budget
+     * Training budget
+   - Success metrics:
+     * Intelligence quality
+     * Response time
+     * Strategic impact
+     * Competitive wins
+
+FORMATO: Estrategia de competitive intelligence de 2800 palabras con mapeo competitivo completo, análisis de producto, pricing, marketing, customer success, talento, financiero, monitoreo, advantages, response strategy, SWOT, positioning matrix, intelligence framework, response playbook, advantage sustainability y roadmap detallado con monitoring schedule y success metrics"
 ```
 
 ### **Template 1.38: Análisis de Seasonality y Timing**
@@ -6045,18 +6445,147 @@ GENERA ANÁLISIS DE UNIT ECONOMICS:
    - Gap analysis
 
 10. **OPTIMIZATION STRATEGIES**
-   - CAC reduction
-   - LTV increase
-   - Margin improvement
-   - Payback optimization
+   - CAC reduction strategies:
+     * Channel optimization
+     * Conversion rate improvement
+     * Sales cycle reduction
+     * Automation y efficiency
+   - LTV increase strategies:
+     * Retention improvement
+     * Expansion revenue
+     * Upsell/cross-sell
+     * Price optimization
+   - Margin improvement:
+     * Cost reduction
+     * Price increases
+     * Product mix optimization
+     * Operational efficiency
+   - Payback optimization:
+     * Faster time to value
+     * Payment terms
+     * Pricing structure
+     * Customer onboarding
 
-11. **ROADMAP DE OPTIMIZATION**
-   - Iniciativas prioritarias
-   - Timeline
-   - Resources
-   - Success metrics
+11. **CASH FLOW Y WORKING CAPITAL**
+   - Cash flow analysis:
+     * Operating cash flow
+     * Investing cash flow
+     * Financing cash flow
+     * Free cash flow
+   - Working capital requirements:
+     * Accounts receivable
+     * Inventory (si aplica)
+     * Accounts payable
+     * Cash conversion cycle
+   - Cash flow forecasting:
+     * Revenue projections
+     * Expense projections
+     * Cash runway
+     * Funding needs
+   - Cash flow optimization:
+     * Collection acceleration
+     * Payment terms optimization
+     * Inventory management
+     * Expense timing
 
-FORMATO: Análisis de unit economics de 2200 palabras con fundamentals, CAC, LTV, gross margin, contribution margin, payback, financial model, scalability, benchmarking, optimization y roadmap"
+12. **SCENARIO PLANNING Y SENSITIVITY**
+   - Scenario analysis:
+     * Base case
+     * Best case
+     * Worst case
+     * Stress test scenarios
+   - Sensitivity analysis:
+     * Key variable impact
+     * Break-even scenarios
+     * Risk factors
+     * Opportunity factors
+   - Monte Carlo simulation:
+     * Probability distributions
+     * Risk assessment
+     * Confidence intervals
+     * Decision support
+   - What-if analysis:
+     * Pricing changes
+     * Volume changes
+     * Cost changes
+     * Market changes
+
+13. **FINANCIAL HEALTH METRICS**
+   - Profitability metrics:
+     * Gross margin %
+     * Operating margin %
+     * Net margin %
+     * EBITDA margin
+   - Efficiency metrics:
+     * CAC payback
+     * Magic number
+     * Burn multiple
+     * Efficiency score
+   - Growth metrics:
+     * Revenue growth rate
+     * Customer growth rate
+     * ARR/MRR growth
+     * Expansion rate
+   - Sustainability metrics:
+     * Unit economics health
+     * Path to profitability
+     * Cash runway
+     * Funding efficiency
+
+14. **INVESTOR METRICS Y REPORTING**
+   - Key investor metrics:
+     * ARR/MRR
+     * Net revenue retention
+     * Gross revenue retention
+     * Rule of 40
+   - Financial reporting:
+     * P&L structure
+     * Unit economics dashboard
+     * Cohort analysis
+     * Forecast accuracy
+   - Investor communication:
+     * Monthly updates
+     * Quarterly reviews
+     * Board presentations
+     * Metrics explanation
+
+15. **ROADMAP DE OPTIMIZATION DETALLADO**
+   - Iniciativas prioritarias (ranked):
+     * Quick wins (0-30 días):
+       - CAC optimization
+       - Conversion improvements
+     * Medium-term (30-90 días):
+       - LTV improvements
+       - Margin optimization
+     * Long-term (90-180 días):
+       - Business model optimization
+       - Scale efficiency
+   - Timeline detallado:
+     * Phase 1: Quick wins
+     * Phase 2: Optimization
+     * Phase 3: Scale
+   - Resources requeridos:
+     * Team requirements
+     * Technology investments
+     * Process changes
+     * Budget allocation
+   - Success metrics y KPIs:
+     * Unit economics targets
+     * Efficiency improvements
+     * Profitability milestones
+     * Growth targets
+   - Risk mitigation:
+     * Implementation risks
+     * Market risks
+     * Operational risks
+     * Financial risks
+   - ROI de optimizations:
+     * Expected impact
+     * Investment required
+     * Payback period
+     * Long-term value
+
+FORMATO: Análisis de unit economics de 2600 palabras con fundamentals, CAC, LTV, gross margin, contribution margin, payback, financial model, scalability, benchmarking, optimization, cash flow, scenario planning, financial health metrics, investor reporting y roadmap detallado con priorización, timeline, resources, success metrics y ROI analysis"
 ```
 
 ### **Template 1.48: Análisis de Market Sizing (TAM/SAM/SOM)**
@@ -6102,12 +6631,27 @@ GENERA ANÁLISIS DE MARKET SIZING:
    - Segmentos por geografía
    - Segmentos por necesidad
 
-5. **MARKET DYNAMICS**
-   - Market growth rate
-   - Market trends
-   - Market drivers
-   - Market barriers
-   - Market maturity
+5. **MARKET DYNAMICS Y TRENDS**
+   - Market growth rate:
+     * Historical growth
+     * Projected growth
+     * Growth drivers
+     * Growth inhibitors
+   - Market trends:
+     * Technology trends
+     * Customer behavior trends
+     * Regulatory trends
+     * Economic trends
+   - Market cycles:
+     * Current phase
+     * Historical patterns
+     * Future projections
+     * Cyclical factors
+   - Market disruptions:
+     * Emerging technologies
+     * New business models
+     * Regulatory changes
+     * Competitive shifts
 
 6. **COMPETITIVE MARKET SHARE**
    - Market share actual
@@ -6144,7 +6688,7 @@ FORMATO: Análisis de market sizing de 2000 palabras con TAM/SAM/SOM, segmentaci
 
 ### **Template 1.49: Análisis de Customer Onboarding y Activation**
 ```
-"Analiza customer onboarding, activation y time-to-value para {PRODUCT/SERVICE} de {COMPANY}:
+"Analiza customer onboarding, activation y time-to-value para {PRODUCT/SERVICE} de {COMPANY}:                                                                   
 
 INFORMACIÓN BÁSICA:
 - Industria: {INDUSTRY}
@@ -6152,173 +6696,1384 @@ INFORMACIÓN BÁSICA:
 - Empresa: {COMPANY}
 - Modelo: {BUSINESS_MODEL}
 - Objetivo: {ONBOARDING_OBJECTIVE} (optimization, automation, scaling)
+- Segmento objetivo: {TARGET_SEGMENT}
+- Timeline: {TIMELINE}
+- Métricas objetivo: {TARGET_METRICS}
 
 GENERA ESTRATEGIA DE ONBOARDING:
 
-1. **ONBOARDING ASSESSMENT**
-   - Onboarding process actual
-   - Time to first value
-   - Activation rate
-   - Completion rate
-   - Drop-off points
-   - Customer satisfaction
+1. **ONBOARDING ASSESSMENT COMPLETO**
+   - Onboarding process actual (end-to-end):
+     * Current state mapping
+     * Process documentation
+     * Stakeholder involvement
+     * Technology stack
+   - Time to first value (TTFV):
+     * Baseline TTFV
+     * Industry benchmarks
+     * Segment-specific TTFV
+     * TTFV trends
+   - Activation rate:
+     * Overall activation rate
+     * Activation rate por segmento
+     * Activation rate por channel
+     * Activation rate trends
+   - Completion rate:
+     * Overall completion rate
+     * Stage-specific completion
+     * Drop-off analysis
+     * Completion trends
+   - Drop-off points identificados:
+     * Where customers drop off
+     * Drop-off reasons
+     * Drop-off patterns
+     * Recovery opportunities
+   - Customer satisfaction:
+     * Onboarding NPS
+     * Satisfaction scores
+     * Feedback analysis
+     * Improvement areas
 
-2. **ONBOARDING JOURNEY MAPPING**
-   - Journey stages
-   - Touchpoints
-   - Customer emotions
-   - Pain points
-   - Moments of truth
-   - Optimization opportunities
+2. **ONBOARDING JOURNEY MAPPING DETALLADO**
+   - Journey stages completas:
+     * Pre-signup (awareness, consideration)
+     * Signup (account creation)
+     * Welcome (first login, orientation)
+     * Setup (configuration, integration)
+     * First value (Aha moment)
+     * Activation (key actions completed)
+     * Adoption (regular usage)
+   - Touchpoints por etapa:
+     * Email touchpoints
+     * In-app touchpoints
+     * Support touchpoints
+     * Sales touchpoints
+   - Customer emotions por etapa:
+     * Emotional journey mapping
+     * Highs y lows
+     * Anxiety points
+     * Delight moments
+   - Pain points identificados:
+     * Friction points
+     * Confusion areas
+     * Technical barriers
+     * Process inefficiencies
+   - Moments of truth:
+     * Critical decision points
+     * Value realization moments
+     * Commitment moments
+   - Optimization opportunities:
+     * Quick wins
+     * High-impact improvements
+     * Resource requirements
+     * Expected ROI
 
-3. **ACTIVATION METRICS**
-   - Activation definition
-   - Activation rate
-   - Time to activation
-   - Activation por segmento
-   - Activation trends
+3. **ACTIVATION METRICS AVANZADAS**
+   - Activation definition:
+     * Key actions required
+     * Success criteria
+     * Activation thresholds
+   - Activation rate:
+     * Overall rate
+     * Segment-specific rates
+     * Channel-specific rates
+     * Trend analysis
+   - Time to activation:
+     * Average time
+     * Median time
+     * Time distribution
+     * Segment differences
+   - Activation por segmento:
+     * Enterprise vs SMB
+     * Industry verticals
+     * Use cases
+     * Geographic regions
+   - Activation trends:
+     * Historical trends
+     * Cohort analysis
+     * Seasonal patterns
+     * Predictive indicators
 
-4. **ONBOARDING MODELS**
-   - Self-service onboarding
-   - Guided onboarding
-   - High-touch onboarding
-   - Hybrid models
-   - Model selection
+4. **ONBOARDING MODELS COMPREHENSIVOS**
+   - Self-service onboarding:
+     * Model description
+     * Use cases
+     * Technology requirements
+     * Success metrics
+   - Guided onboarding:
+     * Model description
+     * Use cases
+     * Resource requirements
+     * Success metrics
+   - High-touch onboarding:
+     * Model description
+     * Use cases
+     * Resource requirements
+     * Success metrics
+   - Hybrid models:
+     * Model combinations
+     * Segment-specific models
+     * Use case-specific models
+   - Model selection criteria:
+     * Customer segment
+     * Product complexity
+     * Customer value
+     * Resource availability
+   - Model optimization:
+     * Performance comparison
+     * Cost analysis
+     * Improvement opportunities
 
 5. **ONBOARDING CONTENT Y RESOURCES**
-   - Welcome materials
-   - Tutorials y guides
-   - Video content
-   - Interactive tours
-   - Knowledge base
-   - Support resources
+   - Welcome materials:
+     * Welcome email series
+     * Welcome video
+     * Getting started guide
+     * Resource library
+   - Tutorials y guides:
+     * Step-by-step tutorials
+     * Interactive guides
+     * Best practices guides
+     * Troubleshooting guides
+   - Video content:
+     * Product overview videos
+     * Feature walkthroughs
+     * Use case videos
+     * Customer success stories
+   - Interactive tours:
+     * Product tours
+     * Feature highlights
+     * Workflow demonstrations
+   - Knowledge base:
+     * FAQ section
+     * How-to articles
+     * Video library
+     * Search functionality
+   - Support resources:
+     * Help center
+     * Live chat
+     * Community forum
+     * Support tickets
 
 6. **AUTOMATION Y TECHNOLOGY**
-   - Onboarding automation
-   - Email sequences
-   - In-app guidance
-   - Progress tracking
-   - Technology stack
+   - Onboarding automation:
+     * Workflow automation
+     * Trigger-based actions
+     * Conditional logic
+     * Multi-channel automation
+   - Email sequences:
+     * Welcome series
+     * Educational series
+     * Activation series
+     * Re-engagement series
+   - In-app guidance:
+     * Tooltips
+     * Interactive tours
+     * Contextual help
+     * Progress indicators
+   - Progress tracking:
+     * Milestone tracking
+     * Completion tracking
+     * Analytics dashboard
+     * Reporting
+   - Technology stack:
+     * Onboarding platform
+     * Email marketing tool
+     * Analytics tools
+     * CRM integration
 
-7. **PERSONALIZATION**
-   - Personalization por segmento
-   - Personalization por use case
-   - Dynamic content
-   - Adaptive onboarding
+7. **PERSONALIZATION AVANZADA**
+   - Personalization por segmento:
+     * Enterprise personalization
+     * SMB personalization
+     * Industry-specific personalization
+   - Personalization por use case:
+     * Use case identification
+     * Use case-specific onboarding
+     * Use case-specific content
+   - Dynamic content:
+     * Role-based content
+     * Industry-based content
+     * Behavior-based content
+   - Adaptive onboarding:
+     * Learning-based adaptation
+     * Performance-based adaptation
+     * Preference-based adaptation
 
 8. **SUCCESS CRITERIA Y MILESTONES**
-   - Success milestones
-   - Progress indicators
-   - Achievement recognition
-   - Gamification
+   - Success milestones:
+     * Milestone definitions
+     * Milestone progression
+     * Milestone recognition
+   - Progress indicators:
+     * Visual progress bars
+     * Completion percentages
+     * Remaining steps
+   - Achievement recognition:
+     * Badges y rewards
+     * Celebration moments
+     * Success messaging
+   - Gamification:
+     * Points system
+     * Achievement levels
+     * Leaderboards
+     * Rewards program
 
-9. **ONBOARDING OPTIMIZATION**
-   - A/B testing
-   - Process improvements
-   - Content optimization
-   - Continuous improvement
+9. **ONBOARDING OPTIMIZATION CONTINUA**
+   - A/B testing framework:
+     * Test hypotheses
+     * Test design
+     * Results analysis
+     * Implementation
+   - Process improvements:
+     * Workflow optimization
+     * Step reduction
+     * Friction elimination
+   - Content optimization:
+     * Content performance analysis
+     * Content updates
+     * Content personalization
+   - Continuous improvement:
+     * Feedback loops
+     * Iteration cycles
+     * Learning incorporation
+     * Best practices sharing
 
-10. **MEASUREMENT Y ANALYTICS**
-   - Onboarding metrics
-   - Funnel analysis
-   - Cohort analysis
-   - ROI measurement
+10. **MEASUREMENT Y ANALYTICS AVANZADOS**
+   - Onboarding metrics dashboard:
+     * Completion rates
+     * Time to value
+     * Activation rates
+     * Satisfaction scores
+   - Funnel analysis:
+     * Stage conversion rates
+     * Drop-off analysis
+     * Bottleneck identification
+   - Cohort analysis:
+     * Cohort performance
+     * Cohort trends
+     * Cohort comparisons
+   - ROI measurement:
+     * Onboarding cost
+     * Customer value correlation
+     * Retention impact
+     * Expansion impact
 
-11. **ROADMAP DE ONBOARDING**
-   - Optimization initiatives
-   - Timeline
-   - Resources
-   - Success metrics
+11. **CUSTOMER SUCCESS INTEGRATION**
+   - CS team involvement
+   - Handoff process
+   - Health score integration
+   - Proactive intervention
 
-FORMATO: Estrategia de onboarding de 2200 palabras con assessment, journey mapping, activation metrics, models, content, automation, personalization, success criteria, optimization, measurement y roadmap"
+12. **COMPETITIVE ONBOARDING ANALYSIS**
+   - Competitive onboarding comparison
+   - Best practices benchmarking
+   - Differentiation opportunities
+
+13. **ROADMAP DE ONBOARDING DETALLADO**
+   - Optimization initiatives priorizadas:
+     * Quick wins (30 días)
+     * Medium-term (90 días)
+     * Long-term (6-12 meses)
+   - Timeline detallado con milestones
+   - Resource allocation (people, budget, tools)
+   - Success metrics y KPIs:
+     * Completion rate targets
+     * Time to value targets
+     * Activation rate targets
+     * Satisfaction targets
+   - Risk mitigation strategies
+   - Contingency plans
+
+FORMATO: Estrategia de onboarding de 2400 palabras con assessment completo, journey mapping detallado, activation metrics avanzadas, models comprehensivos, content y resources, automation y technology, personalization avanzada, success criteria, optimization continua, measurement avanzado, CS integration, competitive analysis y roadmap detallado por fases"                                    
 ```
 
 ### **Template 1.50: Análisis de Product Adoption y Feature Usage**
 ```
-"Analiza product adoption, feature usage y engagement para {PRODUCT/SERVICE} de {COMPANY}:
+"Analiza product adoption, feature usage y engagement para {PRODUCT/SERVICE} de {COMPANY}:                                                                      
 
 INFORMACIÓN BÁSICA:
 - Industria: {INDUSTRY}
 - Producto/Servicio: {PRODUCT/SERVICE}
 - Empresa: {COMPANY}
 - Objetivo: {ADOPTION_OBJECTIVE} (increase, optimize, expand)
+- Segmento objetivo: {TARGET_SEGMENT}
+- Timeline: {TIMELINE}
+- Métricas objetivo: {TARGET_METRICS}
 
 GENERA ESTRATEGIA DE ADOPTION:
 
-1. **ADOPTION ASSESSMENT**
-   - Adoption rate actual
-   - Adoption por feature
-   - Adoption por segmento
-   - Adoption trends
-   - Adoption gaps
+1. **ADOPTION ASSESSMENT COMPLETO**
+   - Adoption rate actual (overall y por feature):
+     * Baseline metrics
+     * Industry benchmarks
+     * Historical trends
+     * Growth trajectory
+   - Adoption por feature (usage depth y breadth):
+     * Core features adoption
+     * Advanced features adoption
+     * New features adoption
+     * Feature combinations usage
+   - Adoption por segmento:
+     * Enterprise vs SMB
+     * Industry verticals
+     * Geographic regions
+     * User personas
+   - Adoption trends (temporal analysis):
+     * Daily/weekly/monthly patterns
+     * Seasonal variations
+     * Cohort analysis
+     * Retention patterns
+   - Adoption gaps identificados:
+     * Features subutilizados
+     * Segments con bajo adoption
+     * Use cases no explorados
+     * Value gaps
 
-2. **FEATURE USAGE ANALYSIS**
-   - Feature usage rates
-   - Core features usage
-   - Advanced features usage
-   - Feature discovery
-   - Feature abandonment
+2. **FEATURE USAGE ANALYSIS DETALLADO**
+   - Feature usage rates (quantitative):
+     * DAU/MAU por feature
+     * Feature penetration rate
+     * Feature frequency of use
+     * Feature session duration
+   - Core features usage:
+     * Must-have features adoption
+     * Primary use case features
+     * Feature dependency analysis
+   - Advanced features usage:
+     * Power user features
+     * Enterprise features
+     * Integration features
+   - Feature discovery analysis:
+     * Time to discover features
+     * Discovery channels
+     * Feature awareness gaps
+     * Discovery friction points
+   - Feature abandonment:
+     * Churn rate por feature
+     * Abandonment reasons
+     * Re-engagement opportunities
+   - Feature value correlation:
+     * Features que correlacionan con retention
+     * Features que correlacionan con expansion
+     * Features que correlacionan con satisfaction
 
-3. **ADOPTION FUNNEL**
-   - Adoption stages
-   - Conversion rates
-   - Drop-off analysis
-   - Bottlenecks
-   - Optimization opportunities
+3. **ADOPTION FUNNEL COMPLETO**
+   - Adoption stages detalladas:
+     * Signup/Onboarding
+     * First value (Aha moment)
+     * Core feature adoption
+     * Advanced feature adoption
+     * Power user status
+     * Advocate status
+   - Conversion rates por etapa:
+     * Baseline conversion rates
+     * Industry benchmarks
+     * Segment-specific rates
+     * Trend analysis
+   - Drop-off analysis:
+     * Where users drop off
+     * Drop-off reasons
+     * Drop-off patterns
+     * Recovery opportunities
+   - Bottlenecks identificados:
+     * Friction points
+     * Complexity barriers
+     * Time to value issues
+     * Support gaps
+   - Optimization opportunities priorizadas:
+     * Quick wins
+     * High-impact improvements
+     * Resource requirements
+     * Expected ROI
 
-4. **USER SEGMENTATION**
-   - Power users
-   - Regular users
-   - Casual users
-   - Inactive users
-   - Segment strategies
+4. **USER SEGMENTATION AVANZADA**
+   - Power users:
+     * Characteristics
+     * Usage patterns
+     * Value drivers
+     * Expansion opportunities
+   - Regular users:
+     * Usage frequency
+     * Feature usage breadth
+     * Engagement patterns
+     * Upsell opportunities
+   - Casual users:
+     * Usage patterns
+     * Barriers to deeper adoption
+     * Activation strategies
+   - Inactive users:
+     * Inactivity reasons
+     * Re-engagement strategies
+     * Win-back campaigns
+   - Segment strategies personalizadas:
+     * Power user: expansion y advocacy
+     * Regular user: feature expansion
+     * Casual user: activation
+     * Inactive: re-engagement
 
-5. **ADOPTION DRIVERS**
-   - Factors que aumentan adoption
-   - Value realization
-   - Ease of use
-   - Training y education
-   - Support quality
+5. **ADOPTION DRIVERS IDENTIFICADOS**
+   - Factors que aumentan adoption:
+     * Value realization speed
+     * Ease of use
+     * Training quality
+     * Support responsiveness
+     * Peer influence
+     * Success stories
+   - Value realization:
+     * Time to first value
+     * Value milestones
+     * ROI demonstration
+     * Success metrics
+   - Ease of use:
+     * UX quality
+     * Onboarding simplicity
+     * Feature discoverability
+     * Help resources
+   - Training y education:
+     * Training program effectiveness
+     * Knowledge base usage
+     * Video tutorials impact
+     * Certification programs
+   - Support quality:
+     * Response time
+     * Resolution rate
+     * Support channel preferences
+     * Proactive support impact
 
-6. **ADOPTION BARRIERS**
-   - Barriers identificados
-   - Complexity
-   - Lack of awareness
-   - Training gaps
-   - Value perception
+6. **ADOPTION BARRIERS Y SOLUCIONES**
+   - Barriers identificados y priorizados:
+     * Complexity barriers
+     * Awareness gaps
+     * Training deficiencies
+     * Value perception issues
+     * Technical barriers
+     * Organizational barriers
+   - Complexity analysis:
+     * Feature complexity scores
+     * Learning curve analysis
+     * Simplification opportunities
+   - Lack of awareness:
+     * Feature discovery gaps
+     * Communication gaps
+     * Education needs
+   - Training gaps:
+     * Training content gaps
+     * Delivery method issues
+     * Accessibility problems
+   - Value perception:
+     * Value communication gaps
+     * ROI demonstration needs
+     * Use case clarity
+   - Solutions por barrier:
+     * Specific interventions
+     * Resource requirements
+     * Expected impact
 
-7. **ADOPTION STRATEGIES**
-   - In-app guidance
-   - Feature announcements
-   - Training programs
-   - Incentives
-   - Gamification
+7. **ADOPTION STRATEGIES COMPREHENSIVAS**
+   - In-app guidance:
+     * Tooltips y hints
+     * Interactive tours
+     * Contextual help
+     * Progressive disclosure
+   - Feature announcements:
+     * In-app notifications
+     * Email campaigns
+     * Release notes
+     * Video demos
+   - Training programs:
+     * Onboarding programs
+     * Feature-specific training
+     * Advanced training
+     * Certification programs
+   - Incentives y gamification:
+     * Achievement badges
+     * Progress tracking
+     * Rewards programs
+     * Leaderboards
+   - Proactive outreach:
+     * Usage-based triggers
+     * Feature recommendations
+     * Best practice sharing
+     * Success story sharing
 
-8. **PERSONALIZATION**
-   - Personalized recommendations
-   - Contextual prompts
-   - Adaptive UI
-   - Usage-based suggestions
+8. **PERSONALIZATION Y RECOMMENDATIONS**
+   - Personalized recommendations:
+     * Feature recommendations por usage
+     * Use case recommendations
+     * Workflow suggestions
+   - Contextual prompts:
+     * Right-time prompts
+     * Right-place prompts
+     * Right-context prompts
+   - Adaptive UI:
+     * Role-based interfaces
+     * Usage-based customization
+     * Preference learning
+   - Usage-based suggestions:
+     * Similar user patterns
+     * Industry best practices
+     * Power user workflows
+
+9. **MEASUREMENT Y ANALYTICS AVANZADOS**
+   - Adoption metrics dashboard:
+     * Overall adoption rate
+     * Feature adoption rates
+     * Time to adoption
+     * Adoption depth
+     * Adoption breadth
+   - Usage analytics:
+     * Feature usage frequency
+     * Session analytics
+     * User journey analytics
+     * Feature interaction patterns
+   - Engagement metrics:
+     * DAU/MAU
+     * Session frequency
+     * Session duration
+     * Feature engagement score
+   - ROI measurement:
+     * Adoption impact on retention
+     * Adoption impact on expansion
+     * Adoption impact on satisfaction
+     * Business value correlation
+
+10. **OPTIMIZATION CONTINUA**
+   - Process improvements:
+     * Onboarding optimization
+     * Feature discovery improvement
+     * Training enhancement
+   - Feature improvements:
+     * UX enhancements
+     * Feature simplification
+     * Feature integration
+   - UX improvements:
+     * Interface optimization
+     * Workflow streamlining
+     * Help system enhancement
+   - Continuous optimization:
+     * A/B testing framework
+     * Experimentation process
+     * Learning loops
+     * Iteration cycles
+
+11. **COMPETITIVE ADOPTION ANALYSIS**
+   - Competitive feature adoption
+   - Competitive onboarding comparison
+   - Competitive training comparison
+   - Best practices benchmarking
+
+12. **CUSTOMER SUCCESS INTEGRATION**
+   - CS team enablement
+   - Adoption playbooks
+   - Health score integration
+   - Proactive intervention triggers
+
+13. **ROADMAP DE ADOPTION DETALLADO**
+   - Improvement initiatives priorizadas:
+     * Quick wins (30 días)
+     * Medium-term (90 días)
+     * Long-term (6-12 meses)
+   - Timeline detallado con milestones
+   - Resource allocation (people, budget, tools)
+   - Success metrics y KPIs:
+     * Adoption rate targets
+     * Feature usage targets
+     * Engagement targets
+     * Business impact targets
+   - Risk mitigation strategies
+   - Contingency plans
+
+FORMATO: Estrategia de product adoption de 2400 palabras con assessment completo, feature usage detallado, adoption funnel completo, segmentation avanzada, drivers y barriers análisis, strategies comprehensivas, personalization, measurement avanzado, optimization continua, competitive analysis, CS integration y roadmap detallado por fases"                                     
+```
+
+### **Template 1.51: Análisis de Customer Segmentation Avanzado**
+```
+"Analiza customer segmentation avanzada, micro-segmentación y estrategias de targeting para {PRODUCT/SERVICE} de {COMPANY} en {INDUSTRY}:
+
+INFORMACIÓN BÁSICA:
+- Industria: {INDUSTRY}
+- Producto/Servicio: {PRODUCT/SERVICE}
+- Empresa: {COMPANY}
+- Objetivo: {SEGMENTATION_OBJECTIVE} (optimization, expansion, focus, personalization)
+- Datos disponibles: {AVAILABLE_DATA}
+- Segmentos actuales: {CURRENT_SEGMENTS}
+
+GENERA ESTRATEGIA DE SEGMENTACIÓN AVANZADA:
+
+1. **SEGMENTACIÓN MULTI-DIMENSIONAL**
+   - Segmentación demográfica:
+     * Tamaño de empresa (SMB, Mid-market, Enterprise)
+     * Industria y vertical
+     * Ubicación geográfica
+     * Años en operación
+   - Segmentación firmográfica:
+     * Revenue range
+     * Employee count
+     * Technology stack
+     * Growth stage
+   - Segmentación behavioral:
+     * Usage patterns
+     * Engagement levels
+     * Purchase behavior
+     * Feature adoption
+   - Segmentación psicográfica:
+     * Innovation adoption
+     * Risk tolerance
+     * Decision-making style
+     * Company culture
+   - Segmentación por valor:
+     * LTV por segmento
+     * Revenue contribution
+     * Profitability
+     * Growth potential
+
+2. **MICRO-SEGMENTACIÓN Y PERSONAS**
+   - Micro-segmentos identificados:
+     * High-value segments
+     * Growth segments
+     * At-risk segments
+     * Expansion opportunities
+   - Buyer personas detalladas por segmento:
+     * Demographics
+     * Psychographics
+     * Pain points
+     * Goals y objectives
+     * Decision criteria
+     * Buying process
+   - Persona journey mapping:
+     * Awareness stage
+     * Consideration stage
+     * Decision stage
+     * Onboarding stage
+     * Adoption stage
+     * Expansion stage
+
+3. **SEGMENT VALIDATION Y ANALYSIS**
+   - Segment size y viability:
+     * Market size por segmento
+     * Addressable market
+     * Growth potential
+     * Competitive intensity
+   - Segment profitability:
+     * CAC por segmento
+     * LTV por segmento
+     * LTV:CAC ratio
+     * Payback period
+     * Gross margin
+   - Segment fit analysis:
+     * Product-market fit por segmento
+     * Value proposition fit
+     * Channel fit
+     * Sales process fit
+   - Segment trends:
+     * Growth trends
+     * Decline trends
+     * Emerging segments
+     * Consolidation opportunities
+
+4. **SEGMENT PRIORITIZATION**
+   - Prioritization framework:
+     * Market size
+     * Growth rate
+     * Profitability
+     * Fit score
+     * Competitive advantage
+     * Resource requirements
+   - Segment scoring matrix:
+     * High priority segments
+     * Medium priority segments
+     * Low priority segments
+     * Watch segments
+   - Investment allocation:
+     * Budget por segmento
+     * Team allocation
+     * Resource prioritization
+   - Go-to-market por segmento:
+     * Entry strategy
+     * Messaging strategy
+     * Channel strategy
+     * Pricing strategy
+
+5. **SEGMENT-SPECIFIC STRATEGIES**
+   - Messaging por segmento:
+     * Value propositions
+     * Pain point messaging
+     * Benefit communication
+     * Proof points
+   - Channel strategy por segmento:
+     * Preferred channels
+     * Channel mix
+     * Channel effectiveness
+     * Channel optimization
+   - Product strategy por segmento:
+     * Feature priorities
+     * Product roadmap
+     * Customization needs
+     * Integration requirements
+   - Pricing strategy por segmento:
+     * Price sensitivity
+     * Pricing models
+     * Discount strategies
+     * Packaging options
+
+6. **PERSONALIZATION Y TARGETING**
+   - Personalization opportunities:
+     * Content personalization
+     * Product personalization
+     * Experience personalization
+     * Communication personalization
+   - Targeting precision:
+     * Account-based targeting
+     * Persona-based targeting
+     * Behavioral targeting
+     * Predictive targeting
+   - Dynamic segmentation:
+     * Real-time segmentation
+     * Behavioral triggers
+     * Lifecycle stages
+     * Engagement levels
+   - AI/ML applications:
+     * Predictive segmentation
+     * Clustering algorithms
+     * Recommendation engines
+     * Churn prediction
+
+7. **SEGMENT EXPANSION STRATEGIES**
+   - Adjacent segments:
+     * Similar segments
+     * Expansion opportunities
+     * Entry barriers
+     * Go-to-market approach
+   - New segment identification:
+     * Emerging segments
+     * Underserved segments
+     * Blue ocean opportunities
+     * Market gaps
+   - Segment evolution:
+     * Segment lifecycle
+     * Maturation patterns
+     * Decline indicators
+     * Pivot strategies
+
+8. **SEGMENTATION TECHNOLOGY Y TOOLS**
+   - Data collection:
+     * Data sources
+     * Data quality
+     * Data integration
+     * Data governance
+   - Analytics tools:
+     * Segmentation platforms
+     * Analytics dashboards
+     * Reporting tools
+     * Visualization tools
+   - Automation:
+     * Automated segmentation
+     * Dynamic updates
+     * Trigger-based actions
+     * Workflow automation
+
+9. **MEASUREMENT Y OPTIMIZATION**
+   - Segment performance metrics:
+     * Revenue por segmento
+     * Growth rate por segmento
+     * Profitability por segmento
+     * Market share por segmento
+   - Segmentation effectiveness:
+     * Targeting accuracy
+     * Conversion rates
+     * Engagement rates
+     * Retention rates
+   - Continuous optimization:
+     * Segment refinement
+     * Re-segmentation triggers
+     * Performance monitoring
+     * Strategy adjustments
+
+10. **ROADMAP DE SEGMENTACIÓN DETALLADO**
+    - Segmentation initiatives priorizadas:
+      * Quick wins (0-30 días):
+        - Segment identification
+        - Basic analysis
+      * Medium-term (30-90 días):
+        - Deep analysis
+        - Strategy development
+      * Long-term (90-180 días):
+        - Implementation
+        - Optimization
+    - Timeline detallado con milestones
+    - Resource allocation:
+      * Team requirements
+      * Technology investments
+      * Data requirements
+      * Budget allocation
+    - Success metrics y KPIs:
+      * Segment performance
+      * Targeting accuracy
+      * Revenue impact
+      * Efficiency gains
+    - Risk mitigation strategies
+    - Contingency plans
+
+FORMATO: Estrategia de segmentación avanzada de 2600 palabras con multi-dimensional segmentation, micro-segmentación, personas detalladas, validation, prioritization, segment-specific strategies, personalization, expansion strategies, technology stack, measurement y roadmap detallado por fases"
+```
+
+### **Template 1.52: Análisis de Market Entry y Go-to-Market Strategy**
+```
+"Analiza market entry strategy, go-to-market planning y estrategia de lanzamiento para {PRODUCT/SERVICE} de {COMPANY} en {INDUSTRY}:
+
+INFORMACIÓN BÁSICA:
+- Industria: {INDUSTRY}
+- Producto/Servicio: {PRODUCT/SERVICE}
+- Empresa: {COMPANY}
+- Mercado objetivo: {TARGET_MARKET}
+- Objetivo: {GTM_OBJECTIVE} (lanzamiento, expansión, pivot, re-lanzamiento)
+- Stage: {STAGE} (idea, MVP, beta, lanzamiento, crecimiento)
+- Timeline: {TIMELINE}
+
+GENERA ESTRATEGIA DE MARKET ENTRY:
+
+1. **MARKET ENTRY ASSESSMENT**
+   - Market readiness:
+     * Market size y growth
+     * Market maturity
+     * Competitive landscape
+     * Regulatory environment
+   - Product readiness:
+     * Product-market fit validation
+     * Feature completeness
+     * Quality standards
+     * Scalability readiness
+   - Company readiness:
+     * Team readiness
+     * Financial resources
+     * Operational capacity
+     * Brand positioning
+   - Timing analysis:
+     * Market timing
+     * Competitive timing
+     * Seasonal factors
+     * Technology readiness
+
+2. **MARKET ENTRY MODELS**
+   - Entry strategies:
+     * Direct entry
+     * Partnership entry
+     * Acquisition entry
+     * Joint venture
+   - Go-to-market models:
+     * Product-led growth (PLG)
+     * Sales-led growth (SLG)
+     * Marketing-led growth (MLG)
+     * Channel-led growth (CLG)
+     * Community-led growth
+   - Model selection:
+     * Fit analysis
+     * Resource requirements
+     * Time to market
+     * Risk assessment
+   - Hybrid approaches:
+     * Multi-model strategy
+     * Model evolution
+     * Segment-specific models
+
+3. **TARGET MARKET DEFINITION**
+   - Primary target market:
+     * ICP definition
+     * Market size
+     * Growth potential
+     * Competitive intensity
+   - Secondary markets:
+     * Adjacent markets
+     * Future markets
+     * Expansion opportunities
+   - Market segmentation:
+     * Segment prioritization
+     * Segment strategy
+     * Entry sequence
+   - Geographic strategy:
+     * Primary geographies
+     * Expansion sequence
+     * Localization needs
+
+4. **POSITIONING Y MESSAGING**
+   - Positioning strategy:
+     * Unique value proposition
+     * Competitive differentiation
+     * Brand positioning
+     * Market positioning
+   - Messaging framework:
+     * Core messages
+     * Value propositions
+     * Proof points
+     * Storytelling
+   - Messaging por audiencia:
+     * Executive messaging
+     * User messaging
+     * Technical messaging
+     * Partner messaging
+   - Message testing:
+     * A/B testing
+     * Focus groups
+     * Market research
+     * Iteration process
+
+5. **SALES STRATEGY**
+   - Sales model:
+     * Inside sales
+     * Outside sales
+     * Hybrid model
+     * Self-service
+   - Sales process:
+     * Sales stages
+     * Qualification criteria
+     * Decision criteria
+     * Close process
+   - Sales enablement:
+     * Sales materials
+     * Training programs
+     * Tools y technology
+     * Performance metrics
+   - Channel strategy:
+     * Direct sales
+     * Partner sales
+     * Online sales
+     * Channel mix
+
+6. **MARKETING STRATEGY**
+   - Marketing mix:
+     * Product strategy
+     * Pricing strategy
+     * Promotion strategy
+     * Place strategy
+   - Marketing channels:
+     * Digital channels
+     * Traditional channels
+     * Event marketing
+     * Content marketing
+   - Brand building:
+     * Brand identity
+     * Brand awareness
+     * Brand positioning
+     * Brand activation
+   - Demand generation:
+     * Lead generation
+     * Lead nurturing
+     * Conversion optimization
+     * Pipeline development
+
+7. **PRICING Y PACKAGING**
+   - Pricing strategy:
+     * Pricing model
+     * Price points
+     * Pricing tiers
+     * Discount strategy
+   - Packaging strategy:
+     * Product bundles
+     * Feature packaging
+     * Service packaging
+     * Value packaging
+   - Pricing testing:
+     * Price sensitivity
+     * Willingness to pay
+     * Competitive pricing
+     * Value perception
+   - Pricing optimization:
+     * Dynamic pricing
+     * Segment pricing
+     * Promotional pricing
+     * Long-term pricing
+
+8. **DISTRIBUTION STRATEGY**
+   - Distribution channels:
+     * Direct distribution
+     * Indirect distribution
+     * Online distribution
+     * Hybrid distribution
+   - Channel partners:
+     * Partner types
+     * Partner selection
+     * Partner enablement
+     * Partner management
+   - Channel conflict:
+     * Conflict prevention
+     * Conflict resolution
+     * Channel coordination
+   - Channel optimization:
+     * Channel performance
+     * Channel ROI
+     * Channel expansion
+     * Channel consolidation
+
+9. **CUSTOMER SUCCESS Y ONBOARDING**
+   - Onboarding strategy:
+     * Onboarding process
+     * Time to value
+     * Activation criteria
+     * Success metrics
+   - Customer success model:
+     * Success programs
+     * Health scoring
+     * Proactive engagement
+     * Retention strategies
+   - Support strategy:
+     * Support channels
+     * Support levels
+     * Response times
+     * Resolution rates
+   - Training y education:
+     * Training programs
+     * Documentation
+     * Certification
+     * Community building
+
+10. **OPERATIONS Y INFRASTRUCTURE**
+    - Operational requirements:
+      * Team structure
+      * Processes
+      * Systems
+      * Infrastructure
+    - Scalability planning:
+      * Growth capacity
+      * Resource planning
+      * Technology scaling
+      * Operational scaling
+    - Quality assurance:
+      * Quality standards
+      * Quality processes
+      * Quality metrics
+      * Continuous improvement
+    - Risk management:
+      * Operational risks
+      * Market risks
+      * Competitive risks
+      * Mitigation strategies
+
+11. **METRICS Y KPIs**
+    - Launch metrics:
+      * Launch velocity
+      * Market penetration
+      * Customer acquisition
+      * Revenue targets
+    - Funnel metrics:
+      * Awareness
+      * Interest
+      * Consideration
+      * Purchase
+      * Adoption
+    - Business metrics:
+      * CAC
+      * LTV
+      * Payback period
+      * Unit economics
+    - Success metrics:
+      * Product-market fit
+      * Customer satisfaction
+      * Retention
+      * Expansion
+
+12. **ROADMAP DE MARKET ENTRY DETALLADO**
+    - Pre-launch phase (0-90 días):
+      * Market research
+      * Product development
+      * Team building
+      * Strategy development
+    - Launch phase (90-180 días):
+      * Market entry
+      * Customer acquisition
+      * Brand building
+      * Operations setup
+    - Post-launch phase (180-365 días):
+      * Optimization
+      * Scaling
+      * Expansion
+      * Refinement
+    - Timeline detallado con milestones
+    - Resource allocation:
+      * Budget allocation
+      * Team allocation
+      * Technology investment
+      * Marketing spend
+    - Success criteria:
+      * Revenue targets
+      * Customer targets
+      * Market share targets
+      * Quality targets
+    - Risk mitigation:
+      * Risk identification
+      * Mitigation strategies
+      * Contingency plans
+      * Monitoring
+
+FORMATO: Estrategia de market entry y go-to-market de 2800 palabras con assessment completo, entry models, target market, positioning, sales strategy, marketing strategy, pricing, distribution, customer success, operations, metrics y roadmap detallado por fases con milestones y success criteria"
+```
+
+### **Template 1.53: Análisis de Customer Churn y Retention Strategy**
+```
+"Analiza customer churn, retention strategies y prevención de pérdida de clientes para {PRODUCT/SERVICE} de {COMPANY} en {INDUSTRY}:
+
+INFORMACIÓN BÁSICA:
+- Industria: {INDUSTRY}
+- Producto/Servicio: {PRODUCT/SERVICE}
+- Empresa: {COMPANY}
+- Churn rate actual: {CURRENT_CHURN_RATE}
+- Objetivo: {RETENTION_OBJECTIVE} (reducción de churn, mejora de retention, reactivación)
+- Segmento objetivo: {TARGET_SEGMENT}
+- Timeline: {TIMELINE}
+
+GENERA ESTRATEGIA DE RETENTION Y CHURN PREVENTION:
+
+1. **CHURN ANALYSIS COMPLETO**
+   - Churn metrics:
+     * Overall churn rate
+     * Churn rate por segmento
+     * Churn rate por cohort
+     * Revenue churn
+     * Customer churn
+   - Churn patterns:
+     * Temporal patterns (seasonal, monthly)
+     * Lifecycle stage patterns
+     * Segment patterns
+     * Geographic patterns
+   - Churn trends:
+     * Historical trends
+     * Trend analysis
+     * Predictive indicators
+     * Early warning signals
+   - Churn types:
+     * Voluntary churn
+     * Involuntary churn
+     * Revenue churn
+     * Feature churn
+
+2. **CHURN ROOT CAUSE ANALYSIS**
+   - Primary churn reasons:
+     * Product-related
+     * Service-related
+     * Price-related
+     * Competitive
+     * Company changes
+   - Churn drivers identificados:
+     * Value perception issues
+     * Feature gaps
+     * Support issues
+     * Pricing concerns
+     * Competitive switching
+   - Churn correlation analysis:
+     * Usage patterns
+     * Engagement levels
+     * Support interactions
+     * Payment issues
+     * Product adoption
+   - Churn prediction:
+     * Predictive models
+     * Risk scoring
+     * Early indicators
+     * Intervention triggers
+
+3. **CUSTOMER HEALTH SCORING**
+   - Health score framework:
+     * Product usage
+     * Engagement metrics
+     * Support interactions
+     * Payment behavior
+     * Relationship strength
+   - Health score calculation:
+     * Scoring methodology
+     * Weight factors
+     * Thresholds
+     * Segment adjustments
+   - Health score distribution:
+     * Healthy customers
+     * At-risk customers
+     * Critical customers
+     * Churned customers
+   - Health score trends:
+     * Score trends
+     * Migration patterns
+     * Intervention effectiveness
+     * Score improvement
+
+4. **RETENTION STRATEGIES COMPREHENSIVAS**
+   - Proactive retention:
+     * Health monitoring
+     * Early intervention
+     * Proactive outreach
+     * Value reinforcement
+   - Reactive retention:
+     * Cancellation flow
+     * Win-back campaigns
+     * Retention offers
+     * Exit interviews
+   - Product-led retention:
+     * Feature adoption
+     * Usage expansion
+     * Value realization
+     * Stickiness creation
+   - Service-led retention:
+     * Customer success
+     * Proactive support
+     * Training y education
+     * Relationship building
+
+5. **CHURN PREVENTION TACTICS**
+   - Onboarding excellence:
+     * Fast time to value
+     * Clear value communication
+     * Early success
+     * Engagement from day 1
+   - Engagement strategies:
+     * Regular touchpoints
+     * Value-add interactions
+     * Community building
+     * Events y webinars
+   - Product improvements:
+     * Feature gaps addressed
+     * UX improvements
+     * Performance optimization
+     * Innovation delivery
+   - Pricing strategies:
+     * Value-based pricing
+     * Flexible pricing
+     * Discount strategies
+     * Payment options
+
+6. **WIN-BACK STRATEGIES**
+   - Win-back campaigns:
+     * Campaign design
+     * Messaging strategy
+     * Offer strategy
+     * Channel strategy
+   - Win-back timing:
+     * Optimal timing
+     * Frequency
+     * Sequence
+     * Personalization
+   - Win-back offers:
+     * Discount offers
+     * Feature additions
+     * Service upgrades
+     * Custom solutions
+   - Win-back measurement:
+     * Win-back rate
+     * Win-back LTV
+     * Win-back cost
+     * ROI analysis
+
+7. **RETENTION PROGRAMS**
+   - Loyalty programs:
+     * Program design
+     * Rewards structure
+     * Engagement mechanics
+     * Measurement
+   - Customer success programs:
+     * Success planning
+     * Regular check-ins
+     * Value reviews
+     * Expansion opportunities
+   - Community programs:
+     * User communities
+     * Events
+     * Content
+     * Networking
+   - Advocacy programs:
+     * Referral programs
+     * Case studies
+     * Testimonials
+     * Reviews
+
+8. **SEGMENT-SPECIFIC RETENTION**
+   - High-value segment:
+     * Dedicated resources
+     * Premium support
+     * Custom solutions
+     * Strategic partnerships
+   - Growth segment:
+     * Expansion focus
+     * Feature adoption
+     * Usage growth
+     * Value scaling
+   - At-risk segment:
+     * Intervention focus
+     * Win-back priority
+     * Special offers
+     * Enhanced support
+   - New customer segment:
+     * Onboarding focus
+     * Early engagement
+     * Success tracking
+     * Quick wins
 
 9. **MEASUREMENT Y ANALYTICS**
-   - Adoption metrics
-   - Usage analytics
-   - Engagement metrics
-   - ROI measurement
+   - Retention metrics:
+     * Retention rate
+     * Churn rate
+     * Revenue retention
+     * Customer retention
+   - Cohort analysis:
+     * Cohort retention
+     * Cohort trends
+     * Cohort comparison
+     * Predictive cohorts
+   - Retention analytics:
+     * Retention drivers
+     * Churn predictors
+     * Intervention effectiveness
+     * ROI analysis
+   - Dashboards y reporting:
+     * Real-time dashboards
+     * Regular reports
+     * Alert systems
+     * Trend analysis
 
-10. **OPTIMIZATION**
-   - Process improvements
-   - Feature improvements
-   - UX improvements
-   - Continuous optimization
+10. **TECHNOLOGY Y AUTOMATION**
+    - Retention technology:
+      * Health scoring tools
+      * Predictive analytics
+      * Automation platforms
+      * CRM integration
+    - Automation workflows:
+      * Health monitoring
+      * Alert triggers
+      * Intervention automation
+      * Campaign automation
+    - Data integration:
+      * Data sources
+      * Data quality
+      * Real-time updates
+      * Analytics integration
 
-11. **ROADMAP DE ADOPTION**
-   - Improvement initiatives
-   - Timeline
-   - Resources
-   - Success metrics
+11. **ROADMAP DE RETENTION DETALLADO**
+    - Quick wins (0-30 días):
+      * Churn analysis
+      * Health scoring
+      * Early interventions
+    - Medium-term (30-90 días):
+      * Retention programs
+      * Win-back campaigns
+      * Process improvements
+    - Long-term (90-180 días):
+      * Product improvements
+      * Strategic initiatives
+      * Technology implementation
+    - Timeline detallado con milestones
+    - Resource allocation:
+      * Team requirements
+      * Technology investments
+      * Budget allocation
+      * Process changes
+    - Success metrics:
+      * Churn reduction targets
+      * Retention improvement targets
+      * Win-back targets
+      * ROI targets
+    - Risk mitigation:
+      * Implementation risks
+      * Market risks
+      * Competitive risks
+      * Operational risks
 
-FORMATO: Estrategia de product adoption de 2000 palabras con assessment, feature usage, adoption funnel, segmentation, drivers, barriers, strategies, personalization, measurement, optimization y roadmap"
+FORMATO: Estrategia de retention y churn prevention de 2600 palabras con churn analysis completo, root cause analysis, health scoring, retention strategies, churn prevention tactics, win-back strategies, retention programs, segment-specific strategies, measurement, technology y roadmap detallado por fases"
 ```
 
 ---

@@ -165,19 +165,21 @@ Only available until [date].
 ## 🔄 Automated Workflows
 
 ### **Abandoned Cart Sequence**
-**Email 1 (1 hour after abandon):**
-```
-Subject: You left something in your cart
-[Gentle reminder with cart contents]
 
-**Email 2 (24 hours):**
-Subject: Your cart is expiring soon
-[Urgency + social proof]
+> 📚 **Complete Guide Available**: See [Abandoned Cart Recovery Emails Guide](./abandoned_cart_recovery_emails.md) for comprehensive templates, strategies, and best practices.
 
-**Email 3 (48 hours):**
-Subject: Last chance: [Discount code]
-[Final reminder with incentive]
-```
+**Quick Reference:**
+- **Email 1 (1-2 hours after abandon)**: Gentle reminder with cart contents
+- **Email 2 (24 hours)**: Value reinforcement + social proof
+- **Email 3 (48 hours)**: Incentive offer with {percentage}% discount
+- **Email 4 (72 hours)**: Final urgency with expiring discount
+
+**Key Features:**
+- Integration with {upcoming sale/event}
+- {new product launch} promotion opportunities
+- {limited edition product} urgency tactics
+- {product category}-specific messaging
+- Customizable {percentage} discount codes
 
 ---
 

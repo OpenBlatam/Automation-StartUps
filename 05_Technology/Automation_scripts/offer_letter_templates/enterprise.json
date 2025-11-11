@@ -1,0 +1,25 @@
+{
+  "name": "enterprise",
+  "description": "Plantilla para empresas grandes con beneficios completos",
+  "created": "1762813205.189995",
+  "data": {
+    "position_title": "Senior Engineer",
+    "salary_amount": "150000",
+    "start_date": "2024-03-15",
+    "benefits": [
+      "Premium health insurance",
+      "Dental and vision coverage",
+      "401k with 6% matching",
+      "20 days PTO",
+      "Life insurance",
+      "Disability insurance",
+      "Professional development budget"
+    ],
+    "location": "[City, State]",
+    "company_name": "[Company Name]",
+    "employment_type": "Full-time",
+    "pay_frequency": "Bi-weekly",
+    "bonus_percentage": "15%",
+    "format_style": "professional"
+  }
+}

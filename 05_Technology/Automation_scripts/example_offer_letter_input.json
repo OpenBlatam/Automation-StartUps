@@ -1,0 +1,31 @@
+{
+  "position_title": "Senior Software Engineer",
+  "salary_amount": "140000",
+  "start_date": "2024-03-15",
+  "benefits": [
+    "Health insurance - 100% company-paid premium for employee and family",
+    "Dental and vision coverage",
+    "401k with 6% company matching",
+    "Unlimited PTO policy",
+    "$5000 annual learning and development budget",
+    "Stocked kitchen, gym membership, commuter benefits"
+  ],
+  "location": "San Francisco, CA (Hybrid - 3 days in office)",
+  "company_name": "TechCorp AI Solutions",
+  "company_address": "123 Innovation Drive, San Francisco, CA 94105",
+  "company_details": "TechCorp AI Solutions is a leading technology company focused on artificial intelligence and machine learning innovation. We are committed to creating cutting-edge solutions that transform industries and improve lives. Our team of talented professionals works collaboratively in a dynamic, fast-paced environment that values creativity, innovation, and excellence.",
+  "candidate_name": "Sarah Johnson",
+  "department": "Engineering",
+  "manager_name": "Michael Chen",
+  "manager_title": "Engineering Manager",
+  "employment_type": "Full-time",
+  "pay_frequency": "Bi-weekly",
+  "offer_validity_days": 7,
+  "hr_name": "Jennifer Martinez",
+  "hr_title": "Senior HR Manager",
+  "hr_phone": "(415) 555-0123",
+  "hr_email": "hr@techcorp-ai.com",
+  "format_style": "professional",
+  "output_file": "offer_letter_sarah_johnson.txt"
+}
+
