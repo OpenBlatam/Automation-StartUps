@@ -1,236 +1,147 @@
 """
-Integraciones Avanzadas para Chatbot
-- Dialogflow
-- Intercom
+Integraciones Avanzadas para el Chatbot
+- Salesforce CRM
 - Zapier
 - WhatsApp Business API
-- Email Services
+- Email (SendGrid)
+- Intercom
+- Dialogflow
+Versión: 2.0.0
 """
 
-import json
+import requests
 import logging
-import aiohttp
-from typing import Dict, Optional, List
+from typing import Dict, Optional
 from datetime import datetime
-from chatbot_engine import ChatbotEngine, ChatMessage, Channel, Language
+import json
 
 logger = logging.getLogger(__name__)
 
 
-class DialogflowIntegration:
-    """Integración con Google Dialogflow"""
+class SalesforceIntegration:
+    """Integración con Salesforce CRM"""
     
-    def __init__(self, project_id: str, language_code: str = "es"):
-        self.project_id = project_id
-        self.language_code = language_code
-        self.session_client = None  # Se inicializaría con google.cloud.dialogflow
+    def __init__(self, instance_url: str, client_id: str, client_secret: str, 
+                 username: str, password: str):
+        self.instance_url = instance_url
+        self.client_id = client_id
+        self.client_secret = client_secret
+        self.username = username
+        self.password = password
+        self.access_token = None
+        self._authenticate()
     
-    async def detect_intent(self, session_id: str, text: str) -> Dict:
-        """
-        Detecta la intención del usuario usando Dialogflow
-        """
+    def _authenticate(self):
+        """Autentica con Salesforce usando OAuth2"""
         try:
-            # En producción, usarías la API real de Dialogflow
-            # from google.cloud import dialogflow_v2
-            
-            # Ejemplo de respuesta simulada
-            response = {
-                "intent": {
-                    "display_name": "export_report",
-                    "confidence": 0.95
-                },
-                "fulfillment_text": "Para exportar reportes, ve a la sección de Reportes...",
-                "parameters": {}
+            auth_url = f"{self.instance_url}/services/oauth2/token"
+            data = {
+                "grant_type": "password",
+                "client_id": self.client_id,
+                "client_secret": self.client_secret,
+                "username": self.username,
+                "password": self.password
             }
             
-            logger.info(f"Dialogflow intent detectado: {response['intent']['display_name']}")
-            return response
-            
+            response = requests.post(auth_url, data=data)
+            response.raise_for_status()
+            self.access_token = response.json()["access_token"]
+            logger.info("Autenticación con Salesforce exitosa")
         except Exception as e:
-            logger.error(f"Error en Dialogflow: {e}")
-            return {"error": str(e)}
+            logger.error(f"Error autenticando con Salesforce: {e}")
+            raise
     
-    async def send_to_dialogflow(self, chatbot: ChatbotEngine, user_id: str, 
-                                 message: str, session_id: str) -> Dict:
-        """Envía mensaje a Dialogflow y procesa respuesta"""
-        intent_result = await self.detect_intent(session_id, message)
-        
-        if "error" in intent_result:
-            # Fallback al chatbot local
-            chat_msg = ChatMessage(
-                user_id=user_id,
-                message=message,
-                timestamp=datetime.now(),
-                channel=Channel.DIALOGFLOW,
-                language=Language.ES,
-                session_id=session_id
-            )
-            response = await chatbot.process_message(chat_msg)
-            return {"response": response.message, "source": "local"}
-        
-        return {
-            "response": intent_result.get("fulfillment_text", ""),
-            "intent": intent_result.get("intent", {}).get("display_name"),
-            "confidence": intent_result.get("intent", {}).get("confidence", 0),
-            "source": "dialogflow"
-        }
-
-
-class IntercomIntegration:
-    """Integración con Intercom"""
-    
-    def __init__(self, app_id: str, access_token: str):
-        self.app_id = app_id
-        self.access_token = access_token
-        self.base_url = "https://api.intercom.io"
-    
-    async def create_conversation(self, user_id: str, message: str, 
-                                 chatbot_response: str) -> Optional[str]:
-        """Crea una conversación en Intercom"""
+    def create_lead(self, lead_data: Dict) -> str:
+        """Crea un lead en Salesforce"""
         try:
+            url = f"{self.instance_url}/services/data/v57.0/sobjects/Lead/"
             headers = {
                 "Authorization": f"Bearer {self.access_token}",
-                "Content-Type": "application/json",
-                "Intercom-Version": "2.10"
+                "Content-Type": "application/json"
             }
             
-            data = {
-                "from": {
-                    "type": "user",
-                    "id": user_id
-                },
-                "body": message
-            }
-            
-            # En producción, harías la llamada real
-            # async with aiohttp.ClientSession() as session:
-            #     async with session.post(
-            #         f"{self.base_url}/conversations",
-            #         headers=headers,
-            #         json=data
-            #     ) as response:
-            #         result = await response.json()
-            #         return result.get("id")
-            
-            logger.info(f"Conversación Intercom creada para usuario {user_id}")
-            return f"intercom_conv_{user_id}_{datetime.now().timestamp()}"
-            
+            response = requests.post(url, json=lead_data, headers=headers)
+            response.raise_for_status()
+            lead_id = response.json()["id"]
+            logger.info(f"Lead creado en Salesforce: {lead_id}")
+            return lead_id
         except Exception as e:
-            logger.error(f"Error creando conversación Intercom: {e}")
-            return None
+            logger.error(f"Error creando lead en Salesforce: {e}")
+            raise
     
-    async def send_message(self, conversation_id: str, message: str, 
-                          from_admin: bool = False) -> bool:
-        """Envía un mensaje en una conversación de Intercom"""
+    def create_case(self, case_data: Dict) -> str:
+        """Crea un caso (ticket) en Salesforce"""
         try:
+            url = f"{self.instance_url}/services/data/v57.0/sobjects/Case/"
             headers = {
                 "Authorization": f"Bearer {self.access_token}",
-                "Content-Type": "application/json",
-                "Intercom-Version": "2.10"
+                "Content-Type": "application/json"
             }
             
-            data = {
-                "message_type": "comment",
-                "type": "admin" if from_admin else "user",
-                "body": message
+            response = requests.post(url, json=case_data, headers=headers)
+            response.raise_for_status()
+            case_id = response.json()["id"]
+            logger.info(f"Caso creado en Salesforce: {case_id}")
+            return case_id
+        except Exception as e:
+            logger.error(f"Error creando caso en Salesforce: {e}")
+            raise
+    
+    def update_contact(self, contact_id: str, update_data: Dict) -> bool:
+        """Actualiza un contacto en Salesforce"""
+        try:
+            url = f"{self.instance_url}/services/data/v57.0/sobjects/Contact/{contact_id}"
+            headers = {
+                "Authorization": f"Bearer {self.access_token}",
+                "Content-Type": "application/json"
             }
             
-            # Llamada real a la API
-            # async with aiohttp.ClientSession() as session:
-            #     async with session.post(
-            #         f"{self.base_url}/conversations/{conversation_id}/parts",
-            #         headers=headers,
-            #         json=data
-            #     ) as response:
-            #         return response.status == 200
-            
-            logger.info(f"Mensaje enviado a Intercom conversación {conversation_id}")
+            response = requests.patch(url, json=update_data, headers=headers)
+            response.raise_for_status()
+            logger.info(f"Contacto actualizado en Salesforce: {contact_id}")
             return True
-            
         except Exception as e:
-            logger.error(f"Error enviando mensaje Intercom: {e}")
-            return False
-    
-    async def assign_to_agent(self, conversation_id: str, admin_id: str) -> bool:
-        """Asigna conversación a un agente humano"""
-        try:
-            headers = {
-                "Authorization": f"Bearer {self.access_token}",
-                "Content-Type": "application/json",
-                "Intercom-Version": "2.10"
-            }
-            
-            data = {
-                "admin_id": admin_id,
-                "type": "admin"
-            }
-            
-            # Llamada real
-            # async with aiohttp.ClientSession() as session:
-            #     async with session.put(
-            #         f"{self.base_url}/conversations/{conversation_id}/parts",
-            #         headers=headers,
-            #         json=data
-            #     ) as response:
-            #         return response.status == 200
-            
-            logger.info(f"Conversación {conversation_id} asignada a agente {admin_id}")
-            return True
-            
-        except Exception as e:
-            logger.error(f"Error asignando agente: {e}")
+            logger.error(f"Error actualizando contacto en Salesforce: {e}")
             return False
 
 
 class ZapierIntegration:
-    """Integración con Zapier para automatizaciones"""
+    """Integración con Zapier mediante webhooks"""
     
     def __init__(self, webhook_url: str):
         self.webhook_url = webhook_url
     
-    async def trigger_webhook(self, event_type: str, data: Dict) -> bool:
-        """
-        Dispara un webhook de Zapier con datos del chatbot
-        """
+    def trigger_webhook(self, event_type: str, data: Dict) -> bool:
+        """Dispara un webhook de Zapier"""
         try:
             payload = {
                 "event_type": event_type,
-                "timestamp": datetime.now().isoformat(),
-                "data": data
+                "data": data,
+                "timestamp": datetime.now().isoformat()
             }
             
-            # En producción
-            # async with aiohttp.ClientSession() as session:
-            #     async with session.post(
-            #         self.webhook_url,
-            #         json=payload,
-            #         timeout=aiohttp.ClientTimeout(total=10)
-            #     ) as response:
-            #         return response.status == 200
-            
+            response = requests.post(self.webhook_url, json=payload, timeout=10)
+            response.raise_for_status()
             logger.info(f"Webhook Zapier disparado: {event_type}")
             return True
-            
         except Exception as e:
-            logger.error(f"Error en webhook Zapier: {e}")
+            logger.error(f"Error disparando webhook Zapier: {e}")
             return False
     
-    async def sync_to_crm(self, user_data: Dict, interaction_data: Dict) -> bool:
-        """Sincroniza datos con CRM a través de Zapier"""
-        return await self.trigger_webhook("crm_sync", {
-            "user": user_data,
-            "interaction": interaction_data
-        })
+    def send_chatbot_event(self, event_data: Dict) -> bool:
+        """Envía evento del chatbot a Zapier"""
+        return self.trigger_webhook("chatbot_interaction", event_data)
     
-    async def send_notification(self, notification_type: str, message: str) -> bool:
-        """Envía notificación a través de Zapier"""
-        return await self.trigger_webhook("notification", {
-            "type": notification_type,
-            "message": message
-        })
+    def send_ticket_created(self, ticket_data: Dict) -> bool:
+        """Notifica creación de ticket a Zapier"""
+        return self.trigger_webhook("ticket_created", ticket_data)
+    
+    def send_satisfaction_feedback(self, feedback_data: Dict) -> bool:
+        """Envía feedback de satisfacción a Zapier"""
+        return self.trigger_webhook("satisfaction_feedback", feedback_data)
 
 
-class WhatsAppBusinessIntegration:
+class WhatsAppIntegration:
     """Integración con WhatsApp Business API"""
     
     def __init__(self, phone_number_id: str, access_token: str):
@@ -238,59 +149,42 @@ class WhatsAppBusinessIntegration:
         self.access_token = access_token
         self.base_url = "https://graph.facebook.com/v18.0"
     
-    async def send_message(self, to: str, message: str, 
-                          chatbot_response: Optional[str] = None) -> Dict:
-        """
-        Envía mensaje a través de WhatsApp Business API
-        """
+    def send_message(self, to: str, message: str) -> bool:
+        """Envía un mensaje por WhatsApp"""
         try:
+            url = f"{self.base_url}/{self.phone_number_id}/messages"
             headers = {
                 "Authorization": f"Bearer {self.access_token}",
                 "Content-Type": "application/json"
             }
             
-            # El mensaje a enviar (respuesta del chatbot o mensaje personalizado)
-            text_to_send = chatbot_response or message
-            
-            data = {
+            payload = {
                 "messaging_product": "whatsapp",
                 "to": to,
                 "type": "text",
                 "text": {
-                    "body": text_to_send
+                    "body": message
                 }
             }
             
-            # Llamada real a la API
-            # async with aiohttp.ClientSession() as session:
-            #     async with session.post(
-            #         f"{self.base_url}/{self.phone_number_id}/messages",
-            #         headers=headers,
-            #         json=data
-            #     ) as response:
-            #         result = await response.json()
-            #         return result
-            
+            response = requests.post(url, json=payload, headers=headers)
+            response.raise_for_status()
             logger.info(f"Mensaje WhatsApp enviado a {to}")
-            return {
-                "success": True,
-                "message_id": f"wamid.{datetime.now().timestamp()}"
-            }
-            
+            return True
         except Exception as e:
-            logger.error(f"Error enviando WhatsApp: {e}")
-            return {"success": False, "error": str(e)}
+            logger.error(f"Error enviando mensaje WhatsApp: {e}")
+            return False
     
-    async def send_template_message(self, to: str, template_name: str, 
-                                   parameters: List[str]) -> Dict:
-        """Envía mensaje de plantilla de WhatsApp"""
+    def send_template(self, to: str, template_name: str, parameters: list) -> bool:
+        """Envía un template de WhatsApp"""
         try:
+            url = f"{self.base_url}/{self.phone_number_id}/messages"
             headers = {
                 "Authorization": f"Bearer {self.access_token}",
                 "Content-Type": "application/json"
             }
             
-            data = {
+            payload = {
                 "messaging_product": "whatsapp",
                 "to": to,
                 "type": "template",
@@ -309,225 +203,210 @@ class WhatsAppBusinessIntegration:
                 }
             }
             
-            # Llamada real
-            logger.info(f"Template WhatsApp enviado a {to}: {template_name}")
-            return {"success": True, "message_id": f"wamid.{datetime.now().timestamp()}"}
-            
+            response = requests.post(url, json=payload, headers=headers)
+            response.raise_for_status()
+            logger.info(f"Template WhatsApp enviado a {to}")
+            return True
         except Exception as e:
             logger.error(f"Error enviando template WhatsApp: {e}")
-            return {"success": False, "error": str(e)}
-
-
-class EmailServiceIntegration:
-    """Integración con servicios de email (SendGrid, AWS SES, etc.)"""
-    
-    def __init__(self, service: str = "sendgrid", api_key: str = None):
-        self.service = service
-        self.api_key = api_key
-    
-    async def send_email(self, to: str, subject: str, body: str, 
-                        html_body: Optional[str] = None) -> bool:
-        """
-        Envía email a través del servicio configurado
-        """
-        try:
-            if self.service == "sendgrid":
-                return await self._send_sendgrid(to, subject, body, html_body)
-            elif self.service == "ses":
-                return await self._send_ses(to, subject, body, html_body)
-            else:
-                logger.warning(f"Servicio de email no soportado: {self.service}")
-                return False
-                
-        except Exception as e:
-            logger.error(f"Error enviando email: {e}")
             return False
+
+
+class EmailIntegration:
+    """Integración con SendGrid para envío de emails"""
     
-    async def _send_sendgrid(self, to: str, subject: str, body: str, 
-                             html_body: Optional[str]) -> bool:
-        """Envía email usando SendGrid"""
+    def __init__(self, api_key: str, from_email: str, from_name: str = "Chatbot"):
+        self.api_key = api_key
+        self.from_email = from_email
+        self.from_name = from_name
+        self.base_url = "https://api.sendgrid.com/v3"
+    
+    def send_email(self, to: str, subject: str, html_content: str, 
+                   text_content: str = None) -> bool:
+        """Envía un email"""
         try:
+            url = f"{self.base_url}/mail/send"
             headers = {
                 "Authorization": f"Bearer {self.api_key}",
                 "Content-Type": "application/json"
             }
             
-            data = {
-                "personalizations": [{"to": [{"email": to}]}],
-                "from": {"email": "noreply@empresa.com"},
+            payload = {
+                "personalizations": [{
+                    "to": [{"email": to}]
+                }],
+                "from": {
+                    "email": self.from_email,
+                    "name": self.from_name
+                },
                 "subject": subject,
                 "content": [
-                    {"type": "text/plain", "value": body}
+                    {
+                        "type": "text/html",
+                        "value": html_content
+                    }
                 ]
             }
             
-            if html_body:
-                data["content"].append({"type": "text/html", "value": html_body})
+            if text_content:
+                payload["content"].append({
+                    "type": "text/plain",
+                    "value": text_content
+                })
             
-            # Llamada real
-            # async with aiohttp.ClientSession() as session:
-            #     async with session.post(
-            #         "https://api.sendgrid.com/v3/mail/send",
-            #         headers=headers,
-            #         json=data
-            #     ) as response:
-            #         return response.status == 202
-            
-            logger.info(f"Email SendGrid enviado a {to}")
+            response = requests.post(url, json=payload, headers=headers)
+            response.raise_for_status()
+            logger.info(f"Email enviado a {to}")
             return True
-            
         except Exception as e:
-            logger.error(f"Error SendGrid: {e}")
+            logger.error(f"Error enviando email: {e}")
             return False
     
-    async def _send_ses(self, to: str, subject: str, body: str, 
-                        html_body: Optional[str]) -> bool:
-        """Envía email usando AWS SES"""
-        # Implementación con boto3
-        logger.info(f"Email SES enviado a {to}")
-        return True
-    
-    async def send_chatbot_response_email(self, to: str, user_message: str, 
-                                         chatbot_response: str) -> bool:
-        """Envía respuesta del chatbot por email"""
-        subject = "Respuesta de Soporte - [Nombre de la Empresa]"
+    def send_ticket_notification(self, to: str, ticket_id: str, 
+                                ticket_data: Dict) -> bool:
+        """Envía notificación de ticket creado"""
+        subject = f"Ticket #{ticket_id} - {ticket_data.get('subject', 'Nueva consulta')}"
         
-        html_body = f"""
+        html_content = f"""
         <html>
-        <body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-            <h2 style="color: #667eea;">Hola,</h2>
-            <p>Gracias por contactarnos. Aquí está la respuesta a tu consulta:</p>
-            <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0;">
-                <p><strong>Tu pregunta:</strong> {user_message}</p>
-                <p><strong>Respuesta:</strong> {chatbot_response}</p>
-            </div>
-            <p>Si necesitas más ayuda, no dudes en responder a este email.</p>
-            <p>Saludos,<br>Equipo de [Nombre de la Empresa]</p>
+        <body style="font-family: Arial, sans-serif;">
+            <h2>Tu ticket ha sido creado</h2>
+            <p><strong>Número de ticket:</strong> {ticket_id}</p>
+            <p><strong>Prioridad:</strong> {ticket_data.get('priority', 'Media')}</p>
+            <p><strong>Mensaje:</strong> {ticket_data.get('message', '')}</p>
+            <p>Un agente se pondrá en contacto contigo pronto.</p>
+            <p>Saludos,<br>Equipo de Soporte</p>
         </body>
         </html>
         """
         
-        return await self.send_email(to, subject, chatbot_response, html_body)
+        return self.send_email(to, subject, html_content)
 
 
-class CRMIntegration:
-    """Integración mejorada con CRM (Salesforce, HubSpot)"""
+class IntercomIntegration:
+    """Integración con Intercom"""
     
-    def __init__(self, crm_type: str, api_key: str = None, 
-                 base_url: str = None, username: str = None, 
-                 password: str = None):
-        self.crm_type = crm_type.lower()
+    def __init__(self, app_id: str, api_key: str):
+        self.app_id = app_id
         self.api_key = api_key
-        self.base_url = base_url
-        self.username = username
-        self.password = password
-        self.access_token = None
+        self.base_url = "https://api.intercom.io"
     
-    async def authenticate(self) -> bool:
-        """Autentica con el CRM"""
+    def create_conversation(self, user_id: str, message: str) -> str:
+        """Crea una conversación en Intercom"""
         try:
-            if self.crm_type == "salesforce":
-                return await self._authenticate_salesforce()
-            elif self.crm_type == "hubspot":
-                return await self._authenticate_hubspot()
-            return False
-        except Exception as e:
-            logger.error(f"Error autenticando CRM: {e}")
-            return False
-    
-    async def _authenticate_salesforce(self) -> bool:
-        """Autentica con Salesforce"""
-        # Implementación con simple-salesforce o requests
-        logger.info("Autenticado con Salesforce")
-        self.access_token = "sf_token_example"
-        return True
-    
-    async def _authenticate_hubspot(self) -> bool:
-        """Autentica con HubSpot"""
-        # Implementación con hubspot-api-client
-        logger.info("Autenticado con HubSpot")
-        self.access_token = "hs_token_example"
-        return True
-    
-    async def create_lead(self, lead_data: Dict) -> Optional[str]:
-        """Crea un lead en el CRM"""
-        try:
-            if not self.access_token:
-                await self.authenticate()
-            
-            if self.crm_type == "salesforce":
-                return await self._create_salesforce_lead(lead_data)
-            elif self.crm_type == "hubspot":
-                return await self._create_hubspot_lead(lead_data)
-            
-            return None
-        except Exception as e:
-            logger.error(f"Error creando lead: {e}")
-            return None
-    
-    async def _create_salesforce_lead(self, lead_data: Dict) -> Optional[str]:
-        """Crea lead en Salesforce"""
-        # Implementación real con simple-salesforce
-        logger.info(f"Lead creado en Salesforce: {lead_data.get('email')}")
-        return "00Q000000000001AAA"
-    
-    async def _create_hubspot_lead(self, lead_data: Dict) -> Optional[str]:
-        """Crea lead en HubSpot"""
-        # Implementación real con hubspot-api-client
-        logger.info(f"Lead creado en HubSpot: {lead_data.get('email')}")
-        return "lead_12345"
-    
-    async def create_case(self, case_data: Dict) -> Optional[str]:
-        """Crea un caso/ticket en el CRM"""
-        try:
-            if not self.access_token:
-                await self.authenticate()
-            
-            if self.crm_type == "salesforce":
-                return await self._create_salesforce_case(case_data)
-            elif self.crm_type == "hubspot":
-                return await self._create_hubspot_ticket(case_data)
-            
-            return None
-        except Exception as e:
-            logger.error(f"Error creando caso: {e}")
-            return None
-    
-    async def _create_salesforce_case(self, case_data: Dict) -> Optional[str]:
-        """Crea caso en Salesforce"""
-        logger.info(f"Caso creado en Salesforce")
-        return "500000000000001AAA"
-    
-    async def _create_hubspot_ticket(self, case_data: Dict) -> Optional[str]:
-        """Crea ticket en HubSpot"""
-        logger.info(f"Ticket creado en HubSpot")
-        return "ticket_12345"
-    
-    async def sync_chatbot_interaction(self, user_id: str, message: str, 
-                                      response: str, ticket_id: Optional[str] = None) -> bool:
-        """Sincroniza interacción del chatbot con CRM"""
-        try:
-            interaction_data = {
-                "user_id": user_id,
-                "message": message,
-                "response": response,
-                "timestamp": datetime.now().isoformat(),
-                "ticket_id": ticket_id
+            url = f"{self.base_url}/conversations"
+            headers = {
+                "Authorization": f"Bearer {self.api_key}",
+                "Content-Type": "application/json",
+                "Intercom-Version": "2.10"
             }
             
-            # Crear o actualizar registro en CRM
-            if ticket_id:
-                await self.create_case({
-                    "subject": "Consulta Chatbot",
-                    "description": f"Usuario: {user_id}\nMensaje: {message}\nRespuesta: {response}",
-                    "origin": "Chatbot",
-                    "status": "New"
-                })
+            payload = {
+                "from": {
+                    "type": "user",
+                    "id": user_id
+                },
+                "body": message
+            }
             
-            logger.info(f"Interacción sincronizada con {self.crm_type}")
-            return True
-            
+            response = requests.post(url, json=payload, headers=headers)
+            response.raise_for_status()
+            conversation_id = response.json()["id"]
+            logger.info(f"Conversación creada en Intercom: {conversation_id}")
+            return conversation_id
         except Exception as e:
-            logger.error(f"Error sincronizando interacción: {e}")
+            logger.error(f"Error creando conversación en Intercom: {e}")
+            raise
+
+
+# Clase principal de integraciones
+class IntegrationManager:
+    """Gestiona todas las integraciones del chatbot"""
+    
+    def __init__(self, config: Dict):
+        self.config = config
+        self.salesforce = None
+        self.zapier = None
+        self.whatsapp = None
+        self.email = None
+        self.intercom = None
+        
+        self._initialize_integrations()
+    
+    def _initialize_integrations(self):
+        """Inicializa las integraciones según configuración"""
+        integrations = self.config.get("integrations", {})
+        
+        # Salesforce
+        if integrations.get("crm", {}).get("enabled", False):
+            sf_config = integrations["crm"]
+            try:
+                self.salesforce = SalesforceIntegration(
+                    instance_url=sf_config.get("instance_url", ""),
+                    client_id=sf_config.get("client_id", ""),
+                    client_secret=sf_config.get("client_secret", ""),
+                    username=sf_config.get("username", ""),
+                    password=sf_config.get("password", "")
+                )
+                logger.info("Integración Salesforce inicializada")
+            except Exception as e:
+                logger.warning(f"No se pudo inicializar Salesforce: {e}")
+        
+        # Zapier
+        if integrations.get("zapier", {}).get("enabled", False):
+            zapier_config = integrations["zapier"]
+            self.zapier = ZapierIntegration(
+                webhook_url=zapier_config.get("webhook_url", "")
+            )
+            logger.info("Integración Zapier inicializada")
+        
+        # WhatsApp
+        if integrations.get("whatsapp", {}).get("enabled", False):
+            wa_config = integrations["whatsapp"]
+            self.whatsapp = WhatsAppIntegration(
+                phone_number_id=wa_config.get("phone_number_id", ""),
+                access_token=wa_config.get("api_key", "")
+            )
+            logger.info("Integración WhatsApp inicializada")
+        
+        # Email
+        if integrations.get("email", {}).get("enabled", False):
+            email_config = integrations["email"]
+            self.email = EmailIntegration(
+                api_key=email_config.get("api_key", ""),
+                from_email=email_config.get("from_email", ""),
+                from_name=email_config.get("from_name", "Chatbot")
+            )
+            logger.info("Integración Email inicializada")
+        
+        # Intercom
+        if integrations.get("intercom", {}).get("enabled", False):
+            ic_config = integrations["intercom"]
+            self.intercom = IntercomIntegration(
+                app_id=ic_config.get("app_id", ""),
+                api_key=ic_config.get("api_key", "")
+            )
+            logger.info("Integración Intercom inicializada")
+    
+    def sync_ticket_to_crm(self, ticket_id: str, ticket_data: Dict) -> bool:
+        """Sincroniza ticket con CRM"""
+        if self.salesforce:
+            try:
+                case_data = {
+                    "Subject": ticket_data.get("message", "")[:255],
+                    "Description": ticket_data.get("message", ""),
+                    "Priority": ticket_data.get("priority", "Medium"),
+                    "Status": "New",
+                    "Origin": "Chatbot"
+                }
+                self.salesforce.create_case(case_data)
+            return True
+        except Exception as e:
+                logger.error(f"Error sincronizando ticket con CRM: {e}")
             return False
 
+    def notify_zapier(self, event_type: str, data: Dict) -> bool:
+        """Notifica evento a Zapier"""
+        if self.zapier:
+            return self.zapier.trigger_webhook(event_type, data)
+        return False

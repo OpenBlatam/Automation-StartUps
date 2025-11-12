@@ -1,0 +1,346 @@
+id: troubleshooting_advanced_automation
+namespace: support.automation
+
+labels:
+  app: support
+  process: troubleshooting-advanced
+  category: automation
+  ml-enabled: true
+
+description: |
+  🤖 Sistema Avanzado de Troubleshooting con ML y Optimización
+  
+  Este workflow automatiza completamente el proceso de troubleshooting con:
+  - Detección inteligente de problemas (múltiples métodos)
+  - Optimización de pasos según datos históricos
+  - Predicción de tiempo de resolución
+  - Personalización según historial del cliente
+  - Analytics y métricas avanzadas
+  - Aprendizaje automático continuo
+  
+  FLUJO:
+  1. Recibe ticket o consulta de troubleshooting
+  2. Detecta problema usando métodos avanzados
+  3. Obtiene historial del cliente
+  4. Optimiza pasos según datos históricos
+  5. Predice tiempo de resolución
+  6. Genera guía personalizada
+  7. Envía respuesta inicial
+  8. Monitorea progreso y ajusta
+  9. Registra métricas para aprendizaje
+
+inputs:
+  ticket_id:
+    type: STRING
+    description: ID del ticket de soporte
+    required: false
+  
+  problem_description:
+    type: STRING
+    description: Descripción del problema
+    required: true
+  
+  customer_email:
+    type: STRING
+    description: Email del cliente
+    required: true
+  
+  customer_name:
+    type: STRING
+    description: Nombre del cliente
+    required: false
+  
+  detection_method:
+    type: STRING
+    description: Método de detección (keyword, semantic, ml, llm, hybrid)
+    required: false
+    default: hybrid
+  
+  optimization_strategy:
+    type: STRING
+    description: Estrategia de optimización (success_rate, duration, satisfaction, hybrid)
+    required: false
+    default: hybrid
+
+tasks:
+  - id: get_customer_info
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    url: "{{ envs.POSTGRES_URL }}"
+    username: "{{ envs.POSTGRES_USER }}"
+    password: "{{ envs.POSTGRES_PASSWORD }}"
+    sql: |
+      SELECT 
+        customer_email,
+        customer_name,
+        COUNT(*) as total_tickets,
+        COUNT(*) FILTER (WHERE status = 'resolved') as resolved_tickets,
+        AVG(time_to_resolution_minutes) as avg_resolution_time
+      FROM support_tickets
+      WHERE customer_email = '{{ inputs.customer_email }}'
+      AND created_at >= NOW() - INTERVAL '90 days'
+      GROUP BY customer_email, customer_name
+    store: true
+
+  - id: detect_problem_advanced
+    type: io.kestra.plugin.scripts.python.Script
+    needs: get_customer_info
+    script: |
+      from workflow.kestra.flows.lib.support_troubleshooting_advanced import (
+          TroubleshootingAdvanced,
+          ProblemDetectionMethod
+      )
+      import json
+      
+      # Inicializar sistema avanzado
+      # Nota: En producción, pasar conexión real a BD
+      advanced = TroubleshootingAdvanced(db_connection=None)
+      
+      customer_history = None
+      if {{ outputs.get_customer_info.rows | length }} > 0:
+          row = {{ outputs.get_customer_info.rows[0] | json }}
+          customer_history = {
+              "total_tickets": row.get("total_tickets", 0),
+              "resolved_tickets": row.get("resolved_tickets", 0),
+              "avg_resolution_time_minutes": float(row.get("avg_resolution_time", 0)) if row.get("avg_resolution_time") else 0
+          }
+      
+      # Detectar problema
+      method = ProblemDetectionMethod("{{ inputs.detection_method }}")
+      result = advanced.detect_problem_advanced(
+          problem_description="{{ inputs.problem_description }}",
+          customer_email="{{ inputs.customer_email }}",
+          customer_history=customer_history,
+          method=method
+      )
+      
+      print(json.dumps({
+          "problem_id": result.get("problem_id"),
+          "confidence": result.get("confidence"),
+          "method": result.get("method"),
+          "customer_history": customer_history
+      }))
+    store: true
+
+  - id: predict_resolution_time
+    type: io.kestra.plugin.scripts.python.Script
+    needs: detect_problem_advanced
+    script: |
+      from workflow.kestra.flows.lib.support_troubleshooting_advanced import (
+          TroubleshootingAdvanced
+      )
+      import json
+      
+      advanced = TroubleshootingAdvanced(db_connection=None)
+      
+      problem_id = {{ outputs.detect_problem_advanced.output | json }}.get("problem_id")
+      
+      if problem_id and problem_id != "unknown":
+          prediction = advanced.predict_resolution_time(
+              problem_id=problem_id,
+              customer_email="{{ inputs.customer_email }}",
+              technical_level=None  # Detectar automáticamente
+          )
+      else:
+          prediction = {
+              "estimated_minutes": 15,
+              "confidence": 0.5,
+              "min_minutes": 5,
+              "max_minutes": 30
+          }
+      
+      print(json.dumps(prediction))
+    store: true
+
+  - id: optimize_steps
+    type: io.kestra.plugin.scripts.python.Script
+    needs: detect_problem_advanced
+    script: |
+      from workflow.kestra.flows.lib.support_troubleshooting_advanced import (
+          TroubleshootingAdvanced,
+          StepOptimizationStrategy
+      )
+      import json
+      
+      advanced = TroubleshootingAdvanced(db_connection=None)
+      
+      problem_id = {{ outputs.detect_problem_advanced.output | json }}.get("problem_id")
+      
+      if problem_id and problem_id != "unknown":
+          strategy = StepOptimizationStrategy("{{ inputs.optimization_strategy }}")
+          optimized_steps = advanced.optimize_steps(
+              problem_id=problem_id,
+              customer_email="{{ inputs.customer_email }}",
+              strategy=strategy
+          )
+      else:
+          optimized_steps = []
+      
+      print(json.dumps({
+          "steps": optimized_steps,
+          "total_steps": len(optimized_steps)
+      }))
+    store: true
+
+  - id: create_session
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    needs: [detect_problem_advanced, predict_resolution_time]
+    url: "{{ envs.POSTGRES_URL }}"
+    username: "{{ envs.POSTGRES_USER }}"
+    password: "{{ envs.POSTGRES_PASSWORD }}"
+    sql: |
+      INSERT INTO support_troubleshooting_sessions (
+        session_id,
+        ticket_id,
+        customer_email,
+        customer_name,
+        problem_description,
+        detected_problem_id,
+        detected_problem_title,
+        status,
+        current_step,
+        total_steps,
+        metadata,
+        started_at
+      ) VALUES (
+        'TSESS-' || EXTRACT(EPOCH FROM NOW())::bigint || '-' || SUBSTRING(MD5(RANDOM()::text) FROM 1 FOR 8),
+        {{ inputs.ticket_id | json }}::text,
+        '{{ inputs.customer_email }}',
+        {{ inputs.customer_name | json }}::text,
+        '{{ inputs.problem_description }}',
+        {{ outputs.detect_problem_advanced.output.problem_id | json }}::text,
+        'Problema detectado',
+        'started',
+        0,
+        {{ outputs.optimize_steps.output.total_steps }},
+        jsonb_build_object(
+          'detection_method', '{{ inputs.detection_method }}',
+          'confidence', {{ outputs.detect_problem_advanced.output.confidence }},
+          'predicted_duration_minutes', {{ outputs.predict_resolution_time.output.estimated_minutes }},
+          'optimization_strategy', '{{ inputs.optimization_strategy }}'
+        ),
+        NOW()
+      )
+      RETURNING session_id, detected_problem_id
+    store: true
+
+  - id: generate_initial_response
+    type: io.kestra.plugin.scripts.python.Script
+    needs: [create_session, detect_problem_advanced, predict_resolution_time, optimize_steps]
+    script: |
+      from workflow.kestra.flows.lib.support_troubleshooting_templates import (
+          get_troubleshooting_start_template,
+          TechnicalLevel,
+          ProblemComplexity
+      )
+      import json
+      
+      session_id = {{ outputs.create_session.rows[0][0] | json }}
+      problem_id = {{ outputs.create_session.rows[0][1] | json }}
+      
+      detected_problem = {
+          "title": "Problema detectado",
+          "estimated_steps": {{ outputs.optimize_steps.output.total_steps }},
+          "estimated_time_minutes": {{ outputs.predict_resolution_time.output.estimated_minutes }}
+      }
+      
+      ticket_data = {
+          "ticket_id": "{{ inputs.ticket_id }}" if "{{ inputs.ticket_id }}" else "N/A",
+          "customer_name": "{{ inputs.customer_name }}" if "{{ inputs.customer_name }}" else "Cliente",
+          "customer_email": "{{ inputs.customer_email }}",
+          "session_id": session_id
+      }
+      
+      response = get_troubleshooting_start_template(
+          ticket_data=ticket_data,
+          problem_description="{{ inputs.problem_description }}",
+          detected_problem=detected_problem,
+          technical_level=TechnicalLevel.INTERMEDIATE,
+          complexity=ProblemComplexity.MODERATE,
+          language="es"
+      )
+      
+      print(json.dumps(response))
+    store: true
+
+  - id: send_initial_email
+    type: io.kestra.plugin.notifications.email.Email
+    needs: generate_initial_response
+    to: "{{ inputs.customer_email }}"
+    subject: "{{ outputs.generate_initial_response.output.subject }}"
+    html: "{{ outputs.generate_initial_response.output.html_body }}"
+    from: "{{ envs.SUPPORT_EMAIL_FROM }}"
+    allowFailure: true
+
+  - id: update_ticket
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    needs: create_session
+    url: "{{ envs.POSTGRES_URL }}"
+    username: "{{ envs.POSTGRES_USER }}"
+    password: "{{ envs.POSTGRES_PASSWORD }}"
+    sql: |
+      UPDATE support_tickets
+      SET 
+        status = 'in_progress',
+        metadata = COALESCE(metadata, '{}'::jsonb) || jsonb_build_object(
+          'troubleshooting_session_id', {{ outputs.create_session.rows[0][0] | json }}::text,
+          'troubleshooting_started_at', NOW()::text
+        ),
+        updated_at = NOW()
+      WHERE ticket_id = '{{ inputs.ticket_id }}'
+    store: true
+    allowFailure: true
+
+  - id: track_metrics
+    type: io.kestra.plugin.scripts.python.Script
+    needs: [create_session, detect_problem_advanced]
+    script: |
+      from workflow.kestra.flows.lib.support_troubleshooting_advanced import (
+          TroubleshootingAdvanced
+      )
+      import json
+      
+      advanced = TroubleshootingAdvanced(db_connection=None)
+      
+      session_id = {{ outputs.create_session.rows[0][0] | json }}
+      problem_id = {{ outputs.detect_problem_advanced.output.problem_id | json }}
+      
+      # Obtener analytics
+      analytics = advanced.get_analytics(problem_id=problem_id)
+      
+      print(json.dumps({
+          "session_id": session_id,
+          "analytics": analytics,
+          "tracked_at": "{{ execution.startDate }}"
+      }))
+    store: true
+    allowFailure: true
+
+  - id: summary
+    type: io.kestra.plugin.core.log.Log
+    message: |
+      ✅ Troubleshooting avanzado iniciado
+      
+      Sesión: {{ outputs.create_session.rows[0][0] }}
+      Problema detectado: {{ outputs.detect_problem_advanced.output.problem_id }}
+      Confianza: {{ outputs.detect_problem_advanced.output.confidence }}
+      Tiempo estimado: {{ outputs.predict_resolution_time.output.estimated_minutes }} minutos
+      Pasos optimizados: {{ outputs.optimize_steps.output.total_steps }}
+      Email enviado: {{ outputs.send_initial_email.success }}
+      
+      Próximos pasos:
+      - Cliente recibió guía inicial
+      - Sistema monitoreará progreso
+      - Pasos se optimizarán según resultados
+
+errors:
+  - id: handle_error
+    type: io.kestra.plugin.core.log.Log
+    message: |
+      ❌ Error en troubleshooting avanzado
+      
+      Error: {{ error.message }}
+      
+      Acción requerida: Revisar logs y configuración
+
+
+

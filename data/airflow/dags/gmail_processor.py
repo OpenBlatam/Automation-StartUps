@@ -2966,9 +2966,6 @@ def gmail_processor() -> None:
                         logger.warning(f"Failed to send Slack notification: {e}", exc_info=True)
                 
                 return summary_final
-    
-    # Ejecutar tarea
-    process_gmail_emails()
 
 
 # Generar DAG

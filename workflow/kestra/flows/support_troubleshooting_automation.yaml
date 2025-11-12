@@ -1,0 +1,325 @@
+id: support_troubleshooting_automation
+namespace: workflows
+
+labels:
+  app: support
+  process: troubleshooting-automation
+  category: automation
+
+description: |
+  🔧 Sistema de Troubleshooting Automatizado para Soporte Técnico
+  
+  Este workflow automatiza el proceso de guiar a los clientes paso a paso
+  para resolver problemas técnicos comunes, ahorrando tiempo en tickets
+  repetitivos.
+  
+  FLUJO:
+  - Recibe ticket o consulta de soporte
+  - Detecta el problema usando el agente de troubleshooting
+  - Guía al cliente paso a paso con instrucciones claras
+  - Monitorea el progreso y sugiere escalación si es necesario
+  - Actualiza el ticket con el estado del troubleshooting
+  
+  CARACTERÍSTICAS:
+  - Detección automática de problemas comunes
+  - Guía paso a paso accesible para no técnicos
+  - Precauciones y advertencias de seguridad
+  - Enlaces a recursos y documentación
+  - Sugerencia automática de escalación
+  - Integración con sistema de tickets
+  - Respuestas claras y accesibles
+
+inputs:
+  # Base de datos
+  - name: jdbc_url
+    type: STRING
+    required: false
+    description: URL JDBC para conexión a PostgreSQL
+  - name: jdbc_user
+    type: STRING
+    required: false
+    description: Usuario de base de datos
+  - name: jdbc_password
+    type: STRING
+    required: false
+    description: Contraseña de base de datos
+  
+  # Configuración de troubleshooting
+  - name: enable_troubleshooting
+    type: BOOLEAN
+    required: false
+    default: true
+    description: Habilitar troubleshooting automatizado
+  - name: auto_escalate_after_failures
+    type: INTEGER
+    required: false
+    default: 2
+    description: Número de pasos fallidos antes de escalar automáticamente
+  
+  # Notificaciones
+  - name: enable_notifications
+    type: BOOLEAN
+    required: false
+    default: true
+    description: Habilitar notificaciones al cliente
+  - name: email_api_key
+    type: STRING
+    required: false
+    description: API key para enviar emails
+
+triggers:
+  - id: troubleshooting_webhook
+    type: io.kestra.plugin.core.trigger.Webhook
+    key: support-troubleshooting
+    description: Webhook para iniciar troubleshooting desde tickets
+
+tasks:
+  # ========================================================================
+  # FASE 1: Validación y Preparación
+  # ========================================================================
+  - id: validate_troubleshooting_request
+    type: io.kestra.core.tasks.scripts.Python
+    description: Valida la solicitud de troubleshooting
+    script: |
+      import json
+      import re
+      
+      # Obtener payload del webhook
+      payload = {{ trigger.body | json }}
+      
+      # Validar campos requeridos
+      if not payload.get("problem_description"):
+          raise ValueError("El campo 'problem_description' es requerido")
+      
+      if not payload.get("customer_email"):
+          raise ValueError("El campo 'customer_email' es requerido")
+      
+      # Validar email
+      email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+      if not re.match(email_pattern, payload["customer_email"]):
+          raise ValueError(f"Email inválido: {payload['customer_email']}")
+      
+      # Preparar datos normalizados
+      normalized = {
+          "ticket_id": payload.get("ticket_id"),
+          "problem_description": payload["problem_description"].strip(),
+          "customer_email": payload["customer_email"].lower().strip(),
+          "customer_name": payload.get("customer_name", "").strip(),
+          "source": payload.get("source", "web")
+      }
+      
+      # Guardar para siguientes tareas
+      {{ outputs.validate_troubleshooting_request.normalized = normalized | json }}
+
+  # ========================================================================
+  # FASE 2: Iniciar Sesión de Troubleshooting
+  # ========================================================================
+  - id: start_troubleshooting_session
+    type: io.kestra.core.tasks.scripts.Python
+    description: Inicia una sesión de troubleshooting con el agente
+    inputFiles:
+      troubleshooting_agent.py: |
+        {{ read('data/integrations/support_troubleshooting_agent.py') }}
+    runner: DOCKER
+    docker:
+      image: python:3.11-slim
+    env:
+      KB_PATH: "/tmp/knowledge_base.json"
+    script: |
+      import json
+      import sys
+      sys.path.insert(0, '/tmp')
+      
+      from support_troubleshooting_agent import TroubleshootingAgent
+      
+      # Cargar datos normalizados
+      normalized = {{ outputs.validate_troubleshooting_request.normalized | json }}
+      
+      # Inicializar agente
+      agent = TroubleshootingAgent()
+      
+      # Iniciar sesión
+      session = agent.start_troubleshooting(
+          problem_description=normalized["problem_description"],
+          customer_email=normalized["customer_email"],
+          customer_name=normalized.get("customer_name"),
+          ticket_id=normalized.get("ticket_id")
+      )
+      
+      # Obtener primer paso
+      first_step = agent.get_current_step(session.session_id)
+      
+      result = {
+          "session_id": session.session_id,
+          "ticket_id": normalized.get("ticket_id"),
+          "customer_email": normalized["customer_email"],
+          "customer_name": normalized.get("customer_name"),
+          "problem_detected": session.detected_problem.problem_id if session.detected_problem else None,
+          "problem_title": session.detected_problem.problem_title if session.detected_problem else None,
+          "status": session.status.value,
+          "first_step": first_step,
+          "formatted_message": agent.format_step_response(first_step) if first_step else None
+      }
+      
+      {{ outputs.start_troubleshooting_session.result = result | json }}
+
+  # ========================================================================
+  # FASE 3: Enviar Respuesta Inicial al Cliente
+  # ========================================================================
+  - id: send_initial_response
+    type: io.kestra.core.tasks.scripts.Python
+    description: Envía la respuesta inicial con el primer paso al cliente
+    script: |
+      import json
+      import requests
+      
+      result = {{ outputs.start_troubleshooting_session.result | json }}
+      
+      if not result.get("formatted_message"):
+          # No se detectó problema, sugerir escalación
+          message = (
+              "Hola {},\n\n"
+              "He revisado tu consulta, pero no pude identificar un problema conocido "
+              "en nuestra base de conocimiento.\n\n"
+              "Para ayudarte mejor, voy a escalar tu ticket a un agente humano que "
+              "podrá asistirte de manera personalizada.\n\n"
+              "Un agente se pondrá en contacto contigo pronto.\n\n"
+              "Saludos,\n"
+              "Sistema de Soporte Automatizado"
+          ).format(result.get("customer_name", "cliente"))
+      else:
+          # Problema detectado, enviar guía
+          message = (
+              "Hola {},\n\n"
+              "He identificado tu problema y voy a guiarte paso a paso para resolverlo.\n\n"
+              "**Problema detectado:** {}\n\n"
+              "{}\n\n"
+              "Por favor, sigue las instrucciones y avísame cuando completes cada paso.\n\n"
+              "Si en algún momento necesitas ayuda adicional o el problema no se resuelve, "
+              "puedo escalar tu ticket a un agente humano.\n\n"
+              "Saludos,\n"
+              "Sistema de Soporte Automatizado"
+          ).format(
+              result.get("customer_name", "cliente"),
+              result.get("problem_title", "Problema técnico"),
+              result.get("formatted_message", "")
+          )
+      
+      # Guardar mensaje para envío
+      {{ outputs.send_initial_response.message = message | json }}
+      {{ outputs.send_initial_response.customer_email = result.get("customer_email") | json }}
+      {{ outputs.send_initial_response.session_id = result.get("session_id") | json }}
+
+  # ========================================================================
+  # FASE 4: Guardar Sesión en Base de Datos
+  # ========================================================================
+  - id: save_troubleshooting_session
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    description: Guarda la sesión de troubleshooting en la base de datos
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    sql: |
+      INSERT INTO support_troubleshooting_sessions (
+          session_id,
+          ticket_id,
+          customer_email,
+          customer_name,
+          problem_description,
+          detected_problem_id,
+          status,
+          started_at
+      ) VALUES (
+          '{{ outputs.start_troubleshooting_session.result.session_id }}',
+          {{ outputs.start_troubleshooting_session.result.ticket_id | default('NULL') | sql }},
+          '{{ outputs.start_troubleshooting_session.result.customer_email }}',
+          {{ outputs.start_troubleshooting_session.result.customer_name | default('NULL') | sql }},
+          '{{ outputs.start_troubleshooting_session.result.problem_description | sql }}',
+          {{ outputs.start_troubleshooting_session.result.problem_detected | default('NULL') | sql }},
+          '{{ outputs.start_troubleshooting_session.result.status }}',
+          NOW()
+      )
+      ON CONFLICT (session_id) DO UPDATE SET
+          status = EXCLUDED.status,
+          updated_at = NOW();
+
+  # ========================================================================
+  # FASE 5: Actualizar Ticket (si existe)
+  # ========================================================================
+  - id: update_ticket_with_troubleshooting
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    description: Actualiza el ticket con información de troubleshooting
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    sql: |
+      UPDATE support_tickets
+      SET
+          metadata = COALESCE(metadata, '{}'::jsonb) || jsonb_build_object(
+              'troubleshooting_session_id', '{{ outputs.start_troubleshooting_session.result.session_id }}',
+              'troubleshooting_status', '{{ outputs.start_troubleshooting_session.result.status }}',
+              'troubleshooting_problem_detected', {{ outputs.start_troubleshooting_session.result.problem_detected | default('NULL') | sql }},
+              'troubleshooting_started_at', NOW()::text
+          ),
+          updated_at = NOW()
+      WHERE ticket_id = '{{ outputs.start_troubleshooting_session.result.ticket_id }}'
+        AND '{{ outputs.start_troubleshooting_session.result.ticket_id }}' IS NOT NULL;
+
+  # ========================================================================
+  # FASE 6: Enviar Notificación (Opcional)
+  # ========================================================================
+  - id: send_notification
+    type: io.kestra.core.tasks.scripts.Python
+    description: Envía notificación al cliente (email, webhook, etc.)
+    condition: "{{ inputs.enable_notifications }}"
+    script: |
+      import json
+      import os
+      
+      message = {{ outputs.send_initial_response.message | json }}
+      customer_email = {{ outputs.send_initial_response.customer_email | json }}
+      session_id = {{ outputs.send_initial_response.session_id | json }}
+      
+      # Aquí puedes integrar con tu servicio de email
+      # Por ejemplo, usando SendGrid, Mailgun, etc.
+      
+      notification_result = {
+          "sent": True,
+          "method": "email",
+          "recipient": customer_email,
+          "session_id": session_id,
+          "timestamp": "{{ execution.startDate }}"
+      }
+      
+      {{ outputs.send_notification.result = notification_result | json }}
+
+  # ========================================================================
+  # FASE 7: Respuesta Final
+  # ========================================================================
+  - id: return_response
+    type: io.kestra.core.tasks.scripts.Python
+    description: Prepara la respuesta final del workflow
+    script: |
+      import json
+      
+      result = {{ outputs.start_troubleshooting_session.result | json }}
+      
+      response = {
+          "success": True,
+          "session_id": result.get("session_id"),
+          "ticket_id": result.get("ticket_id"),
+          "problem_detected": result.get("problem_detected"),
+          "problem_title": result.get("problem_title"),
+          "status": result.get("status"),
+          "message": "Sesión de troubleshooting iniciada correctamente",
+          "next_steps": [
+              "El cliente recibirá las instrucciones del primer paso",
+              "El cliente puede completar pasos usando el endpoint de actualización",
+              "El sistema monitoreará el progreso y sugerirá escalación si es necesario"
+          ]
+      }
+      
+      {{ outputs.return_response.response = response | json }}
+
+
+

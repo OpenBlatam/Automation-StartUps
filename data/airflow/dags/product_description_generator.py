@@ -294,21 +294,96 @@ class SEOOptimizer:
         return recommendations
 
 
+class CompetitorAnalyzer:
+    """Analizador de competencia para optimizar descripciones."""
+    
+    def __init__(self, llm_client: LLMClient):
+        self.llm_client = llm_client
+    
+    def analyze_competitors(self, product_type: str, competitors_data: List[Dict] = None) -> Dict:
+        """
+        Analiza descripciones de competidores para identificar mejores prácticas.
+        
+        Args:
+            product_type: Tipo de producto
+            competitors_data: Lista de descripciones de competidores (opcional)
+        
+        Returns:
+            Dict con insights y recomendaciones
+        """
+        if not competitors_data:
+            # Si no hay datos, generar recomendaciones genéricas
+            return {
+                'common_keywords': [],
+                'common_benefits': [],
+                'recommendations': [
+                    'Destacar beneficios únicos del producto',
+                    'Usar lenguaje emocional que conecte con el público',
+                    'Incluir datos específicos y verificables'
+                ]
+            }
+        
+        # Analizar con IA
+        prompt = f"""Analiza las siguientes descripciones de productos competidores del tipo "{product_type}" 
+y proporciona insights sobre:
+1. Keywords más comunes
+2. Beneficios más mencionados
+3. Estructura y tono
+4. Recomendaciones para destacar
+
+Descripciones competidoras:
+{json.dumps(competitors_data, ensure_ascii=False, indent=2)}
+
+Proporciona un análisis estructurado en JSON."""
+        
+        try:
+            result = self.llm_client.generate(
+                prompt=prompt,
+                system_prompt="Eres un experto en análisis de mercado y copywriting de e-commerce.",
+                temperature=0.5,
+                max_tokens=1000
+            )
+            
+            # Intentar parsear JSON de la respuesta
+            analysis_text = result['content']
+            # Extraer JSON si está en markdown code blocks
+            json_match = re.search(r'```json\s*(\{.*?\})\s*```', analysis_text, re.DOTALL)
+            if json_match:
+                return json.loads(json_match.group(1))
+            else:
+                # Si no hay JSON, retornar análisis en texto
+                return {
+                    'analysis': analysis_text,
+                    'common_keywords': [],
+                    'recommendations': []
+                }
+        except Exception as e:
+            logger.warning(f"Error analizando competencia: {str(e)}")
+            return {
+                'error': str(e),
+                'common_keywords': [],
+                'recommendations': []
+            }
+
+
 class ProductDescriptionGenerator:
-    """Generador de descripciones de productos con IA.
+    """Generador avanzado de descripciones de productos con IA.
     
     Características:
     - Generación optimizada para conversión (30-50% aumento)
     - Soporte multi-plataforma (Amazon, Shopify, genérico)
-    - Optimización SEO automática
+    - Optimización SEO automática con análisis de score
     - Storytelling emocional personalizado
+    - Análisis de competencia integrado
     - Sugerencias de multimedia
     - Sistema de caché inteligente
+    - Generación de títulos optimizados
     """
     
     def __init__(self, llm_client: LLMClient):
         self.llm_client = llm_client
         self.seo_optimizer = SEOOptimizer()
+        self.competitor_analyzer = CompetitorAnalyzer(llm_client)
         self._validate_llm_client()
     
     def _validate_llm_client(self):
@@ -388,54 +463,76 @@ class ProductDescriptionGenerator:
             
             # Generar descripción
             result = self.llm_client.generate(
-            prompt=prompt,
-            system_prompt=system_prompt,
-            temperature=0.8,  # Más creatividad para storytelling
-            max_tokens=min(word_count * 2, 2000)  # Aprox 2 tokens por palabra
-        )
-        
-        description = result['content'].strip()
-        
-        # Extraer secciones si están en formato estructurado
-        parsed_description = self._parse_description(description)
-        
-        # Optimizar SEO
-        seo_keywords = keywords or self.seo_optimizer.extract_keywords(description)
-        meta_description = self.seo_optimizer.generate_meta_description(description)
-        optimized_description = self.seo_optimizer.optimize_for_platform(description, platform)
-        
-        # Generar sugerencias multimedia
-        multimedia_suggestions = self._generate_multimedia_suggestions(
-            product_name, product_type, key_benefits, technical_features
-        )
-        
-        # Generar título optimizado
-        optimized_title = self.seo_optimizer.generate_title(product_name, key_benefits)
-        
-        # Analizar SEO score
-        seo_analysis = self.seo_optimizer.analyze_seo_score(optimized_description, seo_keywords)
-        
-        return {
-            'description': optimized_description,
-            'title': optimized_title,
-            'full_description': parsed_description.get('full', optimized_description),
-            'benefits_section': parsed_description.get('benefits', ''),
-            'technical_section': parsed_description.get('technical', ''),
-            'storytelling_section': parsed_description.get('storytelling', ''),
-            'seo_keywords': seo_keywords,
-            'seo_analysis': seo_analysis,
-            'meta_description': meta_description,
-            'multimedia_suggestions': multimedia_suggestions,
-            'word_count': len(optimized_description.split()),
-            'platform': platform,
-            'language': language,
-            'metadata': {
-                'provider': result.get('provider'),
-                'model': result.get('model'),
-                'tokens_used': result.get('tokens_used'),
-                'generated_at': datetime.now().isoformat()
+                prompt=prompt,
+                system_prompt=system_prompt,
+                temperature=0.8,  # Más creatividad para storytelling
+                max_tokens=min(word_count * 2, 2000)  # Aprox 2 tokens por palabra
+            )
+            
+            description = result['content'].strip()
+            
+            # Extraer secciones si están en formato estructurado
+            parsed_description = self._parse_description(description)
+            
+            # Optimizar SEO
+            seo_keywords = keywords or self.seo_optimizer.extract_keywords(description)
+            meta_description = self.seo_optimizer.generate_meta_description(description)
+            optimized_description = self.seo_optimizer.optimize_for_platform(description, platform)
+            
+            # Generar sugerencias multimedia
+            multimedia_suggestions = self._generate_multimedia_suggestions(
+                product_name, product_type, key_benefits, technical_features
+            )
+            
+            # Generar título optimizado
+            optimized_title = self.seo_optimizer.generate_title(product_name, key_benefits)
+            
+            # Analizar SEO score
+            seo_analysis = self.seo_optimizer.analyze_seo_score(optimized_description, seo_keywords)
+            
+            # Análisis completo (opcional, puede ser pesado)
+            full_analysis = None
+            try:
+                from product_description_analyzer import ProductDescriptionAnalyzer
+                analyzer = ProductDescriptionAnalyzer()
+                temp_data = {
+                    'description': optimized_description,
+                    'word_count': len(optimized_description.split()),
+                    'seo_analysis': seo_analysis,
+                    'language': language
+                }
+                full_analysis = analyzer.analyze_complete(temp_data)
+            except Exception as e:
+                logger.warning(f"No se pudo realizar análisis completo: {str(e)}")
+            
+            result_dict = {
+                'description': optimized_description,
+                'title': optimized_title,
+                'full_description': parsed_description.get('full', optimized_description),
+                'benefits_section': parsed_description.get('benefits', ''),
+                'technical_section': parsed_description.get('technical', ''),
+                'storytelling_section': parsed_description.get('storytelling', ''),
+                'seo_keywords': seo_keywords,
+                'seo_analysis': seo_analysis,
+                'meta_description': meta_description,
+                'multimedia_suggestions': multimedia_suggestions,
+                'word_count': len(optimized_description.split()),
+                'platform': platform,
+                'language': language,
+                'metadata': {
+                    'provider': result.get('provider'),
+                    'model': result.get('model'),
+                    'tokens_used': result.get('tokens_used'),
+                    'generated_at': datetime.now().isoformat()
+                }
             }
-        }
+            
+            # Agregar análisis completo si está disponible
+            if full_analysis:
+                result_dict['full_analysis'] = full_analysis
+            
+            return result_dict
+            
         except Exception as e:
             logger.error(f"Error generando descripción para {product_name}: {str(e)}")
             raise

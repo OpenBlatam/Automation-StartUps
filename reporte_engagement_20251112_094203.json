@@ -1,0 +1,231 @@
+{
+  "fecha_analisis": "2025-11-12T09:42:03.732249",
+  "periodo_analizado": "Últimos 30 días",
+  "total_publicaciones": 30,
+  "mejor_tipo_contenido": {
+    "tipo": "X",
+    "datos": {
+      "nombre": "Tutoriales/Educativos",
+      "cantidad_publicaciones": 17,
+      "engagement_total": 7018,
+      "engagement_promedio": 412.8235294117647,
+      "engagement_score_promedio": 714.8235294117648,
+      "engagement_rate_promedio": 15.248503520997511,
+      "likes_promedio": 306.29411764705884,
+      "comentarios_promedio": 62.05882352941177,
+      "shares_promedio": 44.470588235294116,
+      "impresiones_promedio": 2763.4117647058824,
+      "reach_promedio": 2153.0588235294117,
+      "porcentaje_con_media": 88.23529411764706,
+      "plataformas_mas_usadas": {
+        "Facebook": 7,
+        "Instagram": 5,
+        "TikTok": 3,
+        "Twitter": 1,
+        "LinkedIn": 1
+      },
+      "mejor_publicacion": "Publicacion(id='post_014', tipo_contenido='X', titulo='Aprende esto en minutos', plataforma='Facebook', fecha_publicacion=datetime.datetime(2025, 11, 6, 9, 42, 3, 731106), likes=657, comentarios=129, shares=94, impresiones=4208, reach=3560, hashtags=['#tutorial', '#tips', '#aprende', '#educacion'], tiene_media=True, duracion_video=169, metadata={'tipo_nombre': 'Tutoriales/Educativos', 'hora_publicacion': 9, 'dia_semana': 'Thursday'})"
+    },
+    "razones_superioridad": [
+      "Supera a Promocional/Producto por 595.2 puntos en engagement score (12.45% más en engagement rate)",
+      "Supera a Entretenimiento/Viral por 338.4 puntos en engagement score (6.59% más en engagement rate)"
+    ],
+    "caracteristicas_clave": [
+      "Genera alta participación en comentarios (más del 20% de likes)",
+      "Mayoría de publicaciones incluyen contenido multimedia"
+    ],
+    "comparacion_con_otros": {
+      "Z": {
+        "nombre": "Promocional/Producto",
+        "cantidad_publicaciones": 5,
+        "engagement_total": 392,
+        "engagement_promedio": 78.4,
+        "engagement_score_promedio": 119.6,
+        "engagement_rate_promedio": 2.8020239318482556,
+        "likes_promedio": 63.8,
+        "comentarios_promedio": 8.6,
+        "shares_promedio": 6.0,
+        "impresiones_promedio": 2543.8,
+        "reach_promedio": 1890.8,
+        "porcentaje_con_media": 60.0,
+        "plataformas_mas_usadas": {
+          "Instagram": 2,
+          "Facebook": 1,
+          "LinkedIn": 1,
+          "TikTok": 1
+        },
+        "mejor_publicacion": "Publicacion(id='post_001', tipo_contenido='Z', titulo='Lanzamiento: Producto', plataforma='Instagram', fecha_publicacion=datetime.datetime(2025, 10, 29, 9, 42, 3, 731106), likes=128, comentarios=17, shares=8, impresiones=4828, reach=3861, hashtags=['#oferta', '#promocion', '#producto', '#nuevo'], tiene_media=False, duracion_video=17, metadata={'tipo_nombre': 'Promocional/Producto', 'hora_publicacion': 9, 'dia_semana': 'Wednesday'})"
+      },
+      "Y": {
+        "nombre": "Entretenimiento/Viral",
+        "cantidad_publicaciones": 8,
+        "engagement_total": 1969,
+        "engagement_promedio": 246.125,
+        "engagement_score_promedio": 376.375,
+        "engagement_rate_promedio": 8.65364483017778,
+        "likes_promedio": 201.125,
+        "comentarios_promedio": 24.875,
+        "shares_promedio": 20.125,
+        "impresiones_promedio": 2502.0,
+        "reach_promedio": 1769.5,
+        "porcentaje_con_media": 100.0,
+        "plataformas_mas_usadas": {
+          "Facebook": 3,
+          "Twitter": 2,
+          "LinkedIn": 1,
+          "Instagram": 1,
+          "TikTok": 1
+        },
+        "mejor_publicacion": "Publicacion(id='post_030', tipo_contenido='Y', titulo='Viral: Momento increíble', plataforma='Facebook', fecha_publicacion=datetime.datetime(2025, 11, 11, 9, 42, 3, 731106), likes=424, comentarios=54, shares=46, impresiones=4979, reach=3260, hashtags=['#entretenimiento', '#diversion', '#trending', '#viral'], tiene_media=True, duracion_video=15, metadata={'tipo_nombre': 'Entretenimiento/Viral', 'hora_publicacion': 9, 'dia_semana': 'Tuesday'})"
+      }
+    }
+  },
+  "analisis_por_tipo": {
+    "Z": {
+      "nombre": "Promocional/Producto",
+      "cantidad_publicaciones": 5,
+      "engagement_total": 392,
+      "engagement_promedio": 78.4,
+      "engagement_score_promedio": 119.6,
+      "engagement_rate_promedio": 2.8020239318482556,
+      "likes_promedio": 63.8,
+      "comentarios_promedio": 8.6,
+      "shares_promedio": 6.0,
+      "impresiones_promedio": 2543.8,
+      "reach_promedio": 1890.8,
+      "porcentaje_con_media": 60.0,
+      "plataformas_mas_usadas": {
+        "Instagram": 2,
+        "Facebook": 1,
+        "LinkedIn": 1,
+        "TikTok": 1
+      },
+      "mejor_publicacion": "Publicacion(id='post_001', tipo_contenido='Z', titulo='Lanzamiento: Producto', plataforma='Instagram', fecha_publicacion=datetime.datetime(2025, 10, 29, 9, 42, 3, 731106), likes=128, comentarios=17, shares=8, impresiones=4828, reach=3861, hashtags=['#oferta', '#promocion', '#producto', '#nuevo'], tiene_media=False, duracion_video=17, metadata={'tipo_nombre': 'Promocional/Producto', 'hora_publicacion': 9, 'dia_semana': 'Wednesday'})"
+    },
+    "X": {
+      "nombre": "Tutoriales/Educativos",
+      "cantidad_publicaciones": 17,
+      "engagement_total": 7018,
+      "engagement_promedio": 412.8235294117647,
+      "engagement_score_promedio": 714.8235294117648,
+      "engagement_rate_promedio": 15.248503520997511,
+      "likes_promedio": 306.29411764705884,
+      "comentarios_promedio": 62.05882352941177,
+      "shares_promedio": 44.470588235294116,
+      "impresiones_promedio": 2763.4117647058824,
+      "reach_promedio": 2153.0588235294117,
+      "porcentaje_con_media": 88.23529411764706,
+      "plataformas_mas_usadas": {
+        "Facebook": 7,
+        "Instagram": 5,
+        "TikTok": 3,
+        "Twitter": 1,
+        "LinkedIn": 1
+      },
+      "mejor_publicacion": "Publicacion(id='post_014', tipo_contenido='X', titulo='Aprende esto en minutos', plataforma='Facebook', fecha_publicacion=datetime.datetime(2025, 11, 6, 9, 42, 3, 731106), likes=657, comentarios=129, shares=94, impresiones=4208, reach=3560, hashtags=['#tutorial', '#tips', '#aprende', '#educacion'], tiene_media=True, duracion_video=169, metadata={'tipo_nombre': 'Tutoriales/Educativos', 'hora_publicacion': 9, 'dia_semana': 'Thursday'})"
+    },
+    "Y": {
+      "nombre": "Entretenimiento/Viral",
+      "cantidad_publicaciones": 8,
+      "engagement_total": 1969,
+      "engagement_promedio": 246.125,
+      "engagement_score_promedio": 376.375,
+      "engagement_rate_promedio": 8.65364483017778,
+      "likes_promedio": 201.125,
+      "comentarios_promedio": 24.875,
+      "shares_promedio": 20.125,
+      "impresiones_promedio": 2502.0,
+      "reach_promedio": 1769.5,
+      "porcentaje_con_media": 100.0,
+      "plataformas_mas_usadas": {
+        "Facebook": 3,
+        "Twitter": 2,
+        "LinkedIn": 1,
+        "Instagram": 1,
+        "TikTok": 1
+      },
+      "mejor_publicacion": "Publicacion(id='post_030', tipo_contenido='Y', titulo='Viral: Momento increíble', plataforma='Facebook', fecha_publicacion=datetime.datetime(2025, 11, 11, 9, 42, 3, 731106), likes=424, comentarios=54, shares=46, impresiones=4979, reach=3260, hashtags=['#entretenimiento', '#diversion', '#trending', '#viral'], tiene_media=True, duracion_video=15, metadata={'tipo_nombre': 'Entretenimiento/Viral', 'hora_publicacion': 9, 'dia_semana': 'Tuesday'})"
+    }
+  },
+  "recomendaciones": [
+    {
+      "titulo": "Serie de Tutoriales Paso a Paso",
+      "descripcion": "Crear una serie semanal de tutoriales cortos (5-10 min) sobre temas específicos",
+      "razon": "Los tutoriales generan alto engagement porque proporcionan valor inmediato",
+      "formato_sugerido": "Video corto con capturas de pantalla y narración",
+      "hashtags_sugeridos": [
+        "#tutorial",
+        "#aprende",
+        "#pasoapaso",
+        "#tips"
+      ],
+      "frecuencia": "1-2 veces por semana"
+    },
+    {
+      "titulo": "Tips Rápidos en Formato Carousel",
+      "descripcion": "Publicaciones tipo carousel con 5-7 tips visuales y concisos",
+      "razon": "El formato carousel mantiene a la audiencia comprometida y genera más tiempo de visualización",
+      "formato_sugerido": "Carousel de Instagram/LinkedIn con imágenes/texto",
+      "hashtags_sugeridos": [
+        "#tips",
+        "#consejos",
+        "#productividad",
+        "#aprende"
+      ],
+      "frecuencia": "2-3 veces por semana"
+    },
+    {
+      "titulo": "Casos de Estudio con Resultados",
+      "descripcion": "Mostrar casos reales de cómo aplicar conocimientos con resultados medibles",
+      "razon": "Los casos de estudio generan credibilidad y comentarios de personas que quieren replicar",
+      "formato_sugerido": "Post largo con imágenes antes/después o métricas",
+      "hashtags_sugeridos": [
+        "#casoestudio",
+        "#resultados",
+        "#exito",
+        "#aprende"
+      ],
+      "frecuencia": "1 vez por semana"
+    },
+    {
+      "titulo": "Preguntas y Respuestas en Vivo",
+      "descripcion": "Sesiones de Q&A donde respondes preguntas frecuentes de tu audiencia",
+      "razon": "El formato interactivo genera alta participación en comentarios y shares",
+      "formato_sugerido": "Video en vivo o Stories con preguntas",
+      "hashtags_sugeridos": [
+        "#preguntas",
+        "#respuestas",
+        "#live",
+        "#comunidad"
+      ],
+      "frecuencia": "1 vez cada 2 semanas"
+    },
+    {
+      "titulo": "Guías Descargables Gratuitas",
+      "descripcion": "Crear PDFs o recursos descargables que complementen tus publicaciones",
+      "razon": "Los recursos descargables generan saves y shares, aumentando el engagement",
+      "formato_sugerido": "Post con link a descarga + preview del contenido",
+      "hashtags_sugeridos": [
+        "#descarga",
+        "#gratis",
+        "#recurso",
+        "#guia"
+      ],
+      "frecuencia": "1 vez por semana"
+    }
+  ],
+  "resumen_ejecutivo": {
+    "tipo_ganador": "X",
+    "nombre_tipo": "Tutoriales/Educativos",
+    "engagement_rate_promedio": 15.248503520997511,
+    "engagement_score_promedio": 714.8235294117648,
+    "razones_principales": [
+      "Supera a Promocional/Producto por 595.2 puntos en engagement score (12.45% más en engagement rate)",
+      "Supera a Entretenimiento/Viral por 338.4 puntos en engagement score (6.59% más en engagement rate)"
+    ],
+    "caracteristicas_clave": [
+      "Genera alta participación en comentarios (más del 20% de likes)",
+      "Mayoría de publicaciones incluyen contenido multimedia"
+    ]
+  }
+}

@@ -1,0 +1,492 @@
+{
+  "name": "Análisis de Engagement - Último Mes",
+  "nodes": [
+    {
+      "parameters": {
+        "cronExpression": "0 9 1 * *",
+        "timezone": "UTC"
+      },
+      "id": "schedule-trigger",
+      "name": "Schedule Trigger - Mensual",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "notes": "Ejecuta el primer día de cada mes a las 9:00 AM para analizar el mes anterior"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "analyze-engagement",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-trigger",
+      "name": "Webhook Trigger - Ejecución Manual",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [250, 500],
+      "webhookId": "analyze-engagement-webhook",
+      "notes": "Permite ejecutar el análisis manualmente vía webhook"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Inicializar variables del workflow\nconst daysBack = parseInt($input.item.json.daysBack || $env.DAYS_BACK || '30');\nconst executionId = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;\nconst now = new Date();\nconst startDate = new Date(now.getTime() - (daysBack * 24 * 60 * 60 * 1000));\n\n// Tipos de contenido a analizar (pueden venir del webhook o usar defaults)\nconst contentTypes = $input.item.json.contentTypes || ['tutorial', 'noticia', 'opinion', 'caso_estudio', 'infografia'];\n\n// Configuración de base de datos\nconst dbConfig = {\n  host: $env.DB_HOST || 'localhost',\n  port: parseInt($env.DB_PORT || '5432'),\n  database: $env.DB_NAME || 'content_marketing',\n  user: $env.DB_USER || 'postgres',\n  password: $env.DB_PASSWORD || ''\n};\n\nreturn [{\n  json: {\n    executionId: executionId,\n    daysBack: daysBack,\n    startDate: startDate.toISOString(),\n    endDate: now.toISOString(),\n    contentTypes: contentTypes,\n    dbConfig: dbConfig,\n    startedAt: now.toISOString(),\n    workflowVersion: '1.0'\n  }\n}];"
+      },
+      "id": "initialize-workflow",
+      "name": "Initialize Workflow",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [450, 400],
+      "notes": "Inicializa variables del workflow"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT \n  sp.post_id,\n  sp.platform,\n  sp.content,\n  sp.hashtags,\n  sp.published_at,\n  sp.metadata,\n  a.category,\n  a.title as article_title,\n  e.likes,\n  e.comments,\n  e.shares,\n  e.retweets,\n  e.saves,\n  e.clicks,\n  e.impressions,\n  e.reach,\n  e.engagement_rate,\n  e.click_through_rate\nFROM content_scheduled_posts sp\nLEFT JOIN content_articles a ON sp.article_id = a.article_id\nLEFT JOIN content_engagement e ON sp.post_id = e.post_id\nWHERE sp.status = 'published'\n  AND sp.published_at >= $1::timestamp\n  AND sp.published_at <= $2::timestamp\nORDER BY sp.published_at DESC",
+        "options": {
+          "queryReplacement": "={{ $json.startDate }}, {{ $json.endDate }}"
+        }
+      },
+      "id": "fetch-posts",
+      "name": "Fetch Posts from DB",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.4,
+      "position": [650, 400],
+      "credentials": {
+        "postgres": {
+          "id": "postgres-credentials",
+          "name": "PostgreSQL"
+        }
+      },
+      "notes": "Obtiene publicaciones del último mes con sus métricas de engagement",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Clasificar posts por tipo de contenido y calcular métricas\nconst posts = $input.all();\nconst contentTypes = $json.contentTypes || ['tutorial', 'noticia', 'opinion', 'caso_estudio', 'infografia'];\n\n// Función para determinar el tipo de contenido\nfunction classifyContentType(post) {\n  // Intentar obtener del category\n  if (post.category) {\n    return post.category.toLowerCase();\n  }\n  \n  // Intentar obtener del metadata\n  if (post.metadata && post.metadata.content_type) {\n    return post.metadata.content_type.toLowerCase();\n  }\n  \n  // Analizar el contenido para inferir el tipo\n  const content = (post.content || '').toLowerCase();\n  const title = (post.article_title || '').toLowerCase();\n  const combined = content + ' ' + title;\n  \n  // Palabras clave para cada tipo\n  const keywords = {\n    'tutorial': ['tutorial', 'cómo', 'paso a paso', 'guía', 'aprende', 'step by step'],\n    'noticia': ['noticia', 'anuncio', 'nuevo', 'lanzamiento', 'actualización'],\n    'opinion': ['opinión', 'creo', 'pienso', 'considero', 'mi punto de vista'],\n    'caso_estudio': ['caso de estudio', 'caso estudio', 'case study', 'ejemplo real', 'historia de éxito'],\n    'infografia': ['infografía', 'infographic', 'visual', 'gráfico', 'chart']\n  };\n  \n  // Contar coincidencias\n  let maxScore = 0;\n  let detectedType = 'general';\n  \n  Object.keys(keywords).forEach(type => {\n    const score = keywords[type].reduce((acc, keyword) => {\n      return acc + (combined.includes(keyword) ? 1 : 0);\n    }, 0);\n    if (score > maxScore) {\n      maxScore = score;\n      detectedType = type;\n    }\n  });\n  \n  return detectedType;\n}\n\n// Clasificar y agrupar posts\nconst postsByType = {};\nconst allPosts = [];\n\nposts.forEach(item => {\n  const post = item.json;\n  const contentType = classifyContentType(post);\n  \n  // Calcular engagement total\n  const totalEngagement = (post.likes || 0) + \n                          (post.comments || 0) + \n                          (post.shares || 0) + \n                          (post.retweets || 0) + \n                          (post.saves || 0);\n  \n  // Calcular engagement rate si no existe\n  let engagementRate = post.engagement_rate;\n  if (!engagementRate && post.impressions && post.impressions > 0) {\n    engagementRate = (totalEngagement / post.impressions) * 100;\n  }\n  \n  const enrichedPost = {\n    ...post,\n    contentType: contentType,\n    totalEngagement: totalEngagement,\n    engagementRate: engagementRate || 0,\n    hasMedia: (post.hashtags && post.hashtags.length > 0) || false\n  };\n  \n  allPosts.push(enrichedPost);\n  \n  if (!postsByType[contentType]) {\n    postsByType[contentType] = {\n      posts: [],\n      totalPosts: 0,\n      totalLikes: 0,\n      totalComments: 0,\n      totalShares: 0,\n      totalRetweets: 0,\n      totalSaves: 0,\n      totalClicks: 0,\n      totalImpressions: 0,\n      totalReach: 0,\n      totalEngagement: 0,\n      avgEngagementRate: 0,\n      avgClickThroughRate: 0\n    };\n  }\n  \n  postsByType[contentType].posts.push(enrichedPost);\n  postsByType[contentType].totalPosts++;\n  postsByType[contentType].totalLikes += (post.likes || 0);\n  postsByType[contentType].totalComments += (post.comments || 0);\n  postsByType[contentType].totalShares += (post.shares || 0);\n  postsByType[contentType].totalRetweets += (post.retweets || 0);\n  postsByType[contentType].totalSaves += (post.saves || 0);\n  postsByType[contentType].totalClicks += (post.clicks || 0);\n  postsByType[contentType].totalImpressions += (post.impressions || 0);\n  postsByType[contentType].totalReach += (post.reach || 0);\n  postsByType[contentType].totalEngagement += totalEngagement;\n});\n\n// Calcular promedios por tipo\nObject.keys(postsByType).forEach(type => {\n  const stats = postsByType[type];\n  if (stats.totalPosts > 0) {\n    stats.avgEngagementRate = stats.totalImpressions > 0 ? \n      ((stats.totalEngagement / stats.totalImpressions) * 100) : 0;\n    stats.avgClickThroughRate = stats.totalImpressions > 0 ? \n      ((stats.totalClicks / stats.totalImpressions) * 100) : 0;\n    stats.avgEngagementPerPost = stats.totalEngagement / stats.totalPosts;\n    stats.avgLikesPerPost = stats.totalLikes / stats.totalPosts;\n    stats.avgCommentsPerPost = stats.totalComments / stats.totalPosts;\n    stats.avgSharesPerPost = stats.totalShares / stats.totalPosts;\n  }\n});\n\n// Encontrar el tipo con mayor engagement\nlet bestType = null;\nlet maxAvgEngagement = 0;\n\nObject.keys(postsByType).forEach(type => {\n  const stats = postsByType[type];\n  if (stats.avgEngagementPerPost > maxAvgEngagement && stats.totalPosts >= 3) {\n    maxAvgEngagement = stats.avgEngagementPerPost;\n    bestType = type;\n  }\n});\n\n// Obtener los top 3 posts de cada tipo\nObject.keys(postsByType).forEach(type => {\n  postsByType[type].topPosts = postsByType[type].posts\n    .sort((a, b) => b.totalEngagement - a.totalEngagement)\n    .slice(0, 3)\n    .map(p => ({\n      post_id: p.post_id,\n      title: p.article_title || p.content.substring(0, 100),\n      platform: p.platform,\n      totalEngagement: p.totalEngagement,\n      engagementRate: p.engagementRate,\n      likes: p.likes,\n      comments: p.comments,\n      shares: p.shares\n    }));\n});\n\nreturn [{\n  json: {\n    ...$json,\n    totalPosts: allPosts.length,\n    postsByType: postsByType,\n    bestContentType: bestType,\n    bestTypeStats: bestType ? postsByType[bestType] : null,\n    analysisDate: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "classify-and-analyze",
+      "name": "Classify & Analyze Posts",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [850, 400],
+      "notes": "Clasifica posts por tipo y calcula métricas de engagement"
+    },
+    {
+      "parameters": {
+        "model": "gpt-4",
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 1500
+        },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "Eres un experto en marketing de contenidos y análisis de engagement en redes sociales. Analiza los datos proporcionados y explica por qué un tipo de contenido obtuvo mejor engagement."
+            },
+            {
+              "role": "user",
+              "content": "Analiza el siguiente análisis de engagement del último mes:\n\n{{ JSON.stringify($json.postsByType, null, 2) }}\n\nTipo de contenido con mejor engagement: {{ $json.bestContentType }}\n\nEstadísticas del mejor tipo:\n{{ JSON.stringify($json.bestTypeStats, null, 2) }}\n\nPor favor, explica:\n1. ¿Por qué este tipo de contenido obtuvo más engagement?\n2. ¿Qué características específicas (formato, tono, longitud, hashtags, etc.) contribuyeron al éxito?\n3. ¿En qué plataformas funcionó mejor?\n4. ¿Qué patrones identificas en los posts más exitosos?\n\nProporciona un análisis detallado y fundamentado."
+            }
+          ]
+        }
+      },
+      "id": "analyze-why-successful",
+      "name": "AI Analysis - Why Successful",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1.3,
+      "position": [1050, 400],
+      "credentials": {
+        "openAiApi": {
+          "id": "openai-credentials",
+          "name": "OpenAI API"
+        }
+      },
+      "notes": "Usa IA para analizar por qué el tipo de contenido fue exitoso",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "model": "gpt-4",
+        "options": {
+          "temperature": 0.8,
+          "maxTokens": 2000
+        },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "Eres un estratega creativo de contenido. Genera ideas innovadoras y específicas basadas en patrones de éxito identificados en análisis de engagement."
+            },
+            {
+              "role": "user",
+              "content": "Basándote en el siguiente análisis:\n\nTipo de contenido con mejor engagement: {{ $json.bestContentType }}\n\nAnálisis de por qué funcionó:\n{{ $json.choices[0].message.content }}\n\nEstadísticas del mejor tipo:\n{{ JSON.stringify($json.bestTypeStats, null, 2) }}\n\nTop 3 posts más exitosos:\n{{ JSON.stringify($json.bestTypeStats.topPosts, null, 2) }}\n\nGenera 5 nuevas ideas de contenido específicas y accionables que:\n1. Sigan el patrón del tipo de contenido exitoso\n2. Incluyan elementos que funcionaron bien (formato, tono, estructura, etc.)\n3. Sean innovadoras pero basadas en datos\n4. Incluyan sugerencias específicas de:\n   - Título/tema\n   - Formato (texto, video, imagen, carousel, etc.)\n   - Plataforma recomendada\n   - Hashtags sugeridos\n   - Longitud aproximada\n   - Elementos visuales sugeridos\n\nFormato cada idea como un objeto JSON con: title, format, platform, hashtags (array), length, visual_elements, why_it_will_work"
+            }
+          ]
+        }
+      },
+      "id": "generate-recommendations",
+      "name": "Generate Content Ideas",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1.3,
+      "position": [1250, 400],
+      "credentials": {
+        "openAiApi": {
+          "id": "openai-credentials",
+          "name": "OpenAI API"
+        }
+      },
+      "notes": "Genera 5 nuevas ideas de contenido basadas en el patrón exitoso",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parsear y estructurar las recomendaciones de IA\nconst aiResponse = $json.choices[0].message.content;\nconst analysis = $input.first().json.choices[0].message.content;\n\n// Intentar extraer JSON del response\nlet recommendations = [];\ntry {\n  // Buscar JSON en el texto\n  const jsonMatch = aiResponse.match(/\\[\\s*\\{[\\s\\S]*\\}\\s*\\]/);\n  if (jsonMatch) {\n    recommendations = JSON.parse(jsonMatch[0]);\n  } else {\n    // Si no hay JSON, parsear texto estructurado\n    const lines = aiResponse.split('\\n');\n    let currentIdea = {};\n    \n    lines.forEach(line => {\n      if (line.match(/^\\d+\\./)) {\n        if (Object.keys(currentIdea).length > 0) {\n          recommendations.push(currentIdea);\n        }\n        currentIdea = { title: line.replace(/^\\d+\\.\\s*/, '') };\n      } else if (line.includes(':')) {\n        const [key, value] = line.split(':').map(s => s.trim());\n        currentIdea[key.toLowerCase().replace(/\\s+/g, '_')] = value;\n      }\n    });\n    if (Object.keys(currentIdea).length > 0) {\n      recommendations.push(currentIdea);\n    }\n  }\n} catch (e) {\n  // Si falla el parsing, crear recomendaciones básicas\n  recommendations = [\n    {\n      title: 'Contenido basado en el patrón exitoso',\n      format: 'Similar al tipo exitoso',\n      platform: 'Plataforma con mejor engagement',\n      why_it_will_work: 'Sigue el patrón identificado como exitoso'\n    }\n  ];\n}\n\n// Asegurar que tenemos exactamente 5 recomendaciones\nwhile (recommendations.length < 5) {\n  recommendations.push({\n    title: `Idea ${recommendations.length + 1} basada en ${$input.first().json.bestContentType}`,\n    format: 'Por definir',\n    platform: 'Por definir',\n    why_it_will_work: 'Basada en el análisis de engagement'\n  });\n}\n\nrecommendations = recommendations.slice(0, 5);\n\n// Preparar resumen final\nconst summary = {\n  ...$input.first().json,\n  analysis: analysis,\n  recommendations: recommendations,\n  generatedAt: new Date().toISOString()\n};\n\nreturn [{\n  json: summary\n}];"
+      },
+      "id": "parse-recommendations",
+      "name": "Parse Recommendations",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1450, 400],
+      "notes": "Parsea y estructura las recomendaciones de IA"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Preparar reporte final formateado\nconst data = $json;\n\nlet report = `📊 ANÁLISIS DE ENGAGEMENT - ÚLTIMO MES\\n`;\nreport += `═══════════════════════════════════════\\n\\n`;\nreport += `📅 Período analizado: ${new Date(data.startDate).toLocaleDateString('es-ES')} - ${new Date(data.endDate).toLocaleDateString('es-ES')}\\n`;\nreport += `📝 Total de publicaciones: ${data.totalPosts}\\n\\n`;\n\n// Resumen por tipo\nreport += `📈 RESUMEN POR TIPO DE CONTENIDO:\\n`;\nreport += `─────────────────────────────────────\\n`;\n\nObject.keys(data.postsByType).forEach(type => {\n  const stats = data.postsByType[type];\n  report += `\\n🎯 ${type.toUpperCase()}:\\n`;\n  report += `   • Publicaciones: ${stats.totalPosts}\\n`;\n  report += `   • Engagement total: ${stats.totalEngagement}\\n`;\n  report += `   • Promedio por post: ${stats.avgEngagementPerPost.toFixed(2)}\\n`;\n  report += `   • Tasa de engagement: ${stats.avgEngagementRate.toFixed(2)}%\\n`;\n  report += `   • Likes promedio: ${stats.avgLikesPerPost.toFixed(2)}\\n`;\n  report += `   • Comentarios promedio: ${stats.avgCommentsPerPost.toFixed(2)}\\n`;\n  report += `   • Shares promedio: ${stats.avgSharesPerPost.toFixed(2)}\\n`;\n});\n\n// Tipo ganador\nif (data.bestContentType) {\n  report += `\\n\\n🏆 TIPO DE CONTENIDO CON MAYOR ENGAGEMENT:\\n`;\n  report += `─────────────────────────────────────\\n`;\n  report += `✨ ${data.bestContentType.toUpperCase()}\\n\\n`;\n  \n  const bestStats = data.bestTypeStats;\n  report += `Métricas destacadas:\\n`;\n  report += `• Engagement promedio: ${bestStats.avgEngagementPerPost.toFixed(2)}\\n`;\n  report += `• Tasa de engagement: ${bestStats.avgEngagementRate.toFixed(2)}%\\n`;\n  report += `• Total de interacciones: ${bestStats.totalEngagement}\\n`;\n  report += `• Publicaciones analizadas: ${bestStats.totalPosts}\\n`;\n}\n\n// Análisis de IA\nif (data.analysis) {\n  report += `\\n\\n🔍 ANÁLISIS: ¿POR QUÉ FUNCIONÓ?\\n`;\n  report += `─────────────────────────────────────\\n`;\n  report += `${data.analysis}\\n`;\n}\n\n// Recomendaciones\nif (data.recommendations && data.recommendations.length > 0) {\n  report += `\\n\\n💡 5 NUEVAS IDEAS DE CONTENIDO:\\n`;\n  report += `─────────────────────────────────────\\n\\n`;\n  \n  data.recommendations.forEach((idea, idx) => {\n    report += `${idx + 1}. ${idea.title || 'Idea sin título'}\\n`;\n    if (idea.format) report += `   📐 Formato: ${idea.format}\\n`;\n    if (idea.platform) report += `   📱 Plataforma: ${idea.platform}\\n`;\n    if (idea.hashtags && Array.isArray(idea.hashtags)) {\n      report += `   #️⃣ Hashtags: ${idea.hashtags.join(', ')}\\n`;\n    }\n    if (idea.length) report += `   📏 Longitud: ${idea.length}\\n`;\n    if (idea.visual_elements) report += `   🎨 Elementos visuales: ${idea.visual_elements}\\n`;\n    if (idea.why_it_will_work) {\n      report += `   ✅ Por qué funcionará: ${idea.why_it_will_work}\\n`;\n    }\n    report += `\\n`;\n  });\n}\n\nreport += `\\n\\n🕐 Análisis generado: ${new Date(data.generatedAt).toLocaleString('es-ES')}\\n`;\nreport += `🆔 ID de ejecución: ${data.executionId}\\n`;\n\nreturn [{\n  json: {\n    ...data,\n    report: report,\n    reportMarkdown: report\n  }\n}];"
+      },
+      "id": "format-report",
+      "name": "Format Final Report",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 400],
+      "notes": "Formatea el reporte final en texto legible"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "has-telegram",
+              "leftValue": "={{ $env.TELEGRAM_BOT_TOKEN }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-telegram",
+      "name": "Check Telegram Available",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1850, 300],
+      "notes": "Verifica si Telegram está configurado"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
+        "text": "={{ $json.report }}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "send-telegram",
+      "name": "Send Telegram Report",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [2050, 300],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      },
+      "notes": "Envía reporte a Telegram",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "has-email",
+              "leftValue": "={{ $env.EMAIL_TO }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-email",
+      "name": "Check Email Available",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1850, 500],
+      "notes": "Verifica si email está configurado"
+    },
+    {
+      "parameters": {
+        "fromEmail": "={{ $env.EMAIL_FROM || 'noreply@example.com' }}",
+        "toEmail": "={{ $env.EMAIL_TO }}",
+        "subject": "={{ 'Análisis de Engagement - ' + ($json.bestContentType || 'Reporte') + ' - ' + new Date($json.startDate).toLocaleDateString('es-ES') }}",
+        "text": "={{ $json.report }}",
+        "options": {}
+      },
+      "id": "send-email",
+      "name": "Send Email Report",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [2050, 500],
+      "credentials": {
+        "smtp": {
+          "id": "smtp-credentials",
+          "name": "SMTP"
+        }
+      },
+      "notes": "Envía reporte por email",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"success\": true, \"executionId\": $json.executionId, \"bestContentType\": $json.bestContentType, \"totalPosts\": $json.totalPosts, \"recommendations\": $json.recommendations.length, \"report\": $json.report } }}"
+      },
+      "id": "webhook-response",
+      "name": "Webhook Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1850, 700],
+      "notes": "Responde al webhook con el resultado"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Guardar reporte en archivo JSON para referencia futura\nconst fs = require('fs');\nconst path = require('path');\n\nconst outputDir = $env.REPORTS_DIR || './reports';\nif (!fs.existsSync(outputDir)) {\n  fs.mkdirSync(outputDir, { recursive: true });\n}\n\nconst filename = `engagement_analysis_${$json.executionId}.json`;\nconst filepath = path.join(outputDir, filename);\n\n// Guardar datos completos\nfs.writeFileSync(filepath, JSON.stringify($json, null, 2), 'utf-8');\n\n// También guardar reporte en texto\nconst reportFilename = `engagement_report_${$json.executionId}.txt`;\nconst reportFilepath = path.join(outputDir, reportFilename);\nfs.writeFileSync(reportFilepath, $json.report, 'utf-8');\n\nreturn [{\n  json: {\n    ...$json,\n    reportFile: filepath,\n    reportTextFile: reportFilepath,\n    saved: true\n  }\n}];"
+      },
+      "id": "save-report",
+      "name": "Save Report to File",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 600],
+      "notes": "Guarda el reporte en archivos para referencia futura",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Manejar errores y preparar mensaje de error\nconst error = $json.error || 'Error desconocido';\nconst executionId = $json.executionId || 'unknown';\n\nlet errorMessage = `❌ Error en el análisis de engagement\\n\\n`;\nerrorMessage += `Error: ${error}\\n`;\nerrorMessage += `Ejecución ID: ${executionId}\\n`;\n\nif ($json.stderr) {\n  errorMessage += `\\nDetalles: ${$json.stderr}`;\n}\n\nreturn [{\n  json: {\n    ...$input.item.json,\n    error: error,\n    errorMessage: errorMessage,\n    executionId: executionId\n  }\n}];"
+      },
+      "id": "handle-error",
+      "name": "Handle Error",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1450, 600],
+      "notes": "Maneja errores y prepara mensaje de error",
+      "onError": "continue"
+    }
+  ],
+  "connections": {
+    "Schedule Trigger - Mensual": {
+      "main": [
+        [
+          {
+            "node": "Initialize Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook Trigger - Ejecución Manual": {
+      "main": [
+        [
+          {
+            "node": "Initialize Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Initialize Workflow": {
+      "main": [
+        [
+          {
+            "node": "Fetch Posts from DB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Posts from DB": {
+      "main": [
+        [
+          {
+            "node": "Classify & Analyze Posts",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Handle Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Classify & Analyze Posts": {
+      "main": [
+        [
+          {
+            "node": "AI Analysis - Why Successful",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Analysis - Why Successful": {
+      "main": [
+        [
+          {
+            "node": "Generate Content Ideas",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Handle Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Content Ideas": {
+      "main": [
+        [
+          {
+            "node": "Parse Recommendations",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Handle Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Recommendations": {
+      "main": [
+        [
+          {
+            "node": "Format Final Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Final Report": {
+      "main": [
+        [
+          {
+            "node": "Save Report to File",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Telegram Available",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Email Available",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Webhook Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Report to File": {
+      "main": [
+        [
+          {
+            "node": "Check Telegram Available",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Telegram Available": {
+      "main": [
+        [
+          {
+            "node": "Send Telegram Report",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Check Email Available": {
+      "main": [
+        [
+          {
+            "node": "Send Email Report",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "saveExecutionProgress": true,
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1"
+}
+

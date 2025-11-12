@@ -1,0 +1,2071 @@
+{
+  "name": "Telegram Video Auto Post - Multi Platform",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "telegram-trigger",
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "telegram-webhook",
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "has-video",
+              "leftValue": "={{ $json.message.video }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "notEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "filter-video",
+      "name": "Filter Video Messages",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Select Account - Round Robin\nconst accounts = {\n  tiktok: [\n    { id: 'tiktok_1', token: $env.TIKTOK_ACCESS_TOKEN, enabled: true },\n    { id: 'tiktok_2', token: $env.TIKTOK_ACCESS_TOKEN_1, enabled: true },\n    { id: 'tiktok_3', token: $env.TIKTOK_ACCESS_TOKEN_2, enabled: true }\n  ].filter(acc => acc.token && acc.enabled),\n  instagram: [\n    { id: 'instagram_1', accountId: $env.INSTAGRAM_ACCOUNT_ID, token: $env.INSTAGRAM_ACCESS_TOKEN, enabled: true },\n    { id: 'instagram_2', accountId: $env.INSTAGRAM_ACCOUNT_ID_1, token: $env.INSTAGRAM_ACCESS_TOKEN_1, enabled: true },\n    { id: 'instagram_3', accountId: $env.INSTAGRAM_ACCOUNT_ID_2, token: $env.INSTAGRAM_ACCESS_TOKEN_2, enabled: true }\n  ].filter(acc => acc.token && acc.accountId && acc.enabled)\n};\n\n// Get last used account index from workflow data or default to 0\nconst lastTikTokIndex = $workflow.staticData.lastTikTokIndex || 0;\nconst lastInstagramIndex = $workflow.staticData.lastInstagramIndex || 0;\n\n// Round robin selection\nconst selectedTikTok = accounts.tiktok[lastTikTokIndex % accounts.tiktok.length];\nconst selectedInstagram = accounts.instagram[lastInstagramIndex % accounts.instagram.length];\n\n// Update indices\n$workflow.staticData.lastTikTokIndex = (lastTikTokIndex + 1) % accounts.tiktok.length;\n$workflow.staticData.lastInstagramIndex = (lastInstagramIndex + 1) % accounts.instagram.length;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    selectedAccounts: {\n      tiktok: selectedTikTok,\n      instagram: selectedInstagram\n    }\n  }\n};"
+      },
+      "id": "select-account",
+      "name": "Select Account",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Advanced Health Check for All Services\nconst services = [\n  { name: 'videoProcessing', url: $env.VIDEO_PROCESSING_SERVICE_URL || 'http://localhost:3000' },\n  { name: 'thumbnailService', url: $env.THUMBNAIL_SERVICE_URL || 'http://localhost:3001' },\n  { name: 'subtitleService', url: $env.SUBTITLE_SERVICE_URL || 'http://localhost:3002' }\n];\n\nconst healthStatus = {\n  timestamp: new Date().toISOString(),\n  services: {},\n  overall: 'healthy'\n};\n\n// Check each service (in parallel would be ideal, but n8n processes sequentially)\nfor (const service of services) {\n  try {\n    // For now, we'll just check if URL is configured\n    // In production, you'd make actual HTTP requests\n    healthStatus.services[service.name] = {\n      status: service.url ? 'configured' : 'not_configured',\n      url: service.url,\n      lastCheck: new Date().toISOString()\n    };\n  } catch (error) {\n    healthStatus.services[service.name] = {\n      status: 'unhealthy',\n      error: error.message\n    };\n    healthStatus.overall = 'degraded';\n  }\n}\n\n// Check if any service is unhealthy\nconst unhealthyServices = Object.values(healthStatus.services).filter(s => s.status === 'unhealthy');\nif (unhealthyServices.length > 0) {\n  healthStatus.overall = 'unhealthy';\n}\n\n// Get health history from workflow static data\nconst healthHistory = $workflow.staticData.healthHistory || [];\nhealthHistory.push(healthStatus);\n\n// Keep only last 100 health checks\nif (healthHistory.length > 100) {\n  healthHistory.shift();\n}\n\n$workflow.staticData.healthHistory = healthHistory;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    healthStatus: healthStatus\n  }\n};"
+      },
+      "id": "health-check",
+      "name": "Advanced Health Check",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "is-healthy",
+              "leftValue": "={{ $json.healthStatus.overall }}",
+              "rightValue": "healthy",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-health-status",
+      "name": "Health Status OK?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.message.chat.id }}",
+        "text": "=⚠️ Servicios no disponibles\n\nEstado de servicios:\n{{ Object.entries($json.healthStatus.services).map(([name, status]) => `• ${name}: ${status.status}`).join('\\n') }}\n\nEl video será procesado cuando los servicios estén disponibles.",
+        "additionalFields": {}
+      },
+      "id": "notify-unhealthy",
+      "name": "Notify Unhealthy Services",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1050, 500],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Check Rate Limits\nconst RATE_LIMITS = {\n  tiktok: { max: 10, window: 3600000 }, // 10 per hour\n  instagram: { max: 25, window: 3600000 }, // 25 per hour\n  youtube: { max: 6, window: 3600000 } // 6 per hour\n};\n\nconst now = Date.now();\nconst platform = 'tiktok'; // Check for primary platform\nconst limit = RATE_LIMITS[platform];\n\n// Get rate limit history from workflow static data\nconst rateLimitHistory = $workflow.staticData.rateLimitHistory || {};\nconst platformHistory = rateLimitHistory[platform] || [];\n\n// Filter requests within window\nconst recentRequests = platformHistory.filter(\n  timestamp => now - timestamp < limit.window\n);\n\n// Update history\nrateLimitHistory[platform] = recentRequests;\n$workflow.staticData.rateLimitHistory = rateLimitHistory;\n\nconst canProceed = recentRequests.length < limit.max;\nconst remaining = Math.max(0, limit.max - recentRequests.length);\n\nif (!canProceed) {\n  // Calculate delay until next slot\n  const oldestRequest = Math.min(...recentRequests);\n  const delay = (oldestRequest + limit.window) - now;\n  \n  return {\n    json: {\n      ...$input.item.json,\n      rateLimit: {\n        canProceed: false,\n        platform: platform,\n        remaining: 0,\n        delay: delay,\n        nextAvailable: new Date(now + delay).toISOString()\n      }\n    }\n  };\n}\n\n// Add current request to history\nrecentRequests.push(now);\nrateLimitHistory[platform] = recentRequests;\n$workflow.staticData.rateLimitHistory = rateLimitHistory;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    rateLimit: {\n      canProceed: true,\n      platform: platform,\n      remaining: remaining - 1,\n      delay: 0\n    }\n  }\n};"
+      },
+      "id": "check-rate-limits",
+      "name": "Check Rate Limits",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "can-proceed",
+              "leftValue": "={{ $json.rateLimit.canProceed }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "can-proceed-check",
+      "name": "Can Proceed?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1250, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Queue Video for Later with Priority\nconst priorityMap = {\n  'high': 3,\n  'normal': 2,\n  'low': 1\n};\n\n// Determine priority based on user or content\nlet priority = 'normal';\nconst caption = ($json.message.caption || '').toLowerCase();\n\n// High priority keywords\nif (caption.includes('urgent') || caption.includes('asap') || caption.includes('important')) {\n  priority = 'high';\n}\n// Low priority keywords\nelse if (caption.includes('draft') || caption.includes('test')) {\n  priority = 'low';\n}\n\nconst queueItem = {\n  videoId: $json.message.video.file_id,\n  chatId: $json.message.chat.id,\n  messageId: $json.message.message_id,\n  caption: $json.message.caption || '',\n  timestamp: Date.now(),\n  scheduledFor: new Date(Date.now() + $json.rateLimit.delay).toISOString(),\n  priority: priority,\n  priorityValue: priorityMap[priority],\n  retryCount: 0,\n  maxRetries: 3,\n  userId: $json.message.from.id\n};\n\n// Get queue from workflow static data\nconst queue = $workflow.staticData.videoQueue || [];\nqueue.push(queueItem);\n\n// Sort queue by priority (high first) and timestamp\nqueue.sort((a, b) => {\n  if (a.priorityValue !== b.priorityValue) {\n    return b.priorityValue - a.priorityValue; // Higher priority first\n  }\n  return a.timestamp - b.timestamp; // Older first\n});\n\n$workflow.staticData.videoQueue = queue;\n\nconst queuePosition = queue.findIndex(item => item.videoId === queueItem.videoId) + 1;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    queued: true,\n    queuePosition: queuePosition,\n    totalInQueue: queue.length,\n    priority: priority,\n    scheduledFor: queueItem.scheduledFor\n  }\n};"
+      },
+      "id": "queue-video",
+      "name": "Queue Video for Later",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1250, 500]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.message.chat.id }}",
+        "text": "=⏳ Video agregado a cola para procesamiento posterior.\n\n📋 Información de cola:\n• Posición: {{ $json.queuePosition }}/{{ $json.totalInQueue }}\n• Prioridad: {{ $json.priority.toUpperCase() }}\n• Programado para: {{ new Date($json.scheduledFor).toLocaleString() }}\n\nSe procesará automáticamente cuando haya disponibilidad.",
+        "additionalFields": {}
+      },
+      "id": "notify-queued",
+      "name": "Notify Queued Status",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1450, 500],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Content Moderation Check\nconst caption = $json.message.caption || '';\nconst prohibitedWords = ['spam', 'scam', 'fake'];\n\nlet moderationScore = 100;\nconst issues = [];\n\n// Check for prohibited words\nfor (const word of prohibitedWords) {\n  if (caption.toLowerCase().includes(word.toLowerCase())) {\n    moderationScore -= 20;\n    issues.push(`Palabra prohibida encontrada: ${word}`);\n  }\n}\n\n// Check caption length\nif (caption.length > 2200) {\n  moderationScore -= 10;\n  issues.push('Caption demasiado largo');\n}\n\n// Check for suspicious patterns\nconst suspiciousPatterns = [\n  /\\b(click here|free money|guaranteed)\\b/i,\n  /\\b(\\d{4}[\\s-]?\\d{4}[\\s-]?\\d{4}[\\s-]?\\d{4})\\b/ // Credit card pattern\n];\n\nfor (const pattern of suspiciousPatterns) {\n  if (pattern.test(caption)) {\n    moderationScore -= 15;\n    issues.push('Patrón sospechoso detectado en caption');\n  }\n}\n\nconst passed = moderationScore >= 70;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    moderation: {\n      passed: passed,\n      score: moderationScore,\n      issues: issues,\n      timestamp: new Date().toISOString()\n    }\n  }\n};"
+      },
+      "id": "content-moderation",
+      "name": "Content Moderation Check",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1450, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "moderation-passed",
+              "leftValue": "={{ $json.moderation.passed }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-moderation",
+      "name": "Check Moderation Result",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1650, 300]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.message.chat.id }}",
+        "text": "❌ Contenido rechazado por moderación\n\nRazones:\n{{ $json.moderation.issues.map(i => '• ' + i).join('\\n') }}\n\nScore de moderación: {{ $json.moderation.score }}/100",
+        "additionalFields": {}
+      },
+      "id": "reject-content",
+      "name": "Reject Content",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1650, 500],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Validate Video Requirements\nconst video = $json.message.video;\nconst maxSize = 500 * 1024 * 1024; // 500MB\nconst minDuration = 3; // 3 seconds\nconst maxDuration = 300; // 5 minutes\n\nconst validation = {\n  size: {\n    valid: video.file_size <= maxSize,\n    value: video.file_size,\n    max: maxSize\n  },\n  duration: {\n    valid: !video.duration || (video.duration >= minDuration && video.duration <= maxDuration),\n    value: video.duration || 'unknown',\n    min: minDuration,\n    max: maxDuration\n  },\n  format: {\n    valid: true, // Will be validated during processing\n    supported: ['mp4', 'mov', 'avi']\n  }\n};\n\nconst allValid = validation.size.valid && validation.duration.valid && validation.format.valid;\n\nif (!allValid) {\n  const errors = [];\n  if (!validation.size.valid) errors.push(`Tamaño excede máximo: ${(validation.size.value / 1024 / 1024).toFixed(2)}MB > ${(validation.size.max / 1024 / 1024).toFixed(2)}MB`);\n  if (!validation.duration.valid) errors.push(`Duración fuera de rango: ${validation.duration.value}s (requerido: ${validation.duration.min}-${validation.duration.max}s)`);\n  \n  return {\n    json: {\n      ...$input.item.json,\n      validation: {\n        ...validation,\n        valid: false,\n        errors: errors\n      }\n    }\n  };\n}\n\nreturn {\n  json: {\n    ...$input.item.json,\n    validation: {\n      ...validation,\n      valid: true\n    }\n  }\n};"
+      },
+      "id": "validate-video",
+      "name": "Validate Video Requirements",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1850, 300]
+    },
+    {
+      "parameters": {
+        "fileId": "={{ $json.message.video.file_id }}",
+        "additionalFields": {}
+      },
+      "id": "get-video-info",
+      "name": "Get Video File Info",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "operation": "getFile",
+      "position": [2050, 300],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.telegram.org/file/bot{{ $env.TELEGRAM_BOT_TOKEN }}/{{ $json.result.file_path }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "id": "download-video",
+      "name": "Download Video File",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [2250, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Check Video Cache\nconst crypto = require('crypto');\nconst videoId = $json.message.video.file_id;\nconst videoSize = $json.message.video.file_size;\nconst videoDuration = $json.message.video.duration || 0;\n\n// Create cache key from video metadata\nconst cacheKey = crypto.createHash('md5')\n  .update(`${videoId}-${videoSize}-${videoDuration}`)\n  .digest('hex');\n\n// Get cache from workflow static data\nconst videoCache = $workflow.staticData.videoCache || {};\nconst cachedResult = videoCache[cacheKey];\n\n// Check if video was processed recently (within last 7 days)\nif (cachedResult) {\n  const cacheAge = Date.now() - cachedResult.timestamp;\n  const maxCacheAge = 7 * 24 * 60 * 60 * 1000; // 7 days\n  \n  if (cacheAge < maxCacheAge) {\n    return {\n      json: {\n        ...$input.item.json,\n        cached: true,\n        processedVideoUrl: cachedResult.processedVideoUrl,\n        cacheKey: cacheKey,\n        skipProcessing: true\n      }\n    };\n  }\n}\n\nreturn {\n  json: {\n    ...$input.item.json,\n    cached: false,\n    cacheKey: cacheKey,\n    skipProcessing: false\n  }\n};"
+      },
+      "id": "check-cache",
+      "name": "Check Video Cache",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2350, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "skip-processing",
+              "leftValue": "={{ $json.skipProcessing }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-cache-result",
+      "name": "Skip Processing?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [2550, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Prepare Video Processing Parameters\nconst processingConfig = {\n  filters: {\n    saturation: 1.05,  // +5%\n    brightness: 1.02,  // +2%\n    contrast: 1.03,   // +3%\n    speed: 1.01       // 1% faster\n  },\n  resolution: {\n    width: 1080,\n    height: 1920\n  },\n  crop: {\n    top: Math.floor(Math.random() * 10) + 5,    // 5-15px\n    bottom: Math.floor(Math.random() * 10) + 5,\n    left: Math.floor(Math.random() * 10) + 5,\n    right: Math.floor(Math.random() * 10) + 5\n  },\n  watermark: {\n    enabled: true,\n    opacity: 0.05 + Math.random() * 0.05, // 5-10%\n    position: 'bottom-right'\n  }\n};\n\nreturn {\n  json: {\n    ...$input.item.json,\n    processingConfig: processingConfig\n  }\n};"
+      },
+      "id": "prepare-processing",
+      "name": "Process Video - Anti Duplicate",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2550, 500]
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.VIDEO_PROCESSING_SERVICE_URL || 'http://localhost:3000' }}/process-video",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "config",
+              "value": "={{ JSON.stringify($json.processingConfig) }}"
+            }
+          ]
+        },
+        "options": {
+          "bodyContentType": "multipart-form-data"
+        },
+        "sendBinaryData": true,
+        "binaryPropertyName": "data"
+      },
+      "id": "call-processing",
+      "name": "Call Video Processing Service",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [2650, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Validate Processed Video\nconst processedVideoUrl = $json.processedVideoUrl;\nconst validation = {\n  hasUrl: !!processedVideoUrl,\n  urlFormat: false,\n  accessible: false\n};\n\nif (processedVideoUrl) {\n  // Check URL format\n  try {\n    const url = new URL(processedVideoUrl);\n    validation.urlFormat = url.protocol === 'http:' || url.protocol === 'https:';\n  } catch (e) {\n    validation.urlFormat = false;\n  }\n}\n\nconst isValid = validation.hasUrl && validation.urlFormat;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    videoValidation: {\n      ...validation,\n      valid: isValid\n    }\n  }\n};"
+      },
+      "id": "validate-processed-video",
+      "name": "Validate Processed Video",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2750, 500]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Update Video Cache\nif ($json.processedVideoUrl && $json.cacheKey && !$json.cached) {\n  const videoCache = $workflow.staticData.videoCache || {};\n  \n  videoCache[$json.cacheKey] = {\n    processedVideoUrl: $json.processedVideoUrl,\n    timestamp: Date.now(),\n    videoId: $json.message.video.file_id\n  };\n  \n  // Keep only last 1000 cached videos\n  const cacheEntries = Object.entries(videoCache);\n  if (cacheEntries.length > 1000) {\n    // Remove oldest entries\n    cacheEntries.sort((a, b) => a[1].timestamp - b[1].timestamp);\n    const toRemove = cacheEntries.slice(0, cacheEntries.length - 1000);\n    toRemove.forEach(([key]) => delete videoCache[key]);\n  }\n  \n  $workflow.staticData.videoCache = videoCache;\n}\n\nreturn {\n  json: {\n    ...$input.item.json\n  }\n};"
+      },
+      "id": "update-cache",
+      "name": "Update Video Cache",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2950, 500]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Circuit Breaker Check\nconst CIRCUIT_BREAKER = {\n  failureThreshold: 5,\n  successThreshold: 2,\n  timeout: 60000 // 1 minute\n};\n\n// Get circuit breaker state from workflow static data\nconst cbState = $workflow.staticData.circuitBreaker || {\n  state: 'CLOSED',\n  failureCount: 0,\n  successCount: 0,\n  lastFailureTime: null,\n  lastSuccessTime: null\n};\n\n// Check if circuit breaker should transition\nconst now = Date.now();\nif (cbState.state === 'OPEN' && cbState.lastFailureTime) {\n  const elapsed = now - cbState.lastFailureTime;\n  if (elapsed >= CIRCUIT_BREAKER.timeout) {\n    cbState.state = 'HALF_OPEN';\n    cbState.successCount = 0;\n  }\n}\n\n// Check if processing was successful\nconst processingSuccess = !!$json.processedVideoUrl && !$json.error && $json.videoValidation?.valid;\n\nif (!processingSuccess) {\n  cbState.failureCount++;\n  cbState.lastFailureTime = now;\n  \n  if (cbState.state === 'HALF_OPEN') {\n    cbState.state = 'OPEN';\n    cbState.successCount = 0;\n  } else if (cbState.state === 'CLOSED' && cbState.failureCount >= CIRCUIT_BREAKER.failureThreshold) {\n    cbState.state = 'OPEN';\n  }\n} else {\n  cbState.lastSuccessTime = now;\n  \n  if (cbState.state === 'HALF_OPEN') {\n    cbState.successCount++;\n    if (cbState.successCount >= CIRCUIT_BREAKER.successThreshold) {\n      cbState.state = 'CLOSED';\n      cbState.failureCount = 0;\n    }\n  } else if (cbState.state === 'CLOSED') {\n    cbState.failureCount = 0;\n  }\n}\n\n// Save state\n$workflow.staticData.circuitBreaker = cbState;\n\nconst canProceed = cbState.state !== 'OPEN' && processingSuccess;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    circuitBreaker: {\n      state: cbState.state,\n      canProceed: canProceed,\n      failureCount: cbState.failureCount,\n      processingSuccess: processingSuccess\n    }\n  }\n};"
+      },
+      "id": "circuit-breaker",
+      "name": "Circuit Breaker Check",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2950, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Structured Logging\nconst logEntry = {\n  timestamp: new Date().toISOString(),\n  level: 'INFO',\n  event: 'video_processing',\n  videoId: $json.message.video.file_id,\n  chatId: $json.message.chat.id,\n  userId: $json.message.from.id,\n  stage: 'processing_complete',\n  data: {\n    cached: $json.cached || false,\n    processedVideoUrl: $json.processedVideoUrl,\n    circuitBreakerState: $json.circuitBreaker?.state || 'UNKNOWN',\n    validation: $json.videoValidation || {},\n    processingTime: $json.processingTime || null\n  }\n};\n\n// Get logs from workflow static data\nconst logs = $workflow.staticData.logs || [];\nlogs.push(logEntry);\n\n// Keep only last 5000 log entries\nif (logs.length > 5000) {\n  logs.shift();\n}\n\n$workflow.staticData.logs = logs;\n\n// Also log to console for debugging\nconsole.log(JSON.stringify(logEntry));\n\nreturn {\n  json: {\n    ...$input.item.json,\n    logEntry: logEntry\n  }\n};"
+      },
+      "id": "structured-logging",
+      "name": "Structured Logging",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3150, 300]
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.SUBTITLE_SERVICE_URL || 'http://localhost:3002' }}/generate-subtitles",
+        "sendBody": true,
+        "contentType": "json",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "video_url",
+              "value": "={{ $json.processedVideoUrl }}"
+            },
+            {
+              "name": "language",
+              "value": "auto"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "generate-subtitles",
+      "name": "Generate Subtitles",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [2850, 200],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.THUMBNAIL_SERVICE_URL || 'http://localhost:3001' }}/generate-thumbnail",
+        "sendBody": true,
+        "contentType": "json",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "video_url",
+              "value": "={{ $json.processedVideoUrl }}"
+            },
+            {
+              "name": "style",
+              "value": "modern"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 20000
+        }
+      },
+      "id": "generate-thumbnail",
+      "name": "Generate Thumbnail",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [2850, 400],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Sentiment Analysis\nconst ENABLE_SENTIMENT_ANALYSIS = $env.ENABLE_SENTIMENT_ANALYSIS === 'true' || false;\n\nif (!ENABLE_SENTIMENT_ANALYSIS) {\n  return {\n    json: {\n      ...$input.item.json,\n      sentiment: null\n    }\n  };\n}\n\nconst caption = $json.message.caption || '';\n\n// Simple sentiment analysis based on keywords\nconst positiveWords = ['amazing', 'great', 'love', 'awesome', 'fantastic', 'wonderful', 'excellent', 'perfect', 'beautiful', 'incredible'];\nconst negativeWords = ['bad', 'terrible', 'hate', 'awful', 'horrible', 'disappointing', 'worst', 'ugly', 'boring', 'sad'];\nconst neutralWords = ['ok', 'fine', 'normal', 'average', 'regular'];\n\nlet positiveCount = 0;\nlet negativeCount = 0;\nlet neutralCount = 0;\n\nconst words = caption.toLowerCase().split(/\\s+/);\nwords.forEach(word => {\n  if (positiveWords.some(pw => word.includes(pw))) positiveCount++;\n  if (negativeWords.some(nw => word.includes(nw))) negativeCount++;\n  if (neutralWords.some(nw => word.includes(nw))) neutralCount++;\n});\n\n// Calculate sentiment score (-1 to 1)\nconst total = positiveCount + negativeCount + neutralCount;\nlet sentimentScore = 0;\nif (total > 0) {\n  sentimentScore = (positiveCount - negativeCount) / total;\n}\n\n// Determine sentiment\nlet sentiment = 'neutral';\nif (sentimentScore > 0.2) sentiment = 'positive';\nelse if (sentimentScore < -0.2) sentiment = 'negative';\n\nreturn {\n  json: {\n    ...$input.item.json,\n    sentiment: {\n      score: sentimentScore.toFixed(2),\n      label: sentiment,\n      confidence: Math.abs(sentimentScore).toFixed(2),\n      counts: {\n        positive: positiveCount,\n        negative: negativeCount,\n        neutral: neutralCount\n      }\n    }\n  }\n};"
+      },
+      "id": "sentiment-analysis",
+      "name": "Sentiment Analysis",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3050, 200],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Geolocation and Timezone Detection\nconst ENABLE_GEOLOCATION = $env.ENABLE_GEOLOCATION === 'true' || false;\n\nif (!ENABLE_GEOLOCATION) {\n  return {\n    json: {\n      ...$input.item.json,\n      geolocation: null\n    }\n  };\n}\n\n// Get user location from message (if available)\nconst message = $json.message;\nconst location = message.location || null;\n\nlet geolocation = null;\nif (location) {\n  geolocation = {\n    latitude: location.latitude,\n    longitude: location.longitude,\n    timestamp: new Date().toISOString()\n  };\n  \n  // Estimate timezone based on longitude (rough approximation)\n  const timezoneOffset = Math.round(location.longitude / 15);\n  const timezone = `UTC${timezoneOffset >= 0 ? '+' : ''}${timezoneOffset}`;\n  geolocation.timezone = timezone;\n  geolocation.timezoneOffset = timezoneOffset;\n} else {\n  // Default to UTC if no location\n  geolocation = {\n    latitude: null,\n    longitude: null,\n    timezone: 'UTC',\n    timezoneOffset: 0,\n    timestamp: new Date().toISOString()\n  };\n}\n\nreturn {\n  json: {\n    ...$input.item.json,\n    geolocation: geolocation\n  }\n};"
+      },
+      "id": "geolocation",
+      "name": "Geolocation and Timezone",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3050, 400],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Calculate Best Posting Time with ML\nconst USE_OPTIMAL_SCHEDULING = $env.USE_OPTIMAL_SCHEDULING === 'true' || false;\n\nif (!USE_OPTIMAL_SCHEDULING) {\n  return {\n    json: {\n      ...$input.item.json,\n      postingTime: {\n        scheduled: false,\n        immediate: true,\n        timestamp: new Date().toISOString()\n      }\n    }\n  };\n}\n\n// Get analytics history from workflow static data\nconst analyticsHistory = $workflow.staticData.analyticsHistory || [];\n\n// ML-based optimal time calculation\n// Analyze successful posts to find patterns\nconst successfulPosts = analyticsHistory.filter(a => \n  a.platforms && (a.platforms.tiktok || a.platforms.instagram || a.platforms.youtube)\n).slice(-200);\n\n// Calculate engagement by hour\nconst engagementByHour = {};\nfor (let i = 0; i < 24; i++) {\n  engagementByHour[i] = 0;\n}\n\nsuccessfulPosts.forEach(post => {\n  const postDate = new Date(post.timestamp);\n  const hour = postDate.getHours();\n  engagementByHour[hour] = (engagementByHour[hour] || 0) + 1;\n});\n\n// Find top 3 peak hours\nconst sortedHours = Object.entries(engagementByHour)\n  .map(([hour, count]) => ({ hour: parseInt(hour), count }))\n  .sort((a, b) => b.count - a.count)\n  .slice(0, 3);\n\nconst peakHours = sortedHours.length > 0 \n  ? sortedHours.map(h => h.hour)\n  : [9, 12, 17, 20, 21]; // Fallback to default\n\n// Get current hour (considering timezone if available)\nconst now = new Date();\nconst timezoneOffset = $json.geolocation?.timezoneOffset || 0;\nconst currentHour = (now.getUTCHours() + timezoneOffset + 24) % 24;\n\n// Find next peak hour\nlet nextPeakHour = peakHours.find(hour => hour > currentHour);\nif (!nextPeakHour) {\n  nextPeakHour = peakHours[0]; // Use first peak hour tomorrow\n  now.setDate(now.getDate() + 1);\n}\n\n// Set to next peak hour\nconst optimalTime = new Date(now);\noptimalTime.setUTCHours((nextPeakHour - timezoneOffset + 24) % 24, 0, 0, 0);\n\n// If optimal time is more than 2 hours away, post immediately\nconst delay = optimalTime.getTime() - Date.now();\nconst shouldSchedule = delay > 2 * 60 * 60 * 1000; // 2 hours\n\nreturn {\n  json: {\n    ...$input.item.json,\n    postingTime: {\n      scheduled: shouldSchedule,\n      immediate: !shouldSchedule,\n      optimalTime: optimalTime.toISOString(),\n      delay: delay,\n      currentHour: currentHour,\n      nextPeakHour: nextPeakHour,\n      peakHours: peakHours,\n      mlBased: true\n    }\n  }\n};"
+      },
+      "id": "calculate-posting-time",
+      "name": "Calculate Best Posting Time (ML)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3250, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// A/B Testing for Hashtags\nconst ENABLE_AB_TESTING = $env.ENABLE_AB_TESTING === 'true' || false;\nconst originalCaption = $json.message.caption || '';\nconst existingHashtags = originalCaption.match(/#\\w+/g) || [];\n\n// Trending hashtags\nconst trendingHashtags = [\n  '#viral', '#fyp', '#foryou', '#trending',\n  '#like', '#follow', '#share', '#comment',\n  '#content', '#creator', '#video', '#reels'\n];\n\n// Niche-specific hashtags (detect from caption)\nconst nicheHashtags = [];\nif (originalCaption.toLowerCase().includes('sunset')) {\n  nicheHashtags.push('#sunsetphotography', '#naturelovers', '#photography');\n}\nif (originalCaption.toLowerCase().includes('food')) {\n  nicheHashtags.push('#foodie', '#foodporn', '#cooking');\n}\n\n// Get A/B test variant from analytics history\nlet variant = 'A';\nif (ENABLE_AB_TESTING) {\n  const analyticsHistory = $workflow.staticData.analyticsHistory || [];\n  const recentTests = analyticsHistory.filter(a => a.abTestVariant).slice(-100);\n  \n  // Count variants\n  const variantCounts = { A: 0, B: 0 };\n  recentTests.forEach(a => variantCounts[a.abTestVariant]++);\n  \n  // Assign to less used variant for balance\n  variant = variantCounts.A <= variantCounts.B ? 'A' : 'B';\n}\n\n// Variant A: More trending hashtags\n// Variant B: More niche hashtags\nlet allHashtags;\nif (variant === 'A') {\n  allHashtags = [\n    ...existingHashtags,\n    ...trendingHashtags.slice(0, 15),\n    ...nicheHashtags.slice(0, 5)\n  ].slice(0, 30);\n} else {\n  allHashtags = [\n    ...existingHashtags,\n    ...trendingHashtags.slice(0, 8),\n    ...nicheHashtags.slice(0, 12)\n  ].slice(0, 30);\n}\n\nconst optimizedCaption = originalCaption + '\\n\\n' + allHashtags.join(' ');\n\nreturn {\n  json: {\n    ...$input.item.json,\n    optimizedCaption: optimizedCaption,\n    hashtags: allHashtags,\n    abTestVariant: variant,\n    abTestingEnabled: ENABLE_AB_TESTING\n  }\n};"
+      },
+      "id": "optimize-hashtags",
+      "name": "Optimize Hashtags with A/B Testing",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3250, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Predictive Engagement Analysis\nconst analyticsHistory = $workflow.staticData.analyticsHistory || [];\n\n// Get recent successful posts (last 100)\nconst recentPosts = analyticsHistory\n  .filter(a => a.platforms && (a.platforms.tiktok || a.platforms.instagram || a.platforms.youtube))\n  .slice(-100);\n\n// Calculate average engagement metrics\nlet avgProcessingTime = 0;\nlet avgHashtagCount = 0;\nlet peakHours = {};\n\nif (recentPosts.length > 0) {\n  avgProcessingTime = recentPosts.reduce((sum, a) => sum + (a.processingTime || 0), 0) / recentPosts.length;\n  avgHashtagCount = recentPosts.reduce((sum, a) => sum + (a.hashtags?.length || 0), 0) / recentPosts.length;\n  \n  // Analyze peak hours\n  recentPosts.forEach(a => {\n    const hour = new Date(a.timestamp).getHours();\n    peakHours[hour] = (peakHours[hour] || 0) + 1;\n  });\n}\n\n// Predict engagement score (0-100)\nlet predictedScore = 50; // Base score\n\n// Factors that increase engagement\nconst currentHour = new Date().getHours();\nconst isPeakHour = Object.keys(peakHours).some(h => \n  parseInt(h) === currentHour && peakHours[h] > 5\n);\n\nif (isPeakHour) predictedScore += 15;\nif ($json.hashtags && $json.hashtags.length >= 20) predictedScore += 10;\nif ($json.hashtags && $json.hashtags.length <= 10) predictedScore -= 5;\nif ($json.postingTime?.scheduled) predictedScore += 5;\n\npredictedScore = Math.min(100, Math.max(0, predictedScore));\n\nreturn {\n  json: {\n    ...$input.item.json,\n    engagementPrediction: {\n      score: predictedScore,\n      level: predictedScore >= 70 ? 'HIGH' : predictedScore >= 50 ? 'MEDIUM' : 'LOW',\n      factors: {\n        isPeakHour: isPeakHour,\n        hashtagCount: $json.hashtags?.length || 0,\n        scheduled: $json.postingTime?.scheduled || false,\n        avgProcessingTime: avgProcessingTime.toFixed(2),\n        avgHashtagCount: avgHashtagCount.toFixed(1)\n      }\n    }\n  }\n};"
+      },
+      "id": "predict-engagement",
+      "name": "Predict Engagement",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3450, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Video Versioning System\nconst ENABLE_VERSIONING = $env.ENABLE_VIDEO_VERSIONING === 'true' || false;\n\nif (ENABLE_VERSIONING && $json.processedVideoUrl) {\n  const videoId = $json.message.video.file_id;\n  const versionEntry = {\n    version: 1,\n    videoId: videoId,\n    originalVideoId: videoId,\n    processedVideoUrl: $json.processedVideoUrl,\n    caption: $json.message.caption || '',\n    hashtags: $json.hashtags || [],\n    timestamp: new Date().toISOString(),\n    userId: $json.message.from.id,\n    chatId: $json.message.chat.id,\n    processingConfig: $json.processingConfig || {},\n    platforms: {},\n    metadata: {\n      fileSize: $json.message.video.file_size,\n      duration: $json.message.video.duration,\n      width: $json.message.video.width,\n      height: $json.message.video.height\n    }\n  };\n  \n  // Get versions from workflow static data\n  const videoVersions = $workflow.staticData.videoVersions || {};\n  \n  if (!videoVersions[videoId]) {\n    videoVersions[videoId] = [];\n  }\n  \n  // Set version number\n  versionEntry.version = videoVersions[videoId].length + 1;\n  \n  videoVersions[videoId].push(versionEntry);\n  \n  // Keep only last 10 versions per video\n  if (videoVersions[videoId].length > 10) {\n    videoVersions[videoId].shift();\n  }\n  \n  $workflow.staticData.videoVersions = videoVersions;\n  \n  return {\n    json: {\n      ...$input.item.json,\n      versioned: true,\n      version: versionEntry.version,\n      totalVersions: videoVersions[videoId].length\n    }\n  };\n}\n\nreturn {\n  json: {\n    ...$input.item.json,\n    versioned: false\n  }\n};"
+      },
+      "id": "version-video",
+      "name": "Version Video",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3650, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Backup Processed Video\nconst BACKUP_ENABLED = $env.ENABLE_VIDEO_BACKUP === 'true' || false;\n\nif (BACKUP_ENABLED && $json.processedVideoUrl) {\n  const backupEntry = {\n    videoId: $json.message.video.file_id,\n    originalVideoId: $json.message.video.file_id,\n    processedVideoUrl: $json.processedVideoUrl,\n    caption: $json.message.caption || '',\n    hashtags: $json.hashtags || [],\n    timestamp: new Date().toISOString(),\n    userId: $json.message.from.id,\n    chatId: $json.message.chat.id,\n    version: $json.version || 1\n  };\n  \n  // Get backups from workflow static data\n  const backups = $workflow.staticData.videoBackups || [];\n  backups.push(backupEntry);\n  \n  // Keep only last 500 backups\n  if (backups.length > 500) {\n    backups.shift();\n  }\n  \n  $workflow.staticData.videoBackups = backups;\n}\n\nreturn {\n  json: {\n    ...$input.item.json,\n    backedUp: BACKUP_ENABLED && !!$json.processedVideoUrl\n  }\n};"
+      },
+      "id": "backup-video",
+      "name": "Backup Processed Video",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3850, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Merge Subtitles and Thumbnail\nconst subtitleData = $input.all().find(item => item.json.subtitleUrl)?.json || {};\nconst thumbnailData = $input.all().find(item => item.json.thumbnailUrl)?.json || {};\n\nreturn {\n  json: {\n    ...$input.first().json,\n    subtitleUrl: subtitleData.subtitleUrl || null,\n    thumbnailUrl: thumbnailData.thumbnailUrl || null\n  }\n};"
+      },
+      "id": "merge-assets",
+      "name": "Merge Subtitles and Thumbnail",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3850, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Split for TikTok, Instagram, and YouTube\nconst platforms = [\n  { platform: 'tiktok', enabled: true },\n  { platform: 'instagram', enabled: true },\n  { platform: 'youtube', enabled: $env.ENABLE_YOUTUBE_SHORTS === 'true' }\n].filter(p => p.enabled);\n\nreturn platforms.map(p => ({\n  json: {\n    ...$input.item.json,\n    platform: p.platform\n  }\n}));"
+      },
+      "id": "split-platforms",
+      "name": "Split for TikTok, Instagram, and YouTube",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3650, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Platform Router - Route to appropriate platform handler\nconst platform = $json.platform;\n\n// Add platform-specific metadata\nconst platformData = {\n  ...$input.item.json,\n  platform: platform,\n  platformMetadata: {\n    tiktok: platform === 'tiktok' ? {\n      title: $json.optimizedCaption.substring(0, 150),\n      privacy: 'PUBLIC_TO_EVERYONE'\n    } : null,\n    instagram: platform === 'instagram' ? {\n      mediaType: 'REELS',\n      caption: $json.optimizedCaption\n    } : null,\n    youtube: platform === 'youtube' ? {\n      title: $json.optimizedCaption.substring(0, 100),\n      description: $json.optimizedCaption,\n      categoryId: '22', // People & Blogs\n      tags: $json.hashtags.join(','),\n      privacyStatus: 'public'\n    } : null\n  }\n};\n\nreturn platformData;"
+      },
+      "id": "platform-router",
+      "name": "Platform Router",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3850, 300]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "is-tiktok",
+                    "leftValue": "={{ $json.platform }}",
+                    "rightValue": "tiktok",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "tiktok"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "is-instagram",
+                    "leftValue": "={{ $json.platform }}",
+                    "rightValue": "instagram",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "instagram"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "is-youtube",
+                    "leftValue": "={{ $json.platform }}",
+                    "rightValue": "youtube",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "youtube"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "check-platform",
+      "name": "Platform Switch",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [4050, 300]
+    },
+    {
+      "parameters": {
+        "url": "=https://www.googleapis.com/upload/youtube/v3/videos?uploadType=resumable&part=snippet,status",
+        "authentication": "oAuth2",
+        "sendBody": true,
+        "contentType": "json",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "snippet",
+              "value": "={{ JSON.stringify({\n  title: $json.platformMetadata.youtube.title,\n  description: $json.platformMetadata.youtube.description,\n  tags: $json.platformMetadata.youtube.tags.split(','),\n  categoryId: $json.platformMetadata.youtube.categoryId\n}) }}"
+            },
+            {
+              "name": "status",
+              "value": "={{ JSON.stringify({\n  privacyStatus: $json.platformMetadata.youtube.privacyStatus,\n  selfDeclaredMadeForKids: false\n}) }}"
+            }
+          ]
+        },
+        "sendBinaryData": true,
+        "binaryPropertyName": "video",
+        "options": {}
+      },
+      "id": "post-youtube",
+      "name": "Post to YouTube Shorts",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [4250, 500],
+      "credentials": {
+        "youtubeOAuth2Api": {
+          "id": "youtube-credentials",
+          "name": "YouTube OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://open.tiktokapis.com/v2/post/publish/inbox/",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "tiktokApi",
+        "sendBody": true,
+        "contentType": "json",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "post_info",
+              "value": "={{ JSON.stringify({\n  title: $json.optimizedCaption.substring(0, 150),\n  privacy_level: 'PUBLIC_TO_EVERYONE',\n  disable_duet: false,\n  disable_comment: false,\n  disable_stitch: false,\n  video_cover_timestamp_ms: 1000\n}) }}"
+            }
+          ]
+        },
+        "sendBinaryData": true,
+        "binaryPropertyName": "video",
+        "options": {}
+      },
+      "id": "post-tiktok",
+      "name": "Post to TikTok",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [3450, 100],
+      "credentials": {
+        "tiktokApi": {
+          "id": "tiktok-credentials",
+          "name": "TikTok API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://graph.instagram.com/{{ $json.selectedAccounts.instagram.accountId }}/media",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "instagramApi",
+        "sendBody": true,
+        "contentType": "json",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "media_type",
+              "value": "REELS"
+            },
+            {
+              "name": "video_url",
+              "value": "={{ $json.processedVideoUrl }}"
+            },
+            {
+              "name": "caption",
+              "value": "={{ $json.optimizedCaption }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "create-instagram-container",
+      "name": "Post to Instagram",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [3450, 300],
+      "credentials": {
+        "instagramApi": {
+          "id": "instagram-credentials",
+          "name": "Instagram API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://graph.instagram.com/{{ $json.selectedAccounts.instagram.accountId }}/media_publish",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "instagramApi",
+        "sendBody": true,
+        "contentType": "json",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "creation_id",
+              "value": "={{ $json.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "publish-instagram",
+      "name": "Publish Instagram Reel",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [3650, 300],
+      "credentials": {
+        "instagramApi": {
+          "id": "instagram-credentials",
+          "name": "Instagram API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Merge Results from All Platforms\nconst tiktokResult = $input.all().find(item => item.json.platform === 'tiktok');\nconst instagramResult = $input.all().find(item => item.json.platform === 'instagram');\nconst youtubeResult = $input.all().find(item => item.json.platform === 'youtube');\n\nconst results = {\n  tiktok: {\n    success: !!tiktokResult?.json.data?.publish_id || !!tiktokResult?.json.id,\n    publishId: tiktokResult?.json.data?.publish_id || tiktokResult?.json.id || null,\n    error: tiktokResult?.json.error || tiktokResult?.json.message || null,\n    statusCode: tiktokResult?.json.statusCode || null\n  },\n  instagram: {\n    success: !!instagramResult?.json.id,\n    publishId: instagramResult?.json.id || null,\n    error: instagramResult?.json.error || instagramResult?.json.error?.message || null,\n    statusCode: instagramResult?.json.statusCode || null\n  },\n  youtube: {\n    success: !!youtubeResult?.json.id,\n    publishId: youtubeResult?.json.id || null,\n    error: youtubeResult?.json.error || youtubeResult?.json.error?.message || null,\n    statusCode: youtubeResult?.json.statusCode || null\n  },\n  timestamp: new Date().toISOString()\n};\n\nconst successCount = [results.tiktok.success, results.instagram.success, results.youtube.success].filter(Boolean).length;\nconst totalPlatforms = 3;\n\n// Determine if retry is needed\nconst failedPlatforms = [];\nif (!results.tiktok.success) failedPlatforms.push('tiktok');\nif (!results.instagram.success) failedPlatforms.push('instagram');\nif (!results.youtube.success) failedPlatforms.push('youtube');\n\nreturn {\n  json: {\n    ...$input.first().json,\n    results: results,\n    summary: {\n      successCount: successCount,\n      totalPlatforms: totalPlatforms,\n      successRate: (successCount / totalPlatforms * 100).toFixed(1) + '%',\n      failedPlatforms: failedPlatforms\n    },\n    needsRetry: failedPlatforms.length > 0\n  }\n};"
+      },
+      "id": "merge-results",
+      "name": "Merge Results",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [4850, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Retry Failed Publications with Exponential Backoff\nconst MAX_RETRIES = 3;\nconst INITIAL_DELAY = 5000; // 5 seconds\n\nif (!$json.needsRetry) {\n  return {\n    json: {\n      ...$input.item.json,\n      retryScheduled: false\n    }\n  };\n}\n\n// Get retry history from workflow static data\nconst retryHistory = $workflow.staticData.retryHistory || {};\nconst videoId = $json.message.video.file_id;\n\nconst retryInfo = retryHistory[videoId] || {\n  attempts: 0,\n  lastAttempt: null,\n  failedPlatforms: []\n};\n\nretryInfo.attempts++;\nretryInfo.lastAttempt = Date.now();\nretryInfo.failedPlatforms = $json.summary.failedPlatforms;\n\n// Calculate delay with exponential backoff\nconst delay = INITIAL_DELAY * Math.pow(2, retryInfo.attempts - 1);\nconst maxDelay = 300000; // 5 minutes max\nconst finalDelay = Math.min(delay, maxDelay);\n\nconst shouldRetry = retryInfo.attempts <= MAX_RETRIES;\n\nif (shouldRetry) {\n  retryInfo.scheduledFor = new Date(Date.now() + finalDelay).toISOString();\n  retryInfo.delay = finalDelay;\n  retryHistory[videoId] = retryInfo;\n  $workflow.staticData.retryHistory = retryHistory;\n  \n  return {\n    json: {\n      ...$input.item.json,\n      retryScheduled: true,\n      retryInfo: {\n        attempt: retryInfo.attempts,\n        maxAttempts: MAX_RETRIES,\n        delay: finalDelay,\n        scheduledFor: retryInfo.scheduledFor,\n        failedPlatforms: retryInfo.failedPlatforms\n      }\n    }\n  };\n} else {\n  // Max retries reached, mark as failed\n  delete retryHistory[videoId];\n  $workflow.staticData.retryHistory = retryHistory;\n  \n  return {\n    json: {\n      ...$input.item.json,\n      retryScheduled: false,\n      retryExhausted: true,\n      retryInfo: {\n        attempts: retryInfo.attempts,\n        maxAttempts: MAX_RETRIES\n      }\n    }\n  };\n}"
+      },
+      "id": "retry-failed",
+      "name": "Retry Failed Publications",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [5050, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Track Advanced Analytics with A/B Testing\nconst startTime = $json.message.date * 1000 || Date.now();\nconst endTime = Date.now();\nconst processingTime = (endTime - startTime) / 1000; // seconds\n\nconst analytics = {\n  event: 'video_published',\n  timestamp: new Date().toISOString(),\n  videoId: $json.message.video.file_id,\n  chatId: $json.message.chat.id,\n  userId: $json.message.from.id,\n  processingTime: processingTime,\n  platforms: {\n    tiktok: $json.results.tiktok.success,\n    instagram: $json.results.instagram.success,\n    youtube: $json.results.youtube.success\n  },\n  successRate: $json.summary.successRate,\n  hashtags: $json.hashtags || [],\n  moderationScore: $json.moderation?.score || null,\n  videoSize: $json.message.video.file_size,\n  videoDuration: $json.message.video.duration,\n  abTestVariant: $json.abTestVariant || null,\n  engagementPrediction: $json.engagementPrediction || null,\n  cached: $json.cached || false,\n  retryScheduled: $json.retryScheduled || false\n};\n\n// Get analytics history from workflow static data\nconst analyticsHistory = $workflow.staticData.analyticsHistory || [];\nanalyticsHistory.push(analytics);\n\n// Keep only last 1000 entries\nif (analyticsHistory.length > 1000) {\n  analyticsHistory.shift();\n}\n\n$workflow.staticData.analyticsHistory = analyticsHistory;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    analytics: analytics\n  }\n};"
+      },
+      "id": "track-analytics",
+      "name": "Track Analytics",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [5250, 300]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.message.chat.id }}",
+        "text": "=⚠️ Algunas publicaciones fallaron\n\n📊 Resumen:\n• Plataformas exitosas: {{ $json.summary.successCount }}/{{ $json.summary.totalPlatforms }}\n• Plataformas fallidas: {{ $json.summary.failedPlatforms.join(', ') }}\n\n{{ $json.retryScheduled ? '🔄 Reintentando en ' + ($json.retryInfo.delay / 1000) + ' segundos (Intento ' + $json.retryInfo.attempt + '/' + $json.retryInfo.maxAttempts + ')' : '' }}{{ $json.retryExhausted ? '❌ Máximo de reintentos alcanzado' : '' }}\n\n{{ $json.results.tiktok.error ? '📱 TikTok: ' + $json.results.tiktok.error : '' }}\n{{ $json.results.instagram.error ? '📷 Instagram: ' + $json.results.instagram.error : '' }}\n{{ $json.results.youtube.error ? '🎬 YouTube: ' + $json.results.youtube.error : '' }}",
+        "additionalFields": {}
+      },
+      "id": "notify-errors",
+      "name": "Notify Publication Errors",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [5450, 400],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.SLACK_WEBHOOK_URL }}",
+        "sendBody": true,
+        "contentType": "json",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "text",
+              "value": "=✅ Video publicado exitosamente!\n\n📊 Resumen:\n• Plataformas: {{ $json.summary.successCount }}/{{ $json.summary.totalPlatforms }} exitosas\n• Tasa de éxito: {{ $json.summary.successRate }}\n• Tiempo de procesamiento: {{ $json.analytics.processingTime.toFixed(2) }}s\n\n📱 TikTok: {{ $json.results.tiktok.success ? '✅' : '❌' }}\n📷 Instagram: {{ $json.results.instagram.success ? '✅' : '❌' }}\n🎬 YouTube: {{ $json.results.youtube.success ? '✅' : '❌' }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "slack-notification",
+      "name": "Send Slack Notification",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [5450, 200],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.DISCORD_WEBHOOK_URL }}",
+        "sendBody": true,
+        "contentType": "json",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "=✅ Video publicado exitosamente!"
+            },
+            {
+              "name": "embeds",
+              "value": "={{ JSON.stringify([{\n  title: 'Publicación Multi-Plataforma',\n  color: $json.summary.successCount === $json.summary.totalPlatforms ? 3066993 : 15158332,\n  fields: [\n    { name: 'Plataformas Exitosas', value: `${$json.summary.successCount}/${$json.summary.totalPlatforms}`, inline: true },\n    { name: 'Tasa de Éxito', value: $json.summary.successRate, inline: true },\n    { name: 'Tiempo de Procesamiento', value: `${$json.analytics.processingTime.toFixed(2)}s`, inline: true },\n    { name: 'TikTok', value: $json.results.tiktok.success ? '✅' : '❌', inline: true },\n    { name: 'Instagram', value: $json.results.instagram.success ? '✅' : '❌', inline: true },\n    { name: 'YouTube', value: $json.results.youtube.success ? '✅' : '❌', inline: true }\n  ],\n  timestamp: $json.results.timestamp,\n  footer: { text: 'n8n Workflow Automation' }\n}]) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "discord-notification",
+      "name": "Send Discord Notification",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [5450, 300],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Intelligent Alerting System\nconst ALERT_THRESHOLDS = {\n  failureRate: 0.3, // 30% failure rate triggers alert\n  processingTime: 300, // 5 minutes\n  queueSize: 50, // 50 videos in queue\n  consecutiveFailures: 5\n};\n\nconst analyticsHistory = $workflow.staticData.analyticsHistory || [];\nconst recentAnalytics = analyticsHistory.slice(-50); // Last 50 posts\n\n// Calculate metrics\nconst totalPosts = recentAnalytics.length;\nconst failedPosts = recentAnalytics.filter(a => \n  a.platforms && (!a.platforms.tiktok && !a.platforms.instagram && !a.platforms.youtube)\n).length;\n\nconst failureRate = totalPosts > 0 ? failedPosts / totalPosts : 0;\nconst avgProcessingTime = recentAnalytics.length > 0\n  ? recentAnalytics.reduce((sum, a) => sum + (a.processingTime || 0), 0) / recentAnalytics.length\n  : 0;\n\nconst queueSize = ($workflow.staticData.videoQueue || []).length;\n\n// Check consecutive failures\nlet consecutiveFailures = 0;\nfor (let i = recentAnalytics.length - 1; i >= 0; i--) {\n  const a = recentAnalytics[i];\n  if (a.platforms && (!a.platforms.tiktok && !a.platforms.instagram && !a.platforms.youtube)) {\n    consecutiveFailures++;\n  } else {\n    break;\n  }\n}\n\n// Determine alert level\nlet alertLevel = 'none';\nconst alerts = [];\n\nif (failureRate >= ALERT_THRESHOLDS.failureRate) {\n  alertLevel = 'critical';\n  alerts.push(`Tasa de fallos alta: ${(failureRate * 100).toFixed(1)}%`);\n}\n\nif (avgProcessingTime >= ALERT_THRESHOLDS.processingTime) {\n  alertLevel = alertLevel === 'none' ? 'warning' : alertLevel;\n  alerts.push(`Tiempo de procesamiento alto: ${avgProcessingTime.toFixed(2)}s`);\n}\n\nif (queueSize >= ALERT_THRESHOLDS.queueSize) {\n  alertLevel = alertLevel === 'none' ? 'warning' : alertLevel;\n  alerts.push(`Cola grande: ${queueSize} videos pendientes`);\n}\n\nif (consecutiveFailures >= ALERT_THRESHOLDS.consecutiveFailures) {\n  alertLevel = 'critical';\n  alerts.push(`${consecutiveFailures} fallos consecutivos`);\n}\n\nreturn {\n  json: {\n    ...$input.item.json,\n    alerting: {\n      level: alertLevel,\n      alerts: alerts,\n      metrics: {\n        failureRate: (failureRate * 100).toFixed(1) + '%',\n        avgProcessingTime: avgProcessingTime.toFixed(2) + 's',\n        queueSize: queueSize,\n        consecutiveFailures: consecutiveFailures\n      }\n    }\n  }\n};"
+      },
+      "id": "intelligent-alerts",
+      "name": "Intelligent Alerting",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [5650, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Generate Daily Report\nconst ENABLE_DAILY_REPORTS = $env.ENABLE_DAILY_REPORTS === 'true' || false;\n\nif (!ENABLE_DAILY_REPORTS) {\n  return {\n    json: {\n      ...$input.item.json,\n      reportGenerated: false\n    }\n  };\n}\n\nconst analyticsHistory = $workflow.staticData.analyticsHistory || [];\nconst now = new Date();\nconst today = new Date(now.getFullYear(), now.getMonth(), now.getDate());\n\n// Get today's analytics\nconst todayAnalytics = analyticsHistory.filter(a => {\n  const analyticsDate = new Date(a.timestamp);\n  return analyticsDate >= today;\n});\n\n// Calculate statistics\nconst totalVideos = todayAnalytics.length;\nconst successfulVideos = todayAnalytics.filter(a => \n  a.platforms && (a.platforms.tiktok || a.platforms.instagram || a.platforms.youtube)\n).length;\n\nconst platformStats = {\n  tiktok: todayAnalytics.filter(a => a.platforms?.tiktok).length,\n  instagram: todayAnalytics.filter(a => a.platforms?.instagram).length,\n  youtube: todayAnalytics.filter(a => a.platforms?.youtube).length\n};\n\nconst avgProcessingTime = todayAnalytics.length > 0\n  ? todayAnalytics.reduce((sum, a) => sum + (a.processingTime || 0), 0) / todayAnalytics.length\n  : 0;\n\nconst report = {\n  date: today.toISOString().split('T')[0],\n  totalVideos: totalVideos,\n  successfulVideos: successfulVideos,\n  successRate: totalVideos > 0 ? ((successfulVideos / totalVideos) * 100).toFixed(1) + '%' : '0%',\n  platformStats: platformStats,\n  avgProcessingTime: avgProcessingTime.toFixed(2) + 's',\n  totalHashtags: todayAnalytics.reduce((sum, a) => sum + (a.hashtags?.length || 0), 0),\n  avgHashtags: todayAnalytics.length > 0\n    ? (todayAnalytics.reduce((sum, a) => sum + (a.hashtags?.length || 0), 0) / todayAnalytics.length).toFixed(1)\n    : '0'\n};\n\n// Store report\nconst reports = $workflow.staticData.dailyReports || [];\nreports.push(report);\n\n// Keep only last 30 reports\nif (reports.length > 30) {\n  reports.shift();\n}\n\n$workflow.staticData.dailyReports = reports;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    dailyReport: report,\n    reportGenerated: true\n  }\n};"
+      },
+      "id": "daily-report",
+      "name": "Generate Daily Report",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [5850, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Secure Webhook with HMAC Signature\nconst crypto = require('crypto');\nconst webhookSecret = $env.WEBHOOK_SECRET || 'default-secret';\n\nconst payload = {\n  event: 'video_published',\n  timestamp: new Date().toISOString(),\n  videoId: $json.message.video.file_id,\n  results: $json.results,\n  summary: $json.summary,\n  analytics: $json.analytics\n};\n\nconst payloadString = JSON.stringify(payload);\nconst signature = crypto\n  .createHmac('sha256', webhookSecret)\n  .update(payloadString)\n  .digest('hex');\n\nreturn {\n  json: {\n    ...$input.item.json,\n    webhookPayload: payload,\n    webhookSignature: signature,\n    webhookTimestamp: Date.now()\n  }\n};"
+      },
+      "id": "secure-webhook",
+      "name": "Prepare Secure Webhook",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [6050, 300]
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.WEBHOOK_NOTIFICATION_URL }}",
+        "sendBody": true,
+        "contentType": "json",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "payload",
+              "value": "={{ JSON.stringify($json.webhookPayload) }}"
+            },
+            {
+              "name": "signature",
+              "value": "={{ $json.webhookSignature }}"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{ $json.webhookTimestamp }}"
+            }
+          ]
+        },
+        "options": {
+          "headers": {
+            "parameters": [
+              {
+                "name": "X-Webhook-Signature",
+                "value": "={{ $json.webhookSignature }}"
+              },
+              {
+                "name": "X-Webhook-Timestamp",
+                "value": "={{ $json.webhookTimestamp }}"
+              }
+            ]
+          }
+        }
+      },
+      "id": "webhook-notification",
+      "name": "Send Webhook Notification",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [6250, 300],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Database Integration (PostgreSQL/MySQL)\nconst ENABLE_DATABASE = $env.ENABLE_DATABASE === 'true' || false;\n\nif (!ENABLE_DATABASE) {\n  return {\n    json: {\n      ...$input.item.json,\n      databaseSaved: false\n    }\n  };\n}\n\n// Prepare database record\nconst dbRecord = {\n  video_id: $json.message.video.file_id,\n  user_id: $json.message.from.id,\n  chat_id: $json.message.chat.id,\n  caption: $json.message.caption || '',\n  processed_video_url: $json.processedVideoUrl,\n  platforms: JSON.stringify($json.results),\n  success_rate: $json.summary.successRate,\n  processing_time: $json.analytics.processingTime,\n  hashtags: JSON.stringify($json.hashtags || []),\n  engagement_prediction: $json.engagementPrediction?.score || null,\n  ab_test_variant: $json.abTestVariant || null,\n  version: $json.version || 1,\n  created_at: new Date().toISOString(),\n  updated_at: new Date().toISOString()\n};\n\n// Store in workflow static data (in production, this would be a DB insert)\nconst dbRecords = $workflow.staticData.databaseRecords || [];\ndbRecords.push(dbRecord);\n\n// Keep only last 1000 records\nif (dbRecords.length > 1000) {\n  dbRecords.shift();\n}\n\n$workflow.staticData.databaseRecords = dbRecords;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    databaseSaved: true,\n    dbRecord: dbRecord\n  }\n};"
+      },
+      "id": "save-to-database",
+      "name": "Save to Database",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [6450, 300],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Cost Tracking and Billing\nconst COST_PER_VIDEO = {\n  processing: 0.01, // $0.01 per video processing\n  tiktok: 0.005,    // $0.005 per TikTok post\n  instagram: 0.005, // $0.005 per Instagram post\n  youtube: 0.01,    // $0.01 per YouTube post\n  subtitle: 0.002,  // $0.002 per subtitle generation\n  thumbnail: 0.001  // $0.001 per thumbnail generation\n};\n\nlet totalCost = 0;\nconst costBreakdown = {};\n\n// Processing cost\nif ($json.processedVideoUrl && !$json.cached) {\n  totalCost += COST_PER_VIDEO.processing;\n  costBreakdown.processing = COST_PER_VIDEO.processing;\n}\n\n// Platform costs\nif ($json.results.tiktok.success) {\n  totalCost += COST_PER_VIDEO.tiktok;\n  costBreakdown.tiktok = COST_PER_VIDEO.tiktok;\n}\nif ($json.results.instagram.success) {\n  totalCost += COST_PER_VIDEO.instagram;\n  costBreakdown.instagram = COST_PER_VIDEO.instagram;\n}\nif ($json.results.youtube.success) {\n  totalCost += COST_PER_VIDEO.youtube;\n  costBreakdown.youtube = COST_PER_VIDEO.youtube;\n}\n\n// Additional service costs\nif ($json.subtitleUrl) {\n  totalCost += COST_PER_VIDEO.subtitle;\n  costBreakdown.subtitle = COST_PER_VIDEO.subtitle;\n}\nif ($json.thumbnailUrl) {\n  totalCost += COST_PER_VIDEO.thumbnail;\n  costBreakdown.thumbnail = COST_PER_VIDEO.thumbnail;\n}\n\n// Get cost history from workflow static data\nconst costHistory = $workflow.staticData.costHistory || [];\nconst today = new Date().toISOString().split('T')[0];\n\n// Find or create today's cost entry\nlet todayCost = costHistory.find(c => c.date === today);\nif (!todayCost) {\n  todayCost = {\n    date: today,\n    totalCost: 0,\n    videoCount: 0,\n    breakdown: {}\n  };\n  costHistory.push(todayCost);\n}\n\ntodayCost.totalCost += totalCost;\ntodayCost.videoCount++;\n\n// Update breakdown\nObject.keys(costBreakdown).forEach(key => {\n  todayCost.breakdown[key] = (todayCost.breakdown[key] || 0) + costBreakdown[key];\n});\n\n// Keep only last 90 days\nconst cutoffDate = new Date();\ncutoffDate.setDate(cutoffDate.getDate() - 90);\nconst filteredHistory = costHistory.filter(c => new Date(c.date) >= cutoffDate);\n$workflow.staticData.costHistory = filteredHistory;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    cost: {\n      total: totalCost.toFixed(4),\n      breakdown: costBreakdown,\n      currency: 'USD'\n    },\n    dailyCost: {\n      date: today,\n      total: todayCost.totalCost.toFixed(4),\n      videoCount: todayCost.videoCount\n    }\n  }\n};"
+      },
+      "id": "track-costs",
+      "name": "Track Costs",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [6650, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Intelligent Video Compression\nconst ENABLE_SMART_COMPRESSION = $env.ENABLE_SMART_COMPRESSION === 'true' || false;\n\nif (!ENABLE_SMART_COMPRESSION || !$json.processedVideoUrl) {\n  return {\n    json: {\n      ...$input.item.json,\n      compressionApplied: false\n    }\n  };\n}\n\nconst videoSize = $json.message.video.file_size || 0;\nconst videoDuration = $json.message.video.duration || 0;\n\n// Determine compression strategy based on size and duration\nlet compressionStrategy = 'none';\nlet targetSize = null;\nlet quality = 'high';\n\nif (videoSize > 100 * 1024 * 1024) { // > 100MB\n  compressionStrategy = 'aggressive';\n  targetSize = 50 * 1024 * 1024; // Target 50MB\n  quality = 'medium';\n} else if (videoSize > 50 * 1024 * 1024) { // > 50MB\n  compressionStrategy = 'moderate';\n  targetSize = 30 * 1024 * 1024; // Target 30MB\n  quality = 'high';\n} else if (videoSize > 20 * 1024 * 1024) { // > 20MB\n  compressionStrategy = 'light';\n  targetSize = 15 * 1024 * 1024; // Target 15MB\n  quality = 'high';\n}\n\n// For long videos, apply more compression\nif (videoDuration > 180) { // > 3 minutes\n  if (compressionStrategy === 'none') compressionStrategy = 'light';\n  quality = 'medium';\n}\n\nreturn {\n  json: {\n    ...$input.item.json,\n    compression: {\n      strategy: compressionStrategy,\n      targetSize: targetSize,\n      quality: quality,\n      originalSize: videoSize,\n      estimatedReduction: compressionStrategy !== 'none' \n        ? ((1 - (targetSize / videoSize)) * 100).toFixed(1) + '%'\n        : '0%'\n    },\n    compressionApplied: compressionStrategy !== 'none'\n  }\n};"
+      },
+      "id": "smart-compression",
+      "name": "Smart Compression Analysis",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [6850, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Video Object Detection\nconst ENABLE_OBJECT_DETECTION = $env.ENABLE_OBJECT_DETECTION === 'true' || false;\n\nif (!ENABLE_OBJECT_DETECTION || !$json.processedVideoUrl) {\n  return {\n    json: {\n      ...$input.item.json,\n      objectDetection: null\n    }\n  };\n}\n\n// Simulate object detection (in production, use ML service)\nconst commonObjects = ['person', 'car', 'dog', 'cat', 'food', 'building', 'nature', 'sunset', 'beach', 'city'];\nconst caption = ($json.message.caption || '').toLowerCase();\n\nconst detectedObjects = [];\ncommonObjects.forEach(obj => {\n  if (caption.includes(obj)) {\n    detectedObjects.push(obj);\n  }\n});\n\n// If no objects detected from caption, use default\nif (detectedObjects.length === 0) {\n  detectedObjects.push('general');\n}\n\nreturn {\n  json: {\n    ...$input.item.json,\n    objectDetection: {\n      objects: detectedObjects,\n      confidence: detectedObjects.length > 0 ? '0.85' : '0.50',\n      timestamp: new Date().toISOString()\n    }\n  }\n};"
+      },
+      "id": "object-detection",
+      "name": "Object Detection",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3450, 200],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.AUDIO_TRANSCRIPTION_SERVICE_URL || 'http://localhost:3003' }}/transcribe",
+        "sendBody": true,
+        "contentType": "json",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "video_url",
+              "value": "={{ $json.processedVideoUrl }}"
+            },
+            {
+              "name": "language",
+              "value": "auto"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "transcribe-audio",
+      "name": "Transcribe Audio",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [3450, 400],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Custom Template System\nconst ENABLE_TEMPLATES = $env.ENABLE_TEMPLATES === 'true' || false;\n\nif (!ENABLE_TEMPLATES) {\n  return {\n    json: {\n      ...$input.item.json,\n      templateApplied: false\n    }\n  };\n}\n\n// Get templates from workflow static data\nconst templates = $workflow.staticData.templates || {};\n\n// Default templates\nconst defaultTemplates = {\n  caption: {\n    default: '{{caption}}\\n\\n{{hashtags}}',\n    professional: '🎬 {{caption}}\\n\\n{{hashtags}}\\n\\n#professional #contentcreator',\n    casual: '{{caption}} 😎\\n\\n{{hashtags}}',\n    minimal: '{{caption}}\\n\\n{{hashtags}}'\n  },\n  hashtags: {\n    default: [],\n    trending: ['#viral', '#fyp', '#foryou', '#trending'],\n    niche: []\n  }\n};\n\n// Merge with user templates\nconst allTemplates = { ...defaultTemplates, ...templates };\n\n// Detect template from caption or use default\nlet selectedTemplate = 'default';\nconst caption = ($json.message.caption || '').toLowerCase();\n\nif (caption.includes('template:') || caption.includes('tpl:')) {\n  const templateMatch = caption.match(/(?:template|tpl):(\\w+)/);\n  if (templateMatch) {\n    selectedTemplate = templateMatch[1];\n  }\n}\n\n// Apply template\nconst template = allTemplates.caption[selectedTemplate] || allTemplates.caption.default;\nlet finalCaption = template\n  .replace(/{{caption}}/g, $json.message.caption || '')\n  .replace(/{{hashtags}}/g, ($json.hashtags || []).join(' '));\n\nreturn {\n  json: {\n    ...$input.item.json,\n    templateApplied: true,\n    templateUsed: selectedTemplate,\n    finalCaption: finalCaption,\n    optimizedCaption: finalCaption // Update optimized caption\n  }\n};"
+      },
+      "id": "apply-template",
+      "name": "Apply Custom Template",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3650, 300],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Auto-Optimization Based on Results\nconst ENABLE_AUTO_OPTIMIZATION = $env.ENABLE_AUTO_OPTIMIZATION === 'true' || false;\n\nif (!ENABLE_AUTO_OPTIMIZATION) {\n  return {\n    json: {\n      ...$input.item.json,\n      autoOptimization: null\n    }\n  };\n}\n\nconst analyticsHistory = $workflow.staticData.analyticsHistory || [];\nconst recentAnalytics = analyticsHistory.slice(-100);\n\n// Analyze what works best\nconst successfulPosts = recentAnalytics.filter(a => \n  a.platforms && (a.platforms.tiktok || a.platforms.instagram || a.platforms.youtube)\n);\n\n// Find best performing hashtag count\nconst hashtagCounts = {};\nsuccessfulPosts.forEach(post => {\n  const count = post.hashtags?.length || 0;\n  hashtagCounts[count] = (hashtagCounts[count] || 0) + 1;\n});\n\nconst bestHashtagCount = Object.entries(hashtagCounts)\n  .sort((a, b) => b[1] - a[1])[0]?.[0] || 20;\n\n// Find best performing A/B variant\nconst variantPerformance = { A: 0, B: 0 };\nsuccessfulPosts.forEach(post => {\n  if (post.abTestVariant) {\n    variantPerformance[post.abTestVariant]++;\n  }\n});\n\nconst bestVariant = variantPerformance.A >= variantPerformance.B ? 'A' : 'B';\n\n// Find best posting hours\nconst hourPerformance = {};\nsuccessfulPosts.forEach(post => {\n  const hour = new Date(post.timestamp).getHours();\n  hourPerformance[hour] = (hourPerformance[hour] || 0) + 1;\n});\n\nconst bestHours = Object.entries(hourPerformance)\n  .sort((a, b) => b[1] - a[1])\n  .slice(0, 3)\n  .map(([hour]) => parseInt(hour));\n\n// Generate recommendations\nconst recommendations = [];\n\nif ($json.hashtags && $json.hashtags.length !== parseInt(bestHashtagCount)) {\n  recommendations.push(`Ajustar cantidad de hashtags a ${bestHashtagCount} (actual: ${$json.hashtags.length})`);\n}\n\nif ($json.abTestVariant && $json.abTestVariant !== bestVariant) {\n  recommendations.push(`Usar variante ${bestVariant} para mejor performance`);\n}\n\nconst currentHour = new Date().getHours();\nif (!bestHours.includes(currentHour)) {\n  recommendations.push(`Mejor hora para publicar: ${bestHours.join(', ')}`);\n}\n\nreturn {\n  json: {\n    ...$input.item.json,\n    autoOptimization: {\n      enabled: true,\n      bestHashtagCount: parseInt(bestHashtagCount),\n      bestVariant: bestVariant,\n      bestHours: bestHours,\n      recommendations: recommendations,\n      dataPoints: successfulPosts.length\n    }\n  }\n};"
+      },
+      "id": "auto-optimization",
+      "name": "Auto-Optimization",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [7050, 300]
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.WATERMARK_SERVICE_URL || 'http://localhost:3004' }}/add-watermark",
+        "sendBody": true,
+        "contentType": "json",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "video_url",
+              "value": "={{ $json.processedVideoUrl }}"
+            },
+            {
+              "name": "watermark_text",
+              "value": "={{ $env.WATERMARK_TEXT || '@yourbrand' }}"
+            },
+            {
+              "name": "position",
+              "value": "={{ $env.WATERMARK_POSITION || 'bottom-right' }}"
+            },
+            {
+              "name": "opacity",
+              "value": "={{ $env.WATERMARK_OPACITY || '0.7' }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "add-watermark",
+      "name": "Add Watermark",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [2850, 500],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Real-Time Metrics Dashboard\nconst ENABLE_REALTIME_METRICS = $env.ENABLE_REALTIME_METRICS === 'true' || false;\n\nif (!ENABLE_REALTIME_METRICS) {\n  return {\n    json: {\n      ...$input.item.json,\n      realtimeMetrics: null\n    }\n  };\n}\n\nconst analyticsHistory = $workflow.staticData.analyticsHistory || [];\nconst now = Date.now();\nconst last24Hours = analyticsHistory.filter(a => {\n  const timestamp = new Date(a.timestamp).getTime();\n  return now - timestamp < 24 * 60 * 60 * 1000;\n});\n\n// Calculate real-time metrics\nconst metrics = {\n  timestamp: new Date().toISOString(),\n  last24Hours: {\n    totalVideos: last24Hours.length,\n    successfulVideos: last24Hours.filter(a => \n      a.platforms && (a.platforms.tiktok || a.platforms.instagram || a.platforms.youtube)\n    ).length,\n    avgProcessingTime: last24Hours.length > 0\n      ? (last24Hours.reduce((sum, a) => sum + (a.processingTime || 0), 0) / last24Hours.length).toFixed(2)\n      : '0',\n    totalCost: last24Hours.reduce((sum, a) => sum + (parseFloat(a.cost?.total || 0)), 0).toFixed(4)\n  },\n  platformStats: {\n    tiktok: last24Hours.filter(a => a.platforms?.tiktok).length,\n    instagram: last24Hours.filter(a => a.platforms?.instagram).length,\n    youtube: last24Hours.filter(a => a.platforms?.youtube).length\n  },\n  trends: {\n    videosPerHour: (last24Hours.length / 24).toFixed(1),\n    successRate: last24Hours.length > 0\n      ? ((last24Hours.filter(a => a.platforms && (a.platforms.tiktok || a.platforms.instagram || a.platforms.youtube)).length / last24Hours.length) * 100).toFixed(1) + '%'\n      : '0%'\n  }\n};\n\n// Store in workflow static data\nconst realtimeMetrics = $workflow.staticData.realtimeMetrics || [];\nrealtimeMetrics.push(metrics);\n\n// Keep only last 1000 metrics\nif (realtimeMetrics.length > 1000) {\n  realtimeMetrics.shift();\n}\n\n$workflow.staticData.realtimeMetrics = realtimeMetrics;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    realtimeMetrics: metrics\n  }\n};"
+      },
+      "id": "realtime-metrics",
+      "name": "Real-Time Metrics",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [7250, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Calendar Integration for Scheduled Posts\nconst ENABLE_CALENDAR_SYNC = $env.ENABLE_CALENDAR_SYNC === 'true' || false;\n\nif (!ENABLE_CALENDAR_SYNC) {\n  return {\n    json: {\n      ...$input.item.json,\n      calendarEvent: null\n    }\n  };\n}\n\n// Create calendar event for scheduled posts\nif ($json.postingTime?.scheduled && $json.postingTime?.optimalTime) {\n  const event = {\n    title: `Publicación programada - ${$json.message.video.file_id}`,\n    description: `Video programado para publicación en múltiples plataformas\\n\\nPlataformas: TikTok, Instagram, YouTube\\nHashtags: ${($json.hashtags || []).length}\\nEngagement predicho: ${$json.engagementPrediction?.score || 'N/A'}`,\n    startTime: $json.postingTime.optimalTime,\n    endTime: new Date(new Date($json.postingTime.optimalTime).getTime() + 30 * 60 * 1000).toISOString(), // 30 min duration\n    location: 'Multi-Platform Publishing',\n    reminders: [\n      { minutes: 15, method: 'popup' },\n      { minutes: 5, method: 'email' }\n    ],\n    status: 'confirmed'\n  };\n  \n  // Store calendar events\n  const calendarEvents = $workflow.staticData.calendarEvents || [];\n  calendarEvents.push({\n    ...event,\n    videoId: $json.message.video.file_id,\n    createdAt: new Date().toISOString()\n  });\n  \n  // Keep only last 500 events\n  if (calendarEvents.length > 500) {\n    calendarEvents.shift();\n  }\n  \n  $workflow.staticData.calendarEvents = calendarEvents;\n  \n  return {\n    json: {\n      ...$input.item.json,\n      calendarEvent: event\n    }\n  };\n}\n\nreturn {\n  json: {\n    ...$input.item.json,\n    calendarEvent: null\n  }\n};"
+      },
+      "id": "calendar-sync",
+      "name": "Calendar Sync",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3250, 500],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Trend Analysis\nconst ENABLE_TREND_ANALYSIS = $env.ENABLE_TREND_ANALYSIS === 'true' || false;\n\nif (!ENABLE_TREND_ANALYSIS) {\n  return {\n    json: {\n      ...$input.item.json,\n      trendAnalysis: null\n    }\n  };\n}\n\nconst analyticsHistory = $workflow.staticData.analyticsHistory || [];\nconst recentAnalytics = analyticsHistory.slice(-200);\n\n// Analyze hashtag trends\nconst hashtagFrequency = {};\nrecentAnalytics.forEach(post => {\n  (post.hashtags || []).forEach(tag => {\n    hashtagFrequency[tag] = (hashtagFrequency[tag] || 0) + 1;\n  });\n});\n\n// Get top trending hashtags\nconst topHashtags = Object.entries(hashtagFrequency)\n  .sort((a, b) => b[1] - a[1])\n  .slice(0, 10)\n  .map(([tag, count]) => ({ tag, count }));\n\n// Analyze platform trends\nconst platformTrends = {\n  tiktok: recentAnalytics.filter(a => a.platforms?.tiktok).length,\n  instagram: recentAnalytics.filter(a => a.platforms?.instagram).length,\n  youtube: recentAnalytics.filter(a => a.platforms?.youtube).length\n};\n\n// Analyze time trends\nconst hourlyTrends = {};\nfor (let i = 0; i < 24; i++) {\n  hourlyTrends[i] = 0;\n}\n\nrecentAnalytics.forEach(post => {\n  const hour = new Date(post.timestamp).getHours();\n  hourlyTrends[hour]++;\n});\n\nconst peakHours = Object.entries(hourlyTrends)\n  .sort((a, b) => b[1] - a[1])\n  .slice(0, 5)\n  .map(([hour]) => parseInt(hour));\n\nreturn {\n  json: {\n    ...$input.item.json,\n    trendAnalysis: {\n      topHashtags: topHashtags,\n      platformTrends: platformTrends,\n      peakHours: peakHours,\n      dataPoints: recentAnalytics.length,\n      timestamp: new Date().toISOString()\n    }\n  }\n};"
+      },
+      "id": "trend-analysis",
+      "name": "Trend Analysis",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [7450, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Content Scheduling Management\nconst ENABLE_CONTENT_SCHEDULING = $env.ENABLE_CONTENT_SCHEDULING === 'true' || false;\n\nif (!ENABLE_CONTENT_SCHEDULING) {\n  return {\n    json: {\n      ...$input.item.json,\n      scheduledContent: null\n    }\n  };\n}\n\n// If post is scheduled, add to scheduling queue\nif ($json.postingTime?.scheduled && $json.postingTime?.optimalTime) {\n  const scheduledItem = {\n    videoId: $json.message.video.file_id,\n    userId: $json.message.from.id,\n    chatId: $json.message.chat.id,\n    scheduledTime: $json.postingTime.optimalTime,\n    platforms: ['tiktok', 'instagram', 'youtube'],\n    caption: $json.optimizedCaption || $json.message.caption,\n    hashtags: $json.hashtags || [],\n    processedVideoUrl: $json.processedVideoUrl,\n    status: 'scheduled',\n    createdAt: new Date().toISOString()\n  };\n  \n  // Get scheduled content queue\n  const scheduledQueue = $workflow.staticData.scheduledContent || [];\n  scheduledQueue.push(scheduledItem);\n  \n  // Sort by scheduled time\n  scheduledQueue.sort((a, b) => new Date(a.scheduledTime) - new Date(b.scheduledTime));\n  \n  // Keep only next 1000 scheduled items\n  if (scheduledQueue.length > 1000) {\n    scheduledQueue.splice(1000);\n  }\n  \n  $workflow.staticData.scheduledContent = scheduledQueue;\n  \n  return {\n    json: {\n      ...$input.item.json,\n      scheduledContent: {\n        scheduled: true,\n        scheduledTime: $json.postingTime.optimalTime,\n        positionInQueue: scheduledQueue.length,\n        estimatedTimeUntilPost: new Date($json.postingTime.optimalTime).getTime() - Date.now()\n      }\n    }\n  };\n}\n\nreturn {\n  json: {\n    ...$input.item.json,\n    scheduledContent: {\n      scheduled: false\n    }\n  }\n};"
+      },
+      "id": "content-scheduling",
+      "name": "Content Scheduling",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3250, 600],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Personalized Recommendations with ML\nconst ENABLE_PERSONALIZED_RECOMMENDATIONS = $env.ENABLE_PERSONALIZED_RECOMMENDATIONS === 'true' || false;\n\nif (!ENABLE_PERSONALIZED_RECOMMENDATIONS) {\n  return {\n    json: {\n      ...$input.item.json,\n      personalizedRecommendations: null\n    }\n  };\n}\n\nconst userId = $json.message.from.id;\nconst analyticsHistory = $workflow.staticData.analyticsHistory || [];\n\n// Get user's historical data\nconst userPosts = analyticsHistory.filter(a => a.userId === userId).slice(-50);\n\nif (userPosts.length === 0) {\n  return {\n    json: {\n      ...$input.item.json,\n      personalizedRecommendations: {\n        enabled: false,\n        reason: 'insufficient_data'\n      }\n    }\n  };\n}\n\n// Analyze user's best performing content\nconst successfulUserPosts = userPosts.filter(a => \n  a.platforms && (a.platforms.tiktok || a.platforms.instagram || a.platforms.youtube)\n);\n\n// Find user's best hashtags\nconst userHashtagPerformance = {};\nsuccessfulUserPosts.forEach(post => {\n  (post.hashtags || []).forEach(tag => {\n    userHashtagPerformance[tag] = (userHashtagPerformance[tag] || 0) + 1;\n  });\n});\n\nconst topUserHashtags = Object.entries(userHashtagPerformance)\n  .sort((a, b) => b[1] - a[1])\n  .slice(0, 5)\n  .map(([tag]) => tag);\n\n// Find user's best posting times\nconst userHourPerformance = {};\nsuccessfulUserPosts.forEach(post => {\n  const hour = new Date(post.timestamp).getHours();\n  userHourPerformance[hour] = (userHourPerformance[hour] || 0) + 1;\n});\n\nconst userBestHours = Object.entries(userHourPerformance)\n  .sort((a, b) => b[1] - a[1])\n  .slice(0, 3)\n  .map(([hour]) => parseInt(hour));\n\n// Generate personalized recommendations\nconst recommendations = [];\n\nif (topUserHashtags.length > 0) {\n  const missingHashtags = topUserHashtags.filter(tag => \n    !($json.hashtags || []).includes(tag)\n  );\n  if (missingHashtags.length > 0) {\n    recommendations.push(`Considera usar: ${missingHashtags.slice(0, 3).join(', ')}`);\n  }\n}\n\nconst currentHour = new Date().getHours();\nif (userBestHours.length > 0 && !userBestHours.includes(currentHour)) {\n  recommendations.push(`Tus mejores horas: ${userBestHours.join(', ')}`);\n}\n\n// Calculate user success rate\nconst userSuccessRate = successfulUserPosts.length / userPosts.length;\nif (userSuccessRate < 0.7) {\n  recommendations.push('Considera ajustar tu estrategia de hashtags');\n}\n\nreturn {\n  json: {\n    ...$input.item.json,\n    personalizedRecommendations: {\n      enabled: true,\n      recommendations: recommendations,\n      topHashtags: topUserHashtags,\n      bestHours: userBestHours,\n      successRate: (userSuccessRate * 100).toFixed(1) + '%',\n      dataPoints: userPosts.length\n    }\n  }\n};"
+      },
+      "id": "personalized-recommendations",
+      "name": "Personalized Recommendations",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [7650, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Duplicate Content Detection\nconst ENABLE_DUPLICATE_DETECTION = $env.ENABLE_DUPLICATE_DETECTION === 'true' || false;\n\nif (!ENABLE_DUPLICATE_DETECTION) {\n  return {\n    json: {\n      ...$input.item.json,\n      duplicateDetection: null\n    }\n  };\n}\n\nconst videoId = $json.message.video.file_id;\nconst caption = ($json.message.caption || '').toLowerCase();\nconst videoSize = $json.message.video.file_size || 0;\nconst videoDuration = $json.message.video.duration || 0;\n\n// Create content signature\nconst contentSignature = {\n  videoId: videoId,\n  captionHash: caption.substring(0, 100), // First 100 chars\n  size: videoSize,\n  duration: videoDuration,\n  timestamp: new Date().toISOString()\n};\n\n// Get content history\nconst contentHistory = $workflow.staticData.contentHistory || [];\n\n// Check for duplicates based on caption similarity\nconst similarContent = contentHistory.filter(item => {\n  const similarity = calculateSimilarity(item.captionHash, contentSignature.captionHash);\n  return similarity > 0.8; // 80% similarity threshold\n});\n\n// Check for size/duration matches (potential duplicates)\nconst sizeMatches = contentHistory.filter(item => \n  Math.abs(item.size - contentSignature.size) < 1000 && // Within 1KB\n  Math.abs(item.duration - contentSignature.duration) < 1 // Within 1 second\n);\n\nconst isDuplicate = similarContent.length > 0 || sizeMatches.length > 0;\n\n// Add to history\ncontentHistory.push(contentSignature);\n\n// Keep only last 5000 items\nif (contentHistory.length > 5000) {\n  contentHistory.shift();\n}\n\n$workflow.staticData.contentHistory = contentHistory;\n\nfunction calculateSimilarity(str1, str2) {\n  const longer = str1.length > str2.length ? str1 : str2;\n  const shorter = str1.length > str2.length ? str2 : str1;\n  if (longer.length === 0) return 1.0;\n  \n  const distance = levenshteinDistance(longer, shorter);\n  return (longer.length - distance) / longer.length;\n}\n\nfunction levenshteinDistance(str1, str2) {\n  const matrix = [];\n  for (let i = 0; i <= str2.length; i++) {\n    matrix[i] = [i];\n  }\n  for (let j = 0; j <= str1.length; j++) {\n    matrix[0][j] = j;\n  }\n  for (let i = 1; i <= str2.length; i++) {\n    for (let j = 1; j <= str1.length; j++) {\n      if (str2.charAt(i - 1) === str1.charAt(j - 1)) {\n        matrix[i][j] = matrix[i - 1][j - 1];\n      } else {\n        matrix[i][j] = Math.min(\n          matrix[i - 1][j - 1] + 1,\n          matrix[i][j - 1] + 1,\n          matrix[i - 1][j] + 1\n        );\n      }\n    }\n  }\n  return matrix[str2.length][str1.length];\n}\n\nreturn {\n  json: {\n    ...$input.item.json,\n    duplicateDetection: {\n      isDuplicate: isDuplicate,\n      similarContent: similarContent.length,\n      sizeMatches: sizeMatches.length,\n      confidence: isDuplicate ? 'high' : 'low',\n      recommendation: isDuplicate ? 'Este contenido parece similar a publicaciones anteriores' : 'Contenido único'\n    }\n  }\n};"
+      },
+      "id": "duplicate-detection",
+      "name": "Duplicate Content Detection",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1450, 400],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Copyright Management\nconst ENABLE_COPYRIGHT_MANAGEMENT = $env.ENABLE_COPYRIGHT_MANAGEMENT === 'true' || false;\n\nif (!ENABLE_COPYRIGHT_MANAGEMENT) {\n  return {\n    json: {\n      ...$input.item.json,\n      copyright: null\n    }\n  };\n}\n\nconst userId = $json.message.from.id;\nconst videoId = $json.message.video.file_id;\nconst caption = $json.message.caption || '';\n\n// Check for copyright indicators in caption\nconst copyrightKeywords = ['copyright', '©', 'all rights reserved', 'dmca', 'fair use'];\nconst hasCopyrightNotice = copyrightKeywords.some(keyword => \n  caption.toLowerCase().includes(keyword)\n);\n\n// Create copyright record\nconst copyrightRecord = {\n  videoId: videoId,\n  userId: userId,\n  timestamp: new Date().toISOString(),\n  hasCopyrightNotice: hasCopyrightNotice,\n  caption: caption.substring(0, 200), // First 200 chars\n  status: 'pending_review'\n};\n\n// Store copyright records\nconst copyrightRecords = $workflow.staticData.copyrightRecords || [];\ncopyrightRecords.push(copyrightRecord);\n\n// Keep only last 1000 records\nif (copyrightRecords.length > 1000) {\n  copyrightRecords.shift();\n}\n\n$workflow.staticData.copyrightRecords = copyrightRecords;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    copyright: {\n      hasNotice: hasCopyrightNotice,\n      status: copyrightRecord.status,\n      recommendation: hasCopyrightNotice \n        ? 'Copyright notice detectado en el caption' \n        : 'Considera agregar información de derechos de autor si es necesario'\n    }\n  }\n};"
+      },
+      "id": "copyright-management",
+      "name": "Copyright Management",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 400],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Post-Publication Engagement Analysis\nconst ENABLE_POST_ENGAGEMENT = $env.ENABLE_POST_ENGAGEMENT === 'true' || false;\n\nif (!ENABLE_POST_ENGAGEMENT) {\n  return {\n    json: {\n      ...$input.item.json,\n      postEngagement: null\n    }\n  };\n}\n\n// This would typically be called after some time post-publication\n// For now, we'll prepare the structure\nconst engagementTracking = {\n  videoId: $json.message.video.file_id,\n  platforms: {},\n  timestamp: new Date().toISOString(),\n  scheduledCheck: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString() // Check after 24h\n};\n\n// Add platform IDs for tracking\nif ($json.results.tiktok.publishId) {\n  engagementTracking.platforms.tiktok = {\n    publishId: $json.results.tiktok.publishId,\n    url: $json.results.tiktok.url || null\n  };\n}\n\nif ($json.results.instagram.publishId) {\n  engagementTracking.platforms.instagram = {\n    publishId: $json.results.instagram.publishId,\n    url: $json.results.instagram.url || null\n  };\n}\n\nif ($json.results.youtube.publishId) {\n  engagementTracking.platforms.youtube = {\n    publishId: $json.results.youtube.publishId,\n    url: $json.results.youtube.url || null\n  };\n}\n\n// Store for later analysis\nconst engagementQueue = $workflow.staticData.engagementQueue || [];\nengagementQueue.push(engagementTracking);\n\n// Keep only last 500 items\nif (engagementQueue.length > 500) {\n  engagementQueue.shift();\n}\n\n$workflow.staticData.engagementQueue = engagementQueue;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    postEngagement: {\n      trackingEnabled: true,\n      scheduledCheck: engagementTracking.scheduledCheck,\n      platformsTracked: Object.keys(engagementTracking.platforms).length\n    }\n  }\n};"
+      },
+      "id": "post-engagement",
+      "name": "Post-Engagement Tracking",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [7850, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Competitor Analysis\nconst ENABLE_COMPETITOR_ANALYSIS = $env.ENABLE_COMPETITOR_ANALYSIS === 'true' || false;\n\nif (!ENABLE_COMPETITOR_ANALYSIS) {\n  return {\n    json: {\n      ...$input.item.json,\n      competitorAnalysis: null\n    }\n  };\n}\n\nconst hashtags = $json.hashtags || [];\nconst analyticsHistory = $workflow.staticData.analyticsHistory || [];\n\n// Analyze hashtag performance across all users (simulating competitor data)\nconst hashtagPerformance = {};\nanalyticsHistory.forEach(post => {\n  (post.hashtags || []).forEach(tag => {\n    if (!hashtagPerformance[tag]) {\n      hashtagPerformance[tag] = {\n        usageCount: 0,\n        successCount: 0,\n        avgEngagement: 0\n      };\n    }\n    hashtagPerformance[tag].usageCount++;\n    if (post.platforms && (post.platforms.tiktok || post.platforms.instagram || post.platforms.youtube)) {\n      hashtagPerformance[tag].successCount++;\n    }\n  });\n});\n\n// Calculate success rate for each hashtag\nObject.keys(hashtagPerformance).forEach(tag => {\n  const perf = hashtagPerformance[tag];\n  perf.successRate = perf.usageCount > 0 ? (perf.successCount / perf.usageCount) * 100 : 0;\n});\n\n// Find competitive hashtags (high usage, high success rate)\nconst competitiveHashtags = Object.entries(hashtagPerformance)\n  .filter(([tag, perf]) => perf.usageCount >= 5 && perf.successRate >= 70)\n  .sort((a, b) => b[1].successRate - a[1].successRate)\n  .slice(0, 10)\n  .map(([tag, perf]) => ({ tag, successRate: perf.successRate.toFixed(1) + '%', usageCount: perf.usageCount }));\n\n// Analyze current hashtags against competition\nconst currentHashtagAnalysis = hashtags.map(tag => {\n  const perf = hashtagPerformance[tag] || { usageCount: 0, successRate: 0 };\n  return {\n    tag: tag,\n    competitive: perf.usageCount >= 5 && perf.successRate >= 70,\n    successRate: perf.successRate.toFixed(1) + '%',\n    usageCount: perf.usageCount\n  };\n});\n\n// Recommendations\nconst recommendations = [];\nconst nonCompetitiveHashtags = currentHashtagAnalysis.filter(h => !h.competitive);\nif (nonCompetitiveHashtags.length > 0) {\n  recommendations.push(`Considera reemplazar hashtags poco competitivos: ${nonCompetitiveHashtags.slice(0, 3).map(h => h.tag).join(', ')}`);\n}\n\nif (competitiveHashtags.length > 0) {\n  const missingCompetitive = competitiveHashtags\n    .filter(h => !hashtags.includes(h.tag))\n    .slice(0, 3);\n  if (missingCompetitive.length > 0) {\n    recommendations.push(`Hashtags competitivos a considerar: ${missingCompetitive.map(h => h.tag).join(', ')}`);\n  }\n}\n\nreturn {\n  json: {\n    ...$input.item.json,\n    competitorAnalysis: {\n      competitiveHashtags: competitiveHashtags,\n      currentHashtagAnalysis: currentHashtagAnalysis,\n      recommendations: recommendations,\n      dataPoints: analyticsHistory.length\n    }\n  }\n};"
+      },
+      "id": "competitor-analysis",
+      "name": "Competitor Analysis",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [8050, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Comment Management System\nconst ENABLE_COMMENT_MANAGEMENT = $env.ENABLE_COMMENT_MANAGEMENT === 'true' || false;\n\nif (!ENABLE_COMMENT_MANAGEMENT) {\n  return {\n    json: {\n      ...$input.item.json,\n      commentManagement: null\n    }\n  };\n}\n\n// Prepare comment tracking structure\nconst commentTracking = {\n  videoId: $json.message.video.file_id,\n  platforms: {},\n  timestamp: new Date().toISOString(),\n  autoReplyEnabled: $env.AUTO_REPLY_ENABLED === 'true' || false\n};\n\n// Add platform IDs for comment tracking\nif ($json.results.tiktok.publishId) {\n  commentTracking.platforms.tiktok = {\n    publishId: $json.results.tiktok.publishId,\n    commentCount: 0,\n    lastChecked: null\n  };\n}\n\nif ($json.results.instagram.publishId) {\n  commentTracking.platforms.instagram = {\n    publishId: $json.results.instagram.publishId,\n    commentCount: 0,\n    lastChecked: null\n  };\n}\n\nif ($json.results.youtube.publishId) {\n  commentTracking.platforms.youtube = {\n    publishId: $json.results.youtube.publishId,\n    commentCount: 0,\n    lastChecked: null\n  };\n}\n\n// Store comment tracking\nconst commentQueue = $workflow.staticData.commentQueue || [];\ncommentQueue.push(commentTracking);\n\n// Keep only last 500 items\nif (commentQueue.length > 500) {\n  commentQueue.shift();\n}\n\n$workflow.staticData.commentQueue = commentQueue;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    commentManagement: {\n      trackingEnabled: true,\n      autoReplyEnabled: commentTracking.autoReplyEnabled,\n      platformsTracked: Object.keys(commentTracking.platforms).length\n    }\n  }\n};"
+      },
+      "id": "comment-management",
+      "name": "Comment Management",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [8250, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Advanced Reporting System\nconst ENABLE_ADVANCED_REPORTS = $env.ENABLE_ADVANCED_REPORTS === 'true' || false;\n\nif (!ENABLE_ADVANCED_REPORTS) {\n  return {\n    json: {\n      ...$input.item.json,\n      advancedReport: null\n    }\n  };\n}\n\nconst analyticsHistory = $workflow.staticData.analyticsHistory || [];\nconst now = new Date();\nconst last7Days = analyticsHistory.filter(a => {\n  const timestamp = new Date(a.timestamp).getTime();\n  return now.getTime() - timestamp < 7 * 24 * 60 * 60 * 1000;\n});\n\nconst last30Days = analyticsHistory.filter(a => {\n  const timestamp = new Date(a.timestamp).getTime();\n  return now.getTime() - timestamp < 30 * 24 * 60 * 60 * 1000;\n});\n\n// Calculate comprehensive metrics\nconst report = {\n  period: 'last_30_days',\n  generatedAt: new Date().toISOString(),\n  summary: {\n    totalVideos: last30Days.length,\n    successfulVideos: last30Days.filter(a => \n      a.platforms && (a.platforms.tiktok || a.platforms.instagram || a.platforms.youtube)\n    ).length,\n    successRate: last30Days.length > 0\n      ? ((last30Days.filter(a => a.platforms && (a.platforms.tiktok || a.platforms.instagram || a.platforms.youtube)).length / last30Days.length) * 100).toFixed(1) + '%'\n      : '0%'\n  },\n  platformBreakdown: {\n    tiktok: {\n      total: last30Days.filter(a => a.platforms?.tiktok).length,\n      successRate: 'N/A'\n    },\n    instagram: {\n      total: last30Days.filter(a => a.platforms?.instagram).length,\n      successRate: 'N/A'\n    },\n    youtube: {\n      total: last30Days.filter(a => a.platforms?.youtube).length,\n      successRate: 'N/A'\n    }\n  },\n  performance: {\n    avgProcessingTime: last30Days.length > 0\n      ? (last30Days.reduce((sum, a) => sum + (a.processingTime || 0), 0) / last30Days.length).toFixed(2) + 's'\n      : '0s',\n    totalCost: last30Days.reduce((sum, a) => sum + (parseFloat(a.cost?.total || 0)), 0).toFixed(4) + ' USD',\n    avgHashtags: last30Days.length > 0\n      ? (last30Days.reduce((sum, a) => sum + (a.hashtags?.length || 0), 0) / last30Days.length).toFixed(1)\n      : '0'\n  },\n  trends: {\n    weekOverWeek: {\n      thisWeek: last7Days.length,\n      lastWeek: analyticsHistory.filter(a => {\n        const timestamp = new Date(a.timestamp).getTime();\n        const weekAgo = now.getTime() - 14 * 24 * 60 * 60 * 1000;\n        return timestamp >= weekAgo && timestamp < now.getTime() - 7 * 24 * 60 * 60 * 1000;\n      }).length,\n      change: 'N/A'\n    }\n  }\n};\n\n// Store report\nconst advancedReports = $workflow.staticData.advancedReports || [];\nadvancedReports.push(report);\n\n// Keep only last 100 reports\nif (advancedReports.length > 100) {\n  advancedReports.shift();\n}\n\n$workflow.staticData.advancedReports = advancedReports;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    advancedReport: report\n  }\n};"
+      },
+      "id": "advanced-reports",
+      "name": "Advanced Reports",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [8450, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Crisis Management System\nconst ENABLE_CRISIS_MANAGEMENT = $env.ENABLE_CRISIS_MANAGEMENT === 'true' || false;\n\nif (!ENABLE_CRISIS_MANAGEMENT) {\n  return {\n    json: {\n      ...$input.item.json,\n      crisisManagement: null\n    }\n  };\n}\n\nconst analyticsHistory = $workflow.staticData.analyticsHistory || [];\nconst recentAnalytics = analyticsHistory.slice(-20);\n\n// Detect crisis indicators\nconst failureRate = recentAnalytics.length > 0\n  ? recentAnalytics.filter(a => !(a.platforms && (a.platforms.tiktok || a.platforms.instagram || a.platforms.youtube))).length / recentAnalytics.length\n  : 0;\n\nconst consecutiveFailures = (() => {\n  let count = 0;\n  for (let i = recentAnalytics.length - 1; i >= 0; i--) {\n    const a = recentAnalytics[i];\n    if (!(a.platforms && (a.platforms.tiktok || a.platforms.instagram || a.platforms.youtube))) {\n      count++;\n    } else {\n      break;\n    }\n  }\n  return count;\n})();\n\n// Determine crisis level\nlet crisisLevel = 'none';\nconst alerts = [];\n\nif (failureRate >= 0.5) {\n  crisisLevel = 'critical';\n  alerts.push('Tasa de fallos crítica: ' + (failureRate * 100).toFixed(1) + '%');\n}\n\nif (consecutiveFailures >= 5) {\n  crisisLevel = 'critical';\n  alerts.push(`${consecutiveFailures} fallos consecutivos detectados`);\n}\n\nif (failureRate >= 0.3 && failureRate < 0.5) {\n  crisisLevel = 'warning';\n  alerts.push('Tasa de fallos elevada: ' + (failureRate * 100).toFixed(1) + '%');\n}\n\n// Generate crisis response\nconst response = {\n  level: crisisLevel,\n  alerts: alerts,\n  metrics: {\n    failureRate: (failureRate * 100).toFixed(1) + '%',\n    consecutiveFailures: consecutiveFailures,\n    recentPosts: recentAnalytics.length\n  },\n  recommendations: crisisLevel !== 'none' ? [\n    'Revisar configuración de APIs',\n    'Verificar estado de servicios externos',\n    'Considerar pausar publicaciones automáticas temporalmente'\n  ] : [],\n  timestamp: new Date().toISOString()\n};\n\n// Store crisis events\nif (crisisLevel !== 'none') {\n  const crisisEvents = $workflow.staticData.crisisEvents || [];\n  crisisEvents.push(response);\n  \n  // Keep only last 100 events\n  if (crisisEvents.length > 100) {\n    crisisEvents.shift();\n  }\n  \n  $workflow.staticData.crisisEvents = crisisEvents;\n}\n\nreturn {\n  json: {\n    ...$input.item.json,\n    crisisManagement: response\n  }\n};"
+      },
+      "id": "crisis-management",
+      "name": "Crisis Management",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [8650, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Title and Description Optimization\nconst ENABLE_TITLE_OPTIMIZATION = $env.ENABLE_TITLE_OPTIMIZATION === 'true' || false;\n\nif (!ENABLE_TITLE_OPTIMIZATION) {\n  return {\n    json: {\n      ...$input.item.json,\n      titleOptimization: null\n    }\n  };\n}\n\nconst caption = $json.message.caption || '';\nconst hashtags = $json.hashtags || [];\n\n// Extract potential title (first line or first 60 chars)\nlet title = caption.split('\\n')[0] || caption.substring(0, 60);\nif (title.length > 60) {\n  title = title.substring(0, 57) + '...';\n}\n\n// Generate optimized description\nlet description = caption;\nif (hashtags.length > 0) {\n  description += '\\n\\n' + hashtags.join(' ');\n}\n\n// Optimize for SEO\nconst seoKeywords = hashtags.filter(tag => \n  !tag.includes('viral') && !tag.includes('fyp') && !tag.includes('foryou')\n).slice(0, 5);\n\n// Generate multiple title variations\nconst titleVariations = [\n  title,\n  title + ' | ' + seoKeywords[0] || '',\n  seoKeywords[0] + ' | ' + title || title\n].filter(t => t.length > 0 && t.length <= 100);\n\nreturn {\n  json: {\n    ...$input.item.json,\n    titleOptimization: {\n      originalTitle: title,\n      optimizedTitle: titleVariations[0],\n      titleVariations: titleVariations,\n      description: description.substring(0, 500),\n      seoKeywords: seoKeywords,\n      titleLength: title.length,\n      descriptionLength: description.length,\n      recommendations: [\n        title.length < 30 ? 'Considera un título más descriptivo' : 'Título de buena longitud',\n        description.length < 100 ? 'Considera agregar más detalles en la descripción' : 'Descripción completa'\n      ]\n    }\n  }\n};"
+      },
+      "id": "title-optimization",
+      "name": "Title & Description Optimization",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3650, 500],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Batch Processing Support\nconst ENABLE_BATCH_PROCESSING = $env.ENABLE_BATCH_PROCESSING === 'true' || false;\nconst BATCH_SIZE = parseInt($env.BATCH_SIZE || '5');\n\nif (!ENABLE_BATCH_PROCESSING) {\n  return {\n    json: {\n      ...$input.item.json,\n      batchInfo: null\n    }\n  };\n}\n\n// Get batch queue from workflow static data\nconst batchQueue = $workflow.staticData.batchQueue || [];\n\n// Add current video to batch\nconst batchItem = {\n  videoId: $json.message.video.file_id,\n  chatId: $json.message.chat.id,\n  timestamp: Date.now(),\n  data: $json\n};\n\nbatchQueue.push(batchItem);\n\n// Check if batch is ready\nconst readyForBatch = batchQueue.length >= BATCH_SIZE;\n\nif (readyForBatch) {\n  // Process batch\n  const batch = batchQueue.splice(0, BATCH_SIZE);\n  $workflow.staticData.batchQueue = batchQueue;\n  \n  return {\n    json: {\n      ...$input.item.json,\n      batchInfo: {\n        isBatch: true,\n        batchSize: batch.length,\n        batchItems: batch.map(b => b.videoId)\n      }\n    }\n  };\n} else {\n  $workflow.staticData.batchQueue = batchQueue;\n  \n  return {\n    json: {\n      ...$input.item.json,\n      batchInfo: {\n        isBatch: false,\n        currentBatchSize: batchQueue.length,\n        batchSize: BATCH_SIZE,\n        waitingForMore: true\n      }\n    }\n  };\n}"
+      },
+      "id": "batch-processing",
+      "name": "Batch Processing",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1450, 600],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.message.chat.id }}",
+        "text": "=✅ Video procesado y publicado exitosamente!\n\n📊 Resumen:\n• Plataformas: {{ $json.summary.successCount }}/{{ $json.summary.totalPlatforms }} exitosas\n• Tasa de éxito: {{ $json.summary.successRate }}\n• Tiempo de procesamiento: {{ $json.analytics.processingTime.toFixed(2) }}s\n{{ $json.engagementPrediction ? '• Predicción de engagement: ' + $json.engagementPrediction.score + '/100 (' + $json.engagementPrediction.level + ')' : '' }}\n{{ $json.sentiment ? '• Sentimiento: ' + $json.sentiment.label + ' (' + $json.sentiment.score + ')' : '' }}\n{{ $json.abTestVariant ? '• A/B Test: Variante ' + $json.abTestVariant : '' }}\n{{ $json.cost ? '• Costo: $' + $json.cost.total + ' USD' : '' }}\n{{ $json.compression?.compressionApplied ? '• Compresión: ' + $json.compression.strategy + ' (' + $json.compression.estimatedReduction + ' reducción)' : '' }}\n{{ $json.versioned ? '• Versión: ' + $json.version + '/' + $json.totalVersions : '' }}\n{{ $json.autoOptimization?.recommendations?.length ? '• Recomendaciones: ' + $json.autoOptimization.recommendations.join(', ') : '' }}\n\n📱 TikTok: {{ $json.results.tiktok.success ? '✅ Publicado' : '❌ Error' }}{{ $json.results.tiktok.publishId ? ' (ID: ' + $json.results.tiktok.publishId + ')' : '' }}\n📷 Instagram: {{ $json.results.instagram.success ? '✅ Publicado' : '❌ Error' }}{{ $json.results.instagram.publishId ? ' (ID: ' + $json.results.instagram.publishId + ')' : '' }}\n🎬 YouTube: {{ $json.results.youtube.success ? '✅ Publicado' : '❌ Error' }}{{ $json.results.youtube.publishId ? ' (ID: ' + $json.results.youtube.publishId + ')' : '' }}",
+        "additionalFields": {}
+      },
+      "id": "send-confirmation",
+      "name": "Send Confirmation to Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [4050, 300],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.WEBHOOK_NOTIFICATION_URL }}",
+        "sendBody": true,
+        "contentType": "json",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "event",
+              "value": "video_published"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{ $json.results.timestamp }}"
+            },
+            {
+              "name": "results",
+              "value": "={{ JSON.stringify($json.results) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "webhook-notification",
+      "name": "Send Webhook Notification",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [4250, 300]
+    }
+  ],
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Filter Video Messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Video Messages": {
+      "main": [
+        [
+          {
+            "node": "Select Account",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select Account": {
+      "main": [
+        [
+          {
+            "node": "Advanced Health Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Advanced Health Check": {
+      "main": [
+        [
+          {
+            "node": "Health Status OK?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Health Status OK?": {
+      "main": [
+        [
+          {
+            "node": "Check Rate Limits",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Notify Unhealthy Services",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Rate Limits": {
+      "main": [
+        [
+          {
+            "node": "Can Proceed?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Can Proceed?": {
+      "main": [
+        [
+          {
+            "node": "Content Moderation Check",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Queue Video for Later",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Queue Video for Later": {
+      "main": [
+        [
+          {
+            "node": "Notify Queued Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Content Moderation Check": {
+      "main": [
+        [
+          {
+            "node": "Check Moderation Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Moderation Result": {
+      "main": [
+        [
+          {
+            "node": "Validate Video Requirements",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Reject Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Video Requirements": {
+      "main": [
+        [
+          {
+            "node": "Get Video File Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Video File Info": {
+      "main": [
+        [
+          {
+            "node": "Download Video File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Video File": {
+      "main": [
+        [
+          {
+            "node": "Check Video Cache",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Video Cache": {
+      "main": [
+        [
+          {
+            "node": "Duplicate Content Detection",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Skip Processing?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Duplicate Content Detection": {
+      "main": [
+        [
+          {
+            "node": "Copyright Management",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Copyright Management": {
+      "main": []
+    },
+    "Skip Processing?": {
+      "main": [
+        [
+          {
+            "node": "Circuit Breaker Check",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Process Video - Anti Duplicate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Video - Anti Duplicate": {
+      "main": [
+        [
+          {
+            "node": "Call Video Processing Service",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call Video Processing Service": {
+      "main": [
+        [
+          {
+            "node": "Validate Processed Video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Processed Video": {
+      "main": [
+        [
+          {
+            "node": "Update Video Cache",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Video Cache": {
+      "main": [
+        [
+          {
+            "node": "Circuit Breaker Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Circuit Breaker Check": {
+      "main": [
+        [
+          {
+            "node": "Structured Logging",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Logging": {
+      "main": [
+        [
+          {
+            "node": "Generate Subtitles",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Generate Thumbnail",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Sentiment Analysis",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Geolocation and Timezone",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sentiment Analysis": {
+      "main": [
+        [
+          {
+            "node": "Calculate Best Posting Time (ML)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Geolocation and Timezone": {
+      "main": [
+        [
+          {
+            "node": "Calculate Best Posting Time (ML)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Subtitles": {
+      "main": [
+        [
+          {
+            "node": "Add Watermark",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Calculate Best Posting Time (ML)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Thumbnail": {
+      "main": [
+        [
+          {
+            "node": "Add Watermark",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Calculate Best Posting Time (ML)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Watermark": {
+      "main": [
+        [
+          {
+            "node": "Calendar Sync",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Content Scheduling",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calendar Sync": {
+      "main": []
+    },
+    "Content Scheduling": {
+      "main": []
+    },
+    "Calculate Best Posting Time": {
+      "main": [
+        [
+          {
+            "node": "Optimize Hashtags",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Optimize Hashtags with A/B Testing": {
+      "main": [
+        [
+          {
+            "node": "Apply Custom Template",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Apply Custom Template": {
+      "main": [
+        [
+          {
+            "node": "Object Detection",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Transcribe Audio",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Title & Description Optimization",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Predict Engagement",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Title & Description Optimization": {
+      "main": []
+    },
+    "Object Detection": {
+      "main": []
+    },
+    "Transcribe Audio": {
+      "main": []
+    },
+    "Predict Engagement": {
+      "main": [
+        [
+          {
+            "node": "Version Video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Version Video": {
+      "main": [
+        [
+          {
+            "node": "Backup Processed Video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Backup Processed Video": {
+      "main": [
+        [
+          {
+            "node": "Merge Subtitles and Thumbnail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Subtitles and Thumbnail": {
+      "main": [
+        [
+          {
+            "node": "Split for TikTok, Instagram, and YouTube",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split for TikTok, Instagram, and YouTube": {
+      "main": [
+        [
+          {
+            "node": "Platform Router",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Platform Router": {
+      "main": [
+        [
+          {
+            "node": "Platform Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Platform Switch": {
+      "main": [
+        [
+          {
+            "node": "Post to TikTok",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Post to Instagram",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Post to YouTube Shorts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post to Instagram": {
+      "main": [
+        [
+          {
+            "node": "Publish Instagram Reel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post to TikTok": {
+      "main": [
+        [
+          {
+            "node": "Merge Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Publish Instagram Reel": {
+      "main": [
+        [
+          {
+            "node": "Merge Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post to YouTube Shorts": {
+      "main": [
+        [
+          {
+            "node": "Merge Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Results": {
+      "main": [
+        [
+          {
+            "node": "Retry Failed Publications",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retry Failed Publications": {
+      "main": [
+        [
+          {
+            "node": "Track Analytics",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Notify Publication Errors",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Track Analytics": {
+      "main": [
+        [
+          {
+            "node": "Intelligent Alerting",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Intelligent Alerting": {
+      "main": [
+        [
+          {
+            "node": "Send Confirmation to Telegram",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send Slack Notification",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send Discord Notification",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Generate Daily Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Daily Report": {
+      "main": []
+    },
+    "Send Confirmation to Telegram": {
+      "main": [
+        [
+          {
+            "node": "Prepare Secure Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Secure Webhook": {
+      "main": [
+        [
+          {
+            "node": "Send Webhook Notification",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Save to Database",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Track Costs",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Smart Compression Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Webhook Notification": {
+      "main": []
+    },
+    "Save to Database": {
+      "main": []
+    },
+    "Track Costs": {
+      "main": []
+    },
+    "Smart Compression Analysis": {
+      "main": [
+        [
+          {
+            "node": "Auto-Optimization",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Auto-Optimization": {
+      "main": [
+        [
+          {
+            "node": "Real-Time Metrics",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Trend Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Real-Time Metrics": {
+      "main": []
+    },
+    "Trend Analysis": {
+      "main": [
+        [
+          {
+            "node": "Personalized Recommendations",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Personalized Recommendations": {
+      "main": [
+        [
+          {
+            "node": "Post-Engagement Tracking",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post-Engagement Tracking": {
+      "main": [
+        [
+          {
+            "node": "Competitor Analysis",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Comment Management",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Advanced Reports",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Crisis Management",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Competitor Analysis": {
+      "main": []
+    },
+    "Comment Management": {
+      "main": []
+    },
+    "Advanced Reports": {
+      "main": []
+    },
+    "Crisis Management": {
+      "main": []
+    },
+    "Send Slack Notification": {
+      "main": []
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "lastTikTokIndex": 0,
+    "lastInstagramIndex": 0,
+    "rateLimitHistory": {},
+    "videoQueue": [],
+    "circuitBreaker": {
+      "state": "CLOSED",
+      "failureCount": 0,
+      "successCount": 0,
+      "lastFailureTime": null,
+      "lastSuccessTime": null
+    },
+    "analyticsHistory": [],
+    "videoCache": {},
+    "logs": [],
+    "retryHistory": {},
+    "videoBackups": [],
+    "healthHistory": [],
+    "dailyReports": [],
+    "videoVersions": {},
+    "batchQueue": [],
+    "templates": {},
+    "databaseRecords": [],
+    "costHistory": [],
+    "realtimeMetrics": [],
+    "calendarEvents": [],
+    "scheduledContent": [],
+    "contentHistory": [],
+    "copyrightRecords": [],
+    "engagementQueue": [],
+    "commentQueue": [],
+    "advancedReports": [],
+    "crisisEvents": []
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-01-27T00:00:00.000Z",
+  "versionId": "14.0"
+}

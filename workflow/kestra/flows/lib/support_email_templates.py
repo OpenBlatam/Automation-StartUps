@@ -329,3 +329,23 @@ Equipo de Soporte
         "html_body": html_body
     }
 
+
+def get_payment_verification_template(ticket_data: Dict[str, Any], **kwargs) -> Dict[str, str]:
+    """
+    Wrapper para el template de verificación de pagos.
+    
+    Para casos donde un cliente afirma haber pagado pero la factura aparece pendiente.
+    Ver: support_billing_payment_verification_template.py para la implementación completa.
+    
+    Args:
+        ticket_data: Datos del ticket
+        **kwargs: Argumentos adicionales (invoice_number, invoice_amount, credit_amount, etc.)
+        
+    Returns:
+        Dict con subject, text_body, html_body
+    """
+    from .support_billing_payment_verification_template import (
+        get_payment_verification_response_template
+    )
+    return get_payment_verification_response_template(ticket_data, **kwargs)
+

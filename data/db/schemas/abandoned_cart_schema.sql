@@ -230,3 +230,8 @@ COMMENT ON VIEW abandoned_cart_analytics IS 'Vista analítica para métricas de 
 
 
 
+
+
+
+
+

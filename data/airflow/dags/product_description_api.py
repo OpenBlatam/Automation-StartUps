@@ -281,6 +281,787 @@ def validate_product_data():
         return jsonify({'error': 'Error interno del servidor', 'details': str(e)}), 500
 
 
+@app.route('/api/v1/product-descriptions/analyze', methods=['POST'])
+def analyze_description():
+    """Analiza una descripción existente y proporciona insights."""
+    try:
+        from product_description_analyzer import ProductDescriptionAnalyzer
+        
+        data = request.get_json()
+        
+        if not data or 'description_data' not in data:
+            return jsonify({'error': 'Se requiere "description_data"'}), 400
+        
+        analyzer = ProductDescriptionAnalyzer()
+        analysis = analyzer.analyze_complete(data['description_data'])
+        
+        return jsonify({
+            'success': True,
+            'analysis': analysis
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error analizando descripción: {str(e)}")
+        return jsonify({'error': 'Error interno del servidor', 'details': str(e)}), 500
+
+
+@app.route('/api/v1/product-descriptions/templates/categories', methods=['GET'])
+def get_template_categories():
+    """Lista todas las categorías de templates disponibles."""
+    try:
+        from product_description_templates import ProductCategoryTemplates
+        
+        categories = ProductCategoryTemplates.list_categories()
+        
+        return jsonify({
+            'success': True,
+            'categories': categories,
+            'count': len(categories)
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error obteniendo categorías: {str(e)}")
+        return jsonify({'error': 'Error interno del servidor', 'details': str(e)}), 500
+
+
+@app.route('/api/v1/product-descriptions/templates/<category>', methods=['GET'])
+def get_template_for_category(category):
+    """Obtiene el template para una categoría específica."""
+    try:
+        from product_description_templates import ProductCategoryTemplates
+        
+        template = ProductCategoryTemplates.get_template(category)
+        
+        if not template:
+            return jsonify({
+                'success': False,
+                'error': f'Categoría "{category}" no encontrada'
+            }), 404
+        
+        return jsonify({
+            'success': True,
+            'category': category,
+            'template': template
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error obteniendo template: {str(e)}")
+        return jsonify({'error': 'Error interno del servidor', 'details': str(e)}), 500
+
+
+@app.route('/api/v1/product-descriptions/enhance', methods=['POST'])
+def enhance_with_template():
+    """Enriquece datos de producto usando templates de categoría."""
+    try:
+        from product_description_templates import ProductCategoryTemplates
+        
+        data = request.get_json()
+        
+        if not data or 'category' not in data:
+            return jsonify({'error': 'Se requiere "category"'}), 400
+        
+        enhanced = ProductCategoryTemplates.enhance_product_data(
+            data.get('product_data', {}),
+            data['category']
+        )
+        
+        return jsonify({
+            'success': True,
+            'enhanced_data': enhanced
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error enriqueciendo datos: {str(e)}")
+        return jsonify({'error': 'Error interno del servidor', 'details': str(e)}), 500
+
+
+@app.route('/api/v1/product-descriptions/optimize/bullets', methods=['POST'])
+def optimize_bullets():
+    """Optimiza bullets de una descripción."""
+    try:
+        from product_description_optimizer import BulletOptimizer
+        
+        data = request.get_json()
+        
+        if not data or 'bullets' not in data:
+            return jsonify({'error': 'Se requiere "bullets" (array)'}), 400
+        
+        bullets = data['bullets']
+        max_bullets = data.get('max_bullets', 5)
+        
+        optimized = BulletOptimizer.optimize_bullets(bullets, max_bullets)
+        
+        return jsonify({
+            'success': True,
+            'original_count': len(bullets),
+            'optimized_count': len(optimized),
+            'optimized_bullets': optimized
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error optimizando bullets: {str(e)}")
+        return jsonify({'error': 'Error interno del servidor', 'details': str(e)}), 500
+
+
+@app.route('/api/v1/product-descriptions/optimize/conversion', methods=['POST'])
+def analyze_conversion():
+    """Analiza el potencial de conversión de una descripción."""
+    try:
+        from product_description_optimizer import ConversionOptimizer
+        
+        data = request.get_json()
+        
+        if not data or 'description_data' not in data:
+            return jsonify({'error': 'Se requiere "description_data"'}), 400
+        
+        analysis = ConversionOptimizer.calculate_conversion_potential(data['description_data'])
+        
+        return jsonify({
+            'success': True,
+            'analysis': analysis
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error analizando conversión: {str(e)}")
+        return jsonify({'error': 'Error interno del servidor', 'details': str(e)}), 500
+
+
+@app.route('/api/v1/product-descriptions/recommendations', methods=['POST'])
+def get_recommendations():
+    """Obtiene recomendaciones para mejorar una descripción."""
+    try:
+        from product_description_optimizer import DescriptionRecommender
+        
+        data = request.get_json()
+        
+        if not data or 'description_data' not in data:
+            return jsonify({'error': 'Se requiere "description_data"'}), 400
+        
+        recommendations = DescriptionRecommender.generate_recommendations(data['description_data'])
+        
+        return jsonify({
+            'success': True,
+            'recommendations': recommendations
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error generando recomendaciones: {str(e)}")
+        return jsonify({'error': 'Error interno del servidor', 'details': str(e)}), 500
+
+
+@app.route('/api/v1/product-descriptions/compare', methods=['POST'])
+def compare_versions():
+    """Compara dos versiones de descripción."""
+    try:
+        from product_description_optimizer import VersionComparator
+        
+        data = request.get_json()
+        
+        if not data or 'version1' not in data or 'version2' not in data:
+            return jsonify({'error': 'Se requieren "version1" y "version2"'}), 400
+        
+        comparison = VersionComparator.compare_versions(data['version1'], data['version2'])
+        
+        return jsonify({
+            'success': True,
+            'comparison': comparison
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error comparando versiones: {str(e)}")
+        return jsonify({'error': 'Error interno del servidor', 'details': str(e)}), 500
+
+
+@app.route('/api/v1/product-descriptions/ml/predict', methods=['POST'])
+def predict_conversion_ml():
+    """Predice conversión usando ML basado en datos históricos."""
+    try:
+        from product_description_ml import DescriptionMLOptimizer
+        
+        data = request.get_json()
+        
+        if not data or 'description_data' not in data:
+            return jsonify({'error': 'Se requiere "description_data"'}), 400
+        
+        optimizer = DescriptionMLOptimizer()
+        prediction = optimizer.predict_conversion(data['description_data'])
+        
+        return jsonify({
+            'success': True,
+            'prediction': prediction
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error prediciendo conversión ML: {str(e)}")
+        return jsonify({'error': 'Error interno del servidor', 'details': str(e)}), 500
+
+
+@app.route('/api/v1/product-descriptions/ml/learn', methods=['POST'])
+def learn_from_success():
+    """Aprende de una descripción exitosa."""
+    try:
+        from product_description_ml import DescriptionMLOptimizer
+        
+        data = request.get_json()
+        
+        if not data or 'description_data' not in data or 'metrics' not in data:
+            return jsonify({'error': 'Se requieren "description_data" y "metrics"'}), 400
+        
+        optimizer = DescriptionMLOptimizer()
+        optimizer.learn_from_success(data['description_data'], data['metrics'])
+        
+        return jsonify({
+            'success': True,
+            'message': 'Aprendizaje registrado exitosamente'
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error en aprendizaje ML: {str(e)}")
+        return jsonify({'error': 'Error interno del servidor', 'details': str(e)}), 500
+
+
+@app.route('/api/v1/product-descriptions/reviews/analyze', methods=['POST'])
+def analyze_reviews():
+    """Analiza reviews de clientes para mejorar descripciones."""
+    try:
+        from product_description_ml import ReviewAnalyzer
+        
+        data = request.get_json()
+        
+        if not data or 'reviews' not in data:
+            return jsonify({'error': 'Se requiere "reviews" (array)'}), 400
+        
+        insights = ReviewAnalyzer.extract_insights_from_reviews(data['reviews'])
+        
+        return jsonify({
+            'success': True,
+            'insights': insights
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error analizando reviews: {str(e)}")
+        return jsonify({'error': 'Error interno del servidor', 'details': str(e)}), 500
+
+
+@app.route('/api/v1/product-descriptions/cta/generate', methods=['POST'])
+def generate_cta():
+    """Genera un CTA optimizado."""
+    try:
+        from product_description_ml import CTAOptimizer
+        
+        data = request.get_json()
+        
+        context = data.get('context', {})
+        language = data.get('language', 'es')
+        
+        cta = CTAOptimizer.generate_optimized_cta(context, language)
+        
+        return jsonify({
+            'success': True,
+            'cta': cta
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error generando CTA: {str(e)}")
+        return jsonify({'error': 'Error interno del servidor', 'details': str(e)}), 500
+
+
+@app.route('/api/v1/product-descriptions/analytics/stats/<description_id>', methods=['GET'])
+def get_analytics_stats(description_id):
+    """Obtiene estadísticas de analytics para una descripción."""
+    try:
+        from product_description_analytics import DescriptionAnalytics
+        
+        days = request.args.get('days', 30, type=int)
+        
+        analytics = DescriptionAnalytics()
+        stats = analytics.get_description_stats(description_id, days)
+        
+        return jsonify({
+            'success': True,
+            'stats': stats
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error obteniendo stats: {str(e)}")
+        return jsonify({'error': 'Error interno del servidor', 'details': str(e)}), 500
+
+
+@app.route('/api/v1/product-descriptions/analytics/report', methods=['GET'])
+def get_analytics_report():
+    """Genera reporte completo de analytics."""
+    try:
+        from product_description_analytics import DescriptionAnalytics
+        
+        days = request.args.get('days', 30, type=int)
+        
+        analytics = DescriptionAnalytics()
+        report = analytics.generate_report(days)
+        
+        return jsonify({
+            'success': True,
+            'report': report
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error generando reporte: {str(e)}")
+        return jsonify({'error': 'Error interno del servidor', 'details': str(e)}), 500
+
+
+@app.route('/api/v1/product-descriptions/translate', methods=['POST'])
+def translate_description():
+    """Traduce una descripción a otro idioma."""
+    try:
+        from product_description_translator import ProductDescriptionTranslator
+        from product_description_generator import LLMClient
+        
+        data = request.get_json()
+        
+        if not data or 'description_data' not in data or 'target_language' not in data:
+            return jsonify({'error': 'Se requieren "description_data" y "target_language"'}), 400
+        
+        llm_client = LLMClient()
+        translator = ProductDescriptionTranslator(llm_client)
+        
+        translated = translator.translate_description(
+            data['description_data'],
+            data['target_language'],
+            preserve_seo=data.get('preserve_seo', True)
+        )
+        
+        return jsonify({
+            'success': True,
+            'translated': translated
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error traduciendo: {str(e)}")
+        return jsonify({'error': 'Error interno del servidor', 'details': str(e)}), 500
+
+
+@app.route('/api/v1/product-descriptions/translate/languages', methods=['GET'])
+def get_supported_languages():
+    """Obtiene lista de idiomas soportados para traducción."""
+    try:
+        from product_description_translator import ProductDescriptionTranslator
+        
+        languages = ProductDescriptionTranslator.get_supported_languages()
+        
+        return jsonify({
+            'success': True,
+            'languages': languages,
+            'count': len(languages)
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error obteniendo idiomas: {str(e)}")
+        return jsonify({'error': 'Error interno del servidor', 'details': str(e)}), 500
+
+
+@app.route('/api/v1/product-descriptions/trends/keywords', methods=['POST'])
+def analyze_keyword_trends():
+    """Analiza tendencias de keywords."""
+    try:
+        from product_description_trends import MarketTrendsAnalyzer
+        
+        data = request.get_json()
+        
+        if not data or 'keywords' not in data:
+            return jsonify({'error': 'Se requiere "keywords" (array)'}), 400
+        
+        analyzer = MarketTrendsAnalyzer()
+        trends = analyzer.analyze_keyword_trends(
+            data['keywords'],
+            days=data.get('days', 90)
+        )
+        
+        return jsonify({
+            'success': True,
+            'trends': trends
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error analizando tendencias: {str(e)}")
+        return jsonify({'error': 'Error interno del servidor', 'details': str(e)}), 500
+
+
+@app.route('/api/v1/product-descriptions/trends/product', methods=['POST'])
+def analyze_product_trends():
+    """Analiza tendencias de un tipo de producto."""
+    try:
+        from product_description_trends import MarketTrendsAnalyzer
+        
+        data = request.get_json()
+        
+        if not data or 'product_type' not in data:
+            return jsonify({'error': 'Se requiere "product_type"'}), 400
+        
+        analyzer = MarketTrendsAnalyzer()
+        trends = analyzer.analyze_product_trends(
+            data['product_type'],
+            category=data.get('category')
+        )
+        
+        return jsonify({
+            'success': True,
+            'trends': trends
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error analizando tendencias de producto: {str(e)}")
+        return jsonify({'error': 'Error interno del servidor', 'details': str(e)}), 500
+
+
+@app.route('/api/v1/product-descriptions/alerts/check', methods=['POST'])
+def check_alerts():
+    """Verifica alertas para una descripción."""
+    try:
+        from product_description_trends import SmartAlerts
+        
+        data = request.get_json()
+        
+        if not data or 'description_data' not in data:
+            return jsonify({'error': 'Se requiere "description_data"'}), 400
+        
+        alerts_system = SmartAlerts()
+        alerts = alerts_system.check_alerts(
+            data['description_data'],
+            metrics=data.get('metrics')
+        )
+        
+        return jsonify({
+            'success': True,
+            'alerts': alerts,
+            'count': len(alerts)
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error verificando alertas: {str(e)}")
+        return jsonify({'error': 'Error interno del servidor', 'details': str(e)}), 500
+
+
+@app.route('/api/v1/product-descriptions/alerts/summary', methods=['GET'])
+def get_alerts_summary():
+    """Obtiene resumen de alertas."""
+    try:
+        from product_description_trends import SmartAlerts
+        
+        days = request.args.get('days', 7, type=int)
+        
+        alerts_system = SmartAlerts()
+        summary = alerts_system.get_alert_summary(days)
+        
+        return jsonify({
+            'success': True,
+            'summary': summary
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error obteniendo resumen de alertas: {str(e)}")
+        return jsonify({'error': 'Error interno del servidor', 'details': str(e)}), 500
+
+
+@app.route('/api/v1/product-descriptions/versions/create', methods=['POST'])
+def create_version():
+    """Crea una nueva versión de una descripción."""
+    try:
+        from product_description_versioning import DescriptionVersionControl
+        
+        data = request.get_json()
+        
+        if not data or 'description_id' not in data or 'description_data' not in data:
+            return jsonify({'error': 'Se requieren "description_id" y "description_data"'}), 400
+        
+        version_control = DescriptionVersionControl()
+        version_id = version_control.create_version(
+            data['description_id'],
+            data['description_data'],
+            metadata=data.get('metadata')
+        )
+        
+        return jsonify({
+            'success': True,
+            'version_id': version_id
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error creando versión: {str(e)}")
+        return jsonify({'error': 'Error interno del servidor', 'details': str(e)}), 500
+
+
+@app.route('/api/v1/product-descriptions/versions/<description_id>', methods=['GET'])
+def get_versions(description_id):
+    """Obtiene historial de versiones de una descripción."""
+    try:
+        from product_description_versioning import DescriptionVersionControl
+        
+        version_id = request.args.get('version_id')
+        
+        version_control = DescriptionVersionControl()
+        
+        if version_id:
+            version = version_control.get_version(description_id, version_id)
+            if not version:
+                return jsonify({'error': 'Versión no encontrada'}), 404
+            return jsonify({'success': True, 'version': version}), 200
+        else:
+            history = version_control.get_version_history(description_id)
+            return jsonify({
+                'success': True,
+                'history': history,
+                'count': len(history)
+            }), 200
+        
+    except Exception as e:
+        logger.error(f"Error obteniendo versiones: {str(e)}")
+        return jsonify({'error': 'Error interno del servidor', 'details': str(e)}), 500
+
+
+@app.route('/api/v1/product-descriptions/versions/compare', methods=['POST'])
+def compare_versions_endpoint():
+    """Compara dos versiones de una descripción."""
+    try:
+        from product_description_versioning import DescriptionVersionControl
+        
+        data = request.get_json()
+        
+        if not all(k in data for k in ['description_id', 'version1_id', 'version2_id']):
+            return jsonify({'error': 'Se requieren description_id, version1_id y version2_id'}), 400
+        
+        version_control = DescriptionVersionControl()
+        comparison = version_control.compare_versions(
+            data['description_id'],
+            data['version1_id'],
+            data['version2_id']
+        )
+        
+        return jsonify({
+            'success': True,
+            'comparison': comparison
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error comparando versiones: {str(e)}")
+        return jsonify({'error': 'Error interno del servidor', 'details': str(e)}), 500
+
+
+@app.route('/api/v1/product-descriptions/social/generate', methods=['POST'])
+def generate_social_content():
+    """Genera contenido para redes sociales."""
+    try:
+        from product_description_social import SocialContentGenerator
+        from product_description_generator import LLMClient
+        
+        data = request.get_json()
+        
+        if not data or 'description_data' not in data or 'platform' not in data:
+            return jsonify({'error': 'Se requieren "description_data" y "platform"'}), 400
+        
+        llm_client = LLMClient()
+        generator = SocialContentGenerator(llm_client)
+        
+        content = generator.generate_social_content(
+            data['description_data'],
+            data['platform'],
+            content_type=data.get('content_type', 'post'),
+            include_hashtags=data.get('include_hashtags', True)
+        )
+        
+        return jsonify({
+            'success': True,
+            'content': content
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error generando contenido social: {str(e)}")
+        return jsonify({'error': 'Error interno del servidor', 'details': str(e)}), 500
+
+
+@app.route('/api/v1/product-descriptions/competitors/scrape', methods=['POST'])
+def scrape_competitors():
+    """Extrae datos de productos competidores."""
+    try:
+        from product_description_social import CompetitorScraper
+        
+        data = request.get_json()
+        
+        if not data or 'urls' not in data:
+            return jsonify({'error': 'Se requiere "urls" (array)'}), 400
+        
+        if not isinstance(data['urls'], list) or len(data['urls']) == 0:
+            return jsonify({'error': '"urls" debe ser un array no vacío'}), 400
+        
+        if len(data['urls']) > 10:
+            return jsonify({'error': 'Máximo 10 URLs por request'}), 400
+        
+        analysis = CompetitorScraper.analyze_competitor_descriptions(data['urls'])
+        
+        return jsonify({
+            'success': True,
+            'analysis': analysis
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error scraping competidores: {str(e)}")
+        return jsonify({'error': 'Error interno del servidor', 'details': str(e)}), 500
+
+
+@app.route('/api/v1/product-descriptions/ab-test/create', methods=['POST'])
+def create_ab_test():
+    """Crea una nueva prueba A/B."""
+    try:
+        from product_description_ab_testing import ABTestManager
+        
+        data = request.get_json()
+        
+        if not all(k in data for k in ['test_name', 'description_id', 'variations']):
+            return jsonify({'error': 'Se requieren test_name, description_id y variations'}), 400
+        
+        manager = ABTestManager()
+        test = manager.create_test(
+            test_name=data['test_name'],
+            description_id=data['description_id'],
+            variations=data['variations'],
+            traffic_split=data.get('traffic_split'),
+            duration_days=data.get('duration_days', 14),
+            min_sample_size=data.get('min_sample_size', 100)
+        )
+        
+        return jsonify({
+            'success': True,
+            'test': test
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error creando test A/B: {str(e)}")
+        return jsonify({'error': 'Error interno del servidor', 'details': str(e)}), 500
+
+
+@app.route('/api/v1/product-descriptions/ab-test/<test_id>/results', methods=['GET'])
+def get_ab_test_results(test_id):
+    """Obtiene resultados de un test A/B."""
+    try:
+        from product_description_ab_testing import ABTestManager
+        
+        manager = ABTestManager()
+        results = manager.get_test_results(test_id)
+        
+        if 'error' in results:
+            return jsonify(results), 404
+        
+        return jsonify({
+            'success': True,
+            'results': results
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error obteniendo resultados A/B: {str(e)}")
+        return jsonify({'error': 'Error interno del servidor', 'details': str(e)}), 500
+
+
+@app.route('/api/v1/product-descriptions/ab-test/<test_id>/conversion', methods=['POST'])
+def record_ab_conversion(test_id):
+    """Registra una conversión para un test A/B."""
+    try:
+        from product_description_ab_testing import ABTestManager
+        
+        data = request.get_json()
+        
+        if not data or 'variation_id' not in data:
+            return jsonify({'error': 'Se requiere variation_id'}), 400
+        
+        manager = ABTestManager()
+        manager.record_conversion(
+            test_id,
+            data['variation_id'],
+            data.get('converted', True),
+            metadata=data.get('metadata')
+        )
+        
+        return jsonify({
+            'success': True,
+            'message': 'Conversión registrada'
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error registrando conversión A/B: {str(e)}")
+        return jsonify({'error': 'Error interno del servidor', 'details': str(e)}), 500
+
+
+@app.route('/api/v1/product-descriptions/images/suggestions', methods=['POST'])
+def generate_image_suggestions():
+    """Genera sugerencias de imágenes con IA."""
+    try:
+        from product_description_image_suggestions import ImageSuggestionGenerator
+        from product_description_generator import LLMClient
+        
+        data = request.get_json()
+        
+        if not data or 'description_data' not in data:
+            return jsonify({'error': 'Se requiere description_data'}), 400
+        
+        llm_client = LLMClient()
+        generator = ImageSuggestionGenerator(llm_client)
+        
+        suggestions = generator.generate_image_suggestions(
+            data['description_data'],
+            num_suggestions=data.get('num_suggestions', 5),
+            image_types=data.get('image_types')
+        )
+        
+        return jsonify({
+            'success': True,
+            'suggestions': suggestions
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error generando sugerencias de imágenes: {str(e)}")
+        return jsonify({'error': 'Error interno del servidor', 'details': str(e)}), 500
+
+
+@app.route('/api/v1/product-descriptions/analytics/ga/track', methods=['POST'])
+def track_ga_event():
+    """Registra un evento en Google Analytics."""
+    try:
+        from product_description_google_analytics import GoogleAnalyticsIntegration
+        
+        data = request.get_json()
+        
+        if not data or 'measurement_id' not in data or 'event_type' not in data:
+            return jsonify({'error': 'Se requieren measurement_id y event_type'}), 400
+        
+        ga = GoogleAnalyticsIntegration(
+            measurement_id=data['measurement_id'],
+            api_secret=data.get('api_secret')
+        )
+        
+        success = False
+        if data['event_type'] == 'view':
+            success = ga.track_description_view(
+                data.get('description_id', ''),
+                data.get('product_name', ''),
+                data.get('platform', ''),
+                data.get('client_id')
+            )
+        elif data['event_type'] == 'conversion':
+            success = ga.track_description_conversion(
+                data.get('description_id', ''),
+                data.get('product_name', ''),
+                data.get('platform', ''),
+                data.get('conversion_value'),
+                data.get('client_id')
+            )
+        
+        return jsonify({
+            'success': success,
+            'message': 'Evento enviado a Google Analytics' if success else 'Error enviando evento'
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error tracking GA: {str(e)}")
+        return jsonify({'error': 'Error interno del servidor', 'details': str(e)}), 500
+
+
 @app.route('/api/v1/product-descriptions/examples', methods=['GET'])
 def get_examples():
     """Retorna ejemplos de uso de la API."""

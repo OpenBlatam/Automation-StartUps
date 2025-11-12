@@ -4,13 +4,29 @@ Chatbot para Curso de IA y Webinars
 Proporciona respuestas automáticas sobre el curso de IA y los webinars disponibles.
 Escala consultas complejas a agentes humanos cuando es necesario.
 
-Mejoras incluidas:
+🎯 Uso:
+    python3 chatbot_curso_ia_webinars.py
+    
+    O desde código:
+    from chatbot_curso_ia_webinars import CursoIAWebinarChatbot
+    chatbot = CursoIAWebinarChatbot()
+    response = chatbot.process_message("¿Cuánto cuesta el curso?")
+
+✨ Funcionalidades:
 - Logging estructurado
 - Persistencia de conversaciones
 - Métricas y estadísticas
 - Manejo avanzado de errores
 - Contexto de historial de conversación
 - Validación mejorada de entrada
+- Cache de respuestas
+- Exportación de métricas
+- Análisis de sentimiento
+- Búsqueda mejorada de FAQs
+- Rate limiting
+- Sistema de feedback
+- Análisis de tendencias
+- Health checks
 """
 
 import re

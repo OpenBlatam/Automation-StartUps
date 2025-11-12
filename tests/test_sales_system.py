@@ -8,7 +8,20 @@ import pytest
 import psycopg2
 from psycopg2.extras import RealDictCursor
 import os
+from urllib.parse import urlparse
 from typing import Dict, Any
+
+
+def parse_db_url(db_url: str) -> dict:
+    """Parsea una URL de PostgreSQL a parámetros de conexión."""
+    parsed = urlparse(db_url)
+    return {
+        'host': parsed.hostname or 'localhost',
+        'port': parsed.port or 5432,
+        'dbname': parsed.path.lstrip('/') if parsed.path else 'test_db',
+        'user': parsed.username or 'test',
+        'password': parsed.password or 'test'
+    }
 
 
 # Configuración de test
@@ -18,9 +31,13 @@ TEST_DB_CONN = os.getenv("TEST_SALES_DB_CONN", "postgresql://test:test@localhost
 @pytest.fixture
 def db_connection():
     """Fixture para conexión a base de datos de test."""
-    conn = psycopg2.connect(TEST_DB_CONN)
-    yield conn
-    conn.close()
+    conn_params = parse_db_url(TEST_DB_CONN)
+    try:
+        conn = psycopg2.connect(**conn_params)
+        yield conn
+        conn.close()
+    except (psycopg2.OperationalError, psycopg2.InterfaceError) as e:
+        pytest.skip(f"No se puede conectar a la base de datos de test: {e}")
 
 
 class TestSchema:

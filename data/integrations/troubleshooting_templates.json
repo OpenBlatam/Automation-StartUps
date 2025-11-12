@@ -1,0 +1,212 @@
+{
+  "reset_password_template": {
+    "name": "Restablecer Contraseña - {{product_name}}",
+    "description": "Guía paso a paso para restablecer contraseña en {{product_name}}",
+    "category": "cuenta",
+    "variables": [
+      {
+        "name": "product_name",
+        "description": "Nombre del producto o servicio",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "support_email",
+        "description": "Email de soporte",
+        "required": false,
+        "default_value": "soporte@example.com",
+        "type": "string"
+      },
+      {
+        "name": "reset_url",
+        "description": "URL para restablecer contraseña",
+        "required": true,
+        "type": "string"
+      }
+    ],
+    "steps_template": [
+      {
+        "step_number": 1,
+        "title": "Ir a la página de restablecimiento",
+        "description": "Abre tu navegador y ve a la página de inicio de sesión de {{product_name}}",
+        "instructions": [
+          "Abre tu navegador web",
+          "Ve a {{reset_url}}",
+          "O busca '{{product_name}} restablecer contraseña' en Google"
+        ],
+        "expected_result": "Ves la página de inicio de sesión con opción '¿Olvidaste tu contraseña?'",
+        "warnings": [
+          "Asegúrate de estar en el sitio oficial de {{product_name}}",
+          "Verifica que la URL comienza con https://"
+        ],
+        "resources": [
+          {
+            "title": "Página de restablecimiento",
+            "url": "{{reset_url}}"
+          }
+        ]
+      },
+      {
+        "step_number": 2,
+        "title": "Ingresar tu email",
+        "description": "Ingresa el email asociado a tu cuenta de {{product_name}}",
+        "instructions": [
+          "Haz clic en '¿Olvidaste tu contraseña?' o 'Restablecer contraseña'",
+          "Ingresa el email que usaste para registrarte",
+          "Verifica que el email esté escrito correctamente",
+          "Haz clic en 'Enviar' o 'Restablecer'"
+        ],
+        "expected_result": "Recibes un mensaje confirmando que se envió el email",
+        "warnings": [
+          "El email puede tardar unos minutos en llegar",
+          "Revisa tu carpeta de spam si no lo recibes"
+        ],
+        "resources": []
+      },
+      {
+        "step_number": 3,
+        "title": "Revisar tu email",
+        "description": "Abre tu bandeja de entrada y busca el email de {{product_name}}",
+        "instructions": [
+          "Abre tu aplicación de email",
+          "Busca un email de {{support_email}} o {{product_name}}",
+          "Si no lo ves, revisa la carpeta de spam o correo no deseado",
+          "Abre el email y busca el botón o enlace 'Restablecer contraseña'"
+        ],
+        "expected_result": "Encuentras el email con el enlace de restablecimiento",
+        "warnings": [
+          "El enlace expira en 1 hora por seguridad",
+          "No compartas este enlace con nadie"
+        ],
+        "resources": []
+      },
+      {
+        "step_number": 4,
+        "title": "Crear nueva contraseña",
+        "description": "Haz clic en el enlace del email y crea una nueva contraseña segura",
+        "instructions": [
+          "Haz clic en el enlace del email",
+          "Se abrirá una página para crear nueva contraseña",
+          "Ingresa tu nueva contraseña (mínimo 8 caracteres)",
+          "Confirma la contraseña ingresándola nuevamente",
+          "Haz clic en 'Guardar' o 'Confirmar'"
+        ],
+        "expected_result": "Ves un mensaje confirmando que tu contraseña fue restablecida",
+        "warnings": [
+          "Usa una contraseña única que no uses en otros sitios",
+          "Combina mayúsculas, minúsculas, números y símbolos",
+          "No uses información personal como tu nombre o fecha de nacimiento"
+        ],
+        "resources": [
+          {
+            "title": "Cómo crear contraseñas seguras",
+            "url": "https://docs.example.com/security/passwords"
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "estimated_time": "5-10 minutos",
+      "difficulty": "fácil"
+    }
+  },
+  "api_integration_template": {
+    "name": "Configurar Integración API - {{api_name}}",
+    "description": "Guía para configurar la integración con {{api_name}}",
+    "category": "configuración",
+    "variables": [
+      {
+        "name": "api_name",
+        "description": "Nombre de la API o servicio",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "api_docs_url",
+        "description": "URL de la documentación de la API",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "api_key_location",
+        "description": "Dónde obtener la API key",
+        "required": false,
+        "default_value": "Panel de configuración",
+        "type": "string"
+      }
+    ],
+    "steps_template": [
+      {
+        "step_number": 1,
+        "title": "Obtener credenciales de API",
+        "description": "Obtén tu API key de {{api_name}}",
+        "instructions": [
+          "Inicia sesión en tu cuenta de {{api_name}}",
+          "Ve a {{api_key_location}}",
+          "Busca la sección 'API Keys' o 'Credenciales'",
+          "Genera una nueva API key si no tienes una",
+          "Copia la API key (la necesitarás en el siguiente paso)"
+        ],
+        "expected_result": "Tienes tu API key copiada y lista para usar",
+        "warnings": [
+          "No compartas tu API key con nadie",
+          "Guarda la API key en un lugar seguro",
+          "Algunas APIs solo muestran la key una vez"
+        ],
+        "resources": [
+          {
+            "title": "Documentación de {{api_name}}",
+            "url": "{{api_docs_url}}"
+          }
+        ]
+      },
+      {
+        "step_number": 2,
+        "title": "Configurar integración",
+        "description": "Configura la integración en tu aplicación",
+        "instructions": [
+          "Ve a Configuración > Integraciones en tu aplicación",
+          "Busca '{{api_name}}' en la lista de integraciones",
+          "Haz clic en 'Configurar' o 'Conectar'",
+          "Pega tu API key en el campo correspondiente",
+          "Haz clic en 'Guardar' o 'Conectar'"
+        ],
+        "expected_result": "Ves un mensaje confirmando que la integración está activa",
+        "warnings": [
+          "Verifica que la API key sea correcta antes de guardar",
+          "Algunas integraciones requieren permisos adicionales"
+        ],
+        "resources": []
+      },
+      {
+        "step_number": 3,
+        "title": "Verificar conexión",
+        "description": "Verifica que la integración funciona correctamente",
+        "instructions": [
+          "Busca un botón 'Probar conexión' o 'Verificar'",
+          "Haz clic en él para probar la integración",
+          "Espera a que se complete la verificación",
+          "Si hay errores, revisa la API key y la documentación"
+        ],
+        "expected_result": "Ves un mensaje de éxito confirmando que la conexión funciona",
+        "warnings": [
+          "Si la verificación falla, revisa los logs de error",
+          "Algunas APIs tienen límites de rate limiting"
+        ],
+        "resources": [
+          {
+            "title": "Solución de problemas de API",
+            "url": "{{api_docs_url}}/troubleshooting"
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "estimated_time": "10-15 minutos",
+      "difficulty": "medio"
+    }
+  }
+}
+
+
+

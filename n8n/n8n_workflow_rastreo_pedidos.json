@@ -1,0 +1,503 @@
+{
+  "name": "Chatbot Rastreo de Pedidos - Multi Canal",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ]
+      },
+      "id": "telegram-trigger",
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "telegram-order-tracking",
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "has-text",
+              "leftValue": "={{ $json.message.text }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "filter-text",
+      "name": "Filter Text Messages",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.CHATBOT_API_URL || 'http://localhost:5000' }}/api/chat",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "message",
+              "value": "={{ $json.message.text }}"
+            },
+            {
+              "name": "customer_email",
+              "value": "={{ $json.message.from.email || '' }}"
+            },
+            {
+              "name": "conversation_id",
+              "value": "=telegram-{{ $json.message.chat.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "call-chatbot-api",
+      "name": "Call Chatbot API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [650, 300],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "chatbot-api-auth",
+          "name": "Chatbot API Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.message.chat.id }}",
+        "text": "={{ $('Call Chatbot API').item.json.response }}\n\n{{ $('Call Chatbot API').item.json.requires_escalation ? '⚠️ Esta consulta será escalada a soporte humano.' : '' }}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "send-telegram-response",
+      "name": "Send Telegram Response",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [850, 300],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "requires-escalation",
+              "leftValue": "={{ $('Call Chatbot API').item.json.requires_escalation }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-escalation",
+      "name": "Check Escalation",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.SUPPORT_TICKET_API_URL || 'http://localhost:8000' }}/api/tickets",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "title",
+              "value": "Consulta escalada desde chatbot - Pedido"
+            },
+            {
+              "name": "description",
+              "value": "=Consulta: {{ $json.message.text }}\n\nRespuesta del bot: {{ $('Call Chatbot API').item.json.response }}\n\nRazón de escalación: {{ $('Call Chatbot API').item.json.escalation_reason }}\n\nCliente: Telegram @{{ $json.message.from.username }} (ID: {{ $json.message.from.id }})"
+            },
+            {
+              "name": "priority",
+              "value": "medium"
+            },
+            {
+              "name": "source",
+              "value": "telegram_chatbot"
+            },
+            {
+              "name": "metadata",
+              "value": "={{ JSON.stringify({ conversation_id: $('Call Chatbot API').item.json.conversation_id, order_id: $('Call Chatbot API').item.json.order_info?.order_id }) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "create-support-ticket",
+      "name": "Create Support Ticket",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1250, 200],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "support-api-auth",
+          "name": "Support API Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.message.chat.id }}",
+        "text": "✅ Tu consulta ha sido escalada a nuestro equipo de soporte. Un agente se pondrá en contacto contigo pronto. Ticket #{{ $('Create Support Ticket').item.json.ticket_id || 'creado' }}",
+        "additionalFields": {}
+      },
+      "id": "notify-escalation",
+      "name": "Notify Escalation",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [1450, 200],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.CHATBOT_API_URL || 'http://localhost:5000' }}/api/chat",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "message",
+              "value": "={{ $json.body.message || $json.query.message }}"
+            },
+            {
+              "name": "customer_email",
+              "value": "={{ $json.body.customer_email || $json.query.customer_email || '' }}"
+            },
+            {
+              "name": "conversation_id",
+              "value": "=web-{{ $json.body.conversation_id || $json.query.conversation_id || Date.now() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "webhook-chatbot",
+      "name": "Webhook Chatbot",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [250, 500],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "chatbot-api-auth",
+          "name": "Chatbot API Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "chatbot/order-tracking",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-trigger",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [50, 500],
+      "webhookId": "order-tracking-webhook"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { response: $('Webhook Chatbot').item.json.response, confidence: $('Webhook Chatbot').item.json.confidence, intent: $('Webhook Chatbot').item.json.intent, requires_escalation: $('Webhook Chatbot').item.json.requires_escalation, order_info: $('Webhook Chatbot').item.json.order_info } }}",
+        "options": {}
+      },
+      "id": "webhook-response",
+      "name": "Webhook Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [450, 500]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "has-order-id",
+              "leftValue": "={{ $('Call Chatbot API').item.json.order_info?.order_id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "notEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-order-info",
+      "name": "Check Order Info",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1050, 400]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $env.CHATBOT_API_URL || 'http://localhost:5000' }}/api/order/{{ $('Call Chatbot API').item.json.order_info.order_id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "options": {}
+      },
+      "id": "get-order-details",
+      "name": "Get Order Details",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1250, 400],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "chatbot-api-auth",
+          "name": "Chatbot API Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "resource": "message",
+        "chatId": "={{ $json.message.chat.id }}",
+        "text": "=📦 **Detalles del Pedido**\n\n{{ $('Get Order Details').item.json.order.order_id }}\nEstado: {{ $('Get Order Details').item.json.order.status }}\nPago: {{ $('Get Order Details').item.json.order.payment_status }}\n{{ $('Get Order Details').item.json.order.tracking_number ? 'Tracking: ' + $('Get Order Details').item.json.order.tracking_number : '' }}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "send-order-details",
+      "name": "Send Order Details",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [1450, 400],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Filter Text Messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Text Messages": {
+      "main": [
+        [
+          {
+            "node": "Call Chatbot API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call Chatbot API": {
+      "main": [
+        [
+          {
+            "node": "Send Telegram Response",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Escalation",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Order Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Telegram Response": {
+      "main": [
+        [
+          {
+            "node": "Check Escalation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Escalation": {
+      "main": [
+        [
+          {
+            "node": "Create Support Ticket",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Support Ticket": {
+      "main": [
+        [
+          {
+            "node": "Notify Escalation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Webhook Chatbot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook Chatbot": {
+      "main": [
+        [
+          {
+            "node": "Webhook Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Order Info": {
+      "main": [
+        [
+          {
+            "node": "Get Order Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Order Details": {
+      "main": [
+        [
+          {
+            "node": "Send Order Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "order-tracking",
+      "name": "order-tracking"
+    }
+  ],
+  "triggerCount": 0,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1"
+}
+

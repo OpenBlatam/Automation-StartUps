@@ -1,0 +1,67 @@
+# Dockerfile para Chatbots
+# Construye una imagen Docker para ejecutar los chatbots
+
+FROM python:3.9-slim
+
+# Metadatos
+LABEL maintainer="Chatbot System"
+LABEL description="Sistema de Chatbots con IA"
+LABEL version="2.0"
+
+# Variables de entorno
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    CHATBOT_ENABLE_LOGGING=true \
+    CHATBOT_PERSIST_CONVERSATIONS=true \
+    CHATBOT_ENABLE_RATE_LIMITING=true \
+    CHATBOT_ENABLE_FEEDBACK=true
+
+# Directorio de trabajo
+WORKDIR /app
+
+# Instalar dependencias del sistema
+RUN apt-get update && apt-get install -y \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copiar archivos de requisitos (si existen)
+COPY requirements*.txt ./
+RUN if [ -f requirements.txt ]; then pip install --no-cache-dir -r requirements.txt; fi
+
+# Instalar dependencias opcionales
+RUN pip install --no-cache-dir flask flask-cors || echo "Flask no instalado (opcional)"
+
+# Copiar scripts de chatbots
+COPY scripts/chatbot_*.py ./
+COPY scripts/chatbot_utils.py ./
+COPY scripts/chatbot_advanced_features.py ./
+COPY scripts/chatbot_config.py ./
+COPY scripts/chatbot_performance.py ./
+COPY scripts/chatbot_security.py ./
+
+# Crear directorios necesarios
+RUN mkdir -p chatbot_conversations logs exports && \
+    chmod 755 chatbot_conversations logs exports
+
+# Exponer puerto para API (opcional)
+EXPOSE 5000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD python3 -c "from chatbot_curso_ia_webinars import CursoIAWebinarChatbot; \
+    chatbot = CursoIAWebinarChatbot(enable_logging=False); \
+    health = chatbot.health_check(); \
+    exit(0 if health['status'] == 'healthy' else 1)" || exit 1
+
+# Comando por defecto (ejecutar API si está disponible, sino chatbot interactivo)
+CMD if python3 -c "import flask" 2>/dev/null; then \
+        python3 chatbot_api.py; \
+    else \
+        python3 chatbot_curso_ia_webinars.py; \
+    fi
+
+
+
+
+
+

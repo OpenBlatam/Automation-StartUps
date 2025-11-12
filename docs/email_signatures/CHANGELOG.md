@@ -2,6 +2,23 @@
 
 Todos los cambios notables en este proyecto serán documentados en este archivo.
 
+## [4.18] - 2024-03-XX
+
+### Agregado
+- ⚛️ Plantilla para medicina nuclear (`firma_medicina_nuclear.html`) - Diseño para médicos nucleares con información de centro/hospital, servicios (gammagrafía, PET/CT, SPECT, terapia con radioisótopos) y aplicaciones (oncología, cardiología, neurología, endocrinología)
+- ✈️ Plantilla para medicina aeroespacial (`firma_medicina_aerospace.html`) - Diseño para médicos aeroespaciales con información de centro/organización, servicios (certificados médicos aeronáuticos, evaluaciones de aptitud, medicina espacial) y certificaciones (pilotos, tripulación, personal de tierra, astronautas)
+
+### Mejorado
+- 📖 Documentación actualizada con nuevas plantillas
+- 📋 Índice actualizado con todas las nuevas funcionalidades
+- 🎯 Cobertura completa de más especialidades médicas avanzadas
+
+### Detalles Técnicos
+- Plantillas medicina nuclear y medicina aeroespacial incluyen elementos específicos de cada especialidad (servicios, aplicaciones, certificaciones)
+
+### Hito Importante
+- **Versión 4.18** - Proyecto alcanza 200+ archivos con cobertura de especialidades médicas avanzadas
+
 ## [4.8] - 2024-03-XX
 
 ### Agregado

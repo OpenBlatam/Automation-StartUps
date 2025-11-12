@@ -86,6 +86,8 @@
 - 💅 `firma_estetica.html` - Sector Estética/Centros
 - 🦷👶 `firma_odontopediatria.html` - Sector Odontopediatría/Clínicas Infantiles
 - 🦷✨ `firma_ortodoncia.html` - Sector Ortodoncia/Clínicas
+- ⚛️ `firma_medicina_nuclear.html` - Sector Medicina Nuclear/Hospitales
+- ✈️ `firma_medicina_aerospace.html` - Sector Medicina Aeroespacial/Centros
 
 ### Archivos vCard (Nuevos)
 - 📇 `firma_curso_ia_webinars_vcard.vcf` - Contacto vCard

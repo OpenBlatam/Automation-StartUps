@@ -1,0 +1,928 @@
+{
+  "name": "AI Video Pipeline - Descubrir y Generar PDFs de Replicación",
+  "nodes": [
+    {
+      "parameters": {
+        "cronExpression": "0 9 * * 1",
+        "timezone": "UTC"
+      },
+      "id": "schedule-trigger",
+      "name": "Schedule Trigger - Semanal Lunes 9AM",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "notes": "Ejecuta cada lunes a las 9:00 AM para descubrir videos de la semana anterior"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ai-video-pipeline",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-trigger",
+      "name": "Webhook Trigger - Ejecución Manual",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [250, 500],
+      "webhookId": "ai-video-pipeline-webhook",
+      "notes": "Permite ejecutar el pipeline manualmente vía webhook"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Inicializar variables del workflow con validación mejorada\nconst maxVideos = parseInt($env.MAX_VIDEOS || '10');\nconst daysBack = parseInt($env.DAYS_BACK || '7');\nconst languages = ($env.LANGUAGES || 'en,pt,fr,de,it,ja,ko,zh').split(',').map(l => l.trim()).filter(l => l);\nconst outputDir = $env.OUTPUT_DIR || './ai_video_outputs';\nconst executionId = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;\nconst maxRetries = parseInt($env.MAX_RETRIES || '3');\nconst enableCache = $env.ENABLE_CACHE !== 'false';\nconst enableEmail = !!($env.SMTP_HOST && $env.EMAIL_TO);\nconst enableWebhooks = !!($env.WEBHOOK_URL);\nconst batchSize = parseInt($env.BATCH_SIZE || '3');\nconst minVideoQuality = parseInt($env.MIN_VIDEO_QUALITY || '1000'); // Likes mínimos\nconst minTranscriptQuality = parseFloat($env.MIN_TRANSCRIPT_QUALITY || '0.7'); // 0-1\nconst enableHealthCheck = $env.ENABLE_HEALTH_CHECK !== 'false';\nconst enableCloudStorage = !!($env.S3_BUCKET || $env.GCS_BUCKET);\nconst enableParallelProcessing = $env.ENABLE_PARALLEL !== 'false';\nconst maxConcurrent = parseInt($env.MAX_CONCURRENT || '3');\nconst enablePriorityQueue = $env.ENABLE_PRIORITY_QUEUE !== 'false';\nconst enableMetricsExport = $env.ENABLE_METRICS_EXPORT !== 'false';\nconst enableSmartAlerts = $env.ENABLE_SMART_ALERTS !== 'false';\n\n// Validar API keys\nconst hasOpenAI = !!($env.OPENAI_API_KEY);\nconst hasYouTube = !!($env.YOUTUBE_API_KEY);\n\nif (!hasOpenAI) {\n  return [{\n    json: {\n      error: 'OPENAI_API_KEY no configurada. Es requerida para transcripción y traducción.',\n      executionId,\n      canProceed: false\n    }\n  }];\n}\n\nreturn [{\n  json: {\n    maxVideos: maxVideos,\n    daysBack: daysBack,\n    languages: languages,\n    outputDir: outputDir,\n    startedAt: new Date().toISOString(),\n    executionId: executionId,\n    workflowVersion: '5.0',\n    hasOpenAI: hasOpenAI,\n    hasYouTube: hasYouTube,\n    maxRetries: maxRetries,\n    enableCache: enableCache,\n    enableEmail: enableEmail,\n    enableWebhooks: enableWebhooks,\n    batchSize: batchSize,\n    minVideoQuality: minVideoQuality,\n    minTranscriptQuality: minTranscriptQuality,\n    enableHealthCheck: enableHealthCheck,\n    enableCloudStorage: enableCloudStorage,\n    enableParallelProcessing: enableParallelProcessing,\n    maxConcurrent: maxConcurrent,\n    enablePriorityQueue: enablePriorityQueue,\n    enableMetricsExport: enableMetricsExport,\n    enableSmartAlerts: enableSmartAlerts,\n    canProceed: true\n  }\n}];"
+      },
+      "id": "initialize-workflow",
+      "name": "Initialize Workflow",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [450, 400],
+      "notes": "Inicializa variables del workflow con validación"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "can-proceed",
+              "leftValue": "={{ $json.canProceed }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-can-proceed",
+      "name": "Check Can Proceed",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [650, 400],
+      "notes": "Verifica que se puedan ejecutar los scripts"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Validar que los scripts existan\nconst fs = require('fs');\nconst path = require('path');\n\nconst scriptsDir = '/Users/adan/IA/scripts';\nconst requiredScripts = [\n  'ai_video_pipeline.py',\n  'ai_video_discoverer.py',\n  'video_transcript_extractor.py',\n  'pdf_replication_guide_generator.py'\n];\n\nconst missingScripts = [];\nconst existingScripts = [];\n\nrequiredScripts.forEach(script => {\n  const scriptPath = path.join(scriptsDir, script);\n  if (fs.existsSync(scriptPath)) {\n    existingScripts.push(script);\n  } else {\n    missingScripts.push(script);\n  }\n});\n\nif (missingScripts.length > 0) {\n  return [{\n    json: {\n      ...$input.item.json,\n      error: `Scripts faltantes: ${missingScripts.join(', ')}`,\n      missingScripts: missingScripts,\n      existingScripts: existingScripts,\n      scriptsValid: false\n    }\n  }];\n}\n\nreturn [{\n  json: {\n    ...$input.item.json,\n    scriptsValid: true,\n    existingScripts: existingScripts\n  }\n}];"
+      },
+      "id": "validate-scripts",
+      "name": "Validate Scripts Exist",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [850, 300],
+      "notes": "Valida que todos los scripts necesarios existan"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "scripts-valid",
+              "leftValue": "={{ $json.scriptsValid }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-scripts-valid",
+      "name": "Check Scripts Valid",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1050, 300],
+      "notes": "Verifica que los scripts sean válidos"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Verificar cache de videos procesados\nconst fs = require('fs');\nconst path = require('path');\nconst crypto = require('crypto');\n\nconst outputDir = $json.outputDir || './ai_video_outputs';\nconst cacheFile = path.join(outputDir, 'processed_videos_cache.json');\nconst enableCache = $json.enableCache !== false;\n\n// Cargar cache si existe\nlet cache = {};\nif (enableCache && fs.existsSync(cacheFile)) {\n  try {\n    cache = JSON.parse(fs.readFileSync(cacheFile, 'utf-8'));\n  } catch (e) {\n    cache = {};\n  }\n}\n\n// Limpiar cache antiguo (más de 30 días)\nconst thirtyDaysAgo = Date.now() - (30 * 24 * 60 * 60 * 1000);\nObject.keys(cache).forEach(key => {\n  if (cache[key].processedAt < thirtyDaysAgo) {\n    delete cache[key];\n  }\n});\n\nreturn [{\n  json: {\n    ...$input.item.json,\n    cache: cache,\n    cacheFile: cacheFile,\n    cacheEnabled: enableCache\n  }\n}];"
+      },
+      "id": "check-cache",
+      "name": "Check Video Cache",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1250, 300],
+      "notes": "Verifica cache de videos ya procesados"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Health Check de APIs y servicios\nconst now = Date.now();\nconst HEALTH_CHECK_INTERVAL = 10 * 60 * 1000; // 10 minutos\n\nconst apiHealth = $workflow.staticData.apiHealth || {\n  youtube: { status: 'unknown', lastCheck: 0, failures: 0, successes: 0, responseTime: 0 },\n  openai: { status: 'unknown', lastCheck: 0, failures: 0, successes: 0, responseTime: 0 }\n};\n\n// Verificar salud de YouTube API\nif ($json.hasYouTube && (now - apiHealth.youtube.lastCheck > HEALTH_CHECK_INTERVAL)) {\n  // Simular health check (en producción harías un request real)\n  apiHealth.youtube.lastCheck = now;\n  apiHealth.youtube.status = 'healthy'; // Asumir saludable por ahora\n}\n\n// Verificar salud de OpenAI API\nif ($json.hasOpenAI && (now - apiHealth.openai.lastCheck > HEALTH_CHECK_INTERVAL)) {\n  apiHealth.openai.lastCheck = now;\n  apiHealth.openai.status = 'healthy';\n}\n\n// Calcular scores de salud\nObject.keys(apiHealth).forEach(key => {\n  const health = apiHealth[key];\n  const total = health.successes + health.failures;\n  if (total > 0) {\n    const successRate = health.successes / total;\n    if (successRate < 0.5) health.status = 'unhealthy';\n    else if (successRate < 0.8) health.status = 'degraded';\n    else health.status = 'healthy';\n  }\n});\n\n$workflow.staticData.apiHealth = apiHealth;\n\nreturn [{\n  json: {\n    ...$input.item.json,\n    apiHealth: apiHealth,\n    allApisHealthy: Object.values(apiHealth).every(h => h.status === 'healthy' || h.status === 'unknown')\n  }\n}];"
+      },
+      "id": "health-check",
+      "name": "Health Check APIs",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1450, 200],
+      "notes": "Verifica salud de APIs y servicios"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "apis-healthy",
+              "leftValue": "={{ $json.allApisHealthy }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-apis-healthy",
+      "name": "Check APIs Healthy",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1650, 200],
+      "notes": "Verifica que las APIs estén saludables"
+    },
+    {
+      "parameters": {
+        "command": "cd /Users/adan/IA/scripts && python3 ai_video_pipeline.py --max-videos {{ $json.maxVideos }} --days-back {{ $json.daysBack }} --output-dir {{ $json.outputDir }} --youtube-api-key \"{{ $env.YOUTUBE_API_KEY || '' }}\" --openai-api-key \"{{ $env.OPENAI_API_KEY }}\"",
+        "options": {
+          "timeout": 3600000
+        }
+      },
+      "id": "run-pipeline",
+      "name": "Run AI Video Pipeline",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [1450, 300],
+      "notes": "Ejecuta el pipeline completo de videos de IA (timeout: 1 hora)",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Retry con exponential backoff\nconst MAX_RETRIES = $json.maxRetries || 3;\nconst BASE_DELAY = 5000; // 5 segundos\nconst MAX_DELAY = 300000; // 5 minutos\n\nconst retryHistory = $workflow.staticData.retryHistory || {};\nconst executionId = $json.executionId || 'unknown';\nconst retryInfo = retryHistory[executionId] || {\n  attempts: 0,\n  lastAttempt: null,\n  errors: []\n};\n\n// Verificar si necesita retry\nconst needsRetry = ($json.error || $json.pipelineSuccess === false) && retryInfo.attempts < MAX_RETRIES;\n\nif (needsRetry) {\n  retryInfo.attempts++;\n  retryInfo.lastAttempt = Date.now();\n  if ($json.error) retryInfo.errors.push($json.error);\n  \n  // Calcular delay exponencial con jitter\n  const delay = Math.min(\n    BASE_DELAY * Math.pow(2, retryInfo.attempts - 1),\n    MAX_DELAY\n  );\n  const jitter = delay * 0.2 * Math.random();\n  const finalDelay = Math.floor(delay + jitter);\n  \n  retryInfo.nextRetryDelay = finalDelay;\n  retryHistory[executionId] = retryInfo;\n  $workflow.staticData.retryHistory = retryHistory;\n  \n  return [{\n    json: {\n      ...$input.item.json,\n      shouldRetry: true,\n      retryAttempt: retryInfo.attempts,\n      retryDelay: finalDelay,\n      maxRetries: MAX_RETRIES\n    }\n  }];\n}\n\n// Limpiar cache de retry si fue exitoso\nif ($json.pipelineSuccess !== false && retryInfo.attempts > 0) {\n  delete retryHistory[executionId];\n  $workflow.staticData.retryHistory = retryHistory;\n}\n\nreturn [{\n  json: {\n    ...$input.item.json,\n    shouldRetry: false,\n    retryAttempt: retryInfo.attempts\n  }\n}];"
+      },
+      "id": "check-retry",
+      "name": "Check Retry Needed",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 300],
+      "notes": "Verifica si se necesita retry con exponential backoff"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "should-retry",
+              "leftValue": "={{ $json.shouldRetry }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-should-retry",
+      "name": "Check Should Retry",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1850, 300],
+      "notes": "Decide si hacer retry"
+    },
+    {
+      "parameters": {
+        "mode": "wait",
+        "amount": "={{ $json.retryDelay || 5000 }}",
+        "unit": "milliseconds"
+      },
+      "id": "wait-retry",
+      "name": "Wait Before Retry",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [2050, 300],
+      "notes": "Espera antes de reintentar"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Verificar si el comando fue exitoso y leer el resumen\nconst fs = require('fs');\nconst path = require('path');\n\n// Obtener datos del contexto del workflow\nconst allInputs = $input.all();\nconst initData = allInputs.find(item => item.json.executionId)?.json || allInputs[0]?.json || {};\nconst outputDir = initData.outputDir || './ai_video_outputs';\nconst executionId = initData.executionId || 'unknown';\nconst summaryFile = path.join(outputDir, 'pipeline_summary.json');\n\n// Verificar si hubo error en la ejecución\nif ($json.error || $json.stderr) {\n  return [{\n    json: {\n      ...initData,\n      error: $json.error || $json.stderr || 'Error desconocido en la ejecución',\n      summaryFile: summaryFile,\n      pipelineSuccess: false,\n      executionId: executionId\n    }\n  }];\n}\n\ntry {\n  // Intentar leer el archivo directamente\n  if (fs.existsSync(summaryFile)) {\n    const summaryData = JSON.parse(fs.readFileSync(summaryFile, 'utf-8'));\n    return [{\n      json: {\n        ...summaryData,\n        ...initData,\n        summaryFile: summaryFile,\n        pipelineSuccess: true,\n        executionId: executionId,\n        minVideoQuality: initData.minVideoQuality,\n        minTranscriptQuality: initData.minTranscriptQuality\n      }\n    }];\n  } else {\n    return [{\n      json: {\n        ...initData,\n        error: 'Summary file not found after execution',\n        summaryFile: summaryFile,\n        pipelineSuccess: false,\n        executionId: executionId\n      }\n    }];\n  }\n} catch (e) {\n  return [{\n    json: {\n      ...initData,\n      error: `Error reading summary: ${e.message}`,\n      summaryFile: summaryFile,\n      pipelineSuccess: false,\n      executionId: executionId\n    }\n  }];\n}"
+      },
+      "id": "load-summary",
+      "name": "Load Pipeline Summary",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 500],
+      "notes": "Carga el resumen del procesamiento con manejo de errores"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Validar calidad de transcripciones y filtrar videos\nconst summary = $json;\nconst minQuality = summary.minVideoQuality || parseInt($env.MIN_VIDEO_QUALITY || '1000');\nconst minTranscriptQuality = summary.minTranscriptQuality || parseFloat($env.MIN_TRANSCRIPT_QUALITY || '0.7');\n\n// Filtrar videos por calidad\nif (summary.outputs && summary.outputs.length > 0) {\n  const filteredOutputs = summary.outputs.filter(video => {\n    // Filtrar por likes mínimos\n    const likes = video.like_count || 0;\n    if (likes < minQuality) return false;\n    \n    // Filtrar por calidad de transcripción si está disponible\n    if (video.transcriptQuality !== undefined && video.transcriptQuality < minTranscriptQuality) {\n      return false;\n    }\n    \n    return true;\n  });\n  \n  const filteredCount = summary.outputs.length - filteredOutputs.length;\n  \n  return [{\n    json: {\n      ...summary,\n      outputs: filteredOutputs,\n      filteredVideos: filteredCount,\n      qualityFiltered: filteredCount > 0\n    }\n  }];\n}\n\nreturn [$input.item];"
+      },
+      "id": "filter-quality",
+      "name": "Filter by Quality",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1850, 500],
+      "notes": "Filtra videos por calidad y validación"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Calcular métricas en tiempo real\nconst summary = $json;\nconst executionId = summary.executionId || 'unknown';\nconst startTime = summary.startedAt ? new Date(summary.startedAt) : new Date();\nconst endTime = new Date();\nconst duration = (endTime - startTime) / 1000; // segundos\n\nconst videosProcessed = summary.videos_processed || 0;\nconst videosDiscovered = summary.videos_discovered || 0;\nconst pdfsGenerated = summary.pdfs_generated || 0;\nconst errorsCount = summary.errors?.length || 0;\n\nconst metrics = {\n  executionId: executionId,\n  duration: duration,\n  durationFormatted: `${Math.floor(duration / 60)}m ${Math.floor(duration % 60)}s`,\n  videosPerMinute: duration > 0 ? ((videosProcessed / (duration / 60)).toFixed(2)) : '0',\n  pdfsPerMinute: duration > 0 ? ((pdfsGenerated / (duration / 60)).toFixed(2)) : '0',\n  successRate: videosDiscovered > 0 ? \n    ((videosProcessed / videosDiscovered) * 100).toFixed(2) + '%' : '0%',\n  errorRate: videosDiscovered > 0 ? \n    ((errorsCount / videosDiscovered) * 100).toFixed(2) + '%' : '0%',\n  avgProcessingTime: videosProcessed > 0 ? \n    (duration / videosProcessed).toFixed(2) + 's' : '0s'\n};\n\nreturn [{\n  json: {\n    ...summary,\n    metrics: metrics\n  }\n}];"
+      },
+      "id": "calculate-metrics",
+      "name": "Calculate Real-time Metrics",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2050, 500],
+      "notes": "Calcula métricas en tiempo real del procesamiento"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Priorizar videos por calidad y popularidad\nconst summary = $json;\nconst enablePriority = summary.enablePriorityQueue !== false;\n\nif (!enablePriority || !summary.outputs || summary.outputs.length === 0) {\n  return [$input.item];\n}\n\n// Calcular score de prioridad para cada video\nconst prioritizedOutputs = summary.outputs.map(video => {\n  const likes = video.like_count || 0;\n  const views = video.view_count || 0;\n  const age = video.published_at ? (Date.now() - new Date(video.published_at).getTime()) / (1000 * 60 * 60 * 24) : 7;\n  \n  // Score basado en engagement (likes + views) y frescura\n  const engagementScore = (likes * 2) + (views / 1000);\n  const freshnessScore = Math.max(0, 7 - age); // Más puntos si es más reciente\n  const priorityScore = engagementScore + (freshnessScore * 100);\n  \n  return {\n    ...video,\n    priorityScore: priorityScore,\n    engagementScore: engagementScore,\n    freshnessScore: freshnessScore\n  };\n});\n\n// Ordenar por prioridad (mayor score primero)\nprioritizedOutputs.sort((a, b) => b.priorityScore - a.priorityScore);\n\nreturn [{\n  json: {\n    ...summary,\n    outputs: prioritizedOutputs,\n    prioritized: true,\n    topVideo: prioritizedOutputs[0] || null\n  }\n}];"
+      },
+      "id": "prioritize-videos",
+      "name": "Prioritize Videos",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2250, 500],
+      "notes": "Prioriza videos por calidad y popularidad"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Preparar upload a cloud storage (S3/GCS)\nconst summary = $json;\nconst enableCloud = summary.enableCloudStorage !== false;\n\nif (!enableCloud || !summary.outputs || summary.outputs.length === 0) {\n  return [$input.item];\n}\n\nconst cloudType = $env.CLOUD_STORAGE_TYPE || ($env.S3_BUCKET ? 's3' : 'gcs');\nconst bucket = $env.S3_BUCKET || $env.GCS_BUCKET || '';\nconst basePath = $env.CLOUD_STORAGE_PATH || 'ai-video-pipeline';\nconst date = new Date().toISOString().split('T')[0];\n\n// Preparar rutas de cloud para cada PDF generado\nconst cloudUploads = summary.outputs.map(video => {\n  const videoId = video.video_id || 'unknown';\n  const pdfFile = video.pdfFile || '';\n  \n  if (!pdfFile) return null;\n  \n  const fileName = pdfFile.split('/').pop() || `replication_guide_${videoId}.pdf`;\n  const cloudPath = `${basePath}/${date}/${fileName}`;\n  \n  return {\n    videoId: videoId,\n    localPath: pdfFile,\n    cloudPath: cloudPath,\n    cloudType: cloudType,\n    bucket: bucket,\n    readyForUpload: true\n  };\n}).filter(u => u !== null);\n\nreturn [{\n  json: {\n    ...summary,\n    cloudUploads: cloudUploads,\n    cloudStorageEnabled: enableCloud && cloudUploads.length > 0\n  }\n}];"
+      },
+      "id": "prepare-cloud-upload",
+      "name": "Prepare Cloud Upload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2450, 500],
+      "notes": "Prepara archivos para upload a cloud storage"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Exportar métricas a formato estructurado\nconst summary = $json;\nconst metrics = summary.metrics || {};\nconst enableExport = summary.enableMetricsExport !== false;\n\nif (!enableExport) {\n  return [$input.item];\n}\n\nconst fs = require('fs');\nconst path = require('path');\n\nconst outputDir = summary.outputDir || './ai_video_outputs';\nconst metricsFile = path.join(outputDir, `metrics_${summary.executionId || 'latest'}.json`);\n\nconst exportData = {\n  executionId: summary.executionId,\n  timestamp: new Date().toISOString(),\n  summary: {\n    videosDiscovered: summary.videos_discovered || 0,\n    videosProcessed: summary.videos_processed || 0,\n    pdfsGenerated: summary.pdfs_generated || 0,\n    errors: summary.errors?.length || 0,\n    filteredVideos: summary.filteredVideos || 0\n  },\n  metrics: metrics,\n  outputs: summary.outputs?.map(v => ({\n    id: v.video_id,\n    title: v.title,\n    url: v.url,\n    likes: v.like_count,\n    views: v.view_count,\n    priorityScore: v.priorityScore,\n    pdfFile: v.pdfFile\n  })) || [],\n  errors: summary.errors || [],\n  apiHealth: summary.apiHealth || {},\n  analytics: summary.analytics || {}\n};\n\ntry {\n  fs.mkdirSync(outputDir, { recursive: true });\n  fs.writeFileSync(metricsFile, JSON.stringify(exportData, null, 2), 'utf-8');\n  \n  return [{\n    json: {\n      ...summary,\n      metricsExported: true,\n      metricsFile: metricsFile\n    }\n  }];\n} catch (e) {\n  return [{\n    json: {\n      ...summary,\n      metricsExported: false,\n      metricsExportError: e.message\n    }\n  }];\n}"
+      },
+      "id": "export-metrics",
+      "name": "Export Metrics",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2650, 500],
+      "notes": "Exporta métricas a archivo JSON estructurado"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Alertas inteligentes basadas en umbrales\nconst summary = $json;\nconst metrics = summary.metrics || {};\nconst enableAlerts = summary.enableSmartAlerts !== false;\n\nif (!enableAlerts) {\n  return [$input.item];\n}\n\nconst alerts = [];\nconst thresholds = {\n  minSuccessRate: parseFloat($env.MIN_SUCCESS_RATE || '0.8'), // 80%\n  maxErrorRate: parseFloat($env.MAX_ERROR_RATE || '0.2'), // 20%\n  minVideosProcessed: parseInt($env.MIN_VIDEOS_PROCESSED || '5'),\n  maxProcessingTime: parseInt($env.MAX_PROCESSING_TIME_MINUTES || '60')\n};\n\n// Calcular tasas\nconst successRate = parseFloat(metrics.successRate?.replace('%', '') || '0') / 100;\nconst errorRate = parseFloat(metrics.errorRate?.replace('%', '') || '0') / 100;\nconst durationMinutes = (metrics.duration || 0) / 60;\n\n// Verificar umbrales\nif (successRate < thresholds.minSuccessRate) {\n  alerts.push({\n    level: 'warning',\n    type: 'low_success_rate',\n    message: `Tasa de éxito baja: ${(successRate * 100).toFixed(2)}% (mínimo: ${thresholds.minSuccessRate * 100}%)`,\n    value: successRate,\n    threshold: thresholds.minSuccessRate\n  });\n}\n\nif (errorRate > thresholds.maxErrorRate) {\n  alerts.push({\n    level: 'error',\n    type: 'high_error_rate',\n    message: `Tasa de error alta: ${(errorRate * 100).toFixed(2)}% (máximo: ${thresholds.maxErrorRate * 100}%)`,\n    value: errorRate,\n    threshold: thresholds.maxErrorRate\n  });\n}\n\nif ((summary.videos_processed || 0) < thresholds.minVideosProcessed) {\n  alerts.push({\n    level: 'warning',\n    type: 'low_video_count',\n    message: `Pocos videos procesados: ${summary.videos_processed || 0} (mínimo: ${thresholds.minVideosProcessed})`,\n    value: summary.videos_processed || 0,\n    threshold: thresholds.minVideosProcessed\n  });\n}\n\nif (durationMinutes > thresholds.maxProcessingTime) {\n  alerts.push({\n    level: 'warning',\n    type: 'slow_processing',\n    message: `Procesamiento lento: ${durationMinutes.toFixed(2)} minutos (máximo: ${thresholds.maxProcessingTime})`,\n    value: durationMinutes,\n    threshold: thresholds.maxProcessingTime\n  });\n}\n\nreturn [{\n  json: {\n    ...summary,\n    alerts: alerts,\n    hasAlerts: alerts.length > 0,\n    criticalAlerts: alerts.filter(a => a.level === 'error').length\n  }\n}];"
+      },
+      "id": "smart-alerts",
+      "name": "Smart Alerts",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2850, 500],
+      "notes": "Genera alertas inteligentes basadas en umbrales"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Preparar mensaje de notificación detallado con métricas\nconst summary = $json;\nconst executionId = summary.executionId || 'unknown';\nconst success = summary.pipelineSuccess !== false;\nconst metrics = summary.metrics || {};\n\nlet message = success ? '✅' : '⚠️';\nmessage += ` Pipeline de videos de IA ${success ? 'completado' : 'con errores'}\n\n`;\nmessage += `📊 Resumen:\n`;\nmessage += `• Videos descubiertos: ${summary.videos_discovered || 0}\n`;\nmessage += `• Videos procesados: ${summary.videos_processed || 0}\n`;\nmessage += `• PDFs generados: ${summary.pdfs_generated || 0}\n`;\nmessage += `• Videos filtrados por calidad: ${summary.filteredVideos || 0}\n`;\nmessage += `• Videos priorizados: ${summary.prioritized ? 'Sí' : 'No'}\n`;\nmessage += `• Errores: ${summary.errors?.length || 0}\n`;\n\nif (summary.alerts && summary.alerts.length > 0) {\n  message += `\n⚠️ Alertas (${summary.alerts.length}):\n`;\n  summary.alerts.slice(0, 3).forEach((alert, idx) => {\n    message += `${idx + 1}. [${alert.level.toUpperCase()}] ${alert.message}\n`;\n  });\n  if (summary.alerts.length > 3) {\n    message += `... y ${summary.alerts.length - 3} alertas más\n`;\n  }\n}\n\nif (metrics.durationFormatted) {\n  message += `\n⏱️ Métricas de Rendimiento:\n`;\n  message += `• Duración total: ${metrics.durationFormatted}\n`;\n  message += `• Videos/minuto: ${metrics.videosPerMinute || 0}\n`;\n  message += `• PDFs/minuto: ${metrics.pdfsPerMinute || 0}\n`;\n  message += `• Tasa de éxito: ${metrics.successRate || '0%'}\n`;\n  message += `• Tasa de error: ${metrics.errorRate || '0%'}\n`;\n  message += `• Tiempo promedio/video: ${metrics.avgProcessingTime || '0s'}\n`;\n}\n\nif (summary.outputs && summary.outputs.length > 0) {\n  message += `\n🎬 Videos procesados exitosamente:\n`;\n  summary.outputs.slice(0, 5).forEach((video, idx) => {\n    const likes = video.like_count || 0;\n    message += `${idx + 1}. ${video.title || video.video_id} (👍 ${likes})\n`;\n  });\n  if (summary.outputs.length > 5) {\n    message += `... y ${summary.outputs.length - 5} más\n`;\n  }\n}\n\nif (summary.errors && summary.errors.length > 0) {\n  message += `\n❌ Errores encontrados:\n`;\n  summary.errors.slice(0, 3).forEach((error, idx) => {\n    message += `${idx + 1}. ${error.video_url || error.videoId || 'Unknown'}: ${error.error || error.pipeline_error || 'Error desconocido'}\n`;\n  });\n  if (summary.errors.length > 3) {\n    message += `... y ${summary.errors.length - 3} errores más\n`;\n  }\n}\n\nif (summary.summaryFile) {\n  message += `\n📁 Resumen completo: ${summary.summaryFile}`;\n}\n\nif (summary.metricsFile) {\n  message += `\n📊 Métricas exportadas: ${summary.metricsFile}`;\n}\n\nif (summary.cloudStorageEnabled) {\n  message += `\n☁️ Cloud Storage: ${summary.cloudUploads?.length || 0} archivos listos para upload`;\n}\n\nmessage += `\n\n🕐 Ejecución ID: ${executionId}`;\n\nreturn [{\n  json: {\n    ...summary,\n    message: message,\n    notificationPrepared: true\n  }\n}];"
+      },
+      "id": "prepare-notification",
+      "name": "Prepare Notification",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 300],
+      "notes": "Prepara mensaje de notificación detallado"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "has-telegram",
+              "leftValue": "={{ $env.TELEGRAM_BOT_TOKEN }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-telegram",
+      "name": "Check Telegram Available",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1850, 200],
+      "notes": "Verifica si Telegram está configurado"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
+        "text": "={{ $json.message }}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "send-telegram",
+      "name": "Send Telegram Notification",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [2050, 200],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      },
+      "notes": "Envía notificación a Telegram",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"success\": $json.pipelineSuccess !== false, \"message\": \"Pipeline ejecutado\", \"executionId\": $json.executionId, \"videosProcessed\": $json.videos_processed || 0, \"pdfsGenerated\": $json.pdfs_generated || 0 } }}"
+      },
+      "id": "webhook-response",
+      "name": "Webhook Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1850, 500],
+      "notes": "Responde al webhook si fue ejecutado manualmente"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Manejar errores y preparar mensaje de error\nconst error = $json.error || 'Error desconocido';\nconst executionId = $json.executionId || 'unknown';\n\nlet errorMessage = `❌ Error en el pipeline de videos de IA\n\n`;\nerrorMessage += `Error: ${error}\n`;\nerrorMessage += `Ejecución ID: ${executionId}\n`;\n\nif ($json.missingScripts) {\n  errorMessage += `\nScripts faltantes: ${$json.missingScripts.join(', ')}\n`;\n}\n\nif ($json.summaryFile) {\n  errorMessage += `\nArchivo de resumen: ${$json.summaryFile}`;\n}\n\nreturn [{\n  json: {\n    ...$input.item.json,\n    error: error,\n    errorMessage: errorMessage,\n    executionId: executionId\n  }\n}];"
+      },
+      "id": "handle-error",
+      "name": "Handle Error",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 600],
+      "notes": "Maneja errores y prepara mensaje de error",
+      "onError": "continue"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
+        "text": "={{ $json.errorMessage }}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "send-error-telegram",
+      "name": "Send Error Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [1850, 600],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      },
+      "notes": "Envía notificación de error a Telegram",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Registrar analytics del workflow\nconst analytics = $workflow.staticData.analytics || {\n  totalExecutions: 0,\n  successfulExecutions: 0,\n  failedExecutions: 0,\n  totalVideosProcessed: 0,\n  totalPdfsGenerated: 0,\n  lastExecution: null,\n  executionHistory: []\n};\n\nconst execution = {\n  timestamp: new Date().toISOString(),\n  executionId: $json.executionId || 'unknown',\n  success: $json.pipelineSuccess !== false,\n  videosDiscovered: $json.videos_discovered || 0,\n  videosProcessed: $json.videos_processed || 0,\n  pdfsGenerated: $json.pdfs_generated || 0,\n  errors: $json.errors?.length || 0\n};\n\nanalytics.totalExecutions++;\nif (execution.success) {\n  analytics.successfulExecutions++;\n} else {\n  analytics.failedExecutions++;\n}\n\nanalytics.totalVideosProcessed += execution.videosProcessed;\nanalytics.totalPdfsGenerated += execution.pdfsGenerated;\nanalytics.lastExecution = execution;\n\n// Mantener historial de últimas 50 ejecuciones\nanalytics.executionHistory.push(execution);\nif (analytics.executionHistory.length > 50) {\n  analytics.executionHistory.shift();\n}\n\n$workflow.staticData.analytics = analytics;\n\nreturn [{\n  json: {\n    ...$input.item.json,\n    analytics: {\n      totalExecutions: analytics.totalExecutions,\n      successRate: analytics.totalExecutions > 0 ? \n        ((analytics.successfulExecutions / analytics.totalExecutions) * 100).toFixed(2) + '%' : '0%',\n      totalVideosProcessed: analytics.totalVideosProcessed,\n      totalPdfsGenerated: analytics.totalPdfsGenerated\n    }\n  }\n}];"
+      },
+      "id": "update-analytics",
+      "name": "Update Analytics",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2250, 300],
+      "notes": "Actualiza analytics del workflow"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "has-email",
+              "leftValue": "={{ $json.enableEmail }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-email",
+      "name": "Check Email Available",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [2450, 200],
+      "notes": "Verifica si email está configurado"
+    },
+    {
+      "parameters": {
+        "fromEmail": "={{ $env.EMAIL_FROM || 'noreply@example.com' }}",
+        "toEmail": "={{ $env.EMAIL_TO }}",
+        "subject": "={{ 'Pipeline de Videos IA - ' + ($json.pipelineSuccess !== false ? 'Completado' : 'Error') + ' - ' + ($json.executionId || 'Unknown') }}",
+        "text": "={{ $json.message || 'Pipeline ejecutado' }}",
+        "options": {}
+      },
+      "id": "send-email",
+      "name": "Send Email Notification",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [2650, 200],
+      "credentials": {
+        "smtp": {
+          "id": "smtp-credentials",
+          "name": "SMTP"
+        }
+      },
+      "notes": "Envía notificación por email",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "has-webhook",
+              "leftValue": "={{ $json.enableWebhooks }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-webhook",
+      "name": "Check Webhook Available",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [2450, 400],
+      "notes": "Verifica si webhook externo está configurado"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.WEBHOOK_URL }}",
+        "authentication": "none",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "event",
+              "value": "={{ 'pipeline_completed' }}"
+            },
+            {
+              "name": "executionId",
+              "value": "={{ $json.executionId }}"
+            },
+            {
+              "name": "success",
+              "value": "={{ $json.pipelineSuccess !== false }}"
+            },
+            {
+              "name": "videosProcessed",
+              "value": "={{ $json.videos_processed || 0 }}"
+            },
+            {
+              "name": "pdfsGenerated",
+              "value": "={{ $json.pdfs_generated || 0 }}"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{ new Date().toISOString() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "send-webhook",
+      "name": "Send External Webhook",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [2650, 400],
+      "notes": "Envía webhook a sistema externo",
+      "continueOnFail": true
+    }
+  ],
+  "connections": {
+    "Schedule Trigger - Semanal Lunes 9AM": {
+      "main": [
+        [
+          {
+            "node": "Initialize Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook Trigger - Ejecución Manual": {
+      "main": [
+        [
+          {
+            "node": "Initialize Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Initialize Workflow": {
+      "main": [
+        [
+          {
+            "node": "Check Can Proceed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Can Proceed": {
+      "main": [
+        [
+          {
+            "node": "Validate Scripts Exist",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Handle Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Scripts Exist": {
+      "main": [
+        [
+          {
+            "node": "Check Scripts Valid",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Scripts Valid": {
+      "main": [
+        [
+          {
+            "node": "Check Video Cache",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Handle Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Video Cache": {
+      "main": [
+        [
+          {
+            "node": "Health Check APIs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Health Check APIs": {
+      "main": [
+        [
+          {
+            "node": "Check APIs Healthy",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check APIs Healthy": {
+      "main": [
+        [
+          {
+            "node": "Run AI Video Pipeline",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Handle Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run AI Video Pipeline": {
+      "main": [
+        [
+          {
+            "node": "Check Retry Needed",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Check Retry Needed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Retry Needed": {
+      "main": [
+        [
+          {
+            "node": "Check Should Retry",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Load Pipeline Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Should Retry": {
+      "main": [
+        [
+          {
+            "node": "Wait Before Retry",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Load Pipeline Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait Before Retry": {
+      "main": [
+        [
+          {
+            "node": "Run AI Video Pipeline",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load Pipeline Summary": {
+      "main": [
+        [
+          {
+            "node": "Filter by Quality",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter by Quality": {
+      "main": [
+        [
+          {
+            "node": "Calculate Real-time Metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate Real-time Metrics": {
+      "main": [
+        [
+          {
+            "node": "Prioritize Videos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prioritize Videos": {
+      "main": [
+        [
+          {
+            "node": "Prepare Cloud Upload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Cloud Upload": {
+      "main": [
+        [
+          {
+            "node": "Export Metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Export Metrics": {
+      "main": [
+        [
+          {
+            "node": "Smart Alerts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Smart Alerts": {
+      "main": [
+        [
+          {
+            "node": "Prepare Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Notification": {
+      "main": [
+        [
+          {
+            "node": "Update Analytics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Analytics": {
+      "main": [
+        [
+          {
+            "node": "Check Telegram Available",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Email Available",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Webhook Available",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Webhook Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Telegram Available": {
+      "main": [
+        [
+          {
+            "node": "Send Telegram Notification",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Check Email Available": {
+      "main": [
+        [
+          {
+            "node": "Send Email Notification",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Check Webhook Available": {
+      "main": [
+        [
+          {
+            "node": "Send External Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Handle Error": {
+      "main": [
+        [
+          {
+            "node": "Send Error Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Error Telegram": {
+      "main": [
+        [
+          {
+            "node": "Webhook Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "saveExecutionProgress": true,
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "5"
+}

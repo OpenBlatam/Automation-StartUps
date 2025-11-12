@@ -1,0 +1,594 @@
+{
+  "instalacion_software": {
+    "problem_title": "Problemas con la instalación de software",
+    "problem_description": "El usuario tiene dificultades para instalar el software o la aplicación",
+    "category": "instalación",
+    "estimated_time": "15-20 minutos",
+    "difficulty": "fácil",
+    "prerequisites": [
+      "Acceso a internet",
+      "Permisos de administrador (si es necesario)",
+      "Espacio suficiente en disco"
+    ],
+    "steps": [
+      {
+        "step_number": 1,
+        "title": "Verificar requisitos del sistema",
+        "description": "Antes de instalar, asegúrate de que tu sistema cumple con los requisitos mínimos",
+        "instructions": [
+          "Revisa la página de requisitos del sistema en nuestra documentación",
+          "Verifica la versión de tu sistema operativo (Windows, macOS, Linux)",
+          "Comprueba que tienes suficiente espacio en disco (mínimo 500MB libres)",
+          "Asegúrate de tener permisos de administrador si es necesario"
+        ],
+        "expected_result": "Confirmación de que tu sistema cumple con los requisitos",
+        "warnings": [
+          "No instales software en sistemas que no cumplan los requisitos mínimos",
+          "Asegúrate de tener una copia de seguridad antes de instalar"
+        ],
+        "resources": [
+          {
+            "title": "Requisitos del sistema",
+            "url": "https://docs.example.com/requirements"
+          },
+          {
+            "title": "Guía de instalación completa",
+            "url": "https://docs.example.com/installation"
+          }
+        ]
+      },
+      {
+        "step_number": 2,
+        "title": "Descargar el instalador correcto",
+        "description": "Descarga la versión correcta del software para tu sistema operativo",
+        "instructions": [
+          "Ve a la página de descargas oficial",
+          "Selecciona tu sistema operativo (Windows, macOS, Linux)",
+          "Descarga el archivo de instalación (.exe, .dmg, .deb, etc.)",
+          "Verifica que la descarga se completó correctamente (revisa el tamaño del archivo)"
+        ],
+        "expected_result": "Archivo de instalación descargado en tu carpeta de descargas",
+        "warnings": [
+          "Solo descarga desde fuentes oficiales para evitar malware",
+          "No descargues desde sitios de terceros no autorizados"
+        ],
+        "resources": [
+          {
+            "title": "Página de descargas",
+            "url": "https://www.example.com/downloads"
+          }
+        ]
+      },
+      {
+        "step_number": 3,
+        "title": "Ejecutar el instalador",
+        "description": "Ejecuta el archivo de instalación y sigue el asistente",
+        "instructions": [
+          "Navega a tu carpeta de descargas",
+          "Haz doble clic en el archivo de instalación",
+          "Si aparece una advertencia de seguridad, haz clic en 'Ejecutar de todas formas' o 'Permitir'",
+          "Sigue las instrucciones del asistente de instalación",
+          "Lee y acepta los términos de servicio si se solicitan",
+          "Selecciona la ubicación de instalación (o usa la predeterminada)"
+        ],
+        "expected_result": "El asistente de instalación se abre y puedes seguir los pasos",
+        "warnings": [
+          "No cierres el instalador durante el proceso",
+          "Asegúrate de tener conexión a internet si se requiere durante la instalación"
+        ],
+        "resources": []
+      },
+      {
+        "step_number": 4,
+        "title": "Completar la instalación",
+        "description": "Espera a que la instalación se complete y verifica que fue exitosa",
+        "instructions": [
+          "Espera a que el instalador termine (puede tomar varios minutos)",
+          "No interrumpas el proceso",
+          "Cuando termine, haz clic en 'Finalizar' o 'Cerrar'",
+          "Verifica que el software aparece en tu menú de aplicaciones o escritorio",
+          "Intenta abrir el software para confirmar que funciona"
+        ],
+        "expected_result": "El software está instalado y se puede abrir correctamente",
+        "warnings": [
+          "Si la instalación falla, anota el mensaje de error exacto",
+          "No intentes instalar múltiples veces sin resolver el error primero"
+        ],
+        "resources": [
+          {
+            "title": "Solución de problemas de instalación",
+            "url": "https://docs.example.com/troubleshooting/installation"
+          }
+        ]
+      }
+    ],
+    "common_issues": [
+      "Error: 'No se puede ejecutar este archivo' - Verifica permisos de administrador",
+      "Error: 'Espacio insuficiente' - Libera espacio en disco",
+      "Error: 'Antivirus bloquea la instalación' - Agrega excepción en tu antivirus",
+      "La instalación se congela - Cierra otras aplicaciones y vuelve a intentar"
+    ],
+    "escalation_criteria": [
+      "Error de instalación que no aparece en los problemas comunes",
+      "Múltiples intentos de instalación fallidos",
+      "Mensajes de error técnicos que no entiendes",
+      "El software se instala pero no se abre"
+    ]
+  },
+  "conexion_internet": {
+    "problem_title": "Problemas de conexión a internet",
+    "problem_description": "El usuario no puede conectarse a internet o la conexión es inestable",
+    "category": "conectividad",
+    "estimated_time": "10-15 minutos",
+    "difficulty": "medio",
+    "prerequisites": [
+      "Acceso físico al router/módem",
+      "Conocimiento básico de configuración de red"
+    ],
+    "steps": [
+      {
+        "step_number": 1,
+        "title": "Verificar conexión física",
+        "description": "Asegúrate de que todos los cables están conectados correctamente",
+        "instructions": [
+          "Revisa que el cable Ethernet esté bien conectado (si usas conexión por cable)",
+          "Verifica que el router/módem esté encendido (luces indicadoras)",
+          "Comprueba que el cable de alimentación del router esté conectado",
+          "Si usas WiFi, verifica que el router esté transmitiendo señal (luces parpadeantes)"
+        ],
+        "expected_result": "Todos los cables están conectados y el router está encendido",
+        "warnings": [
+          "No desconectes cables mientras el router está encendido",
+          "Espera 30 segundos después de conectar cables antes de verificar"
+        ],
+        "resources": [
+          {
+            "title": "Guía de conexión física",
+            "url": "https://docs.example.com/network/physical-connection"
+          }
+        ]
+      },
+      {
+        "step_number": 2,
+        "title": "Reiniciar el router",
+        "description": "Un reinicio simple puede resolver muchos problemas de conexión",
+        "instructions": [
+          "Desconecta el cable de alimentación del router",
+          "Espera 30 segundos",
+          "Vuelve a conectar el cable de alimentación",
+          "Espera 2-3 minutos a que el router se reinicie completamente (todas las luces estables)",
+          "Intenta conectarte nuevamente"
+        ],
+        "expected_result": "El router se reinicia y la conexión se restablece",
+        "warnings": [
+          "No reinicies el router mientras hay actualizaciones en curso",
+          "Espera a que todas las luces estén estables antes de intentar conectar"
+        ],
+        "resources": []
+      },
+      {
+        "step_number": 3,
+        "title": "Verificar configuración de red",
+        "description": "Comprueba que tu dispositivo está configurado correctamente para conectarse",
+        "instructions": [
+          "Abre la configuración de red en tu dispositivo",
+          "Verifica que WiFi o Ethernet esté activado",
+          "Si usas WiFi, verifica que estás conectado a la red correcta",
+          "Intenta olvidar la red WiFi y volver a conectarte (ingresa la contraseña nuevamente)",
+          "Verifica que no estás en modo avión"
+        ],
+        "expected_result": "Tu dispositivo está configurado correctamente para conectarse",
+        "warnings": [
+          "No cambies configuraciones avanzadas sin saber qué hacen",
+          "Anota cualquier cambio que hagas para poder revertirlo"
+        ],
+        "resources": [
+          {
+            "title": "Configuración de red en Windows",
+            "url": "https://docs.example.com/network/windows"
+          },
+          {
+            "title": "Configuración de red en macOS",
+            "url": "https://docs.example.com/network/macos"
+          }
+        ]
+      },
+      {
+        "step_number": 4,
+        "title": "Verificar con otro dispositivo",
+        "description": "Prueba si el problema es del dispositivo o de la conexión en general",
+        "instructions": [
+          "Intenta conectarte con otro dispositivo (teléfono, tablet, otro computador)",
+          "Si otro dispositivo se conecta, el problema es de tu dispositivo original",
+          "Si ningún dispositivo se conecta, el problema es del router o del proveedor de internet",
+          "Anota los resultados para el siguiente paso"
+        ],
+        "expected_result": "Identificación clara de si el problema es del dispositivo o de la red",
+        "warnings": [],
+        "resources": []
+      }
+    ],
+    "common_issues": [
+      "Router no responde - Reinicia el router completamente",
+      "Contraseña WiFi incorrecta - Verifica la contraseña en el router",
+      "Dispositivo no encuentra la red - Acércate al router o verifica el alcance",
+      "Conexión lenta - Cierra aplicaciones que usan mucho ancho de banda"
+    ],
+    "escalation_criteria": [
+      "Ningún dispositivo puede conectarse (posible problema del proveedor)",
+      "Problemas después de seguir todos los pasos",
+      "Errores técnicos específicos del router",
+      "Necesitas cambiar configuración avanzada del router"
+    ]
+  },
+  "error_aplicacion": {
+    "problem_title": "La aplicación muestra un error o se cierra inesperadamente",
+    "problem_description": "La aplicación muestra mensajes de error, se congela o se cierra sin aviso",
+    "category": "error",
+    "estimated_time": "20-30 minutos",
+    "difficulty": "medio",
+    "prerequisites": [
+      "Acceso a la aplicación",
+      "Conocimiento del mensaje de error (si hay)"
+    ],
+    "steps": [
+      {
+        "step_number": 1,
+        "title": "Documentar el error",
+        "description": "Anota exactamente qué error aparece y cuándo ocurre",
+        "instructions": [
+          "Toma una captura de pantalla del mensaje de error",
+          "Anota el texto exacto del error",
+          "Registra qué estabas haciendo cuando ocurrió el error",
+          "Anota la hora y fecha del error",
+          "Verifica si el error ocurre siempre o solo a veces"
+        ],
+        "expected_result": "Tienes documentación clara del error",
+        "warnings": [
+          "No ignores mensajes de error, contienen información importante"
+        ],
+        "resources": [
+          {
+            "title": "Cómo reportar errores",
+            "url": "https://docs.example.com/support/report-bug"
+          }
+        ]
+      },
+      {
+        "step_number": 2,
+        "title": "Cerrar y reiniciar la aplicación",
+        "description": "Un reinicio simple puede resolver problemas temporales",
+        "instructions": [
+          "Cierra completamente la aplicación (no solo minimices)",
+          "En Windows: Usa el Administrador de tareas para asegurarte de que se cerró",
+          "En macOS: Usa el Monitor de Actividad si es necesario",
+          "Espera 10 segundos",
+          "Vuelve a abrir la aplicación",
+          "Intenta reproducir la acción que causaba el error"
+        ],
+        "expected_result": "La aplicación se reinicia y el error no vuelve a aparecer",
+        "warnings": [
+          "Guarda tu trabajo antes de cerrar la aplicación",
+          "No fuerces el cierre si hay datos sin guardar"
+        ],
+        "resources": []
+      },
+      {
+        "step_number": 3,
+        "title": "Verificar actualizaciones",
+        "description": "Asegúrate de tener la versión más reciente de la aplicación",
+        "instructions": [
+          "Abre la aplicación",
+          "Ve a Configuración > Acerca de o Ayuda > Verificar actualizaciones",
+          "Si hay actualizaciones disponibles, instálalas",
+          "Reinicia la aplicación después de actualizar",
+          "Verifica si el error persiste"
+        ],
+        "expected_result": "La aplicación está actualizada a la última versión",
+        "warnings": [
+          "Haz una copia de seguridad antes de actualizar si es posible",
+          "No interrumpas el proceso de actualización"
+        ],
+        "resources": [
+          {
+            "title": "Notas de versión",
+            "url": "https://docs.example.com/releases"
+          }
+        ]
+      },
+      {
+        "step_number": 4,
+        "title": "Limpiar caché y datos temporales",
+        "description": "Los archivos temporales corruptos pueden causar errores",
+        "instructions": [
+          "Cierra la aplicación completamente",
+          "En Windows: Ve a %AppData% y busca la carpeta de la aplicación, elimina la carpeta 'Cache'",
+          "En macOS: Ve a ~/Library/Caches y elimina la carpeta de la aplicación",
+          "Vuelve a abrir la aplicación (se recrearán los archivos temporales)",
+          "Verifica si el error se resolvió"
+        ],
+        "expected_result": "Los archivos temporales se limpian y la aplicación funciona mejor",
+        "warnings": [
+          "Solo elimina carpetas de caché, no elimines archivos de configuración importantes",
+          "Haz una copia de seguridad si no estás seguro"
+        ],
+        "resources": [
+          {
+            "title": "Ubicaciones de archivos de aplicación",
+            "url": "https://docs.example.com/troubleshooting/file-locations"
+          }
+        ]
+      },
+      {
+        "step_number": 5,
+        "title": "Reinstalar la aplicación",
+        "description": "Si nada más funciona, reinstalar puede resolver problemas de instalación corrupta",
+        "instructions": [
+          "Desinstala la aplicación usando el método estándar de tu sistema",
+          "Elimina cualquier archivo residual si se solicita",
+          "Reinicia tu computador",
+          "Descarga e instala la versión más reciente desde el sitio oficial",
+          "Configura la aplicación nuevamente",
+          "Verifica si el error se resolvió"
+        ],
+        "expected_result": "La aplicación se reinstala limpiamente y funciona correctamente",
+        "warnings": [
+          "Haz una copia de seguridad de tus datos antes de desinstalar",
+          "Anota tus configuraciones para poder restaurarlas después"
+        ],
+        "resources": [
+          {
+            "title": "Guía de reinstalación",
+            "url": "https://docs.example.com/installation/reinstall"
+          }
+        ]
+      }
+    ],
+    "common_issues": [
+      "Error: 'Aplicación no responde' - Cierra y reinicia la aplicación",
+      "Error: 'Memoria insuficiente' - Cierra otras aplicaciones",
+      "Error: 'Archivo no encontrado' - Verifica que los archivos necesarios existen",
+      "La aplicación se cierra al abrir - Revisa los logs de error del sistema"
+    ],
+    "escalation_criteria": [
+      "El error persiste después de reinstalar",
+      "El error es crítico y afecta funcionalidad importante",
+      "Mensajes de error técnicos que no entiendes",
+      "Pérdida de datos debido al error"
+    ]
+  },
+  "problema_facturacion": {
+    "problem_title": "Problemas con facturación o pagos",
+    "problem_description": "El usuario tiene problemas con facturas, pagos, cargos o suscripciones",
+    "category": "facturación",
+    "estimated_time": "10-15 minutos",
+    "difficulty": "fácil",
+    "prerequisites": [
+      "Acceso a tu cuenta",
+      "Información de facturación a mano"
+    ],
+    "steps": [
+      {
+        "step_number": 1,
+        "title": "Verificar el estado de tu cuenta",
+        "description": "Revisa el estado actual de tu suscripción y facturación",
+        "instructions": [
+          "Inicia sesión en tu cuenta",
+          "Ve a la sección 'Facturación' o 'Mi Cuenta'",
+          "Revisa el estado de tu suscripción (activa, vencida, cancelada)",
+          "Verifica la fecha de tu último pago",
+          "Revisa si hay facturas pendientes o vencidas"
+        ],
+        "expected_result": "Tienes claridad sobre el estado de tu cuenta y facturación",
+        "warnings": [
+          "No compartas información de tarjeta de crédito por chat o email"
+        ],
+        "resources": [
+          {
+            "title": "Gestión de facturación",
+            "url": "https://docs.example.com/billing"
+          }
+        ]
+      },
+      {
+        "step_number": 2,
+        "title": "Verificar método de pago",
+        "description": "Asegúrate de que tu método de pago está actualizado y válido",
+        "instructions": [
+          "Ve a 'Métodos de pago' en tu cuenta",
+          "Verifica que tu tarjeta de crédito no ha expirado",
+          "Comprueba que la dirección de facturación es correcta",
+          "Si tu tarjeta expiró, actualiza la información",
+          "Verifica que no hay restricciones en tu tarjeta (contacta a tu banco si es necesario)"
+        ],
+        "expected_result": "Tu método de pago está actualizado y válido",
+        "warnings": [
+          "Solo actualiza métodos de pago en sitios seguros (HTTPS)",
+          "No compartas códigos CVV con nadie"
+        ],
+        "resources": [
+          {
+            "title": "Actualizar método de pago",
+            "url": "https://docs.example.com/billing/payment-methods"
+          }
+        ]
+      },
+      {
+        "step_number": 3,
+        "title": "Revisar historial de transacciones",
+        "description": "Revisa tus transacciones recientes para identificar el problema",
+        "instructions": [
+          "Ve a 'Historial de pagos' o 'Transacciones'",
+          "Revisa las transacciones de los últimos 3 meses",
+          "Identifica cualquier cargo duplicado o inesperado",
+          "Verifica que los montos coinciden con tu plan",
+          "Descarga los comprobantes de pago si los necesitas"
+        ],
+        "expected_result": "Tienes claridad sobre tus transacciones recientes",
+        "warnings": [
+          "Guarda los comprobantes de pago para tus registros"
+        ],
+        "resources": [
+          {
+            "title": "Descargar facturas",
+            "url": "https://docs.example.com/billing/invoices"
+          }
+        ]
+      },
+      {
+        "step_number": 4,
+        "title": "Intentar actualizar el método de pago",
+        "description": "Si hay un problema con el pago, intenta actualizar o cambiar el método",
+        "instructions": [
+          "Ve a 'Métodos de pago'",
+          "Intenta actualizar la fecha de expiración si aplica",
+          "O agrega un nuevo método de pago",
+          "Intenta realizar un pago manual si hay facturas pendientes",
+          "Verifica que el pago se procesa correctamente"
+        ],
+        "expected_result": "El método de pago se actualiza y los pagos se procesan",
+        "warnings": [
+          "No intentes pagar múltiples veces si hay un error",
+          "Espera 24 horas después de un intento fallido antes de volver a intentar"
+        ],
+        "resources": []
+      }
+    ],
+    "common_issues": [
+      "Tarjeta rechazada - Verifica fondos y que la tarjeta no esté bloqueada",
+      "Cargo duplicado - Puede ser un cargo pendiente que se procesará, espera 24-48 horas",
+      "Factura no recibida - Revisa tu carpeta de spam y configuración de email",
+      "Suscripción cancelada por error - Puedes reactivarla desde tu cuenta"
+    ],
+    "escalation_criteria": [
+      "Cargos no autorizados o fraudulentos",
+      "Problemas que no se resuelven después de actualizar el método de pago",
+      "Necesitas reembolsos o ajustes de facturación",
+      "Errores técnicos al procesar pagos"
+    ]
+  },
+  "recuperar_cuenta": {
+    "problem_title": "No puedo acceder a mi cuenta",
+    "problem_description": "El usuario no puede iniciar sesión o recuperar acceso a su cuenta",
+    "category": "cuenta",
+    "estimated_time": "5-10 minutos",
+    "difficulty": "fácil",
+    "prerequisites": [
+      "Acceso al email asociado a la cuenta",
+      "Acceso a teléfono si hay autenticación de dos factores"
+    ],
+    "steps": [
+      {
+        "step_number": 1,
+        "title": "Verificar credenciales",
+        "description": "Asegúrate de estar usando el email y contraseña correctos",
+        "instructions": [
+          "Verifica que estás usando el email correcto (revisa mayúsculas/minúsculas)",
+          "Asegúrate de que no hay espacios adicionales antes o después del email",
+          "Intenta escribir la contraseña en un editor de texto para verla y copiarla",
+          "Verifica que no estás usando la contraseña de otra cuenta",
+          "Intenta iniciar sesión nuevamente"
+        ],
+        "expected_result": "Puedes iniciar sesión con las credenciales correctas",
+        "warnings": [
+          "No compartas tu contraseña con nadie",
+          "Asegúrate de estar en el sitio web oficial, no en una copia fraudulenta"
+        ],
+        "resources": [
+          {
+            "title": "Problemas comunes de inicio de sesión",
+            "url": "https://docs.example.com/account/login-issues"
+          }
+        ]
+      },
+      {
+        "step_number": 2,
+        "title": "Restablecer contraseña",
+        "description": "Si olvidaste tu contraseña, restablécela usando el proceso oficial",
+        "instructions": [
+          "Ve a la página de inicio de sesión",
+          "Haz clic en '¿Olvidaste tu contraseña?' o 'Restablecer contraseña'",
+          "Ingresa el email asociado a tu cuenta",
+          "Revisa tu bandeja de entrada (y carpeta de spam) para el email de restablecimiento",
+          "Haz clic en el enlace del email (expira en 1 hora)",
+          "Crea una nueva contraseña segura (mínimo 8 caracteres, con mayúsculas, minúsculas y números)",
+          "Confirma la nueva contraseña",
+          "Intenta iniciar sesión con la nueva contraseña"
+        ],
+        "expected_result": "Recibes el email y puedes restablecer tu contraseña",
+        "warnings": [
+          "El enlace de restablecimiento expira en 1 hora",
+          "No compartas el enlace de restablecimiento con nadie",
+          "Usa una contraseña única que no uses en otros sitios"
+        ],
+        "resources": [
+          {
+            "title": "Crear contraseñas seguras",
+            "url": "https://docs.example.com/security/passwords"
+          }
+        ]
+      },
+      {
+        "step_number": 3,
+        "title": "Verificar autenticación de dos factores",
+        "description": "Si tienes 2FA activado, asegúrate de tener acceso a tu dispositivo de autenticación",
+        "instructions": [
+          "Si usas una app de autenticación (Google Authenticator, Authy), ábrela",
+          "Ingresa el código de 6 dígitos cuando se solicite",
+          "Si usas SMS, verifica que tienes acceso a tu teléfono",
+          "Si perdiste acceso a tu dispositivo 2FA, busca la opción 'Perdí mi dispositivo'",
+          "Sigue el proceso de recuperación de 2FA (puede requerir códigos de respaldo)"
+        ],
+        "expected_result": "Puedes completar la autenticación de dos factores",
+        "warnings": [
+          "Guarda tus códigos de respaldo de 2FA en un lugar seguro",
+          "No compartas códigos 2FA con nadie"
+        ],
+        "resources": [
+          {
+            "title": "Recuperar acceso con 2FA",
+            "url": "https://docs.example.com/security/2fa-recovery"
+          }
+        ]
+      },
+      {
+        "step_number": 4,
+        "title": "Verificar bloqueo de cuenta",
+        "description": "Verifica si tu cuenta está bloqueada por seguridad",
+        "instructions": [
+          "Revisa si recibiste un email sobre bloqueo de cuenta",
+          "Si tu cuenta está bloqueada, sigue las instrucciones del email",
+          "Espera el tiempo indicado antes de volver a intentar (generalmente 15-30 minutos)",
+          "Si no recibiste email, verifica tu carpeta de spam",
+          "Contacta a soporte si crees que tu cuenta fue bloqueada por error"
+        ],
+        "expected_result": "Entiendes si tu cuenta está bloqueada y cómo desbloquearla",
+        "warnings": [
+          "No intentes iniciar sesión múltiples veces si la cuenta está bloqueada",
+          "Espera el tiempo indicado antes de volver a intentar"
+        ],
+        "resources": [
+          {
+            "title": "Cuenta bloqueada - Qué hacer",
+            "url": "https://docs.example.com/account/account-locked"
+          }
+        ]
+      }
+    ],
+    "common_issues": [
+      "Email de restablecimiento no llega - Revisa spam, espera 5 minutos, verifica el email correcto",
+      "Enlace de restablecimiento expirado - Solicita un nuevo enlace",
+      "Código 2FA incorrecto - Verifica que la hora de tu dispositivo esté sincronizada",
+      "Cuenta bloqueada - Espera 15-30 minutos antes de volver a intentar"
+    ],
+    "escalation_criteria": [
+      "No recibes el email de restablecimiento después de múltiples intentos",
+      "Tu cuenta fue hackeada o comprometida",
+      "Necesitas recuperar una cuenta sin acceso al email",
+      "Problemas técnicos con el proceso de restablecimiento"
+    ]
+  }
+}
+
+
+

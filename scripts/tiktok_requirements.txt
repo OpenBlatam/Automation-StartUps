@@ -1,0 +1,44 @@
+# Requisitos para scripts de TikTok Auto Edit
+# ===========================================
+
+# Descarga de videos de TikTok
+yt-dlp>=2023.12.30
+
+# Procesamiento de video y análisis
+opencv-python>=4.8.0
+numpy>=1.24.0
+
+# Edición de video
+moviepy>=1.0.3
+
+# IA para análisis de video
+openai>=1.0.0
+
+# Utilidades
+Pillow>=10.0.0
+
+# API REST y Webhooks
+flask>=2.3.0
+flask-cors>=4.0.0
+
+# Notificaciones y HTTP
+requests>=2.28.0
+
+# Optimización y monitoreo
+psutil>=5.9.0
+
+# Seguridad
+cryptography>=41.0.0
+
+# Analytics y base de datos
+# sqlite3 - incluido en Python estándar
+
+# Procesamiento paralelo
+# concurrent.futures - incluido en Python estándar
+
+# Seguridad (para webhooks)
+# hmac, hashlib - incluidos en Python estándar
+
+# Logging mejorado (incluido en stdlib, pero útil para debugging)
+# logging - incluido en Python estándar
+

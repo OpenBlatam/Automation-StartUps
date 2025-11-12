@@ -1,0 +1,3560 @@
+{
+  "name": "TikTok Downloader - WhatsApp y Telegram (Mejorado)",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ]
+      },
+      "id": "telegram-trigger",
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "telegram-tiktok-downloader",
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "whatsapp-tiktok",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "whatsapp-webhook",
+      "name": "WhatsApp Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [250, 500],
+      "webhookId": "whatsapp-tiktok-webhook"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extraer mensaje y chat ID según la fuente con mejor detección\nconst crypto = require('crypto');\n\nlet messageText = '';\nlet chatId = '';\nlet messageId = '';\nlet source = '';\nlet userId = '';\nlet username = '';\n\n// Detectar si viene de Telegram\nif ($json.message && $json.message.text) {\n  messageText = $json.message.text;\n  chatId = $json.message.chat.id;\n  messageId = $json.message.message_id;\n  userId = $json.message.from?.id?.toString() || '';\n  username = $json.message.from?.username || $json.message.from?.first_name || '';\n  source = 'telegram';\n}\n// Detectar si viene de WhatsApp\nelse if ($json.body && $json.body.message) {\n  messageText = $json.body.message.text || $json.body.message.body || '';\n  chatId = $json.body.from || $json.body.wa_id || '';\n  messageId = $json.body.id || '';\n  userId = chatId;\n  source = 'whatsapp';\n}\n// Detectar si viene directamente como texto\nelse if ($json.text || $json.message) {\n  messageText = $json.text || $json.message;\n  chatId = $json.chatId || $json.chat_id || '';\n  userId = chatId;\n  source = 'webhook';\n}\n\n// Crear hash único para el mensaje\nconst messageHash = crypto.createHash('md5')\n  .update(`${source}-${chatId}-${messageId}-${Date.now()}`)\n  .digest('hex');\n\nreturn {\n  json: {\n    messageText: messageText,\n    chatId: chatId,\n    messageId: messageId,\n    userId: userId,\n    username: username,\n    source: source,\n    messageHash: messageHash,\n    timestamp: new Date().toISOString(),\n    originalData: $json\n  }\n};"
+      },
+      "id": "extract-message",
+      "name": "Extract Message",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [450, 400]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "has-text",
+              "leftValue": "={{ $json.messageText }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "filter-has-text",
+      "name": "Filter Has Text",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [650, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Rate Limiting y Validación de Usuario\nconst MAX_REQUESTS_PER_HOUR = parseInt($env.MAX_REQUESTS_PER_HOUR || '10');\nconst MAX_REQUESTS_PER_DAY = parseInt($env.MAX_REQUESTS_PER_DAY || '50');\nconst RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1 hora\nconst DAY_WINDOW = 24 * 60 * 60 * 1000; // 24 horas\n\n// Lista de usuarios permitidos (opcional, dejar vacío para permitir todos)\nconst ALLOWED_USERS = ($env.ALLOWED_USERS || '').split(',').filter(u => u.trim());\nconst BLOCKED_USERS = ($env.BLOCKED_USERS || '').split(',').filter(u => u.trim());\n\nconst userId = $json.userId.toString();\nconst now = Date.now();\n\n// Verificar lista de bloqueados\nif (BLOCKED_USERS.length > 0 && BLOCKED_USERS.includes(userId)) {\n  return {\n    json: {\n      ...$input.item.json,\n      rateLimit: {\n        allowed: false,\n        reason: 'Usuario bloqueado'\n      }\n    }\n  };\n}\n\n// Verificar lista de permitidos (si está configurada)\nif (ALLOWED_USERS.length > 0 && !ALLOWED_USERS.includes(userId)) {\n  return {\n    json: {\n      ...$input.item.json,\n      rateLimit: {\n        allowed: false,\n        reason: 'Usuario no autorizado'\n      }\n    }\n  };\n}\n\n// Obtener historial de rate limiting\nconst rateLimitHistory = $workflow.staticData.rateLimitHistory || {};\nconst userHistory = rateLimitHistory[userId] || { requests: [], dailyCount: 0, lastReset: now };\n\n// Resetear contador diario si pasó un día\nif (now - userHistory.lastReset > DAY_WINDOW) {\n  userHistory.dailyCount = 0;\n  userHistory.lastReset = now;\n}\n\n// Filtrar requests dentro de la ventana de tiempo\nconst recentRequests = userHistory.requests.filter(\n  timestamp => now - timestamp < RATE_LIMIT_WINDOW\n);\n\n// Verificar límites\nconst hourlyCount = recentRequests.length;\nconst dailyCount = userHistory.dailyCount;\n\nif (hourlyCount >= MAX_REQUESTS_PER_HOUR) {\n  const oldestRequest = Math.min(...recentRequests);\n  const waitTime = (oldestRequest + RATE_LIMIT_WINDOW) - now;\n  return {\n    json: {\n      ...$input.item.json,\n      rateLimit: {\n        allowed: false,\n        reason: 'Límite horario excedido',\n        hourlyCount: hourlyCount,\n        maxHourly: MAX_REQUESTS_PER_HOUR,\n        waitTime: Math.ceil(waitTime / 1000 / 60) // minutos\n      }\n    }\n  };\n}\n\nif (dailyCount >= MAX_REQUESTS_PER_DAY) {\n  return {\n    json: {\n      ...$input.item.json,\n      rateLimit: {\n        allowed: false,\n        reason: 'Límite diario excedido',\n        dailyCount: dailyCount,\n        maxDaily: MAX_REQUESTS_PER_DAY\n      }\n    }\n  };\n}\n\n// Agregar request actual\nrecentRequests.push(now);\nuserHistory.requests = recentRequests;\nuserHistory.dailyCount = dailyCount + 1;\nrateLimitHistory[userId] = userHistory;\n$workflow.staticData.rateLimitHistory = rateLimitHistory;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    rateLimit: {\n      allowed: true,\n      hourlyCount: hourlyCount + 1,\n      dailyCount: dailyCount + 1,\n      remainingHourly: MAX_REQUESTS_PER_HOUR - (hourlyCount + 1),\n      remainingDaily: MAX_REQUESTS_PER_DAY - (dailyCount + 1)\n    }\n  }\n};"
+      },
+      "id": "rate-limiting",
+      "name": "Rate Limiting",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [850, 400]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "rate-limit-allowed",
+              "leftValue": "={{ $json.rateLimit?.allowed }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-rate-limit",
+      "name": "Check Rate Limit",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1050, 400]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "text": "=⚠️ {{ $json.rateLimit.reason }}\n\n{{ $json.rateLimit.waitTime ? 'Espera ' + $json.rateLimit.waitTime + ' minutos antes de intentar de nuevo.' : '' }}\n\nLímites:\n• Por hora: {{ $json.rateLimit.hourlyCount || 0 }}/{{ $json.rateLimit.maxHourly || 10 }}\n• Por día: {{ $json.rateLimit.dailyCount || 0 }}/{{ $json.rateLimit.maxDaily || 50 }}",
+        "additionalFields": {}
+      },
+      "id": "send-rate-limit-error",
+      "name": "Send Rate Limit Error",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [1050, 600],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Detección mejorada multi-plataforma con comandos especiales\nconst messageText = $json.messageText || '';\nconst crypto = require('crypto');\n\n// Detectar comandos especiales y filtros\nconst commands = {\n  audio: /\\/audio|audio|mp3|solo audio/i.test(messageText),\n  hd: /\\/hd|hd|alta calidad|high quality/i.test(messageText),\n  info: /\\/info|info|informaci[oó]n/i.test(messageText),\n  stats: /\\/stats|estad[ií]sticas|stats/i.test(messageText),\n  help: /\\/help|ayuda|help|comandos/i.test(messageText),\n  favorite: /\\/favorite|favorito|guardar|save/i.test(messageText),\n  history: /\\/history|historial|mis videos/i.test(messageText),\n  favorites: /\\/favorites|favoritos|guardados/i.test(messageText),\n  silent: /\\/silent|silencioso|quiet/i.test(messageText),\n  verbose: /\\/verbose|detallado|detailed/i.test(messageText),\n  search: /\\/search|buscar|find/i.test(messageText),\n  export: /\\/export|exportar|descargar datos/i.test(messageText),\n  admin: /\\/admin|administrador/i.test(messageText),\n  analyze: /\\/analyze|analizar|tags/i.test(messageText),\n  recommend: /\\/recommend|recomendar|sugerencias/i.test(messageText),\n  share: /\\/share|compartir/i.test(messageText),\n  schedule: /\\/schedule|programar/i.test(messageText)\n};\n\n// Detectar filtros de contenido\nconst filters = {\n  minDuration: (messageText.match(/min[\\s:]*([0-9]+)[\\s]*(?:s|sec|seg|segundos)/i) || [])[1],\n  maxDuration: (messageText.match(/max[\\s:]*([0-9]+)[\\s]*(?:s|sec|seg|segundos)/i) || [])[1],\n  quality: /quality[\\s:]*([0-9]+p|hd|sd|low|medium|high)/i.test(messageText) ? messageText.match(/quality[\\s:]*([0-9]+p|hd|sd|low|medium|high)/i)[1] : null\n};\n\n// Patrones para TikTok\nconst tiktokPatterns = [\n  /(?:https?:\\/\\/)?(?:www\\.)?(?:vm\\.|vt\\.)?tiktok\\.com\\/(?:@[\\w.]+\\/video\\/\\d+|t\\/[a-zA-Z0-9]+)/gi,\n  /(?:https?:\\/\\/)?(?:www\\.)?tiktok\\.com\\/.*\\/video\\/\\d+/gi,\n  /(?:https?:\\/\\/)?(?:vm\\.|vt\\.)tiktok\\.com\\/[a-zA-Z0-9]+/gi,\n  /(?:https?:\\/\\/)?(?:m\\.)?tiktok\\.com\\/v\\/\\d+/gi,\n  /(?:https?:\\/\\/)?(?:www\\.)?tiktok\\.com\\/@[\\w.]+\\/video\\/\\d+/gi\n];\n\n// Patrones para Instagram Reels\nconst instagramPatterns = [\n  /(?:https?:\\/\\/)?(?:www\\.)?instagram\\.com\\/(?:reel|p)\\/([a-zA-Z0-9_-]+)/gi,\n  /(?:https?:\\/\\/)?(?:www\\.)?instagram\\.com\\/.*\\/reel\\/([a-zA-Z0-9_-]+)/gi\n];\n\n// Patrones para YouTube Shorts\nconst youtubePatterns = [\n  /(?:https?:\\/\\/)?(?:www\\.)?(?:youtube\\.com\\/shorts\\/|youtu\\.be\\/)([a-zA-Z0-9_-]+)/gi,\n  /(?:https?:\\/\\/)?(?:www\\.)?youtube\\.com\\/watch\\?v=([a-zA-Z0-9_-]+).*&t=\\d+s/gi\n];\n\n// Patrones para Twitter/X\nconst twitterPatterns = [\n  /(?:https?:\\/\\/)?(?:www\\.)?(?:twitter\\.com|x\\.com)\\/[\\w]+\/status\\/(\\d+)/gi,\n  /(?:https?:\\/\\/)?(?:mobile\\.)?(?:twitter\\.com|x\\.com)\\/[\\w]+\/status\\/(\\d+)/gi\n];\n\n// Patrones para Facebook\nconst facebookPatterns = [\n  /(?:https?:\\/\\/)?(?:www\\.)?facebook\\.com\\/(?:watch|videos)\\/(?:\\?v=|\\d+)/gi,\n  /(?:https?:\\/\\/)?(?:www\\.)?fb\\.watch\\/[a-zA-Z0-9_-]+/gi\n];\n\nlet allUrls = [];\nlet platform = 'unknown';\n\n// Buscar enlaces de TikTok\nfor (const pattern of tiktokPatterns) {\n  const matches = messageText.match(pattern);\n  if (matches) {\n    matches.forEach(match => {\n      let url = match.trim();\n      if (!url.startsWith('http')) url = 'https://' + url;\n      try {\n        const urlObj = new URL(url);\n        if (urlObj.hostname.includes('tiktok.com') && !allUrls.find(u => u.url === url)) {\n          allUrls.push({ url, platform: 'tiktok' });\n          if (platform === 'unknown') platform = 'tiktok';\n        }\n      } catch (e) {}\n    });\n  }\n}\n\n// Buscar enlaces de Instagram Reels\nfor (const pattern of instagramPatterns) {\n  const matches = messageText.match(pattern);\n  if (matches) {\n    matches.forEach(match => {\n      let url = match.trim();\n      if (!url.startsWith('http')) url = 'https://' + url;\n      try {\n        const urlObj = new URL(url);\n        if (urlObj.hostname.includes('instagram.com') && !allUrls.find(u => u.url === url)) {\n          allUrls.push({ url, platform: 'instagram' });\n          if (platform === 'unknown') platform = 'instagram';\n        }\n      } catch (e) {}\n    });\n  }\n}\n\n// Buscar enlaces de YouTube Shorts\nfor (const pattern of youtubePatterns) {\n  const matches = messageText.match(pattern);\n  if (matches) {\n    matches.forEach(match => {\n      let url = match.trim();\n      if (!url.startsWith('http')) url = 'https://' + url;\n      try {\n        const urlObj = new URL(url);\n        if (urlObj.hostname.includes('youtube.com') || urlObj.hostname.includes('youtu.be')) {\n          if (!allUrls.find(u => u.url === url)) {\n            allUrls.push({ url, platform: 'youtube' });\n            if (platform === 'unknown') platform = 'youtube';\n          }\n        }\n      } catch (e) {}\n    });\n  }\n}\n\n// Buscar enlaces de Twitter/X\nfor (const pattern of twitterPatterns) {\n  const matches = messageText.match(pattern);\n  if (matches) {\n    matches.forEach(match => {\n      let url = match.trim();\n      if (!url.startsWith('http')) url = 'https://' + url;\n      try {\n        const urlObj = new URL(url);\n        if ((urlObj.hostname.includes('twitter.com') || urlObj.hostname.includes('x.com')) && !allUrls.find(u => u.url === url)) {\n          allUrls.push({ url, platform: 'twitter' });\n          if (platform === 'unknown') platform = 'twitter';\n        }\n      } catch (e) {}\n    });\n  }\n}\n\n// Buscar enlaces de Facebook\nfor (const pattern of facebookPatterns) {\n  const matches = messageText.match(pattern);\n  if (matches) {\n    matches.forEach(match => {\n      let url = match.trim();\n      if (!url.startsWith('http')) url = 'https://' + url;\n      try {\n        const urlObj = new URL(url);\n        if ((urlObj.hostname.includes('facebook.com') || urlObj.hostname.includes('fb.watch')) && !allUrls.find(u => u.url === url)) {\n          allUrls.push({ url, platform: 'facebook' });\n          if (platform === 'unknown') platform = 'facebook';\n        }\n      } catch (e) {}\n    });\n  }\n}\n\n// Si no se encontró con patrones, buscar en el texto completo\nif (allUrls.length === 0) {\n  const urlPattern = /(https?:\\/\\/[^\\s]+)/gi;\n  const urlMatches = messageText.match(urlPattern);\n  if (urlMatches) {\n    urlMatches.forEach(match => {\n      try {\n        const urlObj = new URL(match.trim());\n        const hostname = urlObj.hostname.toLowerCase();\n        let detectedPlatform = 'unknown';\n        \n        if (hostname.includes('tiktok.com')) detectedPlatform = 'tiktok';\n        else if (hostname.includes('instagram.com')) detectedPlatform = 'instagram';\n        else if (hostname.includes('youtube.com') || hostname.includes('youtu.be')) detectedPlatform = 'youtube';\n        else if (hostname.includes('twitter.com') || hostname.includes('x.com')) detectedPlatform = 'twitter';\n        else if (hostname.includes('facebook.com') || hostname.includes('fb.watch')) detectedPlatform = 'facebook';\n        \n        if (detectedPlatform !== 'unknown' && !allUrls.find(u => u.url === match.trim())) {\n          allUrls.push({ url: match.trim(), platform: detectedPlatform });\n          if (platform === 'unknown') platform = detectedPlatform;\n        }\n      } catch (e) {}\n    });\n  }\n}\n\n// Extraer URLs por plataforma\nconst tiktokUrls = allUrls.filter(u => u.platform === 'tiktok').map(u => u.url);\nconst instagramUrls = allUrls.filter(u => u.platform === 'instagram').map(u => u.url);\nconst youtubeUrls = allUrls.filter(u => u.platform === 'youtube').map(u => u.url);\nconst twitterUrls = allUrls.filter(u => u.platform === 'twitter').map(u => u.url);\nconst facebookUrls = allUrls.filter(u => u.platform === 'facebook').map(u => u.url);\n\n// Crear hash para cache\nconst urlHash = allUrls.length > 0 ? crypto.createHash('md5').update(allUrls[0].url).digest('hex') : null;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    tiktokUrls: tiktokUrls,\n    instagramUrls: instagramUrls,\n    youtubeUrls: youtubeUrls,\n    twitterUrls: twitterUrls,\n    facebookUrls: facebookUrls,\n    allUrls: allUrls.map(u => u.url),\n    tiktokUrl: tiktokUrls[0] || instagramUrls[0] || youtubeUrls[0] || twitterUrls[0] || facebookUrls[0] || null,\n    urlHash: urlHash,\n    hasTikTokLink: tiktokUrls.length > 0,\n    hasInstagramLink: instagramUrls.length > 0,\n    hasYouTubeLink: youtubeUrls.length > 0,\n    hasTwitterLink: twitterUrls.length > 0,\n    hasFacebookLink: facebookUrls.length > 0,\n    hasAnyLink: allUrls.length > 0,\n    linkCount: allUrls.length,\n    platform: platform,\n    commands: commands,\n    downloadAudio: commands.audio,\n    downloadHD: commands.hd,\n    showInfo: commands.info,\n    showStats: commands.stats,\n    showHelp: commands.help,\n    addFavorite: commands.favorite,\n    showHistory: commands.history,\n    showFavorites: commands.favorites,\n    silentMode: commands.silent,\n    verboseMode: commands.verbose,\n    searchMode: commands.search,\n    exportData: commands.export,\n    adminMode: commands.admin,\n    analyzeContent: commands.analyze,\n    recommendMode: commands.recommend,\n    shareMode: commands.share,\n    scheduleMode: commands.schedule,\n    filters: filters,\n    minDuration: filters.minDuration ? parseInt(filters.minDuration) : null,\n    maxDuration: filters.maxDuration ? parseInt(filters.maxDuration) : null,\n    qualityFilter: filters.quality\n  }\n};"
+      },
+      "id": "detect-tiktok-link",
+      "name": "Detect Links Multi-Platform",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1250, 400]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "has-any-link",
+              "leftValue": "={{ $json.hasAnyLink }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-tiktok-link",
+      "name": "Check Any Link",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1450, 400]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "show-help",
+              "leftValue": "={{ $json.showHelp }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-help-command",
+      "name": "Check Help Command",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1450, 200]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "text": "=📚 *Comandos Disponibles*\n\n*Descargar videos:*\n• Envía un enlace de TikTok, Instagram Reels o YouTube Shorts\n• El bot descargará automáticamente el video sin marca de agua\n\n*Comandos especiales:*\n• `/audio` o `audio` - Descargar solo el audio (MP3)\n• `/hd` o `hd` - Descargar en alta calidad\n• `/info` o `info` - Ver información del video\n• `/stats` o `stats` - Ver estadísticas de uso\n• `/history` o `history` - Ver tu historial de descargas\n• `/favorite` o `favorite` - Guardar video en favoritos\n• `/favorites` o `favorites` - Ver tus videos favoritos\n• `/silent` o `silent` - Modo silencioso (sin notificaciones)\n• `/search` o `search` - Buscar en tu historial\n• `/export` o `export` - Exportar tus datos (JSON)\n• `/analyze` o `analyze` - Analizar contenido del video\n• `/recommend` o `recommend` - Obtener recomendaciones basadas en tu historial\n• `/share` o `share` - Compartir video con otros usuarios\n• `/schedule` o `schedule` - Programar descarga para más tarde\n• `/admin` o `admin` - Comandos de administración (requiere permisos)\n• `/report` o `report` - Ver reporte avanzado con analytics\n• `/help` o `help` - Mostrar esta ayuda\n\n*Comandos de administración:*\n• `/admin stats` - Estadísticas globales\n• `/admin users` - Lista de usuarios activos\n• `/admin block <userId>` - Bloquear usuario\n• `/admin unblock <userId>` - Desbloquear usuario\n• `/admin cache clear` - Limpiar cache\n• `/admin reset <userId>` - Resetear rate limits\n• `/admin export` - Exportar todos los datos\n• `/admin help` - Ayuda de administración\n\n*Filtros avanzados:*\n• `min:30s` - Duración mínima en segundos\n• `max:60s` - Duración máxima en segundos\n• `quality:hd` - Filtrar por calidad (hd, sd, 720p, 1080p)\n\n*Ejemplos:*\n• `https://tiktok.com/@user/video/123 audio`\n• `https://instagram.com/reel/ABC hd`\n• `https://twitter.com/user/status/123`\n• `https://facebook.com/watch?v=123`\n\n*Plataformas soportadas:*\n✅ TikTok\n✅ Instagram Reels\n✅ YouTube Shorts\n✅ Twitter/X\n✅ Facebook",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "send-help-message",
+      "name": "Send Help Message",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [1650, 200],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "show-stats",
+              "leftValue": "={{ $json.showStats }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-stats-command",
+      "name": "Check Stats Command",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1450, 100]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Generar estadísticas del usuario\nconst stats = $workflow.staticData.stats || { total: 0, success: 0, failed: 0 };\nconst rateLimitHistory = $workflow.staticData.rateLimitHistory || {};\nconst userHistory = rateLimitHistory[$json.userId] || { requests: [], dailyCount: 0 };\nconst urlCache = $workflow.staticData.urlCache || {};\n\nconst userStats = {\n  totalRequests: userHistory.dailyCount || 0,\n  hourlyRequests: userHistory.requests?.length || 0,\n  globalTotal: stats.total || 0,\n  globalSuccess: stats.success || 0,\n  globalFailed: stats.failed || 0,\n  cacheSize: Object.keys(urlCache).length,\n  successRate: stats.total > 0 ? ((stats.success / stats.total) * 100).toFixed(1) : '0.0'\n};\n\nreturn {\n  json: {\n    ...$input.item.json,\n    userStats: userStats\n  }\n};"
+      },
+      "id": "generate-stats",
+      "name": "Generate Stats",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 100]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "text": "=📊 *Estadísticas*\n\n*Tus estadísticas:*\n• Requests hoy: {{ $json.userStats.totalRequests }}\n• Requests esta hora: {{ $json.userStats.hourlyRequests }}\n\n*Estadísticas globales:*\n• Total procesados: {{ $json.userStats.globalTotal }}\n• Exitosos: {{ $json.userStats.globalSuccess }}\n• Fallidos: {{ $json.userStats.globalFailed }}\n• Tasa de éxito: {{ $json.userStats.successRate }}%\n• Videos en cache: {{ $json.userStats.cacheSize }}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "send-stats-message",
+      "name": "Send Stats Message",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [1850, 100],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "show-history",
+              "leftValue": "={{ $json.showHistory }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-history-command",
+      "name": "Check History Command",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1450, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Obtener historial del usuario desde base de datos o workflow data\nconst userId = $json.userId;\nconst ENABLE_DB_HISTORY = $env.ENABLE_DB_HISTORY === 'true';\n\nlet history = [];\n\nif (ENABLE_DB_HISTORY) {\n  // Si hay base de datos, obtener desde ahí\n  // Por ahora usamos workflow static data\n  const dbHistory = $workflow.staticData.dbHistory || {};\n  history = dbHistory[userId] || [];\n} else {\n  // Usar cache como historial\n  const urlCache = $workflow.staticData.urlCache || {};\n  history = Object.values(urlCache)\n    .filter(entry => entry.userId === userId)\n    .sort((a, b) => b.timestamp - a.timestamp)\n    .slice(0, 20) // Últimos 20\n    .map(entry => ({\n      url: entry.originalUrl || '',\n      title: entry.videoTitle || '',\n      author: entry.videoAuthor || '',\n      timestamp: entry.timestamp,\n      date: new Date(entry.timestamp).toLocaleString()\n    }));\n}\n\nreturn {\n  json: {\n    ...$input.item.json,\n    userHistory: history,\n    historyCount: history.length\n  }\n};"
+      },
+      "id": "get-user-history",
+      "name": "Get User History",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 0]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "text": "=📜 *Tu Historial*\n\n{{ $json.historyCount > 0 ? 'Últimos videos descargados:' : 'No tienes videos en tu historial.' }}\n\n{{ $json.userHistory.slice(0, 10).map((item, idx) => `${idx + 1}. ${item.title || 'Sin título'}${item.author ? ' - @' + item.author : ''}\\n   ${item.date}`).join('\\n\\n') }}\n\n{{ $json.historyCount > 10 ? `\\n... y ${$json.historyCount - 10} más` : '' }}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "send-history-message",
+      "name": "Send History Message",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [1850, 0],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "show-favorites",
+              "leftValue": "={{ $json.showFavorites }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-favorites-command",
+      "name": "Check Favorites Command",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1450, -100]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Obtener favoritos del usuario\nconst userId = $json.userId;\nconst favorites = $workflow.staticData.favorites || {};\nconst userFavorites = favorites[userId] || [];\n\nreturn {\n  json: {\n    ...$input.item.json,\n    userFavorites: userFavorites,\n    favoritesCount: userFavorites.length\n  }\n};"
+      },
+      "id": "get-user-favorites",
+      "name": "Get User Favorites",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, -100]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "text": "=⭐ *Tus Favoritos*\n\n{{ $json.favoritesCount > 0 ? 'Videos guardados:' : 'No tienes videos favoritos. Usa `/favorite` junto con un enlace para guardar.' }}\n\n{{ $json.userFavorites.map((item, idx) => `${idx + 1}. ${item.title || 'Sin título'}${item.author ? ' - @' + item.author : ''}\\n   ${item.url ? item.url.substring(0, 50) + '...' : ''}`).join('\\n\\n') }}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "send-favorites-message",
+      "name": "Send Favorites Message",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [1850, -100],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "search-mode",
+              "leftValue": "={{ $json.searchMode }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-search-command",
+      "name": "Check Search Command",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1450, -200]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Buscar en historial y favoritos\nconst userId = $json.userId;\nconst searchQuery = $json.messageText.replace(/\\/search|search|buscar|find/gi, '').trim();\n\n// Obtener historial y favoritos\nconst dbHistory = $workflow.staticData.dbHistory || {};\nconst userHistory = dbHistory[userId] || [];\nconst favorites = $workflow.staticData.favorites || {};\nconst userFavorites = favorites[userId] || [];\n\n// Buscar en historial\nconst historyResults = userHistory.filter(item => {\n  const searchLower = searchQuery.toLowerCase();\n  return (\n    (item.title || '').toLowerCase().includes(searchLower) ||\n    (item.author || '').toLowerCase().includes(searchLower) ||\n    (item.url || '').toLowerCase().includes(searchLower) ||\n    (item.platform || '').toLowerCase().includes(searchLower)\n  );\n}).slice(0, 10);\n\n// Buscar en favoritos\nconst favoritesResults = userFavorites.filter(item => {\n  const searchLower = searchQuery.toLowerCase();\n  return (\n    (item.title || '').toLowerCase().includes(searchLower) ||\n    (item.author || '').toLowerCase().includes(searchLower) ||\n    (item.url || '').toLowerCase().includes(searchLower)\n  );\n}).slice(0, 10);\n\nreturn {\n  json: {\n    ...$input.item.json,\n    searchQuery: searchQuery,\n    historyResults: historyResults,\n    favoritesResults: favoritesResults,\n    totalResults: historyResults.length + favoritesResults.length\n  }\n};"
+      },
+      "id": "search-content",
+      "name": "Search Content",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, -200]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "text": "=🔍 *Resultados de Búsqueda*\n\n*Búsqueda:* `{{ $json.searchQuery || 'vacía' }}`\n*Total encontrados:* {{ $json.totalResults }}\n\n{{ $json.historyResults.length > 0 ? '\\n*En historial:*\\n' + $json.historyResults.map((item, idx) => `${idx + 1}. ${item.title || 'Sin título'}${item.author ? ' - @' + item.author : ''}\\n   ${item.url ? item.url.substring(0, 50) + '...' : ''}`).join('\\n\\n') : '' }}\n\n{{ $json.favoritesResults.length > 0 ? '\\n*En favoritos:*\\n' + $json.favoritesResults.map((item, idx) => `${idx + 1}. ${item.title || 'Sin título'}${item.author ? ' - @' + item.author : ''}`).join('\\n\\n') : '' }}\n\n{{ $json.totalResults === 0 ? '\\n❌ No se encontraron resultados.' : '' }}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "send-search-results",
+      "name": "Send Search Results",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [1850, -200],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "export-data",
+              "leftValue": "={{ $json.exportData }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-export-command",
+      "name": "Check Export Command",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1450, -300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Exportar datos del usuario\nconst userId = $json.userId;\nconst dbHistory = $workflow.staticData.dbHistory || {};\nconst favorites = $workflow.staticData.favorites || {};\nconst urlCache = $workflow.staticData.urlCache || {};\n\n// Obtener datos del usuario\nconst userHistory = dbHistory[userId] || [];\nconst userFavorites = favorites[userId] || [];\nconst userCache = Object.values(urlCache).filter(entry => entry.userId === userId);\n\n// Preparar datos para exportación\nconst exportData = {\n  userId: userId,\n  username: $json.username,\n  exportDate: new Date().toISOString(),\n  history: userHistory.map(item => ({\n    url: item.url,\n    title: item.title,\n    author: item.author,\n    platform: item.platform,\n    timestamp: item.timestamp,\n    date: new Date(item.timestamp).toISOString()\n  })),\n  favorites: userFavorites.map(item => ({\n    url: item.url,\n    title: item.title,\n    author: item.author,\n    platform: item.platform,\n    timestamp: item.timestamp\n  })),\n  cache: userCache.map(item => ({\n    url: item.originalUrl,\n    title: item.videoTitle,\n    author: item.videoAuthor,\n    platform: item.platform,\n    timestamp: item.timestamp\n  })),\n  statistics: {\n    totalHistory: userHistory.length,\n    totalFavorites: userFavorites.length,\n    totalCache: userCache.length\n  }\n};\n\nreturn {\n  json: {\n    ...$input.item.json,\n    exportData: JSON.stringify(exportData, null, 2),\n    exportDataObject: exportData\n  }\n};"
+      },
+      "id": "prepare-export",
+      "name": "Prepare Export",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, -300]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "text": "=📥 *Datos Exportados*\n\n*Estadísticas:*\n• Historial: {{ $json.exportDataObject.statistics.totalHistory }} videos\n• Favoritos: {{ $json.exportDataObject.statistics.totalFavorites }} videos\n• Cache: {{ $json.exportDataObject.statistics.totalCache }} videos\n\n*Fecha de exportación:* {{ new Date($json.exportDataObject.exportDate).toLocaleString() }}\n\nLos datos se enviarán como archivo JSON...",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "notify-export",
+      "name": "Notify Export",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [1850, -300],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Convertir datos de exportación a buffer para enviar como archivo\nconst exportData = $json.exportData || JSON.stringify($json.exportDataObject || {}, null, 2);\nconst buffer = Buffer.from(exportData, 'utf-8');\n\nreturn {\n  json: {\n    ...$input.item.json,\n    data: buffer.toString('base64'),\n    fileName: `tiktok_downloader_export_${$json.userId}_${new Date().toISOString().split('T')[0]}.json`\n  },\n  binary: {\n    data: {\n      data: buffer.toString('base64'),\n      mimeType: 'application/json',\n      fileName: `tiktok_downloader_export_${$json.userId}_${new Date().toISOString().split('T')[0]}.json`\n    }\n  }\n};"
+      },
+      "id": "prepare-export-file",
+      "name": "Prepare Export File",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2050, -300]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "binaryData": true,
+        "binaryPropertyName": "data",
+        "additionalFields": {
+          "caption": "📥 *Tus Datos Exportados*\n\nContiene tu historial, favoritos y estadísticas en formato JSON.",
+          "parse_mode": "Markdown"
+        },
+        "fileName": "={{ $json.fileName }}"
+      },
+      "id": "send-export-file",
+      "name": "Send Export File",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [2050, -300],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "analyze-content",
+              "leftValue": "={{ $json.analyzeContent }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-analyze-command",
+      "name": "Check Analyze Command",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1450, -400]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Analizar contenido del video\nconst videoTitle = $json.videoTitle || '';\nconst videoAuthor = $json.videoAuthor || '';\nconst videoDuration = $json.videoDuration || 0;\nconst platform = $json.platform || 'tiktok';\n\n// Extraer tags/hashtags del título\nconst hashtags = (videoTitle.match(/#[\\w]+/g) || []).map(tag => tag.substring(1));\n\n// Detectar categorías básicas\nconst categories = [];\nconst titleLower = videoTitle.toLowerCase();\nif (/dance|baile|dancing/i.test(titleLower)) categories.push('Dance');\nif (/comedy|comedia|funny|gracioso/i.test(titleLower)) categories.push('Comedy');\nif (/music|música|song|canción/i.test(titleLower)) categories.push('Music');\nif (/food|comida|recipe|receta/i.test(titleLower)) categories.push('Food');\nif (/travel|viaje|traveling/i.test(titleLower)) categories.push('Travel');\nif (/fitness|ejercicio|workout/i.test(titleLower)) categories.push('Fitness');\nif (/beauty|belleza|makeup|maquillaje/i.test(titleLower)) categories.push('Beauty');\nif (/tech|tecnología|gadget/i.test(titleLower)) categories.push('Tech');\n\n// Análisis de duración\nconst durationCategory = videoDuration < 15 ? 'Short' : videoDuration < 60 ? 'Medium' : 'Long';\n\n// Calcular score de engagement (simulado)\nconst engagementScore = Math.min(100, Math.round(\n  (videoTitle.length > 20 ? 20 : 0) +\n  (hashtags.length * 5) +\n  (categories.length * 10) +\n  (videoDuration > 0 && videoDuration < 60 ? 30 : 10)\n));\n\nreturn {\n  json: {\n    ...$input.item.json,\n    analysis: {\n      hashtags: hashtags,\n      categories: categories,\n      durationCategory: durationCategory,\n      durationSeconds: videoDuration,\n      engagementScore: engagementScore,\n      platform: platform,\n      author: videoAuthor,\n      titleLength: videoTitle.length\n    }\n  }\n};"
+      },
+      "id": "analyze-video-content",
+      "name": "Analyze Video Content",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, -400]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "text": "=🔬 *Análisis de Contenido*\n\n*Video:* {{ $json.videoTitle || 'Sin título' }}\n*Autor:* {{ $json.videoAuthor || 'Desconocido' }}\n*Plataforma:* {{ $json.platform || 'tiktok' }}\n\n*Duración:* {{ $json.analysis.durationSeconds }}s ({{ $json.analysis.durationCategory }})\n*Score de Engagement:* {{ $json.analysis.engagementScore }}/100\n\n{{ $json.analysis.hashtags.length > 0 ? '*Hashtags:*\\n' + $json.analysis.hashtags.map(tag => `#${tag}`).join(', ') + '\\n\\n' : '' }}{{ $json.analysis.categories.length > 0 ? '*Categorías:*\\n' + $json.analysis.categories.join(', ') + '\\n\\n' : '' }}*Métricas:*\n• Longitud del título: {{ $json.analysis.titleLength }} caracteres\n• Hashtags detectados: {{ $json.analysis.hashtags.length }}\n• Categorías: {{ $json.analysis.categories.length }}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "send-analysis-results",
+      "name": "Send Analysis Results",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [1850, -400],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "recommend-mode",
+              "leftValue": "={{ $json.recommendMode }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-recommend-command",
+      "name": "Check Recommend Command",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1450, -500]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Generar recomendaciones basadas en historial del usuario\nconst userId = $json.userId;\nconst dbHistory = $workflow.staticData.dbHistory || {};\nconst userHistory = dbHistory[userId] || [];\nconst urlCache = $workflow.staticData.urlCache || {};\n\n// Analizar categorías más vistas\nconst categoryCount = {};\nconst authorCount = {};\nconst platformCount = {};\n\nuserHistory.forEach(item => {\n  const title = (item.title || '').toLowerCase();\n  if (title.includes('dance') || title.includes('baile')) categoryCount['Dance'] = (categoryCount['Dance'] || 0) + 1;\n  if (title.includes('comedy') || title.includes('comedia')) categoryCount['Comedy'] = (categoryCount['Comedy'] || 0) + 1;\n  if (title.includes('music') || title.includes('música')) categoryCount['Music'] = (categoryCount['Music'] || 0) + 1;\n  if (item.author) authorCount[item.author] = (authorCount[item.author] || 0) + 1;\n  if (item.platform) platformCount[item.platform] = (platformCount[item.platform] || 0) + 1;\n});\n\n// Obtener categorías y autores más populares\nconst topCategories = Object.entries(categoryCount).sort((a, b) => b[1] - a[1]).slice(0, 3).map(e => e[0]);\nconst topAuthors = Object.entries(authorCount).sort((a, b) => b[1] - a[1]).slice(0, 3).map(e => e[0]);\nconst topPlatform = Object.entries(platformCount).sort((a, b) => b[1] - a[1])[0]?.[0] || 'tiktok';\n\n// Buscar videos similares en cache global\nconst similarVideos = Object.values(urlCache)\n  .filter(entry => {\n    if (entry.userId === userId) return false; // Excluir propios\n    const title = (entry.videoTitle || '').toLowerCase();\n    return topCategories.some(cat => title.includes(cat.toLowerCase())) ||\n           topAuthors.includes(entry.videoAuthor);\n  })\n  .slice(0, 5)\n  .map(entry => ({\n    title: entry.videoTitle || 'Sin título',\n    author: entry.videoAuthor || 'Desconocido',\n    platform: entry.platform || 'tiktok',\n    url: entry.originalUrl || ''\n  }));\n\nreturn {\n  json: {\n    ...$input.item.json,\n    recommendations: {\n      topCategories: topCategories,\n      topAuthors: topAuthors,\n      topPlatform: topPlatform,\n      similarVideos: similarVideos,\n      totalHistory: userHistory.length\n    }\n  }\n};"
+      },
+      "id": "generate-recommendations",
+      "name": "Generate Recommendations",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, -500]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "text": "=💡 *Recomendaciones Personalizadas*\n\n*Basado en tu historial:*\n• Total videos: {{ $json.recommendations.totalHistory }}\n• Plataforma favorita: {{ $json.recommendations.topPlatform }}\n\n{{ $json.recommendations.topCategories.length > 0 ? '*Categorías que más te gustan:*\\n' + $json.recommendations.topCategories.map((cat, idx) => `${idx + 1}. ${cat}`).join('\\n') + '\\n\\n' : '' }}{{ $json.recommendations.topAuthors.length > 0 ? '*Autores favoritos:*\\n' + $json.recommendations.topAuthors.map((author, idx) => `${idx + 1}. @${author}`).join('\\n') + '\\n\\n' : '' }}{{ $json.recommendations.similarVideos.length > 0 ? '*Videos similares que podrían gustarte:*\\n' + $json.recommendations.similarVideos.map((video, idx) => `${idx + 1}. ${video.title} - @${video.author}\\n   ${video.url.substring(0, 50)}...`).join('\\n\\n') : '\\nNo hay videos similares disponibles en este momento.' }}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "send-recommendations",
+      "name": "Send Recommendations",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [1850, -500],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "share-mode",
+              "leftValue": "={{ $json.shareMode }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-share-command",
+      "name": "Check Share Command",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1450, -600]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Preparar video para compartir\nconst sharedVideos = $workflow.staticData.sharedVideos || [];\nconst shareId = require('crypto').randomBytes(8).toString('hex');\n\nsharedVideos.push({\n  id: shareId,\n  url: $json.tiktokUrl,\n  title: $json.videoTitle || 'Sin título',\n  author: $json.videoAuthor || 'Desconocido',\n  platform: $json.platform || 'tiktok',\n  sharedBy: $json.userId,\n  sharedByUsername: $json.username || 'Usuario',\n  timestamp: Date.now(),\n  accessCount: 0\n});\n\n// Mantener solo últimos 100 compartidos\nif (sharedVideos.length > 100) sharedVideos.shift();\n$workflow.staticData.sharedVideos = sharedVideos;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    shareId: shareId,\n    shareUrl: `${$env.SHARE_BASE_URL || 'https://t.me/your_bot'}?start=share_${shareId}`\n  }\n};"
+      },
+      "id": "prepare-share",
+      "name": "Prepare Share",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, -600]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "text": "=🔗 *Video Compartido*\n\n*Video:* {{ $json.videoTitle || 'Sin título' }}\n*Autor:* {{ $json.videoAuthor || 'Desconocido' }}\n\n*Enlace de compartir:*\n{{ $json.shareUrl }}\n\nComparte este enlace con otros usuarios para que puedan acceder al video.",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "send-share-message",
+      "name": "Send Share Message",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [1850, -600],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "schedule-mode",
+              "leftValue": "={{ $json.scheduleMode }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-schedule-command",
+      "name": "Check Schedule Command",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1450, -700]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Programar descarga para más tarde\nconst scheduledDownloads = $workflow.staticData.scheduledDownloads || [];\nconst messageText = $json.messageText || '';\n\n// Extraer hora de programación (formato: HH:MM o +N minutos)\nlet scheduleTime = null;\nconst timeMatch = messageText.match(/(\\d{1,2}):(\\d{2})/);\nconst minutesMatch = messageText.match(/\\+(\\d+)\\s*(?:min|minutos|minutes)/i);\n\nif (timeMatch) {\n  const hours = parseInt(timeMatch[1]);\n  const minutes = parseInt(timeMatch[2]);\n  const now = new Date();\n  scheduleTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, 0);\n  if (scheduleTime < now) scheduleTime.setDate(scheduleTime.getDate() + 1);\n} else if (minutesMatch) {\n  const minutes = parseInt(minutesMatch[1]);\n  scheduleTime = new Date(Date.now() + minutes * 60 * 1000);\n} else {\n  // Por defecto: 1 hora desde ahora\n  scheduleTime = new Date(Date.now() + 60 * 60 * 1000);\n}\n\nscheduledDownloads.push({\n  userId: $json.userId,\n  chatId: $json.chatId,\n  url: $json.tiktokUrl,\n  title: $json.videoTitle || 'Sin título',\n  platform: $json.platform || 'tiktok',\n  scheduleTime: scheduleTime.getTime(),\n  timestamp: Date.now()\n});\n\n$workflow.staticData.scheduledDownloads = scheduledDownloads;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    scheduleTime: scheduleTime.toISOString(),\n    scheduleTimeFormatted: scheduleTime.toLocaleString()\n  }\n};"
+      },
+      "id": "schedule-download",
+      "name": "Schedule Download",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, -700]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "text": "=⏰ *Descarga Programada*\n\n*Video:* {{ $json.videoTitle || 'Sin título' }}\n*URL:* {{ $json.tiktokUrl }}\n\n*Programado para:*\n{{ $json.scheduleTimeFormatted }}\n\nEl video se descargará automáticamente a la hora programada.",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "confirm-schedule",
+      "name": "Confirm Schedule",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [1850, -700],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "admin-mode",
+              "leftValue": "={{ $json.adminMode }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-admin-command",
+      "name": "Check Admin Command",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1450, -800]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "show-report",
+              "leftValue": "={{ $json.showReport }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-report-command",
+      "name": "Check Report Command",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1450, -900]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Generar reporte avanzado para el usuario\nconst report = $json.report || {};\n\nif (!report.summary) {\n  // Si no hay reporte, generarlo\n  return { json: { ...$input.item.json } };\n}\n\nreturn {\n  json: {\n    ...$input.item.json,\n    report: report\n  }\n};"
+      },
+      "id": "prepare-report-display",
+      "name": "Prepare Report Display",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, -900]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "text": "=📊 *Reporte Avanzado del Sistema*\\n\\n*Resumen General:*\\n• Total requests: {{ $json.report.summary.totalRequests }}\\n• Exitosos: {{ $json.report.summary.totalSuccess }}\\n• Fallidos: {{ $json.report.summary.totalFailed }}\\n• Tasa de éxito: {{ $json.report.summary.successRate.toFixed(1) }}%\\n\\n*Hoy:*\\n• Requests: {{ $json.report.summary.todayRequests }}\\n• Exitosos: {{ $json.report.summary.todaySuccess }}\\n• Fallidos: {{ $json.report.summary.todayFailed }}\\n\\n*Top Plataformas:*\\n{{ $json.report.topPlatforms.map((p, idx) => `${idx + 1}. ${p.platform}: ${p.requests} requests (${p.successRate.toFixed(1)}% éxito)`).join('\\n') }}\\n\\n*Top Usuarios:*\\n{{ $json.report.topUsers.slice(0, 5).map((u, idx) => `${idx + 1}. User ${u.userId}: ${u.requests} requests`).join('\\n') }}\\n\\n*Rendimiento:*\\n• Tiempo promedio de respuesta: {{ $json.report.performance.avgResponseTime }}ms\\n• Usuarios activos: {{ $json.report.activeUsers }}\\n\\n*Estado de APIs:*\\n{{ $json.report.apiStatus.map(api => `• ${api.name}: ${api.status} (${api.successRate.toFixed(1)}%)`).join('\\n') }}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "send-report-message",
+      "name": "Send Report Message",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [1850, -900],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Verificar si el usuario es admin y parsear comando admin\nconst ADMIN_USERS = ($env.ADMIN_USERS || '').split(',').filter(u => u.trim());\nconst userId = $json.userId.toString();\nconst messageText = ($json.messageText || '').toLowerCase().trim();\n\n// Verificar si es admin\nif (ADMIN_USERS.length > 0 && !ADMIN_USERS.includes(userId)) {\n  return {\n    json: {\n      ...$input.item.json,\n      isAdmin: false,\n      adminError: 'No tienes permisos de administrador'\n    }\n  };\n}\n\n// Parsear comando admin\nlet adminCommand = null;\nlet adminArgs = [];\n\nif (messageText.includes('admin stats') || messageText.includes('admin estadísticas')) {\n  adminCommand = 'stats';\n} else if (messageText.includes('admin users') || messageText.includes('admin usuarios')) {\n  adminCommand = 'users';\n} else if (messageText.includes('admin block')) {\n  adminCommand = 'block';\n  const match = messageText.match(/block\\s+(\\d+)/);\n  if (match) adminArgs.push(match[1]);\n} else if (messageText.includes('admin unblock')) {\n  adminCommand = 'unblock';\n  const match = messageText.match(/unblock\\s+(\\d+)/);\n  if (match) adminArgs.push(match[1]);\n} else if (messageText.includes('admin cache clear') || messageText.includes('admin cache limpiar')) {\n  adminCommand = 'cache_clear';\n} else if (messageText.includes('admin reset')) {\n  adminCommand = 'reset';\n  const match = messageText.match(/reset\\s+(\\d+)/);\n  if (match) adminArgs.push(match[1]);\n} else if (messageText.includes('admin export') || messageText.includes('admin exportar')) {\n  adminCommand = 'export';\n} else if (messageText.includes('admin help') || messageText.includes('admin ayuda')) {\n  adminCommand = 'help';\n} else {\n  adminCommand = 'help';\n}\n\nreturn {\n  json: {\n    ...$input.item.json,\n    isAdmin: true,\n    adminCommand: adminCommand,\n    adminArgs: adminArgs\n  }\n};"
+      },
+      "id": "parse-admin-command",
+      "name": "Parse Admin Command",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, -800]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "is-admin",
+              "leftValue": "={{ $json.isAdmin }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-is-admin",
+      "name": "Check Is Admin",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1850, -800]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Ejecutar comando admin según el tipo\nconst command = $json.adminCommand;\nconst args = $json.adminArgs || [];\nconst rateLimitHistory = $workflow.staticData.rateLimitHistory || {};\nconst urlCache = $workflow.staticData.urlCache || {};\nconst stats = $workflow.staticData.stats || { total: 0, success: 0, failed: 0 };\nconst ALLOWED_USERS = ($env.ALLOWED_USERS || '').split(',').filter(u => u.trim());\nconst BLOCKED_USERS = ($env.BLOCKED_USERS || '').split(',').filter(u => u.trim());\n\nlet result = { command: command, message: '', data: null };\n\nswitch (command) {\n  case 'stats':\n    const totalUsers = Object.keys(rateLimitHistory).length;\n    const totalRequests = Object.values(rateLimitHistory).reduce((sum, user) => sum + (user.dailyCount || 0), 0);\n    result.message = `📊 *Estadísticas Globales*\\n\\n*Usuarios activos:* ${totalUsers}\\n*Requests totales hoy:* ${totalRequests}\\n*Videos en cache:* ${Object.keys(urlCache).length}\\n*Stats globales:* ${stats.total} total, ${stats.success} exitosos, ${stats.failed} fallidos`;\n    result.data = { totalUsers, totalRequests, cacheSize: Object.keys(urlCache).length, stats };\n    break;\n    \n  case 'users':\n    const users = Object.keys(rateLimitHistory).map(userId => {\n      const user = rateLimitHistory[userId];\n      return {\n        userId,\n        dailyCount: user.dailyCount || 0,\n        hourlyCount: user.requests?.length || 0\n      };\n    }).sort((a, b) => b.dailyCount - a.dailyCount).slice(0, 20);\n    result.message = `👥 *Usuarios Activos*\\n\\n${users.map((u, idx) => `${idx + 1}. User ${u.userId}: ${u.dailyCount} requests hoy, ${u.hourlyCount} esta hora`).join('\\n')}`;\n    result.data = { users };\n    break;\n    \n  case 'block':\n    if (args.length === 0) {\n      result.message = '❌ Debes especificar un userId: `/admin block <userId>`';\n    } else {\n      const userIdToBlock = args[0];\n      if (!BLOCKED_USERS.includes(userIdToBlock)) {\n        BLOCKED_USERS.push(userIdToBlock);\n        $env.BLOCKED_USERS = BLOCKED_USERS.join(',');\n        result.message = `✅ Usuario ${userIdToBlock} bloqueado exitosamente`;\n      } else {\n        result.message = `⚠️ Usuario ${userIdToBlock} ya está bloqueado`;\n      }\n    }\n    break;\n    \n  case 'unblock':\n    if (args.length === 0) {\n      result.message = '❌ Debes especificar un userId: `/admin unblock <userId>`';\n    } else {\n      const userIdToUnblock = args[0];\n      const index = BLOCKED_USERS.indexOf(userIdToUnblock);\n      if (index > -1) {\n        BLOCKED_USERS.splice(index, 1);\n        $env.BLOCKED_USERS = BLOCKED_USERS.join(',');\n        result.message = `✅ Usuario ${userIdToUnblock} desbloqueado exitosamente`;\n      } else {\n        result.message = `⚠️ Usuario ${userIdToUnblock} no está bloqueado`;\n      }\n    }\n    break;\n    \n  case 'cache_clear':\n    const cacheSize = Object.keys(urlCache).length;\n    $workflow.staticData.urlCache = {};\n    result.message = `✅ Cache limpiado exitosamente (${cacheSize} entradas eliminadas)`;\n    result.data = { clearedEntries: cacheSize };\n    break;\n    \n  case 'reset':\n    if (args.length === 0) {\n      result.message = '❌ Debes especificar un userId: `/admin reset <userId>`';\n    } else {\n      const userIdToReset = args[0];\n      if (rateLimitHistory[userIdToReset]) {\n        rateLimitHistory[userIdToReset] = { requests: [], dailyCount: 0, lastReset: Date.now() };\n        $workflow.staticData.rateLimitHistory = rateLimitHistory;\n        result.message = `✅ Rate limits del usuario ${userIdToReset} reseteados exitosamente`;\n      } else {\n        result.message = `⚠️ Usuario ${userIdToReset} no encontrado`;\n      }\n    }\n    break;\n    \n  case 'export':\n    const exportData = {\n      stats: stats,\n      rateLimitHistory: rateLimitHistory,\n      urlCache: Object.keys(urlCache).length,\n      users: Object.keys(rateLimitHistory).length,\n      timestamp: new Date().toISOString()\n    };\n    result.message = '📦 *Datos Exportados*\\n\\nLos datos se han preparado para exportación.';\n    result.data = exportData;\n    break;\n    \n  case 'help':\n  default:\n    result.message = `🔧 *Comandos de Administración*\\n\\n*Comandos disponibles:*\\n• /admin stats - Estadísticas globales\\n• /admin users - Lista de usuarios activos\\n• /admin block <userId> - Bloquear usuario\\n• /admin unblock <userId> - Desbloquear usuario\\n• /admin cache clear - Limpiar cache\\n• /admin reset <userId> - Resetear rate limits de usuario\\n• /admin export - Exportar todos los datos\\n• /admin help - Mostrar esta ayuda`;\n    break;\n}\n\nreturn {\n  json: {\n    ...$input.item.json,\n    adminResult: result\n  }\n};"
+      },
+      "id": "execute-admin-command",
+      "name": "Execute Admin Command",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2050, -800]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "text": "={{ $json.adminResult?.message || $json.adminError || 'Error ejecutando comando admin' }}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "send-admin-response",
+      "name": "Send Admin Response",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [2250, -800],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "api/v1/download",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "rest-api-webhook",
+      "name": "REST API Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [250, 700],
+      "webhookId": "rest-api-tiktok-downloader"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Procesar request de API REST\nconst body = $json.body || $json;\nconst apiKey = $json.headers?.['x-api-key'] || $json.headers?.['X-API-Key'] || body.apiKey;\nconst validApiKey = $env.REST_API_KEY || 'change-me';\n\n// Verificar API key\nif (apiKey !== validApiKey) {\n  return {\n    json: {\n      error: true,\n      message: 'Invalid API key',\n      statusCode: 401\n    }\n  };\n}\n\n// Extraer datos del request\nconst url = body.url || body.tiktokUrl;\nconst userId = body.userId || body.user_id || 'api-user';\nconst options = body.options || {};\n\nif (!url) {\n  return {\n    json: {\n      error: true,\n      message: 'URL is required',\n      statusCode: 400\n    }\n  };\n}\n\nreturn {\n  json: {\n    messageText: url,\n    chatId: userId,\n    userId: userId,\n    username: 'api-user',\n    source: 'rest-api',\n    apiRequest: true,\n    options: options,\n    timestamp: new Date().toISOString()\n  }\n};"
+      },
+      "id": "process-rest-api-request",
+      "name": "Process REST API Request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [450, 700]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "is-api-request",
+              "leftValue": "={{ $json.apiRequest }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-is-api-request",
+      "name": "Check Is API Request",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [650, 700]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Preparar respuesta para API REST\nconst videoUrl = $json.videoUrl;\nconst error = $json.error || !videoUrl;\n\nif (error) {\n  return {\n    json: {\n      success: false,\n      error: $json.errorMessage || 'Failed to download video',\n      statusCode: 500\n    }\n  };\n}\n\nreturn {\n  json: {\n    success: true,\n    data: {\n      videoUrl: videoUrl,\n      title: $json.videoTitle || '',\n      author: $json.videoAuthor || '',\n      duration: $json.videoDuration || 0,\n      thumbnail: $json.thumbnailUrl || '',\n      platform: $json.platform || 'tiktok',\n      downloadMethod: $json.downloadMethod || '',\n      timestamp: new Date().toISOString()\n    },\n    statusCode: 200\n  }\n};"
+      },
+      "id": "prepare-api-response",
+      "name": "Prepare API Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [4050, 700]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {
+          "responseCode": "={{ $json.statusCode || 200 }}"
+        }
+      },
+      "id": "send-api-response",
+      "name": "Send API Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [4250, 700]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Sistema de preferencias de usuario\nconst userId = $json.userId.toString();\nconst userPreferences = $workflow.staticData.userPreferences || {};\nconst preferences = userPreferences[userId] || {\n  defaultQuality: 'auto',\n  autoDownload: true,\n  silentMode: false,\n  preferredPlatform: 'all',\n  maxVideoSize: 50,\n  enableNotifications: true\n};\n\n// Aplicar preferencias si no están especificadas en el comando\nif (!$json.downloadHD && preferences.defaultQuality === 'hd') {\n  $json.downloadHD = true;\n}\n\nif (preferences.silentMode && !$json.silentMode) {\n  $json.silentMode = true;\n}\n\nreturn {\n  json: {\n    ...$input.item.json,\n    userPreferences: preferences\n  }\n};"
+      },
+      "id": "load-user-preferences",
+      "name": "Load User Preferences",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [850, 500]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Enviar preview/thumbnail antes de descargar\nconst thumbnailUrl = $json.thumbnailUrl;\nconst videoTitle = $json.videoTitle || 'Video';\nconst videoAuthor = $json.videoAuthor || 'Desconocido';\nconst videoDuration = $json.videoDuration || 0;\n\nif (thumbnailUrl && $json.userPreferences?.enableNotifications !== false) {\n  return {\n    json: {\n      ...$input.item.json,\n      hasPreview: true,\n      previewData: {\n        thumbnail: thumbnailUrl,\n        title: videoTitle,\n        author: videoAuthor,\n        duration: videoDuration\n      }\n    }\n  };\n}\n\nreturn {\n  json: {\n    ...$input.item.json,\n    hasPreview: false\n  }\n};"
+      },
+      "id": "prepare-preview",
+      "name": "Prepare Preview",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2650, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Sistema de Logs Estructurado\nconst logLevel = $env.LOG_LEVEL || 'info'; // debug, info, warn, error\nconst enableLogging = $env.ENABLE_LOGGING !== 'false';\n\nif (!enableLogging) {\n  return { json: { ...$input.item.json } };\n}\n\nconst timestamp = new Date().toISOString();\nconst userId = $json.userId || 'unknown';\nconst source = $json.source || 'unknown';\nconst event = $json.event || 'download_request';\nconst url = $json.tiktokUrl || 'unknown';\nconst platform = $json.platform || 'unknown';\n\n// Estructura de log\nconst logEntry = {\n  timestamp,\n  level: logLevel,\n  event,\n  userId,\n  source,\n  platform,\n  url: url.substring(0, 100), // Limitar longitud\n  metadata: {\n    messageHash: $json.messageHash,\n    linkCount: $json.linkCount || 1,\n    commands: Object.keys($json.commands || {}).filter(k => $json.commands[k]),\n    hasCache: $json.cached || false\n  }\n};\n\n// Almacenar logs en workflow data (últimos 1000)\nconst logs = $workflow.staticData.logs || [];\nlogs.push(logEntry);\nif (logs.length > 1000) logs.shift();\n$workflow.staticData.logs = logs;\n\n// Si hay webhook de logs, enviarlo (opcional)\nconst logWebhook = $env.LOG_WEBHOOK_URL;\nif (logWebhook && logLevel !== 'debug') {\n  // Se puede enviar a un webhook externo para análisis\n  $json.logWebhook = logWebhook;\n}\n\nreturn {\n  json: {\n    ...$input.item.json,\n    logEntry: logEntry\n  }\n};"
+      },
+      "id": "structured-logging",
+      "name": "Structured Logging",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1050, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Auto-Retry con Exponential Backoff Mejorado\nconst MAX_RETRIES = parseInt($env.MAX_RETRIES || '3');\nconst BASE_DELAY = parseInt($env.RETRY_BASE_DELAY_MS || '1000'); // 1 segundo\nconst MAX_DELAY = parseInt($env.RETRY_MAX_DELAY_MS || '30000'); // 30 segundos\nconst BACKOFF_MULTIPLIER = parseFloat($env.RETRY_BACKOFF_MULTIPLIER || '2');\n\n// Obtener intentos previos\nconst retryHistory = $workflow.staticData.retryHistory || {};\nconst requestId = $json.messageHash || $json.urlHash || 'unknown';\nconst retryInfo = retryHistory[requestId] || {\n  attempts: 0,\n  lastAttempt: 0,\n  errors: []\n};\n\n// Calcular delay exponencial\nconst calculateDelay = (attempt) => {\n  const delay = Math.min(\n    BASE_DELAY * Math.pow(BACKOFF_MULTIPLIER, attempt),\n    MAX_DELAY\n  );\n  // Agregar jitter aleatorio (0-20%)\n  const jitter = delay * 0.2 * Math.random();\n  return Math.floor(delay + jitter);\n};\n\n// Verificar si necesita retry\nconst needsRetry = retryInfo.attempts < MAX_RETRIES && (\n  !$json.videoUrl ||\n  $json.error ||\n  ($json.hasVideo === false)\n);\n\nif (needsRetry) {\n  retryInfo.attempts += 1;\n  retryInfo.lastAttempt = Date.now();\n  if ($json.error) retryInfo.errors.push($json.error);\n  \n  const delay = calculateDelay(retryInfo.attempts - 1);\n  retryInfo.nextRetryDelay = delay;\n  retryHistory[requestId] = retryInfo;\n  $workflow.staticData.retryHistory = retryHistory;\n  \n  return {\n    json: {\n      ...$input.item.json,\n      shouldRetry: true,\n      retryAttempt: retryInfo.attempts,\n      retryDelay: delay,\n      maxRetries: MAX_RETRIES,\n      retryInfo: retryInfo\n    }\n  };\n}\n\n// Limpiar historial de retry si fue exitoso\nif ($json.videoUrl && retryInfo.attempts > 0) {\n  delete retryHistory[requestId];\n  $workflow.staticData.retryHistory = retryHistory;\n}\n\nreturn {\n  json: {\n    ...$input.item.json,\n    shouldRetry: false,\n    retryAttempt: retryInfo.attempts,\n    retryInfo: retryInfo\n  }\n};"
+      },
+      "id": "exponential-backoff-retry",
+      "name": "Exponential Backoff Retry",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2750, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "should-retry",
+              "leftValue": "={{ $json.shouldRetry }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-should-retry",
+      "name": "Check Should Retry",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [2950, 300]
+    },
+    {
+      "parameters": {
+        "mode": "wait",
+        "amount": "={{ $json.retryDelay || 1000 }}",
+        "unit": "milliseconds"
+      },
+      "id": "wait-before-retry",
+      "name": "Wait Before Retry",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [3150, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Analytics Avanzados y Métricas\nconst now = Date.now();\nconst analytics = $workflow.staticData.analytics || {\n  daily: {},\n  hourly: {},\n  byPlatform: {},\n  byUser: {},\n  performance: {\n    avgResponseTime: 0,\n    totalRequests: 0,\n    successRate: 0\n  },\n  trends: []\n};\n\nconst today = new Date().toISOString().split('T')[0];\nconst currentHour = new Date().getHours();\n\n// Actualizar métricas diarias\nif (!analytics.daily[today]) {\n  analytics.daily[today] = {\n    requests: 0,\n    success: 0,\n    failed: 0,\n    platforms: {},\n    users: new Set()\n  };\n}\n\nconst daily = analytics.daily[today];\ndaily.requests += 1;\nif ($json.videoUrl) daily.success += 1;\nelse daily.failed += 1;\n\n// Métricas por plataforma\nconst platform = $json.platform || 'unknown';\nif (!analytics.byPlatform[platform]) {\n  analytics.byPlatform[platform] = { requests: 0, success: 0, failed: 0 };\n}\nanalytics.byPlatform[platform].requests += 1;\nif ($json.videoUrl) analytics.byPlatform[platform].success += 1;\nelse analytics.byPlatform[platform].failed += 1;\n\n// Métricas por usuario\nconst userId = $json.userId || 'unknown';\nif (!analytics.byUser[userId]) {\n  analytics.byUser[userId] = { requests: 0, success: 0, lastSeen: now };\n}\nanalytics.byUser[userId].requests += 1;\nif ($json.videoUrl) analytics.byUser[userId].success += 1;\nanalytics.byUser[userId].lastSeen = now;\n\n// Calcular tiempo de respuesta (si está disponible)\nconst responseTime = $json.responseTime || 0;\nif (responseTime > 0) {\n  const total = analytics.performance.totalRequests || 0;\n  const currentAvg = analytics.performance.avgResponseTime || 0;\n  analytics.performance.avgResponseTime = ((currentAvg * total) + responseTime) / (total + 1);\n}\n\n// Actualizar tasa de éxito\nconst totalRequests = analytics.performance.totalRequests || 0;\nconst totalSuccess = (analytics.performance.totalSuccess || 0) + ($json.videoUrl ? 1 : 0);\nanalytics.performance.totalRequests = totalRequests + 1;\nanalytics.performance.totalSuccess = totalSuccess;\nanalytics.performance.successRate = totalRequests > 0 ? (totalSuccess / (totalRequests + 1)) * 100 : 0;\n\n// Agregar a tendencias (últimas 100 entradas)\nanalytics.trends.push({\n  timestamp: now,\n  platform,\n  success: !!$json.videoUrl,\n  responseTime,\n  method: $json.downloadMethod || 'unknown'\n});\nif (analytics.trends.length > 100) analytics.trends.shift();\n\n// Limpiar datos antiguos (más de 30 días)\nconst thirtyDaysAgo = Date.now() - (30 * 24 * 60 * 60 * 1000);\nObject.keys(analytics.daily).forEach(date => {\n  const dateTime = new Date(date).getTime();\n  if (dateTime < thirtyDaysAgo) delete analytics.daily[date];\n});\n\n$workflow.staticData.analytics = analytics;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    analytics: {\n      dailyStats: daily,\n      platformStats: analytics.byPlatform[platform],\n      userStats: analytics.byUser[userId],\n      performance: analytics.performance\n    }\n  }\n};"
+      },
+      "id": "advanced-analytics",
+      "name": "Advanced Analytics",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3050, 500]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Generar Reporte Avanzado\nconst analytics = $workflow.staticData.analytics || {};\nconst stats = $workflow.staticData.stats || { total: 0, success: 0, failed: 0 };\nconst rateLimitHistory = $workflow.staticData.rateLimitHistory || {};\nconst apiHealth = $workflow.staticData.apiHealth || {};\n\n// Calcular métricas del día\nconst today = new Date().toISOString().split('T')[0];\nconst todayStats = analytics.daily[today] || { requests: 0, success: 0, failed: 0 };\n\n// Top plataformas\nconst topPlatforms = Object.entries(analytics.byPlatform || {})\n  .map(([platform, data]) => ({ platform, ...data, successRate: data.requests > 0 ? (data.success / data.requests) * 100 : 0 }))\n  .sort((a, b) => b.requests - a.requests)\n  .slice(0, 5);\n\n// Top usuarios\nconst topUsers = Object.entries(analytics.byUser || {})\n  .map(([userId, data]) => ({ userId, ...data, successRate: data.requests > 0 ? (data.success / data.requests) * 100 : 0 }))\n  .sort((a, b) => b.requests - a.requests)\n  .slice(0, 10);\n\n// Estado de APIs\nconst apiStatus = Object.entries(apiHealth).map(([name, health]) => ({\n  name,\n  status: health.status || 'unknown',\n  successRate: (health.successes + health.failures) > 0 ? (health.successes / (health.successes + health.failures)) * 100 : 0,\n  lastCheck: new Date(health.lastCheck || 0).toLocaleString()\n}));\n\n// Tendencias recientes\nconst recentTrends = analytics.trends?.slice(-10) || [];\nconst avgResponseTime = recentTrends.length > 0\n  ? recentTrends.reduce((sum, t) => sum + (t.responseTime || 0), 0) / recentTrends.length\n  : 0;\n\nconst report = {\n  timestamp: new Date().toISOString(),\n  summary: {\n    totalRequests: stats.total,\n    totalSuccess: stats.success,\n    totalFailed: stats.failed,\n    successRate: stats.total > 0 ? (stats.success / stats.total) * 100 : 0,\n    todayRequests: todayStats.requests,\n    todaySuccess: todayStats.success,\n    todayFailed: todayStats.failed\n  },\n  topPlatforms,\n  topUsers,\n  apiStatus,\n  performance: {\n    ...analytics.performance,\n    avgResponseTime: Math.round(avgResponseTime)\n  },\n  activeUsers: Object.keys(rateLimitHistory).length\n};\n\nreturn {\n  json: {\n    ...$input.item.json,\n    report: report\n  }\n};"
+      },
+      "id": "generate-advanced-report",
+      "name": "Generate Advanced Report",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3250, 500]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "has-preview",
+              "leftValue": "={{ $json.hasPreview }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-has-preview",
+      "name": "Check Has Preview",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [2850, 300]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "text": "=🖼️ *Preview del Video*\\n\\n*Título:* {{ $json.previewData.title }}\\n*Autor:* {{ $json.previewData.author }}\\n*Duración:* {{ $json.previewData.duration }}s\\n\\nDescargando video...",
+        "photo": "={{ $json.previewData.thumbnail }}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "send-preview",
+      "name": "Send Preview",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [3050, 300],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "text": "=❌ No se encontró ningún enlace válido en tu mensaje.\n\n*Plataformas soportadas:*\n• TikTok: https://tiktok.com/@user/video/123\n• Instagram Reels: https://instagram.com/reel/ABC\n• YouTube Shorts: https://youtube.com/shorts/XYZ\n• Twitter/X: https://twitter.com/user/status/123\n• Facebook: https://facebook.com/watch?v=123\n\nEscribe `/help` para ver todos los comandos disponibles.",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "send-no-link-telegram",
+      "name": "Send No Link Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [1450, 600],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Verificar cache de URLs procesadas\nconst urlHash = $json.urlHash;\nconst tiktokUrl = $json.tiktokUrl;\n\nif (!urlHash) {\n  return {\n    json: {\n      ...$input.item.json,\n      cached: false\n    }\n  };\n}\n\n// Obtener cache del workflow\nconst urlCache = $workflow.staticData.urlCache || {};\nconst cachedEntry = urlCache[urlHash];\n\n// Verificar si está en cache (válido por 24 horas)\nif (cachedEntry) {\n  const cacheAge = Date.now() - cachedEntry.timestamp;\n  const maxCacheAge = 24 * 60 * 60 * 1000; // 24 horas\n  \n  if (cacheAge < maxCacheAge && cachedEntry.videoUrl) {\n    return {\n      json: {\n        ...$input.item.json,\n        cached: true,\n        videoUrl: cachedEntry.videoUrl,\n        videoTitle: cachedEntry.videoTitle || '',\n        videoAuthor: cachedEntry.videoAuthor || '',\n        downloadMethod: cachedEntry.method || 'cached',\n        hasVideo: true,\n        cacheAge: Math.floor(cacheAge / 1000 / 60) // minutos\n      }\n    };\n  }\n}\n\nreturn {\n  json: {\n    ...$input.item.json,\n    cached: false\n  }\n};"
+      },
+      "id": "check-cache",
+      "name": "Check Cache",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 400]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "not-cached",
+              "leftValue": "={{ $json.cached }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "false"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-if-cached",
+      "name": "Check If Cached",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1850, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Health Check de APIs y Rotación Inteligente\nconst API_HEALTH_CHECK_INTERVAL = 5 * 60 * 1000; // 5 minutos\nconst now = Date.now();\n\n// Obtener estado de salud de APIs\nconst apiHealth = $workflow.staticData.apiHealth || {\n  tiklydown: { status: 'unknown', lastCheck: 0, failures: 0, successes: 0 },\n  tiktok_api: { status: 'unknown', lastCheck: 0, failures: 0, successes: 0 },\n  snaptik: { status: 'unknown', lastCheck: 0, failures: 0, successes: 0 },\n  backup: { status: 'unknown', lastCheck: 0, failures: 0, successes: 0 }\n};\n\n// Verificar si necesitamos hacer health check\nconst needsHealthCheck = Object.values(apiHealth).some(\n  api => now - api.lastCheck > API_HEALTH_CHECK_INTERVAL\n);\n\n// Ordenar APIs por prioridad (más exitosas primero, luego menos fallos)\nconst apiPriority = Object.entries(apiHealth)\n  .map(([name, health]) => ({\n    name,\n    ...health,\n    score: health.successes - (health.failures * 2), // Penalizar fallos más\n    lastCheckAge: now - health.lastCheck\n  }))\n  .sort((a, b) => {\n    // Priorizar APIs saludables\n    if (a.status === 'healthy' && b.status !== 'healthy') return -1;\n    if (a.status !== 'healthy' && b.status === 'healthy') return 1;\n    // Luego por score\n    return b.score - a.score;\n  });\n\n// Determinar qué APIs usar (excluir las que han fallado mucho)\nconst availableApis = apiPriority.filter(\n  api => api.status !== 'unhealthy' || api.failures < 5\n);\n\n// Si todas están marcadas como unhealthy, resetear\nif (availableApis.length === 0) {\n  Object.keys(apiHealth).forEach(key => {\n    apiHealth[key].status = 'unknown';\n    apiHealth[key].failures = 0;\n  });\n}\n\n$workflow.staticData.apiHealth = apiHealth;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    apiHealth: apiHealth,\n    apiPriority: apiPriority.map(a => a.name),\n    needsHealthCheck: needsHealthCheck,\n    availableApis: availableApis.map(a => a.name)\n  }\n};"
+      },
+      "id": "health-check-apis",
+      "name": "Health Check APIs",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1850, 200]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Procesamiento en Batch para Múltiples Enlaces\nconst ENABLE_BATCH_PROCESSING = $env.ENABLE_BATCH_PROCESSING !== 'false'; // Por defecto activado\nconst MAX_BATCH_SIZE = parseInt($env.MAX_BATCH_SIZE || '5');\nconst allUrls = $json.allUrls || [];\nconst linkCount = $json.linkCount || 0;\n\nif (!ENABLE_BATCH_PROCESSING || linkCount <= 1) {\n  return {\n    json: {\n      ...$input.item.json,\n      batchProcessing: false,\n      currentUrlIndex: 0,\n      totalUrls: 1,\n      processAll: false\n    }\n  };\n}\n\n// Si hay múltiples enlaces, preparar para procesamiento en batch\nconst processAll = linkCount > 1 && linkCount <= MAX_BATCH_SIZE;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    batchProcessing: processAll,\n    currentUrlIndex: 0,\n    totalUrls: linkCount,\n    processAll: processAll,\n    batchUrls: allUrls,\n    batchProgress: {\n      processed: 0,\n      successful: 0,\n      failed: 0,\n      total: linkCount\n    }\n  }\n};"
+      },
+      "id": "prepare-batch-processing",
+      "name": "Prepare Batch Processing",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1850, 400]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "batch-processing",
+              "leftValue": "={{ $json.batchProcessing }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-batch-processing",
+      "name": "Check Batch Processing",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [2050, 400]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "text": "=📦 *Procesamiento en Batch*\n\nSe detectaron {{ $json.totalUrls }} enlaces.\n\nProcesando todos los videos...\n\n⏳ Por favor espera, esto puede tomar unos minutos.",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "notify-batch-start",
+      "name": "Notify Batch Start",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [2250, 300],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Crear items para cada URL en el batch\nconst batchUrls = $json.batchUrls || [];\nconst baseData = $input.item.json;\n\n// Crear un item por cada URL\nconst items = batchUrls.map((url, index) => {\n  const crypto = require('crypto');\n  const urlHash = crypto.createHash('md5').update(url).digest('hex');\n  \n  return {\n    json: {\n      ...baseData,\n      tiktokUrl: url,\n      urlHash: urlHash,\n      currentUrlIndex: index,\n      totalUrls: batchUrls.length,\n      batchProcessing: true,\n      isBatchItem: true\n    }\n  };\n});\n\nreturn items;"
+      },
+      "id": "split-batch-urls",
+      "name": "Split Batch URLs",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2250, 500]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "text": "={{ $json.linkCount > 1 ? '🔍 Se detectaron ' + $json.linkCount + ' enlaces. Procesando el primero...' : '🔍 Enlace detectado. Descargando video sin marca de agua...' }}\n\n⏳ Por favor espera...",
+        "additionalFields": {}
+      },
+      "id": "notify-processing-telegram",
+      "name": "Notify Processing (Telegram)",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [2050, 300],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.WHATSAPP_API_URL || 'https://api.whatsapp.com' }}/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "to",
+              "value": "={{ $json.chatId }}"
+            },
+            {
+              "name": "type",
+              "value": "text"
+            },
+            {
+              "name": "text",
+              "value": "={{ $json.linkCount > 1 ? '🔍 Se detectaron ' + $json.linkCount + ' enlaces. Procesando...' : '🔍 Descargando video sin marca de agua...' }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "notify-processing-whatsapp",
+      "name": "Notify Processing (WhatsApp)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [2050, 500],
+      "continueOnFail": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "whatsapp-api-auth",
+          "name": "WhatsApp API Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $env.TIKTOK_API_URL || 'https://api.tiklydown.eu.org/api/download' }}",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "url",
+              "value": "={{ $json.tiktokUrl }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            },
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 30000,
+          "retry": {
+            "maxRetries": 2,
+            "retryOnFail": true
+          },
+          "response": {
+            "responseFormat": "json"
+          }
+        }
+      },
+      "id": "download-tiktok-api1",
+      "name": "Download TikTok (API 1 - Tiklydown)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [2250, 200],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api16-normal-c-useast1a.tiktokv.com/aweme/v1/feed/",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "url",
+              "value": "={{ $json.tiktokUrl }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "com.ss.android.ugc.trill/2610 (Linux; U; Android 12; en_US; Pixel 6 Pro; Build/SP2A.220405.004; Cronet/58.0.2991.0)"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 30000,
+          "retry": {
+            "maxRetries": 2,
+            "retryOnFail": true
+          },
+          "response": {
+            "responseFormat": "json"
+          }
+        }
+      },
+      "id": "download-tiktok-api2",
+      "name": "Download TikTok (API 2 - TikTok)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [2250, 400],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://snaptik.app/api/ajaxSearch",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/x-www-form-urlencoded"
+            },
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+            },
+            {
+              "name": "Referer",
+              "value": "https://snaptik.app/"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "formUrlEncoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "url",
+              "value": "={{ $json.tiktokUrl }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 30000,
+          "retry": {
+            "maxRetries": 2,
+            "retryOnFail": true
+          },
+          "response": {
+            "responseFormat": "json"
+          }
+        }
+      },
+      "id": "download-tiktok-api3",
+      "name": "Download TikTok (API 3 - Snaptik)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [2250, 600],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.tiktokv.com/api/v1/video/parse",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "url",
+              "value": "={{ $json.tiktokUrl }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 30000,
+          "retry": {
+            "maxRetries": 1,
+            "retryOnFail": true
+          },
+          "response": {
+            "responseFormat": "json"
+          }
+        }
+      },
+      "id": "download-tiktok-api4",
+      "name": "Download TikTok (API 4 - Backup)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [2250, 800],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Procesar respuesta y extraer URL del video sin marca de agua con mejor lógica\nconst api1Response = $('Download TikTok (API 1 - Tiklydown)').item?.json;\nconst api2Response = $('Download TikTok (API 2 - TikTok)').item?.json;\nconst api3Response = $('Download TikTok (API 3 - Snaptik)').item?.json;\nconst api4Response = $('Download TikTok (API 4 - Backup)').item?.json;\n\nlet videoUrl = null;\nlet videoTitle = '';\nlet videoAuthor = '';\nlet videoDuration = 0;\nlet videoSize = 0;\nlet method = '';\nlet thumbnailUrl = '';\n\n// Función para extraer URL de diferentes formatos de respuesta\nfunction extractVideoUrl(response, apiName) {\n  if (!response) return null;\n  \n  try {\n    // API 1 - Tiklydown\n    if (apiName === 'tiklydown') {\n      if (response.video?.noWatermark) return { url: response.video.noWatermark, title: response.desc || response.title, author: response.author?.nickname || response.author?.name, duration: response.duration, thumbnail: response.cover || response.thumbnail };\n      if (response.data?.play) return { url: response.data.play, title: response.data.title, author: response.data.author?.nickname, duration: response.data.duration, thumbnail: response.data.cover };\n      if (response.url) return { url: response.url, title: response.title, author: response.author?.nickname };\n      if (response.video?.download) return { url: response.video.download, title: response.title };\n    }\n    \n    // API 2 - TikTok oficial\n    if (apiName === 'tiktok_api') {\n      if (response.aweme_list && response.aweme_list.length > 0) {\n        const aweme = response.aweme_list[0];\n        if (aweme.video?.play_addr?.url_list && aweme.video.play_addr.url_list.length > 0) {\n          return {\n            url: aweme.video.play_addr.url_list[0],\n            title: aweme.desc,\n            author: aweme.author?.nickname,\n            duration: aweme.video?.duration || 0,\n            thumbnail: aweme.video?.cover?.url_list?.[0] || aweme.video?.dynamic_cover?.url_list?.[0]\n          };\n        }\n      }\n    }\n    \n    // API 3 - Snaptik\n    if (apiName === 'snaptik') {\n      if (response.data?.video) return { url: response.data.video, title: response.data.title, author: response.data.author };\n      if (response.status === 'success' && response.url) return { url: response.url };\n      if (response.links?.mp4) return { url: response.links.mp4 };\n      if (response.video?.url) return { url: response.video.url };\n      if (response.video_url) return { url: response.video_url };\n    }\n    \n    // API 4 - Backup\n    if (apiName === 'backup') {\n      if (response.video?.url) return { url: response.video.url, title: response.title, author: response.author };\n      if (response.data?.video_url) return { url: response.data.video_url };\n      if (response.url) return { url: response.url };\n    }\n  } catch (e) {\n    // Error al procesar, continuar con siguiente API\n  }\n  \n  return null;\n}\n\n// Intentar cada API en orden de prioridad\nconst results = [\n  extractVideoUrl(api1Response, 'tiklydown'),\n  extractVideoUrl(api2Response, 'tiktok_api'),\n  extractVideoUrl(api3Response, 'snaptik'),\n  extractVideoUrl(api4Response, 'backup')\n];\n\n// Encontrar primer resultado válido\nfor (let i = 0; i < results.length; i++) {\n  if (results[i] && results[i].url) {\n    videoUrl = results[i].url;\n    videoTitle = results[i].title || '';\n    videoAuthor = results[i].author || '';\n    videoDuration = results[i].duration || 0;\n    thumbnailUrl = results[i].thumbnail || '';\n    method = ['tiklydown', 'tiktok_api', 'snaptik', 'backup'][i];\n    break;\n  }\n}\n\n// Guardar en cache si se encontró video\nif (videoUrl && $json.urlHash) {\n  const urlCache = $workflow.staticData.urlCache || {};\n  urlCache[$json.urlHash] = {\n    videoUrl: videoUrl,\n    videoTitle: videoTitle,\n    videoAuthor: videoAuthor,\n    method: method,\n    timestamp: Date.now(),\n    userId: $json.userId,\n    originalUrl: $json.tiktokUrl,\n    platform: $json.platform || 'tiktok',\n    duration: videoDuration,\n    thumbnail: thumbnailUrl\n  };\n  $workflow.staticData.urlCache = urlCache;\n  \n  // Guardar en historial de base de datos si está habilitado\n  const ENABLE_DB_HISTORY = $env.ENABLE_DB_HISTORY === 'true';\n  if (ENABLE_DB_HISTORY) {\n    const dbHistory = $workflow.staticData.dbHistory || {};\n    const userHistory = dbHistory[$json.userId] || [];\n    userHistory.unshift({\n      url: $json.tiktokUrl,\n      videoUrl: videoUrl,\n      title: videoTitle,\n      author: videoAuthor,\n      timestamp: Date.now(),\n      platform: $json.platform || 'tiktok'\n    });\n    // Mantener solo últimos 100\n    if (userHistory.length > 100) userHistory.pop();\n    dbHistory[$json.userId] = userHistory;\n    $workflow.staticData.dbHistory = dbHistory;\n  }\n}\n\n// Aplicar filtros de contenido si están definidos\nlet passesFilters = true;\nlet filterReasons = [];\n\nif ($json.minDuration && videoDuration > 0 && videoDuration < $json.minDuration) {\n  passesFilters = false;\n  filterReasons.push(`Duración mínima requerida: ${$json.minDuration}s, video tiene: ${videoDuration}s`);\n}\n\nif ($json.maxDuration && videoDuration > 0 && videoDuration > $json.maxDuration) {\n  passesFilters = false;\n  filterReasons.push(`Duración máxima permitida: ${$json.maxDuration}s, video tiene: ${videoDuration}s`);\n}\n\n// Actualizar estadísticas\nconst stats = $workflow.staticData.stats || { total: 0, success: 0, failed: 0 };\nstats.total += 1;\nif (videoUrl && passesFilters) {\n  stats.success += 1;\n} else if (!passesFilters) {\n  stats.failed += 1;\n} else {\n  stats.failed += 1;\n}\n$workflow.staticData.stats = stats;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    videoUrl: videoUrl,\n    videoTitle: videoTitle,\n    videoAuthor: videoAuthor,\n    videoDuration: videoDuration,\n    thumbnailUrl: thumbnailUrl,\n    downloadMethod: method,\n    hasVideo: !!videoUrl,\n    passesFilters: passesFilters,\n    filterReasons: filterReasons,\n    stats: stats\n  }\n};"
+      },
+      "id": "extract-video-url",
+      "name": "Extract Video URL",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2450, 400]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "has-video",
+              "leftValue": "={{ $json.hasVideo }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-has-video",
+      "name": "Check Has Video",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [2650, 400]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "download-audio",
+              "leftValue": "={{ $json.downloadAudio }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-audio-request",
+      "name": "Check Audio Request",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [2850, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extraer URL de audio si está disponible\nconst api1Response = $('Download TikTok (API 1 - Tiklydown)').item?.json;\nconst api2Response = $('Download TikTok (API 2 - TikTok)').item?.json;\nconst api3Response = $('Download TikTok (API 3 - Snaptik)').item?.json;\n\nlet audioUrl = null;\n\n// Buscar URL de audio en las respuestas\nif (api1Response?.music?.play_url) {\n  audioUrl = api1Response.music.play_url;\n} else if (api1Response?.audio?.url) {\n  audioUrl = api1Response.audio.url;\n} else if (api1Response?.data?.music?.play_url) {\n  audioUrl = api1Response.data.music.play_url;\n}\n\nif (!audioUrl && api2Response?.aweme_list?.[0]?.music?.play_url) {\n  audioUrl = api2Response.aweme_list[0].music.play_url;\n}\n\nif (!audioUrl && api3Response?.audio?.url) {\n  audioUrl = api3Response.audio.url;\n}\n\n// Si no hay URL de audio directa, usar el video URL para conversión\nif (!audioUrl && $json.videoUrl) {\n  // Marcar para conversión posterior\n  audioUrl = $json.videoUrl;\n  return {\n    json: {\n      ...$input.item.json,\n      audioUrl: audioUrl,\n      needsAudioConversion: true,\n      hasAudio: !!audioUrl\n    }\n  };\n}\n\nreturn {\n  json: {\n    ...$input.item.json,\n    audioUrl: audioUrl,\n    needsAudioConversion: false,\n    hasAudio: !!audioUrl\n  }\n};"
+      },
+      "id": "extract-audio-url",
+      "name": "Extract Audio URL",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3050, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.AUDIO_CONVERSION_API_URL || 'https://api.convertapi.com/convert' }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "url",
+              "value": "={{ $json.audioUrl }}"
+            },
+            {
+              "name": "format",
+              "value": "mp3"
+            },
+            {
+              "name": "quality",
+              "value": "192"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 60000,
+          "response": {
+            "responseFormat": "json"
+          }
+        }
+      },
+      "id": "convert-to-audio",
+      "name": "Convert to Audio",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [3250, 200],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.audioUrl || $json.convertedAudioUrl }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          },
+          "timeout": 60000
+        }
+      },
+      "id": "download-audio-file",
+      "name": "Download Audio File",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [3450, 200]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "passes-filters",
+              "leftValue": "={{ $json.passesFilters }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-filters",
+      "name": "Check Filters",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [2650, 300]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "text": "=⚠️ *Video no cumple con los filtros*\n\n{{ $json.filterReasons && $json.filterReasons.length > 0 ? $json.filterReasons.join('\\n') : 'El video no cumple con los criterios especificados.' }}\n\n*Video:* {{ $json.videoTitle || 'Sin título' }}\n*Duración:* {{ $json.videoDuration }}s",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "send-filter-error",
+      "name": "Send Filter Error",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [2850, 200],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "binaryData": true,
+        "binaryPropertyName": "data",
+        "additionalFields": {
+          "caption": "={{ ($json.videoTitle ? '🎵 ' + $json.videoTitle.substring(0, 200) + ($json.videoAuthor ? ' - @' + $json.videoAuthor : '') : '✅ Audio descargado') + ($json.cached ? ' (desde cache)' : '') }}",
+          "parse_mode": "HTML"
+        }
+      },
+      "id": "send-audio-telegram",
+      "name": "Send Audio Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [3650, 200],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "HEAD",
+        "url": "={{ $json.videoUrl }}",
+        "options": {
+          "timeout": 10000,
+          "response": {
+            "responseFormat": "json"
+          }
+        }
+      },
+      "id": "check-video-size",
+      "name": "Check Video Size",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [2850, 300],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Validar tamaño del video y opción de compresión\nconst MAX_VIDEO_SIZE = parseInt($env.MAX_VIDEO_SIZE_MB || '50') * 1024 * 1024; // 50MB por defecto\nconst ENABLE_COMPRESSION = $env.ENABLE_COMPRESSION !== 'false'; // Por defecto activado\nconst COMPRESSION_THRESHOLD = parseInt($env.COMPRESSION_THRESHOLD_MB || '30') * 1024 * 1024; // 30MB\nconst HEAD_RESPONSE = $('Check Video Size').item?.headers || {};\n\nlet videoSize = 0;\nconst contentLength = HEAD_RESPONSE['content-length'] || HEAD_RESPONSE['Content-Length'];\n\nif (contentLength) {\n  videoSize = parseInt(contentLength);\n}\n\nconst sizeMB = videoSize > 0 ? (videoSize / 1024 / 1024).toFixed(2) : 'desconocido';\nconst maxMB = (MAX_VIDEO_SIZE / 1024 / 1024).toFixed(0);\n\n// Si el video es muy grande, avisar al usuario\nif (videoSize > MAX_VIDEO_SIZE) {\n  return {\n    json: {\n      ...$input.item.json,\n      videoSize: videoSize,\n      videoSizeMB: sizeMB,\n      tooLarge: true,\n      maxSizeMB: maxMB\n    }\n  };\n}\n\n// Si el video es grande pero menor al máximo, ofrecer compresión\nconst needsCompression = ENABLE_COMPRESSION && videoSize > COMPRESSION_THRESHOLD && videoSize <= MAX_VIDEO_SIZE;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    videoSize: videoSize,\n    videoSizeMB: sizeMB,\n    tooLarge: false,\n    needsCompression: needsCompression,\n    compressionThreshold: (COMPRESSION_THRESHOLD / 1024 / 1024).toFixed(0)\n  }\n};"
+      },
+      "id": "validate-video-size",
+      "name": "Validate Video Size",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3050, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "not-too-large",
+              "leftValue": "={{ $json.tooLarge }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "false"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-video-size-ok",
+      "name": "Check Video Size OK",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [3250, 300]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "text": "=⚠️ El video es demasiado grande ({{ $json.videoSizeMB }}MB).\n\nEl tamaño máximo permitido es {{ $json.maxSizeMB }}MB.\n\nPor favor, intenta con otro video más pequeño.",
+        "additionalFields": {}
+      },
+      "id": "send-size-error",
+      "name": "Send Size Error",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [3250, 500],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "needs-compression",
+              "leftValue": "={{ $json.needsCompression }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-compression-needed",
+      "name": "Check Compression Needed",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [3450, 400]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "text": "=⚙️ El video es grande ({{ $json.videoSizeMB }}MB).\n\nComprimiendo para reducir el tamaño...\n\n⏳ Esto puede tomar unos momentos.",
+        "additionalFields": {}
+      },
+      "id": "notify-compressing",
+      "name": "Notify Compressing",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [3650, 300],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.VIDEO_COMPRESSION_API_URL || 'https://api.compressvideo.com/compress' }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "url",
+              "value": "={{ $json.videoUrl }}"
+            },
+            {
+              "name": "quality",
+              "value": "medium"
+            },
+            {
+              "name": "format",
+              "value": "mp4"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 180000,
+          "response": {
+            "responseFormat": "json"
+          }
+        }
+      },
+      "id": "compress-video",
+      "name": "Compress Video",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [3650, 500],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extraer URL del video comprimido\nconst compressionResponse = $('Compress Video').item?.json;\n\nlet compressedVideoUrl = $json.videoUrl; // Fallback al original\n\nif (compressionResponse?.compressed_url) {\n  compressedVideoUrl = compressionResponse.compressed_url;\n} else if (compressionResponse?.url) {\n  compressedVideoUrl = compressionResponse.url;\n} else if (compressionResponse?.data?.url) {\n  compressedVideoUrl = compressionResponse.data.url;\n}\n\nreturn {\n  json: {\n    ...$input.item.json,\n    compressedVideoUrl: compressedVideoUrl,\n    videoUrl: compressedVideoUrl, // Usar el comprimido\n    wasCompressed: compressionResponse?.compressed_url || compressionResponse?.url ? true : false\n  }\n};"
+      },
+      "id": "extract-compressed-url",
+      "name": "Extract Compressed URL",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3850, 500]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.videoUrl }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          },
+          "timeout": 120000,
+          "retry": {
+            "maxRetries": 2,
+            "retryOnFail": true
+          }
+        }
+      },
+      "id": "download-video-file",
+      "name": "Download Video File",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [3450, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "is-telegram",
+              "leftValue": "={{ $json.source }}",
+              "rightValue": "telegram",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-source-telegram",
+      "name": "Check Source Telegram",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [3650, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Actualizar progreso del batch si es procesamiento en batch\nif ($json.batchProcessing && $json.isBatchItem) {\n  const batchProgress = $workflow.staticData.batchProgress || {\n    processed: 0,\n    successful: 0,\n    failed: 0,\n    total: $json.totalUrls || 1\n  };\n  \n  batchProgress.processed += 1;\n  if ($json.hasVideo) {\n    batchProgress.successful += 1;\n  } else {\n    batchProgress.failed += 1;\n  }\n  \n  $workflow.staticData.batchProgress = batchProgress;\n  \n  return {\n    json: {\n      ...$input.item.json,\n      batchProgress: batchProgress,\n      batchComplete: batchProgress.processed >= batchProgress.total\n    }\n  };\n}\n\nreturn $input.item.json;"
+      },
+      "id": "update-batch-progress",
+      "name": "Update Batch Progress",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3650, 200]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "batch-complete",
+              "leftValue": "={{ $json.batchComplete }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-batch-complete",
+      "name": "Check Batch Complete",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [3850, 200]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "text": "=✅ *Procesamiento en Batch Completado*\n\n📊 *Resultados:*\n• Total procesados: {{ $json.batchProgress.total }}\n• ✅ Exitosos: {{ $json.batchProgress.successful }}\n• ❌ Fallidos: {{ $json.batchProgress.failed }}\n\n{{ $json.batchProgress.successful > 0 ? 'Los videos exitosos se están enviando...' : 'No se pudo descargar ningún video.' }}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "notify-batch-complete",
+      "name": "Notify Batch Complete",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [4050, 100],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "add-favorite",
+              "leftValue": "={{ $json.addFavorite }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-add-favorite",
+      "name": "Check Add Favorite",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [4250, 200]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Agregar a favoritos\nconst userId = $json.userId;\nconst favorites = $workflow.staticData.favorites || {};\nconst userFavorites = favorites[userId] || [];\n\n// Verificar si ya está en favoritos\nconst alreadyFavorite = userFavorites.some(\n  fav => fav.url === $json.tiktokUrl || fav.videoUrl === $json.videoUrl\n);\n\nif (!alreadyFavorite) {\n  userFavorites.unshift({\n    url: $json.tiktokUrl,\n    videoUrl: $json.videoUrl,\n    title: $json.videoTitle || '',\n    author: $json.videoAuthor || '',\n    timestamp: Date.now(),\n    platform: $json.platform || 'tiktok'\n  });\n  \n  // Mantener solo últimos 50 favoritos\n  if (userFavorites.length > 50) userFavorites.pop();\n  \n  favorites[userId] = userFavorites;\n  $workflow.staticData.favorites = favorites;\n  \n  return {\n    json: {\n      ...$input.item.json,\n      favoriteAdded: true,\n      favoritesCount: userFavorites.length\n    }\n  };\n}\n\nreturn {\n  json: {\n    ...$input.item.json,\n    favoriteAdded: false,\n    alreadyFavorite: true,\n    favoritesCount: userFavorites.length\n  }\n};"
+      },
+      "id": "add-to-favorites",
+      "name": "Add to Favorites",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [4450, 200]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "text": "={{ $json.alreadyFavorite ? '⭐ Este video ya está en tus favoritos.' : '✅ Video agregado a favoritos!\\n\\nTienes {{ $json.favoritesCount }} videos favoritos.\\n\\nUsa `/favorites` para ver todos tus favoritos.' }}",
+        "additionalFields": {}
+      },
+      "id": "notify-favorite-added",
+      "name": "Notify Favorite Added",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [4650, 200],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "silent-mode",
+              "leftValue": "={{ $json.silentMode }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-silent-mode",
+      "name": "Check Silent Mode",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [2050, 600]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Modo silencioso - no enviar notificaciones intermedias\nreturn {\n  json: {\n    ...$input.item.json,\n    silentMode: true,\n    skipNotifications: true\n  }\n};"
+      },
+      "id": "enable-silent-mode",
+      "name": "Enable Silent Mode",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2250, 600]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "binaryData": true,
+        "binaryPropertyName": "data",
+        "additionalFields": {
+          "caption": "={{ ($json.videoTitle ? '📹 ' + $json.videoTitle.substring(0, 200) + ($json.videoAuthor ? ' - @' + $json.videoAuthor : '') : '✅ Video descargado sin marca de agua') + ($json.cached ? ' (desde cache)' : '') + ($json.batchProcessing ? ' [' + ($json.currentUrlIndex + 1) + '/' + $json.totalUrls + ']' : '') + ($json.wasCompressed ? ' (comprimido)' : '') }}",
+          "parse_mode": "HTML",
+          "disable_notification": "={{ $json.silentMode || false }}"
+        }
+      },
+      "id": "send-video-telegram",
+      "name": "Send Video Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [4050, 200],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Enviar webhook si está habilitado\nconst ENABLE_WEBHOOKS = $env.ENABLE_WEBHOOKS === 'true';\nconst WEBHOOK_URL = $env.WEBHOOK_URL;\n\nif (ENABLE_WEBHOOKS && WEBHOOK_URL) {\n  // Preparar datos para webhook\n  const webhookData = {\n    event: 'video_downloaded',\n    timestamp: new Date().toISOString(),\n    user: {\n      id: $json.userId,\n      username: $json.username,\n      chatId: $json.chatId,\n      source: $json.source\n    },\n    video: {\n      url: $json.tiktokUrl,\n      title: $json.videoTitle,\n      author: $json.videoAuthor,\n      duration: $json.videoDuration,\n      size: $json.videoSize,\n      method: $json.downloadMethod,\n      cached: $json.cached || false,\n      compressed: $json.wasCompressed || false\n    },\n    batch: $json.batchProcessing ? {\n      current: $json.currentUrlIndex + 1,\n      total: $json.totalUrls\n    } : null\n  };\n  \n  // Guardar para enviar después (no bloqueamos el flujo)\n  $workflow.staticData.pendingWebhooks = $workflow.staticData.pendingWebhooks || [];\n  $workflow.staticData.pendingWebhooks.push({\n    url: WEBHOOK_URL,\n    data: webhookData,\n    timestamp: Date.now()\n  });\n}\n\nreturn $input.item.json;"
+      },
+      "id": "prepare-webhook",
+      "name": "Prepare Webhook",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3850, 100]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.WEBHOOK_URL }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "event",
+              "value": "video_downloaded"
+            },
+            {
+              "name": "data",
+              "value": "={{ JSON.stringify({ user: { id: $json.userId, chatId: $json.chatId, source: $json.source }, video: { url: $json.tiktokUrl, title: $json.videoTitle, author: $json.videoAuthor }, timestamp: new Date().toISOString() }) }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 5000,
+          "response": {
+            "responseFormat": "json"
+          }
+        }
+      },
+      "id": "send-webhook",
+      "name": "Send Webhook",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [4050, 100],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "enable-cloud",
+              "leftValue": "={{ $env.ENABLE_CLOUD_STORAGE }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-cloud-storage",
+      "name": "Check Cloud Storage",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [4250, 100]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Preparar datos para almacenamiento en cloud\nconst CLOUD_TYPE = $env.CLOUD_STORAGE_TYPE || 's3';\nconst BUCKET = $env.CLOUD_STORAGE_BUCKET || 'tiktok-downloads';\nconst userId = $json.userId;\nconst platform = $json.platform || 'tiktok';\nconst timestamp = Date.now();\n\n// Generar nombre de archivo\nconst fileName = `${platform}_${userId}_${timestamp}.mp4`;\nconst folderPath = `${platform}/${new Date().toISOString().split('T')[0]}`;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    cloudStorage: {\n      enabled: true,\n      type: CLOUD_TYPE,\n      bucket: BUCKET,\n      fileName: fileName,\n      folderPath: folderPath,\n      fullPath: `${folderPath}/${fileName}`\n    }\n  }\n};"
+      },
+      "id": "prepare-cloud-upload",
+      "name": "Prepare Cloud Upload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [4450, 100]
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "={{ $json.cloudStorage.type === 's3' ? 'https://' + $json.cloudStorage.bucket + '.s3.amazonaws.com/' + $json.cloudStorage.fullPath : 'https://storage.googleapis.com/' + $json.cloudStorage.bucket + '/' + $json.cloudStorage.fullPath }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "video/mp4"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "binary",
+        "binaryPropertyName": "data",
+        "options": {
+          "timeout": 300000,
+          "response": {
+            "responseFormat": "json"
+          }
+        }
+      },
+      "id": "upload-to-cloud",
+      "name": "Upload to Cloud",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [4650, 100],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.WHATSAPP_API_URL || 'https://api.whatsapp.com' }}/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "multipart/form-data"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "to",
+              "value": "={{ $json.chatId }}"
+            },
+            {
+              "name": "type",
+              "value": "video"
+            },
+            {
+              "name": "video",
+              "value": "={{ $binary.data }}"
+            },
+            {
+              "name": "caption",
+              "value": "={{ ($json.videoTitle ? '📹 ' + $json.videoTitle.substring(0, 200) : '✅ Video de TikTok descargado sin marca de agua') + ($json.cached ? ' (desde cache)' : '') }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "send-video-whatsapp",
+      "name": "Send Video WhatsApp",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [3850, 400],
+      "continueOnFail": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "whatsapp-api-auth",
+          "name": "WhatsApp API Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "text": "=❌ No se pudo descargar el video.\n\nPosibles razones:\n• El enlace de TikTok no es válido\n• El video fue eliminado o es privado\n• Error temporal en el servicio\n\nPor favor, intenta con otro enlace o vuelve a intentar más tarde.",
+        "additionalFields": {}
+      },
+      "id": "send-error-telegram",
+      "name": "Send Error Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [2650, 600],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.WHATSAPP_API_URL || 'https://api.whatsapp.com' }}/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "to",
+              "value": "={{ $json.chatId }}"
+            },
+            {
+              "name": "type",
+              "value": "text"
+            },
+            {
+              "name": "text",
+              "value": "❌ No se pudo descargar el video. Por favor, verifica que el enlace sea válido."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "send-error-whatsapp",
+      "name": "Send Error WhatsApp",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [2650, 700],
+      "continueOnFail": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "whatsapp-api-auth",
+          "name": "WhatsApp API Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { success: true, message: 'Mensaje recibido' } }}",
+        "options": {}
+      },
+      "id": "webhook-response",
+      "name": "Webhook Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [450, 600]
+    }
+  ],
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Extract Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp Webhook": {
+      "main": [
+        [
+          {
+            "node": "Extract Message",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Webhook Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Message": {
+      "main": [
+        [
+          {
+            "node": "Load User Preferences",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load User Preferences": {
+      "main": [
+        [
+          {
+            "node": "Structured Logging",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Logging": {
+      "main": [
+        [
+          {
+            "node": "Filter Has Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Has Text": {
+      "main": [
+        [
+          {
+            "node": "Rate Limiting",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rate Limiting": {
+      "main": [
+        [
+          {
+            "node": "Check Rate Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Rate Limit": {
+      "main": [
+        [
+          {
+            "node": "Detect TikTok Link",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Rate Limit Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Detect Links Multi-Platform": {
+      "main": [
+        [
+          {
+            "node": "Check Help Command",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Stats Command",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check History Command",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Favorites Command",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Search Command",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Export Command",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Analyze Command",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Recommend Command",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Share Command",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Schedule Command",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Admin Command",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Report Command",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Any Link",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Help Command": {
+      "main": [
+        [
+          {
+            "node": "Send Help Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Stats Command": {
+      "main": [
+        [
+          {
+            "node": "Generate Stats",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Stats": {
+      "main": [
+        [
+          {
+            "node": "Send Stats Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check History Command": {
+      "main": [
+        [
+          {
+            "node": "Get User History",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get User History": {
+      "main": [
+        [
+          {
+            "node": "Send History Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Favorites Command": {
+      "main": [
+        [
+          {
+            "node": "Get User Favorites",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get User Favorites": {
+      "main": [
+        [
+          {
+            "node": "Send Favorites Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Search Command": {
+      "main": [
+        [
+          {
+            "node": "Search Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Content": {
+      "main": [
+        [
+          {
+            "node": "Send Search Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Export Command": {
+      "main": [
+        [
+          {
+            "node": "Prepare Export",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Export": {
+      "main": [
+        [
+          {
+            "node": "Notify Export",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Prepare Export File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Export File": {
+      "main": [
+        [
+          {
+            "node": "Send Export File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Analyze Command": {
+      "main": [
+        [
+          {
+            "node": "Analyze Video Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Video Content": {
+      "main": [
+        [
+          {
+            "node": "Send Analysis Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Recommend Command": {
+      "main": [
+        [
+          {
+            "node": "Generate Recommendations",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Recommendations": {
+      "main": [
+        [
+          {
+            "node": "Send Recommendations",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Share Command": {
+      "main": [
+        [
+          {
+            "node": "Prepare Share",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Share": {
+      "main": [
+        [
+          {
+            "node": "Send Share Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Schedule Command": {
+      "main": [
+        [
+          {
+            "node": "Schedule Download",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Admin Command": {
+      "main": [
+        [
+          {
+            "node": "Parse Admin Command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Report Command": {
+      "main": [
+        [
+          {
+            "node": "Generate Advanced Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Advanced Report": {
+      "main": [
+        [
+          {
+            "node": "Prepare Report Display",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Report Display": {
+      "main": [
+        [
+          {
+            "node": "Send Report Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Admin Command": {
+      "main": [
+        [
+          {
+            "node": "Check Is Admin",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Is Admin": {
+      "main": [
+        [
+          {
+            "node": "Execute Admin Command",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Admin Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Admin Command": {
+      "main": [
+        [
+          {
+            "node": "Send Admin Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "REST API Webhook": {
+      "main": [
+        [
+          {
+            "node": "Process REST API Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process REST API Request": {
+      "main": [
+        [
+          {
+            "node": "Check Is API Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Is API Request": {
+      "main": [
+        [
+          {
+            "node": "Extract Message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send API Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Download": {
+      "main": [
+        [
+          {
+            "node": "Confirm Schedule",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Any Link": {
+      "main": [
+        [
+          {
+            "node": "Check Cache",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send No Link Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Cache": {
+      "main": [
+        [
+          {
+            "node": "Check If Cached",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check If Cached": {
+      "main": [
+        [
+          {
+            "node": "Notify Processing (Telegram)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Notify Processing (WhatsApp)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Download TikTok (API 1 - Tiklydown)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Download TikTok (API 2 - TikTok)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Download TikTok (API 3 - Snaptik)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Download TikTok (API 4 - Backup)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Check Has Video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify Processing (Telegram)": {
+      "main": []
+    },
+    "Notify Processing (WhatsApp)": {
+      "main": []
+    },
+    "Download TikTok (API 1 - Tiklydown)": {
+      "main": [
+        [
+          {
+            "node": "Extract Video URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download TikTok (API 2 - TikTok)": {
+      "main": [
+        [
+          {
+            "node": "Extract Video URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download TikTok (API 3 - Snaptik)": {
+      "main": [
+        [
+          {
+            "node": "Extract Video URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download TikTok (API 4 - Backup)": {
+      "main": [
+        [
+          {
+            "node": "Extract Video URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Video URL": {
+      "main": [
+        [
+          {
+            "node": "Exponential Backoff Retry",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Exponential Backoff Retry": {
+      "main": [
+        [
+          {
+            "node": "Check Should Retry",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Advanced Analytics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Should Retry": {
+      "main": [
+        [
+          {
+            "node": "Wait Before Retry",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepare Preview",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait Before Retry": {
+      "main": [
+        [
+          {
+            "node": "Download TikTok (API 1 - Tiklydown)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Advanced Analytics": {
+      "main": [
+        [
+          {
+            "node": "Prepare Preview",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Preview": {
+      "main": [
+        [
+          {
+            "node": "Check Filters",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Has Preview": {
+      "main": [
+        [
+          {
+            "node": "Send Preview",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Has Video",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Check Has Video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Preview": {
+      "main": [
+        [
+          {
+            "node": "Check Has Video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Filters": {
+      "main": [
+        [
+          {
+            "node": "Check Has Preview",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Filter Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Has Video": {
+      "main": [
+        [
+          {
+            "node": "Check Audio Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Video Size",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Error Telegram",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send Error WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Audio Request": {
+      "main": [
+        [
+          {
+            "node": "Extract Audio URL",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Check Video Size",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Audio URL": {
+      "main": [
+        [
+          {
+            "node": "Convert to Audio",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Download Audio File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to Audio": {
+      "main": [
+        [
+          {
+            "node": "Download Audio File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Audio File": {
+      "main": [
+        [
+          {
+            "node": "Send Audio Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Video Size": {
+      "main": [
+        [
+          {
+            "node": "Validate Video Size",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Video Size": {
+      "main": [
+        [
+          {
+            "node": "Check Video Size OK",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Video Size OK": {
+      "main": [
+        [
+          {
+            "node": "Check Compression Needed",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Size Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Compression Needed": {
+      "main": [
+        [
+          {
+            "node": "Notify Compressing",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Compress Video",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Download Video File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compress Video": {
+      "main": [
+        [
+          {
+            "node": "Extract Compressed URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Compressed URL": {
+      "main": [
+        [
+          {
+            "node": "Download Video File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Video File": {
+      "main": [
+        [
+          {
+            "node": "Prepare Webhook",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Update Batch Progress",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Source Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Webhook": {
+      "main": [
+        [
+          {
+            "node": "Send Webhook",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Cloud Storage",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Source Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Cloud Storage": {
+      "main": [
+        [
+          {
+            "node": "Prepare Cloud Upload",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Check Source Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Cloud Upload": {
+      "main": [
+        [
+          {
+            "node": "Upload to Cloud",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Source Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Batch Progress": {
+      "main": [
+        [
+          {
+            "node": "Check Batch Complete",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Source Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Batch Complete": {
+      "main": [
+        [
+          {
+            "node": "Notify Batch Complete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Source Telegram": {
+      "main": [
+        [
+          {
+            "node": "Check Add Favorite",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send Video Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Video WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Add Favorite": {
+      "main": [
+        [
+          {
+            "node": "Add to Favorites",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send Video Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Video Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add to Favorites": {
+      "main": [
+        [
+          {
+            "node": "Notify Favorite Added",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send Video Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Silent Mode": {
+      "main": [
+        [
+          {
+            "node": "Enable Silent Mode",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Enable Silent Mode": {
+      "main": [
+        [
+          {
+            "node": "Check Cache",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "tiktok-downloader",
+      "name": "tiktok-downloader"
+    }
+  ],
+  "triggerCount": 0,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "2"
+}

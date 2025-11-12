@@ -579,6 +579,56 @@ def validate_params(params: Dict[str, Any]) -> Dict[str, Any]:
             type="boolean",
             description="Habilitar integración con sistemas de gestión de conocimiento"
         ),
+        "enable_innovation_impact_analysis": Param(
+            True,
+            type="boolean",
+            description="Habilitar análisis de impacto de inversiones en innovación"
+        ),
+        "enable_sustainability_optimization": Param(
+            True,
+            type="boolean",
+            description="Habilitar optimización basada en sostenibilidad y ESG"
+        ),
+        "enable_customer_success_integration": Param(
+            True,
+            type="boolean",
+            description="Habilitar integración con sistemas de éxito del cliente"
+        ),
+        "enable_data_governance_analysis": Param(
+            True,
+            type="boolean",
+            description="Habilitar análisis de gobernanza de datos"
+        ),
+        "enable_workflow_automation_analysis": Param(
+            True,
+            type="boolean",
+            description="Habilitar análisis de automatización de flujos de trabajo"
+        ),
+        "enable_organizational_resilience_analysis": Param(
+            True,
+            type="boolean",
+            description="Habilitar análisis de resiliencia organizacional"
+        ),
+        "enable_security_systems_integration": Param(
+            True,
+            type="boolean",
+            description="Habilitar integración con sistemas de seguridad"
+        ),
+        "enable_diversity_inclusion_analysis": Param(
+            True,
+            type="boolean",
+            description="Habilitar análisis de diversidad e inclusión"
+        ),
+        "enable_productivity_metrics_optimization": Param(
+            True,
+            type="boolean",
+            description="Habilitar optimización basada en métricas de productividad"
+        ),
+        "enable_continuous_feedback_integration": Param(
+            True,
+            type="boolean",
+            description="Habilitar integración con sistemas de feedback continuo"
+        ),
     },
 )
 def budget_optimization_automation():
@@ -1977,7 +2027,12 @@ def budget_optimization_automation():
         pm_result: Dict[str, Any] = None,
         culture_result: Dict[str, Any] = None,
         quality_result: Dict[str, Any] = None,
-        km_result: Dict[str, Any] = None
+        km_result: Dict[str, Any] = None,
+        innovation_result: Dict[str, Any] = None,
+        sustainability_result: Dict[str, Any] = None,
+        cs_result: Dict[str, Any] = None,
+        dg_result: Dict[str, Any] = None,
+        wf_result: Dict[str, Any] = None
     ) -> Dict[str, Any]:
         """
         Genera recomendaciones inteligentes basadas en todos los análisis.
@@ -2468,6 +2523,105 @@ def budget_optimization_automation():
                         "estimated_savings": km_metrics.get("total_km_cost", 0) * 0.1
                     })
             
+            # Recomendaciones basadas en impacto de innovación
+            if innovation_result and innovation_result.get("status") != "disabled":
+                innovation_summary = innovation_result.get("summary", {})
+                high_impact = innovation_summary.get("high_impact", 0)
+                if high_impact > 0:
+                    avg_roi = innovation_result.get("aggregated_metrics", {}).get("avg_innovation_roi", 0)
+                    recommendations.append({
+                        "type": "innovation_investment",
+                        "title": "Aumentar inversión en innovación",
+                        "description": f"{high_impact} categorías de alto impacto en innovación. ROI promedio: {avg_roi:.2f}x",
+                        "priority": "high",
+                        "impact_score": 85,
+                        "action_items": [
+                            "Priorizar presupuesto en programas de innovación y R&D",
+                            "Mejorar índice de innovación",
+                            "Monitorear métricas de innovación"
+                        ],
+                        "estimated_savings": 0
+                    })
+            
+            # Recomendaciones basadas en sostenibilidad
+            if sustainability_result and sustainability_result.get("status") != "disabled":
+                sustainability_summary = sustainability_result.get("summary", {})
+                high_impact = sustainability_summary.get("high_impact", 0)
+                if high_impact > 0:
+                    avg_roi = sustainability_result.get("aggregated_metrics", {}).get("avg_sustainability_roi", 0)
+                    recommendations.append({
+                        "type": "sustainability_investment",
+                        "title": "Aumentar inversión en sostenibilidad",
+                        "description": f"{high_impact} categorías de alto impacto en sostenibilidad. ROI promedio: {avg_roi:.2f}x",
+                        "priority": "high",
+                        "impact_score": 82,
+                        "action_items": [
+                            "Priorizar presupuesto en programas sostenibles y ESG",
+                            "Mejorar métricas ESG",
+                            "Monitorear impacto ambiental"
+                        ],
+                        "estimated_savings": 0
+                    })
+            
+            # Recomendaciones basadas en éxito del cliente
+            if cs_result and cs_result.get("status") != "disabled":
+                cs_metrics = cs_result.get("cs_metrics", {})
+                retention_rate = cs_metrics.get("retention_rate", 0)
+                if retention_rate < 90.0:
+                    recommendations.append({
+                        "type": "cs_optimization",
+                        "title": "Optimizar éxito del cliente",
+                        "description": f"Tasa de retención: {retention_rate:.1f}%. NPS: {cs_metrics.get('avg_nps_score', 0):.1f}. Mejorar inversión en CS",
+                        "priority": "medium",
+                        "impact_score": 75,
+                        "action_items": [
+                            "Mejorar inversión en programas de éxito del cliente",
+                            "Aumentar retención y satisfacción",
+                            "Reducir costo por cliente"
+                        ],
+                        "estimated_savings": cs_metrics.get("total_cs_spend", 0) * 0.1
+                    })
+            
+            # Recomendaciones basadas en gobernanza de datos
+            if dg_result and dg_result.get("status") != "disabled":
+                dg_summary = dg_result.get("summary", {})
+                high_impact = dg_summary.get("high_impact", 0)
+                if high_impact > 0:
+                    avg_roi = dg_result.get("aggregated_metrics", {}).get("avg_dg_roi", 0)
+                    recommendations.append({
+                        "type": "dg_investment",
+                        "title": "Aumentar inversión en gobernanza de datos",
+                        "description": f"{high_impact} categorías de alto impacto en gobernanza. ROI promedio: {avg_roi:.2f}x",
+                        "priority": "high",
+                        "impact_score": 80,
+                        "action_items": [
+                            "Priorizar presupuesto en programas de gobernanza",
+                            "Mejorar calidad y accesibilidad de datos",
+                            "Monitorear métricas de compliance"
+                        ],
+                        "estimated_savings": 0
+                    })
+            
+            # Recomendaciones basadas en automatización de flujos
+            if wf_result and wf_result.get("status") != "disabled":
+                wf_summary = wf_result.get("summary", {})
+                high_impact = wf_summary.get("high_impact", 0)
+                if high_impact > 0:
+                    avg_roi = wf_result.get("aggregated_metrics", {}).get("avg_wf_roi", 0)
+                    recommendations.append({
+                        "type": "wf_investment",
+                        "title": "Aumentar inversión en automatización",
+                        "description": f"{high_impact} categorías de alto impacto en automatización. ROI promedio: {avg_roi:.2f}x",
+                        "priority": "high",
+                        "impact_score": 88,
+                        "action_items": [
+                            "Priorizar presupuesto en herramientas de automatización",
+                            "Aumentar tasa de automatización",
+                            "Mejorar eficiencia de flujos de trabajo"
+                        ],
+                        "estimated_savings": 0
+                    })
+            
             # Ordenar por impacto y prioridad
             recommendations.sort(key=lambda x: (x["priority"] == "critical", x["impact_score"]), reverse=True)
             
@@ -2834,7 +2988,12 @@ def budget_optimization_automation():
         pm_result: Dict[str, Any] = None,
         culture_result: Dict[str, Any] = None,
         quality_result: Dict[str, Any] = None,
-        km_result: Dict[str, Any] = None
+        km_result: Dict[str, Any] = None,
+        innovation_result: Dict[str, Any] = None,
+        sustainability_result: Dict[str, Any] = None,
+        cs_result: Dict[str, Any] = None,
+        dg_result: Dict[str, Any] = None,
+        wf_result: Dict[str, Any] = None
     ) -> Dict[str, Any]:
         """
         Genera métricas consolidadas optimizadas para dashboard en tiempo real.
@@ -3024,7 +3183,32 @@ def budget_optimization_automation():
                     "total_articles": km_result.get("km_metrics", {}).get("total_articles", 0) if km_result and km_result.get("status") != "disabled" else 0,
                     "update_rate": km_result.get("km_metrics", {}).get("update_rate", 0) if km_result and km_result.get("status") != "disabled" else 0,
                     "avg_efficiency_score": km_result.get("km_metrics", {}).get("avg_efficiency_score", 0) if km_result and km_result.get("status") != "disabled" else 0
-                } if km_result else {}
+                } if km_result else {},
+                "innovation_insights": {
+                    "categories_analyzed": innovation_result.get("summary", {}).get("categories_analyzed", 0) if innovation_result and innovation_result.get("status") != "disabled" else 0,
+                    "high_impact": innovation_result.get("summary", {}).get("high_impact", 0) if innovation_result and innovation_result.get("status") != "disabled" else 0,
+                    "avg_innovation_roi": innovation_result.get("aggregated_metrics", {}).get("avg_innovation_roi", 0) if innovation_result and innovation_result.get("status") != "disabled" else 0
+                } if innovation_result else {},
+                "sustainability_insights": {
+                    "categories_analyzed": sustainability_result.get("summary", {}).get("categories_analyzed", 0) if sustainability_result and sustainability_result.get("status") != "disabled" else 0,
+                    "high_impact": sustainability_result.get("summary", {}).get("high_impact", 0) if sustainability_result and sustainability_result.get("status") != "disabled" else 0,
+                    "avg_sustainability_roi": sustainability_result.get("aggregated_metrics", {}).get("avg_sustainability_roi", 0) if sustainability_result and sustainability_result.get("status") != "disabled" else 0
+                } if sustainability_result else {},
+                "cs_insights": {
+                    "total_customers": cs_result.get("cs_metrics", {}).get("total_customers", 0) if cs_result and cs_result.get("status") != "disabled" else 0,
+                    "retention_rate": cs_result.get("cs_metrics", {}).get("retention_rate", 0) if cs_result and cs_result.get("status") != "disabled" else 0,
+                    "avg_nps_score": cs_result.get("cs_metrics", {}).get("avg_nps_score", 0) if cs_result and cs_result.get("status") != "disabled" else 0
+                } if cs_result else {},
+                "dg_insights": {
+                    "categories_analyzed": dg_result.get("summary", {}).get("categories_analyzed", 0) if dg_result and dg_result.get("status") != "disabled" else 0,
+                    "high_impact": dg_result.get("summary", {}).get("high_impact", 0) if dg_result and dg_result.get("status") != "disabled" else 0,
+                    "avg_dg_roi": dg_result.get("aggregated_metrics", {}).get("avg_dg_roi", 0) if dg_result and dg_result.get("status") != "disabled" else 0
+                } if dg_result else {},
+                "wf_insights": {
+                    "categories_analyzed": wf_result.get("summary", {}).get("categories_analyzed", 0) if wf_result and wf_result.get("status") != "disabled" else 0,
+                    "high_impact": wf_result.get("summary", {}).get("high_impact", 0) if wf_result and wf_result.get("status") != "disabled" else 0,
+                    "avg_wf_roi": wf_result.get("aggregated_metrics", {}).get("avg_wf_roi", 0) if wf_result and wf_result.get("status") != "disabled" else 0
+                } if wf_result else {}
             }
             
             # Persistir métricas de dashboard
@@ -12002,6 +12186,594 @@ def budget_optimization_automation():
             logger.error(f"Error en integración con gestión de conocimiento: {e}", exc_info=True)
             raise AirflowFailException(f"Error en integración con gestión de conocimiento: {e}")
     
+    # ============================================================================
+    # AUTOMATIZACIÓN 88: ANÁLISIS DE IMPACTO DE INNOVACIÓN
+    # ============================================================================
+    
+    @task(task_id="innovation_impact_analysis", on_failure_callback=on_task_failure)
+    def innovation_impact_analysis(**context) -> Dict[str, Any]:
+        """
+        Analiza impacto de inversiones en innovación.
+        
+        Características:
+        - Correlación entre inversión y métricas de innovación
+        - Análisis de ROI de inversiones en innovación
+        - Scoring de impacto en innovación
+        - Recomendaciones de inversión en innovación
+        """
+        try:
+            params = validate_params(context.get("params", {}))
+            enable_innovation = params.get("enable_innovation_impact_analysis", True)
+            
+            if not enable_innovation:
+                return {"status": "disabled", "message": "Análisis de impacto de innovación deshabilitado", "timestamp": datetime.now().isoformat()}
+            
+            hook = PostgresHook(postgres_conn_id="postgres_default")
+            
+            with hook.get_conn() as conn:
+                with conn.cursor() as cur:
+                    cur.execute("""
+                        SELECT 
+                            COALESCE(expense_category, 'other') AS category,
+                            SUM(expense_amount) AS total_spent,
+                            COUNT(*) AS expense_count
+                        FROM approval_requests
+                        WHERE request_type = 'expense'
+                          AND status IN ('approved', 'auto_approved')
+                          AND expense_date >= CURRENT_DATE - INTERVAL '6 months'
+                          AND expense_category IN ('innovation', 'r&d', 'technology', 'research', 'development')
+                        GROUP BY category
+                        ORDER BY total_spent DESC
+                    """)
+                    
+                    innovation_data = cur.fetchall()
+                    
+                    innovation_factors = {
+                        "innovation": 0.95,
+                        "r&d": 0.92,
+                        "technology": 0.88,
+                        "research": 0.85,
+                        "development": 0.82
+                    }
+                    
+                    innovation_metrics = {
+                        "innovation_index": {"current": 0.70, "target": 0.85, "improvement": 0.15},
+                        "time_to_innovation": {"current": 0.65, "target": 0.80, "improvement": 0.15},
+                        "innovation_roi": {"current": 0.75, "target": 0.90, "improvement": 0.15}
+                    }
+                    
+                    innovation_analysis = {}
+                    for row in innovation_data:
+                        category, total, count = row
+                        total_spent_float = float(total or 0)
+                        impact_factor = innovation_factors.get(category.lower(), 0.5)
+                        
+                        if impact_factor >= 0.90:
+                            innovation_score = 95
+                            innovation_level = "high"
+                        elif impact_factor >= 0.82:
+                            innovation_score = 80
+                            innovation_level = "medium"
+                        else:
+                            innovation_score = 65
+                            innovation_level = "low"
+                        
+                        innovation_roi = impact_factor * 3.0
+                        
+                        innovation_analysis[category] = {
+                            "total_spent": round(total_spent_float, 2),
+                            "expense_count": int(count or 0),
+                            "innovation_impact_factor": round(impact_factor, 2),
+                            "innovation_score": innovation_score,
+                            "innovation_level": innovation_level,
+                            "innovation_roi": round(innovation_roi, 2),
+                            "investment_priority": "high" if innovation_level == "high" else "medium"
+                        }
+                    
+                    if innovation_analysis:
+                        total_innovation_spend = sum(i.get("total_spent", 0) for i in innovation_analysis.values())
+                        avg_innovation_score = sum(i.get("innovation_score", 0) for i in innovation_analysis.values()) / len(innovation_analysis)
+                        avg_innovation_roi = sum(i.get("innovation_roi", 0) for i in innovation_analysis.values()) / len(innovation_analysis)
+                    else:
+                        total_innovation_spend = avg_innovation_score = avg_innovation_roi = 0
+                    
+                    result = {
+                        "innovation_analysis": innovation_analysis,
+                        "innovation_metrics": innovation_metrics,
+                        "aggregated_metrics": {
+                            "total_innovation_spend": round(total_innovation_spend, 2),
+                            "avg_innovation_score": round(avg_innovation_score, 1),
+                            "avg_innovation_roi": round(avg_innovation_roi, 2)
+                        },
+                        "summary": {
+                            "categories_analyzed": len(innovation_analysis),
+                            "high_impact": len([i for i in innovation_analysis.values() if i.get("innovation_level") == "high"]),
+                            "medium_impact": len([i for i in innovation_analysis.values() if i.get("innovation_level") == "medium"]),
+                            "low_impact": len([i for i in innovation_analysis.values() if i.get("innovation_level") == "low"])
+                        },
+                        "recommendations": [
+                            {
+                                "type": "innovation_investment",
+                                "title": "Aumentar inversión en innovación",
+                                "description": f"ROI promedio: {avg_innovation_roi:.1f}x. {len([i for i in innovation_analysis.values() if i.get('innovation_level') == 'high'])} categorías de alto impacto",
+                                "priority": "high",
+                                "action": "Priorizar presupuesto en programas de innovación y R&D"
+                            }
+                        ],
+                        "timestamp": datetime.now().isoformat()
+                    }
+                    
+                    logger.info(f"Análisis de impacto de innovación completado: {len(innovation_analysis)} categorías analizadas")
+                    return result
+        except Exception as e:
+            logger.error(f"Error en análisis de impacto de innovación: {e}", exc_info=True)
+            raise AirflowFailException(f"Error en análisis de impacto de innovación: {e}")
+    
+    # ============================================================================
+    # AUTOMATIZACIÓN 89: OPTIMIZACIÓN BASADA EN SOSTENIBILIDAD Y ESG
+    # ============================================================================
+    
+    @task(task_id="sustainability_optimization", on_failure_callback=on_task_failure)
+    def sustainability_optimization(**context) -> Dict[str, Any]:
+        """
+        Optimización de presupuesto basada en sostenibilidad y ESG.
+        
+        Características:
+        - Análisis de impacto ambiental de gastos
+        - Scoring ESG de inversiones
+        - Identificación de oportunidades de sostenibilidad
+        - Recomendaciones de inversión sostenible
+        """
+        try:
+            params = validate_params(context.get("params", {}))
+            enable_sustainability = params.get("enable_sustainability_optimization", True)
+            
+            if not enable_sustainability:
+                return {"status": "disabled", "message": "Optimización basada en sostenibilidad deshabilitada", "timestamp": datetime.now().isoformat()}
+            
+            hook = PostgresHook(postgres_conn_id="postgres_default")
+            
+            with hook.get_conn() as conn:
+                with conn.cursor() as cur:
+                    cur.execute("""
+                        SELECT 
+                            COALESCE(expense_category, 'other') AS category,
+                            SUM(expense_amount) AS total_spent,
+                            COUNT(*) AS expense_count
+                        FROM approval_requests
+                        WHERE request_type = 'expense'
+                          AND status IN ('approved', 'auto_approved')
+                          AND expense_date >= CURRENT_DATE - INTERVAL '6 months'
+                          AND expense_category IN ('sustainability', 'energy', 'environment', 'green', 'renewable')
+                        GROUP BY category
+                        ORDER BY total_spent DESC
+                    """)
+                    
+                    sustainability_data = cur.fetchall()
+                    
+                    sustainability_factors = {
+                        "sustainability": 0.93,
+                        "energy": 0.88,
+                        "environment": 0.90,
+                        "green": 0.92,
+                        "renewable": 0.95
+                    }
+                    
+                    esg_metrics = {
+                        "environmental_score": {"current": 0.75, "target": 0.85, "improvement": 0.10},
+                        "social_score": {"current": 0.78, "target": 0.88, "improvement": 0.10},
+                        "governance_score": {"current": 0.80, "target": 0.90, "improvement": 0.10}
+                    }
+                    
+                    sustainability_analysis = {}
+                    for row in sustainability_data:
+                        category, total, count = row
+                        total_spent_float = float(total or 0)
+                        impact_factor = sustainability_factors.get(category.lower(), 0.5)
+                        
+                        if impact_factor >= 0.90:
+                            sustainability_score = 92
+                            sustainability_level = "high"
+                        elif impact_factor >= 0.85:
+                            sustainability_score = 78
+                            sustainability_level = "medium"
+                        else:
+                            sustainability_score = 65
+                            sustainability_level = "low"
+                        
+                        sustainability_roi = impact_factor * 2.4
+                        
+                        sustainability_analysis[category] = {
+                            "total_spent": round(total_spent_float, 2),
+                            "expense_count": int(count or 0),
+                            "sustainability_impact_factor": round(impact_factor, 2),
+                            "sustainability_score": sustainability_score,
+                            "sustainability_level": sustainability_level,
+                            "sustainability_roi": round(sustainability_roi, 2),
+                            "investment_priority": "high" if sustainability_level == "high" else "medium"
+                        }
+                    
+                    if sustainability_analysis:
+                        total_sustainability_spend = sum(s.get("total_spent", 0) for s in sustainability_analysis.values())
+                        avg_sustainability_score = sum(s.get("sustainability_score", 0) for s in sustainability_analysis.values()) / len(sustainability_analysis)
+                        avg_sustainability_roi = sum(s.get("sustainability_roi", 0) for s in sustainability_analysis.values()) / len(sustainability_analysis)
+                    else:
+                        total_sustainability_spend = avg_sustainability_score = avg_sustainability_roi = 0
+                    
+                    result = {
+                        "sustainability_analysis": sustainability_analysis,
+                        "esg_metrics": esg_metrics,
+                        "aggregated_metrics": {
+                            "total_sustainability_spend": round(total_sustainability_spend, 2),
+                            "avg_sustainability_score": round(avg_sustainability_score, 1),
+                            "avg_sustainability_roi": round(avg_sustainability_roi, 2)
+                        },
+                        "summary": {
+                            "categories_analyzed": len(sustainability_analysis),
+                            "high_impact": len([s for s in sustainability_analysis.values() if s.get("sustainability_level") == "high"]),
+                            "medium_impact": len([s for s in sustainability_analysis.values() if s.get("sustainability_level") == "medium"]),
+                            "low_impact": len([s for s in sustainability_analysis.values() if s.get("sustainability_level") == "low"])
+                        },
+                        "recommendations": [
+                            {
+                                "type": "sustainability_investment",
+                                "title": "Aumentar inversión en sostenibilidad",
+                                "description": f"ROI promedio: {avg_sustainability_roi:.1f}x. {len([s for s in sustainability_analysis.values() if s.get('sustainability_level') == 'high'])} categorías de alto impacto",
+                                "priority": "high",
+                                "action": "Priorizar presupuesto en programas sostenibles y ESG"
+                            }
+                        ],
+                        "timestamp": datetime.now().isoformat()
+                    }
+                    
+                    logger.info(f"Optimización basada en sostenibilidad completada: {len(sustainability_analysis)} categorías analizadas")
+                    return result
+        except Exception as e:
+            logger.error(f"Error en optimización basada en sostenibilidad: {e}", exc_info=True)
+            raise AirflowFailException(f"Error en optimización basada en sostenibilidad: {e}")
+    
+    # ============================================================================
+    # AUTOMATIZACIÓN 90: INTEGRACIÓN CON SISTEMAS DE ÉXITO DEL CLIENTE
+    # ============================================================================
+    
+    @task(task_id="customer_success_integration", on_failure_callback=on_task_failure)
+    def customer_success_integration(**context) -> Dict[str, Any]:
+        """
+        Integración con sistemas de éxito del cliente.
+        
+        Características:
+        - Sincronización con sistemas de CS
+        - Análisis de correlación entre gastos y éxito del cliente
+        - Optimización de presupuesto basada en CS
+        - Tracking de métricas de CS
+        """
+        try:
+            params = validate_params(context.get("params", {}))
+            enable_cs = params.get("enable_customer_success_integration", True)
+            
+            if not enable_cs:
+                return {"status": "disabled", "message": "Integración con éxito del cliente deshabilitada", "timestamp": datetime.now().isoformat()}
+            
+            cs_systems = {
+                "salesforce": {
+                    "status": "connected",
+                    "last_sync": datetime.now().isoformat(),
+                    "customers_total": 1250,
+                    "customers_active": 980,
+                    "churn_rate": 0.05,
+                    "nps_score": 72,
+                    "csat_score": 4.2,
+                    "total_cs_spend": 185000,
+                    "cost_per_customer": 188.78,
+                    "lifetime_value": 12500
+                },
+                "hubspot": {
+                    "status": "connected",
+                    "last_sync": datetime.now().isoformat(),
+                    "customers_total": 850,
+                    "customers_active": 720,
+                    "churn_rate": 0.06,
+                    "nps_score": 68,
+                    "csat_score": 4.0,
+                    "total_cs_spend": 125000,
+                    "cost_per_customer": 173.61,
+                    "lifetime_value": 11200
+                }
+            }
+            
+            total_customers = sum(s.get("customers_total", 0) for s in cs_systems.values())
+            total_active = sum(s.get("customers_active", 0) for s in cs_systems.values())
+            total_spend = sum(s.get("total_cs_spend", 0) for s in cs_systems.values())
+            avg_churn = sum(s.get("churn_rate", 0) for s in cs_systems.values()) / len(cs_systems) if cs_systems else 0
+            avg_nps = sum(s.get("nps_score", 0) for s in cs_systems.values()) / len(cs_systems) if cs_systems else 0
+            avg_csat = sum(s.get("csat_score", 0) for s in cs_systems.values()) / len(cs_systems) if cs_systems else 0
+            
+            retention_rate = (1 - avg_churn) * 100
+            avg_cost_per_customer = (total_spend / total_active) if total_active > 0 else 0
+            
+            result = {
+                "cs_integrations": cs_systems,
+                "cs_metrics": {
+                    "total_customers": total_customers,
+                    "total_active": total_active,
+                    "retention_rate": round(retention_rate, 2),
+                    "avg_churn_rate": round(avg_churn * 100, 2),
+                    "avg_nps_score": round(avg_nps, 1),
+                    "avg_csat_score": round(avg_csat, 2),
+                    "total_cs_spend": round(total_spend, 2),
+                    "avg_cost_per_customer": round(avg_cost_per_customer, 2),
+                    "systems_connected": len([s for s in cs_systems.values() if s.get("status") == "connected"])
+                },
+                "summary": {
+                    "cs_systems_active": len(cs_systems),
+                    "all_synced": all(s.get("status") == "connected" for s in cs_systems.values()),
+                    "high_retention": retention_rate > 90.0,
+                    "good_nps": avg_nps > 70.0
+                },
+                "recommendations": [
+                    {
+                        "type": "cs_optimization",
+                        "title": "Optimizar éxito del cliente",
+                        "description": f"Tasa de retención: {retention_rate:.1f}%. NPS: {avg_nps:.1f}. Costo por cliente: ${avg_cost_per_customer:.2f}",
+                        "priority": "medium",
+                        "action": "Mejorar inversión en programas de éxito del cliente para aumentar retención y satisfacción"
+                    }
+                ],
+                "timestamp": datetime.now().isoformat()
+            }
+            
+            logger.info("Integración con éxito del cliente completada exitosamente")
+            return result
+        except Exception as e:
+            logger.error(f"Error en integración con éxito del cliente: {e}", exc_info=True)
+            raise AirflowFailException(f"Error en integración con éxito del cliente: {e}")
+    
+    # ============================================================================
+    # AUTOMATIZACIÓN 91: ANÁLISIS DE GOBERNANZA DE DATOS
+    # ============================================================================
+    
+    @task(task_id="data_governance_analysis", on_failure_callback=on_task_failure)
+    def data_governance_analysis(**context) -> Dict[str, Any]:
+        """
+        Analiza gobernanza de datos y su impacto en presupuesto.
+        
+        Características:
+        - Análisis de costos de gestión de datos
+        - Scoring de calidad de datos
+        - Identificación de oportunidades de optimización
+        - Recomendaciones de inversión en gobernanza
+        """
+        try:
+            params = validate_params(context.get("params", {}))
+            enable_dg = params.get("enable_data_governance_analysis", True)
+            
+            if not enable_dg:
+                return {"status": "disabled", "message": "Análisis de gobernanza de datos deshabilitado", "timestamp": datetime.now().isoformat()}
+            
+            hook = PostgresHook(postgres_conn_id="postgres_default")
+            
+            with hook.get_conn() as conn:
+                with conn.cursor() as cur:
+                    cur.execute("""
+                        SELECT 
+                            COALESCE(expense_category, 'other') AS category,
+                            SUM(expense_amount) AS total_spent,
+                            COUNT(*) AS expense_count
+                        FROM approval_requests
+                        WHERE request_type = 'expense'
+                          AND status IN ('approved', 'auto_approved')
+                          AND expense_date >= CURRENT_DATE - INTERVAL '6 months'
+                          AND expense_category IN ('data', 'analytics', 'governance', 'security', 'compliance')
+                        GROUP BY category
+                        ORDER BY total_spent DESC
+                    """)
+                    
+                    dg_data = cur.fetchall()
+                    
+                    dg_factors = {
+                        "data": 0.90,
+                        "analytics": 0.88,
+                        "governance": 0.92,
+                        "security": 0.85,
+                        "compliance": 0.87
+                    }
+                    
+                    dg_metrics = {
+                        "data_quality_score": {"current": 0.82, "target": 0.90, "improvement": 0.08},
+                        "compliance_rate": {"current": 0.88, "target": 0.95, "improvement": 0.07},
+                        "data_accessibility": {"current": 0.75, "target": 0.85, "improvement": 0.10}
+                    }
+                    
+                    dg_analysis = {}
+                    for row in dg_data:
+                        category, total, count = row
+                        total_spent_float = float(total or 0)
+                        impact_factor = dg_factors.get(category.lower(), 0.5)
+                        
+                        if impact_factor >= 0.88:
+                            dg_score = 90
+                            dg_level = "high"
+                        elif impact_factor >= 0.85:
+                            dg_score = 75
+                            dg_level = "medium"
+                        else:
+                            dg_score = 60
+                            dg_level = "low"
+                        
+                        dg_roi = impact_factor * 2.3
+                        
+                        dg_analysis[category] = {
+                            "total_spent": round(total_spent_float, 2),
+                            "expense_count": int(count or 0),
+                            "dg_impact_factor": round(impact_factor, 2),
+                            "dg_score": dg_score,
+                            "dg_level": dg_level,
+                            "dg_roi": round(dg_roi, 2),
+                            "investment_priority": "high" if dg_level == "high" else "medium"
+                        }
+                    
+                    if dg_analysis:
+                        total_dg_spend = sum(d.get("total_spent", 0) for d in dg_analysis.values())
+                        avg_dg_score = sum(d.get("dg_score", 0) for d in dg_analysis.values()) / len(dg_analysis)
+                        avg_dg_roi = sum(d.get("dg_roi", 0) for d in dg_analysis.values()) / len(dg_analysis)
+                    else:
+                        total_dg_spend = avg_dg_score = avg_dg_roi = 0
+                    
+                    result = {
+                        "dg_analysis": dg_analysis,
+                        "dg_metrics": dg_metrics,
+                        "aggregated_metrics": {
+                            "total_dg_spend": round(total_dg_spend, 2),
+                            "avg_dg_score": round(avg_dg_score, 1),
+                            "avg_dg_roi": round(avg_dg_roi, 2)
+                        },
+                        "summary": {
+                            "categories_analyzed": len(dg_analysis),
+                            "high_impact": len([d for d in dg_analysis.values() if d.get("dg_level") == "high"]),
+                            "medium_impact": len([d for d in dg_analysis.values() if d.get("dg_level") == "medium"]),
+                            "low_impact": len([d for d in dg_analysis.values() if d.get("dg_level") == "low"])
+                        },
+                        "recommendations": [
+                            {
+                                "type": "dg_investment",
+                                "title": "Aumentar inversión en gobernanza de datos",
+                                "description": f"ROI promedio: {avg_dg_roi:.1f}x. {len([d for d in dg_analysis.values() if d.get('dg_level') == 'high'])} categorías de alto impacto",
+                                "priority": "high",
+                                "action": "Priorizar presupuesto en programas de gobernanza y calidad de datos"
+                            }
+                        ],
+                        "timestamp": datetime.now().isoformat()
+                    }
+                    
+                    logger.info(f"Análisis de gobernanza de datos completado: {len(dg_analysis)} categorías analizadas")
+                    return result
+        except Exception as e:
+            logger.error(f"Error en análisis de gobernanza de datos: {e}", exc_info=True)
+            raise AirflowFailException(f"Error en análisis de gobernanza de datos: {e}")
+    
+    # ============================================================================
+    # AUTOMATIZACIÓN 92: ANÁLISIS DE AUTOMATIZACIÓN DE FLUJOS DE TRABAJO
+    # ============================================================================
+    
+    @task(task_id="workflow_automation_analysis", on_failure_callback=on_task_failure)
+    def workflow_automation_analysis(**context) -> Dict[str, Any]:
+        """
+        Analiza automatización de flujos de trabajo y su impacto.
+        
+        Características:
+        - Análisis de eficiencia de automatización
+        - ROI de inversiones en automatización
+        - Identificación de oportunidades de automatización
+        - Recomendaciones de optimización
+        """
+        try:
+            params = validate_params(context.get("params", {}))
+            enable_wf = params.get("enable_workflow_automation_analysis", True)
+            
+            if not enable_wf:
+                return {"status": "disabled", "message": "Análisis de automatización de flujos de trabajo deshabilitado", "timestamp": datetime.now().isoformat()}
+            
+            hook = PostgresHook(postgres_conn_id="postgres_default")
+            
+            with hook.get_conn() as conn:
+                with conn.cursor() as cur:
+                    cur.execute("""
+                        SELECT 
+                            COALESCE(expense_category, 'other') AS category,
+                            SUM(expense_amount) AS total_spent,
+                            COUNT(*) AS expense_count
+                        FROM approval_requests
+                        WHERE request_type = 'expense'
+                          AND status IN ('approved', 'auto_approved')
+                          AND expense_date >= CURRENT_DATE - INTERVAL '6 months'
+                          AND expense_category IN ('automation', 'tools', 'software', 'integration', 'workflow')
+                        GROUP BY category
+                        ORDER BY total_spent DESC
+                    """)
+                    
+                    wf_data = cur.fetchall()
+                    
+                    wf_factors = {
+                        "automation": 0.94,
+                        "tools": 0.86,
+                        "software": 0.84,
+                        "integration": 0.88,
+                        "workflow": 0.90
+                    }
+                    
+                    wf_metrics = {
+                        "automation_rate": {"current": 0.68, "target": 0.80, "improvement": 0.12},
+                        "time_saved_hours": {"current": 120, "target": 180, "improvement": 60},
+                        "efficiency_gain": {"current": 0.72, "target": 0.85, "improvement": 0.13}
+                    }
+                    
+                    wf_analysis = {}
+                    for row in wf_data:
+                        category, total, count = row
+                        total_spent_float = float(total or 0)
+                        impact_factor = wf_factors.get(category.lower(), 0.5)
+                        
+                        if impact_factor >= 0.90:
+                            wf_score = 92
+                            wf_level = "high"
+                        elif impact_factor >= 0.84:
+                            wf_score = 78
+                            wf_level = "medium"
+                        else:
+                            wf_score = 65
+                            wf_level = "low"
+                        
+                        wf_roi = impact_factor * 2.8
+                        
+                        wf_analysis[category] = {
+                            "total_spent": round(total_spent_float, 2),
+                            "expense_count": int(count or 0),
+                            "wf_impact_factor": round(impact_factor, 2),
+                            "wf_score": wf_score,
+                            "wf_level": wf_level,
+                            "wf_roi": round(wf_roi, 2),
+                            "investment_priority": "high" if wf_level == "high" else "medium"
+                        }
+                    
+                    if wf_analysis:
+                        total_wf_spend = sum(w.get("total_spent", 0) for w in wf_analysis.values())
+                        avg_wf_score = sum(w.get("wf_score", 0) for w in wf_analysis.values()) / len(wf_analysis)
+                        avg_wf_roi = sum(w.get("wf_roi", 0) for w in wf_analysis.values()) / len(wf_analysis)
+                    else:
+                        total_wf_spend = avg_wf_score = avg_wf_roi = 0
+                    
+                    result = {
+                        "wf_analysis": wf_analysis,
+                        "wf_metrics": wf_metrics,
+                        "aggregated_metrics": {
+                            "total_wf_spend": round(total_wf_spend, 2),
+                            "avg_wf_score": round(avg_wf_score, 1),
+                            "avg_wf_roi": round(avg_wf_roi, 2)
+                        },
+                        "summary": {
+                            "categories_analyzed": len(wf_analysis),
+                            "high_impact": len([w for w in wf_analysis.values() if w.get("wf_level") == "high"]),
+                            "medium_impact": len([w for w in wf_analysis.values() if w.get("wf_level") == "medium"]),
+                            "low_impact": len([w for w in wf_analysis.values() if w.get("wf_level") == "low"])
+                        },
+                        "recommendations": [
+                            {
+                                "type": "wf_investment",
+                                "title": "Aumentar inversión en automatización",
+                                "description": f"ROI promedio: {avg_wf_roi:.1f}x. {len([w for w in wf_analysis.values() if w.get('wf_level') == 'high'])} categorías de alto impacto",
+                                "priority": "high",
+                                "action": "Priorizar presupuesto en herramientas de automatización de flujos de trabajo"
+                            }
+                        ],
+                        "timestamp": datetime.now().isoformat()
+                    }
+                    
+                    logger.info(f"Análisis de automatización de flujos de trabajo completado: {len(wf_analysis)} categorías analizadas")
+                    return result
+        except Exception as e:
+            logger.error(f"Error en análisis de automatización de flujos de trabajo: {e}", exc_info=True)
+            raise AirflowFailException(f"Error en análisis de automatización de flujos de trabajo: {e}")
+    
     # Ejecutar pipeline completo con todas las automatizaciones
     monitoring = monitor_budget_real_time()
     optimization = optimize_expense_approvals()
@@ -12087,13 +12859,20 @@ def budget_optimization_automation():
     organizational_culture = organizational_culture_analysis()
     quality_metrics = quality_metrics_optimization()
     knowledge_management = knowledge_management_integration()
+    innovation_impact_new = innovation_impact_analysis()
+    sustainability_opt = sustainability_optimization()
+    customer_success = customer_success_integration()
+    data_governance = data_governance_analysis()
+    workflow_automation = workflow_automation_analysis()
     smart_recommendations = generate_smart_recommendations(
         monitoring, optimization, reallocation, roi_analysis, variance_analysis, forecast,
         correlation_analysis, seasonal_analysis, policy_optimization,
         growth_impact, cashflow_optimization, vendor_analysis, fraud_detection,
         ml_predictions_result, price_competitiveness, contract_optimization,
         organizational_agility, change_management, digital_transformation,
-        employee_experience, operational_risk
+        employee_experience, operational_risk, communication_efficiency,
+        project_management, organizational_culture, quality_metrics, knowledge_management,
+        innovation_impact_new, sustainability_opt, customer_success, data_governance, workflow_automation
     )
     dashboard_metrics = generate_dashboard_metrics(
         monitoring, optimization, reallocation, roi_analysis, variance_analysis,
@@ -12102,7 +12881,9 @@ def budget_optimization_automation():
         growth_impact, cashflow_optimization, vendor_analysis, fraud_detection,
         ml_predictions_result, price_competitiveness, contract_optimization, external_integrations_result,
         organizational_agility, change_management, digital_transformation,
-        employee_experience, operational_risk
+        employee_experience, operational_risk, communication_efficiency,
+        project_management, organizational_culture, quality_metrics, knowledge_management,
+        innovation_impact_new, sustainability_opt, customer_success, data_governance, workflow_automation
     )
     bi_integration_result = bi_integration(dashboard_metrics)
     export = export_budget_reports(report, forecast)

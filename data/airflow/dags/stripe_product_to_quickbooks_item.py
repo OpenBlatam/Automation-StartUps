@@ -31,6 +31,8 @@ Ejemplo de uso:
     if sync_result.success:
         print(f"Ítem {sync_result.action} con ID {sync_result.qb_item_id}")
 """
+from __future__ import annotations
+
 import os
 import re
 import time
@@ -2727,7 +2729,7 @@ def _adaptive_chunk_size(
     return ideal_chunk_size
 
 
-def _add_retry_jitter(base_delay: float, max_jitter: float = RETRY_JITTER_MAX) -> float:
+def _add_retry_jitter(base_delay: float, max_jitter: float = 5.0) -> float:
     """
     Agrega jitter aleatorio a un delay de retry para evitar thundering herd.
     
@@ -3076,7 +3078,7 @@ def _create_error_result(
     )
 
 
-def _add_retry_jitter(base_delay: float, max_jitter: float = RETRY_JITTER_MAX) -> float:
+def _add_retry_jitter(base_delay: float, max_jitter: float = 5.0) -> float:
     """
     Agrega jitter aleatorio a un delay de retry para evitar thundering herd.
     
@@ -6212,55 +6214,10 @@ def comparar_productos_stripe_quickbooks(
     
     return comparacion
 
-        "quickbooks": {},
-        "timestamp": time.time()
-    }
-    
+
+def _check_health_components(health_status, quickbooks_client, test_product_id=None):
+    """Helper function to check health components."""
     try:
-        # Obtener producto de Stripe
-        producto_stripe = _obtener_producto_stripe(stripe_product_id)
-        if producto_stripe:
-            comparacion["stripe"] = {
-                "nombre": producto_stripe.get("name"),
-                "activo": producto_stripe.get("active", True),
-                "descripcion": producto_stripe.get("description")
-            }
-        
-        # Buscar ítem en QuickBooks
-        nombre_busqueda = quickbooks_item_name or comparacion["stripe"].get("nombre")
-        if nombre_busqueda:
-            item_qb = quickbooks_client.find_item_by_name(nombre_busqueda)
-            if item_qb:
-                comparacion["quickbooks"] = {
-                    "id": item_qb.get("Id"),
-                    "nombre": item_qb.get("Name"),
-                    "precio": item_qb.get("UnitPrice"),
-                    "activo": item_qb.get("Active", True),
-                    "tipo": item_qb.get("Type")
-                }
-                
-                # Comparar
-                if producto_stripe:
-                    if comparacion["stripe"]["nombre"] != comparacion["quickbooks"]["nombre"]:
-                        comparacion["diferencias"].append("nombre")
-                    
-                    if comparacion["stripe"]["activo"] != comparacion["quickbooks"]["activo"]:
-                        comparacion["diferencias"].append("estado_activo")
-                
-                comparacion["coinciden"] = len(comparacion["diferencias"]) == 0
-            else:
-                comparacion["diferencias"].append("item_no_encontrado")
-        else:
-            comparacion["diferencias"].append("nombre_no_disponible")
-            
-    except Exception as e:
-        comparacion["error"] = str(e)
-        logger.error(f"Error comparando productos: {str(e)}")
-    
-    return comparacion
-
-
-
         if QuickBooksClient._item_cache:
             cache_size = len(QuickBooksClient._item_cache)
             cache_maxsize = QuickBooksClient._item_cache.maxsize
@@ -6372,35 +6329,6 @@ def optimize_sync_strategy(
         },
         "timestamp": time.time()
     }
-
-
-
-                key = result.action or "unknown"
-            elif group_by == "error_type":
-                error_msg = result.error_message or ""
-                key = _get_error_category_from_message(error_msg)
-            else:
-                key = "unknown"
-            
-            if key not in groups:
-                groups[key] = []
-            groups[key].append(result)
-        
-        summary["grouped"] = {
-            key: {
-                "count": len(group_results),
-                "success_rate": sum(1 for r in group_results if r.success) / len(group_results) * 100 if group_results else 0
-            }
-            for key, group_results in groups.items()
-        }
-    
-    # Calcular rates
-    summary["success_rate"] = (summary["successful"] / summary["total"] * 100) if summary["total"] > 0 else 0.0
-    summary["failure_rate"] = (summary["failed"] / summary["total"] * 100) if summary["total"] > 0 else 0.0
-    summary["create_rate"] = (summary["created"] / summary["total"] * 100) if summary["total"] > 0 else 0.0
-    summary["update_rate"] = (summary["updated"] / summary["total"] * 100) if summary["total"] > 0 else 0.0
-    
-    return summary
 
 
 def sync_with_progress_tracking(

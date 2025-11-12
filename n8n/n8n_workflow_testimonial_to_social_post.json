@@ -1,0 +1,491 @@
+{
+  "name": "Testimonial to Social Post Converter",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "testimonial-convert",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-trigger",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "testimonial-convert"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "testimonial",
+              "name": "testimonial",
+              "value": "={{ $json.body.testimonial || $json.testimonial }}",
+              "type": "string"
+            },
+            {
+              "id": "target_audience",
+              "name": "target_audience",
+              "value": "={{ $json.body.target_audience || $json.target_audience }}",
+              "type": "string"
+            },
+            {
+              "id": "platform",
+              "name": "platform",
+              "value": "={{ $json.body.platform || $json.platform || 'general' }}",
+              "type": "string"
+            },
+            {
+              "id": "tone",
+              "name": "tone",
+              "value": "={{ $json.body.tone || $json.tone || 'cálido y profesional' }}",
+              "type": "string"
+            },
+            {
+              "id": "include_hashtags",
+              "name": "include_hashtags",
+              "value": "={{ $json.body.include_hashtags !== undefined ? $json.body.include_hashtags : true }}",
+              "type": "boolean"
+            },
+            {
+              "id": "include_cta",
+              "name": "include_cta",
+              "value": "={{ $json.body.include_cta !== undefined ? $json.body.include_cta : true }}",
+              "type": "boolean"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-data",
+      "name": "Set Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Importar módulos necesarios\nconst { execSync } = require('child_process');\nconst path = require('path');\n\n// Obtener datos del nodo anterior\nconst testimonial = $input.item.json.testimonial;\nconst targetAudience = $input.item.json.target_audience;\nconst platform = $input.item.json.platform || 'general';\nconst tone = $input.item.json.tone || 'cálido y profesional';\nconst includeHashtags = $input.item.json.include_hashtags !== false;\nconst includeCta = $input.item.json.include_cta !== false;\n\n// Ruta al script\nconst scriptPath = path.join(__dirname, '../scripts/testimonial_to_social_post.py');\n\n// Construir comando\nconst cmd = [\n  'python3',\n  scriptPath,\n  `\"${testimonial.replace(/\"/g, '\\\"')}\"`,\n  `\"${targetAudience.replace(/\"/g, '\\\"')}\"`,\n  '--platform', platform,\n  '--tone', `\"${tone}\"`,\n  '--output', 'json'\n];\n\nif (!includeHashtags) cmd.push('--no-hashtags');\nif (!includeCta) cmd.push('--no-cta');\n\n// Configurar API key desde variables de entorno\nconst apiKey = process.env.OPENAI_API_KEY;\nif (!apiKey) {\n  throw new Error('OPENAI_API_KEY no está configurada en las variables de entorno');\n}\n\n// Ejecutar script\nlet result;\ntry {\n  const output = execSync(cmd.join(' '), {\n    encoding: 'utf-8',\n    env: { ...process.env, OPENAI_API_KEY: apiKey },\n    maxBuffer: 10 * 1024 * 1024 // 10MB\n  });\n  \n  result = JSON.parse(output.trim());\n} catch (error) {\n  throw new Error(`Error al ejecutar el script: ${error.message}\\nOutput: ${error.stdout || ''}\\nError: ${error.stderr || ''}`);\n}\n\n// Retornar resultado\nreturn {\n  json: {\n    post_content: result.post_content,\n    full_post: result.full_post,\n    hashtags: result.hashtags || [],\n    call_to_action: result.call_to_action || null,\n    platform: result.platform,\n    length: result.length,\n    max_length: result.max_length,\n    metadata: result.metadata,\n    timestamp: result.timestamp\n  }\n};"
+      },
+      "id": "convert-testimonial",
+      "name": "Convert Testimonial",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "check-success",
+              "leftValue": "={{ $json.post_content }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "isNotEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "validate-result",
+      "name": "Validate Result",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "error",
+              "name": "error",
+              "value": "={{ $json.error || 'Error desconocido al generar la publicación' }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "error-handler",
+      "name": "Error Handler",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [850, 500]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "check-platform",
+              "leftValue": "={{ $json.platform }}",
+              "rightValue": "instagram",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-platform",
+      "name": "Check Platform",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [1050, 300],
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "instagram",
+                    "leftValue": "={{ $json.platform }}",
+                    "rightValue": "instagram",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "instagram"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "facebook",
+                    "leftValue": "={{ $json.platform }}",
+                    "rightValue": "facebook",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "facebook"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "linkedin",
+                    "leftValue": "={{ $json.platform }}",
+                    "rightValue": "linkedin",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "linkedin"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "twitter",
+                    "leftValue": "={{ $json.platform }}",
+                    "rightValue": "twitter",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "twitter"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "parameters": {
+        "resource": "post",
+        "operation": "create",
+        "caption": "={{ $json.full_post }}",
+        "additionalFields": {
+          "location": ""
+        }
+      },
+      "id": "instagram-post",
+      "name": "Post to Instagram",
+      "type": "n8n-nodes-base.instagram",
+      "typeVersion": 1,
+      "position": [1250, 200],
+      "disabled": true,
+      "notes": "Configura las credenciales de Instagram en este nodo"
+    },
+    {
+      "parameters": {
+        "resource": "post",
+        "operation": "create",
+        "message": "={{ $json.full_post }}",
+        "additionalFields": {}
+      },
+      "id": "facebook-post",
+      "name": "Post to Facebook",
+      "type": "n8n-nodes-base.facebook",
+      "typeVersion": 2,
+      "position": [1250, 300],
+      "disabled": true,
+      "notes": "Configura las credenciales de Facebook en este nodo"
+    },
+    {
+      "parameters": {
+        "resource": "post",
+        "operation": "create",
+        "text": "={{ $json.full_post }}",
+        "additionalFields": {}
+      },
+      "id": "linkedin-post",
+      "name": "Post to LinkedIn",
+      "type": "n8n-nodes-base.linkedIn",
+      "typeVersion": 2,
+      "position": [1250, 400],
+      "disabled": true,
+      "notes": "Configura las credenciales de LinkedIn en este nodo"
+    },
+    {
+      "parameters": {
+        "resource": "tweet",
+        "operation": "create",
+        "text": "={{ $json.full_post }}",
+        "additionalFields": {}
+      },
+      "id": "twitter-post",
+      "name": "Post to Twitter",
+      "type": "n8n-nodes-base.twitter",
+      "typeVersion": 2,
+      "position": [1250, 500],
+      "disabled": true,
+      "notes": "Configura las credenciales de Twitter en este nodo"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"success\": true, \"post\": $json } }}"
+      },
+      "id": "success-response",
+      "name": "Success Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1450, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"success\": false, \"error\": $json.error } }}",
+        "responseCode": 500
+      },
+      "id": "error-response",
+      "name": "Error Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1050, 500]
+    }
+  ],
+  "connections": {
+    "Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Set Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Data": {
+      "main": [
+        [
+          {
+            "node": "Convert Testimonial",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert Testimonial": {
+      "main": [
+        [
+          {
+            "node": "Validate Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Result": {
+      "main": [
+        [
+          {
+            "node": "Check Platform",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error Handler",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Platform": {
+      "main": [
+        [
+          {
+            "node": "Post to Instagram",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Post to Facebook",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Post to LinkedIn",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Post to Twitter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post to Instagram": {
+      "main": [
+        [
+          {
+            "node": "Success Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post to Facebook": {
+      "main": [
+        [
+          {
+            "node": "Success Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post to LinkedIn": {
+      "main": [
+        [
+          {
+            "node": "Success Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post to Twitter": {
+      "main": [
+        [
+          {
+            "node": "Success Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Handler": {
+      "main": [
+        [
+          {
+            "node": "Error Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1"
+}

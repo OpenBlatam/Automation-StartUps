@@ -1,0 +1,597 @@
+{
+  "name": "TikTok Auto Download & Edit - WhatsApp & Telegram",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "telegram-trigger",
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "telegram-tiktok-edit",
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "whatsapp-tiktok",
+        "responseMode": "responseNode",
+        "options": {
+          "rawBody": true
+        }
+      },
+      "id": "whatsapp-webhook",
+      "name": "WhatsApp Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 500],
+      "webhookId": "whatsapp-tiktok-edit"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"status\": \"received\", \"message\": \"Procesando link de TikTok...\" } }}"
+      },
+      "id": "whatsapp-response",
+      "name": "WhatsApp Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [450, 500]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Merge Telegram and WhatsApp inputs with improved parsing\nconst items = $input.all();\nconst merged = [];\n\nfor (const item of items) {\n  const json = item.json;\n  \n  // Detectar si viene de Telegram o WhatsApp\n  let source = 'unknown';\n  let messageText = '';\n  let chatId = null;\n  let messageId = null;\n  \n  if (json.message) {\n    // Telegram\n    source = 'telegram';\n    messageText = json.message.text || json.message.caption || '';\n    chatId = json.message.chat.id;\n    messageId = json.message.message_id;\n  } else if (json.Body || json.text || json.message) {\n    // WhatsApp (diferentes formatos según proveedor)\n    source = 'whatsapp';\n    \n    // Intentar múltiples formatos de WhatsApp\n    messageText = json.Body || \n                  json.text || \n                  json.message ||\n                  (json.entry && json.entry[0] && json.entry[0].changes && \n                   json.entry[0].changes[0] && json.entry[0].changes[0].value &&\n                   json.entry[0].changes[0].value.messages && \n                   json.entry[0].changes[0].value.messages[0] &&\n                   json.entry[0].changes[0].value.messages[0].text &&\n                   json.entry[0].changes[0].value.messages[0].text.body) || '';\n    \n    chatId = json.From || \n             json.from || \n             json.wa_id ||\n             (json.entry && json.entry[0] && json.entry[0].changes && \n              json.entry[0].changes[0] && json.entry[0].changes[0].value &&\n              json.entry[0].changes[0].value.messages && \n              json.entry[0].changes[0].value.messages[0] &&\n              json.entry[0].changes[0].value.messages[0].from) || null;\n    \n    messageId = json.MessageSid || \n                json.id ||\n                (json.entry && json.entry[0] && json.entry[0].changes && \n                 json.entry[0].changes[0] && json.entry[0].changes[0].value &&\n                 json.entry[0].changes[0].value.messages && \n                 json.entry[0].changes[0].value.messages[0] &&\n                 json.entry[0].changes[0].value.messages[0].id) || null;\n  }\n  \n  merged.push({\n    ...json,\n    source: source,\n    messageText: messageText,\n    chatId: chatId,\n    messageId: messageId,\n    timestamp: new Date().toISOString()\n  });\n}\n\nreturn merged.map(item => ({ json: item }));"
+      },
+      "id": "merge-inputs",
+      "name": "Merge Inputs",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [450, 400]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "has-text",
+              "leftValue": "={{ $json.messageText }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            },
+            {
+              "id": "has-tiktok-link",
+              "leftValue": "={{ $json.messageText }}",
+              "rightValue": "(tiktok\\.com|vm\\.tiktok\\.com|vt\\.tiktok\\.com)",
+              "operator": {
+                "type": "string",
+                "operation": "regex"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "filter-tiktok-link",
+      "name": "Filter TikTok Link",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [650, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract TikTok URL from message\nconst messageText = $json.messageText || '';\n\n// Regex para detectar URLs de TikTok\nconst tiktokUrlRegex = /(https?:\\/\\/)?(www\\.)?(vm\\.|vt\\.)?tiktok\\.com\\/[^\\s]+|https?:\\/\\/vm\\.tiktok\\.com\\/[^\\s]+|https?:\\/\\/vt\\.tiktok\\.com\\/[^\\s]+/gi;\nconst matches = messageText.match(tiktokUrlRegex);\n\nif (!matches || matches.length === 0) {\n  throw new Error('No se encontró URL de TikTok en el mensaje');\n}\n\n// Tomar la primera URL encontrada\nlet tiktokUrl = matches[0];\n\n// Asegurar que tenga protocolo\nif (!tiktokUrl.startsWith('http://') && !tiktokUrl.startsWith('https://')) {\n  tiktokUrl = 'https://' + tiktokUrl;\n}\n\nreturn {\n  json: {\n    ...$input.item.json,\n    tiktokUrl: tiktokUrl,\n    extractedAt: new Date().toISOString()\n  }\n};"
+      },
+      "id": "extract-url",
+      "name": "Extract TikTok URL",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [850, 400]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "text": "=🎬 Procesando video de TikTok...\n\n📥 Descargando video sin marca de agua...\n⏳ Esto puede tomar unos momentos."
+      },
+      "id": "notify-start",
+      "name": "Notify Start Processing",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1050, 300],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "command": "python3",
+        "arguments": "=/Users/adan/IA/scripts/tiktok_downloader.py \"{{ $json.tiktokUrl }}\" -o /tmp/tiktok_downloads -j",
+        "options": {
+          "cwd": "/Users/adan/IA/scripts"
+        }
+      },
+      "id": "download-tiktok",
+      "name": "Download TikTok Video",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [1050, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse download result\nconst downloadResult = JSON.parse($json.stdout || '{}');\n\nif (!downloadResult.success) {\n  throw new Error(downloadResult.message || 'Error al descargar el video');\n}\n\nreturn {\n  json: {\n    ...$input.item.json,\n    videoInfo: downloadResult,\n    videoPath: downloadResult.file_path\n  }\n};"
+      },
+      "id": "parse-download",
+      "name": "Parse Download Result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1250, 400]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "text": "=✅ Video descargado exitosamente\n\n🤖 Analizando video con IA para generar script de edición...\n⏳ Esto puede tomar 30-60 segundos."
+      },
+      "id": "notify-downloaded",
+      "name": "Notify Downloaded",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1450, 300],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "command": "python3",
+        "arguments": "=/Users/adan/IA/scripts/video_script_generator.py \"{{ $json.videoPath }}\" -n 10 -o /tmp/video_script.json",
+        "options": {
+          "cwd": "/Users/adan/IA/scripts"
+        }
+      },
+      "id": "generate-script",
+      "name": "Generate Editing Script",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [1450, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse script generation result\nconst scriptResult = JSON.parse($json.stdout || '{}');\n\n// Leer el archivo de script generado\nconst fs = require('fs');\nlet scriptData = {};\n\ntry {\n  const scriptContent = fs.readFileSync('/tmp/video_script.json', 'utf8');\n  scriptData = JSON.parse(scriptContent);\n} catch (error) {\n  console.error('Error leyendo script:', error);\n  // Crear script básico si falla\n  scriptData = {\n    editing_script: {\n      transitions: [\n        { start_time: 0, end_time: 1, type: 'fade_in' },\n        { start_time: scriptResult.video_metadata?.duration - 1 || 9, end_time: scriptResult.video_metadata?.duration || 10, type: 'fade_out' }\n      ],\n      effects: [],\n      cuts: [],\n      speed_changes: []\n    },\n    summary: 'Script básico generado'\n  };\n}\n\nreturn {\n  json: {\n    ...$input.item.json,\n    editingScript: scriptData,\n    scriptPath: '/tmp/video_script.json'\n  }\n};"
+      },
+      "id": "parse-script",
+      "name": "Parse Script",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 400]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "text": "=📝 Script de edición generado\n\n🎬 Editando video con transiciones y efectos...\n⏳ Esto puede tomar 1-2 minutos."
+      },
+      "id": "notify-script",
+      "name": "Notify Script Generated",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1850, 300],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "command": "python3",
+        "arguments": "=/Users/adan/IA/scripts/video_editor.py \"{{ $json.videoPath }}\" \"{{ $json.scriptPath }}\" -o video_edited.mp4 -d /tmp/tiktok_edited",
+        "options": {
+          "cwd": "/Users/adan/IA/scripts"
+        }
+      },
+      "id": "edit-video",
+      "name": "Edit Video",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [1850, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse edit result\nconst editResult = JSON.parse($json.stdout || '{}');\n\nif (!editResult.success) {\n  throw new Error(editResult.message || 'Error al editar el video');\n}\n\nreturn {\n  json: {\n    ...$input.item.json,\n    editedVideoPath: editResult.output_path,\n    editedVideoSize: editResult.file_size,\n    editedVideoDuration: editResult.duration\n  }\n};"
+      },
+      "id": "parse-edit",
+      "name": "Parse Edit Result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2050, 400]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "is-telegram",
+              "leftValue": "={{ $json.source }}",
+              "rightValue": "telegram",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-source",
+      "name": "Check Source Platform",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [2250, 400]
+    },
+    {
+      "parameters": {
+        "operation": "sendVideo",
+        "chatId": "={{ $json.chatId }}",
+        "binaryData": true,
+        "additionalFields": {
+          "caption": "=✅ Video editado y listo para usar\n\n🎬 Transiciones y efectos aplicados según análisis de IA\n📊 Tamaño: {{ Math.round($json.editedVideoSize / 1024 / 1024 * 100) / 100 }} MB\n⏱️ Duración: {{ Math.round($json.editedVideoDuration * 100) / 100 }}s"
+        }
+      },
+      "id": "send-telegram-video",
+      "name": "Send Telegram Video",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [2450, 300],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.WHATSAPP_API_URL || 'https://api.whatsapp.com' }}/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "multipart/form-data"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "to",
+              "value": "={{ $json.chatId }}"
+            },
+            {
+              "name": "type",
+              "value": "video"
+            },
+            {
+              "name": "video",
+              "value": "={{ $binary.data }}"
+            },
+            {
+              "name": "caption",
+              "value": "=✅ Video editado y listo para usar\n\n🎬 Transiciones y efectos aplicados según análisis de IA\n📊 Tamaño: {{ Math.round($json.editedVideoSize / 1024 / 1024 * 100) / 100 }} MB\n⏱️ Duración: {{ Math.round($json.editedVideoDuration * 100) / 100 }}s"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "send-whatsapp-video",
+      "name": "Send WhatsApp Video",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [2450, 500],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "operation": "sendMessage",
+        "chatId": "={{ $json.chatId }}",
+        "text": "=❌ Error al procesar el video\n\n{{ $json.error || 'Error desconocido' }}\n\nPor favor, verifica que el link de TikTok sea válido."
+      },
+      "id": "send-error",
+      "name": "Send Error Message",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [2250, 500],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendMessage",
+        "chatId": "={{ $json.chatId }}",
+        "text": "=❌ No se encontró un link de TikTok válido en tu mensaje.\n\nPor favor, envía un link de TikTok en formato:\n• https://www.tiktok.com/@user/video/123\n• https://vm.tiktok.com/xxxxx"
+      },
+      "id": "send-no-link",
+      "name": "Send No Link Message",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [850, 500],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "filePath": "={{ $json.editedVideoPath }}",
+        "options": {}
+      },
+      "id": "read-video-file",
+      "name": "Read Video File",
+      "type": "n8n-nodes-base.readBinaryFile",
+      "typeVersion": 1,
+      "position": [2050, 300]
+    }
+  ],
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Merge Inputs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp Webhook": {
+      "main": [
+        [
+          {
+            "node": "WhatsApp Response",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge Inputs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Inputs": {
+      "main": [
+        [
+          {
+            "node": "Filter TikTok Link",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter TikTok Link": {
+      "main": [
+        [
+          {
+            "node": "Extract TikTok URL",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send No Link Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract TikTok URL": {
+      "main": [
+        [
+          {
+            "node": "Notify Start Processing",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Download TikTok Video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download TikTok Video": {
+      "main": [
+        [
+          {
+            "node": "Parse Download Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Download Result": {
+      "main": [
+        [
+          {
+            "node": "Notify Downloaded",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Generate Editing Script",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Error Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Editing Script": {
+      "main": [
+        [
+          {
+            "node": "Parse Script",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Error Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Script": {
+      "main": [
+        [
+          {
+            "node": "Notify Script Generated",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Edit Video",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Error Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Video": {
+      "main": [
+        [
+          {
+            "node": "Parse Edit Result",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Error Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Edit Result": {
+      "main": [
+        [
+          {
+            "node": "Read Video File",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Error Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Video File": {
+      "main": [
+        [
+          {
+            "node": "Check Source Platform",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Source Platform": {
+      "main": [
+        [
+          {
+            "node": "Send Telegram Video",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send WhatsApp Video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 2,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1"
+}
+

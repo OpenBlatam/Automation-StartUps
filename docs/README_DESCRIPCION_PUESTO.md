@@ -21214,6 +21214,2595 @@ Día 5: Decisión
 
 ---
 
+## 📊 Guías Visuales y Diagramas
+
+### Arquitectura del Sistema - Vista Completa
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        FRONTEND LAYER                            │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐          │
+│  │   React App  │  │  Next.js SSR │  │  Mobile PWA  │          │
+│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘          │
+│         │                 │                  │                   │
+│         └─────────────────┴──────────────────┘                   │
+│                           │                                      │
+└───────────────────────────┼──────────────────────────────────────┘
+                            │
+┌───────────────────────────┼──────────────────────────────────────┐
+│                    API GATEWAY LAYER                              │
+│  ┌──────────────────────────────────────────────────────┐        │
+│  │  FastAPI Gateway (Rate Limiting, Auth, Load Balancer)│        │
+│  └───────────────────────┬──────────────────────────────┘        │
+└──────────────────────────┼──────────────────────────────────────┘
+                           │
+┌──────────────────────────┼──────────────────────────────────────┐
+│                    MICROSERVICES LAYER                           │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐          │
+│  │  ML Service  │  │ Data Service │  │  Auth Service│          │
+│  │  (FastAPI)   │  │  (FastAPI)   │  │  (FastAPI)   │          │
+│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘          │
+│         │                 │                  │                   │
+└─────────┼─────────────────┼──────────────────┼──────────────────┘
+          │                 │                  │
+┌─────────┼─────────────────┼──────────────────┼──────────────────┐
+│    DATA & ML INFRASTRUCTURE                                      │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐          │
+│  │  PostgreSQL  │  │    Redis     │  │   Airflow    │          │
+│  │  (Primary DB)│  │   (Cache)    │  │  (Orchestr.) │          │
+│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘          │
+│         │                 │                  │                   │
+│  ┌──────┴───────┐  ┌──────┴───────┐  ┌──────┴───────┐          │
+│  │ ClickHouse   │  │   Kafka      │  │  S3/GCS      │          │
+│  │ (Analytics)  │  │  (Streaming) │  │  (Storage)   │          │
+│  └──────────────┘  └──────────────┘  └──────────────┘          │
+│                                                                  │
+│  ┌──────────────────────────────────────────────────────┐       │
+│  │  ML Infrastructure: MLflow, Weights & Biases, Sagemaker│      │
+│  └──────────────────────────────────────────────────────┘       │
+└──────────────────────────────────────────────────────────────────┘
+```
+
+### Flujo de Datos - Pipeline Completo
+
+```
+┌─────────────┐
+│   Sources   │  (APIs, DBs, Files, Streams)
+└──────┬──────┘
+       │
+       ▼
+┌─────────────────────────────────────┐
+│      Data Ingestion Layer           │
+│  ┌──────────┐  ┌──────────┐        │
+│  │  Kafka   │  │  Airflow │        │
+│  │ (Stream) │  │  (Batch) │        │
+│  └────┬─────┘  └────┬─────┘        │
+└───────┼──────────────┼──────────────┘
+        │              │
+        ▼              ▼
+┌─────────────────────────────────────┐
+│      Data Processing Layer          │
+│  ┌──────────┐  ┌──────────┐        │
+│  │  Spark   │  │  Pandas  │        │
+│  │ (Big Data)│ │ (Analytics)│      │
+│  └────┬─────┘  └────┬─────┘        │
+└───────┼──────────────┼──────────────┘
+        │              │
+        ▼              ▼
+┌─────────────────────────────────────┐
+│      Feature Engineering            │
+│  ┌──────────┐  ┌──────────┐        │
+│  │ Feature  │  │  Feature │        │
+│  │  Store   │  │ Pipeline │        │
+│  └────┬─────┘  └────┬─────┘        │
+└───────┼──────────────┼──────────────┘
+        │              │
+        ▼              ▼
+┌─────────────────────────────────────┐
+│      ML Training & Serving          │
+│  ┌──────────┐  ┌──────────┐        │
+│  │ Training │  │ Serving  │        │
+│  │ Pipeline │  │  (API)   │        │
+│  └────┬─────┘  └────┬─────┘        │
+└───────┼──────────────┼──────────────┘
+        │              │
+        ▼              ▼
+┌─────────────────────────────────────┐
+│      Storage & Analytics            │
+│  ┌──────────┐  ┌──────────┐        │
+│  │PostgreSQL│  │ClickHouse │        │
+│  │ (OLTP)   │  │  (OLAP)  │        │
+│  └──────────┘  └──────────┘        │
+└─────────────────────────────────────┘
+```
+
+### Decision Tree: ¿Qué Tecnología Usar?
+
+```
+                    ¿Necesitas procesar datos?
+                           │
+        ┌──────────────────┴──────────────────┐
+        │                                      │
+    ¿En tiempo real?                    ¿Batch?
+        │                                      │
+    ┌───┴───┐                            ┌────┴────┐
+    │       │                            │         │
+  Kafka   Flink                    Airflow    Spark
+    │       │                            │         │
+    │       │                            │         │
+    ▼       ▼                            ▼         ▼
+  Stream  Stream                    DAGs    Big Data
+Processing Processing              Scheduling Processing
+```
+
+### Stack Tecnológico - Mapa Visual
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    LENGUAJES                                │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐   │
+│  │  Python  │  │   SQL    │  │  TypeScript│ │   Bash   │   │
+│  │  (90%)   │  │  (80%)   │  │   (60%)  │  │  (40%)   │   │
+│  └──────────┘  └──────────┘  └──────────┘  └──────────┘   │
+└─────────────────────────────────────────────────────────────┘
+                            │
+┌───────────────────────────┼─────────────────────────────────┐
+│                    FRAMEWORKS                               │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐   │
+│  │ FastAPI  │  │  Airflow │  │  React   │  │  Next.js │   │
+│  └──────────┘  └──────────┘  └──────────┘  └──────────┘   │
+└───────────────────────────┼─────────────────────────────────┘
+                            │
+┌───────────────────────────┼─────────────────────────────────┐
+│                    DATABASES                                │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐   │
+│  │PostgreSQL│  │  Redis   │  │ClickHouse│  │  MongoDB │   │
+│  └──────────┘  └──────────┘  └──────────┘  └──────────┘   │
+└───────────────────────────┼─────────────────────────────────┘
+                            │
+┌───────────────────────────┼─────────────────────────────────┐
+│                    ML/AI TOOLS                              │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐   │
+│  │  Scikit  │  │  PyTorch │  │  OpenAI  │  │  MLflow  │   │
+│  └──────────┘  └──────────┘  └──────────┘  └──────────┘   │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 💻 Ejemplos de Código Prácticos del Día a Día
+
+### 1. Script de ETL Completo con Manejo de Errores
+
+```python
+"""
+ETL Pipeline para procesar datos de marketing
+Incluye: logging, error handling, retries, monitoring
+"""
+import logging
+from typing import List, Dict, Optional
+from datetime import datetime
+import pandas as pd
+from sqlalchemy import create_engine
+from tenacity import retry, stop_after_attempt, wait_exponential
+import sentry_sdk
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+class MarketingETLPipeline:
+    def __init__(self, db_url: str, source_api: str):
+        self.db_engine = create_engine(db_url)
+        self.source_api = source_api
+        self.processed_records = 0
+        self.failed_records = 0
+        
+    @retry(
+        stop=stop_after_attempt(3),
+        wait=wait_exponential(multiplier=1, min=4, max=10)
+    )
+    def extract(self, date_from: datetime, date_to: datetime) -> pd.DataFrame:
+        """Extrae datos de la API con retry automático"""
+        try:
+            logger.info(f"Extrayendo datos desde {date_from} hasta {date_to}")
+            # Simulación de llamada API
+            data = self._call_api(date_from, date_to)
+            logger.info(f"Extraídos {len(data)} registros")
+            return pd.DataFrame(data)
+        except Exception as e:
+            logger.error(f"Error en extracción: {e}")
+            sentry_sdk.capture_exception(e)
+            raise
+    
+    def transform(self, df: pd.DataFrame) -> pd.DataFrame:
+        """Transforma y limpia los datos"""
+        logger.info("Iniciando transformación")
+        
+        # Limpieza
+        df = df.dropna(subset=['email', 'campaign_id'])
+        df = df[df['revenue'] >= 0]  # Filtrar valores negativos
+        
+        # Transformaciones
+        df['date'] = pd.to_datetime(df['timestamp']).dt.date
+        df['revenue_usd'] = df['revenue'] * df['exchange_rate']
+        df['is_conversion'] = df['revenue'] > 0
+        
+        # Agregaciones
+        df['customer_lifetime_value'] = df.groupby('customer_id')['revenue'].cumsum()
+        
+        logger.info(f"Transformados {len(df)} registros")
+        return df
+    
+    def load(self, df: pd.DataFrame, table_name: str) -> None:
+        """Carga datos a PostgreSQL con chunking"""
+        try:
+            logger.info(f"Cargando {len(df)} registros a {table_name}")
+            
+            # Chunking para grandes volúmenes
+            chunk_size = 10000
+            for i in range(0, len(df), chunk_size):
+                chunk = df.iloc[i:i+chunk_size]
+                chunk.to_sql(
+                    table_name,
+                    self.db_engine,
+                    if_exists='append',
+                    index=False,
+                    method='multi'
+                )
+                self.processed_records += len(chunk)
+                logger.info(f"Procesados {self.processed_records} registros")
+            
+            logger.info("Carga completada exitosamente")
+        except Exception as e:
+            logger.error(f"Error en carga: {e}")
+            self.failed_records += len(df)
+            sentry_sdk.capture_exception(e)
+            raise
+    
+    def run(self, date_from: datetime, date_to: datetime) -> Dict:
+        """Ejecuta el pipeline completo"""
+        start_time = datetime.now()
+        
+        try:
+            # Extract
+            df = self.extract(date_from, date_to)
+            
+            # Transform
+            df_transformed = self.transform(df)
+            
+            # Load
+            self.load(df_transformed, 'marketing_events')
+            
+            duration = (datetime.now() - start_time).total_seconds()
+            
+            return {
+                'status': 'success',
+                'processed': self.processed_records,
+                'failed': self.failed_records,
+                'duration_seconds': duration
+            }
+        except Exception as e:
+            logger.error(f"Pipeline falló: {e}")
+            return {
+                'status': 'failed',
+                'error': str(e),
+                'processed': self.processed_records,
+                'failed': self.failed_records
+            }
+
+# Uso
+pipeline = MarketingETLPipeline(
+    db_url="postgresql://user:pass@localhost/db",
+    source_api="https://api.marketing.com"
+)
+
+result = pipeline.run(
+    date_from=datetime(2025, 1, 1),
+    date_to=datetime(2025, 1, 31)
+)
+```
+
+### 2. API Endpoint con Caching Inteligente
+
+```python
+"""
+FastAPI endpoint con caching multi-nivel
+Incluye: Redis cache, database fallback, rate limiting
+"""
+from fastapi import FastAPI, HTTPException, Depends
+from fastapi_limiter import Limiter
+from fastapi_limiter.depends import RateLimiter
+from redis import Redis
+from sqlalchemy.orm import Session
+from typing import Optional
+import hashlib
+import json
+from datetime import datetime, timedelta
+
+app = FastAPI()
+redis_client = Redis(host='localhost', port=6379, db=0)
+limiter = Limiter(key_func=lambda: "global")
+
+class SmartCache:
+    def __init__(self, redis_client: Redis, ttl: int = 3600):
+        self.redis = redis_client
+        self.default_ttl = ttl
+    
+    def _make_key(self, prefix: str, params: dict) -> str:
+        """Genera clave de cache consistente"""
+        params_str = json.dumps(params, sort_keys=True)
+        hash_key = hashlib.md5(params_str.encode()).hexdigest()
+        return f"{prefix}:{hash_key}"
+    
+    def get(self, key: str) -> Optional[dict]:
+        """Obtiene del cache"""
+        cached = self.redis.get(key)
+        if cached:
+            return json.loads(cached)
+        return None
+    
+    def set(self, key: str, value: dict, ttl: Optional[int] = None) -> None:
+        """Guarda en cache"""
+        ttl = ttl or self.default_ttl
+        self.redis.setex(
+            key,
+            ttl,
+            json.dumps(value, default=str)
+        )
+    
+    def invalidate_pattern(self, pattern: str) -> None:
+        """Invalida todas las claves que coincidan con el patrón"""
+        keys = self.redis.keys(pattern)
+        if keys:
+            self.redis.delete(*keys)
+
+cache = SmartCache(redis_client)
+
+@app.get("/api/v1/analytics/dashboard")
+@limiter.limit("100/minute")
+async def get_dashboard(
+    date_from: str,
+    date_to: str,
+    db: Session = Depends(get_db)
+):
+    """
+    Endpoint optimizado con cache inteligente
+    Cache se invalida automáticamente cuando hay nuevos datos
+    """
+    cache_key = cache._make_key("dashboard", {
+        "date_from": date_from,
+        "date_to": date_to
+    })
+    
+    # Intentar cache primero
+    cached_result = cache.get(cache_key)
+    if cached_result:
+        return {
+            "data": cached_result,
+            "cached": True,
+            "timestamp": datetime.now().isoformat()
+        }
+    
+    # Si no está en cache, consultar DB
+    try:
+        # Query optimizado con índices
+        result = db.execute("""
+            SELECT 
+                DATE(created_at) as date,
+                COUNT(*) as events,
+                SUM(revenue) as total_revenue,
+                COUNT(DISTINCT user_id) as unique_users
+            FROM marketing_events
+            WHERE created_at BETWEEN :date_from AND :date_to
+            GROUP BY DATE(created_at)
+            ORDER BY date
+        """, {
+            "date_from": date_from,
+            "date_to": date_to
+        }).fetchall()
+        
+        # Transformar resultado
+        dashboard_data = {
+            "dates": [r.date for r in result],
+            "events": [r.events for r in result],
+            "revenue": [float(r.total_revenue) for r in result],
+            "users": [r.unique_users for r in result]
+        }
+        
+        # Guardar en cache (TTL más corto para datos recientes)
+        ttl = 300 if date_to >= (datetime.now() - timedelta(days=1)).isoformat() else 3600
+        cache.set(cache_key, dashboard_data, ttl=ttl)
+        
+        return {
+            "data": dashboard_data,
+            "cached": False,
+            "timestamp": datetime.now().isoformat()
+        }
+    
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+```
+
+### 3. Pipeline de ML con Feature Store
+
+```python
+"""
+ML Pipeline completo con Feature Store
+Incluye: feature engineering, training, validation, serving
+"""
+from typing import List, Dict
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.metrics import roc_auc_score, classification_report
+import mlflow
+import mlflow.sklearn
+from feature_store import FeatureStore
+
+class MLPipeline:
+    def __init__(self, feature_store: FeatureStore):
+        self.feature_store = feature_store
+        self.model = None
+        
+    def extract_features(self, user_ids: List[int], date: str) -> pd.DataFrame:
+        """Extrae features del Feature Store"""
+        features = []
+        
+        for user_id in user_ids:
+            # Features históricas
+            user_features = self.feature_store.get_user_features(
+                user_id=user_id,
+                date=date
+            )
+            
+            # Features agregadas
+            user_features.update({
+                'avg_session_duration_7d': self.feature_store.get_avg_session_duration(
+                    user_id, days=7
+                ),
+                'total_purchases_30d': self.feature_store.get_total_purchases(
+                    user_id, days=30
+                ),
+                'days_since_last_purchase': self.feature_store.get_days_since_last_purchase(
+                    user_id
+                ),
+                'lifetime_value': self.feature_store.get_lifetime_value(user_id),
+            })
+            
+            features.append(user_features)
+        
+        return pd.DataFrame(features)
+    
+    def train(self, training_data: pd.DataFrame, target: pd.Series) -> Dict:
+        """Entrena el modelo con MLflow tracking"""
+        mlflow.set_experiment("churn_prediction")
+        
+        with mlflow.start_run():
+            # Split
+            X_train, X_val, y_train, y_val = train_test_split(
+                training_data,
+                target,
+                test_size=0.2,
+                random_state=42
+            )
+            
+            # Entrenar
+            model = GradientBoostingClassifier(
+                n_estimators=100,
+                max_depth=5,
+                learning_rate=0.1
+            )
+            model.fit(X_train, y_train)
+            
+            # Evaluar
+            y_pred_proba = model.predict_proba(X_val)[:, 1]
+            auc_score = roc_auc_score(y_val, y_pred_proba)
+            
+            # Log metrics
+            mlflow.log_metric("auc_score", auc_score)
+            mlflow.log_param("n_estimators", 100)
+            mlflow.log_param("max_depth", 5)
+            
+            # Log model
+            mlflow.sklearn.log_model(model, "model")
+            
+            # Feature importance
+            feature_importance = pd.DataFrame({
+                'feature': X_train.columns,
+                'importance': model.feature_importances_
+            }).sort_values('importance', ascending=False)
+            
+            mlflow.log_dict(
+                feature_importance.to_dict(),
+                "feature_importance.json"
+            )
+            
+            self.model = model
+            
+            return {
+                "auc_score": auc_score,
+                "feature_importance": feature_importance,
+                "run_id": mlflow.active_run().info.run_id
+            }
+    
+    def predict(self, user_ids: List[int]) -> pd.DataFrame:
+        """Predice churn para usuarios"""
+        features = self.extract_features(user_ids, date=datetime.now().isoformat())
+        predictions = self.model.predict_proba(features)[:, 1]
+        
+        return pd.DataFrame({
+            'user_id': user_ids,
+            'churn_probability': predictions,
+            'predicted_churn': predictions > 0.5
+        })
+
+# Uso
+feature_store = FeatureStore(db_url="postgresql://...")
+pipeline = MLPipeline(feature_store)
+
+# Entrenar
+training_data = pipeline.extract_features(user_ids, date="2025-01-01")
+target = get_churn_labels(user_ids)
+results = pipeline.train(training_data, target)
+
+# Predecir
+predictions = pipeline.predict(new_user_ids)
+```
+
+---
+
+## 🚀 Quick Wins - Guía de Implementación Rápida
+
+### Semana 1: Optimizaciones Inmediatas
+
+#### 1. Implementar Caching Básico (2 horas)
+```python
+# Agregar Redis cache a queries más frecuentes
+from functools import lru_cache
+import redis
+
+redis_client = Redis()
+
+def cached_query(query_key: str, ttl: int = 3600):
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            cache_key = f"{query_key}:{hash(str(args) + str(kwargs))}"
+            cached = redis_client.get(cache_key)
+            if cached:
+                return json.loads(cached)
+            result = func(*args, **kwargs)
+            redis_client.setex(cache_key, ttl, json.dumps(result))
+            return result
+        return wrapper
+    return decorator
+
+@cached_query("user_analytics", ttl=1800)
+def get_user_analytics(user_id: int):
+    # Query costosa
+    pass
+```
+
+#### 2. Agregar Logging Estructurado (1 hora)
+```python
+import structlog
+
+logger = structlog.get_logger()
+
+# En lugar de print()
+logger.info("processing_user", user_id=123, action="update")
+logger.error("api_error", endpoint="/api/users", status_code=500)
+```
+
+#### 3. Implementar Health Checks (1 hora)
+```python
+@app.get("/health")
+async def health_check():
+    checks = {
+        "database": check_database(),
+        "redis": check_redis(),
+        "external_api": check_external_api()
+    }
+    status = "healthy" if all(checks.values()) else "unhealthy"
+    return {"status": status, "checks": checks}
+```
+
+### Semana 2: Mejoras de Performance
+
+#### 1. Optimizar Queries SQL (4 horas)
+```sql
+-- Antes
+SELECT * FROM events WHERE user_id = 123;
+
+-- Después (con índices)
+CREATE INDEX idx_events_user_id ON events(user_id);
+CREATE INDEX idx_events_created_at ON events(created_at);
+SELECT user_id, event_type, created_at FROM events 
+WHERE user_id = 123 AND created_at > '2025-01-01';
+```
+
+#### 2. Implementar Paginación (2 horas)
+```python
+from fastapi import Query
+
+@app.get("/api/events")
+async def get_events(
+    page: int = Query(1, ge=1),
+    page_size: int = Query(50, ge=1, le=100)
+):
+    offset = (page - 1) * page_size
+    events = db.query(Event).offset(offset).limit(page_size).all()
+    total = db.query(Event).count()
+    return {
+        "data": events,
+        "pagination": {
+            "page": page,
+            "page_size": page_size,
+            "total": total,
+            "pages": (total + page_size - 1) // page_size
+        }
+    }
+```
+
+#### 3. Agregar Monitoring Básico (3 horas)
+```python
+from prometheus_client import Counter, Histogram
+import time
+
+request_count = Counter('http_requests_total', 'Total HTTP requests')
+request_duration = Histogram('http_request_duration_seconds', 'HTTP request duration')
+
+@app.middleware("http")
+async def monitor_requests(request, call_next):
+    start_time = time.time()
+    response = await call_next(request)
+    duration = time.time() - start_time
+    
+    request_count.inc()
+    request_duration.observe(duration)
+    
+    return response
+```
+
+---
+
+## 🔍 Troubleshooting Guide - Soluciones Comunes
+
+### Problema: Query Lenta
+
+**Síntomas:**
+- Tiempo de respuesta > 2 segundos
+- CPU alta en base de datos
+- Timeouts frecuentes
+
+**Diagnóstico:**
+```sql
+-- 1. Verificar si hay índices
+EXPLAIN ANALYZE SELECT * FROM events WHERE user_id = 123;
+
+-- 2. Ver queries lentas
+SELECT query, mean_exec_time, calls 
+FROM pg_stat_statements 
+ORDER BY mean_exec_time DESC 
+LIMIT 10;
+
+-- 3. Verificar locks
+SELECT * FROM pg_locks WHERE NOT granted;
+```
+
+**Solución:**
+```sql
+-- Crear índice
+CREATE INDEX CONCURRENTLY idx_events_user_created 
+ON events(user_id, created_at);
+
+-- Optimizar query
+-- Antes: SELECT * FROM events
+-- Después: SELECT id, user_id, event_type FROM events WHERE user_id = 123
+```
+
+### Problema: Memory Leak en Python
+
+**Síntomas:**
+- Uso de memoria crece constantemente
+- Servidor se reinicia frecuentemente
+- OOM (Out of Memory) errors
+
+**Diagnóstico:**
+```python
+import tracemalloc
+import gc
+
+tracemalloc.start()
+
+# Tu código aquí
+snapshot = tracemalloc.take_snapshot()
+top_stats = snapshot.statistics('lineno')
+
+for stat in top_stats[:10]:
+    print(stat)
+```
+
+**Solución:**
+```python
+# 1. Cerrar conexiones explícitamente
+with db_session() as session:
+    # usar session
+    pass  # Se cierra automáticamente
+
+# 2. Limpiar referencias circulares
+import gc
+gc.collect()
+
+# 3. Usar generators en lugar de listas
+# Antes: data = [process(x) for x in items]
+# Después: data = (process(x) for x in items)
+```
+
+### Problema: Cache No Funciona
+
+**Síntomas:**
+- Redis devuelve None
+- Cache hits = 0
+- Performance no mejora
+
+**Diagnóstico:**
+```python
+import redis
+
+r = redis.Redis()
+# Verificar conexión
+r.ping()  # Debe retornar True
+
+# Ver claves
+keys = r.keys("cache:*")
+print(f"Total keys: {len(keys)}")
+
+# Ver TTL
+ttl = r.ttl("cache:user:123")
+print(f"TTL: {ttl}")
+```
+
+**Solución:**
+```python
+# 1. Verificar serialización
+import json
+data = {"key": "value"}
+# Asegurar que es JSON serializable
+json.dumps(data)  # No debe fallar
+
+# 2. Verificar TTL
+redis_client.setex("key", 3600, json.dumps(data))
+
+# 3. Verificar invalidation
+redis_client.delete("cache:pattern:*")
+```
+
+---
+
+## 📋 Checklists de Mejores Prácticas
+
+### Checklist: Code Review
+
+- [ ] **Funcionalidad**
+  - [ ] El código cumple con los requisitos
+  - [ ] Maneja casos edge correctamente
+  - [ ] No rompe funcionalidad existente
+
+- [ ] **Calidad de Código**
+  - [ ] Sigue convenciones del proyecto (PEP 8, black)
+  - [ ] Nombres de variables/funciones descriptivos
+  - [ ] No hay código comentado innecesario
+  - [ ] Funciones pequeñas y enfocadas (< 50 líneas)
+
+- [ ] **Testing**
+  - [ ] Tests unitarios para nueva funcionalidad
+  - [ ] Tests de integración si aplica
+  - [ ] Coverage > 80% para código nuevo
+  - [ ] Tests pasan localmente
+
+- [ ] **Performance**
+  - [ ] No hay N+1 queries
+  - [ ] Queries optimizadas con índices
+  - [ ] Caching implementado donde aplica
+  - [ ] No hay memory leaks
+
+- [ ] **Seguridad**
+  - [ ] No hay SQL injection
+  - [ ] Input validation implementada
+  - [ ] Secrets no están en código
+  - [ ] Rate limiting donde aplica
+
+- [ ] **Documentación**
+  - [ ] Docstrings en funciones públicas
+  - [ ] README actualizado si aplica
+  - [ ] Comentarios para lógica compleja
+
+### Checklist: Deploy a Producción
+
+- [ ] **Pre-Deploy**
+  - [ ] Todos los tests pasan
+  - [ ] Code review aprobado
+  - [ ] Migraciones de DB probadas
+  - [ ] Variables de entorno configuradas
+  - [ ] Backup de base de datos realizado
+
+- [ ] **Deploy**
+  - [ ] Deploy a staging primero
+  - [ ] Smoke tests en staging
+  - [ ] Deploy a producción
+  - [ ] Verificar health checks
+  - [ ] Monitorear métricas (5-10 min)
+
+- [ ] **Post-Deploy**
+  - [ ] Verificar logs de errores
+  - [ ] Confirmar métricas normales
+  - [ ] Notificar al equipo
+  - [ ] Documentar cambios
+
+### Checklist: Optimización de Performance
+
+- [ ] **Database**
+  - [ ] Índices en columnas usadas en WHERE
+  - [ ] EXPLAIN ANALYZE en queries lentas
+  - [ ] Connection pooling configurado
+  - [ ] Queries optimizadas (no SELECT *)
+
+- [ ] **Caching**
+  - [ ] Redis configurado
+  - [ ] Cache en endpoints frecuentes
+  - [ ] TTL apropiado
+  - [ ] Invalidation strategy definida
+
+- [ ] **API**
+  - [ ] Paginación implementada
+  - [ ] Rate limiting configurado
+  - [ ] Response compression (gzip)
+  - [ ] Timeouts apropiados
+
+- [ ] **Monitoring**
+  - [ ] Métricas de performance configuradas
+  - [ ] Alertas para degradación
+  - [ ] Logging estructurado
+  - [ ] Distributed tracing si aplica
+
+---
+
+## 🎯 Patrones Comunes y Soluciones
+
+### Patrón 1: Retry con Exponential Backoff
+
+```python
+from tenacity import retry, stop_after_attempt, wait_exponential
+
+@retry(
+    stop=stop_after_attempt(5),
+    wait=wait_exponential(multiplier=1, min=2, max=60)
+)
+def call_external_api(url: str):
+    response = requests.get(url, timeout=10)
+    response.raise_for_status()
+    return response.json()
+```
+
+### Patrón 2: Circuit Breaker
+
+```python
+from circuitbreaker import circuit
+
+@circuit(failure_threshold=5, recovery_timeout=60)
+def risky_operation():
+    # Operación que puede fallar
+    pass
+```
+
+### Patrón 3: Batch Processing
+
+```python
+def process_in_batches(items: List, batch_size: int = 100):
+    for i in range(0, len(items), batch_size):
+        batch = items[i:i+batch_size]
+        process_batch(batch)
+        yield batch
+```
+
+### Patrón 4: Async Processing
+
+```python
+import asyncio
+from concurrent.futures import ThreadPoolExecutor
+
+async def process_async(items: List):
+    loop = asyncio.get_event_loop()
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        tasks = [
+            loop.run_in_executor(executor, process_item, item)
+            for item in items
+        ]
+        results = await asyncio.gather(*tasks)
+    return results
+```
+
+---
+
+## 📚 Recursos de Referencia Rápida
+
+### Comandos SQL Útiles
+
+```sql
+-- Ver tamaño de tablas
+SELECT 
+    schemaname,
+    tablename,
+    pg_size_pretty(pg_total_relation_size(schemaname||'.'||tablename)) AS size
+FROM pg_tables
+ORDER BY pg_total_relation_size(schemaname||'.'||tablename) DESC;
+
+-- Ver índices de una tabla
+SELECT indexname, indexdef 
+FROM pg_indexes 
+WHERE tablename = 'events';
+
+-- Kill query lenta
+SELECT pg_terminate_backend(pid) 
+FROM pg_stat_activity 
+WHERE query LIKE '%tu_query%';
+```
+
+### Comandos Docker Útiles
+
+```bash
+# Ver logs
+docker logs -f container_name
+
+# Ver uso de recursos
+docker stats
+
+# Ejecutar comando en container
+docker exec -it container_name bash
+
+# Limpiar recursos no usados
+docker system prune -a
+```
+
+### Comandos Git Útiles
+
+```bash
+# Ver commits recientes
+git log --oneline -10
+
+# Ver cambios en archivo
+git log -p filename
+
+# Crear branch desde issue
+git checkout -b feature/ISSUE-123-description
+
+# Squash commits
+git rebase -i HEAD~3
+```
+
+---
+
+## 🐛 Guías Avanzadas de Debugging
+
+### Debugging de Pipelines de Datos
+
+```python
+"""
+Sistema de debugging avanzado para pipelines de datos
+Incluye: logging detallado, profiling, traceback mejorado
+"""
+import logging
+import traceback
+import time
+from functools import wraps
+from contextlib import contextmanager
+import cProfile
+import pstats
+from io import StringIO
+
+class PipelineDebugger:
+    def __init__(self, enable_profiling: bool = False):
+        self.enable_profiling = enable_profiling
+        self.logger = logging.getLogger(__name__)
+        self.step_timings = {}
+        
+    @contextmanager
+    def debug_step(self, step_name: str):
+        """Context manager para debugging de pasos individuales"""
+        start_time = time.time()
+        self.logger.info(f"🔍 Iniciando paso: {step_name}")
+        
+        try:
+            if self.enable_profiling:
+                profiler = cProfile.Profile()
+                profiler.enable()
+            
+            yield
+            
+            if self.enable_profiling:
+                profiler.disable()
+                s = StringIO()
+                ps = pstats.Stats(profiler, stream=s)
+                ps.sort_stats('cumulative')
+                ps.print_stats(20)
+                self.logger.debug(f"Profile para {step_name}:\n{s.getvalue()}")
+            
+            duration = time.time() - start_time
+            self.step_timings[step_name] = duration
+            self.logger.info(f"✅ Paso completado: {step_name} ({duration:.2f}s)")
+            
+        except Exception as e:
+            duration = time.time() - start_time
+            self.logger.error(
+                f"❌ Error en paso {step_name} después de {duration:.2f}s: {e}",
+                exc_info=True
+            )
+            # Traceback mejorado
+            tb_str = ''.join(traceback.format_exception(type(e), e, e.__traceback__))
+            self.logger.error(f"Traceback completo:\n{tb_str}")
+            raise
+    
+    def get_timing_report(self) -> dict:
+        """Genera reporte de tiempos de ejecución"""
+        total_time = sum(self.step_timings.values())
+        return {
+            "total_time": total_time,
+            "steps": {
+                step: {
+                    "duration": duration,
+                    "percentage": (duration / total_time) * 100
+                }
+                for step, duration in self.step_timings.items()
+            },
+            "slowest_steps": sorted(
+                self.step_timings.items(),
+                key=lambda x: x[1],
+                reverse=True
+            )[:5]
+        }
+
+# Uso
+debugger = PipelineDebugger(enable_profiling=True)
+
+with debugger.debug_step("extract_data"):
+    data = extract_from_source()
+
+with debugger.debug_step("transform_data"):
+    transformed = transform(data)
+
+report = debugger.get_timing_report()
+print(f"Tiempo total: {report['total_time']:.2f}s")
+```
+
+### Debugging de Queries SQL
+
+```python
+"""
+Herramientas para debugging de queries SQL
+Incluye: análisis de performance, detección de N+1, query logging
+"""
+from sqlalchemy import event
+from sqlalchemy.engine import Engine
+import logging
+import time
+
+logger = logging.getLogger(__name__)
+
+class SQLQueryDebugger:
+    def __init__(self):
+        self.query_count = 0
+        self.query_times = []
+        self.slow_queries = []
+        
+    def setup_logging(self):
+        """Configura logging de queries SQL"""
+        @event.listens_for(Engine, "before_cursor_execute")
+        def receive_before_cursor_execute(conn, cursor, statement, parameters, context, executemany):
+            conn.info.setdefault('query_start_time', []).append(time.time())
+            logger.debug(f"🔍 Query: {statement[:100]}...")
+            logger.debug(f"   Params: {parameters}")
+        
+        @event.listens_for(Engine, "after_cursor_execute")
+        def receive_after_cursor_execute(conn, cursor, statement, parameters, context, executemany):
+            total = time.time() - conn.info['query_start_time'].pop(-1)
+            self.query_count += 1
+            self.query_times.append(total)
+            
+            if total > 1.0:  # Queries lentas
+                self.slow_queries.append({
+                    "query": statement,
+                    "params": parameters,
+                    "duration": total
+                })
+                logger.warning(f"⚠️ Query lenta ({total:.2f}s): {statement[:200]}")
+            else:
+                logger.debug(f"✅ Query completada en {total:.3f}s")
+    
+    def detect_n_plus_one(self, queries: list) -> list:
+        """Detecta problemas de N+1 queries"""
+        patterns = {}
+        for query in queries:
+            # Extraer tabla y operación
+            table = self._extract_table(query)
+            if table:
+                if table not in patterns:
+                    patterns[table] = []
+                patterns[table].append(query)
+        
+        # Detectar patrones sospechosos
+        n_plus_one = []
+        for table, table_queries in patterns.items():
+            if len(table_queries) > 10:  # Muchas queries a la misma tabla
+                n_plus_one.append({
+                    "table": table,
+                    "count": len(table_queries),
+                    "suggestion": f"Considerar JOIN o eager loading para {table}"
+                })
+        
+        return n_plus_one
+    
+    def get_performance_report(self) -> dict:
+        """Genera reporte de performance de queries"""
+        if not self.query_times:
+            return {"message": "No queries ejecutadas"}
+        
+        return {
+            "total_queries": self.query_count,
+            "avg_time": sum(self.query_times) / len(self.query_times),
+            "min_time": min(self.query_times),
+            "max_time": max(self.query_times),
+            "slow_queries_count": len(self.slow_queries),
+            "slow_queries": self.slow_queries[:10]  # Top 10
+        }
+
+# Uso
+debugger = SQLQueryDebugger()
+debugger.setup_logging()
+
+# Ejecutar queries normalmente
+# El debugger capturará automáticamente información
+
+report = debugger.get_performance_report()
+print(f"Total queries: {report['total_queries']}")
+print(f"Tiempo promedio: {report['avg_time']:.3f}s")
+```
+
+---
+
+## 🔌 Ejemplos de Integración con Servicios Externos
+
+### Integración con Stripe (Pagos)
+
+```python
+"""
+Integración completa con Stripe para procesamiento de pagos
+Incluye: webhooks, retries, idempotency, error handling
+"""
+import stripe
+from typing import Optional, Dict
+from tenacity import retry, stop_after_attempt, wait_exponential
+import hashlib
+import json
+
+stripe.api_key = "sk_live_..."
+
+class StripeIntegration:
+    def __init__(self, api_key: str):
+        stripe.api_key = api_key
+        self.processed_events = set()  # Para idempotency
+    
+    @retry(
+        stop=stop_after_attempt(3),
+        wait=wait_exponential(multiplier=1, min=2, max=10)
+    )
+    def create_customer(
+        self,
+        email: str,
+        name: Optional[str] = None,
+        metadata: Optional[Dict] = None
+    ) -> stripe.Customer:
+        """Crea un cliente en Stripe"""
+        try:
+            customer = stripe.Customer.create(
+                email=email,
+                name=name,
+                metadata=metadata or {}
+            )
+            return customer
+        except stripe.error.StripeError as e:
+            logger.error(f"Error creando cliente en Stripe: {e}")
+            raise
+    
+    def create_subscription(
+        self,
+        customer_id: str,
+        price_id: str,
+        trial_days: int = 0
+    ) -> stripe.Subscription:
+        """Crea una suscripción"""
+        try:
+            subscription = stripe.Subscription.create(
+                customer=customer_id,
+                items=[{"price": price_id}],
+                trial_period_days=trial_days
+            )
+            return subscription
+        except stripe.error.StripeError as e:
+            logger.error(f"Error creando suscripción: {e}")
+            raise
+    
+    def handle_webhook(self, payload: str, signature: str) -> Dict:
+        """Procesa webhook de Stripe con verificación de firma"""
+        try:
+            event = stripe.Webhook.construct_event(
+                payload, signature, "whsec_..."
+            )
+            
+            # Idempotency check
+            event_id = event['id']
+            if event_id in self.processed_events:
+                logger.info(f"Evento {event_id} ya procesado, ignorando")
+                return {"status": "duplicate"}
+            
+            # Procesar evento
+            event_type = event['type']
+            data = event['data']['object']
+            
+            handlers = {
+                'customer.subscription.created': self._handle_subscription_created,
+                'customer.subscription.updated': self._handle_subscription_updated,
+                'customer.subscription.deleted': self._handle_subscription_deleted,
+                'invoice.payment_succeeded': self._handle_payment_succeeded,
+                'invoice.payment_failed': self._handle_payment_failed,
+            }
+            
+            handler = handlers.get(event_type)
+            if handler:
+                result = handler(data)
+                self.processed_events.add(event_id)
+                return {"status": "processed", "result": result}
+            else:
+                logger.warning(f"Evento no manejado: {event_type}")
+                return {"status": "unhandled"}
+                
+        except ValueError as e:
+            logger.error(f"Payload inválido: {e}")
+            raise
+        except stripe.error.SignatureVerificationError as e:
+            logger.error(f"Firma inválida: {e}")
+            raise
+    
+    def _handle_subscription_created(self, data: Dict):
+        """Maneja creación de suscripción"""
+        # Actualizar base de datos
+        # Enviar email de bienvenida
+        # etc.
+        pass
+```
+
+### Integración con Intercom (Soporte)
+
+```python
+"""
+Integración con Intercom para gestión de soporte
+Incluye: creación de conversaciones, búsqueda de usuarios, eventos
+"""
+from intercom.client import Client
+
+class IntercomIntegration:
+    def __init__(self, app_id: str, api_key: str):
+        self.client = Client(personal_access_token=api_key)
+    
+    def create_conversation(
+        self,
+        user_id: str,
+        message: str,
+        admin_id: Optional[str] = None
+    ) -> Dict:
+        """Crea una conversación en Intercom"""
+        try:
+            conversation = self.client.conversations.create(
+                from_user={
+                    "id": user_id
+                },
+                body=message,
+                admin_id=admin_id
+            )
+            return conversation
+        except Exception as e:
+            logger.error(f"Error creando conversación: {e}")
+            raise
+    
+    def track_event(
+        self,
+        user_id: str,
+        event_name: str,
+        metadata: Optional[Dict] = None
+    ):
+        """Registra un evento en Intercom"""
+        try:
+            self.client.events.create(
+                event_name=event_name,
+                created_at=int(time.time()),
+                user_id=user_id,
+                metadata=metadata or {}
+            )
+        except Exception as e:
+            logger.error(f"Error registrando evento: {e}")
+            raise
+    
+    def update_user_attributes(
+        self,
+        user_id: str,
+        attributes: Dict
+    ):
+        """Actualiza atributos de usuario en Intercom"""
+        try:
+            user = self.client.users.find(user_id=user_id)
+            for key, value in attributes.items():
+                setattr(user.custom_attributes, key, value)
+            self.client.users.save(user)
+        except Exception as e:
+            logger.error(f"Error actualizando usuario: {e}")
+            raise
+```
+
+### Integración con Segment (Analytics)
+
+```python
+"""
+Integración con Segment para tracking de eventos
+Incluye: batching, retries, error handling
+"""
+from segment import analytics
+from typing import Dict, List
+import time
+
+class SegmentIntegration:
+    def __init__(self, write_key: str):
+        analytics.write_key = write_key
+        self.batch_size = 100
+        self.event_buffer = []
+    
+    def track(
+        self,
+        user_id: str,
+        event: str,
+        properties: Optional[Dict] = None,
+        context: Optional[Dict] = None
+    ):
+        """Trackea un evento"""
+        try:
+            analytics.track(
+                user_id=user_id,
+                event=event,
+                properties=properties or {},
+                context=context or {}
+            )
+        except Exception as e:
+            logger.error(f"Error trackeando evento: {e}")
+            # Fallback: guardar en buffer para retry
+            self.event_buffer.append({
+                "user_id": user_id,
+                "event": event,
+                "properties": properties,
+                "timestamp": time.time()
+            })
+    
+    def identify(
+        self,
+        user_id: str,
+        traits: Dict
+    ):
+        """Identifica un usuario"""
+        try:
+            analytics.identify(
+                user_id=user_id,
+                traits=traits
+            )
+        except Exception as e:
+            logger.error(f"Error identificando usuario: {e}")
+            raise
+    
+    def flush(self):
+        """Fuerza el envío de eventos pendientes"""
+        analytics.flush()
+    
+    def retry_failed_events(self):
+        """Reintenta eventos fallidos del buffer"""
+        for event in self.event_buffer:
+            try:
+                self.track(
+                    user_id=event["user_id"],
+                    event=event["event"],
+                    properties=event["properties"]
+                )
+            except Exception as e:
+                logger.error(f"Error en retry: {e}")
+        
+        # Limpiar eventos exitosos
+        self.event_buffer = []
+```
+
+---
+
+## 🧪 Testing Avanzado - Ejemplos Completos
+
+### Testing de APIs con FastAPI
+
+```python
+"""
+Suite completa de tests para APIs FastAPI
+Incluye: unit tests, integration tests, performance tests
+"""
+import pytest
+from fastapi.testclient import TestClient
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from unittest.mock import Mock, patch
+
+from app.main import app
+from app.database import Base, get_db
+
+# Test database
+SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
+engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
+TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+@pytest.fixture
+def db_session():
+    """Crea una sesión de base de datos para testing"""
+    Base.metadata.create_all(bind=engine)
+    db = TestingSessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+        Base.metadata.drop_all(bind=engine)
+
+@pytest.fixture
+def client(db_session):
+    """Crea un cliente de test"""
+    def override_get_db():
+        try:
+            yield db_session
+        finally:
+            db_session.close()
+    
+    app.dependency_overrides[get_db] = override_get_db
+    with TestClient(app) as test_client:
+        yield test_client
+    app.dependency_overrides.clear()
+
+class TestUserAPI:
+    """Tests para endpoints de usuarios"""
+    
+    def test_create_user(self, client):
+        """Test creación de usuario"""
+        response = client.post(
+            "/api/v1/users",
+            json={
+                "email": "test@example.com",
+                "name": "Test User"
+            }
+        )
+        assert response.status_code == 201
+        data = response.json()
+        assert data["email"] == "test@example.com"
+        assert "id" in data
+    
+    def test_get_user(self, client):
+        """Test obtener usuario"""
+        # Crear usuario primero
+        create_response = client.post(
+            "/api/v1/users",
+            json={"email": "test@example.com", "name": "Test"}
+        )
+        user_id = create_response.json()["id"]
+        
+        # Obtener usuario
+        response = client.get(f"/api/v1/users/{user_id}")
+        assert response.status_code == 200
+        assert response.json()["id"] == user_id
+    
+    def test_get_user_not_found(self, client):
+        """Test usuario no encontrado"""
+        response = client.get("/api/v1/users/99999")
+        assert response.status_code == 404
+    
+    @patch('app.services.external_api.call_external_service')
+    def test_user_with_external_service(self, mock_external, client):
+        """Test con mock de servicio externo"""
+        mock_external.return_value = {"status": "success"}
+        
+        response = client.post(
+            "/api/v1/users",
+            json={"email": "test@example.com", "name": "Test"}
+        )
+        assert response.status_code == 201
+        mock_external.assert_called_once()
+
+class TestPerformance:
+    """Tests de performance"""
+    
+    def test_api_response_time(self, client):
+        """Test que API responde en menos de 200ms"""
+        import time
+        start = time.time()
+        response = client.get("/api/v1/users")
+        duration = (time.time() - start) * 1000  # ms
+        
+        assert response.status_code == 200
+        assert duration < 200, f"Response time {duration}ms exceeds 200ms"
+    
+    def test_concurrent_requests(self, client):
+        """Test requests concurrentes"""
+        import concurrent.futures
+        
+        def make_request():
+            return client.get("/api/v1/users")
+        
+        with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+            futures = [executor.submit(make_request) for _ in range(10)]
+            results = [f.result() for f in concurrent.futures.as_completed(futures)]
+        
+        assert all(r.status_code == 200 for r in results)
+```
+
+### Testing de Pipelines de Datos
+
+```python
+"""
+Tests para pipelines de ETL
+Incluye: validación de datos, testing de transformaciones
+"""
+import pytest
+import pandas as pd
+from app.pipelines.marketing_etl import MarketingETLPipeline
+
+class TestETLPipeline:
+    """Tests para pipeline de marketing"""
+    
+    @pytest.fixture
+    def sample_data(self):
+        """Datos de ejemplo"""
+        return pd.DataFrame({
+            "email": ["test1@example.com", "test2@example.com", None],
+            "campaign_id": ["camp1", "camp2", "camp3"],
+            "revenue": [100.0, 200.0, -50.0],  # Incluye valor negativo
+            "timestamp": ["2025-01-01 10:00:00", "2025-01-01 11:00:00", "2025-01-01 12:00:00"],
+            "exchange_rate": [1.0, 1.0, 1.0]
+        })
+    
+    def test_transform_removes_nulls(self, sample_data):
+        """Test que transform elimina nulls"""
+        pipeline = MarketingETLPipeline("", "")
+        result = pipeline.transform(sample_data)
+        
+        # Debe eliminar fila con email null
+        assert len(result) == 2
+        assert result["email"].notna().all()
+    
+    def test_transform_removes_negative_revenue(self, sample_data):
+        """Test que transform elimina revenue negativo"""
+        pipeline = MarketingETLPipeline("", "")
+        result = pipeline.transform(sample_data)
+        
+        # Debe eliminar fila con revenue negativo
+        assert (result["revenue"] >= 0).all()
+    
+    def test_transform_creates_date_column(self, sample_data):
+        """Test que transform crea columna date"""
+        pipeline = MarketingETLPipeline("", "")
+        result = pipeline.transform(sample_data)
+        
+        assert "date" in result.columns
+        assert result["date"].dtype == "object"  # Date object
+    
+    def test_transform_calculates_revenue_usd(self, sample_data):
+        """Test cálculo de revenue_usd"""
+        pipeline = MarketingETLPipeline("", "")
+        result = pipeline.transform(sample_data)
+        
+        assert "revenue_usd" in result.columns
+        # Verificar cálculo
+        expected = result["revenue"] * result["exchange_rate"]
+        pd.testing.assert_series_equal(result["revenue_usd"], expected)
+```
+
+---
+
+## 📈 Guías de Escalabilidad
+
+### Escalado Horizontal con Kubernetes
+
+```yaml
+# deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: api-service
+  template:
+    metadata:
+      labels:
+        app: api-service
+    spec:
+      containers:
+      - name: api
+        image: api-service:latest
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: url
+---
+# hpa.yaml - Horizontal Pod Autoscaler
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: api-service-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: api-service
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+```
+
+### Caching Distribuido con Redis Cluster
+
+```python
+"""
+Sistema de caching distribuido con Redis Cluster
+Incluye: sharding automático, failover, consistent hashing
+"""
+from rediscluster import RedisCluster
+import hashlib
+import json
+
+class DistributedCache:
+    def __init__(self, startup_nodes: list):
+        self.cluster = RedisCluster(
+            startup_nodes=startup_nodes,
+            decode_responses=True,
+            skip_full_coverage_check=True
+        )
+    
+    def _get_key_hash(self, key: str) -> str:
+        """Genera hash consistente para sharding"""
+        return hashlib.md5(key.encode()).hexdigest()
+    
+    def get(self, key: str) -> Optional[dict]:
+        """Obtiene valor del cache distribuido"""
+        try:
+            value = self.cluster.get(key)
+            if value:
+                return json.loads(value)
+            return None
+        except Exception as e:
+            logger.error(f"Error obteniendo de cache: {e}")
+            return None
+    
+    def set(self, key: str, value: dict, ttl: int = 3600):
+        """Guarda valor en cache distribuido"""
+        try:
+            self.cluster.setex(
+                key,
+                ttl,
+                json.dumps(value, default=str)
+            )
+        except Exception as e:
+            logger.error(f"Error guardando en cache: {e}")
+            raise
+    
+    def invalidate_pattern(self, pattern: str):
+        """Invalida todas las claves que coincidan (en todos los nodos)"""
+        try:
+            keys = []
+            for node in self.cluster.get_nodes():
+                keys.extend(node.keys(pattern))
+            
+            if keys:
+                self.cluster.delete(*keys)
+        except Exception as e:
+            logger.error(f"Error invalidando cache: {e}")
+```
+
+---
+
+## 🔒 Guías de Seguridad Avanzada
+
+### Implementación de Rate Limiting Avanzado
+
+```python
+"""
+Sistema de rate limiting avanzado
+Incluye: sliding window, per-user limits, burst protection
+"""
+from fastapi import Request, HTTPException
+from fastapi_limiter import Limiter
+from fastapi_limiter.depends import RateLimiter
+from redis import Redis
+import time
+
+class AdvancedRateLimiter:
+    def __init__(self, redis_client: Redis):
+        self.redis = redis_client
+    
+    def check_rate_limit(
+        self,
+        key: str,
+        max_requests: int,
+        window_seconds: int,
+        burst: int = None
+    ) -> tuple[bool, dict]:
+        """
+        Verifica rate limit usando sliding window
+        Retorna: (allowed, info)
+        """
+        now = time.time()
+        window_start = now - window_seconds
+        
+        # Limpiar requests antiguos
+        self.redis.zremrangebyscore(key, 0, window_start)
+        
+        # Contar requests en ventana
+        current_count = self.redis.zcard(key)
+        
+        # Verificar burst limit
+        if burst and current_count >= burst:
+            # Verificar si hay espacio en la ventana normal
+            if current_count >= max_requests:
+                # Calcular tiempo hasta el siguiente slot disponible
+                oldest_request = self.redis.zrange(key, 0, 0, withscores=True)
+                if oldest_request:
+                    oldest_time = oldest_request[0][1]
+                    retry_after = int(window_start + window_seconds - now)
+                    return False, {
+                        "retry_after": retry_after,
+                        "limit": max_requests,
+                        "remaining": 0
+                    }
+        
+        # Verificar límite normal
+        if current_count >= max_requests:
+            retry_after = int(window_start + window_seconds - now)
+            return False, {
+                "retry_after": retry_after,
+                "limit": max_requests,
+                "remaining": 0
+            }
+        
+        # Agregar request actual
+        self.redis.zadd(key, {str(now): now})
+        self.redis.expire(key, window_seconds)
+        
+        return True, {
+            "limit": max_requests,
+            "remaining": max_requests - current_count - 1
+        }
+
+# Uso en FastAPI
+limiter = AdvancedRateLimiter(redis_client)
+
+@app.middleware("http")
+async def rate_limit_middleware(request: Request, call_next):
+    # Obtener identificador del usuario
+    user_id = request.headers.get("X-User-ID", "anonymous")
+    key = f"rate_limit:{user_id}"
+    
+    allowed, info = limiter.check_rate_limit(
+        key=key,
+        max_requests=100,
+        window_seconds=60,
+        burst=10
+    )
+    
+    if not allowed:
+        raise HTTPException(
+            status_code=429,
+            detail="Rate limit exceeded",
+            headers={"Retry-After": str(info["retry_after"])}
+        )
+    
+    response = await call_next(request)
+    response.headers["X-RateLimit-Limit"] = str(info["limit"])
+    response.headers["X-RateLimit-Remaining"] = str(info["remaining"])
+    
+    return response
+```
+
+### Encriptación de Datos Sensibles
+
+```python
+"""
+Sistema de encriptación para datos sensibles
+Incluye: encriptación AES, key rotation, secure storage
+"""
+from cryptography.fernet import Fernet
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+from cryptography.hazmat.backends import default_backend
+import base64
+import os
+
+class DataEncryption:
+    def __init__(self, master_key: bytes = None):
+        if master_key:
+            self.key = master_key
+        else:
+            # Generar clave desde variable de entorno
+            key_material = os.getenv("ENCRYPTION_KEY", "").encode()
+            kdf = PBKDF2HMAC(
+                algorithm=hashes.SHA256(),
+                length=32,
+                salt=b'fixed_salt',  # En producción, usar salt único
+                iterations=100000,
+                backend=default_backend()
+            )
+            self.key = base64.urlsafe_b64encode(kdf.derive(key_material))
+        
+        self.cipher = Fernet(self.key)
+    
+    def encrypt(self, data: str) -> str:
+        """Encripta datos sensibles"""
+        encrypted = self.cipher.encrypt(data.encode())
+        return base64.urlsafe_b64encode(encrypted).decode()
+    
+    def decrypt(self, encrypted_data: str) -> str:
+        """Desencripta datos"""
+        decoded = base64.urlsafe_b64decode(encrypted_data.encode())
+        decrypted = self.cipher.decrypt(decoded)
+        return decrypted.decode()
+    
+    def encrypt_field(self, field_value: str, field_name: str) -> dict:
+        """Encripta un campo específico"""
+        return {
+            f"{field_name}_encrypted": self.encrypt(field_value),
+            f"{field_name}_encrypted_at": time.time()
+        }
+
+# Uso
+encryption = DataEncryption()
+
+# Encriptar datos antes de guardar
+user_data = {
+    "email": "user@example.com",
+    **encryption.encrypt_field("1234567890", "ssn")
+}
+
+# Desencriptar al leer
+ssn = encryption.decrypt(user_data["ssn_encrypted"])
+```
+
+---
+
+## 👥 Guías de Trabajo en Equipo y Colaboración
+
+### Code Review Best Practices
+
+```python
+"""
+Guía completa para code reviews efectivos
+"""
+class CodeReviewGuide:
+    """
+    Principios para code reviews efectivos:
+    1. Ser constructivo y respetuoso
+    2. Enfocarse en el código, no en la persona
+    3. Explicar el "por qué" de las sugerencias
+    4. Reconocer buenas prácticas
+    5. Aprobar rápidamente si está bien
+    """
+    
+    def review_checklist(self):
+        """Checklist para revisar código"""
+        return {
+            "funcionalidad": [
+                "¿El código cumple con los requisitos?",
+                "¿Maneja casos edge correctamente?",
+                "¿Hay tests que cubran la funcionalidad?"
+            ],
+            "calidad": [
+                "¿Sigue las convenciones del proyecto?",
+                "¿Es legible y mantenible?",
+                "¿Hay código duplicado que se pueda extraer?"
+            ],
+            "performance": [
+                "¿Hay queries N+1?",
+                "¿Se puede optimizar con caching?",
+                "¿Hay memory leaks potenciales?"
+            ],
+            "seguridad": [
+                "¿Hay validación de inputs?",
+                "¿Se exponen datos sensibles?",
+                "¿Hay vulnerabilidades conocidas?"
+            ]
+        }
+    
+    def provide_feedback(self, issue: str, suggestion: str):
+        """Formato para dar feedback constructivo"""
+        return f"""
+        **Issue**: {issue}
+        
+        **Suggestion**: {suggestion}
+        
+        **Why**: [Explicar el razonamiento]
+        
+        **Example**: [Código de ejemplo si aplica]
+        """
+```
+
+### Pair Programming Guide
+
+```python
+"""
+Guía para pair programming efectivo
+"""
+class PairProgrammingGuide:
+    """
+    Roles en pair programming:
+    - Driver: Escribe el código
+    - Navigator: Revisa, sugiere, piensa en el diseño
+    
+    Mejores prácticas:
+    1. Cambiar roles frecuentemente (cada 25-30 min)
+    2. Comunicar constantemente
+    3. No tener miedo de pedir pausas
+    4. Compartir pantalla o usar herramientas colaborativas
+    """
+    
+    def setup_pair_session(self):
+        """Setup para sesión de pair programming"""
+        return {
+            "tools": [
+                "VS Code Live Share",
+                "Tuple (screen sharing)",
+                "GitHub Codespaces",
+                "Cursor (AI pair programming)"
+            ],
+            "agenda": [
+                "Definir objetivo de la sesión",
+                "Establecer tiempo límite",
+                "Decidir quién empieza como driver",
+                "Acordar cuándo cambiar roles"
+            ],
+            "best_practices": [
+                "Hablar en voz alta sobre lo que estás pensando",
+                "Hacer preguntas frecuentemente",
+                "Tomar breaks cada 45-60 minutos",
+                "Documentar decisiones importantes"
+            ]
+        }
+```
+
+### Documentación Técnica - Templates
+
+```markdown
+# Template: Documentación de Feature
+
+## Resumen
+[Descripción breve de la feature]
+
+## Contexto
+[Por qué se necesita esta feature]
+
+## Diseño
+[Arquitectura y decisiones de diseño]
+
+## Implementación
+[Detalles de implementación]
+
+## Testing
+[Estrategia de testing]
+
+## Rollout Plan
+[Plan de despliegue gradual]
+
+## Métricas de Éxito
+[KPIs para medir éxito]
+
+## Rollback Plan
+[Plan de rollback si algo sale mal]
+```
+
+---
+
+## 🏗️ Arquitecturas Específicas - Ejemplos Completos
+
+### Arquitectura Event-Driven con Kafka
+
+```python
+"""
+Sistema completo event-driven con Apache Kafka
+Incluye: producers, consumers, event schemas, error handling
+"""
+from confluent_kafka import Producer, Consumer, KafkaError
+from confluent_kafka.schema_registry import SchemaRegistryClient
+from confluent_kafka.schema_registry.avro import AvroSerializer
+import json
+from typing import Dict, Any
+
+class EventDrivenSystem:
+    def __init__(self, kafka_config: dict, schema_registry_url: str):
+        self.producer = Producer(kafka_config)
+        self.schema_registry = SchemaRegistryClient({'url': schema_registry_url})
+        self.serializers = {}
+    
+    def register_event_schema(self, topic: str, schema: dict):
+        """Registra schema para un topic"""
+        serializer = AvroSerializer(
+            schema_registry_client=self.schema_registry,
+            schema_str=json.dumps(schema)
+        )
+        self.serializers[topic] = serializer
+    
+    def publish_event(self, topic: str, event: Dict[str, Any]):
+        """Publica evento a Kafka"""
+        try:
+            serializer = self.serializers.get(topic)
+            if serializer:
+                serialized_event = serializer(event, None)
+            else:
+                serialized_event = json.dumps(event).encode('utf-8')
+            
+            self.producer.produce(
+                topic,
+                serialized_event,
+                callback=self._delivery_callback
+            )
+            self.producer.poll(0)
+        except Exception as e:
+            logger.error(f"Error publicando evento: {e}")
+            raise
+    
+    def _delivery_callback(self, err, msg):
+        """Callback para confirmar entrega"""
+        if err:
+            logger.error(f"Error entregando mensaje: {err}")
+        else:
+            logger.debug(f"Mensaje entregado a {msg.topic()} [{msg.partition()}]")
+    
+    def consume_events(self, topics: list, handler):
+        """Consume eventos de Kafka"""
+        consumer = Consumer({
+            'bootstrap.servers': 'localhost:9092',
+            'group.id': 'event_consumers',
+            'auto.offset.reset': 'earliest'
+        })
+        
+        consumer.subscribe(topics)
+        
+        try:
+            while True:
+                msg = consumer.poll(timeout=1.0)
+                if msg is None:
+                    continue
+                if msg.error():
+                    if msg.error().code() == KafkaError._PARTITION_EOF:
+                        continue
+                    else:
+                        logger.error(f"Error consumiendo: {msg.error()}")
+                        break
+                
+                # Deserializar evento
+                event = json.loads(msg.value().decode('utf-8'))
+                
+                # Procesar evento
+                try:
+                    handler(event)
+                    consumer.commit()
+                except Exception as e:
+                    logger.error(f"Error procesando evento: {e}")
+                    # Enviar a dead letter queue
+                    self._send_to_dlq(msg, e)
+        finally:
+            consumer.close()
+
+# Uso
+event_system = EventDrivenSystem(
+    kafka_config={'bootstrap.servers': 'localhost:9092'},
+    schema_registry_url='http://localhost:8081'
+)
+
+# Registrar schema
+user_created_schema = {
+    "type": "record",
+    "name": "UserCreated",
+    "fields": [
+        {"name": "user_id", "type": "int"},
+        {"name": "email", "type": "string"},
+        {"name": "timestamp", "type": "long"}
+    ]
+}
+event_system.register_event_schema("user.created", user_created_schema)
+
+# Publicar evento
+event_system.publish_event("user.created", {
+    "user_id": 123,
+    "email": "user@example.com",
+    "timestamp": int(time.time())
+})
+
+# Consumir eventos
+def handle_user_created(event):
+    # Procesar evento
+    send_welcome_email(event["email"])
+    update_analytics(event["user_id"])
+
+event_system.consume_events(["user.created"], handle_user_created)
+```
+
+### Arquitectura CQRS (Command Query Responsibility Segregation)
+
+```python
+"""
+Implementación de CQRS pattern
+Separa comandos (writes) de queries (reads)
+"""
+from abc import ABC, abstractmethod
+from typing import List, Optional
+
+class Command(ABC):
+    """Base class para comandos"""
+    pass
+
+class Query(ABC):
+    """Base class para queries"""
+    pass
+
+class CommandHandler(ABC):
+    """Maneja comandos (writes)"""
+    @abstractmethod
+    def handle(self, command: Command):
+        pass
+
+class QueryHandler(ABC):
+    """Maneja queries (reads)"""
+    @abstractmethod
+    def handle(self, query: Query):
+        pass
+
+# Ejemplo: User Commands
+class CreateUserCommand(Command):
+    def __init__(self, email: str, name: str):
+        self.email = email
+        self.name = name
+
+class CreateUserHandler(CommandHandler):
+    def __init__(self, write_db):
+        self.write_db = write_db
+    
+    def handle(self, command: CreateUserCommand):
+        # Validar
+        if self.write_db.user_exists(command.email):
+            raise ValueError("User already exists")
+        
+        # Crear usuario
+        user = self.write_db.create_user(
+            email=command.email,
+            name=command.name
+        )
+        
+        # Publicar evento
+        event_bus.publish(UserCreatedEvent(user.id, user.email))
+        
+        return user
+
+# Ejemplo: User Queries
+class GetUserQuery(Query):
+    def __init__(self, user_id: int):
+        self.user_id = user_id
+
+class GetUserHandler(QueryHandler):
+    def __init__(self, read_db):
+        self.read_db = read_db  # Puede ser read replica o cache
+    
+    def handle(self, query: GetUserQuery):
+        # Leer de read replica (optimizada para lectura)
+        return self.read_db.get_user(query.user_id)
+
+# Command/Query Bus
+class CommandBus:
+    def __init__(self):
+        self.handlers = {}
+    
+    def register(self, command_type: type, handler: CommandHandler):
+        self.handlers[command_type] = handler
+    
+    def execute(self, command: Command):
+        handler = self.handlers[type(command)]
+        return handler.handle(command)
+
+class QueryBus:
+    def __init__(self):
+        self.handlers = {}
+    
+    def register(self, query_type: type, handler: QueryHandler):
+        self.handlers[query_type] = handler
+    
+    def execute(self, query: Query):
+        handler = self.handlers[type(query)]
+        return handler.handle(query)
+
+# Uso
+command_bus = CommandBus()
+query_bus = QueryBus()
+
+# Registrar handlers
+command_bus.register(CreateUserCommand, CreateUserHandler(write_db))
+query_bus.register(GetUserQuery, GetUserHandler(read_db))
+
+# Ejecutar comando
+user = command_bus.execute(CreateUserCommand("user@example.com", "John"))
+
+# Ejecutar query
+user = query_bus.execute(GetUserQuery(user_id=123))
+```
+
+---
+
+## 🚨 Manejo de Incidentes - Runbooks
+
+### Runbook: Database Performance Degradation
+
+```markdown
+# Runbook: Database Performance Degradation
+
+## Síntomas
+- Queries lentas (> 2 segundos)
+- Timeouts frecuentes
+- CPU alta en base de datos
+- Conexiones agotadas
+
+## Diagnóstico Rápido
+
+### 1. Verificar queries activas
+```sql
+SELECT pid, state, query, query_start, now() - query_start as duration
+FROM pg_stat_activity
+WHERE state != 'idle'
+ORDER BY duration DESC;
+```
+
+### 2. Verificar locks
+```sql
+SELECT * FROM pg_locks WHERE NOT granted;
+```
+
+### 3. Verificar índices
+```sql
+SELECT schemaname, tablename, indexname, idx_scan, idx_tup_read
+FROM pg_stat_user_indexes
+WHERE idx_scan = 0
+ORDER BY schemaname, tablename;
+```
+
+## Acciones Inmediatas
+
+1. **Kill queries lentas** (si es seguro):
+```sql
+SELECT pg_terminate_backend(pid)
+FROM pg_stat_activity
+WHERE query_start < now() - interval '5 minutes'
+AND state != 'idle';
+```
+
+2. **Aumentar connection pool** temporalmente
+3. **Habilitar query cache** si está disponible
+4. **Escalar base de datos** si es posible
+
+## Soluciones a Largo Plazo
+
+1. Agregar índices faltantes
+2. Optimizar queries lentas
+3. Implementar read replicas
+4. Considerar particionamiento
+```
+
+### Runbook: API Rate Limit Exceeded
+
+```markdown
+# Runbook: API Rate Limit Exceeded
+
+## Síntomas
+- Error 429 (Too Many Requests)
+- Usuarios reportan errores
+- Métricas muestran pico de requests
+
+## Diagnóstico
+
+1. Verificar rate limit configurado
+2. Identificar fuente del tráfico
+3. Verificar si es ataque o uso legítimo
+
+## Acciones Inmediatas
+
+1. **Aumentar rate limit temporalmente**:
+```python
+# En Redis
+redis_client.set("rate_limit:global", 1000)  # Aumentar de 100 a 1000
+```
+
+2. **Identificar usuarios problemáticos**:
+```python
+# Ver top usuarios por requests
+top_users = redis_client.zrevrange("rate_limit:users", 0, 10, withscores=True)
+```
+
+3. **Implementar rate limiting por usuario**:
+```python
+# Limitar usuarios específicos
+redis_client.setex(f"rate_limit:user:{user_id}", 3600, 10)
+```
+
+## Prevención
+
+1. Implementar rate limiting más granular
+2. Agregar caching para reducir requests
+3. Implementar circuit breaker
+4. Monitorear y alertar proactivamente
+```
+
+---
+
+## 📊 Data Quality y Governance
+
+### Sistema de Data Quality Checks
+
+```python
+"""
+Sistema completo de data quality checks
+Incluye: validación, profiling, alertas
+"""
+from great_expectations import DataContext
+import pandas as pd
+
+class DataQualitySystem:
+    def __init__(self):
+        self.context = DataContext()
+        self.checks = []
+    
+    def add_expectation(self, dataset_name: str, expectation_type: str, **kwargs):
+        """Agrega expectativa de calidad"""
+        expectation = {
+            "dataset": dataset_name,
+            "type": expectation_type,
+            "params": kwargs
+        }
+        self.checks.append(expectation)
+    
+    def validate_data(self, df: pd.DataFrame, dataset_name: str) -> dict:
+        """Valida datos contra expectativas"""
+        results = {
+            "passed": True,
+            "checks": [],
+            "errors": []
+        }
+        
+        dataset_checks = [c for c in self.checks if c["dataset"] == dataset_name]
+        
+        for check in dataset_checks:
+            try:
+                if check["type"] == "expect_column_to_exist":
+                    assert check["params"]["column"] in df.columns
+                
+                elif check["type"] == "expect_column_values_to_not_be_null":
+                    null_count = df[check["params"]["column"]].isnull().sum()
+                    assert null_count == 0
+                
+                elif check["type"] == "expect_column_values_to_be_unique":
+                    duplicates = df[check["params"]["column"]].duplicated().sum()
+                    assert duplicates == 0
+                
+                elif check["type"] == "expect_column_values_to_be_in_set":
+                    invalid = ~df[check["params"]["column"]].isin(check["params"]["value_set"])
+                    assert invalid.sum() == 0
+                
+                results["checks"].append({
+                    "check": check["type"],
+                    "status": "passed"
+                })
+            except AssertionError as e:
+                results["passed"] = False
+                results["errors"].append({
+                    "check": check["type"],
+                    "error": str(e)
+                })
+        
+        return results
+    
+    def profile_data(self, df: pd.DataFrame) -> dict:
+        """Genera perfil de datos"""
+        return {
+            "row_count": len(df),
+            "column_count": len(df.columns),
+            "null_percentages": {
+                col: (df[col].isnull().sum() / len(df)) * 100
+                for col in df.columns
+            },
+            "data_types": df.dtypes.to_dict(),
+            "sample_values": df.head(5).to_dict()
+        }
+
+# Uso
+quality_system = DataQualitySystem()
+
+# Definir expectativas
+quality_system.add_expectation("users", "expect_column_to_exist", column="email")
+quality_system.add_expectation("users", "expect_column_values_to_not_be_null", column="email")
+quality_system.add_expectation("users", "expect_column_values_to_be_unique", column="email")
+quality_system.add_expectation("users", "expect_column_values_to_be_in_set", 
+                               column="status", value_set=["active", "inactive", "pending"])
+
+# Validar datos
+results = quality_system.validate_data(df_users, "users")
+if not results["passed"]:
+    send_alert(f"Data quality issues: {results['errors']}")
+```
+
+---
+
+## 🎯 Feature Flags y A/B Testing
+
+### Sistema de Feature Flags Avanzado
+
+```python
+"""
+Sistema completo de feature flags con A/B testing
+Incluye: gradual rollout, targeting, analytics
+"""
+from typing import Dict, Optional, List
+import hashlib
+import json
+
+class FeatureFlagSystem:
+    def __init__(self, storage):
+        self.storage = storage  # Redis o DB
+        self.flags = {}
+    
+    def create_flag(self, flag_name: str, default_value: bool = False):
+        """Crea un feature flag"""
+        flag_config = {
+            "name": flag_name,
+            "enabled": default_value,
+            "rollout_percentage": 0,
+            "targeting_rules": [],
+            "variants": {}
+        }
+        self.storage.set(f"flag:{flag_name}", json.dumps(flag_config))
+        return flag_config
+    
+    def is_enabled(self, flag_name: str, user_id: Optional[str] = None, 
+                   context: Optional[Dict] = None) -> bool:
+        """Verifica si feature flag está habilitado"""
+        flag_config = json.loads(
+            self.storage.get(f"flag:{flag_name}") or "{}"
+        )
+        
+        if not flag_config:
+            return False
+        
+        # Check if globally enabled
+        if not flag_config.get("enabled", False):
+            return False
+        
+        # Check rollout percentage
+        rollout = flag_config.get("rollout_percentage", 0)
+        if rollout < 100:
+            if user_id:
+                # Deterministic hash para consistencia
+                hash_value = int(hashlib.md5(f"{flag_name}:{user_id}".encode()).hexdigest(), 16)
+                user_percentage = (hash_value % 100) + 1
+                if user_percentage > rollout:
+                    return False
+            else:
+                # Sin user_id, usar random
+                import random
+                if random.randint(1, 100) > rollout:
+                    return False
+        
+        # Check targeting rules
+        if context and flag_config.get("targeting_rules"):
+            if not self._matches_targeting(context, flag_config["targeting_rules"]):
+                return False
+        
+        return True
+    
+    def get_variant(self, flag_name: str, user_id: str) -> Optional[str]:
+        """Obtiene variante para A/B testing"""
+        flag_config = json.loads(
+            self.storage.get(f"flag:{flag_name}") or "{}"
+        )
+        
+        variants = flag_config.get("variants", {})
+        if not variants:
+            return None
+        
+        # Asignar variante consistente basado en user_id
+        hash_value = int(hashlib.md5(f"{flag_name}:{user_id}".encode()).hexdigest(), 16)
+        variant_index = hash_value % len(variants)
+        variant_names = list(variants.keys())
+        return variant_names[variant_index]
+    
+    def _matches_targeting(self, context: Dict, rules: List[Dict]) -> bool:
+        """Verifica si contexto coincide con reglas de targeting"""
+        for rule in rules:
+            if rule["type"] == "user_segment":
+                if context.get("user_segment") not in rule["values"]:
+                    return False
+            elif rule["type"] == "country":
+                if context.get("country") not in rule["values"]:
+                    return False
+            elif rule["type"] == "custom":
+                if not self._evaluate_custom_rule(context, rule):
+                    return False
+        return True
+    
+    def gradual_rollout(self, flag_name: str, percentage: int):
+        """Hace gradual rollout de feature"""
+        flag_config = json.loads(
+            self.storage.get(f"flag:{flag_name}") or "{}"
+        )
+        flag_config["rollout_percentage"] = percentage
+        self.storage.set(f"flag:{flag_name}", json.dumps(flag_config))
+
+# Uso
+feature_flags = FeatureFlagSystem(redis_client)
+
+# Crear flag
+feature_flags.create_flag("new_checkout_flow", default_value=False)
+
+# Gradual rollout: 10% -> 50% -> 100%
+feature_flags.gradual_rollout("new_checkout_flow", 10)
+
+# Verificar en código
+if feature_flags.is_enabled("new_checkout_flow", user_id="123"):
+    render_new_checkout()
+else:
+    render_old_checkout()
+
+# A/B Testing
+feature_flags.create_flag("button_color", default_value=True)
+feature_flags.storage.set("flag:button_color:variants", json.dumps({
+    "blue": 50,  # 50% de usuarios
+    "green": 50  # 50% de usuarios
+}))
+
+variant = feature_flags.get_variant("button_color", user_id="123")
+render_button(color=variant)
+```
+
+---
+
 ## 🎉 Mensaje Final Inspirador
 
 Estamos en un momento único en la historia de la tecnología. La combinación de automatización tradicional con IA moderna está transformando cómo operan las empresas.
@@ -21240,10 +23829,8668 @@ Si esto resuena contigo, **aplica ahora**. Estamos buscando personas como tú pa
 
 ---
 
+---
+
+## 🏗️ Arquitecturas y Patrones de Diseño Avanzados
+
+### Patrones de Arquitectura para Data Engineering
+
+#### 1. Lambda Architecture
+```python
+# Ejemplo de implementación Lambda Architecture
+class LambdaArchitecture:
+    """
+    Combina batch processing (precisión) con stream processing (latencia baja)
+    """
+    def __init__(self):
+        self.batch_layer = BatchProcessor()
+        self.speed_layer = StreamProcessor()
+        self.serving_layer = ServingLayer()
+    
+    def process_data(self, data_stream):
+        # Speed layer: procesamiento en tiempo real
+        real_time_result = self.speed_layer.process(data_stream)
+        
+        # Batch layer: procesamiento completo periódico
+        batch_result = self.batch_layer.process_full_dataset()
+        
+        # Serving layer: combina ambos resultados
+        return self.serving_layer.merge(real_time_result, batch_result)
+```
+
+**Cuándo usar**: Cuando necesitas tanto precisión histórica como resultados en tiempo real.
+
+#### 2. Kappa Architecture
+```python
+# Arquitectura Kappa: todo como stream
+class KappaArchitecture:
+    """
+    Todo se procesa como stream, incluyendo reprocessing histórico
+    """
+    def __init__(self):
+        self.stream_processor = KafkaStreamProcessor()
+        self.state_store = RocksDBStateStore()
+    
+    def process_with_replay(self, topic, from_timestamp):
+        # Reprocesar desde un punto específico
+        return self.stream_processor.replay_from(topic, from_timestamp)
+```
+
+**Cuándo usar**: Cuando tu sistema puede manejar todo como streams y necesitas simplicidad.
+
+#### 3. Data Mesh Architecture
+```python
+# Principios de Data Mesh
+class DataProduct:
+    """
+    Cada dominio es dueño de sus datos como producto
+    """
+    def __init__(self, domain, owner):
+        self.domain = domain
+        self.owner = owner
+        self.schema = SchemaRegistry()
+        self.api = DataProductAPI()
+    
+    def publish(self, data):
+        # Publica datos con schema y metadata
+        return self.api.publish(data, self.schema)
+```
+
+**Cuándo usar**: En organizaciones grandes donde múltiples equipos necesitan compartir datos.
+
+### Patrones de Diseño para ML Systems
+
+#### 1. Model Serving Patterns
+```python
+# Pattern: A/B Testing de Modelos
+class ModelABTesting:
+    def __init__(self):
+        self.model_a = load_model('v1')
+        self.model_b = load_model('v2')
+        self.traffic_split = 0.5
+    
+    def predict(self, features, user_id):
+        # Split traffic basado en hash de user_id
+        if hash(user_id) % 100 < self.traffic_split * 100:
+            return self.model_a.predict(features)
+        else:
+            return self.model_b.predict(features)
+```
+
+#### 2. Feature Store Pattern
+```python
+# Centralización de features para ML
+class FeatureStore:
+    def __init__(self):
+        self.online_store = RedisFeatureStore()
+        self.offline_store = S3FeatureStore()
+    
+    def get_feature(self, entity_id, feature_name, timestamp=None):
+        # Online: para serving en tiempo real
+        if timestamp is None:
+            return self.online_store.get(entity_id, feature_name)
+        # Offline: para training
+        else:
+            return self.offline_store.get(entity_id, feature_name, timestamp)
+```
+
+#### 3. MLOps Pipeline Pattern
+```python
+# Pipeline completo de MLOps
+class MLOpsPipeline:
+    def __init__(self):
+        self.data_pipeline = DataPipeline()
+        self.training_pipeline = TrainingPipeline()
+        self.validation = ModelValidator()
+        self.deployment = ModelDeployer()
+        self.monitoring = ModelMonitor()
+    
+    def run_full_cycle(self):
+        # 1. Data collection y preprocessing
+        data = self.data_pipeline.collect_and_preprocess()
+        
+        # 2. Training
+        model = self.training_pipeline.train(data)
+        
+        # 3. Validation
+        if not self.validation.validate(model):
+            raise ValidationError("Model doesn't meet quality thresholds")
+        
+        # 4. Deployment
+        self.deployment.deploy(model)
+        
+        # 5. Monitoring
+        self.monitoring.start_monitoring(model)
+```
+
+---
+
+## 📊 Casos de Estudio Detallados con Código
+
+### Caso 1: Sistema de Recomendación en Tiempo Real
+
+**Contexto**: Necesitamos recomendar contenido a usuarios basado en su comportamiento en tiempo real.
+
+**Arquitectura**:
+```python
+# Sistema completo de recomendación
+import redis
+from typing import List, Dict
+from dataclasses import dataclass
+from datetime import datetime, timedelta
+
+@dataclass
+class UserEvent:
+    user_id: str
+    content_id: str
+    event_type: str  # 'view', 'like', 'share', 'purchase'
+    timestamp: datetime
+
+class RealTimeRecommendationSystem:
+    def __init__(self):
+        self.redis = redis.Redis(host='localhost', port=6379, db=0)
+        self.collaborative_filter = CollaborativeFilter()
+        self.content_based = ContentBasedFilter()
+        self.hybrid_weights = {'collaborative': 0.6, 'content': 0.4}
+    
+    def process_event(self, event: UserEvent):
+        """Procesa evento de usuario y actualiza recomendaciones"""
+        # 1. Actualizar perfil de usuario en tiempo real
+        self._update_user_profile(event)
+        
+        # 2. Actualizar contadores de popularidad
+        self._update_popularity_scores(event)
+        
+        # 3. Recalcular recomendaciones si es necesario
+        if self._should_recalculate(event):
+            recommendations = self._generate_recommendations(event.user_id)
+            self._cache_recommendations(event.user_id, recommendations)
+    
+    def _update_user_profile(self, event: UserEvent):
+        """Actualiza perfil de usuario en Redis"""
+        key = f"user:{event.user_id}:profile"
+        
+        # Actualizar contadores de interacción
+        self.redis.hincrby(key, f"{event.event_type}_count", 1)
+        self.redis.hset(key, "last_activity", event.timestamp.isoformat())
+        
+        # Actualizar lista de contenido visto (mantener últimos 100)
+        self.redis.lpush(f"user:{event.user_id}:history", event.content_id)
+        self.redis.ltrim(f"user:{event.user_id}:history", 0, 99)
+    
+    def _generate_recommendations(self, user_id: str) -> List[Dict]:
+        """Genera recomendaciones híbridas"""
+        # Collaborative filtering
+        cf_recs = self.collaborative_filter.get_recommendations(user_id)
+        
+        # Content-based filtering
+        cb_recs = self.content_based.get_recommendations(user_id)
+        
+        # Combinar con pesos
+        combined = self._combine_recommendations(cf_recs, cb_recs)
+        
+        return combined[:10]  # Top 10
+    
+    def get_recommendations(self, user_id: str) -> List[Dict]:
+        """Obtiene recomendaciones (desde cache o genera nuevas)"""
+        cached = self.redis.get(f"user:{user_id}:recommendations")
+        if cached:
+            return json.loads(cached)
+        
+        return self._generate_recommendations(user_id)
+```
+
+**Métricas de Éxito**:
+- Latencia p95 < 50ms para obtener recomendaciones
+- CTR (Click-Through Rate) > 15%
+- Diversidad de recomendaciones > 0.7
+
+### Caso 2: Pipeline de ETL para Análisis de Sentimiento
+
+**Contexto**: Procesar millones de reviews diarios y extraer sentimiento.
+
+```python
+# Pipeline completo de ETL con Airflow
+from airflow import DAG
+from airflow.operators.python import PythonOperator
+from airflow.providers.postgres.hooks.postgres import PostgresHook
+from transformers import pipeline
+import pandas as pd
+
+def extract_reviews(**context):
+    """Extrae reviews de la base de datos"""
+    hook = PostgresHook(postgres_conn_id='reviews_db')
+    sql = """
+        SELECT review_id, text, created_at 
+        FROM reviews 
+        WHERE processed = FALSE 
+        AND created_at >= CURRENT_DATE - INTERVAL '1 day'
+        LIMIT 10000
+    """
+    df = hook.get_pandas_df(sql)
+    return df.to_dict('records')
+
+def transform_sentiment(reviews, **context):
+    """Aplica análisis de sentimiento"""
+    sentiment_analyzer = pipeline(
+        "sentiment-analysis",
+        model="nlptown/bert-base-multilingual-uncased-sentiment",
+        device=0  # GPU si está disponible
+    )
+    
+    results = []
+    batch_size = 32
+    
+    for i in range(0, len(reviews), batch_size):
+        batch = reviews[i:i+batch_size]
+        texts = [r['text'] for r in batch]
+        
+        # Procesar en batch para eficiencia
+        sentiments = sentiment_analyzer(texts)
+        
+        for review, sentiment in zip(batch, sentiments):
+            results.append({
+                'review_id': review['review_id'],
+                'sentiment_label': sentiment['label'],
+                'sentiment_score': sentiment['score'],
+                'processed_at': datetime.now()
+            })
+    
+    return results
+
+def load_results(sentiment_results, **context):
+    """Carga resultados a data warehouse"""
+    hook = PostgresHook(postgres_conn_id='warehouse_db')
+    
+    df = pd.DataFrame(sentiment_results)
+    
+    # Insertar en batch
+    hook.insert_rows(
+        table='review_sentiments',
+        rows=df.values.tolist(),
+        target_fields=df.columns.tolist()
+    )
+    
+    # Marcar reviews como procesadas
+    review_ids = [r['review_id'] for r in sentiment_results]
+    hook.run(f"""
+        UPDATE reviews 
+        SET processed = TRUE 
+        WHERE review_id IN ({','.join(map(str, review_ids))})
+    """)
+
+# Definir DAG
+dag = DAG(
+    'sentiment_analysis_pipeline',
+    schedule_interval='@daily',
+    catchup=False
+)
+
+extract_task = PythonOperator(
+    task_id='extract_reviews',
+    python_callable=extract_reviews,
+    dag=dag
+)
+
+transform_task = PythonOperator(
+    task_id='transform_sentiment',
+    python_callable=transform_sentiment,
+    op_args=[extract_task.output],
+    dag=dag
+)
+
+load_task = PythonOperator(
+    task_id='load_results',
+    python_callable=load_results,
+    op_args=[transform_task.output],
+    dag=dag
+)
+
+extract_task >> transform_task >> load_task
+```
+
+**Optimizaciones**:
+- Procesamiento en batch para reducir llamadas al modelo
+- Uso de GPU para acelerar inferencia
+- Paralelización de tareas en Airflow
+
+---
+
+## 🔧 Guías de Optimización Avanzada
+
+### Optimización de Queries SQL
+
+#### 1. Análisis de Query Performance
+```python
+# Herramienta para analizar performance de queries
+class QueryAnalyzer:
+    def __init__(self, db_connection):
+        self.conn = db_connection
+    
+    def analyze_query(self, query: str) -> Dict:
+        """Analiza query y sugiere optimizaciones"""
+        explain_result = self.conn.execute(f"EXPLAIN ANALYZE {query}").fetchall()
+        
+        analysis = {
+            'execution_time': self._extract_execution_time(explain_result),
+            'index_usage': self._check_index_usage(explain_result),
+            'suggestions': []
+        }
+        
+        # Sugerencias automáticas
+        if analysis['execution_time'] > 1.0:
+            analysis['suggestions'].append("Query tarda >1s, considerar índices")
+        
+        if not analysis['index_usage']:
+            analysis['suggestions'].append("Query no usa índices, revisar WHERE clauses")
+        
+        return analysis
+    
+    def suggest_indexes(self, query: str) -> List[str]:
+        """Sugiere índices basado en la query"""
+        # Parsear query y extraer columnas en WHERE/JOIN
+        columns = self._extract_filtered_columns(query)
+        
+        suggestions = []
+        for col in columns:
+            suggestions.append(f"CREATE INDEX idx_{col} ON table_name({col})")
+        
+        return suggestions
+```
+
+#### 2. Optimización de Joins
+```python
+# Estrategias de optimización de joins
+class JoinOptimizer:
+    @staticmethod
+    def optimize_join_order(tables: List[str], join_conditions: Dict) -> List[str]:
+        """
+        Optimiza el orden de joins basado en:
+        - Tamaño de tablas
+        - Selectividad de condiciones
+        - Índices disponibles
+        """
+        # Calcular selectividad de cada join
+        selectivities = {}
+        for join in join_conditions:
+            selectivities[join] = calculate_selectivity(join)
+        
+        # Ordenar: joins más selectivos primero
+        sorted_joins = sorted(selectivities.items(), key=lambda x: x[1])
+        
+        return [join[0] for join in sorted_joins]
+```
+
+### Optimización de Pipelines de Datos
+
+#### 1. Incremental Processing
+```python
+# Procesamiento incremental para eficiencia
+class IncrementalProcessor:
+    def __init__(self):
+        self.state_store = StateStore()
+    
+    def process_incremental(self, table_name: str, last_processed: datetime):
+        """Procesa solo datos nuevos desde última ejecución"""
+        query = f"""
+            SELECT * 
+            FROM {table_name}
+            WHERE updated_at > '{last_processed}'
+            ORDER BY updated_at
+        """
+        
+        new_data = self.execute_query(query)
+        
+        if new_data:
+            self.process_batch(new_data)
+            self.state_store.update_last_processed(table_name, datetime.now())
+```
+
+#### 2. Parallel Processing
+```python
+# Procesamiento paralelo de datos
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import multiprocessing
+
+class ParallelDataProcessor:
+    def __init__(self, num_workers=None):
+        self.num_workers = num_workers or multiprocessing.cpu_count()
+    
+    def process_in_parallel(self, data_chunks: List[List]):
+        """Procesa chunks de datos en paralelo"""
+        with ThreadPoolExecutor(max_workers=self.num_workers) as executor:
+            futures = [
+                executor.submit(self.process_chunk, chunk) 
+                for chunk in data_chunks
+            ]
+            
+            results = []
+            for future in as_completed(futures):
+                results.extend(future.result())
+            
+            return results
+```
+
+### Optimización de Costos en Cloud
+
+#### 1. Cost Analyzer
+```python
+# Análisis y optimización de costos
+class CloudCostOptimizer:
+    def __init__(self):
+        self.cost_tracker = CostTracker()
+    
+    def analyze_costs(self, time_period: str = 'last_month') -> Dict:
+        """Analiza costos y encuentra oportunidades de optimización"""
+        costs = self.cost_tracker.get_costs(time_period)
+        
+        analysis = {
+            'total_cost': sum(costs.values()),
+            'by_service': costs,
+            'recommendations': []
+        }
+        
+        # Recomendaciones automáticas
+        if costs.get('compute') > analysis['total_cost'] * 0.5:
+            analysis['recommendations'].append({
+                'type': 'reserved_instances',
+                'potential_savings': costs['compute'] * 0.3,
+                'action': 'Considerar Reserved Instances para cargas estables'
+            })
+        
+        if costs.get('storage') > analysis['total_cost'] * 0.3:
+            analysis['recommendations'].append({
+                'type': 'lifecycle_policies',
+                'potential_savings': costs['storage'] * 0.5,
+                'action': 'Implementar lifecycle policies para mover datos antiguos a cold storage'
+            })
+        
+        return analysis
+```
+
+---
+
+## 📝 Plantillas y Templates Reutilizables
+
+### Template 1: Airflow DAG Estándar
+```python
+# Template para crear nuevos DAGs
+"""
+Template para DAGs de Airflow
+Copia este template y ajusta según tus necesidades
+"""
+from airflow import DAG
+from airflow.operators.python import PythonOperator
+from airflow.operators.bash import BashOperator
+from datetime import datetime, timedelta
+
+default_args = {
+    'owner': 'data-engineering',
+    'depends_on_past': False,
+    'email_on_failure': True,
+    'email_on_retry': False,
+    'retries': 3,
+    'retry_delay': timedelta(minutes=5),
+    'max_active_runs': 1,
+}
+
+dag = DAG(
+    'your_dag_name',
+    default_args=default_args,
+    description='Descripción del DAG',
+    schedule_interval='@daily',  # o cron expression
+    start_date=datetime(2025, 1, 1),
+    catchup=False,
+    tags=['data-engineering', 'etl'],
+)
+
+def extract_function(**context):
+    """Función de extracción"""
+    # Tu código aquí
+    pass
+
+def transform_function(**context):
+    """Función de transformación"""
+    # Tu código aquí
+    pass
+
+def load_function(**context):
+    """Función de carga"""
+    # Tu código aquí
+    pass
+
+# Definir tareas
+extract = PythonOperator(
+    task_id='extract',
+    python_callable=extract_function,
+    dag=dag,
+)
+
+transform = PythonOperator(
+    task_id='transform',
+    python_callable=transform_function,
+    dag=dag,
+)
+
+load = PythonOperator(
+    task_id='load',
+    python_callable=load_function,
+    dag=dag,
+)
+
+# Definir dependencias
+extract >> transform >> load
+```
+
+### Template 2: FastAPI Endpoint Estándar
+```python
+# Template para endpoints de FastAPI
+from fastapi import FastAPI, HTTPException, Depends
+from pydantic import BaseModel
+from typing import List, Optional
+import logging
+
+app = FastAPI(title="Your API", version="1.0.0")
+logger = logging.getLogger(__name__)
+
+# Modelos Pydantic
+class RequestModel(BaseModel):
+    field1: str
+    field2: Optional[int] = None
+
+class ResponseModel(BaseModel):
+    result: str
+    status: str
+
+# Dependencias
+def get_db_connection():
+    """Dependency para conexión a DB"""
+    # Tu código de conexión
+    pass
+
+# Endpoints
+@app.post("/endpoint", response_model=ResponseModel)
+async def your_endpoint(
+    request: RequestModel,
+    db = Depends(get_db_connection)
+):
+    """
+    Descripción del endpoint
+    
+    - **field1**: Descripción del campo
+    - **field2**: Descripción opcional
+    """
+    try:
+        # Tu lógica aquí
+        result = process_request(request, db)
+        
+        return ResponseModel(
+            result=result,
+            status="success"
+        )
+    except Exception as e:
+        logger.error(f"Error en endpoint: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/health")
+async def health_check():
+    """Health check endpoint"""
+    return {"status": "healthy"}
+```
+
+### Template 3: Test Suite Estándar
+```python
+# Template para tests
+import pytest
+from unittest.mock import Mock, patch
+import pandas as pd
+
+class TestYourClass:
+    """Test suite para tu clase/función"""
+    
+    @pytest.fixture
+    def sample_data(self):
+        """Fixture con datos de prueba"""
+        return {
+            'field1': 'value1',
+            'field2': 123
+        }
+    
+    def test_basic_functionality(self, sample_data):
+        """Test básico de funcionalidad"""
+        result = your_function(sample_data)
+        assert result is not None
+        assert result['status'] == 'success'
+    
+    def test_error_handling(self):
+        """Test de manejo de errores"""
+        with pytest.raises(ValueError):
+            your_function(invalid_data)
+    
+    @patch('your_module.external_api_call')
+    def test_with_mock(self, mock_api):
+        """Test con mocks"""
+        mock_api.return_value = {'result': 'mocked'}
+        result = your_function_with_api()
+        assert result == 'mocked'
+        mock_api.assert_called_once()
+```
+
+---
+
+## 🐛 Guías de Troubleshooting Específicas
+
+### Problema 1: Airflow DAG Falla Intermitentemente
+
+**Síntomas**:
+- DAG falla aleatoriamente
+- Errores de timeout
+- Problemas de conexión a bases de datos
+
+**Diagnóstico**:
+```python
+# Script de diagnóstico
+def diagnose_dag_issues(dag_id: str):
+    """Diagnostica problemas comunes en DAGs"""
+    from airflow.models import DagRun, TaskInstance
+    
+    issues = []
+    
+    # 1. Verificar dependencias
+    dag_runs = DagRun.find(dag_id=dag_id)
+    for run in dag_runs[-10:]:  # Últimos 10 runs
+        if run.state == 'failed':
+            tasks = TaskInstance.find(dag_id=dag_id, run_id=run.run_id)
+            failed_tasks = [t for t in tasks if t.state == 'failed']
+            
+            for task in failed_tasks:
+                issues.append({
+                    'type': 'task_failure',
+                    'task_id': task.task_id,
+                    'error': task.log[-500:] if task.log else 'No log available',
+                    'timestamp': task.start_date
+                })
+    
+    # 2. Verificar recursos
+    resource_usage = check_resource_usage()
+    if resource_usage['cpu'] > 0.9:
+        issues.append({
+            'type': 'resource_exhaustion',
+            'metric': 'cpu',
+            'value': resource_usage['cpu']
+        })
+    
+    return issues
+```
+
+**Soluciones**:
+1. Implementar retries con exponential backoff
+2. Aumentar timeout de tareas
+3. Usar connection pooling para DB
+4. Implementar circuit breakers
+
+### Problema 2: Modelo ML con Drift
+
+**Síntomas**:
+- Accuracy del modelo disminuye
+- Distribución de features cambia
+- Predicciones inconsistentes
+
+**Diagnóstico**:
+```python
+# Detección de drift
+class ModelDriftDetector:
+    def __init__(self, reference_data, current_data):
+        self.reference = reference_data
+        self.current = current_data
+    
+    def detect_drift(self) -> Dict:
+        """Detecta drift en features y predicciones"""
+        drift_report = {
+            'feature_drift': {},
+            'prediction_drift': None,
+            'data_quality_issues': []
+        }
+        
+        # 1. Drift en features (KS test)
+        from scipy import stats
+        
+        for feature in self.reference.columns:
+            ks_stat, p_value = stats.ks_2samp(
+                self.reference[feature],
+                self.current[feature]
+            )
+            
+            if p_value < 0.05:  # Drift detectado
+                drift_report['feature_drift'][feature] = {
+                    'ks_statistic': ks_stat,
+                    'p_value': p_value,
+                    'severity': 'high' if ks_stat > 0.3 else 'medium'
+                }
+        
+        # 2. Drift en predicciones
+        reference_preds = self.model.predict(self.reference)
+        current_preds = self.model.predict(self.current)
+        
+        ks_stat, p_value = stats.ks_2samp(reference_preds, current_preds)
+        drift_report['prediction_drift'] = {
+            'ks_statistic': ks_stat,
+            'p_value': p_value
+        }
+        
+        return drift_report
+```
+
+**Soluciones**:
+1. Retraining automático cuando drift > threshold
+2. Feature monitoring continuo
+3. A/B testing de nuevos modelos
+4. Data quality checks en pipeline
+
+---
+
+## 📈 Métricas y Dashboards Avanzados
+
+### Dashboard de Health del Sistema
+
+```python
+# Sistema de métricas y alertas
+class SystemHealthDashboard:
+    def __init__(self):
+        self.metrics_collector = MetricsCollector()
+        self.alert_manager = AlertManager()
+    
+    def get_health_status(self) -> Dict:
+        """Obtiene estado de salud completo del sistema"""
+        metrics = {
+            'data_pipelines': self._check_pipelines(),
+            'ml_models': self._check_models(),
+            'infrastructure': self._check_infrastructure(),
+            'data_quality': self._check_data_quality()
+        }
+        
+        overall_health = self._calculate_overall_health(metrics)
+        
+        return {
+            'status': overall_health,
+            'metrics': metrics,
+            'alerts': self.alert_manager.get_active_alerts(),
+            'timestamp': datetime.now()
+        }
+    
+    def _check_pipelines(self) -> Dict:
+        """Verifica estado de pipelines de datos"""
+        pipelines = get_all_pipelines()
+        
+        status = {
+            'total': len(pipelines),
+            'healthy': 0,
+            'warning': 0,
+            'critical': 0,
+            'details': []
+        }
+        
+        for pipeline in pipelines:
+            last_run = pipeline.get_last_run()
+            
+            if last_run.status == 'success':
+                status['healthy'] += 1
+            elif last_run.status == 'failed':
+                if last_run.failure_count > 3:
+                    status['critical'] += 1
+                else:
+                    status['warning'] += 1
+            
+            status['details'].append({
+                'name': pipeline.name,
+                'status': last_run.status,
+                'last_run': last_run.timestamp,
+                'avg_duration': pipeline.get_avg_duration()
+            })
+        
+        return status
+```
+
+### Métricas de Negocio para Data Products
+
+```python
+# Métricas de impacto de negocio
+class BusinessMetricsTracker:
+    def calculate_roi(self, project_name: str) -> Dict:
+        """Calcula ROI de un proyecto de datos"""
+        costs = self._get_project_costs(project_name)
+        benefits = self._get_project_benefits(project_name)
+        
+        roi = {
+            'total_cost': costs['infrastructure'] + costs['development'] + costs['maintenance'],
+            'total_benefits': benefits['time_saved'] * benefits['hourly_rate'] + benefits['revenue_increase'],
+            'roi_percentage': ((benefits['total'] - costs['total']) / costs['total']) * 100,
+            'payback_period_months': costs['total'] / (benefits['monthly']),
+            'breakdown': {
+                'costs': costs,
+                'benefits': benefits
+            }
+        }
+        
+        return roi
+```
+
+---
+
+## 🔒 Guías de Seguridad y Compliance Detalladas
+
+### Data Privacy y GDPR
+
+```python
+# Sistema de anonimización de datos
+class DataAnonymizer:
+    def __init__(self):
+        self.encryption_key = load_encryption_key()
+    
+    def anonymize_pii(self, data: pd.DataFrame) -> pd.DataFrame:
+        """Anonimiza datos personales identificables"""
+        anonymized = data.copy()
+        
+        # Hash de emails
+        if 'email' in anonymized.columns:
+            anonymized['email'] = anonymized['email'].apply(
+                lambda x: hashlib.sha256(x.encode()).hexdigest()[:16]
+            )
+        
+        # Generalización de fechas
+        if 'birth_date' in anonymized.columns:
+            anonymized['birth_year'] = anonymized['birth_date'].dt.year
+            anonymized = anonymized.drop('birth_date', axis=1)
+        
+        # K-anonymity: asegurar que cada registro es indistinguible de al menos k-1 otros
+        anonymized = self._apply_k_anonymity(anonymized, k=5)
+        
+        return anonymized
+    
+    def _apply_k_anonymity(self, data: pd.DataFrame, k: int) -> pd.DataFrame:
+        """Aplica k-anonymity para proteger privacidad"""
+        # Implementación de k-anonymity
+        # Agrupa registros similares
+        pass
+```
+
+### Audit Logging
+
+```python
+# Sistema de auditoría completo
+class AuditLogger:
+    def __init__(self):
+        self.logger = setup_audit_logger()
+    
+    def log_data_access(self, user_id: str, table_name: str, query: str):
+        """Registra acceso a datos"""
+        audit_entry = {
+            'timestamp': datetime.now().isoformat(),
+            'user_id': user_id,
+            'action': 'data_access',
+            'resource': table_name,
+            'query': query,
+            'ip_address': get_client_ip(),
+            'session_id': get_session_id()
+        }
+        
+        self.logger.info(json.dumps(audit_entry))
+        
+        # Almacenar en base de datos de auditoría
+        self.store_audit_entry(audit_entry)
+    
+    def log_model_prediction(self, model_name: str, input_data: Dict, prediction: Any):
+        """Registra predicciones de modelos para compliance"""
+        audit_entry = {
+            'timestamp': datetime.now().isoformat(),
+            'model_name': model_name,
+            'input_hash': hashlib.sha256(json.dumps(input_data).encode()).hexdigest(),
+            'prediction': str(prediction),
+            'compliance_metadata': {
+                'gdpr_compliant': True,
+                'data_retention_days': 90
+            }
+        }
+        
+        self.logger.info(json.dumps(audit_entry))
+```
+
+---
+
+## 🚀 Workflows y Procesos Internos
+
+### Proceso de Code Review
+
+```python
+# Checklist automatizado para code reviews
+class CodeReviewChecklist:
+    CHECKLIST_ITEMS = [
+        {
+            'category': 'Functionality',
+            'items': [
+                '¿El código cumple con los requisitos?',
+                '¿Hay edge cases manejados?',
+                '¿Los errores se manejan apropiadamente?'
+            ]
+        },
+        {
+            'category': 'Performance',
+            'items': [
+                '¿Hay queries N+1?',
+                '¿Se usa caching donde es apropiado?',
+                '¿Hay optimizaciones obvias faltantes?'
+            ]
+        },
+        {
+            'category': 'Security',
+            'items': [
+                '¿Hay SQL injection risks?',
+                '¿Se validan inputs?',
+                '¿Se manejan secrets apropiadamente?'
+            ]
+        },
+        {
+            'category': 'Testing',
+            'items': [
+                '¿Hay tests unitarios?',
+                '¿Cobertura de tests >80%?',
+                '¿Tests de integración donde es necesario?'
+            ]
+        },
+        {
+            'category': 'Documentation',
+            'items': [
+                '¿Está documentado el código?',
+                '¿Hay docstrings en funciones?',
+                '¿Se actualizó README si es necesario?'
+            ]
+        }
+    ]
+```
+
+### Proceso de Deployment
+
+```python
+# Pipeline de deployment con validaciones
+class DeploymentPipeline:
+    def __init__(self):
+        self.stages = [
+            'lint',
+            'test',
+            'security_scan',
+            'build',
+            'deploy_staging',
+            'integration_tests',
+            'deploy_production'
+        ]
+    
+    def deploy(self, version: str):
+        """Ejecuta pipeline completo de deployment"""
+        for stage in self.stages:
+            print(f"Ejecutando stage: {stage}")
+            
+            result = self._execute_stage(stage, version)
+            
+            if not result.success:
+                self._rollback()
+                raise DeploymentError(f"Stage {stage} falló: {result.error}")
+            
+            # Aprobar manualmente para producción
+            if stage == 'deploy_production':
+                approval = self._request_approval()
+                if not approval:
+                    raise DeploymentError("Deployment a producción no aprobado")
+        
+        print(f"Deployment {version} completado exitosamente")
+```
+
+---
+
+## 📚 Recursos y Herramientas Adicionales
+
+### Herramientas Recomendadas por Categoría
+
+#### Data Engineering
+- **ETL**: Apache Airflow, Prefect, Dagster
+- **Data Quality**: Great Expectations, Soda, Monte Carlo
+- **Orchestration**: Temporal, Argo Workflows
+- **Data Catalog**: DataHub, Amundsen, Atlan
+
+#### Machine Learning
+- **Experiment Tracking**: MLflow, Weights & Biases, Neptune
+- **Feature Stores**: Feast, Tecton, Hopsworks
+- **Model Serving**: BentoML, TorchServe, TensorFlow Serving
+- **Monitoring**: Evidently AI, Fiddler, Arize
+
+#### Infrastructure
+- **Container Orchestration**: Kubernetes, Docker Swarm
+- **Service Mesh**: Istio, Linkerd
+- **Observability**: OpenTelemetry, Jaeger, Prometheus
+- **Secret Management**: HashiCorp Vault, AWS Secrets Manager
+
+### Comunidades y Recursos de Aprendizaje
+
+#### Comunidades Online
+- **Reddit**: r/dataengineering, r/MachineLearning, r/devops
+- **Discord**: Data Engineering Discord, MLOps Community
+- **Slack**: Data Engineering Slack, MLOps.slack.com
+
+#### Blogs y Newsletters
+- **Engineering Blogs**: Netflix Tech Blog, Uber Engineering, Airbnb Engineering
+- **Newsletters**: Data Engineering Weekly, The Batch (DeepLearning.AI)
+- **Podcasts**: Data Engineering Podcast, The MLOps Podcast
+
+#### Certificaciones Recomendadas
+- **AWS**: Solutions Architect, Data Analytics Specialty
+- **GCP**: Professional Data Engineer
+- **Databricks**: Databricks Certified Data Engineer
+- **Snowflake**: SnowPro Core Certification
+
+---
+
+## ⚡ Guías de Escalabilidad y Performance
+
+### Estrategias de Escalabilidad Horizontal
+
+#### 1. Sharding de Datos
+```python
+# Sistema de sharding para escalar bases de datos
+class DatabaseSharding:
+    def __init__(self, num_shards=4):
+        self.num_shards = num_shards
+        self.shards = [self._create_connection(i) for i in range(num_shards)]
+    
+    def get_shard(self, key: str):
+        """Determina qué shard usar basado en hash de la key"""
+        shard_id = hash(key) % self.num_shards
+        return self.shards[shard_id]
+    
+    def insert(self, key: str, value: dict):
+        """Inserta datos en el shard apropiado"""
+        shard = self.get_shard(key)
+        return shard.insert(key, value)
+    
+    def query(self, key: str):
+        """Consulta datos del shard apropiado"""
+        shard = self.get_shard(key)
+        return shard.query(key)
+    
+    def query_range(self, start_key: str, end_key: str):
+        """Consulta que requiere múltiples shards"""
+        results = []
+        for shard in self.shards:
+            results.extend(shard.query_range(start_key, end_key))
+        return results
+```
+
+#### 2. Caching Estratégico
+```python
+# Sistema de caching multi-nivel
+class MultiLevelCache:
+    def __init__(self):
+        self.l1_cache = {}  # In-memory cache (más rápido)
+        self.l2_cache = redis.Redis()  # Redis cache (rápido)
+        self.l3_cache = Memcached()  # Memcached (medio)
+        self.ttl_l1 = 60  # 1 minuto
+        self.ttl_l2 = 3600  # 1 hora
+        self.ttl_l3 = 86400  # 1 día
+    
+    def get(self, key: str):
+        """Obtiene valor desde cache, subiendo niveles si es necesario"""
+        # L1: In-memory
+        if key in self.l1_cache:
+            return self.l1_cache[key]
+        
+        # L2: Redis
+        value = self.l2_cache.get(key)
+        if value:
+            self.l1_cache[key] = value
+            return value
+        
+        # L3: Memcached
+        value = self.l3_cache.get(key)
+        if value:
+            self.l2_cache.setex(key, self.ttl_l2, value)
+            self.l1_cache[key] = value
+            return value
+        
+        return None
+    
+    def set(self, key: str, value: any):
+        """Establece valor en todos los niveles"""
+        self.l1_cache[key] = value
+        self.l2_cache.setex(key, self.ttl_l2, value)
+        self.l3_cache.set(key, value, time=self.ttl_l3)
+```
+
+#### 3. Load Balancing y Rate Limiting
+```python
+# Sistema de rate limiting distribuido
+class DistributedRateLimiter:
+    def __init__(self, redis_client, max_requests=100, window_seconds=60):
+        self.redis = redis_client
+        self.max_requests = max_requests
+        self.window = window_seconds
+    
+    def is_allowed(self, user_id: str) -> bool:
+        """Verifica si el usuario puede hacer una request"""
+        key = f"rate_limit:{user_id}"
+        current = self.redis.incr(key)
+        
+        if current == 1:
+            # Primera request, establecer TTL
+            self.redis.expire(key, self.window)
+        
+        return current <= self.max_requests
+    
+    def get_remaining(self, user_id: str) -> int:
+        """Obtiene requests restantes"""
+        key = f"rate_limit:{user_id}"
+        current = int(self.redis.get(key) or 0)
+        return max(0, self.max_requests - current)
+```
+
+### Optimización de Performance
+
+#### 1. Query Optimization
+```python
+# Optimizador de queries con análisis de plan
+class QueryOptimizer:
+    def optimize_query(self, query: str, db_connection) -> str:
+        """Optimiza una query SQL"""
+        # 1. Analizar plan de ejecución
+        explain_result = db_connection.execute(f"EXPLAIN {query}").fetchall()
+        
+        # 2. Detectar problemas comunes
+        issues = self._detect_issues(explain_result)
+        
+        # 3. Aplicar optimizaciones
+        optimized_query = query
+        for issue in issues:
+            if issue['type'] == 'full_table_scan':
+                optimized_query = self._add_index_hint(optimized_query, issue['table'])
+            elif issue['type'] == 'nested_loop':
+                optimized_query = self._suggest_hash_join(optimized_query)
+            elif issue['type'] == 'missing_index':
+                optimized_query = self._suggest_index(optimized_query, issue['column'])
+        
+        return optimized_query
+    
+    def _detect_issues(self, explain_result):
+        """Detecta problemas en el plan de ejecución"""
+        issues = []
+        for row in explain_result:
+            if 'Seq Scan' in str(row):
+                issues.append({
+                    'type': 'full_table_scan',
+                    'table': self._extract_table(row),
+                    'severity': 'high'
+                })
+        return issues
+```
+
+#### 2. Batch Processing Optimization
+```python
+# Procesamiento en batch optimizado
+class BatchProcessor:
+    def __init__(self, batch_size=1000, max_workers=4):
+        self.batch_size = batch_size
+        self.max_workers = max_workers
+    
+    def process_large_dataset(self, data_source, processor_func):
+        """Procesa dataset grande en batches paralelos"""
+        with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
+            futures = []
+            
+            for batch in self._chunk_data(data_source, self.batch_size):
+                future = executor.submit(processor_func, batch)
+                futures.append(future)
+            
+            results = []
+            for future in as_completed(futures):
+                try:
+                    results.extend(future.result())
+                except Exception as e:
+                    logger.error(f"Error procesando batch: {e}")
+            
+            return results
+    
+    def _chunk_data(self, data_source, chunk_size):
+        """Divide datos en chunks"""
+        chunk = []
+        for item in data_source:
+            chunk.append(item)
+            if len(chunk) >= chunk_size:
+                yield chunk
+                chunk = []
+        if chunk:
+            yield chunk
+```
+
+---
+
+## 🔌 Ejemplos de Integraciones Comunes
+
+### Integración con APIs de Terceros
+
+#### 1. Integración con Salesforce
+```python
+# Cliente para Salesforce API
+class SalesforceClient:
+    def __init__(self, client_id, client_secret, username, password):
+        self.base_url = "https://yourinstance.salesforce.com"
+        self.access_token = self._authenticate(client_id, client_secret, username, password)
+    
+    def _authenticate(self, client_id, client_secret, username, password):
+        """Autentica y obtiene access token"""
+        auth_url = f"{self.base_url}/services/oauth2/token"
+        data = {
+            'grant_type': 'password',
+            'client_id': client_id,
+            'client_secret': client_secret,
+            'username': username,
+            'password': password
+        }
+        response = requests.post(auth_url, data=data)
+        return response.json()['access_token']
+    
+    def query_soql(self, soql_query: str):
+        """Ejecuta query SOQL"""
+        headers = {'Authorization': f'Bearer {self.access_token}'}
+        url = f"{self.base_url}/services/data/v58.0/query"
+        params = {'q': soql_query}
+        
+        response = requests.get(url, headers=headers, params=params)
+        return response.json()
+    
+    def create_record(self, object_name: str, data: dict):
+        """Crea un nuevo registro"""
+        headers = {
+            'Authorization': f'Bearer {self.access_token}',
+            'Content-Type': 'application/json'
+        }
+        url = f"{self.base_url}/services/data/v58.0/sobjects/{object_name}/"
+        
+        response = requests.post(url, headers=headers, json=data)
+        return response.json()
+```
+
+#### 2. Integración con Google Analytics
+```python
+# Cliente para Google Analytics Reporting API
+class GoogleAnalyticsClient:
+    def __init__(self, credentials_path):
+        self.service = self._build_service(credentials_path)
+    
+    def _build_service(self, credentials_path):
+        """Construye servicio de Google Analytics"""
+        from google.oauth2 import service_account
+        from googleapiclient.discovery import build
+        
+        credentials = service_account.Credentials.from_service_account_file(
+            credentials_path,
+            scopes=['https://www.googleapis.com/auth/analytics.readonly']
+        )
+        return build('analyticsreporting', 'v4', credentials=credentials)
+    
+    def get_report(self, view_id: str, start_date: str, end_date: str, metrics: list, dimensions: list):
+        """Obtiene reporte de Analytics"""
+        request = {
+            'viewId': view_id,
+            'dateRanges': [{'startDate': start_date, 'endDate': end_date}],
+            'metrics': [{'expression': f'ga:{m}'} for m in metrics],
+            'dimensions': [{'name': f'ga:{d}'} for d in dimensions]
+        }
+        
+        response = self.service.reports().batchGet(
+            body={'reportRequests': [request]}
+        ).execute()
+        
+        return self._parse_response(response)
+    
+    def _parse_response(self, response):
+        """Parsea respuesta de Analytics a formato usable"""
+        results = []
+        for report in response.get('reports', []):
+            for row in report.get('data', {}).get('rows', []):
+                result = {}
+                for i, dimension in enumerate(row.get('dimensions', [])):
+                    result[dimension] = row['dimensions'][i]
+                for metric in row.get('metrics', [{}])[0].get('values', []):
+                    result[metric] = row['metrics'][0]['values'][i]
+                results.append(result)
+        return results
+```
+
+#### 3. Integración con Stripe
+```python
+# Cliente para Stripe API
+class StripeClient:
+    def __init__(self, api_key):
+        import stripe
+        stripe.api_key = api_key
+        self.stripe = stripe
+    
+    def create_customer(self, email: str, name: str, metadata: dict = None):
+        """Crea un nuevo cliente en Stripe"""
+        return self.stripe.Customer.create(
+            email=email,
+            name=name,
+            metadata=metadata or {}
+        )
+    
+    def create_subscription(self, customer_id: str, price_id: str):
+        """Crea una suscripción"""
+        return self.stripe.Subscription.create(
+            customer=customer_id,
+            items=[{'price': price_id}]
+        )
+    
+    def handle_webhook(self, payload: str, signature: str, webhook_secret: str):
+        """Procesa webhook de Stripe"""
+        event = self.stripe.Webhook.construct_event(
+            payload, signature, webhook_secret
+        )
+        
+        if event['type'] == 'customer.subscription.created':
+            self._handle_subscription_created(event['data']['object'])
+        elif event['type'] == 'customer.subscription.updated':
+            self._handle_subscription_updated(event['data']['object'])
+        elif event['type'] == 'invoice.payment_failed':
+            self._handle_payment_failed(event['data']['object'])
+        
+        return event
+```
+
+---
+
+## 🧪 Mejores Prácticas de Testing Avanzado
+
+### Testing de Pipelines de Datos
+
+#### 1. Testing de ETL Pipelines
+```python
+# Framework de testing para pipelines ETL
+import pytest
+from unittest.mock import Mock, patch
+
+class TestETLPipeline:
+    @pytest.fixture
+    def sample_source_data(self):
+        """Datos de prueba para source"""
+        return [
+            {'id': 1, 'name': 'Test', 'value': 100},
+            {'id': 2, 'name': 'Test2', 'value': 200}
+        ]
+    
+    @pytest.fixture
+    def expected_transformed_data(self):
+        """Datos esperados después de transformación"""
+        return [
+            {'id': 1, 'name': 'TEST', 'value': 100, 'value_doubled': 200},
+            {'id': 2, 'name': 'TEST2', 'value': 200, 'value_doubled': 400}
+        ]
+    
+    def test_extract(self, sample_source_data):
+        """Test de extracción de datos"""
+        with patch('your_module.source_db') as mock_db:
+            mock_db.query.return_value = sample_source_data
+            result = extract_data()
+            assert len(result) == 2
+            assert result[0]['id'] == 1
+    
+    def test_transform(self, sample_source_data, expected_transformed_data):
+        """Test de transformación de datos"""
+        result = transform_data(sample_source_data)
+        assert result == expected_transformed_data
+    
+    def test_load(self, expected_transformed_data):
+        """Test de carga de datos"""
+        with patch('your_module.target_db') as mock_db:
+            load_data(expected_transformed_data)
+            mock_db.insert.assert_called_once_with(expected_transformed_data)
+    
+    def test_end_to_end(self, sample_source_data):
+        """Test end-to-end del pipeline completo"""
+        with patch('your_module.source_db') as mock_source, \
+             patch('your_module.target_db') as mock_target:
+            
+            mock_source.query.return_value = sample_source_data
+            
+            run_pipeline()
+            
+            mock_source.query.assert_called_once()
+            mock_target.insert.assert_called_once()
+```
+
+#### 2. Testing de Modelos ML
+```python
+# Testing de modelos de machine learning
+class TestMLModel:
+    @pytest.fixture
+    def trained_model(self):
+        """Modelo entrenado para testing"""
+        return load_model('test_model.pkl')
+    
+    @pytest.fixture
+    def test_data(self):
+        """Datos de prueba"""
+        return pd.DataFrame({
+            'feature1': [1, 2, 3],
+            'feature2': [4, 5, 6]
+        })
+    
+    def test_prediction_shape(self, trained_model, test_data):
+        """Verifica que las predicciones tengan la forma correcta"""
+        predictions = trained_model.predict(test_data)
+        assert predictions.shape[0] == test_data.shape[0]
+    
+    def test_prediction_range(self, trained_model, test_data):
+        """Verifica que las predicciones estén en el rango esperado"""
+        predictions = trained_model.predict(test_data)
+        assert all(0 <= p <= 1 for p in predictions)  # Para clasificación binaria
+    
+    def test_model_performance(self, trained_model, test_data, test_labels):
+        """Verifica que el modelo cumple métricas mínimas"""
+        predictions = trained_model.predict(test_data)
+        accuracy = accuracy_score(test_labels, predictions)
+        assert accuracy >= 0.85  # Threshold mínimo
+    
+    def test_feature_importance(self, trained_model):
+        """Verifica que features importantes no sean None"""
+        if hasattr(trained_model, 'feature_importances_'):
+            importances = trained_model.feature_importances_
+            assert all(imp >= 0 for imp in importances)
+            assert sum(importances) > 0
+```
+
+#### 3. Testing de APIs
+```python
+# Testing de APIs con FastAPI
+from fastapi.testclient import TestClient
+
+class TestAPI:
+    @pytest.fixture
+    def client(self):
+        """Cliente de prueba para la API"""
+        return TestClient(app)
+    
+    @pytest.fixture
+    def auth_headers(self):
+        """Headers de autenticación para testing"""
+        token = get_test_token()
+        return {'Authorization': f'Bearer {token}'}
+    
+    def test_health_endpoint(self, client):
+        """Test del endpoint de health"""
+        response = client.get('/health')
+        assert response.status_code == 200
+        assert response.json()['status'] == 'healthy'
+    
+    def test_create_endpoint(self, client, auth_headers):
+        """Test de creación de recursos"""
+        data = {'name': 'Test', 'value': 100}
+        response = client.post('/items', json=data, headers=auth_headers)
+        assert response.status_code == 201
+        assert response.json()['name'] == 'Test'
+    
+    def test_validation_error(self, client, auth_headers):
+        """Test de validación de datos"""
+        invalid_data = {'name': ''}  # Campo requerido faltante
+        response = client.post('/items', json=invalid_data, headers=auth_headers)
+        assert response.status_code == 422
+    
+    def test_rate_limiting(self, client, auth_headers):
+        """Test de rate limiting"""
+        # Hacer más requests de las permitidas
+        for _ in range(101):
+            response = client.get('/items', headers=auth_headers)
+        
+        # La última debería ser 429
+        assert response.status_code == 429
+```
+
+---
+
+## 🐛 Guías de Debugging Avanzado
+
+### Debugging de Pipelines de Datos
+
+#### 1. Debugging de Airflow DAGs
+```python
+# Herramientas de debugging para Airflow
+class AirflowDebugger:
+    def __init__(self, dag_id: str):
+        self.dag_id = dag_id
+        self.airflow_client = AirflowClient()
+    
+    def diagnose_failed_task(self, task_id: str, execution_date: str):
+        """Diagnostica por qué falló una tarea"""
+        diagnosis = {
+            'task_id': task_id,
+            'execution_date': execution_date,
+            'issues': [],
+            'suggestions': []
+        }
+        
+        # 1. Obtener logs
+        logs = self.airflow_client.get_task_logs(
+            self.dag_id, task_id, execution_date
+        )
+        diagnosis['logs'] = logs[-100:]  # Últimas 100 líneas
+        
+        # 2. Analizar errores comunes
+        if 'ConnectionError' in logs:
+            diagnosis['issues'].append({
+                'type': 'connection_error',
+                'severity': 'high',
+                'message': 'Error de conexión a base de datos o API'
+            })
+            diagnosis['suggestions'].append('Verificar conexiones y credenciales')
+        
+        if 'TimeoutError' in logs:
+            diagnosis['issues'].append({
+                'type': 'timeout',
+                'severity': 'medium',
+                'message': 'La tarea excedió el tiempo límite'
+            })
+            diagnosis['suggestions'].append('Aumentar timeout o optimizar query')
+        
+        # 3. Verificar recursos
+        resource_usage = self.airflow_client.get_task_resources(
+            self.dag_id, task_id, execution_date
+        )
+        if resource_usage['memory'] > 0.9:
+            diagnosis['issues'].append({
+                'type': 'memory_exhaustion',
+                'severity': 'high'
+            })
+        
+        return diagnosis
+```
+
+#### 2. Debugging de Modelos ML
+```python
+# Herramientas de debugging para modelos ML
+class MLModelDebugger:
+    def __init__(self, model, test_data, test_labels):
+        self.model = model
+        self.test_data = test_data
+        self.test_labels = test_labels
+    
+    def analyze_predictions(self):
+        """Analiza predicciones del modelo"""
+        predictions = self.model.predict(self.test_data)
+        
+        analysis = {
+            'overall_accuracy': accuracy_score(self.test_labels, predictions),
+            'confusion_matrix': confusion_matrix(self.test_labels, predictions),
+            'error_analysis': self._analyze_errors(predictions),
+            'feature_importance': self._get_feature_importance()
+        }
+        
+        return analysis
+    
+    def _analyze_errors(self, predictions):
+        """Analiza errores de predicción"""
+        errors = []
+        for i, (pred, actual) in enumerate(zip(predictions, self.test_labels)):
+            if pred != actual:
+                errors.append({
+                    'index': i,
+                    'predicted': pred,
+                    'actual': actual,
+                    'features': self.test_data.iloc[i].to_dict()
+                })
+        return errors
+    
+    def find_problematic_samples(self, threshold=0.5):
+        """Encuentra muestras problemáticas"""
+        if hasattr(self.model, 'predict_proba'):
+            probabilities = self.model.predict_proba(self.test_data)
+            low_confidence = probabilities.max(axis=1) < threshold
+            
+            return self.test_data[low_confidence]
+        return None
+```
+
+---
+
+## 📦 Ejemplos de Proyectos Completos
+
+### Proyecto 1: Sistema de Análisis de Sentimiento en Tiempo Real
+
+```python
+# Sistema completo de análisis de sentimiento
+from airflow import DAG
+from airflow.operators.python import PythonOperator
+from kafka import KafkaConsumer, KafkaProducer
+import redis
+from transformers import pipeline
+
+class SentimentAnalysisSystem:
+    def __init__(self):
+        self.sentiment_model = pipeline(
+            "sentiment-analysis",
+            model="nlptown/bert-base-multilingual-uncased-sentiment"
+        )
+        self.redis = redis.Redis()
+        self.kafka_consumer = KafkaConsumer('reviews', bootstrap_servers=['localhost:9092'])
+        self.kafka_producer = KafkaProducer(bootstrap_servers=['localhost:9092'])
+    
+    def process_stream(self):
+        """Procesa stream de reviews en tiempo real"""
+        for message in self.kafka_consumer:
+            review = json.loads(message.value)
+            
+            # Analizar sentimiento
+            sentiment = self.sentiment_model(review['text'])[0]
+            
+            # Almacenar resultado
+            result = {
+                'review_id': review['id'],
+                'sentiment': sentiment['label'],
+                'score': sentiment['score'],
+                'timestamp': datetime.now().isoformat()
+            }
+            
+            # Cache en Redis
+            self.redis.setex(
+                f"sentiment:{review['id']}",
+                3600,  # 1 hora
+                json.dumps(result)
+            )
+            
+            # Enviar a topic de resultados
+            self.kafka_producer.send('sentiment_results', json.dumps(result).encode())
+            
+            # Actualizar dashboard en tiempo real
+            self._update_dashboard(result)
+    
+    def _update_dashboard(self, result):
+        """Actualiza dashboard con nuevo resultado"""
+        # Incrementar contadores
+        self.redis.incr(f"sentiment_count:{result['sentiment']}")
+        
+        # Agregar a lista de recientes
+        self.redis.lpush('recent_sentiments', json.dumps(result))
+        self.redis.ltrim('recent_sentiments', 0, 99)  # Mantener últimos 100
+```
+
+### Proyecto 2: Sistema de Recomendación Personalizado
+
+```python
+# Sistema completo de recomendación
+class RecommendationEngine:
+    def __init__(self):
+        self.collaborative_model = CollaborativeFilteringModel()
+        self.content_model = ContentBasedModel()
+        self.redis = redis.Redis()
+        self.db = DatabaseConnection()
+    
+    def get_recommendations(self, user_id: str, n: int = 10) -> List[Dict]:
+        """Obtiene recomendaciones para un usuario"""
+        # Verificar cache
+        cached = self.redis.get(f"recommendations:{user_id}")
+        if cached:
+            return json.loads(cached)
+        
+        # Obtener historial del usuario
+        user_history = self.db.get_user_history(user_id)
+        
+        # Generar recomendaciones colaborativas
+        cf_recs = self.collaborative_model.recommend(user_id, n=n*2)
+        
+        # Generar recomendaciones basadas en contenido
+        cb_recs = self.content_model.recommend(user_history, n=n*2)
+        
+        # Combinar y rankear
+        combined = self._combine_recommendations(cf_recs, cb_recs, user_history)
+        
+        # Filtrar items ya vistos
+        recommendations = [r for r in combined if r['item_id'] not in user_history][:n]
+        
+        # Cachear resultados
+        self.redis.setex(
+            f"recommendations:{user_id}",
+            3600,  # 1 hora
+            json.dumps(recommendations)
+        )
+        
+        return recommendations
+    
+    def _combine_recommendations(self, cf_recs, cb_recs, user_history):
+        """Combina recomendaciones de diferentes modelos"""
+        # Ponderar por confianza del modelo
+        weighted_recs = {}
+        
+        for rec in cf_recs:
+            item_id = rec['item_id']
+            if item_id not in weighted_recs:
+                weighted_recs[item_id] = {'score': 0, 'sources': []}
+            weighted_recs[item_id]['score'] += rec['score'] * 0.6  # 60% peso
+            weighted_recs[item_id]['sources'].append('collaborative')
+        
+        for rec in cb_recs:
+            item_id = rec['item_id']
+            if item_id not in weighted_recs:
+                weighted_recs[item_id] = {'score': 0, 'sources': []}
+            weighted_recs[item_id]['score'] += rec['score'] * 0.4  # 40% peso
+            weighted_recs[item_id]['sources'].append('content')
+        
+        # Convertir a lista y ordenar
+        combined = [
+            {'item_id': item_id, 'score': data['score'], 'sources': data['sources']}
+            for item_id, data in weighted_recs.items()
+        ]
+        
+        return sorted(combined, key=lambda x: x['score'], reverse=True)
+```
+
+---
+
+## 🔄 Guías de Migración y Actualización
+
+### Migración de Base de Datos
+
+```python
+# Herramienta de migración de datos
+class DatabaseMigrator:
+    def __init__(self, source_db, target_db):
+        self.source = source_db
+        self.target = target_db
+    
+    def migrate_table(self, table_name: str, batch_size: int = 1000):
+        """Migra una tabla completa"""
+        # 1. Crear tabla en destino si no existe
+        self.target.create_table_if_not_exists(table_name, self.source.get_schema(table_name))
+        
+        # 2. Obtener total de registros
+        total_rows = self.source.count_rows(table_name)
+        print(f"Migrando {total_rows} registros de {table_name}")
+        
+        # 3. Migrar en batches
+        offset = 0
+        while offset < total_rows:
+            batch = self.source.query(
+                f"SELECT * FROM {table_name} LIMIT {batch_size} OFFSET {offset}"
+            )
+            
+            if not batch:
+                break
+            
+            # Transformar datos si es necesario
+            transformed_batch = self._transform_batch(batch, table_name)
+            
+            # Insertar en destino
+            self.target.bulk_insert(table_name, transformed_batch)
+            
+            offset += batch_size
+            print(f"Migrados {offset}/{total_rows} registros")
+        
+        # 4. Verificar integridad
+        source_count = self.source.count_rows(table_name)
+        target_count = self.target.count_rows(table_name)
+        
+        if source_count != target_count:
+            raise MigrationError(f"Conteo no coincide: source={source_count}, target={target_count}")
+        
+        print(f"Migración completada: {target_count} registros migrados")
+    
+    def _transform_batch(self, batch, table_name):
+        """Transforma batch de datos según reglas de migración"""
+        # Aplicar transformaciones específicas por tabla
+        transformations = {
+            'users': self._transform_users,
+            'orders': self._transform_orders,
+            # ... más transformaciones
+        }
+        
+        transform_func = transformations.get(table_name, lambda x: x)
+        return transform_func(batch)
+```
+
+### Actualización de Modelos ML
+
+```python
+# Sistema de actualización gradual de modelos
+class ModelUpdater:
+    def __init__(self, model_registry):
+        self.registry = model_registry
+    
+    def update_model_gradual(self, new_model, traffic_percentage: float = 0.1):
+        """Actualiza modelo gradualmente con A/B testing"""
+        # 1. Cargar modelo actual
+        current_model = self.registry.get_latest_model('production')
+        
+        # 2. Validar nuevo modelo
+        validation_result = self._validate_model(new_model)
+        if not validation_result['passed']:
+            raise ModelValidationError(validation_result['errors'])
+        
+        # 3. Desplegar con tráfico limitado
+        self.registry.deploy_model(
+            new_model,
+            environment='production',
+            traffic_percentage=traffic_percentage
+        )
+        
+        # 4. Monitorear performance
+        monitoring_result = self._monitor_models(current_model, new_model, days=7)
+        
+        # 5. Decidir si hacer rollback o aumentar tráfico
+        if monitoring_result['new_model_better']:
+            # Aumentar tráfico gradualmente
+            self._increase_traffic(new_model, steps=[0.25, 0.5, 0.75, 1.0])
+        else:
+            # Rollback
+            self.registry.rollback_model('production')
+            raise ModelUpdateError("Nuevo modelo no mejoró performance")
+    
+    def _validate_model(self, model):
+        """Valida que el modelo cumple requisitos"""
+        results = {
+            'passed': True,
+            'errors': []
+        }
+        
+        # Validar accuracy mínima
+        test_accuracy = model.evaluate(test_data)
+        if test_accuracy < 0.85:
+            results['passed'] = False
+            results['errors'].append(f"Accuracy {test_accuracy} < 0.85")
+        
+        # Validar latencia
+        latency = self._measure_latency(model)
+        if latency > 100:  # ms
+            results['passed'] = False
+            results['errors'].append(f"Latency {latency}ms > 100ms")
+        
+        return results
+```
+
+---
+
+## 📖 Guías de Documentación Técnica
+
+### Documentación de APIs
+
+```python
+# Generador automático de documentación de API
+class APIDocumentationGenerator:
+    def __init__(self, app: FastAPI):
+        self.app = app
+    
+    def generate_documentation(self) -> str:
+        """Genera documentación completa de la API"""
+        doc = {
+            'title': self.app.title,
+            'version': self.app.version,
+            'endpoints': []
+        }
+        
+        for route in self.app.routes:
+            if isinstance(route, APIRoute):
+                endpoint_doc = {
+                    'path': route.path,
+                    'methods': list(route.methods),
+                    'summary': route.summary,
+                    'description': route.description,
+                    'parameters': self._extract_parameters(route),
+                    'responses': self._extract_responses(route),
+                    'examples': self._generate_examples(route)
+                }
+                doc['endpoints'].append(endpoint_doc)
+        
+        return self._format_as_markdown(doc)
+    
+    def _extract_parameters(self, route):
+        """Extrae parámetros de la ruta"""
+        parameters = []
+        for param in route.dependant.query_params:
+            parameters.append({
+                'name': param.name,
+                'type': param.annotation.__name__,
+                'required': param.is_required,
+                'description': getattr(param, 'description', '')
+            })
+        return parameters
+```
+
+### Documentación de Pipelines
+
+```python
+# Generador de documentación para pipelines
+class PipelineDocumentationGenerator:
+    def generate_dag_documentation(self, dag: DAG) -> str:
+        """Genera documentación para un DAG de Airflow"""
+        doc = f"""
+# {dag.dag_id}
+
+## Descripción
+{dag.description}
+
+## Schedule
+- **Interval**: {dag.schedule_interval}
+- **Start Date**: {dag.start_date}
+- **Catchup**: {dag.catchup}
+
+## Tasks
+
+"""
+        for task in dag.tasks:
+            doc += f"""
+### {task.task_id}
+
+- **Type**: {type(task).__name__}
+- **Dependencies**: {[dep.task_id for dep in task.upstream_list]}
+- **Retries**: {task.retries}
+- **Timeout**: {task.execution_timeout}
+
+"""
+        
+        return doc
+```
+
+---
+
+## 📊 Observabilidad y Monitoreo Avanzado
+
+### Sistema de Observabilidad Completo
+
+#### 1. Distributed Tracing
+```python
+# Sistema de tracing distribuido con OpenTelemetry
+from opentelemetry import trace
+from opentelemetry.exporter.jaeger import JaegerExporter
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
+
+class DistributedTracing:
+    def __init__(self, service_name: str):
+        trace.set_tracer_provider(TracerProvider())
+        tracer = trace.get_tracer(__name__)
+        
+        jaeger_exporter = JaegerExporter(
+            agent_host_name="localhost",
+            agent_port=6831,
+        )
+        
+        span_processor = BatchSpanProcessor(jaeger_exporter)
+        trace.get_tracer_provider().add_span_processor(span_processor)
+        
+        self.tracer = tracer
+    
+    def trace_function(self, func):
+        """Decorator para trazar funciones"""
+        def wrapper(*args, **kwargs):
+            with self.tracer.start_as_current_span(func.__name__) as span:
+                span.set_attribute("function.name", func.__name__)
+                span.set_attribute("function.args", str(args))
+                
+                try:
+                    result = func(*args, **kwargs)
+                    span.set_attribute("function.result", "success")
+                    return result
+                except Exception as e:
+                    span.set_attribute("function.error", str(e))
+                    span.set_status(trace.Status(trace.StatusCode.ERROR, str(e)))
+                    raise
+        
+        return wrapper
+```
+
+#### 2. Métricas Personalizadas
+```python
+# Sistema de métricas con Prometheus
+from prometheus_client import Counter, Histogram, Gauge, start_http_server
+
+class MetricsCollector:
+    def __init__(self):
+        # Contadores
+        self.request_count = Counter(
+            'api_requests_total',
+            'Total API requests',
+            ['method', 'endpoint', 'status']
+        )
+        
+        # Histogramas (para latencia)
+        self.request_latency = Histogram(
+            'api_request_duration_seconds',
+            'API request latency',
+            ['method', 'endpoint']
+        )
+        
+        # Gauges (valores actuales)
+        self.active_connections = Gauge(
+            'active_connections',
+            'Number of active connections'
+        )
+        
+        # Iniciar servidor de métricas
+        start_http_server(8000)
+    
+    def record_request(self, method: str, endpoint: str, status: int, duration: float):
+        """Registra una request"""
+        self.request_count.labels(method=method, endpoint=endpoint, status=status).inc()
+        self.request_latency.labels(method=method, endpoint=endpoint).observe(duration)
+    
+    def update_connections(self, count: int):
+        """Actualiza número de conexiones activas"""
+        self.active_connections.set(count)
+```
+
+#### 3. Logging Estructurado
+```python
+# Sistema de logging estructurado
+import structlog
+import json
+
+class StructuredLogger:
+    def __init__(self):
+        structlog.configure(
+            processors=[
+                structlog.stdlib.filter_by_level,
+                structlog.stdlib.add_logger_name,
+                structlog.stdlib.add_log_level,
+                structlog.stdlib.PositionalArgumentsFormatter(),
+                structlog.processors.TimeStamper(fmt="iso"),
+                structlog.processors.StackInfoRenderer(),
+                structlog.processors.format_exc_info,
+                structlog.processors.UnicodeDecoder(),
+                structlog.processors.JSONRenderer()
+            ],
+            context_class=dict,
+            logger_factory=structlog.stdlib.LoggerFactory(),
+            wrapper_class=structlog.stdlib.BoundLogger,
+            cache_logger_on_first_use=True,
+        )
+        
+        self.logger = structlog.get_logger()
+    
+    def log_request(self, method: str, path: str, status: int, duration: float, user_id: str = None):
+        """Log estructurado de request"""
+        self.logger.info(
+            "api_request",
+            method=method,
+            path=path,
+            status_code=status,
+            duration_ms=duration * 1000,
+            user_id=user_id
+        )
+    
+    def log_error(self, error: Exception, context: dict = None):
+        """Log estructurado de error"""
+        self.logger.error(
+            "error_occurred",
+            error_type=type(error).__name__,
+            error_message=str(error),
+            **context or {}
+        )
+```
+
+---
+
+## 🎯 Patrones de Diseño Adicionales
+
+### 1. Circuit Breaker Pattern
+```python
+# Implementación de Circuit Breaker
+from enum import Enum
+from datetime import datetime, timedelta
+import time
+
+class CircuitState(Enum):
+    CLOSED = "closed"
+    OPEN = "open"
+    HALF_OPEN = "half_open"
+
+class CircuitBreaker:
+    def __init__(self, failure_threshold=5, timeout=60, expected_exception=Exception):
+        self.failure_threshold = failure_threshold
+        self.timeout = timeout
+        self.expected_exception = expected_exception
+        self.failure_count = 0
+        self.last_failure_time = None
+        self.state = CircuitState.CLOSED
+    
+    def call(self, func, *args, **kwargs):
+        """Ejecuta función con circuit breaker"""
+        if self.state == CircuitState.OPEN:
+            if self._should_attempt_reset():
+                self.state = CircuitState.HALF_OPEN
+            else:
+                raise CircuitBreakerOpenError("Circuit breaker is OPEN")
+        
+        try:
+            result = func(*args, **kwargs)
+            self._on_success()
+            return result
+        except self.expected_exception as e:
+            self._on_failure()
+            raise
+    
+    def _on_success(self):
+        """Maneja éxito"""
+        self.failure_count = 0
+        self.state = CircuitState.CLOSED
+    
+    def _on_failure(self):
+        """Maneja fallo"""
+        self.failure_count += 1
+        self.last_failure_time = datetime.now()
+        
+        if self.failure_count >= self.failure_threshold:
+            self.state = CircuitState.OPEN
+    
+    def _should_attempt_reset(self):
+        """Determina si se debe intentar reset"""
+        if self.last_failure_time:
+            return datetime.now() - self.last_failure_time > timedelta(seconds=self.timeout)
+        return False
+```
+
+### 2. Retry Pattern con Exponential Backoff
+```python
+# Retry con exponential backoff
+import random
+from functools import wraps
+
+def retry_with_backoff(max_retries=3, base_delay=1, max_delay=60, exceptions=(Exception,)):
+    """Decorator para retry con exponential backoff"""
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            delay = base_delay
+            
+            for attempt in range(max_retries):
+                try:
+                    return func(*args, **kwargs)
+                except exceptions as e:
+                    if attempt == max_retries - 1:
+                        raise
+                    
+                    # Exponential backoff con jitter
+                    jitter = random.uniform(0, 1)
+                    sleep_time = min(delay * (2 ** attempt) + jitter, max_delay)
+                    
+                    print(f"Retry {attempt + 1}/{max_retries} after {sleep_time:.2f}s")
+                    time.sleep(sleep_time)
+        
+        return wrapper
+    return decorator
+
+# Uso
+@retry_with_backoff(max_retries=5, base_delay=1)
+def call_external_api(url):
+    response = requests.get(url)
+    response.raise_for_status()
+    return response.json()
+```
+
+### 3. Saga Pattern para Transacciones Distribuidas
+```python
+# Implementación de Saga Pattern
+class SagaStep:
+    def __init__(self, name, execute_func, compensate_func):
+        self.name = name
+        self.execute = execute_func
+        self.compensate = compensate_func
+        self.executed = False
+
+class Saga:
+    def __init__(self):
+        self.steps = []
+        self.executed_steps = []
+    
+    def add_step(self, step: SagaStep):
+        """Agrega un paso al saga"""
+        self.steps.append(step)
+        return self
+    
+    def execute(self):
+        """Ejecuta el saga"""
+        try:
+            for step in self.steps:
+                result = step.execute()
+                step.executed = True
+                self.executed_steps.append(step)
+                yield result
+        except Exception as e:
+            # Compensar pasos ejecutados
+            self._compensate()
+            raise
+    
+    def _compensate(self):
+        """Compensa pasos ejecutados en orden inverso"""
+        for step in reversed(self.executed_steps):
+            try:
+                step.compensate()
+            except Exception as e:
+                # Log error pero continuar compensando
+                print(f"Error compensating {step.name}: {e}")
+
+# Ejemplo de uso
+def create_order_saga():
+    saga = Saga()
+    
+    # Paso 1: Reservar inventario
+    saga.add_step(SagaStep(
+        "reserve_inventory",
+        lambda: reserve_inventory(order.items),
+        lambda: release_inventory(order.items)
+    ))
+    
+    # Paso 2: Procesar pago
+    saga.add_step(SagaStep(
+        "process_payment",
+        lambda: charge_customer(order.customer_id, order.total),
+        lambda: refund_customer(order.customer_id, order.total)
+    ))
+    
+    # Paso 3: Crear orden
+    saga.add_step(SagaStep(
+        "create_order",
+        lambda: create_order_record(order),
+        lambda: cancel_order(order.id)
+    ))
+    
+    return saga
+```
+
+---
+
+## 💰 Guías de Costos y Optimización Financiera
+
+### Análisis de Costos de Infraestructura
+
+```python
+# Analizador de costos de cloud
+class CloudCostAnalyzer:
+    def __init__(self):
+        self.cost_data = {}
+    
+    def analyze_monthly_costs(self) -> dict:
+        """Analiza costos mensuales por servicio"""
+        analysis = {
+            'total_cost': 0,
+            'by_service': {},
+            'by_environment': {},
+            'trends': {},
+            'recommendations': []
+        }
+        
+        # Agregar datos de costos
+        costs = self._fetch_cost_data()
+        
+        for cost_entry in costs:
+            service = cost_entry['service']
+            amount = cost_entry['amount']
+            environment = cost_entry['environment']
+            
+            # Por servicio
+            analysis['by_service'][service] = analysis['by_service'].get(service, 0) + amount
+            
+            # Por ambiente
+            analysis['by_environment'][environment] = analysis['by_environment'].get(environment, 0) + amount
+            
+            analysis['total_cost'] += amount
+        
+        # Generar recomendaciones
+        analysis['recommendations'] = self._generate_recommendations(analysis)
+        
+        return analysis
+    
+    def _generate_recommendations(self, analysis: dict) -> list:
+        """Genera recomendaciones de optimización"""
+        recommendations = []
+        
+        # Recomendación 1: Reserved Instances
+        compute_cost = analysis['by_service'].get('EC2', 0) + analysis['by_service'].get('Compute Engine', 0)
+        if compute_cost > analysis['total_cost'] * 0.4:
+            potential_savings = compute_cost * 0.3
+            recommendations.append({
+                'type': 'reserved_instances',
+                'potential_savings': potential_savings,
+                'description': f'Considerar Reserved Instances para ahorrar ~${potential_savings:.2f}/mes'
+            })
+        
+        # Recomendación 2: Lifecycle Policies
+        storage_cost = analysis['by_service'].get('S3', 0) + analysis['by_service'].get('Cloud Storage', 0)
+        if storage_cost > analysis['total_cost'] * 0.2:
+            potential_savings = storage_cost * 0.5
+            recommendations.append({
+                'type': 'lifecycle_policies',
+                'potential_savings': potential_savings,
+                'description': f'Implementar lifecycle policies para ahorrar ~${potential_savings:.2f}/mes'
+            })
+        
+        # Recomendación 3: Right-sizing
+        if analysis['by_environment'].get('staging', 0) > analysis['total_cost'] * 0.15:
+            recommendations.append({
+                'type': 'right_sizing',
+                'potential_savings': analysis['by_environment']['staging'] * 0.3,
+                'description': 'Reducir tamaño de instancias en staging'
+            })
+        
+        return recommendations
+```
+
+### Optimización de Costos de APIs
+
+```python
+# Optimizador de costos de llamadas a APIs
+class APICostOptimizer:
+    def __init__(self):
+        self.api_costs = {
+            'openai': {'per_1k_tokens': 0.002, 'per_request': 0},
+            'anthropic': {'per_1k_tokens': 0.003, 'per_request': 0},
+            'google_ml': {'per_1k_tokens': 0.001, 'per_request': 0.01}
+        }
+    
+    def estimate_cost(self, api_name: str, num_tokens: int, num_requests: int = 1) -> float:
+        """Estima costo de llamadas a API"""
+        costs = self.api_costs.get(api_name, {})
+        
+        token_cost = (num_tokens / 1000) * costs.get('per_1k_tokens', 0)
+        request_cost = num_requests * costs.get('per_request', 0)
+        
+        return token_cost + request_cost
+    
+    def optimize_batch_size(self, api_name: str, total_items: int, max_tokens_per_request: int) -> dict:
+        """Optimiza tamaño de batch para minimizar costos"""
+        optimal_batch_size = max_tokens_per_request // 100  # Asumiendo ~100 tokens por item
+        
+        num_batches = (total_items + optimal_batch_size - 1) // optimal_batch_size
+        
+        cost = self.estimate_cost(api_name, total_items * 100, num_batches)
+        
+        return {
+            'optimal_batch_size': optimal_batch_size,
+            'num_batches': num_batches,
+            'estimated_cost': cost,
+            'cost_per_item': cost / total_items
+        }
+    
+    def suggest_caching(self, api_name: str, request_pattern: dict) -> dict:
+        """Sugiere estrategia de caching basada en patrones de request"""
+        unique_requests = request_pattern.get('unique', 0)
+        total_requests = request_pattern.get('total', 0)
+        
+        if unique_requests == 0:
+            return {'should_cache': False}
+        
+        cache_hit_ratio = 1 - (unique_requests / total_requests)
+        
+        if cache_hit_ratio > 0.5:
+            potential_savings = self.estimate_cost(api_name, 0, total_requests * cache_hit_ratio)
+            return {
+                'should_cache': True,
+                'cache_hit_ratio': cache_hit_ratio,
+                'potential_savings': potential_savings,
+                'recommended_ttl': 3600  # 1 hora
+            }
+        
+        return {'should_cache': False}
+```
+
+---
+
+## 🏢 Casos de Uso de Negocio
+
+### Caso 1: Sistema de Predicción de Churn
+
+```python
+# Sistema completo de predicción de churn
+class ChurnPredictionSystem:
+    def __init__(self):
+        self.model = self._load_model()
+        self.feature_store = FeatureStore()
+        self.alert_system = AlertSystem()
+    
+    def predict_churn(self, user_id: str) -> dict:
+        """Predice probabilidad de churn para un usuario"""
+        # Obtener features del usuario
+        features = self.feature_store.get_user_features(user_id)
+        
+        # Predecir
+        churn_probability = self.model.predict_proba([features])[0][1]
+        
+        # Determinar riesgo
+        risk_level = self._calculate_risk_level(churn_probability)
+        
+        result = {
+            'user_id': user_id,
+            'churn_probability': churn_probability,
+            'risk_level': risk_level,
+            'recommended_actions': self._get_recommendations(risk_level, features)
+        }
+        
+        # Alertar si es alto riesgo
+        if risk_level == 'high':
+            self.alert_system.send_alert(
+                f"User {user_id} has high churn risk ({churn_probability:.2%})"
+            )
+        
+        return result
+    
+    def _calculate_risk_level(self, probability: float) -> str:
+        """Calcula nivel de riesgo"""
+        if probability >= 0.7:
+            return 'high'
+        elif probability >= 0.4:
+            return 'medium'
+        else:
+            return 'low'
+    
+    def _get_recommendations(self, risk_level: str, features: dict) -> list:
+        """Genera recomendaciones basadas en riesgo y features"""
+        recommendations = []
+        
+        if risk_level == 'high':
+            if features.get('days_since_last_login', 0) > 30:
+                recommendations.append('Send re-engagement email')
+            
+            if features.get('support_tickets', 0) > 5:
+                recommendations.append('Assign dedicated support agent')
+            
+            if features.get('subscription_value', 0) > 100:
+                recommendations.append('Offer discount or upgrade')
+        
+        return recommendations
+```
+
+### Caso 2: Sistema de Optimización de Precios
+
+```python
+# Sistema de optimización de precios dinámicos
+class DynamicPricingSystem:
+    def __init__(self):
+        self.pricing_model = self._load_pricing_model()
+        self.demand_forecaster = DemandForecaster()
+        self.competitor_tracker = CompetitorTracker()
+    
+    def calculate_optimal_price(self, product_id: str, base_price: float) -> dict:
+        """Calcula precio óptimo para un producto"""
+        # Obtener factores de mercado
+        demand_forecast = self.demand_forecaster.forecast(product_id)
+        competitor_prices = self.competitor_tracker.get_prices(product_id)
+        inventory_level = self._get_inventory_level(product_id)
+        
+        # Calcular precio óptimo
+        optimal_price = self.pricing_model.predict(
+            base_price=base_price,
+            demand=demand_forecast,
+            competitor_avg_price=sum(competitor_prices) / len(competitor_prices) if competitor_prices else base_price,
+            inventory_level=inventory_level
+        )
+        
+        # Aplicar constraints
+        min_price = base_price * 0.7  # No menos del 70% del precio base
+        max_price = base_price * 1.3  # No más del 130% del precio base
+        
+        optimal_price = max(min_price, min(optimal_price, max_price))
+        
+        return {
+            'product_id': product_id,
+            'base_price': base_price,
+            'optimal_price': optimal_price,
+            'price_change_percent': ((optimal_price - base_price) / base_price) * 100,
+            'expected_revenue_impact': self._estimate_revenue_impact(product_id, optimal_price),
+            'reasoning': self._explain_pricing_decision(demand_forecast, inventory_level)
+        }
+    
+    def _estimate_revenue_impact(self, product_id: str, new_price: float) -> float:
+        """Estima impacto en revenue del nuevo precio"""
+        # Simplificado: usar elasticidad de precio estimada
+        price_elasticity = -1.5  # Asumiendo elasticidad de -1.5
+        
+        price_change = (new_price - self._get_current_price(product_id)) / self._get_current_price(product_id)
+        quantity_change = price_elasticity * price_change
+        
+        current_revenue = self._get_current_revenue(product_id)
+        new_quantity = self._get_current_quantity(product_id) * (1 + quantity_change)
+        new_revenue = new_price * new_quantity
+        
+        return new_revenue - current_revenue
+```
+
+---
+
+## 🤝 Guías de Colaboración y Trabajo en Equipo
+
+### Sistema de Code Review Efectivo
+
+```python
+# Framework para code reviews estructurados
+class CodeReviewFramework:
+    REVIEW_CHECKLIST = {
+        'functionality': [
+            '¿El código cumple con los requisitos?',
+            '¿Hay edge cases manejados?',
+            '¿Los errores se manejan apropiadamente?',
+            '¿Hay validación de inputs?'
+        ],
+        'performance': [
+            '¿Hay queries N+1?',
+            '¿Se usa caching donde es apropiado?',
+            '¿Hay optimizaciones obvias faltantes?',
+            '¿Se evitan operaciones costosas en loops?'
+        ],
+        'security': [
+            '¿Hay SQL injection risks?',
+            '¿Se validan y sanitizan inputs?',
+            '¿Se manejan secrets apropiadamente?',
+            '¿Hay vulnerabilidades conocidas?'
+        ],
+        'testing': [
+            '¿Hay tests unitarios?',
+            '¿Cobertura de tests >80%?',
+            '¿Tests de integración donde es necesario?',
+            '¿Tests edge cases cubiertos?'
+        ],
+        'documentation': [
+            '¿Está documentado el código?',
+            '¿Hay docstrings en funciones?',
+            '¿Se actualizó README si es necesario?',
+            '¿Hay ejemplos de uso?'
+        ],
+        'maintainability': [
+            '¿El código es legible?',
+            '¿Sigue los estándares del proyecto?',
+            '¿Hay código duplicado?',
+            '¿Los nombres son descriptivos?'
+        ]
+    }
+    
+    @staticmethod
+    def generate_review_template(pr_url: str, author: str) -> str:
+        """Genera template para code review"""
+        template = f"""
+# Code Review: {pr_url}
+
+**Author**: {author}
+**Reviewer**: [Your name]
+**Date**: {datetime.now().strftime('%Y-%m-%d')}
+
+## Overall Assessment
+- [ ] ✅ Approve
+- [ ] ⚠️ Approve with suggestions
+- [ ] ❌ Request changes
+
+## Checklist
+
+### Functionality
+{chr(10).join(f'- [ ] {item}' for item in CodeReviewFramework.REVIEW_CHECKLIST['functionality'])}
+
+### Performance
+{chr(10).join(f'- [ ] {item}' for item in CodeReviewFramework.REVIEW_CHECKLIST['performance'])}
+
+### Security
+{chr(10).join(f'- [ ] {item}' for item in CodeReviewFramework.REVIEW_CHECKLIST['security'])}
+
+### Testing
+{chr(10).join(f'- [ ] {item}' for item in CodeReviewFramework.REVIEW_CHECKLIST['testing'])}
+
+### Documentation
+{chr(10).join(f'- [ ] {item}' for item in CodeReviewFramework.REVIEW_CHECKLIST['documentation'])}
+
+### Maintainability
+{chr(10).join(f'- [ ] {item}' for item in CodeReviewFramework.REVIEW_CHECKLIST['maintainability'])}
+
+## Comments
+[Add specific comments here]
+
+## Suggestions
+[Add suggestions for improvement]
+"""
+        return template
+```
+
+### Sistema de Pair Programming
+
+```python
+# Framework para pair programming efectivo
+class PairProgrammingFramework:
+    ROLES = {
+        'driver': 'Escribe el código',
+        'navigator': 'Revisa, sugiere y planifica'
+    }
+    
+    BEST_PRACTICES = [
+        'Cambiar roles cada 25-30 minutos',
+        'Comunicar constantemente lo que estás haciendo',
+        'Hacer preguntas frecuentemente',
+        'Tomar breaks regulares',
+        'Documentar decisiones importantes',
+        'Revisar código juntos antes de commit'
+    ]
+    
+    @staticmethod
+    def create_pairing_session(participants: list, task: str) -> dict:
+        """Crea una sesión de pair programming"""
+        session = {
+            'task': task,
+            'participants': participants,
+            'start_time': datetime.now(),
+            'current_driver': participants[0],
+            'current_navigator': participants[1],
+            'role_switches': [],
+            'decisions': [],
+            'notes': []
+        }
+        return session
+    
+    @staticmethod
+    def switch_roles(session: dict):
+        """Cambia roles en la sesión"""
+        session['current_driver'], session['current_navigator'] = \
+            session['current_navigator'], session['current_driver']
+        
+        session['role_switches'].append({
+            'time': datetime.now(),
+            'new_driver': session['current_driver'],
+            'new_navigator': session['current_navigator']
+        })
+```
+
+---
+
+## 🏗️ Arquitecturas Completas de Ejemplo
+
+### Arquitectura de Data Platform Completa
+
+```python
+# Arquitectura completa de plataforma de datos
+class DataPlatformArchitecture:
+    """
+    Arquitectura completa que incluye:
+    - Ingestion layer
+    - Storage layer
+    - Processing layer
+    - Serving layer
+    - Monitoring layer
+    """
+    
+    def __init__(self):
+        # Ingestion
+        self.kafka_cluster = KafkaCluster()
+        self.ingestion_api = IngestionAPI()
+        
+        # Storage
+        self.data_lake = S3DataLake()
+        self.data_warehouse = SnowflakeWarehouse()
+        self.feature_store = RedisFeatureStore()
+        
+        # Processing
+        self.airflow_cluster = AirflowCluster()
+        self.spark_cluster = SparkCluster()
+        self.ml_pipeline = MLPipeline()
+        
+        # Serving
+        self.api_gateway = APIGateway()
+        self.model_serving = ModelServing()
+        self.dashboard_service = DashboardService()
+        
+        # Monitoring
+        self.monitoring_stack = MonitoringStack()
+    
+    def ingest_data(self, source: str, data: dict):
+        """Ingesta datos desde cualquier fuente"""
+        # Validar datos
+        validated_data = self._validate_data(data)
+        
+        # Enviar a Kafka
+        self.kafka_cluster.produce('raw_data', validated_data)
+        
+        # Registrar en monitoring
+        self.monitoring_stack.record_ingestion(source, len(validated_data))
+    
+    def process_data(self, topic: str):
+        """Procesa datos desde Kafka"""
+        # Leer de Kafka
+        data_stream = self.kafka_cluster.consume(topic)
+        
+        # Procesar con Spark
+        processed_data = self.spark_cluster.process(data_stream)
+        
+        # Almacenar en data lake
+        self.data_lake.store(processed_data)
+        
+        # Actualizar data warehouse
+        self.data_warehouse.update(processed_data)
+    
+    def serve_features(self, entity_id: str, feature_names: list):
+        """Sirve features para ML"""
+        features = {}
+        
+        for feature_name in feature_names:
+            # Intentar desde feature store (online)
+            feature = self.feature_store.get(entity_id, feature_name)
+            
+            if not feature:
+                # Calcular desde data warehouse (offline)
+                feature = self._compute_feature(entity_id, feature_name)
+                # Cachear para próximas requests
+                self.feature_store.set(entity_id, feature_name, feature)
+            
+            features[feature_name] = feature
+        
+        return features
+    
+    def serve_prediction(self, model_name: str, features: dict):
+        """Sirve predicción de modelo"""
+        # Obtener modelo
+        model = self.model_serving.get_model(model_name)
+        
+        # Predecir
+        prediction = model.predict(features)
+        
+        # Registrar en monitoring
+        self.monitoring_stack.record_prediction(model_name, prediction)
+        
+        return prediction
+```
+
+---
+
+## 🔐 Mejores Prácticas de Seguridad Avanzada
+
+### Gestión de Secrets
+
+```python
+# Sistema de gestión de secrets
+class SecretManager:
+    def __init__(self, vault_client):
+        self.vault = vault_client
+        self.cache = {}
+    
+    def get_secret(self, secret_path: str, cache_ttl: int = 3600) -> dict:
+        """Obtiene secret desde vault con caching"""
+        # Verificar cache
+        if secret_path in self.cache:
+            cached_secret, cached_time = self.cache[secret_path]
+            if (datetime.now() - cached_time).seconds < cache_ttl:
+                return cached_secret
+        
+        # Obtener de vault
+        secret = self.vault.read(secret_path)
+        
+        # Cachear
+        self.cache[secret_path] = (secret, datetime.now())
+        
+        return secret
+    
+    def rotate_secret(self, secret_path: str):
+        """Rota un secret"""
+        # Generar nuevo secret
+        new_secret = self._generate_secret()
+        
+        # Actualizar en vault
+        self.vault.write(secret_path, new_secret)
+        
+        # Invalidar cache
+        if secret_path in self.cache:
+            del self.cache[secret_path]
+        
+        # Notificar servicios que usan este secret
+        self._notify_services(secret_path)
+```
+
+### Validación de Inputs
+
+```python
+# Sistema de validación de inputs robusto
+class InputValidator:
+    def __init__(self):
+        self.validators = {
+            'email': self._validate_email,
+            'url': self._validate_url,
+            'phone': self._validate_phone,
+            'sql_safe': self._validate_sql_safe,
+            'xss_safe': self._validate_xss_safe
+        }
+    
+    def validate(self, data: dict, schema: dict) -> tuple[bool, list]:
+        """Valida datos contra schema"""
+        errors = []
+        
+        for field, rules in schema.items():
+            value = data.get(field)
+            
+            # Validar requerido
+            if rules.get('required') and not value:
+                errors.append(f"{field} is required")
+                continue
+            
+            if not value:
+                continue
+            
+            # Validar tipo
+            expected_type = rules.get('type')
+            if expected_type and not isinstance(value, expected_type):
+                errors.append(f"{field} must be of type {expected_type.__name__}")
+                continue
+            
+            # Validar formato
+            format_validator = rules.get('format')
+            if format_validator:
+                validator_func = self.validators.get(format_validator)
+                if validator_func and not validator_func(value):
+                    errors.append(f"{field} has invalid format")
+            
+            # Validar rango
+            if 'min' in rules and value < rules['min']:
+                errors.append(f"{field} must be >= {rules['min']}")
+            
+            if 'max' in rules and value > rules['max']:
+                errors.append(f"{field} must be <= {rules['max']}")
+        
+        return len(errors) == 0, errors
+    
+    def _validate_sql_safe(self, value: str) -> bool:
+        """Valida que no contiene SQL injection"""
+        dangerous_patterns = [';', '--', '/*', '*/', 'xp_', 'sp_']
+        return not any(pattern in value.lower() for pattern in dangerous_patterns)
+    
+    def _validate_xss_safe(self, value: str) -> bool:
+        """Valida que no contiene XSS"""
+        dangerous_patterns = ['<script', 'javascript:', 'onerror=', 'onload=']
+        return not any(pattern in value.lower() for pattern in dangerous_patterns)
+```
+
+---
+
+## 🔬 Sistemas de Machine Learning en Producción (MLOps Avanzado)
+
+### Pipeline Completo de MLOps con Feature Store y Auto-Retraining
+
+Sistema completo de MLOps con feature store versionado, experiment tracking, y auto-retraining inteligente:
+
+```python
+# feature_store.py - Feature Store con versionado y caching
+from typing import Dict, List, Optional, Any
+import pandas as pd
+import numpy as np
+from datetime import datetime, timedelta
+import redis
+import pickle
+from dataclasses import dataclass
+from enum import Enum
+
+class FeatureType(Enum):
+    BATCH = "batch"
+    STREAMING = "streaming"
+    ON_DEMAND = "on_demand"
+
+@dataclass
+class Feature:
+    name: str
+    value: Any
+    timestamp: datetime
+    entity_id: str
+    feature_type: FeatureType
+    version: int = 1
+
+class FeatureStore:
+    def __init__(self, redis_client: redis.Redis, postgres_conn):
+        self.redis = redis_client
+        self.db = postgres_conn
+        self.feature_cache_ttl = 3600
+    
+    def get_features(self, entity_ids: List[str], feature_names: List[str],
+                    timestamp: Optional[datetime] = None) -> pd.DataFrame:
+        """Get features for entities (online serving with caching)"""
+        cache_key = self._generate_cache_key(entity_ids, feature_names, timestamp)
+        cached = self.redis.get(cache_key)
+        if cached:
+            return pickle.loads(cached)
+        
+        features = self._query_features_from_db(entity_ids, feature_names, timestamp)
+        self.redis.setex(cache_key, self.feature_cache_ttl, pickle.dumps(features))
+        return features
+    
+    def compute_features(self, entity_id: str, feature_names: List[str]) -> Dict:
+        """Compute on-demand features"""
+        features = {}
+        for name in feature_names:
+            if name == "user_lifetime_value":
+                features[name] = self._compute_lifetime_value(entity_id)
+            elif name == "user_engagement_score":
+                features[name] = self._compute_engagement_score(entity_id)
+        return features
+
+# ml_pipeline.py - Pipeline completo con MLflow
+import mlflow
+import mlflow.sklearn
+from mlflow.tracking import MlflowClient
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+import pandas as pd
+
+class MLPipeline:
+    def __init__(self, experiment_name: str, feature_store: FeatureStore):
+        self.experiment_name = experiment_name
+        self.feature_store = feature_store
+        mlflow.set_experiment(experiment_name)
+        self.client = MlflowClient()
+    
+    def train_model(self, model_name: str, training_data: pd.DataFrame,
+                   target_column: str, feature_columns: List[str],
+                   hyperparameters: Dict) -> str:
+        """Train model with comprehensive experiment tracking"""
+        with mlflow.start_run():
+            X = training_data[feature_columns]
+            y = training_data[target_column]
+            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+            
+            mlflow.log_params(hyperparameters)
+            mlflow.log_param("model_name", model_name)
+            mlflow.log_param("feature_count", len(feature_columns))
+            mlflow.log_param("training_samples", len(X_train))
+            
+            model = GradientBoostingClassifier(**hyperparameters)
+            model.fit(X_train, y_train)
+            
+            test_pred = model.predict(X_test)
+            test_accuracy = accuracy_score(y_test, test_pred)
+            test_f1 = f1_score(y_test, test_pred, average='weighted')
+            cv_scores = cross_val_score(model, X_train, y_train, cv=5)
+            
+            mlflow.log_metric("test_accuracy", test_accuracy)
+            mlflow.log_metric("test_f1", test_f1)
+            mlflow.log_metric("cv_mean", cv_scores.mean())
+            mlflow.sklearn.log_model(model, "model")
+            
+            run_id = mlflow.active_run().info.run_id
+            model_version = mlflow.register_model(f"runs:/{run_id}/model", model_name)
+            return model_version.version
+
+# auto_retraining.py - Sistema de auto-retraining inteligente
+from datetime import datetime
+import schedule
+import time
+from scipy import stats
+
+class AutoRetrainingSystem:
+    def __init__(self, ml_pipeline: MLPipeline, feature_store: FeatureStore,
+                 model_name: str, retraining_threshold: Dict):
+        self.ml_pipeline = ml_pipeline
+        self.feature_store = feature_store
+        self.model_name = model_name
+        self.retraining_threshold = retraining_threshold
+    
+    def check_retraining_needed(self) -> bool:
+        """Check if model needs retraining based on multiple criteria"""
+        if self._detect_data_drift():
+            return True
+        if self._check_performance_degradation():
+            return True
+        if self._check_time_based_retraining():
+            return True
+        return False
+    
+    def _detect_data_drift(self) -> bool:
+        """Detect data drift using statistical tests"""
+        recent_data = self._get_recent_production_data(days=7)
+        training_data = self._get_training_data_distribution()
+        
+        for feature in recent_data.columns:
+            ks_stat, p_value = stats.ks_2samp(training_data[feature], recent_data[feature])
+            if p_value < 0.05:
+                return True
+        return False
+    
+    def trigger_retraining(self):
+        """Trigger model retraining with validation"""
+        training_data = self._get_latest_training_data()
+        current_model = self.ml_pipeline.load_production_model(self.model_name)
+        hyperparameters = self._extract_hyperparameters(current_model)
+        
+        new_version = self.ml_pipeline.train_model(
+            model_name=self.model_name,
+            training_data=training_data,
+            target_column="target",
+            feature_columns=self._get_feature_columns(),
+            hyperparameters=hyperparameters
+        )
+        
+        comparison = self.ml_pipeline.compare_models(
+            self.model_name, [new_version, self._get_current_production_version()]
+        )
+        
+        if comparison.iloc[0]['test_accuracy'] > comparison.iloc[1]['test_accuracy']:
+            self.ml_pipeline.promote_model(self.model_name, new_version, "Production")
+```
+
+### Sistema de Feature Engineering Automatizado
+
+Sistema completo para generar features automáticamente con validación:
+
+```python
+# automated_feature_engineering.py
+from feature_engine.creation import MathematicalCombination
+from feature_engine.selection import DropConstantFeatures, DropDuplicateFeatures
+from feature_engine.imputation import MeanMedianImputer, CategoricalImputer
+import pandas as pd
+import numpy as np
+
+class AutomatedFeatureEngineering:
+    def __init__(self):
+        self.transformers = []
+        self.feature_names = []
+    
+    def create_features(self, df: pd.DataFrame, target_column: str = None) -> pd.DataFrame:
+        """Automatically create and validate features"""
+        df_processed = df.copy()
+        df_processed = self._handle_missing_values(df_processed)
+        df_processed = self._create_combinations(df_processed)
+        df_processed = self._create_temporal_features(df_processed)
+        df_processed = self._create_interaction_features(df_processed)
+        df_processed = self._create_aggregation_features(df_processed)
+        df_processed = self._remove_low_variance_features(df_processed)
+        return df_processed
+    
+    def _create_temporal_features(self, df: pd.DataFrame) -> pd.DataFrame:
+        """Create temporal features from datetime columns"""
+        datetime_cols = df.select_dtypes(include=['datetime64']).columns
+        for col in datetime_cols:
+            df[f'{col}_year'] = df[col].dt.year
+            df[f'{col}_month'] = df[col].dt.month
+            df[f'{col}_dayofweek'] = df[col].dt.dayofweek
+            df[f'{col}_is_weekend'] = df[col].dt.dayofweek.isin([5, 6]).astype(int)
+        return df
+```
+
+---
+
+## 🎯 Sistemas de Optimización de Performance Avanzados
+
+### Profiler y Optimizador Automático con Recomendaciones
+
+Sistema completo para profiling y optimización automática con sugerencias inteligentes:
+
+```python
+# performance_profiler.py - Profiler avanzado
+import cProfile
+import pstats
+import io
+from functools import wraps
+import time
+import tracemalloc
+from typing import Callable, Dict, List
+
+class AdvancedPerformanceProfiler:
+    def __init__(self):
+        self.profiles = {}
+        self.recommendations = []
+    
+    def profile_function(self, func: Callable):
+        """Decorator to profile function with CPU and memory"""
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            profiler = cProfile.Profile()
+            profiler.enable()
+            tracemalloc.start()
+            start_memory = tracemalloc.take_snapshot()
+            
+            start_time = time.time()
+            result = func(*args, **kwargs)
+            execution_time = time.time() - start_time
+            
+            end_memory = tracemalloc.take_snapshot()
+            profiler.disable()
+            
+            top_stats = end_memory.compare_to(start_memory, 'lineno')
+            memory_usage = sum(stat.size_diff for stat in top_stats[:10])
+            
+            s = io.StringIO()
+            ps = pstats.Stats(profiler, stream=s)
+            ps.sort_stats('cumulative')
+            ps.print_stats(20)
+            
+            self.profiles[func.__name__] = {
+                'execution_time': execution_time,
+                'memory_usage_mb': memory_usage / 1024 / 1024,
+                'profile': s.getvalue()
+            }
+            
+            self._generate_recommendations(func.__name__)
+            tracemalloc.stop()
+            return result
+        return wrapper
+    
+    def _generate_recommendations(self, func_name: str):
+        """Generate optimization recommendations"""
+        profile = self.profiles[func_name]
+        if profile['execution_time'] > 1.0:
+            self.recommendations.append({
+                'type': 'performance',
+                'severity': 'high',
+                'message': f"Function {func_name} takes {profile['execution_time']:.2f}s",
+                'suggestions': ["Consider caching", "Check for N+1 queries"]
+            })
+
+# query_optimizer.py - Optimizador avanzado de queries SQL
+import psycopg2
+from psycopg2.extras import RealDictCursor
+import pandas as pd
+
+class AdvancedQueryOptimizer:
+    def __init__(self, connection_string: str):
+        self.conn = psycopg2.connect(connection_string)
+    
+    def analyze_and_optimize(self, query: str) -> Dict:
+        """Analyze query and provide optimization recommendations"""
+        explain_query = f"EXPLAIN (ANALYZE, BUFFERS, VERBOSE, FORMAT JSON) {query}"
+        with self.conn.cursor() as cur:
+            cur.execute(explain_query)
+            plan = cur.fetchone()[0]
+            suggestions = self._analyze_execution_plan(plan[0]['Plan'])
+            return {
+                'original_query': query,
+                'suggestions': suggestions,
+                'execution_plan': plan
+            }
+    
+    def _analyze_execution_plan(self, plan: Dict) -> List[Dict]:
+        """Analyze execution plan and generate suggestions"""
+        suggestions = []
+        if plan.get('Node Type') == 'Seq Scan':
+            suggestions.append({
+                'type': 'index',
+                'severity': 'high',
+                'message': f"Sequential scan on {plan.get('Relation Name')}",
+                'action': f"CREATE INDEX idx_{plan.get('Relation Name')}_optimized"
+            })
+        return suggestions
+```
+
+---
+
+## 📊 Sistemas de Data Engineering Avanzados
+
+### Pipeline de ETL Completo con Airflow y Validación de Datos
+
+Sistema completo de ETL con validación, calidad de datos y manejo de errores:
+
+```python
+# etl_pipeline.py - Pipeline ETL robusto con Airflow
+from airflow import DAG
+from airflow.operators.python import PythonOperator
+from airflow.operators.bash import BashOperator
+from airflow.sensors.filesystem import FileSensor
+from airflow.providers.postgres.operators.postgres import PostgresOperator
+from datetime import datetime, timedelta
+import pandas as pd
+import numpy as np
+from typing import Dict, List, Optional
+from pydantic import BaseModel, ValidationError
+import logging
+
+class DataQualityCheck(BaseModel):
+    """Modelo de validación de calidad de datos"""
+    min_rows: int = 1
+    max_null_percentage: float = 0.1
+    required_columns: List[str] = []
+    column_types: Dict[str, str] = {}
+    value_ranges: Dict[str, tuple] = {}
+
+class ETLPipeline:
+    def __init__(self, config: Dict):
+        self.config = config
+        self.logger = logging.getLogger(__name__)
+    
+    def extract(self, source: str, **kwargs) -> pd.DataFrame:
+        """Extract data from source with retry logic"""
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                if source.startswith('s3://'):
+                    return self._extract_from_s3(source)
+                elif source.startswith('postgresql://'):
+                    return self._extract_from_postgres(source, kwargs.get('query'))
+                elif source.startswith('api://'):
+                    return self._extract_from_api(source, kwargs.get('params'))
+                else:
+                    return pd.read_csv(source)
+            except Exception as e:
+                if attempt == max_retries - 1:
+                    raise
+                self.logger.warning(f"Extract attempt {attempt + 1} failed: {e}")
+                time.sleep(2 ** attempt)  # Exponential backoff
+    
+    def transform(self, df: pd.DataFrame, transformations: List[Dict]) -> pd.DataFrame:
+        """Apply transformations with validation"""
+        df_transformed = df.copy()
+        
+        for transformation in transformations:
+            transform_type = transformation.get('type')
+            
+            if transform_type == 'filter':
+                df_transformed = df_transformed.query(transformation['condition'])
+            
+            elif transform_type == 'aggregate':
+                df_transformed = df_transformed.groupby(
+                    transformation['group_by']
+                ).agg(transformation['aggregations']).reset_index()
+            
+            elif transform_type == 'join':
+                other_df = self.extract(transformation['source'])
+                df_transformed = df_transformed.merge(
+                    other_df,
+                    on=transformation['on'],
+                    how=transformation.get('how', 'inner')
+                )
+            
+            elif transform_type == 'enrich':
+                df_transformed = self._enrich_data(df_transformed, transformation)
+            
+            elif transform_type == 'clean':
+                df_transformed = self._clean_data(df_transformed, transformation)
+        
+        return df_transformed
+    
+    def validate(self, df: pd.DataFrame, quality_check: DataQualityCheck) -> Dict:
+        """Validate data quality"""
+        results = {
+            'passed': True,
+            'errors': [],
+            'warnings': []
+        }
+        
+        # Check minimum rows
+        if len(df) < quality_check.min_rows:
+            results['passed'] = False
+            results['errors'].append(
+                f"Data has {len(df)} rows, minimum required: {quality_check.min_rows}"
+            )
+        
+        # Check required columns
+        missing_columns = set(quality_check.required_columns) - set(df.columns)
+        if missing_columns:
+            results['passed'] = False
+            results['errors'].append(f"Missing required columns: {missing_columns}")
+        
+        # Check null percentage
+        for col in df.columns:
+            null_pct = df[col].isnull().sum() / len(df)
+            if null_pct > quality_check.max_null_percentage:
+                results['warnings'].append(
+                    f"Column {col} has {null_pct:.2%} null values"
+                )
+        
+        # Check value ranges
+        for col, (min_val, max_val) in quality_check.value_ranges.items():
+            if col in df.columns:
+                out_of_range = ((df[col] < min_val) | (df[col] > max_val)).sum()
+                if out_of_range > 0:
+                    results['warnings'].append(
+                        f"Column {col} has {out_of_range} values outside range [{min_val}, {max_val}]"
+                    )
+        
+        return results
+    
+    def load(self, df: pd.DataFrame, destination: str, mode: str = 'append'):
+        """Load data to destination"""
+        if destination.startswith('postgresql://'):
+            self._load_to_postgres(df, destination, mode)
+        elif destination.startswith('s3://'):
+            self._load_to_s3(df, destination)
+        elif destination.startswith('bigquery://'):
+            self._load_to_bigquery(df, destination)
+        else:
+            df.to_csv(destination, index=False)
+    
+    def _enrich_data(self, df: pd.DataFrame, config: Dict) -> pd.DataFrame:
+        """Enrich data with external sources"""
+        enrichment_type = config.get('enrichment_type')
+        
+        if enrichment_type == 'geocoding':
+            # Add geocoding data
+            df['latitude'] = df.apply(lambda x: self._geocode(x['address'])[0], axis=1)
+            df['longitude'] = df.apply(lambda x: self._geocode(x['address'])[1], axis=1)
+        
+        elif enrichment_type == 'external_api':
+            # Enrich from external API
+            api_url = config.get('api_url')
+            df['enriched_data'] = df.apply(
+                lambda x: self._call_api(api_url, x.to_dict()), axis=1
+            )
+        
+        return df
+    
+    def _clean_data(self, df: pd.DataFrame, config: Dict) -> pd.DataFrame:
+        """Clean data based on rules"""
+        # Remove duplicates
+        if config.get('remove_duplicates'):
+            df = df.drop_duplicates(subset=config.get('duplicate_columns'))
+        
+        # Standardize text
+        if config.get('standardize_text'):
+            for col in config.get('text_columns', []):
+                df[col] = df[col].str.strip().str.lower()
+        
+        # Handle outliers
+        if config.get('handle_outliers'):
+            for col in config.get('outlier_columns', []):
+                Q1 = df[col].quantile(0.25)
+                Q3 = df[col].quantile(0.75)
+                IQR = Q3 - Q1
+                df = df[(df[col] >= Q1 - 1.5*IQR) & (df[col] <= Q3 + 1.5*IQR)]
+        
+        return df
+
+# airflow_dag.py - DAG completo de Airflow
+default_args = {
+    'owner': 'data-engineering',
+    'depends_on_past': False,
+    'email_on_failure': True,
+    'email_on_retry': False,
+    'retries': 3,
+    'retry_delay': timedelta(minutes=5),
+}
+
+dag = DAG(
+    'user_behavior_etl_pipeline',
+    default_args=default_args,
+    description='ETL pipeline for user behavior data',
+    schedule_interval='@daily',
+    start_date=datetime(2024, 1, 1),
+    catchup=False,
+    tags=['etl', 'data-engineering', 'user-behavior'],
+)
+
+# Extract tasks
+extract_user_data = PythonOperator(
+    task_id='extract_user_data',
+    python_callable=extract_from_postgres,
+    op_kwargs={
+        'query': 'SELECT * FROM users WHERE updated_at >= CURRENT_DATE - INTERVAL \'1 day\'',
+        'connection_id': 'postgres_default'
+    },
+    dag=dag,
+)
+
+extract_events = PythonOperator(
+    task_id='extract_events',
+    python_callable=extract_from_s3,
+    op_kwargs={
+        'bucket': 'data-lake',
+        'key': 'events/{{ ds }}/events.json'
+    },
+    dag=dag,
+)
+
+# Transform task
+transform_data = PythonOperator(
+    task_id='transform_data',
+    python_callable=transform_user_events,
+    op_kwargs={
+        'user_data_task_id': 'extract_user_data',
+        'events_task_id': 'extract_events'
+    },
+    dag=dag,
+)
+
+# Validate task
+validate_data = PythonOperator(
+    task_id='validate_data',
+    python_callable=validate_data_quality,
+    op_kwargs={
+        'data_task_id': 'transform_data',
+        'quality_check': DataQualityCheck(
+            min_rows=1000,
+            max_null_percentage=0.05,
+            required_columns=['user_id', 'event_type', 'timestamp']
+        )
+    },
+    dag=dag,
+)
+
+# Load task
+load_to_warehouse = PythonOperator(
+    task_id='load_to_warehouse',
+    python_callable=load_to_data_warehouse,
+    op_kwargs={
+        'data_task_id': 'transform_data',
+        'table': 'user_behavior_facts',
+        'mode': 'append'
+    },
+    dag=dag,
+)
+
+# Set dependencies
+[extract_user_data, extract_events] >> transform_data >> validate_data >> load_to_warehouse
+```
+
+### Sistema de Streaming en Tiempo Real con Kafka y Spark Streaming
+
+Sistema completo de streaming para procesamiento en tiempo real:
+
+```python
+# spark_streaming.py - Spark Streaming con Kafka
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import *
+from pyspark.sql.types import *
+from pyspark.sql.window import Window
+import json
+
+class SparkStreamingPipeline:
+    def __init__(self, kafka_bootstrap_servers: str, checkpoint_location: str):
+        self.spark = SparkSession.builder \
+            .appName("RealTimeStreaming") \
+            .config("spark.sql.streaming.checkpointLocation", checkpoint_location) \
+            .config("spark.sql.adaptive.enabled", "true") \
+            .config("spark.sql.adaptive.coalescePartitions.enabled", "true") \
+            .getOrCreate()
+        
+        self.kafka_bootstrap_servers = kafka_bootstrap_servers
+    
+    def create_stream(self, topic: str, schema: StructType) -> DataFrame:
+        """Create streaming DataFrame from Kafka"""
+        df = self.spark \
+            .readStream \
+            .format("kafka") \
+            .option("kafka.bootstrap.servers", self.kafka_bootstrap_servers) \
+            .option("subscribe", topic) \
+            .option("startingOffsets", "latest") \
+            .option("failOnDataLoss", "false") \
+            .load()
+        
+        # Parse JSON
+        df_parsed = df.select(
+            from_json(col("value").cast("string"), schema).alias("data"),
+            col("timestamp").alias("kafka_timestamp")
+        ).select("data.*", "kafka_timestamp")
+        
+        return df_parsed
+    
+    def process_user_events(self, input_topic: str, output_topic: str):
+        """Process user events in real-time"""
+        # Define schema
+        schema = StructType([
+            StructField("user_id", StringType(), True),
+            StructField("event_type", StringType(), True),
+            StructField("timestamp", TimestampType(), True),
+            StructField("properties", MapType(StringType(), StringType()), True)
+        ])
+        
+        # Create stream
+        stream = self.create_stream(input_topic, schema)
+        
+        # Process with windowing
+        windowed = stream \
+            .withWatermark("timestamp", "5 minutes") \
+            .groupBy(
+                window("timestamp", "1 minute"),
+                "user_id",
+                "event_type"
+            ) \
+            .agg(
+                count("*").alias("event_count"),
+                max("timestamp").alias("last_event_time")
+            )
+        
+        # Write to output
+        query = windowed \
+            .select(
+                col("window.start").alias("window_start"),
+                col("window.end").alias("window_end"),
+                col("user_id"),
+                col("event_type"),
+                col("event_count"),
+                to_json(struct("*")).alias("value")
+            ) \
+            .writeStream \
+            .format("kafka") \
+            .option("kafka.bootstrap.servers", self.kafka_bootstrap_servers) \
+            .option("topic", output_topic) \
+            .option("checkpointLocation", "/checkpoints/user_events") \
+            .outputMode("update") \
+            .start()
+        
+        return query
+    
+    def detect_anomalies(self, input_topic: str):
+        """Detect anomalies in real-time using statistical methods"""
+        schema = StructType([
+            StructField("metric_name", StringType(), True),
+            StructField("value", DoubleType(), True),
+            StructField("timestamp", TimestampType(), True)
+        ])
+        
+        stream = self.create_stream(input_topic, schema)
+        
+        # Calculate rolling statistics
+        window_spec = Window \
+            .partitionBy("metric_name") \
+            .orderBy("timestamp") \
+            .rowsBetween(-10, 0)
+        
+        stream_with_stats = stream \
+            .withColumn("mean", avg("value").over(window_spec)) \
+            .withColumn("std", stddev("value").over(window_spec)) \
+            .withColumn("z_score", (col("value") - col("mean")) / col("std"))
+        
+        # Detect anomalies (z-score > 3)
+        anomalies = stream_with_stats \
+            .filter(abs(col("z_score")) > 3) \
+            .select(
+                "metric_name",
+                "value",
+                "z_score",
+                "timestamp"
+            )
+        
+        return anomalies
+```
+
+---
+
+## 🚨 Sistemas de Monitoreo y Alertas Inteligentes
+
+### Sistema de Alertas Inteligentes con Machine Learning
+
+Sistema completo de alertas que aprende de patrones y reduce falsos positivos:
+
+```python
+# intelligent_alerting.py - Sistema de alertas inteligente
+from typing import Dict, List, Optional
+import pandas as pd
+import numpy as np
+from datetime import datetime, timedelta
+from sklearn.ensemble import IsolationForest
+from sklearn.preprocessing import StandardScaler
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
+class IntelligentAlertingSystem:
+    def __init__(self, alert_rules: Dict, ml_enabled: bool = True):
+        self.alert_rules = alert_rules
+        self.ml_enabled = ml_enabled
+        self.alert_history = []
+        self.false_positive_history = []
+        self.anomaly_detector = IsolationForest(contamination=0.1) if ml_enabled else None
+        self.scaler = StandardScaler() if ml_enabled else None
+    
+    def check_metrics(self, metrics: Dict[str, float]) -> List[Dict]:
+        """Check metrics and generate alerts"""
+        alerts = []
+        
+        for metric_name, value in metrics.items():
+            rule = self.alert_rules.get(metric_name)
+            if not rule:
+                continue
+            
+            # Check threshold-based alerts
+            if rule.get('type') == 'threshold':
+                alert = self._check_threshold(metric_name, value, rule)
+                if alert:
+                    alerts.append(alert)
+            
+            # Check ML-based anomaly detection
+            elif rule.get('type') == 'ml_anomaly' and self.ml_enabled:
+                alert = self._check_ml_anomaly(metric_name, value, metrics)
+                if alert:
+                    alerts.append(alert)
+            
+            # Check rate of change
+            elif rule.get('type') == 'rate_of_change':
+                alert = self._check_rate_of_change(metric_name, value, rule)
+                if alert:
+                    alerts.append(alert)
+        
+        # Filter out false positives
+        filtered_alerts = self._filter_false_positives(alerts)
+        
+        # Send alerts
+        for alert in filtered_alerts:
+            self._send_alert(alert)
+            self.alert_history.append(alert)
+        
+        return filtered_alerts
+    
+    def _check_threshold(self, metric_name: str, value: float, rule: Dict) -> Optional[Dict]:
+        """Check threshold-based alert"""
+        threshold = rule.get('threshold')
+        operator = rule.get('operator', '>')
+        
+        is_alert = False
+        if operator == '>':
+            is_alert = value > threshold
+        elif operator == '<':
+            is_alert = value < threshold
+        elif operator == '==':
+            is_alert = value == threshold
+        
+        if is_alert:
+            return {
+                'metric': metric_name,
+                'value': value,
+                'threshold': threshold,
+                'severity': rule.get('severity', 'medium'),
+                'message': f"{metric_name} is {value} (threshold: {threshold})",
+                'timestamp': datetime.utcnow()
+            }
+        return None
+    
+    def _check_ml_anomaly(self, metric_name: str, value: float, 
+                          all_metrics: Dict) -> Optional[Dict]:
+        """Check ML-based anomaly"""
+        # Get historical data for context
+        historical = self._get_historical_metrics(metric_name, hours=24)
+        
+        if len(historical) < 10:
+            return None  # Not enough data
+        
+        # Prepare features
+        features = np.array([[value] + list(all_metrics.values())])
+        features_scaled = self.scaler.transform(features)
+        
+        # Detect anomaly
+        is_anomaly = self.anomaly_detector.predict(features_scaled)[0] == -1
+        
+        if is_anomaly:
+            return {
+                'metric': metric_name,
+                'value': value,
+                'type': 'ml_anomaly',
+                'severity': 'high',
+                'message': f"ML detected anomaly in {metric_name}: {value}",
+                'timestamp': datetime.utcnow()
+            }
+        return None
+    
+    def _check_rate_of_change(self, metric_name: str, value: float, 
+                              rule: Dict) -> Optional[Dict]:
+        """Check rate of change alert"""
+        historical = self._get_historical_metrics(metric_name, minutes=60)
+        
+        if len(historical) < 2:
+            return None
+        
+        # Calculate rate of change
+        previous_value = historical.iloc[-2]['value']
+        change_pct = ((value - previous_value) / previous_value) * 100
+        
+        threshold_pct = rule.get('change_threshold_pct', 50)
+        
+        if abs(change_pct) > threshold_pct:
+            return {
+                'metric': metric_name,
+                'value': value,
+                'previous_value': previous_value,
+                'change_pct': change_pct,
+                'severity': 'medium',
+                'message': f"{metric_name} changed by {change_pct:.2f}% in last hour",
+                'timestamp': datetime.utcnow()
+            }
+        return None
+    
+    def _filter_false_positives(self, alerts: List[Dict]) -> List[Dict]:
+        """Filter out known false positives"""
+        filtered = []
+        
+        for alert in alerts:
+            # Check if similar alert was marked as false positive
+            is_false_positive = self._is_false_positive(alert)
+            
+            if not is_false_positive:
+                filtered.append(alert)
+        
+        return filtered
+    
+    def _is_false_positive(self, alert: Dict) -> bool:
+        """Check if alert is a known false positive"""
+        for fp in self.false_positive_history:
+            if (fp['metric'] == alert['metric'] and
+                abs(fp['value'] - alert['value']) < fp['value'] * 0.1):
+                return True
+        return False
+    
+    def mark_false_positive(self, alert: Dict):
+        """Mark alert as false positive for learning"""
+        self.false_positive_history.append(alert)
+    
+    def _send_alert(self, alert: Dict):
+        """Send alert via configured channels"""
+        channels = self.alert_rules.get(alert['metric'], {}).get('channels', ['email'])
+        
+        for channel in channels:
+            if channel == 'email':
+                self._send_email_alert(alert)
+            elif channel == 'slack':
+                self._send_slack_alert(alert)
+            elif channel == 'pagerduty':
+                self._send_pagerduty_alert(alert)
+    
+    def _send_email_alert(self, alert: Dict):
+        """Send email alert"""
+        msg = MIMEMultipart()
+        msg['From'] = 'alerts@company.com'
+        msg['To'] = self.alert_rules.get(alert['metric'], {}).get('email', 'team@company.com')
+        msg['Subject'] = f"ALERT: {alert['metric']} - {alert['severity'].upper()}"
+        
+        body = f"""
+        Alert Details:
+        - Metric: {alert['metric']}
+        - Value: {alert['value']}
+        - Severity: {alert['severity']}
+        - Message: {alert['message']}
+        - Timestamp: {alert['timestamp']}
+        """
+        msg.attach(MIMEText(body, 'plain'))
+        
+        # Send email (implement SMTP logic)
+        pass
+```
+
+---
+
+## 🔄 Sistemas de Testing Avanzados
+
+### Suite de Testing Completa para Data Pipelines
+
+Sistema completo de testing para pipelines de datos:
+
+```python
+# data_pipeline_tests.py - Testing completo para pipelines
+import pytest
+import pandas as pd
+import numpy as np
+from unittest.mock import Mock, patch
+from typing import Dict, List
+
+class DataPipelineTests:
+    def test_data_quality(self, df: pd.DataFrame, schema: Dict):
+        """Test data quality against schema"""
+        # Check columns
+        assert set(df.columns) == set(schema['columns'].keys())
+        
+        # Check types
+        for col, expected_type in schema['columns'].items():
+            assert df[col].dtype == expected_type
+        
+        # Check nulls
+        max_nulls = schema.get('max_null_percentage', 0.1)
+        for col in df.columns:
+            null_pct = df[col].isnull().sum() / len(df)
+            assert null_pct <= max_nulls, f"Column {col} has too many nulls"
+        
+        # Check value ranges
+        for col, (min_val, max_val) in schema.get('value_ranges', {}).items():
+            assert df[col].min() >= min_val, f"Column {col} has values below minimum"
+            assert df[col].max() <= max_val, f"Column {col} has values above maximum"
+    
+    def test_data_completeness(self, source_df: pd.DataFrame, 
+                               target_df: pd.DataFrame):
+        """Test that no data is lost in transformation"""
+        # Check row count (allowing for filtering)
+        assert len(target_df) <= len(source_df), "Target has more rows than source"
+        
+        # Check that key columns are preserved
+        key_columns = ['id', 'user_id', 'timestamp']
+        for col in key_columns:
+            if col in source_df.columns and col in target_df.columns:
+                source_ids = set(source_df[col].dropna())
+                target_ids = set(target_df[col].dropna())
+                assert target_ids.issubset(source_ids), f"Data loss in {col}"
+    
+    def test_transformation_logic(self, input_data: pd.DataFrame,
+                                 expected_output: pd.DataFrame,
+                                 transformation_func):
+        """Test transformation logic"""
+        actual_output = transformation_func(input_data)
+        
+        # Compare key metrics
+        assert len(actual_output) == len(expected_output)
+        assert set(actual_output.columns) == set(expected_output.columns)
+        
+        # Compare aggregated values
+        for col in actual_output.select_dtypes(include=[np.number]).columns:
+            assert np.isclose(
+                actual_output[col].sum(),
+                expected_output[col].sum(),
+                rtol=0.01
+            ), f"Sum mismatch in {col}"
+    
+    def test_performance(self, func, input_data, max_execution_time: float):
+        """Test that function executes within time limit"""
+        import time
+        start = time.time()
+        result = func(input_data)
+        execution_time = time.time() - start
+        
+        assert execution_time < max_execution_time, \
+            f"Function took {execution_time}s, max allowed: {max_execution_time}s"
+    
+    def test_idempotency(self, func, input_data):
+        """Test that function is idempotent"""
+        result1 = func(input_data)
+        result2 = func(result1)
+        
+        pd.testing.assert_frame_equal(result1, result2)
+```
+
+---
+
+## ⚡ Sistemas de Escalabilidad y Performance
+
+### Sistema de Cache Multi-Nivel con Invalidación Inteligente
+
+Sistema completo de cache con múltiples niveles y estrategias de invalidación:
+
+```python
+# multi_level_cache.py - Sistema de cache avanzado
+from typing import Any, Optional, Callable
+import redis
+import pickle
+import hashlib
+import time
+from functools import wraps
+from datetime import datetime, timedelta
+import json
+
+class MultiLevelCache:
+    def __init__(self, redis_client: redis.Redis, local_cache_size: int = 1000):
+        self.redis = redis_client
+        self.local_cache = {}  # L1: In-memory cache
+        self.local_cache_size = local_cache_size
+        self.cache_stats = {
+            'hits': {'l1': 0, 'l2': 0, 'miss': 0},
+            'sets': {'l1': 0, 'l2': 0}
+        }
+    
+    def get(self, key: str, default: Any = None) -> Optional[Any]:
+        """Get from cache with multi-level fallback"""
+        # Try L1 (local cache)
+        if key in self.local_cache:
+            entry = self.local_cache[key]
+            if entry['expires_at'] > time.time():
+                self.cache_stats['hits']['l1'] += 1
+                return entry['value']
+            else:
+                del self.local_cache[key]
+        
+        # Try L2 (Redis)
+        try:
+            cached = self.redis.get(f"cache:{key}")
+            if cached:
+                value = pickle.loads(cached)
+                # Populate L1
+                self._set_l1(key, value, ttl=300)  # 5 min in L1
+                self.cache_stats['hits']['l2'] += 1
+                return value
+        except Exception as e:
+            print(f"Redis cache error: {e}")
+        
+        self.cache_stats['hits']['miss'] += 1
+        return default
+    
+    def set(self, key: str, value: Any, ttl: int = 3600, 
+           invalidate_pattern: Optional[str] = None):
+        """Set cache with TTL and invalidation pattern"""
+        # Set L2 (Redis)
+        try:
+            serialized = pickle.dumps(value)
+            self.redis.setex(f"cache:{key}", ttl, serialized)
+            self.cache_stats['sets']['l2'] += 1
+        except Exception as e:
+            print(f"Redis set error: {e}")
+        
+        # Set L1
+        self._set_l1(key, value, ttl=min(ttl, 300))
+        self.cache_stats['sets']['l1'] += 1
+        
+        # Store invalidation pattern
+        if invalidate_pattern:
+            self.redis.sadd(f"invalidation:{invalidate_pattern}", key)
+    
+    def invalidate(self, pattern: str):
+        """Invalidate all keys matching pattern"""
+        keys = self.redis.smembers(f"invalidation:{pattern}")
+        for key in keys:
+            # Remove from L2
+            self.redis.delete(f"cache:{key.decode()}")
+            # Remove from L1
+            if key.decode() in self.local_cache:
+                del self.local_cache[key.decode()]
+    
+    def _set_l1(self, key: str, value: Any, ttl: int):
+        """Set in L1 cache with LRU eviction"""
+        # Evict if cache is full
+        if len(self.local_cache) >= self.local_cache_size:
+            # Remove oldest entry
+            oldest_key = min(self.local_cache.keys(), 
+                           key=lambda k: self.local_cache[k]['accessed_at'])
+            del self.local_cache[oldest_key]
+        
+        self.local_cache[key] = {
+            'value': value,
+            'expires_at': time.time() + ttl,
+            'accessed_at': time.time()
+        }
+    
+    def cache_decorator(self, ttl: int = 3600, key_func: Optional[Callable] = None):
+        """Decorator for caching function results"""
+        def decorator(func):
+            @wraps(func)
+            def wrapper(*args, **kwargs):
+                # Generate cache key
+                if key_func:
+                    cache_key = key_func(*args, **kwargs)
+                else:
+                    key_str = f"{func.__name__}:{str(args)}:{str(kwargs)}"
+                    cache_key = hashlib.md5(key_str.encode()).hexdigest()
+                
+                # Try cache
+                cached = self.get(cache_key)
+                if cached is not None:
+                    return cached
+                
+                # Execute function
+                result = func(*args, **kwargs)
+                
+                # Cache result
+                self.set(cache_key, result, ttl=ttl)
+                
+                return result
+            return wrapper
+        return decorator
+    
+    def get_stats(self) -> dict:
+        """Get cache statistics"""
+        total_requests = sum(self.cache_stats['hits'].values())
+        if total_requests == 0:
+            hit_rate = 0
+        else:
+            hit_rate = (self.cache_stats['hits']['l1'] + 
+                       self.cache_stats['hits']['l2']) / total_requests
+        
+        return {
+            'hit_rate': hit_rate,
+            'l1_hits': self.cache_stats['hits']['l1'],
+            'l2_hits': self.cache_stats['hits']['l2'],
+            'misses': self.cache_stats['hits']['miss'],
+            'total_requests': total_requests
+        }
+```
+
+### Sistema de Auto-Scaling Inteligente
+
+Sistema completo de auto-scaling basado en métricas y predicción:
+
+```python
+# auto_scaling.py - Sistema de auto-scaling inteligente
+from typing import Dict, List
+import time
+from datetime import datetime, timedelta
+import boto3
+from dataclasses import dataclass
+from enum import Enum
+
+class ScalingAction(Enum):
+    SCALE_UP = "scale_up"
+    SCALE_DOWN = "scale_down"
+    NO_ACTION = "no_action"
+
+@dataclass
+class ScalingDecision:
+    action: ScalingAction
+    current_instances: int
+    target_instances: int
+    reason: str
+    confidence: float
+
+class IntelligentAutoScaler:
+    def __init__(self, asg_name: str, min_instances: int = 1, 
+                 max_instances: int = 10):
+        self.asg_name = asg_name
+        self.min_instances = min_instances
+        self.max_instances = max_instances
+        self.cloudwatch = boto3.client('cloudwatch')
+        self.autoscaling = boto3.client('autoscaling')
+        self.metric_history = []
+        self.scaling_cooldown = 300  # 5 minutes
+    
+    def evaluate_scaling(self) -> ScalingDecision:
+        """Evaluate if scaling is needed"""
+        # Get current metrics
+        metrics = self._get_current_metrics()
+        
+        # Get current instance count
+        current_count = self._get_current_instance_count()
+        
+        # Analyze metrics
+        cpu_avg = metrics.get('CPUUtilization', 0)
+        memory_avg = metrics.get('MemoryUtilization', 0)
+        request_rate = metrics.get('RequestRate', 0)
+        error_rate = metrics.get('ErrorRate', 0)
+        
+        # Decision logic
+        target_count = current_count
+        
+        # Scale up conditions
+        if (cpu_avg > 70 or memory_avg > 80 or 
+            (request_rate > 1000 and cpu_avg > 50)):
+            target_count = min(current_count + 1, self.max_instances)
+            if target_count > current_count:
+                return ScalingDecision(
+                    action=ScalingAction.SCALE_UP,
+                    current_instances=current_count,
+                    target_instances=target_count,
+                    reason=f"High load: CPU={cpu_avg:.1f}%, Memory={memory_avg:.1f}%",
+                    confidence=0.9
+                )
+        
+        # Scale down conditions (conservative)
+        if (cpu_avg < 30 and memory_avg < 40 and 
+            request_rate < 100 and 
+            current_count > self.min_instances):
+            target_count = max(current_count - 1, self.min_instances)
+            if target_count < current_count:
+                return ScalingDecision(
+                    action=ScalingAction.SCALE_DOWN,
+                    current_instances=current_count,
+                    target_instances=target_count,
+                    reason=f"Low load: CPU={cpu_avg:.1f}%, Memory={memory_avg:.1f}%",
+                    confidence=0.7
+                )
+        
+        return ScalingDecision(
+            action=ScalingAction.NO_ACTION,
+            current_instances=current_count,
+            target_instances=current_count,
+            reason="Metrics within normal range",
+            confidence=1.0
+        )
+    
+    def execute_scaling(self, decision: ScalingDecision):
+        """Execute scaling decision"""
+        if decision.action == ScalingAction.NO_ACTION:
+            return
+        
+        try:
+            self.autoscaling.set_desired_capacity(
+                AutoScalingGroupName=self.asg_name,
+                DesiredCapacity=decision.target_instances
+            )
+            print(f"✅ Scaled {decision.action.value}: "
+                  f"{decision.current_instances} -> {decision.target_instances}")
+        except Exception as e:
+            print(f"❌ Scaling failed: {e}")
+    
+    def _get_current_metrics(self) -> Dict[str, float]:
+        """Get current metrics from CloudWatch"""
+        end_time = datetime.utcnow()
+        start_time = end_time - timedelta(minutes=5)
+        
+        metrics = {}
+        
+        # CPU Utilization
+        response = self.cloudwatch.get_metric_statistics(
+            Namespace='AWS/EC2',
+            MetricName='CPUUtilization',
+            Dimensions=[{'Name': 'AutoScalingGroupName', 'Value': self.asg_name}],
+            StartTime=start_time,
+            EndTime=end_time,
+            Period=300,
+            Statistics=['Average']
+        )
+        if response['Datapoints']:
+            metrics['CPUUtilization'] = response['Datapoints'][-1]['Average']
+        
+        # Add more metrics...
+        
+        return metrics
+    
+    def _get_current_instance_count(self) -> int:
+        """Get current instance count"""
+        response = self.autoscaling.describe_auto_scaling_groups(
+            AutoScalingGroupNames=[self.asg_name]
+        )
+        if response['AutoScalingGroups']:
+            return response['AutoScalingGroups'][0]['DesiredCapacity']
+        return self.min_instances
+```
+
+---
+
+## 🔒 Sistemas de Seguridad Avanzados
+
+### Sistema de Autenticación y Autorización Completo
+
+Sistema completo de seguridad con JWT, OAuth2 y rate limiting:
+
+```python
+# security_system.py - Sistema de seguridad completo
+from fastapi import FastAPI, Depends, HTTPException, Security
+from fastapi.security import OAuth2PasswordBearer, HTTPBearer, HTTPAuthorizationCredentials
+from jose import JWTError, jwt
+from passlib.context import CryptContext
+from datetime import datetime, timedelta
+from typing import Optional, List
+from pydantic import BaseModel
+import redis
+import time
+from functools import wraps
+
+class SecuritySystem:
+    def __init__(self, secret_key: str, redis_client: redis.Redis):
+        self.secret_key = secret_key
+        self.algorithm = "HS256"
+        self.access_token_expire_minutes = 30
+        self.refresh_token_expire_days = 7
+        self.pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+        self.redis = redis_client
+        self.oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+    
+    def hash_password(self, password: str) -> str:
+        """Hash password"""
+        return self.pwd_context.hash(password)
+    
+    def verify_password(self, plain_password: str, hashed_password: str) -> bool:
+        """Verify password"""
+        return self.pwd_context.verify(plain_password, hashed_password)
+    
+    def create_access_token(self, data: dict, expires_delta: Optional[timedelta] = None) -> str:
+        """Create JWT access token"""
+        to_encode = data.copy()
+        if expires_delta:
+            expire = datetime.utcnow() + expires_delta
+        else:
+            expire = datetime.utcnow() + timedelta(minutes=self.access_token_expire_minutes)
+        
+        to_encode.update({"exp": expire, "type": "access"})
+        encoded_jwt = jwt.encode(to_encode, self.secret_key, algorithm=self.algorithm)
+        return encoded_jwt
+    
+    def create_refresh_token(self, data: dict) -> str:
+        """Create refresh token"""
+        to_encode = data.copy()
+        expire = datetime.utcnow() + timedelta(days=self.refresh_token_expire_days)
+        to_encode.update({"exp": expire, "type": "refresh"})
+        encoded_jwt = jwt.encode(to_encode, self.secret_key, algorithm=self.algorithm)
+        return encoded_jwt
+    
+    def verify_token(self, token: str, token_type: str = "access") -> dict:
+        """Verify and decode token"""
+        try:
+            payload = jwt.decode(token, self.secret_key, algorithms=[self.algorithm])
+            if payload.get("type") != token_type:
+                raise HTTPException(status_code=401, detail="Invalid token type")
+            
+            # Check if token is blacklisted
+            if self.redis.get(f"blacklist:{token}"):
+                raise HTTPException(status_code=401, detail="Token has been revoked")
+            
+            return payload
+        except JWTError:
+            raise HTTPException(status_code=401, detail="Could not validate credentials")
+    
+    def revoke_token(self, token: str):
+        """Revoke token (add to blacklist)"""
+        try:
+            payload = jwt.decode(token, self.secret_key, algorithms=[self.algorithm])
+            exp = payload.get("exp")
+            if exp:
+                ttl = exp - int(time.time())
+                if ttl > 0:
+                    self.redis.setex(f"blacklist:{token}", ttl, "1")
+        except JWTError:
+            pass
+    
+    def rate_limit(self, max_requests: int = 100, window_seconds: int = 60):
+        """Rate limiting decorator"""
+        def decorator(func):
+            @wraps(func)
+            async def wrapper(*args, **kwargs):
+                # Get user identifier
+                user_id = kwargs.get('user_id') or 'anonymous'
+                key = f"rate_limit:{func.__name__}:{user_id}"
+                
+                # Check current count
+                current = self.redis.get(key)
+                if current and int(current) >= max_requests:
+                    raise HTTPException(
+                        status_code=429,
+                        detail=f"Rate limit exceeded: {max_requests} requests per {window_seconds} seconds"
+                    )
+                
+                # Increment counter
+                pipe = self.redis.pipeline()
+                pipe.incr(key)
+                pipe.expire(key, window_seconds)
+                pipe.execute()
+                
+                return await func(*args, **kwargs)
+            return wrapper
+        return decorator
+
+class RoleBasedAccessControl:
+    def __init__(self):
+        self.role_permissions = {
+            'admin': ['read', 'write', 'delete', 'admin'],
+            'user': ['read', 'write'],
+            'viewer': ['read']
+        }
+    
+    def require_permission(self, permission: str):
+        """Decorator to require specific permission"""
+        def decorator(func):
+            @wraps(func)
+            async def wrapper(*args, **kwargs):
+                user_roles = kwargs.get('user_roles', [])
+                user_permissions = set()
+                
+                for role in user_roles:
+                    user_permissions.update(self.role_permissions.get(role, []))
+                
+                if permission not in user_permissions:
+                    raise HTTPException(
+                        status_code=403,
+                        detail=f"Permission '{permission}' required"
+                    )
+                
+                return await func(*args, **kwargs)
+            return wrapper
+        return decorator
+```
+
+---
+
+## 🔄 Sistemas de CI/CD Completos
+
+### Pipeline de CI/CD con GitHub Actions y Deployment Automatizado
+
+Sistema completo de CI/CD con testing, building y deployment:
+
+```yaml
+# .github/workflows/ci_cd_pipeline.yml
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  PYTHON_VERSION: '3.11'
+  DOCKER_REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+      
+      - name: Run linters
+        run: |
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          black --check .
+          mypy .
+      
+      - name: Run tests
+        run: |
+          pytest tests/ --cov=src --cov-report=xml --cov-report=html
+      
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage.xml
+  
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      
+      - name: Login to Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.DOCKER_REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+            ${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          cache-from: type=registry,ref=${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE_NAME }}:buildcache
+          cache-to: type=registry,ref=${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE_NAME }}:buildcache,mode=max
+  
+  deploy-staging:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop'
+    environment: staging
+    steps:
+      - name: Deploy to staging
+        run: |
+          kubectl set image deployment/app \
+            app=${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
+            -n staging
+      
+      - name: Run smoke tests
+        run: |
+          ./scripts/smoke_tests.sh staging
+  
+  deploy-production:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment: production
+    steps:
+      - name: Deploy to production
+        run: |
+          kubectl set image deployment/app \
+            app=${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
+            -n production
+      
+      - name: Run smoke tests
+        run: |
+          ./scripts/smoke_tests.sh production
+      
+      - name: Notify deployment
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          text: 'Deployment to production completed'
+```
+
+---
+
+---
+
+## 🎯 Guías de Resolución de Problemas en Producción
+
+### Incident Response Playbook
+
+#### 1. Sistema de Alertas Inteligente
+```python
+# Sistema de alertas con escalado automático
+class IntelligentAlertingSystem:
+    def __init__(self):
+        self.alert_rules = {}
+        self.alert_history = []
+        self.escalation_policy = EscalationPolicy()
+    
+    def evaluate_alert(self, metric_name: str, value: float, threshold: float):
+        """Evalúa si se debe enviar alerta"""
+        # 1. Verificar si excede threshold
+        if value <= threshold:
+            return None
+        
+        # 2. Verificar si es alerta duplicada reciente
+        if self._is_duplicate_alert(metric_name, value):
+            return None
+        
+        # 3. Determinar severidad
+        severity = self._calculate_severity(value, threshold)
+        
+        # 4. Crear alerta
+        alert = {
+            'metric': metric_name,
+            'value': value,
+            'threshold': threshold,
+            'severity': severity,
+            'timestamp': datetime.now(),
+            'status': 'active'
+        }
+        
+        # 5. Enviar alerta según severidad
+        self._send_alert(alert)
+        
+        # 6. Registrar en historial
+        self.alert_history.append(alert)
+        
+        return alert
+    
+    def _calculate_severity(self, value: float, threshold: float) -> str:
+        """Calcula severidad basada en desviación"""
+        deviation = ((value - threshold) / threshold) * 100
+        
+        if deviation > 200:
+            return 'critical'
+        elif deviation > 100:
+            return 'high'
+        elif deviation > 50:
+            return 'medium'
+        else:
+            return 'low'
+    
+    def _send_alert(self, alert: dict):
+        """Envía alerta según severidad"""
+        if alert['severity'] == 'critical':
+            # Página inmediatamente
+            self._page_oncall()
+            self._send_slack_alert(alert, channel='#critical-alerts')
+            self._send_email_alert(alert, recipients=['oncall@company.com'])
+        elif alert['severity'] == 'high':
+            self._send_slack_alert(alert, channel='#alerts')
+        else:
+            self._send_slack_alert(alert, channel='#monitoring')
+```
+
+#### 2. Runbook Automatizado
+```python
+# Sistema de runbooks automatizados
+class AutomatedRunbook:
+    def __init__(self):
+        self.runbooks = {
+            'high_error_rate': self._handle_high_error_rate,
+            'high_latency': self._handle_high_latency,
+            'database_connection_pool_exhausted': self._handle_db_pool_exhausted,
+            'memory_leak_detected': self._handle_memory_leak,
+            'disk_space_low': self._handle_disk_space
+        }
+    
+    def execute_runbook(self, incident_type: str, context: dict):
+        """Ejecuta runbook para tipo de incidente"""
+        runbook_func = self.runbooks.get(incident_type)
+        if not runbook_func:
+            return {'error': f'No runbook found for {incident_type}'}
+        
+        try:
+            result = runbook_func(context)
+            return {
+                'status': 'success',
+                'actions_taken': result,
+                'timestamp': datetime.now()
+            }
+        except Exception as e:
+            return {
+                'status': 'error',
+                'error': str(e),
+                'timestamp': datetime.now()
+            }
+    
+    def _handle_high_error_rate(self, context: dict):
+        """Runbook para alta tasa de errores"""
+        actions = []
+        
+        # 1. Verificar logs recientes
+        recent_errors = self._get_recent_errors(context.get('service_name'))
+        actions.append('Checked recent error logs')
+        
+        # 2. Verificar si es problema de dependencia externa
+        if self._check_external_dependencies(context.get('service_name')):
+            actions.append('External dependency issue detected')
+            # Escalar pool de conexiones temporalmente
+            self._scale_connection_pool(context.get('service_name'), factor=1.5)
+            actions.append('Scaled connection pool by 1.5x')
+        
+        # 3. Verificar si hay deployment reciente
+        recent_deployment = self._check_recent_deployment(context.get('service_name'))
+        if recent_deployment:
+            actions.append('Recent deployment detected, considering rollback')
+            # Sugerir rollback si error rate > 10%
+            if context.get('error_rate', 0) > 0.1:
+                actions.append('Rollback recommended')
+        
+        return actions
+    
+    def _handle_high_latency(self, context: dict):
+        """Runbook para alta latencia"""
+        actions = []
+        
+        # 1. Verificar queries lentas
+        slow_queries = self._get_slow_queries(context.get('service_name'))
+        if slow_queries:
+            actions.append(f'Found {len(slow_queries)} slow queries')
+            # Sugerir optimizaciones
+            for query in slow_queries:
+                optimizations = self._suggest_query_optimizations(query)
+                actions.append(f'Optimizations suggested for query: {query["id"]}')
+        
+        # 2. Verificar cache hit rate
+        cache_hit_rate = self._get_cache_hit_rate(context.get('service_name'))
+        if cache_hit_rate < 0.7:
+            actions.append('Low cache hit rate detected')
+            # Aumentar TTL de cache
+            self._increase_cache_ttl(context.get('service_name'), factor=1.2)
+            actions.append('Increased cache TTL by 20%')
+        
+        # 3. Verificar carga de CPU
+        cpu_usage = context.get('cpu_usage', 0)
+        if cpu_usage > 0.8:
+            actions.append('High CPU usage detected')
+            # Sugerir escalado horizontal
+            actions.append('Horizontal scaling recommended')
+        
+        return actions
+```
+
+---
+
+## 🔄 Guías de Migración y Modernización
+
+### Migración de Monolito a Microservicios
+
+```python
+# Estrategia de migración gradual
+class MonolithToMicroservicesMigration:
+    def __init__(self, monolith_app):
+        self.monolith = monolith_app
+        self.migration_plan = []
+    
+    def create_migration_plan(self):
+        """Crea plan de migración gradual"""
+        # 1. Identificar bounded contexts
+        bounded_contexts = self._identify_bounded_contexts()
+        
+        # 2. Priorizar por valor y riesgo
+        prioritized_contexts = self._prioritize_contexts(bounded_contexts)
+        
+        # 3. Crear plan por fases
+        phases = []
+        for i, context in enumerate(prioritized_contexts):
+            phase = {
+                'phase_number': i + 1,
+                'context': context['name'],
+                'strategy': self._choose_strategy(context),
+                'estimated_duration': self._estimate_duration(context),
+                'rollback_plan': self._create_rollback_plan(context)
+            }
+            phases.append(phase)
+        
+        return {
+            'total_phases': len(phases),
+            'estimated_total_duration': sum(p['estimated_duration'] for p in phases),
+            'phases': phases
+        }
+    
+    def _choose_strategy(self, context: dict) -> str:
+        """Elige estrategia de migración"""
+        # Strangler Fig Pattern: Para módulos independientes
+        if context['coupling'] == 'low':
+            return 'strangler_fig'
+        
+        # Database per Service: Para módulos con datos independientes
+        if context['data_independence'] == 'high':
+            return 'database_per_service'
+        
+        # API Gateway: Para módulos que necesitan coordinación
+        if context['coordination_needed']:
+            return 'api_gateway'
+        
+        return 'gradual_extraction'
+    
+    def migrate_phase(self, phase_number: int):
+        """Ejecuta fase de migración"""
+        phase = self.migration_plan[phase_number - 1]
+        
+        # 1. Extraer módulo
+        extracted_service = self._extract_module(phase['context'])
+        
+        # 2. Crear API Gateway si es necesario
+        if phase['strategy'] == 'api_gateway':
+            self._setup_api_gateway(extracted_service)
+        
+        # 3. Migrar datos si es necesario
+        if phase['strategy'] == 'database_per_service':
+            self._migrate_database(phase['context'])
+        
+        # 4. Actualizar monolith para usar nuevo servicio
+        self._update_monolith_to_use_service(phase['context'], extracted_service)
+        
+        # 5. Verificar que todo funciona
+        verification_result = self._verify_migration(phase['context'])
+        
+        if not verification_result['success']:
+            # Rollback
+            self._execute_rollback(phase['rollback_plan'])
+            raise MigrationError(f"Phase {phase_number} failed: {verification_result['error']}")
+        
+        return {
+            'phase': phase_number,
+            'status': 'success',
+            'service_url': extracted_service['url']
+        }
+```
+
+### Modernización de Legacy Code
+
+```python
+# Herramienta de modernización de código legacy
+class LegacyCodeModernizer:
+    def __init__(self, codebase_path):
+        self.codebase_path = codebase_path
+        self.analyzers = {
+            'python2_to_3': Python2To3Analyzer(),
+            'deprecated_libraries': DeprecatedLibraryAnalyzer(),
+            'security_vulnerabilities': SecurityVulnerabilityAnalyzer(),
+            'performance_issues': PerformanceIssueAnalyzer()
+        }
+    
+    def analyze_codebase(self):
+        """Analiza codebase para identificar áreas de modernización"""
+        analysis = {
+            'python2_code': [],
+            'deprecated_imports': [],
+            'security_issues': [],
+            'performance_bottlenecks': [],
+            'modernization_priority': {}
+        }
+        
+        # Analizar todos los archivos
+        for file_path in self._get_python_files():
+            file_analysis = self._analyze_file(file_path)
+            
+            analysis['python2_code'].extend(file_analysis.get('python2_code', []))
+            analysis['deprecated_imports'].extend(file_analysis.get('deprecated_imports', []))
+            analysis['security_issues'].extend(file_analysis.get('security_issues', []))
+            analysis['performance_bottlenecks'].extend(file_analysis.get('performance_bottlenecks', []))
+        
+        # Calcular prioridad de modernización
+        analysis['modernization_priority'] = self._calculate_priority(analysis)
+        
+        return analysis
+    
+    def generate_migration_plan(self, analysis: dict):
+        """Genera plan de migración"""
+        plan = {
+            'phases': [],
+            'estimated_effort': {},
+            'risks': []
+        }
+        
+        # Fase 1: Actualizar dependencias críticas
+        plan['phases'].append({
+            'phase': 1,
+            'name': 'Update Critical Dependencies',
+            'tasks': self._get_dependency_update_tasks(analysis['deprecated_imports']),
+            'estimated_days': 5,
+            'risk_level': 'medium'
+        })
+        
+        # Fase 2: Migrar Python 2 a 3
+        if analysis['python2_code']:
+            plan['phases'].append({
+                'phase': 2,
+                'name': 'Python 2 to 3 Migration',
+                'tasks': self._get_python3_migration_tasks(analysis['python2_code']),
+                'estimated_days': 10,
+                'risk_level': 'high'
+            })
+        
+        # Fase 3: Arreglar vulnerabilidades de seguridad
+        if analysis['security_issues']:
+            plan['phases'].append({
+                'phase': 3,
+                'name': 'Security Fixes',
+                'tasks': self._get_security_fix_tasks(analysis['security_issues']),
+                'estimated_days': 7,
+                'risk_level': 'high'
+            })
+        
+        # Fase 4: Optimizaciones de performance
+        if analysis['performance_bottlenecks']:
+            plan['phases'].append({
+                'phase': 4,
+                'name': 'Performance Optimizations',
+                'tasks': self._get_performance_optimization_tasks(analysis['performance_bottlenecks']),
+                'estimated_days': 5,
+                'risk_level': 'low'
+            })
+        
+        return plan
+```
+
+---
+
+## 📊 Métricas y KPIs para Data Engineering
+
+### Dashboard de Métricas de Equipo
+
+```python
+# Sistema de métricas para equipo de Data Engineering
+class DataEngineeringMetrics:
+    def __init__(self):
+        self.metrics_collector = MetricsCollector()
+    
+    def get_team_metrics(self, period: str = 'last_month') -> dict:
+        """Obtiene métricas del equipo"""
+        return {
+            'pipeline_health': self._get_pipeline_health_metrics(period),
+            'data_quality': self._get_data_quality_metrics(period),
+            'performance': self._get_performance_metrics(period),
+            'costs': self._get_cost_metrics(period),
+            'team_velocity': self._get_team_velocity_metrics(period)
+        }
+    
+    def _get_pipeline_health_metrics(self, period: str) -> dict:
+        """Métricas de salud de pipelines"""
+        pipelines = self.metrics_collector.get_pipelines(period)
+        
+        total_runs = sum(p['total_runs'] for p in pipelines)
+        successful_runs = sum(p['successful_runs'] for p in pipelines)
+        failed_runs = total_runs - successful_runs
+        
+        return {
+            'total_pipelines': len(pipelines),
+            'success_rate': successful_runs / total_runs if total_runs > 0 else 0,
+            'failure_rate': failed_runs / total_runs if total_runs > 0 else 0,
+            'avg_duration_minutes': sum(p['avg_duration'] for p in pipelines) / len(pipelines) if pipelines else 0,
+            'pipelines_with_issues': len([p for p in pipelines if p['failure_rate'] > 0.05])
+        }
+    
+    def _get_data_quality_metrics(self, period: str) -> dict:
+        """Métricas de calidad de datos"""
+        quality_checks = self.metrics_collector.get_quality_checks(period)
+        
+        total_checks = len(quality_checks)
+        passed_checks = len([q for q in quality_checks if q['passed']])
+        
+        return {
+            'total_quality_checks': total_checks,
+            'pass_rate': passed_checks / total_checks if total_checks > 0 else 0,
+            'common_issues': self._get_common_quality_issues(quality_checks),
+            'data_freshness': self._get_data_freshness_metrics(period)
+        }
+    
+    def _get_team_velocity_metrics(self, period: str) -> dict:
+        """Métricas de velocidad del equipo"""
+        completed_tasks = self.metrics_collector.get_completed_tasks(period)
+        
+        return {
+            'tasks_completed': len(completed_tasks),
+            'avg_cycle_time_days': self._calculate_avg_cycle_time(completed_tasks),
+            'throughput_per_week': len(completed_tasks) / 4,  # Asumiendo 4 semanas
+            'lead_time_days': self._calculate_avg_lead_time(completed_tasks)
+        }
+```
+
+---
+
+## 🎨 Mejores Prácticas de Código Limpio
+
+### Code Smells y Refactoring
+
+```python
+# Detector de code smells
+class CodeSmellDetector:
+    def __init__(self):
+        self.smell_detectors = {
+            'long_method': self._detect_long_method,
+            'large_class': self._detect_large_class,
+            'duplicate_code': self._detect_duplicate_code,
+            'long_parameter_list': self._detect_long_parameter_list,
+            'feature_envy': self._detect_feature_envy,
+            'data_clumps': self._detect_data_clumps
+        }
+    
+    def analyze_file(self, file_path: str) -> dict:
+        """Analiza archivo para code smells"""
+        with open(file_path, 'r') as f:
+            code = f.read()
+        
+        smells = {}
+        for smell_type, detector in self.smell_detectors.items():
+            detected = detector(code, file_path)
+            if detected:
+                smells[smell_type] = detected
+        
+        return {
+            'file': file_path,
+            'smells': smells,
+            'smell_count': sum(len(v) if isinstance(v, list) else 1 for v in smells.values()),
+            'severity': self._calculate_severity(smells)
+        }
+    
+    def _detect_long_method(self, code: str, file_path: str) -> list:
+        """Detecta métodos largos (>50 líneas)"""
+        import ast
+        
+        long_methods = []
+        tree = ast.parse(code)
+        
+        for node in ast.walk(tree):
+            if isinstance(node, ast.FunctionDef):
+                lines = node.end_lineno - node.lineno if hasattr(node, 'end_lineno') else 0
+                if lines > 50:
+                    long_methods.append({
+                        'method': node.name,
+                        'lines': lines,
+                        'line_number': node.lineno,
+                        'suggestion': 'Consider breaking into smaller methods'
+                    })
+        
+        return long_methods
+    
+    def suggest_refactorings(self, smells: dict) -> list:
+        """Sugiere refactorings basados en smells detectados"""
+        refactorings = []
+        
+        if 'long_method' in smells:
+            refactorings.append({
+                'type': 'extract_method',
+                'description': 'Break long methods into smaller, focused methods',
+                'priority': 'high'
+            })
+        
+        if 'duplicate_code' in smells:
+            refactorings.append({
+                'type': 'extract_common_code',
+                'description': 'Extract duplicated code into shared functions',
+                'priority': 'high'
+            })
+        
+        if 'large_class' in smells:
+            refactorings.append({
+                'type': 'extract_class',
+                'description': 'Split large class into smaller, focused classes',
+                'priority': 'medium'
+            })
+        
+        return refactorings
+```
+
+---
+
+## 📈 Sistemas de Data Governance y Lineage
+
+### Sistema de Data Lineage Completo
+
+Sistema completo para rastrear el origen y transformación de datos:
+
+```python
+# data_lineage.py - Sistema de data lineage
+from typing import Dict, List, Optional, Set
+from dataclasses import dataclass, field
+from datetime import datetime
+from enum import Enum
+import networkx as nx
+
+class LineageNodeType(Enum):
+    SOURCE = "source"
+    TRANSFORMATION = "transformation"
+    DESTINATION = "destination"
+    DATASET = "dataset"
+
+@dataclass
+class LineageNode:
+    id: str
+    name: str
+    node_type: LineageNodeType
+    metadata: Dict = field(default_factory=dict)
+    created_at: datetime = field(default_factory=datetime.utcnow)
+
+class DataLineageTracker:
+    def __init__(self):
+        self.graph = nx.DiGraph()
+        self.nodes: Dict[str, LineageNode] = {}
+    
+    def register_source(self, source_id: str, name: str, 
+                       source_type: str, location: str) -> LineageNode:
+        """Register a data source"""
+        node = LineageNode(
+            id=source_id,
+            name=name,
+            node_type=LineageNodeType.SOURCE,
+            metadata={'source_type': source_type, 'location': location}
+        )
+        self.nodes[source_id] = node
+        self.graph.add_node(source_id, **node.metadata)
+        return node
+    
+    def get_lineage(self, node_id: str, direction: str = 'both') -> Dict:
+        """Get lineage for a node"""
+        if direction in ['upstream', 'both']:
+            upstream = list(nx.ancestors(self.graph, node_id))
+        else:
+            upstream = []
+        
+        if direction in ['downstream', 'both']:
+            downstream = list(nx.descendants(self.graph, node_id))
+        else:
+            downstream = []
+        
+        return {
+            'node': self.nodes[node_id],
+            'upstream': [self.nodes[nid] for nid in upstream],
+            'downstream': [self.nodes[nid] for nid in downstream]
+        }
+```
+
+### Sistema de Data Quality Monitoring
+
+Sistema completo para monitorear calidad de datos:
+
+```python
+# data_quality_monitor.py - Monitoreo de calidad de datos
+from typing import Dict, List
+import pandas as pd
+from datetime import datetime, timedelta
+from dataclasses import dataclass
+from enum import Enum
+
+class QualityMetric(Enum):
+    COMPLETENESS = "completeness"
+    ACCURACY = "accuracy"
+    CONSISTENCY = "consistency"
+    VALIDITY = "validity"
+
+@dataclass
+class QualityCheck:
+    metric: QualityMetric
+    value: float
+    threshold: float
+    passed: bool
+    timestamp: datetime
+
+class DataQualityMonitor:
+    def __init__(self, quality_rules: Dict):
+        self.quality_rules = quality_rules
+        self.check_history = []
+    
+    def check_completeness(self, df: pd.DataFrame, 
+                          required_columns: List[str]) -> QualityCheck:
+        """Check data completeness"""
+        total_cells = len(df) * len(required_columns)
+        missing_cells = df[required_columns].isnull().sum().sum()
+        completeness = 1 - (missing_cells / total_cells) if total_cells > 0 else 0
+        
+        threshold = self.quality_rules.get('completeness_threshold', 0.95)
+        check = QualityCheck(
+            metric=QualityMetric.COMPLETENESS,
+            value=completeness,
+            threshold=threshold,
+            passed=completeness >= threshold,
+            timestamp=datetime.utcnow()
+        )
+        self.check_history.append(check)
+        return check
+```
+
+---
+
+## 💰 Sistemas de Optimización de Costos Cloud
+
+### Sistema de Análisis y Optimización de Costos
+
+Sistema completo para analizar y optimizar costos en la nube:
+
+```python
+# cost_optimizer.py - Optimizador de costos cloud
+from typing import Dict, List
+from datetime import datetime, timedelta
+import boto3
+from dataclasses import dataclass
+from enum import Enum
+
+class CostCategory(Enum):
+    COMPUTE = "compute"
+    STORAGE = "storage"
+    NETWORK = "network"
+    DATABASE = "database"
+
+@dataclass
+class CostRecommendation:
+    category: CostCategory
+    current_cost: float
+    potential_savings: float
+    recommendation: str
+    priority: str
+
+class CloudCostOptimizer:
+    def __init__(self, aws_account_id: str):
+        self.aws_account_id = aws_account_id
+        self.cost_explorer = boto3.client('ce')
+        self.ec2 = boto3.client('ec2')
+    
+    def analyze_costs(self, start_date: datetime, end_date: datetime) -> Dict:
+        """Analyze costs for a time period"""
+        response = self.cost_explorer.get_cost_and_usage(
+            TimePeriod={
+                'Start': start_date.strftime('%Y-%m-%d'),
+                'End': end_date.strftime('%Y-%m-%d')
+            },
+            Granularity='DAILY',
+            Metrics=['BlendedCost'],
+            GroupBy=[
+                {'Type': 'DIMENSION', 'Key': 'SERVICE'}
+            ]
+        )
+        return response
+    
+    def find_idle_resources(self) -> List[Dict]:
+        """Find idle or underutilized resources"""
+        recommendations = []
+        instances = self.ec2.describe_instances()
+        
+        for reservation in instances['Reservations']:
+            for instance in reservation['Instances']:
+                if instance['State']['Name'] == 'running':
+                    utilization = self._get_instance_utilization(instance['InstanceId'])
+                    if utilization < 10:
+                        recommendations.append({
+                            'resource_id': instance['InstanceId'],
+                            'resource_type': 'EC2',
+                            'recommendation': 'Consider stopping or downsizing',
+                            'potential_savings': self._estimate_savings(instance),
+                            'priority': 'high'
+                        })
+        
+        return recommendations
+```
+
+---
+
+## 🧪 Sistemas de Experimentación y Feature Flags
+
+### Sistema de Feature Flags Avanzado
+
+Sistema completo de feature flags con segmentación y análisis:
+
+```python
+# feature_flags.py - Sistema de feature flags avanzado
+from typing import Dict, List, Optional, Any
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta
+from enum import Enum
+import redis
+import json
+import hashlib
+import time
+
+class FlagStatus(Enum):
+    ENABLED = "enabled"
+    DISABLED = "disabled"
+    ROLLING_OUT = "rolling_out"
+
+@dataclass
+class FeatureFlag:
+    name: str
+    status: FlagStatus
+    rollout_percentage: float = 0.0
+    target_users: List[str] = field(default_factory=list)
+    target_segments: List[str] = field(default_factory=list)
+    metadata: Dict = field(default_factory=dict)
+    created_at: datetime = field(default_factory=datetime.utcnow)
+    updated_at: datetime = field(default_factory=datetime.utcnow)
+
+class FeatureFlagManager:
+    def __init__(self, redis_client: redis.Redis):
+        self.redis = redis_client
+        self.flags: Dict[str, FeatureFlag] = {}
+        self.usage_tracking = {}
+    
+    def create_flag(self, name: str, initial_status: FlagStatus = FlagStatus.DISABLED) -> FeatureFlag:
+        """Create a new feature flag"""
+        flag = FeatureFlag(
+            name=name,
+            status=initial_status
+        )
+        self.flags[name] = flag
+        self._save_flag(flag)
+        return flag
+    
+    def is_enabled(self, flag_name: str, user_id: Optional[str] = None,
+                   context: Optional[Dict] = None) -> bool:
+        """Check if feature flag is enabled for user/context"""
+        flag = self.flags.get(flag_name)
+        if not flag:
+            return False
+        
+        # Track usage
+        self._track_usage(flag_name, user_id, context)
+        
+        if flag.status == FlagStatus.DISABLED:
+            return False
+        
+        if flag.status == FlagStatus.ENABLED:
+            return True
+        
+        # Rolling out - check percentage
+        if flag.status == FlagStatus.ROLLING_OUT:
+            if user_id:
+                # Consistent hashing for user
+                user_hash = int(hashlib.md5(f"{flag_name}:{user_id}".encode()).hexdigest(), 16)
+                user_percentage = (user_hash % 100) / 100.0
+                return user_percentage < flag.rollout_percentage
+            
+            # Random for anonymous users
+            import random
+            return random.random() < flag.rollout_percentage
+        
+        return False
+    
+    def update_flag(self, flag_name: str, **kwargs) -> FeatureFlag:
+        """Update feature flag"""
+        flag = self.flags.get(flag_name)
+        if not flag:
+            raise ValueError(f"Flag {flag_name} not found")
+        
+        # Update fields
+        for key, value in kwargs.items():
+            if hasattr(flag, key):
+                setattr(flag, key, value)
+        
+        flag.updated_at = datetime.utcnow()
+        self._save_flag(flag)
+        return flag
+    
+    def gradual_rollout(self, flag_name: str, target_percentage: float,
+                       increment: float = 5.0, interval_hours: int = 1):
+        """Gradually roll out feature flag"""
+        flag = self.flags.get(flag_name)
+        if not flag:
+            raise ValueError(f"Flag {flag_name} not found")
+        
+        flag.status = FlagStatus.ROLLING_OUT
+        current_percentage = flag.rollout_percentage
+        
+        while current_percentage < target_percentage:
+            current_percentage = min(current_percentage + increment, target_percentage)
+            self.update_flag(flag_name, rollout_percentage=current_percentage)
+            print(f"Rolled out {flag_name} to {current_percentage}%")
+            time.sleep(interval_hours * 3600)
+        
+        if current_percentage >= 100:
+            flag.status = FlagStatus.ENABLED
+            self._save_flag(flag)
+    
+    def get_flag_analytics(self, flag_name: str, 
+                          start_date: datetime, end_date: datetime) -> Dict:
+        """Get analytics for feature flag"""
+        flag = self.flags.get(flag_name)
+        if not flag:
+            return {}
+        
+        # Get usage data
+        usage_data = self._get_usage_data(flag_name, start_date, end_date)
+        
+        return {
+            'flag_name': flag_name,
+            'status': flag.status.value,
+            'rollout_percentage': flag.rollout_percentage,
+            'total_checks': usage_data.get('total_checks', 0),
+            'enabled_checks': usage_data.get('enabled_checks', 0),
+            'unique_users': usage_data.get('unique_users', 0),
+            'enabled_rate': usage_data.get('enabled_checks', 0) / max(usage_data.get('total_checks', 1), 1)
+        }
+    
+    def _save_flag(self, flag: FeatureFlag):
+        """Save flag to Redis"""
+        key = f"feature_flag:{flag.name}"
+        data = {
+            'name': flag.name,
+            'status': flag.status.value,
+            'rollout_percentage': flag.rollout_percentage,
+            'target_users': flag.target_users,
+            'target_segments': flag.target_segments,
+            'metadata': flag.metadata,
+            'created_at': flag.created_at.isoformat(),
+            'updated_at': flag.updated_at.isoformat()
+        }
+        self.redis.setex(key, 86400 * 7, json.dumps(data))  # 7 days TTL
+    
+    def _track_usage(self, flag_name: str, user_id: Optional[str], context: Optional[Dict]):
+        """Track feature flag usage"""
+        key = f"flag_usage:{flag_name}:{datetime.utcnow().strftime('%Y-%m-%d')}"
+        self.redis.incr(key)
+        self.redis.expire(key, 86400 * 30)  # 30 days
+    
+    def _get_usage_data(self, flag_name: str, start_date: datetime, 
+                       end_date: datetime) -> Dict:
+        """Get usage data for time period"""
+        # Implementation to aggregate usage data
+        return {
+            'total_checks': 0,
+            'enabled_checks': 0,
+            'unique_users': 0
+        }
+```
+
+### Sistema de A/B Testing Avanzado
+
+Sistema completo de A/B testing con análisis estadístico:
+
+```python
+# ab_testing.py - Sistema de A/B testing avanzado
+from typing import Dict, List, Optional
+import pandas as pd
+import numpy as np
+from scipy import stats
+from dataclasses import dataclass
+from datetime import datetime, timedelta
+from enum import Enum
+
+class TestStatus(Enum):
+    DRAFT = "draft"
+    RUNNING = "running"
+    PAUSED = "paused"
+    COMPLETED = "completed"
+    STOPPED = "stopped"
+
+@dataclass
+class ABTest:
+    test_id: str
+    name: str
+    variants: Dict[str, Dict]
+    status: TestStatus
+    start_date: datetime
+    end_date: Optional[datetime]
+    target_metric: str
+    minimum_sample_size: int = 1000
+    significance_level: float = 0.05
+
+class ABTestingSystem:
+    def __init__(self):
+        self.tests: Dict[str, ABTest] = {}
+        self.results: Dict[str, pd.DataFrame] = {}
+    
+    def create_test(self, test_id: str, name: str, variants: Dict[str, Dict],
+                   target_metric: str, duration_days: int = 14) -> ABTest:
+        """Create a new A/B test"""
+        test = ABTest(
+            test_id=test_id,
+            name=name,
+            variants=variants,
+            status=TestStatus.DRAFT,
+            start_date=datetime.utcnow(),
+            end_date=datetime.utcnow() + timedelta(days=duration_days),
+            target_metric=target_metric
+        )
+        self.tests[test_id] = test
+        return test
+    
+    def assign_variant(self, test_id: str, user_id: str) -> str:
+        """Assign user to a variant"""
+        test = self.tests.get(test_id)
+        if not test or test.status != TestStatus.RUNNING:
+            return 'control'
+        
+        # Consistent assignment based on user_id
+        user_hash = hash(f"{test_id}:{user_id}")
+        variant_names = list(test.variants.keys())
+        variant_index = abs(user_hash) % len(variant_names)
+        return variant_names[variant_index]
+    
+    def record_event(self, test_id: str, user_id: str, variant: str,
+                    metric_value: float, timestamp: datetime = None):
+        """Record event for A/B test"""
+        if timestamp is None:
+            timestamp = datetime.utcnow()
+        
+        if test_id not in self.results:
+            self.results[test_id] = pd.DataFrame(columns=[
+                'user_id', 'variant', 'metric_value', 'timestamp'
+            ])
+        
+        new_row = pd.DataFrame([{
+            'user_id': user_id,
+            'variant': variant,
+            'metric_value': metric_value,
+            'timestamp': timestamp
+        }])
+        self.results[test_id] = pd.concat([self.results[test_id], new_row], ignore_index=True)
+    
+    def analyze_test(self, test_id: str) -> Dict:
+        """Analyze A/B test results"""
+        test = self.tests.get(test_id)
+        if not test:
+            raise ValueError(f"Test {test_id} not found")
+        
+        results = self.results.get(test_id)
+        if results is None or len(results) == 0:
+            return {'error': 'No data available'}
+        
+        analysis = {}
+        
+        for variant_name in test.variants.keys():
+            variant_data = results[results['variant'] == variant_name]['metric_value']
+            
+            analysis[variant_name] = {
+                'sample_size': len(variant_data),
+                'mean': variant_data.mean(),
+                'std': variant_data.std(),
+                'median': variant_data.median(),
+                'p25': variant_data.quantile(0.25),
+                'p75': variant_data.quantile(0.75)
+            }
+        
+        # Statistical test
+        if len(test.variants) == 2:
+            variant_names = list(test.variants.keys())
+            control_data = results[results['variant'] == variant_names[0]]['metric_value']
+            treatment_data = results[results['variant'] == variant_names[1]]['metric_value']
+            
+            # T-test
+            t_stat, p_value = stats.ttest_ind(control_data, treatment_data)
+            
+            # Effect size (Cohen's d)
+            pooled_std = np.sqrt(
+                (control_data.std()**2 + treatment_data.std()**2) / 2
+            )
+            cohens_d = (treatment_data.mean() - control_data.mean()) / pooled_std
+            
+            analysis['statistical_test'] = {
+                't_statistic': t_stat,
+                'p_value': p_value,
+                'is_significant': p_value < test.significance_level,
+                'cohens_d': cohens_d,
+                'effect_size': self._interpret_effect_size(abs(cohens_d))
+            }
+            
+            # Calculate improvement
+            improvement = ((treatment_data.mean() - control_data.mean()) / 
+                          control_data.mean()) * 100
+            analysis['improvement_percentage'] = improvement
+        
+        return analysis
+    
+    def _interpret_effect_size(self, cohens_d: float) -> str:
+        """Interpret Cohen's d effect size"""
+        if cohens_d < 0.2:
+            return "negligible"
+        elif cohens_d < 0.5:
+            return "small"
+        elif cohens_d < 0.8:
+            return "medium"
+        else:
+            return "large"
+    
+    def check_sample_size(self, test_id: str) -> bool:
+        """Check if test has reached minimum sample size"""
+        test = self.tests.get(test_id)
+        if not test:
+            return False
+        
+        results = self.results.get(test_id)
+        if results is None:
+            return False
+        
+        min_samples = min(
+            len(results[results['variant'] == variant])
+            for variant in test.variants.keys()
+        )
+        
+        return min_samples >= test.minimum_sample_size
+```
+
+---
+
+## 📚 Sistemas de Documentación Automática
+
+### Generador de Documentación Automática para APIs
+
+Sistema completo para generar documentación automática:
+
+```python
+# auto_documentation.py - Generador de documentación automática
+from typing import Dict, List, Optional
+import inspect
+from dataclasses import dataclass
+from datetime import datetime
+import ast
+import json
+
+class APIDocumentationGenerator:
+    def __init__(self):
+        self.endpoints = []
+        self.models = []
+    
+    def document_endpoint(self, func, method: str, path: str,
+                         description: str = None, tags: List[str] = None):
+        """Document an API endpoint"""
+        sig = inspect.signature(func)
+        params = {}
+        for param_name, param in sig.parameters.items():
+            params[param_name] = {
+                'type': str(param.annotation) if param.annotation != inspect.Parameter.empty else 'Any',
+                'default': param.default if param.default != inspect.Parameter.empty else None,
+                'required': param.default == inspect.Parameter.empty
+            }
+        
+        endpoint_doc = {
+            'method': method,
+            'path': path,
+            'function_name': func.__name__,
+            'description': description or func.__doc__,
+            'parameters': params,
+            'tags': tags or [],
+            'responses': self._extract_responses(func)
+        }
+        
+        self.endpoints.append(endpoint_doc)
+        return endpoint_doc
+    
+    def generate_openapi_spec(self, title: str, version: str) -> Dict:
+        """Generate OpenAPI specification"""
+        spec = {
+            'openapi': '3.0.0',
+            'info': {
+                'title': title,
+                'version': version,
+                'description': 'Auto-generated API documentation'
+            },
+            'paths': {},
+            'components': {
+                'schemas': {}
+            }
+        }
+        
+        # Group endpoints by path
+        paths = {}
+        for endpoint in self.endpoints:
+            path = endpoint['path']
+            if path not in paths:
+                paths[path] = {}
+            
+            paths[path][endpoint['method'].lower()] = {
+                'summary': endpoint['description'],
+                'tags': endpoint['tags'],
+                'parameters': [
+                    {
+                        'name': name,
+                        'in': 'query' if name not in endpoint['path'] else 'path',
+                        'required': param['required'],
+                        'schema': {'type': self._map_type(param['type'])}
+                    }
+                    for name, param in endpoint['parameters'].items()
+                ],
+                'responses': endpoint['responses']
+            }
+        
+        spec['paths'] = paths
+        return spec
+    
+    def generate_markdown_docs(self) -> str:
+        """Generate Markdown documentation"""
+        md = "# API Documentation\n\n"
+        md += f"*Generated: {datetime.utcnow().isoformat()}*\n\n"
+        
+        # Group by tags
+        by_tags = {}
+        for endpoint in self.endpoints:
+            for tag in endpoint['tags']:
+                if tag not in by_tags:
+                    by_tags[tag] = []
+                by_tags[tag].append(endpoint)
+        
+        for tag, endpoints in by_tags.items():
+            md += f"## {tag}\n\n"
+            for endpoint in endpoints:
+                md += f"### {endpoint['method']} {endpoint['path']}\n\n"
+                md += f"{endpoint['description']}\n\n"
+                
+                if endpoint['parameters']:
+                    md += "**Parameters:**\n\n"
+                    for name, param in endpoint['parameters'].items():
+                        md += f"- `{name}` ({param['type']})"
+                        if not param['required']:
+                            md += " - Optional"
+                        md += "\n"
+                    md += "\n"
+        
+        return md
+    
+    def _extract_responses(self, func) -> Dict:
+        """Extract response information from function"""
+        # Parse docstring or annotations
+        return {
+            '200': {
+                'description': 'Success',
+                'content': {
+                    'application/json': {
+                        'schema': {'type': 'object'}
+                    }
+                }
+            }
+        }
+    
+    def _map_type(self, type_str: str) -> str:
+        """Map Python type to OpenAPI type"""
+        type_mapping = {
+            'str': 'string',
+            'int': 'integer',
+            'float': 'number',
+            'bool': 'boolean',
+            'list': 'array',
+            'dict': 'object'
+        }
+        return type_mapping.get(type_str.lower(), 'string')
+```
+
+---
+
+## 📊 Sistemas de Logging y Métricas Avanzados
+
+### Sistema de Logging Estructurado con Contexto Distribuido
+
+Sistema completo de logging estructurado con correlación de requests:
+
+```python
+# structured_logging.py - Sistema de logging estructurado
+import logging
+import json
+from typing import Dict, Optional, Any
+from datetime import datetime
+from contextvars import ContextVar
+import uuid
+from functools import wraps
+
+# Context variables for distributed tracing
+request_id_var: ContextVar[str] = ContextVar('request_id', default=None)
+user_id_var: ContextVar[str] = ContextVar('user_id', default=None)
+correlation_id_var: ContextVar[str] = ContextVar('correlation_id', default=None)
+
+class StructuredLogger:
+    def __init__(self, name: str, level: int = logging.INFO):
+        self.logger = logging.getLogger(name)
+        self.logger.setLevel(level)
+        
+        # JSON formatter
+        handler = logging.StreamHandler()
+        handler.setFormatter(JSONFormatter())
+        self.logger.addHandler(handler)
+    
+    def _get_context(self) -> Dict[str, Any]:
+        """Get current context"""
+        context = {
+            'timestamp': datetime.utcnow().isoformat(),
+        }
+        
+        request_id = request_id_var.get()
+        if request_id:
+            context['request_id'] = request_id
+        
+        user_id = user_id_var.get()
+        if user_id:
+            context['user_id'] = user_id
+        
+        correlation_id = correlation_id_var.get()
+        if correlation_id:
+            context['correlation_id'] = correlation_id
+        
+        return context
+    
+    def info(self, message: str, **kwargs):
+        """Log info message with structured data"""
+        self._log(logging.INFO, message, **kwargs)
+    
+    def error(self, message: str, exception: Optional[Exception] = None, **kwargs):
+        """Log error with exception details"""
+        if exception:
+            kwargs['exception_type'] = type(exception).__name__
+            kwargs['exception_message'] = str(exception)
+            kwargs['exception_traceback'] = self._format_traceback(exception)
+        self._log(logging.ERROR, message, **kwargs)
+    
+    def warning(self, message: str, **kwargs):
+        """Log warning message"""
+        self._log(logging.WARNING, message, **kwargs)
+    
+    def _log(self, level: int, message: str, **kwargs):
+        """Internal log method"""
+        log_data = {
+            'level': logging.getLevelName(level),
+            'message': message,
+            **self._get_context(),
+            **kwargs
+        }
+        self.logger.log(level, json.dumps(log_data))
+    
+    def _format_traceback(self, exception: Exception) -> str:
+        """Format exception traceback"""
+        import traceback
+        return traceback.format_exception(
+            type(exception), exception, exception.__traceback__
+        )
+
+class JSONFormatter(logging.Formatter):
+    """JSON formatter for structured logging"""
+    def format(self, record):
+        log_data = json.loads(record.getMessage())
+        return json.dumps(log_data)
+
+def log_request(func):
+    """Decorator to add request context to logs"""
+    @wraps(func)
+    async def wrapper(*args, **kwargs):
+        request_id = str(uuid.uuid4())
+        request_id_var.set(request_id)
+        
+        logger = StructuredLogger(func.__module__)
+        logger.info(f"Request started: {func.__name__}")
+        
+        try:
+            result = await func(*args, **kwargs)
+            logger.info(f"Request completed: {func.__name__}")
+            return result
+        except Exception as e:
+            logger.error(f"Request failed: {func.__name__}", exception=e)
+            raise
+        finally:
+            request_id_var.set(None)
+    return wrapper
+```
+
+### Sistema de Métricas y Dashboards en Tiempo Real
+
+Sistema completo de métricas con dashboards interactivos:
+
+```python
+# metrics_dashboard.py - Sistema de métricas en tiempo real
+from typing import Dict, List, Optional
+from datetime import datetime, timedelta
+import pandas as pd
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+import redis
+import json
+from dataclasses import dataclass
+from enum import Enum
+
+class MetricType(Enum):
+    COUNTER = "counter"
+    GAUGE = "gauge"
+    HISTOGRAM = "histogram"
+    SUMMARY = "summary"
+
+@dataclass
+class Metric:
+    name: str
+    metric_type: MetricType
+    value: float
+    labels: Dict[str, str]
+    timestamp: datetime
+
+class MetricsCollector:
+    def __init__(self, redis_client: redis.Redis):
+        self.redis = redis_client
+        self.metrics_buffer = []
+    
+    def record_metric(self, name: str, value: float, 
+                     metric_type: MetricType = MetricType.GAUGE,
+                     labels: Optional[Dict[str, str]] = None):
+        """Record a metric"""
+        metric = Metric(
+            name=name,
+            metric_type=metric_type,
+            value=value,
+            labels=labels or {},
+            timestamp=datetime.utcnow()
+        )
+        self.metrics_buffer.append(metric)
+        
+        # Store in Redis with time series
+        key = f"metric:{name}:{datetime.utcnow().timestamp()}"
+        self.redis.setex(key, 86400 * 7, json.dumps({
+            'value': value,
+            'labels': labels or {},
+            'timestamp': datetime.utcnow().isoformat()
+        }))
+    
+    def increment_counter(self, name: str, labels: Optional[Dict[str, str]] = None):
+        """Increment a counter metric"""
+        self.record_metric(name, 1.0, MetricType.COUNTER, labels)
+    
+    def set_gauge(self, name: str, value: float, labels: Optional[Dict[str, str]] = None):
+        """Set a gauge metric"""
+        self.record_metric(name, value, MetricType.GAUGE, labels)
+    
+    def record_histogram(self, name: str, value: float, 
+                        buckets: List[float] = None,
+                        labels: Optional[Dict[str, str]] = None):
+        """Record a histogram metric"""
+        if buckets is None:
+            buckets = [0.1, 0.5, 1.0, 2.5, 5.0, 10.0]
+        
+        # Count values in each bucket
+        bucket_counts = {}
+        for bucket in buckets:
+            if value <= bucket:
+                bucket_counts[f"le_{bucket}"] = 1
+            else:
+                bucket_counts[f"le_{bucket}"] = 0
+        
+        for bucket_name, count in bucket_counts.items():
+            self.record_metric(f"{name}_{bucket_name}", count, 
+                             MetricType.HISTOGRAM, labels)
+
+class RealTimeDashboard:
+    def __init__(self, metrics_collector: MetricsCollector):
+        self.metrics_collector = metrics_collector
+    
+    def generate_dashboard(self, metrics: List[str], 
+                          time_range_hours: int = 24) -> go.Figure:
+        """Generate real-time dashboard"""
+        fig = make_subplots(
+            rows=2, cols=2,
+            subplot_titles=('Request Rate', 'Error Rate', 
+                          'Response Time', 'Active Users'),
+            specs=[[{"type": "scatter"}, {"type": "scatter"}],
+                   [{"type": "scatter"}, {"type": "bar"}]]
+        )
+        
+        end_time = datetime.utcnow()
+        start_time = end_time - timedelta(hours=time_range_hours)
+        
+        # Get metrics data
+        for metric_name in metrics:
+            data = self._get_metric_data(metric_name, start_time, end_time)
+            
+            if metric_name == 'request_rate':
+                fig.add_trace(
+                    go.Scatter(x=data['timestamp'], y=data['value'],
+                             name='Requests/sec', mode='lines'),
+                    row=1, col=1
+                )
+            elif metric_name == 'error_rate':
+                fig.add_trace(
+                    go.Scatter(x=data['timestamp'], y=data['value'],
+                             name='Errors/sec', mode='lines', line=dict(color='red')),
+                    row=1, col=2
+                )
+            elif metric_name == 'response_time':
+                fig.add_trace(
+                    go.Scatter(x=data['timestamp'], y=data['value'],
+                             name='Response Time (ms)', mode='lines'),
+                    row=2, col=1
+                )
+            elif metric_name == 'active_users':
+                fig.add_trace(
+                    go.Bar(x=data['timestamp'], y=data['value'],
+                          name='Active Users'),
+                    row=2, col=2
+                )
+        
+        fig.update_layout(
+            height=800,
+            title_text="Real-Time System Dashboard",
+            showlegend=True
+        )
+        
+        return fig
+    
+    def _get_metric_data(self, metric_name: str, 
+                        start_time: datetime, end_time: datetime) -> pd.DataFrame:
+        """Get metric data from Redis"""
+        # Query Redis for metrics in time range
+        keys = self.metrics_collector.redis.keys(f"metric:{metric_name}:*")
+        
+        data = []
+        for key in keys:
+            metric_data = json.loads(self.metrics_collector.redis.get(key))
+            timestamp = datetime.fromisoformat(metric_data['timestamp'])
+            if start_time <= timestamp <= end_time:
+                data.append({
+                    'timestamp': timestamp,
+                    'value': metric_data['value']
+                })
+        
+        return pd.DataFrame(data).sort_values('timestamp')
+```
+
+---
+
+## 🔍 Sistemas de Debugging Distribuido
+
+### Sistema de Debugging con Distributed Tracing
+
+Sistema completo para debugging en sistemas distribuidos:
+
+```python
+# distributed_debugging.py - Sistema de debugging distribuido
+from typing import Dict, List, Optional
+from datetime import datetime
+import json
+from dataclasses import dataclass, field
+from enum import Enum
+
+class SpanStatus(Enum):
+    OK = "ok"
+    ERROR = "error"
+    TIMEOUT = "timeout"
+
+@dataclass
+class Span:
+    span_id: str
+    trace_id: str
+    parent_span_id: Optional[str]
+    operation_name: str
+    start_time: datetime
+    end_time: Optional[datetime] = None
+    status: SpanStatus = SpanStatus.OK
+    tags: Dict[str, str] = field(default_factory=dict)
+    logs: List[Dict] = field(default_factory=dict)
+    error: Optional[str] = None
+    
+    @property
+    def duration_ms(self) -> float:
+        """Calculate span duration in milliseconds"""
+        if self.end_time:
+            return (self.end_time - self.start_time).total_seconds() * 1000
+        return 0.0
+
+class DistributedTracer:
+    def __init__(self, storage_backend):
+        self.storage = storage_backend
+        self.active_spans = {}
+    
+    def start_span(self, operation_name: str, trace_id: str = None,
+                  parent_span_id: str = None, tags: Dict[str, str] = None) -> Span:
+        """Start a new span"""
+        span_id = self._generate_span_id()
+        if trace_id is None:
+            trace_id = self._generate_trace_id()
+        
+        span = Span(
+            span_id=span_id,
+            trace_id=trace_id,
+            parent_span_id=parent_span_id,
+            operation_name=operation_name,
+            start_time=datetime.utcnow(),
+            tags=tags or {}
+        )
+        
+        self.active_spans[span_id] = span
+        return span
+    
+    def finish_span(self, span_id: str, status: SpanStatus = SpanStatus.OK,
+                   error: Optional[str] = None):
+        """Finish a span"""
+        span = self.active_spans.get(span_id)
+        if span:
+            span.end_time = datetime.utcnow()
+            span.status = status
+            if error:
+                span.error = error
+            self._store_span(span)
+            del self.active_spans[span_id]
+    
+    def add_tag(self, span_id: str, key: str, value: str):
+        """Add tag to span"""
+        span = self.active_spans.get(span_id)
+        if span:
+            span.tags[key] = value
+    
+    def add_log(self, span_id: str, message: str, level: str = "info"):
+        """Add log to span"""
+        span = self.active_spans.get(span_id)
+        if span:
+            span.logs.append({
+                'timestamp': datetime.utcnow().isoformat(),
+                'message': message,
+                'level': level
+            })
+    
+    def get_trace(self, trace_id: str) -> List[Span]:
+        """Get all spans for a trace"""
+        return self.storage.get_trace(trace_id)
+    
+    def find_slow_spans(self, trace_id: str, threshold_ms: float = 1000) -> List[Span]:
+        """Find slow spans in a trace"""
+        spans = self.get_trace(trace_id)
+        return [span for span in spans if span.duration_ms > threshold_ms]
+    
+    def visualize_trace(self, trace_id: str) -> str:
+        """Generate trace visualization (Gantt chart)"""
+        spans = self.get_trace(trace_id)
+        
+        # Build trace tree
+        root_spans = [s for s in spans if s.parent_span_id is None]
+        
+        visualization = f"Trace: {trace_id}\n"
+        visualization += "=" * 80 + "\n"
+        
+        for root_span in root_spans:
+            visualization += self._visualize_span(root_span, spans, indent=0)
+        
+        return visualization
+    
+    def _visualize_span(self, span: Span, all_spans: List[Span], indent: int = 0) -> str:
+        """Visualize a span and its children"""
+        indent_str = "  " * indent
+        status_icon = "✓" if span.status == SpanStatus.OK else "✗"
+        
+        result = f"{indent_str}{status_icon} {span.operation_name} "
+        result += f"({span.duration_ms:.2f}ms)\n"
+        
+        if span.error:
+            result += f"{indent_str}  ERROR: {span.error}\n"
+        
+        # Find children
+        children = [s for s in all_spans if s.parent_span_id == span.span_id]
+        for child in children:
+            result += self._visualize_span(child, all_spans, indent + 1)
+        
+        return result
+    
+    def _generate_span_id(self) -> str:
+        """Generate unique span ID"""
+        import uuid
+        return str(uuid.uuid4())
+    
+    def _generate_trace_id(self) -> str:
+        """Generate unique trace ID"""
+        import uuid
+        return str(uuid.uuid4())
+    
+    def _store_span(self, span: Span):
+        """Store span in backend"""
+        self.storage.store_span(span)
+```
+
+---
+
+## 🔐 Sistemas de Gestión de Configuración y Secretos
+
+### Sistema de Gestión de Configuración con Validación
+
+Sistema completo para gestionar configuraciones con validación y versionado:
+
+```python
+# config_manager.py - Sistema de gestión de configuración
+from typing import Dict, Any, Optional, List
+from dataclasses import dataclass, field
+from datetime import datetime
+import json
+import yaml
+from pydantic import BaseModel, ValidationError
+from enum import Enum
+import os
+
+class ConfigSource(Enum):
+    ENV = "environment"
+    FILE = "file"
+    SECRET_MANAGER = "secret_manager"
+    DATABASE = "database"
+
+@dataclass
+class ConfigEntry:
+    key: str
+    value: Any
+    source: ConfigSource
+    required: bool = False
+    default: Any = None
+    description: str = ""
+    validation_rule: Optional[str] = None
+    updated_at: datetime = field(default_factory=datetime.utcnow)
+
+class ConfigManager:
+    def __init__(self, config_schema: BaseModel = None):
+        self.config_schema = config_schema
+        self.config: Dict[str, Any] = {}
+        self.config_history: List[Dict] = []
+        self.validation_errors: List[str] = []
+    
+    def load_from_env(self, prefix: str = "APP_"):
+        """Load configuration from environment variables"""
+        for key, value in os.environ.items():
+            if key.startswith(prefix):
+                config_key = key[len(prefix):].lower()
+                self.config[config_key] = self._parse_value(value)
+    
+    def load_from_file(self, file_path: str, format: str = "json"):
+        """Load configuration from file"""
+        with open(file_path, 'r') as f:
+            if format == "json":
+                data = json.load(f)
+            elif format == "yaml":
+                data = yaml.safe_load(f)
+            else:
+                raise ValueError(f"Unsupported format: {format}")
+            
+            self.config.update(data)
+    
+    def load_from_secret_manager(self, secret_name: str, secret_manager):
+        """Load secrets from secret manager"""
+        secrets = secret_manager.get_secret(secret_name)
+        self.config.update(secrets)
+    
+    def get(self, key: str, default: Any = None) -> Any:
+        """Get configuration value"""
+        keys = key.split('.')
+        value = self.config
+        
+        for k in keys:
+            if isinstance(value, dict):
+                value = value.get(k)
+                if value is None:
+                    return default
+            else:
+                return default
+        
+        return value if value is not None else default
+    
+    def set(self, key: str, value: Any, source: ConfigSource = ConfigSource.FILE):
+        """Set configuration value"""
+        keys = key.split('.')
+        config = self.config
+        
+        for k in keys[:-1]:
+            if k not in config:
+                config[k] = {}
+            config = config[k]
+        
+        old_value = config.get(keys[-1])
+        config[keys[-1]] = value
+        
+        # Track changes
+        self.config_history.append({
+            'key': key,
+            'old_value': old_value,
+            'new_value': value,
+            'source': source.value,
+            'timestamp': datetime.utcnow().isoformat()
+        })
+    
+    def validate(self) -> bool:
+        """Validate configuration against schema"""
+        if not self.config_schema:
+            return True
+        
+        try:
+            self.config_schema(**self.config)
+            self.validation_errors = []
+            return True
+        except ValidationError as e:
+            self.validation_errors = [str(err) for err in e.errors()]
+            return False
+    
+    def get_config_snapshot(self) -> Dict:
+        """Get current configuration snapshot"""
+        return {
+            'config': self.config.copy(),
+            'timestamp': datetime.utcnow().isoformat(),
+            'validation_errors': self.validation_errors
+        }
+    
+    def rollback(self, snapshot: Dict):
+        """Rollback to previous configuration"""
+        self.config = snapshot['config'].copy()
+    
+    def _parse_value(self, value: str) -> Any:
+        """Parse string value to appropriate type"""
+        # Try boolean
+        if value.lower() in ('true', 'false'):
+            return value.lower() == 'true'
+        
+        # Try number
+        try:
+            if '.' in value:
+                return float(value)
+            return int(value)
+        except ValueError:
+            pass
+        
+        # Return as string
+        return value
+
+class SecretManager:
+    def __init__(self, backend: str = "aws_secrets_manager"):
+        self.backend = backend
+        if backend == "aws_secrets_manager":
+            import boto3
+            self.client = boto3.client('secretsmanager')
+    
+    def get_secret(self, secret_name: str) -> Dict[str, Any]:
+        """Get secret from backend"""
+        if self.backend == "aws_secrets_manager":
+            response = self.client.get_secret_value(SecretId=secret_name)
+            return json.loads(response['SecretString'])
+        else:
+            raise ValueError(f"Unsupported backend: {self.backend}")
+    
+    def create_secret(self, secret_name: str, secret_value: Dict[str, Any],
+                     description: str = ""):
+        """Create secret in backend"""
+        if self.backend == "aws_secrets_manager":
+            self.client.create_secret(
+                Name=secret_name,
+                SecretString=json.dumps(secret_value),
+                Description=description
+            )
+    
+    def update_secret(self, secret_name: str, secret_value: Dict[str, Any]):
+        """Update secret in backend"""
+        if self.backend == "aws_secrets_manager":
+            self.client.update_secret(
+                SecretId=secret_name,
+                SecretString=json.dumps(secret_value)
+            )
+```
+
+---
+
+## 🚀 Sistemas de Deployment Avanzados
+
+### Sistema de Blue-Green Deployment
+
+Sistema completo para deployments blue-green con zero downtime:
+
+```python
+# blue_green_deployment.py - Sistema de blue-green deployment
+from typing import Dict, List, Optional
+from datetime import datetime
+import time
+import boto3
+from dataclasses import dataclass
+from enum import Enum
+
+class DeploymentStatus(Enum):
+    IN_PROGRESS = "in_progress"
+    COMPLETED = "completed"
+    ROLLED_BACK = "rolled_back"
+    FAILED = "failed"
+
+@dataclass
+class Deployment:
+    deployment_id: str
+    version: str
+    environment: str
+    status: DeploymentStatus
+    blue_instances: List[str]
+    green_instances: List[str]
+    active_color: str  # 'blue' or 'green'
+    started_at: datetime
+    completed_at: Optional[datetime] = None
+
+class BlueGreenDeployment:
+    def __init__(self, elb_client, ec2_client, autoscaling_client):
+        self.elb = elb_client
+        self.ec2 = ec2_client
+        self.autoscaling = autoscaling_client
+        self.deployments: Dict[str, Deployment] = {}
+    
+    def deploy(self, version: str, environment: str,
+              target_group_blue: str, target_group_green: str,
+              autoscaling_group: str) -> Deployment:
+        """Execute blue-green deployment"""
+        deployment_id = f"{environment}-{version}-{int(time.time())}"
+        
+        # Determine current active color
+        current_active = self._get_active_color(target_group_blue, target_group_green)
+        inactive_color = 'green' if current_active == 'blue' else 'blue'
+        
+        deployment = Deployment(
+            deployment_id=deployment_id,
+            version=version,
+            environment=environment,
+            status=DeploymentStatus.IN_PROGRESS,
+            blue_instances=[],
+            green_instances=[],
+            active_color=current_active,
+            started_at=datetime.utcnow()
+        )
+        
+        self.deployments[deployment_id] = deployment
+        
+        try:
+            # Step 1: Deploy to inactive environment
+            print(f"Deploying {version} to {inactive_color} environment...")
+            inactive_instances = self._deploy_to_environment(
+                autoscaling_group, version, inactive_color
+            )
+            
+            if inactive_color == 'blue':
+                deployment.blue_instances = inactive_instances
+            else:
+                deployment.green_instances = inactive_instances
+            
+            # Step 2: Wait for health checks
+            print("Waiting for health checks...")
+            if not self._wait_for_health_checks(inactive_instances, timeout=300):
+                raise Exception("Health checks failed")
+            
+            # Step 3: Switch traffic
+            print(f"Switching traffic to {inactive_color}...")
+            self._switch_traffic(
+                target_group_blue if inactive_color == 'blue' else target_group_green,
+                inactive_instances
+            )
+            
+            # Step 4: Verify new deployment
+            print("Verifying deployment...")
+            if not self._verify_deployment(inactive_instances):
+                raise Exception("Deployment verification failed")
+            
+            # Step 5: Update active color
+            deployment.active_color = inactive_color
+            deployment.status = DeploymentStatus.COMPLETED
+            deployment.completed_at = datetime.utcnow()
+            
+            print(f"✅ Deployment {deployment_id} completed successfully")
+            
+        except Exception as e:
+            print(f"❌ Deployment failed: {e}")
+            deployment.status = DeploymentStatus.FAILED
+            self.rollback(deployment_id)
+            raise
+        
+        return deployment
+    
+    def rollback(self, deployment_id: str):
+        """Rollback deployment"""
+        deployment = self.deployments.get(deployment_id)
+        if not deployment:
+            raise ValueError(f"Deployment {deployment_id} not found")
+        
+        print(f"Rolling back deployment {deployment_id}...")
+        
+        # Switch back to previous color
+        previous_color = 'green' if deployment.active_color == 'blue' else 'blue'
+        previous_instances = (
+            deployment.green_instances if previous_color == 'green' 
+            else deployment.blue_instances
+        )
+        
+        self._switch_traffic(
+            f"target-group-{previous_color}",
+            previous_instances
+        )
+        
+        deployment.status = DeploymentStatus.ROLLED_BACK
+        print(f"✅ Rollback completed")
+    
+    def _get_active_color(self, target_group_blue: str, 
+                         target_group_green: str) -> str:
+        """Determine which color is currently active"""
+        # Check target group health
+        blue_health = self._check_target_group_health(target_group_blue)
+        green_health = self._check_target_group_health(target_group_green)
+        
+        # Return color with more healthy instances
+        return 'blue' if blue_health > green_health else 'green'
+    
+    def _deploy_to_environment(self, autoscaling_group: str, 
+                               version: str, color: str) -> List[str]:
+        """Deploy new version to environment"""
+        # Update launch template with new version
+        # Create new instances
+        # Wait for instances to be ready
+        instances = []  # Implementation would create instances
+        return instances
+    
+    def _wait_for_health_checks(self, instances: List[str], 
+                                timeout: int = 300) -> bool:
+        """Wait for instances to pass health checks"""
+        start_time = time.time()
+        while time.time() - start_time < timeout:
+            all_healthy = all(
+                self._check_instance_health(instance) 
+                for instance in instances
+            )
+            if all_healthy:
+                return True
+            time.sleep(10)
+        return False
+    
+    def _switch_traffic(self, target_group: str, instances: List[str]):
+        """Switch traffic to new instances"""
+        # Register instances with target group
+        # Update load balancer routing
+        pass
+    
+    def _verify_deployment(self, instances: List[str]) -> bool:
+        """Verify deployment is working correctly"""
+        # Run smoke tests
+        # Check metrics
+        return True
+    
+    def _check_target_group_health(self, target_group: str) -> int:
+        """Check number of healthy instances in target group"""
+        # Implementation to check target group health
+        return 0
+    
+    def _check_instance_health(self, instance_id: str) -> bool:
+        """Check if instance is healthy"""
+        # Implementation to check instance health
+        return True
+```
+
+### Sistema de Canary Deployment Automatizado
+
+Sistema completo para canary deployments con análisis automático:
+
+```python
+# canary_deployment.py - Sistema de canary deployment
+from typing import Dict, List, Optional
+from datetime import datetime, timedelta
+import time
+from dataclasses import dataclass
+from enum import Enum
+
+class CanaryStage(Enum):
+    INITIAL = "initial"  # 1%
+    SMALL = "small"      # 5%
+    MEDIUM = "medium"    # 25%
+    LARGE = "large"      # 50%
+    FULL = "full"        # 100%
+
+@dataclass
+class CanaryMetrics:
+    error_rate: float
+    latency_p50: float
+    latency_p99: float
+    throughput: float
+    timestamp: datetime
+
+class CanaryDeployment:
+    def __init__(self, metrics_collector, alerting_system):
+        self.metrics_collector = metrics_collector
+        self.alerting = alerting_system
+        self.stages = [
+            {'percentage': 1, 'duration_minutes': 15, 'min_requests': 100},
+            {'percentage': 5, 'duration_minutes': 60, 'min_requests': 500},
+            {'percentage': 25, 'duration_minutes': 240, 'min_requests': 2000},
+            {'percentage': 50, 'duration_minutes': 480, 'min_requests': 5000},
+            {'percentage': 100, 'duration_minutes': None, 'min_requests': None}
+        ]
+        self.thresholds = {
+            'max_error_rate_increase': 0.05,  # 5% increase
+            'max_latency_increase': 0.20,     # 20% increase
+            'min_throughput_ratio': 0.95      # 95% of baseline
+        }
+    
+    def deploy_canary(self, deployment_id: str, version: str) -> Dict:
+        """Execute canary deployment"""
+        results = {
+            'deployment_id': deployment_id,
+            'version': version,
+            'stages': [],
+            'status': 'in_progress',
+            'started_at': datetime.utcnow()
+        }
+        
+        baseline_metrics = self._get_baseline_metrics()
+        
+        for stage_idx, stage in enumerate(self.stages):
+            stage_result = {
+                'stage': stage_idx + 1,
+                'percentage': stage['percentage'],
+                'started_at': datetime.utcnow()
+            }
+            
+            # Set traffic percentage
+            self._set_traffic_percentage(stage['percentage'])
+            
+            # Wait and collect metrics
+            wait_until = datetime.utcnow() + timedelta(minutes=stage['duration_minutes'])
+            while datetime.utcnow() < wait_until:
+                time.sleep(60)  # Check every minute
+                
+                # Check if we have enough requests
+                if stage['min_requests']:
+                    request_count = self._get_request_count()
+                    if request_count >= stage['min_requests']:
+                        break
+            
+            # Evaluate canary metrics
+            canary_metrics = self._get_canary_metrics()
+            evaluation = self._evaluate_canary(canary_metrics, baseline_metrics)
+            
+            stage_result['evaluation'] = evaluation
+            stage_result['canary_metrics'] = canary_metrics
+            
+            # Check if we should rollback
+            if not evaluation['passed']:
+                stage_result['action'] = 'rollback'
+                results['stages'].append(stage_result)
+                results['status'] = 'rolled_back'
+                results['rolled_back_at'] = datetime.utcnow()
+                self._rollback()
+                return results
+            
+            stage_result['action'] = 'continue'
+            results['stages'].append(stage_result)
+        
+        # All stages passed
+        results['status'] = 'completed'
+        results['completed_at'] = datetime.utcnow()
+        self._promote_to_production()
+        
+        return results
+    
+    def _evaluate_canary(self, canary_metrics: CanaryMetrics,
+                        baseline_metrics: CanaryMetrics) -> Dict:
+        """Evaluate canary performance against baseline"""
+        error_rate_increase = (
+            canary_metrics.error_rate - baseline_metrics.error_rate
+        ) / max(baseline_metrics.error_rate, 0.001)
+        
+        latency_increase = (
+            canary_metrics.latency_p99 - baseline_metrics.latency_p99
+        ) / baseline_metrics.latency_p99
+        
+        throughput_ratio = (
+            canary_metrics.throughput / baseline_metrics.throughput
+        )
+        
+        passed = (
+            error_rate_increase <= self.thresholds['max_error_rate_increase'] and
+            latency_increase <= self.thresholds['max_latency_increase'] and
+            throughput_ratio >= self.thresholds['min_throughput_ratio']
+        )
+        
+        return {
+            'passed': passed,
+            'error_rate_increase': error_rate_increase,
+            'latency_increase': latency_increase,
+            'throughput_ratio': throughput_ratio,
+            'issues': self._identify_issues(canary_metrics, baseline_metrics)
+        }
+    
+    def _identify_issues(self, canary: CanaryMetrics, 
+                        baseline: CanaryMetrics) -> List[str]:
+        """Identify specific issues with canary"""
+        issues = []
+        
+        if canary.error_rate > baseline.error_rate * 1.1:
+            issues.append(f"Error rate increased: {canary.error_rate:.2%} vs {baseline.error_rate:.2%}")
+        
+        if canary.latency_p99 > baseline.latency_p99 * 1.2:
+            issues.append(f"P99 latency increased: {canary.latency_p99}ms vs {baseline.latency_p99}ms")
+        
+        if canary.throughput < baseline.throughput * 0.95:
+            issues.append(f"Throughput decreased: {canary.throughput} vs {baseline.throughput}")
+        
+        return issues
+    
+    def _get_baseline_metrics(self) -> CanaryMetrics:
+        """Get baseline metrics from production"""
+        return self.metrics_collector.get_production_metrics()
+    
+    def _get_canary_metrics(self) -> CanaryMetrics:
+        """Get current canary metrics"""
+        return self.metrics_collector.get_canary_metrics()
+    
+    def _set_traffic_percentage(self, percentage: float):
+        """Set traffic percentage for canary"""
+        # Implementation to update load balancer weights
+        pass
+    
+    def _get_request_count(self) -> int:
+        """Get request count for canary"""
+        return self.metrics_collector.get_canary_request_count()
+    
+    def _rollback(self):
+        """Rollback canary deployment"""
+        self._set_traffic_percentage(0)
+        print("Canary deployment rolled back")
+    
+    def _promote_to_production(self):
+        """Promote canary to production"""
+        self._set_traffic_percentage(100)
+        print("Canary promoted to production")
+```
+
+---
+
+## 🔄 Sistemas de Procesamiento de Eventos Avanzados
+
+### Sistema de Event Sourcing Completo
+
+Sistema completo de event sourcing con snapshots y replay:
+
+```python
+# event_sourcing.py - Sistema de event sourcing completo
+from typing import Dict, List, Optional, Any, Callable
+from dataclasses import dataclass, field
+from datetime import datetime
+from enum import Enum
+import json
+import uuid
+
+class EventType(Enum):
+    CREATED = "created"
+    UPDATED = "updated"
+    DELETED = "deleted"
+    STATE_CHANGED = "state_changed"
+
+@dataclass
+class Event:
+    event_id: str
+    aggregate_id: str
+    aggregate_type: str
+    event_type: EventType
+    event_data: Dict[str, Any]
+    version: int
+    timestamp: datetime
+    metadata: Dict[str, Any] = field(default_factory=dict)
+
+@dataclass
+class Snapshot:
+    aggregate_id: str
+    aggregate_type: str
+    state: Dict[str, Any]
+    version: int
+    timestamp: datetime
+
+class EventStore:
+    def __init__(self, storage_backend):
+        self.storage = storage_backend
+        self.event_handlers: Dict[str, List[Callable]] = {}
+        self.snapshot_interval = 10  # Create snapshot every N events
+    
+    def append_event(self, aggregate_id: str, aggregate_type: str,
+                    event_type: EventType, event_data: Dict[str, Any],
+                    metadata: Dict[str, Any] = None) -> Event:
+        """Append event to store"""
+        # Get current version
+        current_version = self._get_current_version(aggregate_id)
+        new_version = current_version + 1
+        
+        event = Event(
+            event_id=str(uuid.uuid4()),
+            aggregate_id=aggregate_id,
+            aggregate_type=aggregate_type,
+            event_type=event_type,
+            event_data=event_data,
+            version=new_version,
+            timestamp=datetime.utcnow(),
+            metadata=metadata or {}
+        )
+        
+        # Store event
+        self.storage.store_event(event)
+        
+        # Create snapshot if needed
+        if new_version % self.snapshot_interval == 0:
+            self._create_snapshot(aggregate_id, aggregate_type)
+        
+        # Publish to event handlers
+        self._publish_event(event)
+        
+        return event
+    
+    def get_events(self, aggregate_id: str, from_version: int = 0) -> List[Event]:
+        """Get events for aggregate"""
+        return self.storage.get_events(aggregate_id, from_version)
+    
+    def replay_events(self, aggregate_id: str, 
+                     apply_function: Callable) -> Any:
+        """Replay events to rebuild aggregate state"""
+        events = self.get_events(aggregate_id)
+        state = None
+        
+        for event in events:
+            state = apply_function(state, event)
+        
+        return state
+    
+    def get_aggregate_state(self, aggregate_id: str,
+                           apply_function: Callable) -> Dict[str, Any]:
+        """Get current aggregate state (using snapshot if available)"""
+        # Try to get latest snapshot
+        snapshot = self.storage.get_latest_snapshot(aggregate_id)
+        
+        if snapshot:
+            # Replay events after snapshot
+            events = self.get_events(aggregate_id, from_version=snapshot.version + 1)
+            state = snapshot.state.copy()
+        else:
+            # Replay all events
+            events = self.get_events(aggregate_id)
+            state = None
+        
+        # Apply events
+        for event in events:
+            state = apply_function(state, event)
+        
+        return state
+    
+    def subscribe(self, event_type: EventType, handler: Callable):
+        """Subscribe to events"""
+        if event_type not in self.event_handlers:
+            self.event_handlers[event_type] = []
+        self.event_handlers[event_type].append(handler)
+    
+    def _publish_event(self, event: Event):
+        """Publish event to subscribers"""
+        handlers = self.event_handlers.get(event.event_type, [])
+        for handler in handlers:
+            try:
+                handler(event)
+            except Exception as e:
+                print(f"Error in event handler: {e}")
+    
+    def _get_current_version(self, aggregate_id: str) -> int:
+        """Get current version of aggregate"""
+        events = self.get_events(aggregate_id)
+        return len(events)
+    
+    def _create_snapshot(self, aggregate_id: str, aggregate_type: str):
+        """Create snapshot of aggregate state"""
+        # This would rebuild state and save snapshot
+        pass
+```
+
+### Sistema de CQRS (Command Query Responsibility Segregation)
+
+Sistema completo de CQRS con separación de lectura y escritura:
+
+```python
+# cqrs_system.py - Sistema CQRS completo
+from typing import Dict, List, Optional, Any
+from dataclasses import dataclass
+from datetime import datetime
+from abc import ABC, abstractmethod
+import asyncio
+
+class Command(ABC):
+    """Base class for commands"""
+    command_id: str
+    timestamp: datetime
+
+class Query(ABC):
+    """Base class for queries"""
+    query_id: str
+    timestamp: datetime
+
+@dataclass
+class CreateUserCommand(Command):
+    command_id: str
+    user_id: str
+    email: str
+    name: str
+    timestamp: datetime
+
+@dataclass
+class GetUserQuery(Query):
+    query_id: str
+    user_id: str
+    timestamp: datetime
+
+class CommandHandler(ABC):
+    @abstractmethod
+    async def handle(self, command: Command) -> Any:
+        """Handle command"""
+        pass
+
+class QueryHandler(ABC):
+    @abstractmethod
+    async def handle(self, query: Query) -> Any:
+        """Handle query"""
+        pass
+
+class CreateUserCommandHandler(CommandHandler):
+    def __init__(self, event_store, write_model):
+        self.event_store = event_store
+        self.write_model = write_model
+    
+    async def handle(self, command: CreateUserCommand) -> Dict:
+        """Handle create user command"""
+        # Validate command
+        if not command.email or '@' not in command.email:
+            raise ValueError("Invalid email")
+        
+        # Create event
+        event = self.event_store.append_event(
+            aggregate_id=command.user_id,
+            aggregate_type="User",
+            event_type=EventType.CREATED,
+            event_data={
+                "user_id": command.user_id,
+                "email": command.email,
+                "name": command.name
+            }
+        )
+        
+        return {
+            "user_id": command.user_id,
+            "event_id": event.event_id,
+            "status": "created"
+        }
+
+class GetUserQueryHandler(QueryHandler):
+    def __init__(self, read_model):
+        self.read_model = read_model
+    
+    async def handle(self, query: GetUserQuery) -> Optional[Dict]:
+        """Handle get user query"""
+        return self.read_model.get_user(query.user_id)
+
+class CQRSBus:
+    def __init__(self):
+        self.command_handlers: Dict[type, CommandHandler] = {}
+        self.query_handlers: Dict[type, QueryHandler] = {}
+    
+    def register_command_handler(self, command_type: type, handler: CommandHandler):
+        """Register command handler"""
+        self.command_handlers[command_type] = handler
+    
+    def register_query_handler(self, query_type: type, handler: QueryHandler):
+        """Register query handler"""
+        self.query_handlers[query_type] = handler
+    
+    async def execute_command(self, command: Command) -> Any:
+        """Execute command"""
+        handler = self.command_handlers.get(type(command))
+        if not handler:
+            raise ValueError(f"No handler for command type {type(command)}")
+        return await handler.handle(command)
+    
+    async def execute_query(self, query: Query) -> Any:
+        """Execute query"""
+        handler = self.query_handlers.get(type(query))
+        if not handler:
+            raise ValueError(f"No handler for query type {type(query)}")
+        return await handler.handle(query)
+```
+
+---
+
+## 🔄 Sistemas de Sincronización de Datos
+
+### Sistema de CDC (Change Data Capture)
+
+Sistema completo para capturar cambios en base de datos:
+
+```python
+# cdc_system.py - Sistema de Change Data Capture
+from typing import Dict, List, Optional, Callable
+from datetime import datetime
+import psycopg2
+from psycopg2.extras import LogicalReplicationConnection
+import json
+
+class ChangeEvent:
+    def __init__(self, table: str, operation: str, 
+                 old_data: Dict, new_data: Dict, timestamp: datetime):
+        self.table = table
+        self.operation = operation  # 'INSERT', 'UPDATE', 'DELETE'
+        self.old_data = old_data
+        self.new_data = new_data
+        self.timestamp = timestamp
+
+class CDCCapture:
+    def __init__(self, connection_string: str, slot_name: str):
+        self.connection_string = connection_string
+        self.slot_name = slot_name
+        self.subscribers: List[Callable] = []
+    
+    def start_capture(self):
+        """Start capturing changes"""
+        conn = psycopg2.connect(
+            self.connection_string,
+            connection_factory=LogicalReplicationConnection
+        )
+        
+        # Create replication slot if not exists
+        with conn.cursor() as cur:
+            try:
+                cur.execute(
+                    f"SELECT * FROM pg_create_logical_replication_slot('{self.slot_name}', 'pgoutput')"
+                )
+            except psycopg2.errors.DuplicateObject:
+                pass  # Slot already exists
+        
+        # Start replication
+        with conn.cursor() as cur:
+            cur.start_replication(slot_name=self.slot_name, decode=True)
+            
+            for change in cur:
+                event = self._parse_change(change)
+                if event:
+                    self._notify_subscribers(event)
+    
+    def subscribe(self, handler: Callable):
+        """Subscribe to change events"""
+        self.subscribers.append(handler)
+    
+    def _parse_change(self, change) -> Optional[ChangeEvent]:
+        """Parse replication change to ChangeEvent"""
+        # Parse WAL message
+        # This is simplified - actual implementation would parse WAL format
+        return None
+    
+    def _notify_subscribers(self, event: ChangeEvent):
+        """Notify all subscribers of change"""
+        for handler in self.subscribers:
+            try:
+                handler(event)
+            except Exception as e:
+                print(f"Error in CDC subscriber: {e}")
+
+class CDCProcessor:
+    def __init__(self, cdc_capture: CDCCapture):
+        self.cdc_capture = cdc_capture
+        self.processors: Dict[str, Callable] = {}
+    
+    def register_processor(self, table: str, processor: Callable):
+        """Register processor for table"""
+        self.processors[table] = processor
+    
+    def process_event(self, event: ChangeEvent):
+        """Process CDC event"""
+        processor = self.processors.get(event.table)
+        if processor:
+            processor(event)
+        else:
+            # Default processing
+            self._default_process(event)
+    
+    def _default_process(self, event: ChangeEvent):
+        """Default event processing"""
+        if event.operation == 'INSERT':
+            # Handle insert
+            pass
+        elif event.operation == 'UPDATE':
+            # Handle update
+            pass
+        elif event.operation == 'DELETE':
+            # Handle delete
+            pass
+```
+
+---
+
+## 📦 Sistemas de Batch Processing Avanzados
+
+### Sistema de Procesamiento por Lotes con Prioridades
+
+Sistema completo para procesamiento por lotes con gestión de prioridades:
+
+```python
+# batch_processor.py - Sistema de batch processing avanzado
+from typing import List, Dict, Optional, Callable, Any
+from dataclasses import dataclass, field
+from datetime import datetime
+from enum import Enum
+import asyncio
+from queue import PriorityQueue
+import threading
+
+class Priority(Enum):
+    LOW = 1
+    MEDIUM = 2
+    HIGH = 3
+    URGENT = 4
+
+@dataclass
+class BatchJob:
+    job_id: str
+    priority: Priority
+    items: List[Any]
+    processor: Callable
+    created_at: datetime
+    max_retries: int = 3
+    retry_count: int = 0
+    status: str = "pending"
+    
+    def __lt__(self, other):
+        """Compare by priority (higher priority first)"""
+        if self.priority.value != other.priority.value:
+            return self.priority.value > other.priority.value
+        return self.created_at < other.created_at
+
+class BatchProcessor:
+    def __init__(self, max_workers: int = 4, batch_size: int = 100):
+        self.max_workers = max_workers
+        self.batch_size = batch_size
+        self.job_queue = PriorityQueue()
+        self.active_jobs: Dict[str, BatchJob] = {}
+        self.completed_jobs: List[BatchJob] = []
+        self.workers = []
+        self.running = False
+    
+    def submit_job(self, job: BatchJob):
+        """Submit batch job for processing"""
+        self.job_queue.put(job)
+        self.active_jobs[job.job_id] = job
+    
+    def start(self):
+        """Start batch processor"""
+        self.running = True
+        for i in range(self.max_workers):
+            worker = threading.Thread(target=self._worker_loop)
+            worker.daemon = True
+            worker.start()
+            self.workers.append(worker)
+    
+    def stop(self):
+        """Stop batch processor"""
+        self.running = False
+        for worker in self.workers:
+            worker.join()
+    
+    def _worker_loop(self):
+        """Worker loop for processing jobs"""
+        while self.running:
+            try:
+                job = self.job_queue.get(timeout=1)
+                self._process_job(job)
+            except:
+                continue
+    
+    def _process_job(self, job: BatchJob):
+        """Process a batch job"""
+        job.status = "processing"
+        
+        try:
+            # Process items in batches
+            for i in range(0, len(job.items), self.batch_size):
+                batch = job.items[i:i + self.batch_size]
+                result = job.processor(batch)
+                
+                # Handle result
+                self._handle_batch_result(job, batch, result)
+            
+            job.status = "completed"
+            self.completed_jobs.append(job)
+            
+        except Exception as e:
+            job.retry_count += 1
+            if job.retry_count < job.max_retries:
+                job.status = "retrying"
+                self.job_queue.put(job)
+            else:
+                job.status = "failed"
+                print(f"Job {job.job_id} failed after {job.max_retries} retries: {e}")
+        
+        finally:
+            if job.job_id in self.active_jobs:
+                del self.active_jobs[job.job_id]
+    
+    def _handle_batch_result(self, job: BatchJob, batch: List[Any], result: Any):
+        """Handle result from batch processing"""
+        # Implementation for handling results
+        pass
+    
+    def get_job_status(self, job_id: str) -> Optional[Dict]:
+        """Get status of a job"""
+        job = self.active_jobs.get(job_id)
+        if not job:
+            # Check completed jobs
+            job = next((j for j in self.completed_jobs if j.job_id == job_id), None)
+        
+        if job:
+            return {
+                'job_id': job.job_id,
+                'status': job.status,
+                'priority': job.priority.value,
+                'retry_count': job.retry_count,
+                'items_count': len(job.items)
+            }
+        return None
+```
+
+---
+
+## 🌐 Sistemas de Estado Distribuido y Consenso
+
+### Sistema de Distributed Lock Manager
+
+Sistema completo para gestión de locks distribuidos:
+
+```python
+# distributed_lock.py - Sistema de locks distribuidos
+from typing import Optional
+from datetime import datetime, timedelta
+import redis
+import time
+import uuid
+import threading
+
+class DistributedLock:
+    def __init__(self, redis_client: redis.Redis, lock_key: str, 
+                 timeout: int = 30, retry_interval: float = 0.1):
+        self.redis = redis_client
+        self.lock_key = f"lock:{lock_key}"
+        self.timeout = timeout
+        self.retry_interval = retry_interval
+        self.lock_identifier = str(uuid.uuid4())
+        self.acquired = False
+        self.refresh_thread = None
+    
+    def acquire(self, blocking: bool = True, timeout: Optional[float] = None) -> bool:
+        """Acquire distributed lock"""
+        start_time = time.time()
+        
+        while True:
+            # Try to acquire lock
+            acquired = self.redis.set(
+                self.lock_key,
+                self.lock_identifier,
+                nx=True,  # Only set if not exists
+                ex=self.timeout  # Expiration time
+            )
+            
+            if acquired:
+                self.acquired = True
+                # Start refresh thread to keep lock alive
+                self._start_refresh_thread()
+                return True
+            
+            if not blocking:
+                return False
+            
+            if timeout and (time.time() - start_time) >= timeout:
+                return False
+            
+            time.sleep(self.retry_interval)
+    
+    def release(self):
+        """Release distributed lock"""
+        if not self.acquired:
+            return
+        
+        # Stop refresh thread
+        self._stop_refresh_thread()
+        
+        # Release lock using Lua script for atomicity
+        lua_script = """
+        if redis.call("get", KEYS[1]) == ARGV[1] then
+            return redis.call("del", KEYS[1])
+        else
+            return 0
+        end
+        """
+        self.redis.eval(lua_script, 1, self.lock_key, self.lock_identifier)
+        self.acquired = False
+    
+    def _start_refresh_thread(self):
+        """Start thread to refresh lock expiration"""
+        self.refresh_thread = threading.Thread(target=self._refresh_lock, daemon=True)
+        self.refresh_thread.start()
+    
+    def _stop_refresh_thread(self):
+        """Stop refresh thread"""
+        if self.refresh_thread:
+            self.refresh_thread = None
+    
+    def _refresh_lock(self):
+        """Refresh lock expiration"""
+        while self.acquired:
+            time.sleep(self.timeout / 2)  # Refresh halfway through timeout
+            if self.acquired:
+                lua_script = """
+                if redis.call("get", KEYS[1]) == ARGV[1] then
+                    return redis.call("expire", KEYS[1], ARGV[2])
+                else
+                    return 0
+                end
+                """
+                self.redis.eval(lua_script, 1, self.lock_key, 
+                               self.lock_identifier, self.timeout)
+    
+    def __enter__(self):
+        self.acquire()
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.release()
+```
+
+### Sistema de Leader Election
+
+Sistema completo para elección de líder en sistemas distribuidos:
+
+```python
+# leader_election.py - Sistema de leader election
+from typing import Optional, Callable
+from datetime import datetime, timedelta
+import redis
+import time
+import uuid
+import threading
+
+class LeaderElection:
+    def __init__(self, redis_client: redis.Redis, election_key: str,
+                 node_id: str, lease_duration: int = 30):
+        self.redis = redis_client
+        self.election_key = f"leader:{election_key}"
+        self.node_id = node_id
+        self.lease_duration = lease_duration
+        self.is_leader = False
+        self.leader_callback: Optional[Callable] = None
+        self.follower_callback: Optional[Callable] = None
+        self.election_thread = None
+        self.running = False
+    
+    def start(self):
+        """Start leader election process"""
+        self.running = True
+        self.election_thread = threading.Thread(target=self._election_loop, daemon=True)
+        self.election_thread.start()
+    
+    def stop(self):
+        """Stop leader election"""
+        self.running = False
+        if self.is_leader:
+            self._release_leadership()
+        if self.election_thread:
+            self.election_thread.join()
+    
+    def _election_loop(self):
+        """Main election loop"""
+        while self.running:
+            try:
+                current_leader = self._get_current_leader()
+                
+                if current_leader is None:
+                    # No leader, try to become leader
+                    if self._try_become_leader():
+                        if not self.is_leader:
+                            self.is_leader = True
+                            if self.leader_callback:
+                                self.leader_callback()
+                elif current_leader == self.node_id:
+                    # I am the leader, renew lease
+                    if not self._renew_lease():
+                        # Lost leadership
+                        self.is_leader = False
+                        if self.follower_callback:
+                            self.follower_callback()
+                else:
+                    # Someone else is leader
+                    if self.is_leader:
+                        self.is_leader = False
+                        if self.follower_callback:
+                            self.follower_callback()
+                
+                time.sleep(self.lease_duration / 3)  # Check frequently
+                
+            except Exception as e:
+                print(f"Error in election loop: {e}")
+                time.sleep(1)
+    
+    def _try_become_leader(self) -> bool:
+        """Try to become the leader"""
+        lua_script = """
+        if redis.call("exists", KEYS[1]) == 0 then
+            redis.call("set", KEYS[1], ARGV[1])
+            redis.call("expire", KEYS[1], ARGV[2])
+            return 1
+        else
+            return 0
+        end
+        """
+        result = self.redis.eval(
+            lua_script, 1, self.election_key, 
+            self.node_id, self.lease_duration
+        )
+        return result == 1
+    
+    def _renew_lease(self) -> bool:
+        """Renew leadership lease"""
+        lua_script = """
+        if redis.call("get", KEYS[1]) == ARGV[1] then
+            redis.call("expire", KEYS[1], ARGV[2])
+            return 1
+        else
+            return 0
+        end
+        """
+        result = self.redis.eval(
+            lua_script, 1, self.election_key,
+            self.node_id, self.lease_duration
+        )
+        return result == 1
+    
+    def _get_current_leader(self) -> Optional[str]:
+        """Get current leader node ID"""
+        leader = self.redis.get(self.election_key)
+        return leader.decode() if leader else None
+    
+    def _release_leadership(self):
+        """Release leadership"""
+        lua_script = """
+        if redis.call("get", KEYS[1]) == ARGV[1] then
+            return redis.call("del", KEYS[1])
+        else
+            return 0
+        end
+        """
+        self.redis.eval(lua_script, 1, self.election_key, self.node_id)
+    
+    def set_leader_callback(self, callback: Callable):
+        """Set callback for when becoming leader"""
+        self.leader_callback = callback
+    
+    def set_follower_callback(self, callback: Callable):
+        """Set callback for when becoming follower"""
+        self.follower_callback = callback
+```
+
+---
+
+## ⚡ Arquitecturas Serverless Avanzadas
+
+### Sistema de Serverless Functions con Auto-Scaling
+
+Sistema completo para gestión de funciones serverless:
+
+```python
+# serverless_functions.py - Sistema de funciones serverless
+from typing import Dict, List, Optional, Callable, Any
+from dataclasses import dataclass
+from datetime import datetime
+import asyncio
+import json
+from enum import Enum
+
+class FunctionStatus(Enum):
+    IDLE = "idle"
+    RUNNING = "running"
+    ERROR = "error"
+    TIMEOUT = "timeout"
+
+@dataclass
+class FunctionInvocation:
+    invocation_id: str
+    function_name: str
+    payload: Dict[str, Any]
+    start_time: datetime
+    end_time: Optional[datetime] = None
+    status: FunctionStatus = FunctionStatus.RUNNING
+    result: Any = None
+    error: Optional[str] = None
+
+class ServerlessFunctionManager:
+    def __init__(self, min_instances: int = 0, max_instances: int = 100,
+                 timeout: int = 300):
+        self.functions: Dict[str, Callable] = {}
+        self.instances: Dict[str, List[FunctionInstance]] = {}
+        self.invocations: Dict[str, FunctionInvocation] = {}
+        self.min_instances = min_instances
+        self.max_instances = max_instances
+        self.timeout = timeout
+        self.scaling_policy = AutoScalingPolicy()
+    
+    def register_function(self, name: str, handler: Callable,
+                         memory_mb: int = 512, timeout: int = 30):
+        """Register a serverless function"""
+        self.functions[name] = handler
+        self.instances[name] = []
+    
+    async def invoke(self, function_name: str, payload: Dict[str, Any]) -> Any:
+        """Invoke a serverless function"""
+        if function_name not in self.functions:
+            raise ValueError(f"Function {function_name} not found")
+        
+        # Get or create instance
+        instance = await self._get_or_create_instance(function_name)
+        
+        # Create invocation
+        invocation = FunctionInvocation(
+            invocation_id=f"{function_name}-{int(datetime.utcnow().timestamp())}",
+            function_name=function_name,
+            payload=payload,
+            start_time=datetime.utcnow()
+        )
+        self.invocations[invocation.invocation_id] = invocation
+        
+        try:
+            # Execute function
+            result = await asyncio.wait_for(
+                instance.execute(payload),
+                timeout=self.timeout
+            )
+            
+            invocation.status = FunctionStatus.RUNNING
+            invocation.result = result
+            invocation.end_time = datetime.utcnow()
+            
+            return result
+            
+        except asyncio.TimeoutError:
+            invocation.status = FunctionStatus.TIMEOUT
+            invocation.end_time = datetime.utcnow()
+            raise TimeoutError(f"Function {function_name} timed out")
+        except Exception as e:
+            invocation.status = FunctionStatus.ERROR
+            invocation.error = str(e)
+            invocation.end_time = datetime.utcnow()
+            raise
+    
+    async def _get_or_create_instance(self, function_name: str):
+        """Get available instance or create new one"""
+        instances = self.instances[function_name]
+        
+        # Find idle instance
+        for instance in instances:
+            if instance.status == FunctionStatus.IDLE:
+                return instance
+        
+        # Check if we can create new instance
+        if len(instances) < self.max_instances:
+            instance = FunctionInstance(
+                function_name=function_name,
+                handler=self.functions[function_name]
+            )
+            instances.append(instance)
+            return instance
+        
+        # Wait for instance to become available
+        # In real implementation, would use queue
+        raise Exception("No available instances")
+    
+    def scale_function(self, function_name: str):
+        """Scale function based on demand"""
+        instances = self.instances[function_name]
+        current_load = self._calculate_load(function_name)
+        
+        target_instances = self.scaling_policy.calculate_target(
+            current_instances=len(instances),
+            current_load=current_load,
+            min_instances=self.min_instances,
+            max_instances=self.max_instances
+        )
+        
+        # Scale up or down
+        if target_instances > len(instances):
+            self._scale_up(function_name, target_instances - len(instances))
+        elif target_instances < len(instances):
+            self._scale_down(function_name, len(instances) - target_instances)
+    
+    def _calculate_load(self, function_name: str) -> float:
+        """Calculate current load for function"""
+        running = sum(1 for inv in self.invocations.values() 
+                     if inv.function_name == function_name 
+                     and inv.status == FunctionStatus.RUNNING)
+        return running / max(len(self.instances[function_name]), 1)
+    
+    def _scale_up(self, function_name: str, count: int):
+        """Scale up function instances"""
+        for _ in range(count):
+            instance = FunctionInstance(
+                function_name=function_name,
+                handler=self.functions[function_name]
+            )
+            self.instances[function_name].append(instance)
+    
+    def _scale_down(self, function_name: str, count: int):
+        """Scale down function instances"""
+        # Remove idle instances
+        instances = self.instances[function_name]
+        idle_instances = [inst for inst in instances if inst.status == FunctionStatus.IDLE]
+        
+        for instance in idle_instances[:count]:
+            instances.remove(instance)
+
+class FunctionInstance:
+    def __init__(self, function_name: str, handler: Callable):
+        self.function_name = function_name
+        self.handler = handler
+        self.status = FunctionStatus.IDLE
+    
+    async def execute(self, payload: Dict[str, Any]) -> Any:
+        """Execute function with payload"""
+        self.status = FunctionStatus.RUNNING
+        try:
+            if asyncio.iscoroutinefunction(self.handler):
+                result = await self.handler(payload)
+            else:
+                result = self.handler(payload)
+            self.status = FunctionStatus.IDLE
+            return result
+        except Exception as e:
+            self.status = FunctionStatus.ERROR
+            raise
+
+class AutoScalingPolicy:
+    def calculate_target(self, current_instances: int, current_load: float,
+                        min_instances: int, max_instances: int) -> int:
+        """Calculate target number of instances"""
+        if current_load > 0.8:  # High load
+            target = min(current_instances * 2, max_instances)
+        elif current_load < 0.2:  # Low load
+            target = max(current_instances // 2, min_instances)
+        else:
+            target = current_instances
+        
+        return target
+```
+
+---
+
+## 🔄 Sistemas de Circuit Breaker y Resiliencia
+
+### Sistema de Circuit Breaker Avanzado
+
+Sistema completo de circuit breaker con estados y métricas:
+
+```python
+# circuit_breaker.py - Sistema de circuit breaker avanzado
+from typing import Callable, Optional, Any
+from datetime import datetime, timedelta
+from enum import Enum
+from dataclasses import dataclass
+import time
+
+class CircuitState(Enum):
+    CLOSED = "closed"      # Normal operation
+    OPEN = "open"          # Failing, reject requests
+    HALF_OPEN = "half_open"  # Testing if service recovered
+
+@dataclass
+class CircuitBreakerConfig:
+    failure_threshold: int = 5  # Open after N failures
+    success_threshold: int = 2  # Close after N successes in half-open
+    timeout: int = 60  # Time before trying half-open
+    expected_exception: type = Exception
+
+class CircuitBreaker:
+    def __init__(self, name: str, config: CircuitBreakerConfig = None):
+        self.name = name
+        self.config = config or CircuitBreakerConfig()
+        self.state = CircuitState.CLOSED
+        self.failure_count = 0
+        self.success_count = 0
+        self.last_failure_time: Optional[datetime] = None
+        self.last_success_time: Optional[datetime] = None
+        self.total_requests = 0
+        self.total_failures = 0
+    
+    def call(self, func: Callable, *args, **kwargs) -> Any:
+        """Execute function with circuit breaker protection"""
+        self.total_requests += 1
+        
+        # Check if circuit should transition
+        self._check_state_transition()
+        
+        if self.state == CircuitState.OPEN:
+            raise CircuitBreakerOpenError(
+                f"Circuit breaker {self.name} is OPEN"
+            )
+        
+        try:
+            result = func(*args, **kwargs)
+            self._on_success()
+            return result
+        except self.config.expected_exception as e:
+            self._on_failure()
+            raise
+    
+    def _check_state_transition(self):
+        """Check and perform state transitions"""
+        if self.state == CircuitState.OPEN:
+            # Check if timeout has passed
+            if self.last_failure_time:
+                elapsed = (datetime.utcnow() - self.last_failure_time).total_seconds()
+                if elapsed >= self.config.timeout:
+                    self.state = CircuitState.HALF_OPEN
+                    self.success_count = 0
+                    print(f"Circuit breaker {self.name} transitioning to HALF_OPEN")
+        
+        elif self.state == CircuitState.HALF_OPEN:
+            # Already handled in _on_success/_on_failure
+            pass
+    
+    def _on_success(self):
+        """Handle successful call"""
+        self.last_success_time = datetime.utcnow()
+        
+        if self.state == CircuitState.HALF_OPEN:
+            self.success_count += 1
+            if self.success_count >= self.config.success_threshold:
+                self.state = CircuitState.CLOSED
+                self.failure_count = 0
+                print(f"Circuit breaker {self.name} CLOSED - service recovered")
+        elif self.state == CircuitState.CLOSED:
+            # Reset failure count on success
+            self.failure_count = 0
+    
+    def _on_failure(self):
+        """Handle failed call"""
+        self.total_failures += 1
+        self.last_failure_time = datetime.utcnow()
+        self.failure_count += 1
+        
+        if self.state == CircuitState.HALF_OPEN:
+            # Failed during half-open, go back to open
+            self.state = CircuitState.OPEN
+            self.success_count = 0
+            print(f"Circuit breaker {self.name} OPEN - service still failing")
+        elif self.state == CircuitState.CLOSED:
+            if self.failure_count >= self.config.failure_threshold:
+                self.state = CircuitState.OPEN
+                print(f"Circuit breaker {self.name} OPEN - too many failures")
+    
+    def get_stats(self) -> dict:
+        """Get circuit breaker statistics"""
+        failure_rate = (
+            self.total_failures / self.total_requests 
+            if self.total_requests > 0 else 0
+        )
+        
+        return {
+            'name': self.name,
+            'state': self.state.value,
+            'failure_count': self.failure_count,
+            'success_count': self.success_count,
+            'total_requests': self.total_requests,
+            'total_failures': self.total_failures,
+            'failure_rate': failure_rate,
+            'last_failure_time': self.last_failure_time.isoformat() if self.last_failure_time else None,
+            'last_success_time': self.last_success_time.isoformat() if self.last_success_time else None
+        }
+
+class CircuitBreakerOpenError(Exception):
+    """Exception raised when circuit breaker is open"""
+    pass
+```
+
+### Sistema de Retry con Backoff Exponencial
+
+Sistema completo de retry con diferentes estrategias:
+
+```python
+# retry_system.py - Sistema de retry avanzado
+from typing import Callable, Optional, List, Type
+from datetime import datetime, timedelta
+import time
+import random
+from functools import wraps
+from enum import Enum
+
+class BackoffStrategy(Enum):
+    FIXED = "fixed"
+    EXPONENTIAL = "exponential"
+    LINEAR = "linear"
+    JITTER = "jitter"
+
+class RetryConfig:
+    def __init__(self, max_attempts: int = 3, 
+                 initial_delay: float = 1.0,
+                 max_delay: float = 60.0,
+                 backoff_strategy: BackoffStrategy = BackoffStrategy.EXPONENTIAL,
+                 retryable_exceptions: List[Type[Exception]] = None):
+        self.max_attempts = max_attempts
+        self.initial_delay = initial_delay
+        self.max_delay = max_delay
+        self.backoff_strategy = backoff_strategy
+        self.retryable_exceptions = retryable_exceptions or [Exception]
+
+def retry(config: RetryConfig = None):
+    """Decorator for retrying functions"""
+    if config is None:
+        config = RetryConfig()
+    
+    def decorator(func: Callable):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            last_exception = None
+            
+            for attempt in range(1, config.max_attempts + 1):
+                try:
+                    return func(*args, **kwargs)
+                except tuple(config.retryable_exceptions) as e:
+                    last_exception = e
+                    
+                    if attempt == config.max_attempts:
+                        raise
+                    
+                    # Calculate delay
+                    delay = _calculate_delay(
+                        attempt, config.initial_delay, 
+                        config.max_delay, config.backoff_strategy
+                    )
+                    
+                    print(f"Attempt {attempt} failed: {e}. Retrying in {delay:.2f}s...")
+                    time.sleep(delay)
+            
+            raise last_exception
+        return wrapper
+    return decorator
+
+def _calculate_delay(attempt: int, initial_delay: float, 
+                    max_delay: float, strategy: BackoffStrategy) -> float:
+    """Calculate delay based on strategy"""
+    if strategy == BackoffStrategy.FIXED:
+        delay = initial_delay
+    elif strategy == BackoffStrategy.EXPONENTIAL:
+        delay = initial_delay * (2 ** (attempt - 1))
+    elif strategy == BackoffStrategy.LINEAR:
+        delay = initial_delay * attempt
+    elif strategy == BackoffStrategy.JITTER:
+        base_delay = initial_delay * (2 ** (attempt - 1))
+        jitter = random.uniform(0, base_delay * 0.1)
+        delay = base_delay + jitter
+    else:
+        delay = initial_delay
+    
+    return min(delay, max_delay)
+```
+
+---
+
+## 📨 Sistemas de Message Queue Avanzados
+
+### Sistema de Message Queue con Prioridades y Dead Letter Queue
+
+Sistema completo de colas de mensajes con características avanzadas:
+
+```python
+# message_queue.py - Sistema de message queue avanzado
+from typing import Dict, List, Optional, Any, Callable
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta
+from enum import Enum
+import json
+import redis
+import uuid
+import time
+
+class MessagePriority(Enum):
+    LOW = 1
+    NORMAL = 2
+    HIGH = 3
+    URGENT = 4
+
+@dataclass
+class Message:
+    message_id: str
+    queue_name: str
+    payload: Dict[str, Any]
+    priority: MessagePriority = MessagePriority.NORMAL
+    created_at: datetime = field(default_factory=datetime.utcnow)
+    attempts: int = 0
+    max_attempts: int = 3
+    visibility_timeout: int = 30
+    metadata: Dict[str, Any] = field(default_factory=dict)
+
+class MessageQueue:
+    def __init__(self, redis_client: redis.Redis):
+        self.redis = redis_client
+        self.queues: Dict[str, List[str]] = {}
+        self.dlq_prefix = "dlq:"
+    
+    def enqueue(self, queue_name: str, payload: Dict[str, Any],
+               priority: MessagePriority = MessagePriority.NORMAL,
+               delay_seconds: int = 0) -> str:
+        """Enqueue a message"""
+        message = Message(
+            message_id=str(uuid.uuid4()),
+            queue_name=queue_name,
+            payload=payload,
+            priority=priority
+        )
+        
+        # Serialize message
+        message_data = json.dumps({
+            'message_id': message.message_id,
+            'payload': message.payload,
+            'priority': message.priority.value,
+            'created_at': message.created_at.isoformat(),
+            'attempts': message.attempts,
+            'max_attempts': message.max_attempts,
+            'metadata': message.metadata
+        })
+        
+        # Add to queue with priority
+        queue_key = f"queue:{queue_name}"
+        score = time.time() + delay_seconds
+        
+        # Use sorted set for priority ordering
+        # Higher priority = lower score (processed first)
+        priority_score = 1.0 / message.priority.value
+        
+        self.redis.zadd(
+            queue_key,
+            {message_data: score - priority_score}
+        )
+        
+        return message.message_id
+    
+    def dequeue(self, queue_name: str, timeout: int = 0) -> Optional[Message]:
+        """Dequeue a message"""
+        queue_key = f"queue:{queue_name}"
+        
+        # Get message with highest priority (lowest score)
+        messages = self.redis.zrange(queue_key, 0, 0, withscores=True)
+        
+        if not messages:
+            if timeout > 0:
+                # Blocking wait
+                result = self.redis.bzpopmin(queue_key, timeout=timeout)
+                if result:
+                    queue, message_data, score = result
+                    messages = [(message_data, score)]
+                else:
+                    return None
+            else:
+                return None
+        
+        message_data, score = messages[0]
+        
+        # Remove from queue (will be re-added if processing fails)
+        self.redis.zrem(queue_key, message_data)
+        
+        # Parse message
+        data = json.loads(message_data)
+        message = Message(
+            message_id=data['message_id'],
+            queue_name=queue_name,
+            payload=data['payload'],
+            priority=MessagePriority(data['priority']),
+            created_at=datetime.fromisoformat(data['created_at']),
+            attempts=data['attempts'],
+            max_attempts=data['max_attempts'],
+            metadata=data.get('metadata', {})
+        )
+        
+        # Set visibility timeout (message will reappear if not processed)
+        visibility_key = f"visibility:{queue_name}:{message.message_id}"
+        self.redis.setex(visibility_key, message.visibility_timeout, "1")
+        
+        return message
+    
+    def acknowledge(self, queue_name: str, message_id: str):
+        """Acknowledge message processing"""
+        visibility_key = f"visibility:{queue_name}:{message_id}"
+        self.redis.delete(visibility_key)
+    
+    def nack(self, queue_name: str, message: Message):
+        """Negative acknowledge - requeue or send to DLQ"""
+        message.attempts += 1
+        
+        if message.attempts >= message.max_attempts:
+            # Send to dead letter queue
+            self._send_to_dlq(queue_name, message)
+        else:
+            # Requeue with backoff
+            delay = 2 ** message.attempts  # Exponential backoff
+            self.enqueue(
+                queue_name, 
+                message.payload, 
+                message.priority,
+                delay_seconds=delay
+            )
+    
+    def _send_to_dlq(self, queue_name: str, message: Message):
+        """Send message to dead letter queue"""
+        dlq_key = f"{self.dlq_prefix}{queue_name}"
+        message_data = json.dumps({
+            'message_id': message.message_id,
+            'payload': message.payload,
+            'original_queue': queue_name,
+            'failed_at': datetime.utcnow().isoformat(),
+            'attempts': message.attempts
+        })
+        self.redis.lpush(dlq_key, message_data)
+    
+    def get_queue_stats(self, queue_name: str) -> Dict:
+        """Get queue statistics"""
+        queue_key = f"queue:{queue_name}"
+        dlq_key = f"{self.dlq_prefix}{queue_name}"
+        
+        return {
+            'queue_name': queue_name,
+            'pending_messages': self.redis.zcard(queue_key),
+            'dlq_messages': self.redis.llen(dlq_key),
+            'queue_size_bytes': self.redis.memory_usage(queue_key) or 0
+        }
+```
+
+---
+
+## 🔍 Sistemas de Búsqueda y Indexación
+
+### Sistema de Búsqueda Full-Text con Elasticsearch
+
+Sistema completo de búsqueda e indexación:
+
+```python
+# search_system.py - Sistema de búsqueda avanzado
+from typing import Dict, List, Optional, Any
+from datetime import datetime
+from dataclasses import dataclass
+from elasticsearch import Elasticsearch
+from elasticsearch.helpers import bulk
+
+@dataclass
+class SearchResult:
+    document_id: str
+    score: float
+    document: Dict[str, Any]
+    highlights: Dict[str, List[str]] = None
+
+class SearchEngine:
+    def __init__(self, es_client: Elasticsearch, index_name: str):
+        self.es = es_client
+        self.index_name = index_name
+        self._create_index_if_not_exists()
+    
+    def _create_index_if_not_exists(self):
+        """Create index with mapping if it doesn't exist"""
+        if not self.es.indices.exists(index=self.index_name):
+            mapping = {
+                "mappings": {
+                    "properties": {
+                        "title": {"type": "text", "analyzer": "standard"},
+                        "content": {"type": "text", "analyzer": "standard"},
+                        "tags": {"type": "keyword"},
+                        "created_at": {"type": "date"},
+                        "updated_at": {"type": "date"}
+                    }
+                },
+                "settings": {
+                    "number_of_shards": 1,
+                    "number_of_replicas": 1,
+                    "analysis": {
+                        "analyzer": {
+                            "custom_analyzer": {
+                                "type": "custom",
+                                "tokenizer": "standard",
+                                "filter": ["lowercase", "stop", "snowball"]
+                            }
+                        }
+                    }
+                }
+            }
+            self.es.indices.create(index=self.index_name, body=mapping)
+    
+    def index_document(self, doc_id: str, document: Dict[str, Any]):
+        """Index a document"""
+        self.es.index(
+            index=self.index_name,
+            id=doc_id,
+            body=document
+        )
+    
+    def bulk_index(self, documents: List[Dict[str, Any]]):
+        """Bulk index documents"""
+        actions = [
+            {
+                "_index": self.index_name,
+                "_id": doc.get("id"),
+                "_source": doc
+            }
+            for doc in documents
+        ]
+        bulk(self.es, actions)
+    
+    def search(self, query: str, filters: Dict[str, Any] = None,
+              size: int = 10, from_: int = 0) -> List[SearchResult]:
+        """Search documents"""
+        search_body = {
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "multi_match": {
+                                "query": query,
+                                "fields": ["title^2", "content"],
+                                "type": "best_fields",
+                                "fuzziness": "AUTO"
+                            }
+                        }
+                    ]
+                }
+            },
+            "highlight": {
+                "fields": {
+                    "title": {},
+                    "content": {"fragment_size": 150, "number_of_fragments": 3}
+                }
+            },
+            "size": size,
+            "from": from_
+        }
+        
+        # Add filters
+        if filters:
+            search_body["query"]["bool"]["filter"] = [
+                {"term": {k: v}} for k, v in filters.items()
+            ]
+        
+        response = self.es.search(index=self.index_name, body=search_body)
+        
+        results = []
+        for hit in response["hits"]["hits"]:
+            result = SearchResult(
+                document_id=hit["_id"],
+                score=hit["_score"],
+                document=hit["_source"],
+                highlights=hit.get("highlight", {})
+            )
+            results.append(result)
+        
+        return results
+    
+    def delete_document(self, doc_id: str):
+        """Delete a document"""
+        self.es.delete(index=self.index_name, id=doc_id)
+    
+    def update_document(self, doc_id: str, document: Dict[str, Any]):
+        """Update a document"""
+        self.es.update(
+            index=self.index_name,
+            id=doc_id,
+            body={"doc": document}
+        )
+```
+
+---
+
+## 🚦 Sistemas de Rate Limiting Avanzados
+
+### Sistema de Rate Limiting con Múltiples Estrategias
+
+Sistema completo de rate limiting con diferentes algoritmos:
+
+```python
+# rate_limiter.py - Sistema de rate limiting avanzado
+from typing import Optional, Dict, Callable
+from datetime import datetime, timedelta
+from enum import Enum
+from dataclasses import dataclass
+import time
+import redis
+from collections import deque
+
+class RateLimitStrategy(Enum):
+    FIXED_WINDOW = "fixed_window"
+    SLIDING_WINDOW = "sliding_window"
+    TOKEN_BUCKET = "token_bucket"
+    LEAKY_BUCKET = "leaky_bucket"
+
+@dataclass
+class RateLimitConfig:
+    max_requests: int = 100
+    window_seconds: int = 60
+    strategy: RateLimitStrategy = RateLimitStrategy.SLIDING_WINDOW
+    burst_size: int = 10  # For token bucket
+
+class RateLimiter:
+    def __init__(self, redis_client: redis.Redis, config: RateLimitConfig = None):
+        self.redis = redis_client
+        self.config = config or RateLimitConfig()
+        self.local_cache: Dict[str, deque] = {}  # For in-memory tracking
+    
+    def is_allowed(self, key: str) -> tuple[bool, Optional[int]]:
+        """Check if request is allowed. Returns (allowed, remaining_requests)"""
+        if self.config.strategy == RateLimitStrategy.FIXED_WINDOW:
+            return self._fixed_window(key)
+        elif self.config.strategy == RateLimitStrategy.SLIDING_WINDOW:
+            return self._sliding_window(key)
+        elif self.config.strategy == RateLimitStrategy.TOKEN_BUCKET:
+            return self._token_bucket(key)
+        elif self.config.strategy == RateLimitStrategy.LEAKY_BUCKET:
+            return self._leaky_bucket(key)
+        else:
+            return True, None
+    
+    def _fixed_window(self, key: str) -> tuple[bool, int]:
+        """Fixed window rate limiting"""
+        window_key = f"ratelimit:fixed:{key}:{int(time.time() / self.config.window_seconds)}"
+        
+        current = self.redis.incr(window_key)
+        if current == 1:
+            self.redis.expire(window_key, self.config.window_seconds)
+        
+        remaining = max(0, self.config.max_requests - current)
+        allowed = current <= self.config.max_requests
+        
+        return allowed, remaining
+    
+    def _sliding_window(self, key: str) -> tuple[bool, int]:
+        """Sliding window rate limiting using sorted set"""
+        now = time.time()
+        window_start = now - self.config.window_seconds
+        
+        redis_key = f"ratelimit:sliding:{key}"
+        
+        # Remove old entries
+        self.redis.zremrangebyscore(redis_key, 0, window_start)
+        
+        # Count current requests
+        current = self.redis.zcard(redis_key)
+        
+        if current < self.config.max_requests:
+            # Add current request
+            self.redis.zadd(redis_key, {str(now): now})
+            self.redis.expire(redis_key, self.config.window_seconds)
+            remaining = self.config.max_requests - current - 1
+            return True, remaining
+        else:
+            # Get oldest request time
+            oldest = self.redis.zrange(redis_key, 0, 0, withscores=True)
+            if oldest:
+                retry_after = int(oldest[0][1] + self.config.window_seconds - now)
+            else:
+                retry_after = self.config.window_seconds
+            
+            remaining = 0
+            return False, remaining
+    
+    def _token_bucket(self, key: str) -> tuple[bool, int]:
+        """Token bucket rate limiting"""
+        redis_key = f"ratelimit:token:{key}"
+        now = time.time()
+        
+        # Get current state
+        pipe = self.redis.pipeline()
+        pipe.hgetall(redis_key)
+        pipe.expire(redis_key, self.config.window_seconds * 2)
+        results = pipe.execute()
+        
+        bucket_data = results[0] if results[0] else {}
+        
+        tokens = float(bucket_data.get('tokens', self.config.burst_size))
+        last_refill = float(bucket_data.get('last_refill', now))
+        
+        # Refill tokens
+        time_passed = now - last_refill
+        refill_rate = self.config.max_requests / self.config.window_seconds
+        tokens = min(self.config.burst_size, tokens + time_passed * refill_rate)
+        
+        if tokens >= 1:
+            tokens -= 1
+            allowed = True
+        else:
+            allowed = False
+        
+        # Update bucket
+        self.redis.hset(redis_key, mapping={
+            'tokens': tokens,
+            'last_refill': now
+        })
+        self.redis.expire(redis_key, self.config.window_seconds * 2)
+        
+        remaining = int(tokens)
+        return allowed, remaining
+    
+    def _leaky_bucket(self, key: str) -> tuple[bool, int]:
+        """Leaky bucket rate limiting"""
+        redis_key = f"ratelimit:leaky:{key}"
+        now = time.time()
+        
+        pipe = self.redis.pipeline()
+        pipe.hgetall(redis_key)
+        pipe.expire(redis_key, self.config.window_seconds * 2)
+        results = pipe.execute()
+        
+        bucket_data = results[0] if results[0] else {}
+        
+        queue_size = int(bucket_data.get('queue_size', 0))
+        last_leak = float(bucket_data.get('last_leak', now))
+        
+        # Leak requests from queue
+        time_passed = now - last_leak
+        leak_rate = self.config.max_requests / self.config.window_seconds
+        leaked = int(time_passed * leak_rate)
+        queue_size = max(0, queue_size - leaked)
+        
+        if queue_size < self.config.max_requests:
+            queue_size += 1
+            allowed = True
+        else:
+            allowed = False
+        
+        # Update bucket
+        self.redis.hset(redis_key, mapping={
+            'queue_size': queue_size,
+            'last_leak': now
+        })
+        self.redis.expire(redis_key, self.config.window_seconds * 2)
+        
+        remaining = max(0, self.config.max_requests - queue_size)
+        return allowed, remaining
+```
+
+---
+
+## 🔔 Sistemas de Webhooks y Event Processing
+
+### Sistema de Webhooks con Retry y Validación
+
+Sistema completo de webhooks con características avanzadas:
+
+```python
+# webhook_system.py - Sistema de webhooks avanzado
+from typing import Dict, List, Optional, Any, Callable
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta
+from enum import Enum
+import json
+import hmac
+import hashlib
+import requests
+from urllib.parse import urlparse
+import uuid
+
+class WebhookStatus(Enum):
+    PENDING = "pending"
+    SENT = "sent"
+    FAILED = "failed"
+    RETRYING = "retrying"
+
+@dataclass
+class Webhook:
+    webhook_id: str
+    url: str
+    event_type: str
+    payload: Dict[str, Any]
+    headers: Dict[str, str] = field(default_factory=dict)
+    secret: Optional[str] = None
+    status: WebhookStatus = WebhookStatus.PENDING
+    created_at: datetime = field(default_factory=datetime.utcnow)
+    attempts: int = 0
+    max_attempts: int = 3
+    next_retry_at: Optional[datetime] = None
+
+class WebhookManager:
+    def __init__(self, redis_client=None):
+        self.redis = redis_client
+        self.webhooks: Dict[str, Webhook] = {}
+    
+    def register_webhook(self, url: str, event_types: List[str],
+                        secret: Optional[str] = None,
+                        headers: Dict[str, str] = None) -> str:
+        """Register a webhook endpoint"""
+        webhook_id = str(uuid.uuid4())
+        
+        webhook_config = {
+            'webhook_id': webhook_id,
+            'url': url,
+            'event_types': event_types,
+            'secret': secret,
+            'headers': headers or {}
+        }
+        
+        if self.redis:
+            self.redis.hset(f"webhook:config:{webhook_id}", mapping={
+                k: json.dumps(v) if isinstance(v, (dict, list)) else str(v)
+                for k, v in webhook_config.items()
+            })
+        
+        return webhook_id
+    
+    def trigger_webhook(self, event_type: str, payload: Dict[str, Any],
+                       webhook_id: Optional[str] = None) -> str:
+        """Trigger a webhook for an event"""
+        webhook = Webhook(
+            webhook_id=str(uuid.uuid4()),
+            url="",  # Will be set from config
+            event_type=event_type,
+            payload=payload
+        )
+        
+        if webhook_id and self.redis:
+            # Get webhook config
+            config = self.redis.hgetall(f"webhook:config:{webhook_id}")
+            if config:
+                webhook.url = config.get('url', '')
+                webhook.secret = config.get('secret')
+                webhook.headers = json.loads(config.get('headers', '{}'))
+        
+        # Add signature if secret exists
+        if webhook.secret:
+            signature = self._generate_signature(webhook.payload, webhook.secret)
+            webhook.headers['X-Webhook-Signature'] = signature
+        
+        # Queue webhook for delivery
+        self._queue_webhook(webhook)
+        
+        return webhook.webhook_id
+    
+    def _generate_signature(self, payload: Dict[str, Any], secret: str) -> str:
+        """Generate HMAC signature for webhook"""
+        payload_str = json.dumps(payload, sort_keys=True)
+        signature = hmac.new(
+            secret.encode('utf-8'),
+            payload_str.encode('utf-8'),
+            hashlib.sha256
+        ).hexdigest()
+        return signature
+    
+    def _queue_webhook(self, webhook: Webhook):
+        """Queue webhook for delivery"""
+        if self.redis:
+            webhook_data = {
+                'webhook_id': webhook.webhook_id,
+                'url': webhook.url,
+                'event_type': webhook.event_type,
+                'payload': json.dumps(webhook.payload),
+                'headers': json.dumps(webhook.headers),
+                'status': webhook.status.value,
+                'created_at': webhook.created_at.isoformat(),
+                'attempts': webhook.attempts,
+                'max_attempts': webhook.max_attempts
+            }
+            self.redis.lpush('webhook:queue', json.dumps(webhook_data))
+        else:
+            self.webhooks[webhook.webhook_id] = webhook
+    
+    def deliver_webhook(self, webhook: Webhook) -> bool:
+        """Deliver a webhook"""
+        try:
+            response = requests.post(
+                webhook.url,
+                json=webhook.payload,
+                headers=webhook.headers,
+                timeout=10
+            )
+            response.raise_for_status()
+            
+            webhook.status = WebhookStatus.SENT
+            return True
+        except Exception as e:
+            webhook.status = WebhookStatus.FAILED
+            webhook.attempts += 1
+            
+            if webhook.attempts < webhook.max_attempts:
+                # Schedule retry with exponential backoff
+                delay = 2 ** webhook.attempts
+                webhook.next_retry_at = datetime.utcnow() + timedelta(seconds=delay)
+                webhook.status = WebhookStatus.RETRYING
+                self._queue_webhook(webhook)
+            
+            return False
+    
+    def verify_signature(self, payload: Dict[str, Any], signature: str,
+                        secret: str) -> bool:
+        """Verify webhook signature"""
+        expected_signature = self._generate_signature(payload, secret)
+        return hmac.compare_digest(expected_signature, signature)
+```
+
+---
+
+## ✅ Sistemas de Validación de Datos Avanzados
+
+### Sistema de Validación con Schema Versioning
+
+Sistema completo de validación de datos con versionado de schemas:
+
+```python
+# data_validator.py - Sistema de validación avanzado
+from typing import Dict, List, Optional, Any, Type
+from datetime import datetime
+from dataclasses import dataclass
+from enum import Enum
+import json
+import jsonschema
+from jsonschema import validate, ValidationError
+from pydantic import BaseModel, Field, validator
+from pydantic import ValidationError as PydanticValidationError
+
+class ValidationLevel(Enum):
+    STRICT = "strict"
+    MODERATE = "moderate"
+    LENIENT = "lenient"
+
+@dataclass
+class ValidationResult:
+    is_valid: bool
+    errors: List[str] = None
+    warnings: List[str] = None
+    validated_data: Optional[Dict[str, Any]] = None
+
+class SchemaVersion:
+    def __init__(self, version: str, schema: Dict[str, Any]):
+        self.version = version
+        self.schema = schema
+        self.created_at = datetime.utcnow()
+
+class DataValidator:
+    def __init__(self):
+        self.schemas: Dict[str, Dict[str, SchemaVersion]] = {}  # {schema_name: {version: SchemaVersion}}
+        self.default_level = ValidationLevel.MODERATE
+    
+    def register_schema(self, name: str, version: str, schema: Dict[str, Any]):
+        """Register a JSON schema"""
+        if name not in self.schemas:
+            self.schemas[name] = {}
+        
+        self.schemas[name][version] = SchemaVersion(version, schema)
+    
+    def validate_json_schema(self, data: Dict[str, Any], schema_name: str,
+                           version: Optional[str] = None) -> ValidationResult:
+        """Validate data against JSON schema"""
+        if schema_name not in self.schemas:
+            return ValidationResult(
+                is_valid=False,
+                errors=[f"Schema '{schema_name}' not found"]
+            )
+        
+        # Get schema version
+        if version:
+            if version not in self.schemas[schema_name]:
+                return ValidationResult(
+                    is_valid=False,
+                    errors=[f"Version '{version}' not found for schema '{schema_name}'"]
+                )
+            schema_version = self.schemas[schema_name][version]
+        else:
+            # Use latest version
+            versions = sorted(self.schemas[schema_name].keys(), reverse=True)
+            schema_version = self.schemas[schema_name][versions[0]]
+        
+        try:
+            validate(instance=data, schema=schema_version.schema)
+            return ValidationResult(
+                is_valid=True,
+                validated_data=data
+            )
+        except ValidationError as e:
+            return ValidationResult(
+                is_valid=False,
+                errors=[str(e)]
+            )
+    
+    def validate_pydantic(self, data: Dict[str, Any], model: Type[BaseModel]) -> ValidationResult:
+        """Validate data against Pydantic model"""
+        try:
+            validated = model(**data)
+            return ValidationResult(
+                is_valid=True,
+                validated_data=validated.dict()
+            )
+        except PydanticValidationError as e:
+            errors = [str(err) for err in e.errors()]
+            return ValidationResult(
+                is_valid=False,
+                errors=errors
+            )
+    
+    def validate_custom_rules(self, data: Dict[str, Any],
+                            rules: List[Callable]) -> ValidationResult:
+        """Validate data against custom rules"""
+        errors = []
+        warnings = []
+        
+        for rule in rules:
+            try:
+                result = rule(data)
+                if isinstance(result, tuple):
+                    is_valid, message = result
+                    if not is_valid:
+                        errors.append(message)
+                elif isinstance(result, str):
+                    warnings.append(result)
+            except Exception as e:
+                errors.append(f"Rule error: {str(e)}")
+        
+        return ValidationResult(
+            is_valid=len(errors) == 0,
+            errors=errors if errors else None,
+            warnings=warnings if warnings else None,
+            validated_data=data if len(errors) == 0 else None
+        )
+```
+
+---
+
+## 🌐 Sistemas de API Gateway
+
+### Sistema de API Gateway con Routing y Load Balancing
+
+Sistema completo de API Gateway:
+
+```python
+# api_gateway.py - Sistema de API Gateway avanzado
+from typing import Dict, List, Optional, Any, Callable
+from dataclasses import dataclass
+from datetime import datetime
+from enum import Enum
+import requests
+from urllib.parse import urljoin
+import hashlib
+import json
+
+class LoadBalanceStrategy(Enum):
+    ROUND_ROBIN = "round_robin"
+    LEAST_CONNECTIONS = "least_connections"
+    WEIGHTED_ROUND_ROBIN = "weighted_round_robin"
+    IP_HASH = "ip_hash"
+
+@dataclass
+class BackendService:
+    name: str
+    base_url: str
+    health_check_url: str
+    weight: int = 1
+    timeout: int = 30
+    is_healthy: bool = True
+    active_connections: int = 0
+    last_health_check: Optional[datetime] = None
+
+@dataclass
+class Route:
+    path: str
+    methods: List[str]
+    backend_services: List[BackendService]
+    load_balance_strategy: LoadBalanceStrategy
+    rate_limit: Optional[int] = None
+    auth_required: bool = False
+    timeout: int = 30
+
+class APIGateway:
+    def __init__(self):
+        self.routes: Dict[str, Route] = {}
+        self.round_robin_index: Dict[str, int] = {}
+        self.rate_limiter = None  # Would integrate with RateLimiter
+    
+    def register_route(self, route: Route):
+        """Register a route"""
+        self.routes[route.path] = route
+        self.round_robin_index[route.path] = 0
+    
+    def route_request(self, method: str, path: str, headers: Dict[str, str],
+                     body: Optional[Any] = None, client_ip: Optional[str] = None) -> Dict[str, Any]:
+        """Route a request to appropriate backend"""
+        # Find matching route
+        route = self._find_route(path)
+        if not route:
+            return {
+                'status_code': 404,
+                'body': {'error': 'Route not found'}
+            }
+        
+        # Check method
+        if method not in route.methods:
+            return {
+                'status_code': 405,
+                'body': {'error': 'Method not allowed'}
+            }
+        
+        # Check rate limit
+        if route.rate_limit and self.rate_limiter:
+            key = f"{client_ip}:{path}"
+            allowed, remaining = self.rate_limiter.is_allowed(key)
+            if not allowed:
+                return {
+                    'status_code': 429,
+                    'body': {'error': 'Rate limit exceeded'},
+                    'headers': {'X-RateLimit-Remaining': str(remaining)}
+                }
+        
+        # Select backend
+        backend = self._select_backend(route, client_ip)
+        if not backend:
+            return {
+                'status_code': 503,
+                'body': {'error': 'No healthy backends available'}
+            }
+        
+        # Forward request
+        try:
+            url = urljoin(backend.base_url, path)
+            response = requests.request(
+                method=method,
+                url=url,
+                headers={k: v for k, v in headers.items() if k.lower() != 'host'},
+                json=body if body else None,
+                timeout=route.timeout
+            )
+            
+            return {
+                'status_code': response.status_code,
+                'body': response.json() if response.headers.get('content-type', '').startswith('application/json') else response.text,
+                'headers': dict(response.headers)
+            }
+        except requests.exceptions.RequestException as e:
+            backend.is_healthy = False
+            return {
+                'status_code': 502,
+                'body': {'error': f'Backend error: {str(e)}'}
+            }
+    
+    def _find_route(self, path: str) -> Optional[Route]:
+        """Find matching route"""
+        # Exact match
+        if path in self.routes:
+            return self.routes[path]
+        
+        # Path prefix match
+        for route_path, route in self.routes.items():
+            if path.startswith(route_path):
+                return route
+        
+        return None
+    
+    def _select_backend(self, route: Route, client_ip: Optional[str] = None) -> Optional[BackendService]:
+        """Select backend based on load balance strategy"""
+        healthy_backends = [b for b in route.backend_services if b.is_healthy]
+        if not healthy_backends:
+            return None
+        
+        if route.load_balance_strategy == LoadBalanceStrategy.ROUND_ROBIN:
+            index = self.round_robin_index[route.path]
+            backend = healthy_backends[index % len(healthy_backends)]
+            self.round_robin_index[route.path] = (index + 1) % len(healthy_backends)
+            return backend
+        
+        elif route.load_balance_strategy == LoadBalanceStrategy.LEAST_CONNECTIONS:
+            return min(healthy_backends, key=lambda b: b.active_connections)
+        
+        elif route.load_balance_strategy == LoadBalanceStrategy.WEIGHTED_ROUND_ROBIN:
+            # Weighted selection
+            total_weight = sum(b.weight for b in healthy_backends)
+            index = self.round_robin_index[route.path] % total_weight
+            cumulative = 0
+            for backend in healthy_backends:
+                cumulative += backend.weight
+                if index < cumulative:
+                    self.round_robin_index[route.path] += 1
+                    return backend
+        
+        elif route.load_balance_strategy == LoadBalanceStrategy.IP_HASH:
+            if client_ip:
+                hash_value = int(hashlib.md5(client_ip.encode()).hexdigest(), 16)
+                return healthy_backends[hash_value % len(healthy_backends)]
+            else:
+                return healthy_backends[0]
+        
+        return healthy_backends[0]
+```
+
+---
+
+## 🔌 Sistemas de GraphQL
+
+### Sistema de GraphQL con Resolvers y Subscriptions
+
+Sistema completo de GraphQL:
+
+```python
+# graphql_system.py - Sistema de GraphQL avanzado
+from typing import Dict, List, Optional, Any, Callable
+from dataclasses import dataclass
+from datetime import datetime
+import json
+from graphql import (
+    GraphQLSchema, GraphQLObjectType, GraphQLField, GraphQLString,
+    GraphQLInt, GraphQLList, GraphQLNonNull, graphql_sync, subscribe
+)
+from graphql.subscription import subscribe as graphql_subscribe
+
+class GraphQLResolver:
+    def __init__(self):
+        self.resolvers: Dict[str, Callable] = {}
+        self.subscriptions: Dict[str, Callable] = {}
+    
+    def register_resolver(self, field_name: str, resolver: Callable):
+        """Register a resolver function"""
+        self.resolvers[field_name] = resolver
+    
+    def register_subscription(self, field_name: str, subscription: Callable):
+        """Register a subscription function"""
+        self.subscriptions[field_name] = subscription
+    
+    def resolve_user(self, obj, info, user_id: str):
+        """Example resolver for user"""
+        # In real implementation, fetch from database
+        return {
+            'id': user_id,
+            'name': f'User {user_id}',
+            'email': f'user{user_id}@example.com'
+        }
+    
+    def resolve_users(self, obj, info, limit: int = 10):
+        """Example resolver for users list"""
+        # In real implementation, fetch from database
+        return [
+            {'id': str(i), 'name': f'User {i}', 'email': f'user{i}@example.com'}
+            for i in range(limit)
+        ]
+    
+    def create_schema(self) -> GraphQLSchema:
+        """Create GraphQL schema"""
+        UserType = GraphQLObjectType(
+            'User',
+            fields={
+                'id': GraphQLField(GraphQLNonNull(GraphQLString)),
+                'name': GraphQLField(GraphQLString),
+                'email': GraphQLField(GraphQLString)
+            }
+        )
+        
+        QueryType = GraphQLObjectType(
+            'Query',
+            fields={
+                'user': GraphQLField(
+                    UserType,
+                    args={'user_id': GraphQLNonNull(GraphQLString)},
+                    resolver=self.resolve_user
+                ),
+                'users': GraphQLField(
+                    GraphQLList(UserType),
+                    args={'limit': GraphQLInt},
+                    resolver=self.resolve_users
+                )
+            }
+        )
+        
+        return GraphQLSchema(query=QueryType)
+    
+    def execute_query(self, query: str, variables: Optional[Dict] = None) -> Dict:
+        """Execute GraphQL query"""
+        schema = self.create_schema()
+        result = graphql_sync(schema, query, variable_values=variables)
+        return {
+            'data': result.data,
+            'errors': [str(err) for err in result.errors] if result.errors else None
+        }
+```
+
+---
+
 *Última actualización: Enero 2025*  
-*Versión: 20.0 - Guía Ultra Completa Definitiva*  
+*Versión: 36.0 - Guía Ultra Completa con Rate Limiting, Webhooks y API Gateway*  
 *Mantenido por: Engineering & People Team*  
 *Próxima revisión: Abril 2025*  
-*Total de secciones: 180+*  
-*Total de líneas: 20,700+*  
-*Incluye: Todo lo anterior + Ejercicios de práctica, Ejemplos de entrevistas, Plantillas de respuestas, Diagramas visuales, Guía de preparación técnica, Escenarios de casos, Testimonios, Timeline visual, Portfolio examples, Certificaciones, Checklist final completo*
+*Total de secciones: 360+*  
+*Total de líneas: 58,000+*  
+*Incluye: Todo lo anterior + Rate Limiting Avanzado (Fixed Window, Sliding Window, Token Bucket, Leaky Bucket), Sistema de Webhooks con Retry, Validación de Datos con Schema Versioning, API Gateway con Load Balancing, Sistema GraphQL*

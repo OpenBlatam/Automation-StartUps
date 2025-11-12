@@ -1,0 +1,162 @@
+{
+  "description": "Nodos adicionales para agregar al workflow de Sora - Análisis Visual y Mejoras Avanzadas",
+  "nodes": [
+    {
+      "id": "extract-frames",
+      "name": "Extract Video Frames",
+      "type": "n8n-nodes-base.executeCommand",
+      "parameters": {
+        "command": "=ffmpeg -i \"{{ $json.videoPath }}\" -vf \"fps=1/10\" -frames:v 6 \"/tmp/frames_{{ $json.videoId }}_%03d.jpg\" -y",
+        "options": {}
+      },
+      "notes": "Extrae 6 frames representativos del video para análisis visual",
+      "position": [2650, 400]
+    },
+    {
+      "id": "analyze-frames-vision",
+      "name": "Analyze Frames with GPT-4 Vision",
+      "type": "n8n-nodes-base.httpRequest",
+      "parameters": {
+        "url": "=https://api.openai.com/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "method": "POST",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"gpt-4-vision-preview\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"Analiza estos frames del video de Sora AI y describe detalladamente: objetos visibles, escenas, emociones transmitidas, colores dominantes, temas principales, estilo visual. Basado en este análisis, sugiere hashtags relevantes y una descripción atractiva para redes sociales.\"\n        },\n        {\n          \"type\": \"image_url\",\n          \"image_url\": {\n            \"url\": \"data:image/jpeg;base64,{{ $json.frame1Base64 }}\"\n          }\n        },\n        {\n          \"type\": \"image_url\",\n          \"image_url\": {\n            \"url\": \"data:image/jpeg;base64,{{ $json.frame2Base64 }}\"\n          }\n        },\n        {\n          \"type\": \"image_url\",\n          \"image_url\": {\n            \"url\": \"data:image/jpeg;base64,{{ $json.frame3Base64 }}\"\n          }\n        }\n      ]\n    }\n  ],\n  \"max_tokens\": 1000\n}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "notes": "Analiza frames con GPT-4 Vision para entender contenido visual",
+      "position": [2850, 400]
+    },
+    {
+      "id": "generate-thumbnail",
+      "name": "Generate Custom Thumbnail",
+      "type": "n8n-nodes-base.executeCommand",
+      "parameters": {
+        "command": "=ffmpeg -i \"{{ $json.videoPath }}\" -ss {{ Math.round($json.videoAnalysis.duration * 0.25) }} -vframes 1 -vf \"scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2\" \"/tmp/thumbnail_{{ $json.videoId }}.jpg\" -y",
+        "options": {}
+      },
+      "notes": "Genera thumbnail personalizado desde frame óptimo",
+      "position": [3450, 400]
+    },
+    {
+      "id": "enhance-thumbnail",
+      "name": "Enhance Thumbnail with AI",
+      "type": "n8n-nodes-base.httpRequest",
+      "parameters": {
+        "url": "=https://api.openai.com/v1/images/edits",
+        "authentication": "genericCredentialType",
+        "method": "POST",
+        "sendBody": true,
+        "specifyBody": "multipart-form-data",
+        "options": {
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "image",
+                "value": "={{ $json.thumbnailPath }}"
+              },
+              {
+                "name": "prompt",
+                "value": "Enhance this thumbnail to be more eye-catching and engaging for social media. Add subtle improvements to colors and contrast."
+              },
+              {
+                "name": "n",
+                "value": "1"
+              },
+              {
+                "name": "size",
+                "value": "1024x1024"
+              }
+            ]
+          }
+        }
+      },
+      "notes": "Mejora thumbnail con IA",
+      "position": [3650, 400]
+    },
+    {
+      "id": "generate-subtitles",
+      "name": "Generate Subtitles",
+      "type": "n8n-nodes-base.executeCommand",
+      "parameters": {
+        "command": "=ffmpeg -i \"{{ $json.videoPath }}\" -vn -acodec copy \"/tmp/audio_{{ $json.videoId }}.aac\" && whisper \"/tmp/audio_{{ $json.videoId }}.aac\" --language es --output_format srt --output_dir \"/tmp/\"",
+        "options": {}
+      },
+      "notes": "Genera subtítulos automáticos con Whisper",
+      "position": [3850, 400]
+    },
+    {
+      "id": "add-subtitles-to-video",
+      "name": "Add Subtitles to Video",
+      "type": "n8n-nodes-base.executeCommand",
+      "parameters": {
+        "command": "=ffmpeg -i \"{{ $json.editedVideoPath }}\" -vf \"subtitles=/tmp/audio_{{ $json.videoId }}.srt:force_style='FontSize=24,PrimaryColour=&Hffffff,OutlineColour=&H000000,BorderStyle=1'\" -c:v libx264 -c:a copy \"/tmp/sora_final_{{ $json.videoId }}.mp4\" -y",
+        "options": {}
+      },
+      "notes": "Agrega subtítulos al video editado",
+      "position": [4050, 400]
+    },
+    {
+      "id": "analyze-best-time",
+      "name": "Analyze Best Posting Time",
+      "type": "n8n-nodes-base.code",
+      "parameters": {
+        "jsCode": "// Analiza mejores horas basado en histórico\nconst uploadHistory = $workflow.staticData.uploadResults || [];\nconst platform = 'instagram'; // o tiktok, youtube\n\n// Agrupar por hora\nconst hourPerformance = {};\nuploadHistory.forEach(upload => {\n  if (upload.platforms[platform] === 'success') {\n    const hour = new Date(upload.timestamp).getHours();\n    hourPerformance[hour] = (hourPerformance[hour] || 0) + 1;\n  }\n});\n\n// Encontrar mejores horas\nconst bestHours = Object.entries(hourPerformance)\n  .sort((a, b) => b[1] - a[1])\n  .slice(0, 3)\n  .map(([hour]) => parseInt(hour));\n\n// Calcular siguiente mejor hora\nconst now = new Date();\nconst currentHour = now.getHours();\nconst nextBestHour = bestHours.find(h => h > currentHour) || bestHours[0];\n\n// Calcular delay hasta mejor hora\nlet delayHours = nextBestHour - currentHour;\nif (delayHours < 0) delayHours += 24;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    bestPostingTime: {\n      bestHours: bestHours,\n      nextBestHour: nextBestHour,\n      delayHours: delayHours,\n      scheduledFor: new Date(now.getTime() + delayHours * 3600000).toISOString()\n    }\n  }\n};"
+      },
+      "notes": "Analiza mejores horas para publicar basado en histórico",
+      "position": [4250, 400]
+    },
+    {
+      "id": "generate-ab-variants",
+      "name": "Generate A/B Test Variants",
+      "type": "n8n-nodes-base.code",
+      "parameters": {
+        "jsCode": "// Genera múltiples variantes de contenido para A/B testing\nconst baseContent = $json.generatedContent;\n\nconst variants = [\n  {\n    name: 'casual',\n    instagramCaption: `${baseContent.description}\\n\\n${baseContent.hashtags.join(' ')}`,\n    tiktokCaption: baseContent.tiktokCaption,\n    style: 'casual'\n  },\n  {\n    name: 'professional',\n    instagramCaption: `${baseContent.title}\\n\\n${baseContent.description}\\n\\n${baseContent.hashtags.slice(0, 10).join(' ')}`,\n    tiktokCaption: baseContent.tiktokCaption.substring(0, 100),\n    style: 'professional'\n  },\n  {\n    name: 'viral',\n    instagramCaption: `🔥 ${baseContent.description}\\n\\n💬 ¿Qué opinas?\\n\\n${baseContent.hashtags.join(' ')}`,\n    tiktokCaption: `🔥 ${baseContent.tiktokCaption}`,\n    style: 'viral'\n  }\n];\n\nreturn variants.map(variant => ({\n  json: {\n    ...$input.item.json,\n    variant: variant,\n    variantName: variant.name\n  }\n}));"
+      },
+      "notes": "Genera variantes de contenido para A/B testing",
+      "position": [4450, 400]
+    },
+    {
+      "id": "send-webhook",
+      "name": "Send Webhook Notification",
+      "type": "n8n-nodes-base.httpRequest",
+      "parameters": {
+        "url": "={{ $env.WEBHOOK_URL }}",
+        "method": "POST",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"event\": \"video_processed\",\n  \"videoId\": \"{{ $json.videoId }}\",\n  \"title\": \"{{ $json.title }}\",\n  \"platforms\": {{ JSON.stringify($json.uploadResults) }},\n  \"timestamp\": \"{{ new Date().toISOString() }}\",\n  \"stats\": {{ JSON.stringify($json.stats) }}\n}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "notes": "Envía webhook a sistema externo",
+      "position": [5050, 400],
+      "continueOnFail": true
+    },
+    {
+      "id": "optimize-hashtags",
+      "name": "Optimize Hashtags Intelligently",
+      "type": "n8n-nodes-base.code",
+      "parameters": {
+        "jsCode": "// Optimiza hashtags basado en análisis visual y trending\nconst visionAnalysis = $json.visionAnalysis || {};\nconst baseHashtags = $json.generatedContent?.hashtags || [];\n\n// Hashtags trending relacionados (ejemplo)\nconst trendingHashtags = {\n  'nature': ['#NatureLovers', '#NaturePhotography', '#NatureVibes'],\n  'technology': ['#TechTrends', '#Innovation', '#TechNews'],\n  'art': ['#DigitalArt', '#Artistic', '#Creative'],\n  'ai': ['#ArtificialIntelligence', '#AIArt', '#MachineLearning']\n};\n\n// Detectar temas del análisis visual\nconst detectedThemes = visionAnalysis.themes || [];\n\n// Combinar hashtags\nlet optimizedHashtags = [...baseHashtags];\n\ndetectedThemes.forEach(theme => {\n  if (trendingHashtags[theme.toLowerCase()]) {\n    optimizedHashtags.push(...trendingHashtags[theme.toLowerCase()]);\n  }\n});\n\n// Remover duplicados y limitar cantidad\noptimizedHashtags = [...new Set(optimizedHashtags)];\n\n// Optimizar por plataforma\nconst platformHashtags = {\n  instagram: optimizedHashtags.slice(0, 15),\n  tiktok: optimizedHashtags.slice(0, 5),\n  youtube: optimizedHashtags.slice(0, 8)\n};\n\nreturn {\n  json: {\n    ...$input.item.json,\n    optimizedHashtags: {\n      all: optimizedHashtags,\n      instagram: platformHashtags.instagram,\n      tiktok: platformHashtags.tiktok,\n      youtube: platformHashtags.youtube\n    }\n  }\n};"
+      },
+      "notes": "Optimiza hashtags basado en análisis y trending",
+      "position": [4650, 400]
+    }
+  ],
+  "integration_guide": {
+    "extract_frames": "Agregar después de 'Verify Video Download'",
+    "analyze_frames": "Agregar después de 'Extract Video Frames'",
+    "generate_thumbnail": "Agregar después de 'Extract Video Analysis'",
+    "optimize_hashtags": "Agregar antes de 'Process AI Generated Content'",
+    "generate_subtitles": "Agregar después de 'Verify Edited Video'",
+    "analyze_best_time": "Agregar después de 'Check Upload Rate Limits'",
+    "generate_ab_variants": "Agregar después de 'Process AI Generated Content'",
+    "send_webhook": "Agregar después de 'Save Processing Results'"
+  }
+}
+

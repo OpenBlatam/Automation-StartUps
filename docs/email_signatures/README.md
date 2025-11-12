@@ -485,3 +485,5 @@ Antes de usar en producción, prueba en:
 
 **Versión 4.8** - Más plantillas (odontopediatría, ortodoncia), y generador de estadísticas finales del proyecto.
 
+**Versión 4.18** - Más plantillas (medicina nuclear, medicina aeroespacial).
+
