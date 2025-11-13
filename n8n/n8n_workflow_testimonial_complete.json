@@ -1,0 +1,554 @@
+{
+  "name": "Testimonial to Social Post - Complete Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "testimonial-complete",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-trigger",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "testimonial-complete"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "testimonial",
+              "name": "testimonial",
+              "value": "={{ $json.body.testimonial || $json.testimonial }}",
+              "type": "string"
+            },
+            {
+              "id": "target_audience",
+              "name": "target_audience",
+              "value": "={{ $json.body.target_audience || $json.target_audience }}",
+              "type": "string"
+            },
+            {
+              "id": "platform",
+              "name": "platform",
+              "value": "={{ $json.body.platform || $json.platform || 'general' }}",
+              "type": "string"
+            },
+            {
+              "id": "use_template",
+              "name": "use_template",
+              "value": "={{ $json.body.use_template !== undefined ? $json.body.use_template : true }}",
+              "type": "boolean"
+            },
+            {
+              "id": "generate_carousel",
+              "name": "generate_carousel",
+              "value": "={{ $json.body.generate_carousel !== undefined ? $json.body.generate_carousel : false }}",
+              "type": "boolean"
+            },
+            {
+              "id": "generate_variations",
+              "name": "generate_variations",
+              "value": "={{ $json.body.generate_variations !== undefined ? $json.body.generate_variations : false }}",
+              "type": "boolean"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-data",
+      "name": "Set Input Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "check-template",
+              "leftValue": "={{ $json.use_template }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-template",
+      "name": "Use Template?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:5000/analyze",
+        "authentication": "none",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "testimonial",
+              "value": "={{ $json.testimonial }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "analyze-testimonial",
+      "name": "Analyze Testimonial",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [850, 200],
+      "notes": "Analiza el testimonio para sugerir template"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Sugerir template basado en análisis\nconst testimonial = $input.item.json.testimonial;\nconst targetAudience = $input.item.json.target_audience;\nconst analysis = $input.item.json.analysis || {};\n\n// Lógica simple de sugerencia\nlet suggestedTemplate = 'general';\n\nconst testimonialLower = testimonial.toLowerCase();\nconst audienceLower = targetAudience.toLowerCase();\n\nif (testimonialLower.includes('curso') || testimonialLower.includes('aprendí')) {\n  suggestedTemplate = 'course_education';\n} else if (testimonialLower.includes('empresa') || testimonialLower.includes('equipo') || testimonialLower.includes('productividad')) {\n  suggestedTemplate = 'b2b_success';\n} else if (testimonialLower.includes('transformación') || testimonialLower.includes('cambio')) {\n  suggestedTemplate = 'product_transformation';\n} else if (testimonialLower.includes('recomiendo') || testimonialLower.includes('servicio')) {\n  suggestedTemplate = 'service_recommendation';\n} else if (testimonialLower.includes('rápido') || testimonialLower.includes('días') || testimonialLower.includes('semanas')) {\n  suggestedTemplate = 'quick_result';\n}\n\nreturn {\n  json: {\n    suggested_template: suggestedTemplate,\n    testimonial: testimonial,\n    target_audience: targetAudience,\n    platform: $input.item.json.platform || 'general',\n    generate_carousel: $input.item.json.generate_carousel,\n    generate_variations: $input.item.json.generate_variations\n  }\n};"
+      },
+      "id": "suggest-template",
+      "name": "Suggest Template",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1050, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:5000/convert",
+        "authentication": "none",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "testimonial",
+              "value": "={{ $json.testimonial }}"
+            },
+            {
+              "name": "target_audience",
+              "value": "={{ $json.target_audience }}"
+            },
+            {
+              "name": "platform",
+              "value": "={{ $json.platform }}"
+            },
+            {
+              "name": "generate_hooks",
+              "value": "={{ $json.generate_variations || false }}"
+            },
+            {
+              "name": "analyze_quality",
+              "value": "=true"
+            },
+            {
+              "name": "language",
+              "value": "=es"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "convert-api",
+      "name": "Convert via API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1250, 300],
+      "notes": "Convierte testimonio usando API REST"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "check-carousel",
+              "leftValue": "={{ $json.generate_carousel }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-carousel",
+      "name": "Generate Carousel?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1450, 300]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Generar carrusel usando el script Python\nconst { execSync } = require('child_process');\nconst path = require('path');\n\nconst testimonial = $input.item.json.data.testimonial || $input.item.json.testimonial;\nconst targetAudience = $input.item.json.data.target_audience || $input.item.json.target_audience;\nconst platform = $input.item.json.data.platform || $input.item.json.platform || 'instagram';\n\nconst scriptPath = path.join(__dirname, '../scripts/testimonial_carousel_generator.py');\n\nconst cmd = [\n  'python3',\n  scriptPath,\n  `\"${testimonial.replace(/\"/g, '\\\"')}\"`,\n  `\"${targetAudience.replace(/\"/g, '\\\"')}\"`,\n  '--platform', platform,\n  '--slides', '6',\n  '--output', 'json'\n].join(' ');\n\ntry {\n  const output = execSync(cmd, {\n    encoding: 'utf-8',\n    env: process.env,\n    maxBuffer: 10 * 1024 * 1024\n  });\n  \n  const carousel = JSON.parse(output.trim());\n  \n  return {\n    json: {\n      carousel: carousel,\n      post_data: $input.item.json.data,\n      type: 'carousel'\n    }\n  };\n} catch (error) {\n  return {\n    json: {\n      error: error.message,\n      post_data: $input.item.json.data,\n      type: 'carousel_error'\n    }\n  };\n}"
+      },
+      "id": "generate-carousel",
+      "name": "Generate Carousel",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 200],
+      "notes": "Genera carrusel para Instagram/Facebook"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "check-variations",
+              "leftValue": "={{ $json.generate_variations }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-variations",
+      "name": "Generate Variations?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1450, 400]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:5000/variations",
+        "authentication": "none",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "testimonial",
+              "value": "={{ $json.data.testimonial }}"
+            },
+            {
+              "name": "target_audience",
+              "value": "={{ $json.data.target_audience }}"
+            },
+            {
+              "name": "platforms",
+              "value": "=[\"{{ $json.data.platform }}\"]"
+            },
+            {
+              "name": "count",
+              "value": "=3"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "generate-variations",
+      "name": "Generate Variations",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1650, 400],
+      "notes": "Genera múltiples variaciones para A/B testing"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "quality_score",
+              "name": "quality_score",
+              "value": "={{ $json.data.quality_metrics.engagement_score || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "post_content",
+              "name": "post_content",
+              "value": "={{ $json.data.full_post }}",
+              "type": "string"
+            },
+            {
+              "id": "hashtags",
+              "name": "hashtags",
+              "value": "={{ $json.data.hashtags || [] }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "extract-quality",
+      "name": "Extract Quality Metrics",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [1650, 500]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "check-quality",
+              "leftValue": "={{ $json.quality_score }}",
+              "rightValue": 70,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "quality-check",
+      "name": "Quality Check",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1850, 500]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"success\": true, \"data\": $json, \"type\": \"post\" } }}"
+      },
+      "id": "success-response",
+      "name": "Success Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [2050, 400]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"success\": false, \"error\": \"Calidad insuficiente\", \"score\": $json.quality_score } }}",
+        "responseCode": 400
+      },
+      "id": "low-quality-response",
+      "name": "Low Quality Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1850, 600]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"success\": false, \"error\": $json.error || \"Error desconocido\" } }}",
+        "responseCode": 500
+      },
+      "id": "error-response",
+      "name": "Error Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [850, 400]
+    }
+  ],
+  "connections": {
+    "Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Set Input Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Input Data": {
+      "main": [
+        [
+          {
+            "node": "Use Template?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Use Template?": {
+      "main": [
+        [
+          {
+            "node": "Analyze Testimonial",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Convert via API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Testimonial": {
+      "main": [
+        [
+          {
+            "node": "Suggest Template",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Suggest Template": {
+      "main": [
+        [
+          {
+            "node": "Convert via API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert via API": {
+      "main": [
+        [
+          {
+            "node": "Generate Carousel?",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Generate Variations?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Carousel?": {
+      "main": [
+        [
+          {
+            "node": "Generate Carousel",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Extract Quality Metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Carousel": {
+      "main": [
+        [
+          {
+            "node": "Extract Quality Metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Variations?": {
+      "main": [
+        [
+          {
+            "node": "Generate Variations",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Extract Quality Metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Variations": {
+      "main": [
+        [
+          {
+            "node": "Extract Quality Metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Quality Metrics": {
+      "main": [
+        [
+          {
+            "node": "Quality Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Quality Check": {
+      "main": [
+        [
+          {
+            "node": "Success Response",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Low Quality Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "2"
+}
+
+

@@ -1,0 +1,61 @@
+{
+  "roi_por_tipo": {
+    "Z": {
+      "tipo": "Z",
+      "nombre": "Promocional/Producto",
+      "costo_horas": 2,
+      "costo_estimado": 100,
+      "valor_generado": 3.2025,
+      "roi_porcentaje": -96.7975,
+      "publicaciones_necesarias_para_roi_positivo": 32
+    },
+    "Y": {
+      "tipo": "Y",
+      "nombre": "Entretenimiento/Viral",
+      "costo_horas": 1,
+      "costo_estimado": 50,
+      "valor_generado": 13.901,
+      "roi_porcentaje": -72.19800000000001,
+      "publicaciones_necesarias_para_roi_positivo": 4
+    }
+  },
+  "roi_por_plataforma": {
+    "Instagram": {
+      "plataforma": "Instagram",
+      "valor_generado": 24.275,
+      "costo_estimado": 100,
+      "roi_porcentaje": -75.725
+    },
+    "Twitter": {
+      "plataforma": "Twitter",
+      "valor_generado": 11.585,
+      "costo_estimado": 100,
+      "roi_porcentaje": -88.41499999999999
+    },
+    "Facebook": {
+      "plataforma": "Facebook",
+      "valor_generado": 16.126666666666665,
+      "costo_estimado": 100,
+      "roi_porcentaje": -83.87333333333333
+    },
+    "LinkedIn": {
+      "plataforma": "LinkedIn",
+      "valor_generado": 27.026666666666664,
+      "costo_estimado": 100,
+      "roi_porcentaje": -72.97333333333333
+    },
+    "TikTok": {
+      "plataforma": "TikTok",
+      "valor_generado": 13.612,
+      "costo_estimado": 100,
+      "roi_porcentaje": -86.388
+    }
+  },
+  "mejor_roi_tipo": "Y",
+  "mejor_roi_plataforma": "LinkedIn",
+  "metricas_valor": {
+    "likes": 0.01,
+    "comentarios": 0.1,
+    "shares": 0.5
+  }
+}

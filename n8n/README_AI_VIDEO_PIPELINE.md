@@ -24,6 +24,41 @@ Este workflow de n8n automatiza el proceso completo de descubrir videos populare
 - ✅ **Alertas inteligentes** basadas en umbrales configurables
 - ✅ **Preparación para cloud storage** (S3/GCS) opcional
 - ✅ **Procesamiento paralelo** configurable
+- ✅ **Tracking de costos** detallado con historial
+- ✅ **Integración con bases de datos** (PostgreSQL/MySQL)
+- ✅ **Predicción ML de calidad** de videos
+- ✅ **Rate limiting inteligente** de APIs
+- ✅ **Backup automático** de resultados
+- ✅ **Integración con Slack y Discord** para notificaciones
+- ✅ **Análisis de tendencias históricas** con comparación temporal
+- ✅ **Detección de anomalías** usando Z-score
+- ✅ **Optimización automática** con recomendaciones inteligentes
+- ✅ **Monitoreo de rendimiento** con identificación de cuellos de botella
+- ✅ **Auditoría y compliance** con logging completo (GDPR ready)
+- ✅ **Verificaciones de seguridad** automáticas
+- ✅ **Análisis predictivo avanzado** con regresión lineal
+- ✅ **Dashboard visual** de métricas completo
+- ✅ **Optimización de contenido para redes sociales** (TikTok, Instagram, YouTube)
+- ✅ **Generación automática de hashtags** optimizados por plataforma
+- ✅ **Títulos y descripciones optimizados** para cada plataforma
+- ✅ **Análisis de mejor tiempo para publicar** por plataforma
+- ✅ **Análisis de video con IA avanzada** (detección de escenas, objetos, emociones)
+- ✅ **Recomendaciones inteligentes de contenido** basadas en patrones exitosos
+- ✅ **Integración multi-plataforma avanzada** (Twitter, LinkedIn, Facebook)
+- ✅ **Análisis de conversión** con funnels y tasas de conversión
+- ✅ **A/B Testing avanzado** con análisis estadístico
+- ✅ **Integración con CRM** (Salesforce, HubSpot, Pipedrive)
+- ✅ **Contenido predictivo** con pronósticos y recomendaciones
+- ✅ **Análisis de sentimiento avanzado** con NLP y detección de emociones
+- ✅ **Generación automática de subtítulos** en múltiples idiomas
+- ✅ **Análisis profundo de competidores** con patrones y estrategias
+- ✅ **Recomendaciones personalizadas** con ML basadas en perfil de usuario
+- ✅ **Integración con Analytics** (Google Analytics, Facebook, YouTube)
+- ✅ **Alertas proactivas** con ML para prevenir problemas
+- ✅ **Análisis de voz y tono** del contenido
+- ✅ **Detección de tendencias emergentes** en tiempo real
+- ✅ **Sistema de scoring de viralidad** mejorado
+- ✅ **Integración con herramientas de marketing** (Mailchimp, SendGrid, HubSpot)
 
 ## 📋 Requisitos Previos
 
@@ -83,8 +118,130 @@ DAYS_BACK=7                      # Días hacia atrás para buscar (por defecto 7
 LANGUAGES=en,pt,fr,de,it,ja,ko,zh  # Idiomas a buscar (separados por comas)
 OUTPUT_DIR=./ai_video_outputs     # Directorio de salida
 
+# Retry y cache
+MAX_RETRIES=3                    # Número máximo de reintentos
+ENABLE_CACHE=true                # Habilitar cache de videos procesados
+
+# Calidad y filtros
+MIN_VIDEO_QUALITY=1000           # Likes mínimos requeridos
+MIN_TRANSCRIPT_QUALITY=0.7       # Calidad mínima de transcripción (0-1)
+ENABLE_PRIORITY_QUEUE=true      # Priorizar videos por calidad
+
+# Procesamiento
+BATCH_SIZE=3                     # Tamaño de lotes
+ENABLE_PARALLEL=true             # Procesamiento paralelo
+MAX_CONCURRENT=3                 # Máximo de procesos concurrentes
+
+# Cloud Storage (opcional)
+S3_BUCKET=tu-bucket-s3           # Bucket de S3 para almacenamiento
+GCS_BUCKET=tu-bucket-gcs         # Bucket de GCS para almacenamiento
+CLOUD_STORAGE_TYPE=s3            # Tipo: s3 o gcs
+CLOUD_STORAGE_PATH=ai-video-pipeline  # Ruta base en cloud
+
+# Métricas y alertas
+ENABLE_METRICS_EXPORT=true       # Exportar métricas a JSON
+ENABLE_SMART_ALERTS=true         # Alertas inteligentes
+MIN_SUCCESS_RATE=0.8             # Tasa de éxito mínima (80%)
+MAX_ERROR_RATE=0.2               # Tasa de error máxima (20%)
+MIN_VIDEOS_PROCESSED=5           # Mínimo de videos procesados
+MAX_PROCESSING_TIME_MINUTES=60   # Tiempo máximo de procesamiento
+
+# Health checks
+ENABLE_HEALTH_CHECK=true         # Health checks de APIs
+
+# Base de datos (opcional)
+DB_HOST=localhost                 # Host de base de datos
+DB_NAME=ai_video_pipeline         # Nombre de base de datos
+DB_USER=user                      # Usuario de base de datos
+DB_PASSWORD=password              # Contraseña de base de datos
+ENABLE_DATABASE=false             # Habilitar guardado en DB
+
+# Tracking de costos
+ENABLE_COST_TRACKING=true         # Tracking de costos
+COST_DISCOVERY=0.001              # Costo por descubrimiento de video
+COST_TRANSCRIPTION=0.01           # Costo por transcripción
+COST_TRANSLATION=0.005            # Costo por traducción
+COST_PDF=0.002                    # Costo por generación de PDF
+COST_CLOUD_STORAGE=0.0001         # Costo por archivo en cloud
+
+# ML y predicciones
+ENABLE_ML_PREDICTION=true         # Predicción ML de calidad
+
+# Rate limiting
+ENABLE_RATE_LIMITING=true         # Rate limiting inteligente
+YOUTUBE_RATE_LIMIT=10000          # Límite de requests YouTube/hora
+OPENAI_RATE_LIMIT=50000           # Límite de requests OpenAI/hora
+
+# Backup
+ENABLE_BACKUP=true                # Backup automático
+
+# Integraciones adicionales
+SLACK_WEBHOOK_URL=                # Webhook URL de Slack
+DISCORD_WEBHOOK_URL=              # Webhook URL de Discord
+ENABLE_AUTO_REPORTS=false         # Reportes automáticos
+
+# Análisis avanzado
+ENABLE_TREND_ANALYSIS=true        # Análisis de tendencias históricas
+ENABLE_ANOMALY_DETECTION=true     # Detección de anomalías
+ENABLE_AUTO_OPTIMIZATION=true     # Optimización automática
+ENABLE_PERF_MONITORING=true       # Monitoreo de rendimiento
+ENABLE_RESOURCE_OPTIMIZATION=true # Optimización de recursos
+
+# Seguridad y compliance
+ENABLE_AUDIT_LOGGING=true         # Logging de auditoría
+ENABLE_SECURITY_CHECKS=true       # Verificaciones de seguridad
+ENABLE_COMPLIANCE=true            # Compliance (GDPR, etc.)
+ENABLE_PREDICTIVE_ANALYSIS=true   # Análisis predictivo avanzado
+ENABLE_DASHBOARD=true             # Dashboard visual de métricas
+ENABLE_AUTO_SCALING=false         # Auto-scaling (futuro)
+
+# Optimización de redes sociales
+ENABLE_SOCIAL_MEDIA_OPT=true      # Optimización de contenido para redes sociales
+ENABLE_MULTI_PLATFORM=true        # Generar contenido para múltiples plataformas
+TIKTOK_INDUSTRY=automation        # Industria para hashtags TikTok
+TIKTOK_DEMOGRAPHIC=tech_savvy     # Demografía objetivo TikTok
+MAX_HASHTAG_VIDEOS=5              # Máximo de videos para generar hashtags
+
 # Proveedor de transcripción (opcional, por defecto 'openai')
 TRANSCRIPT_PROVIDER=openai       # Opciones: openai, assemblyai, whisper-local
+
+# Versión 14.0 - Advanced AI & Multi-Platform Intelligence
+ENABLE_AI_VIDEO_ANALYSIS=true              # Análisis de video con IA avanzada
+ENABLE_SMART_CONTENT_RECOMMENDATIONS=true   # Recomendaciones inteligentes de contenido
+ENABLE_MULTI_PLATFORM_INTEGRATION=true      # Integración multi-plataforma avanzada
+ENABLE_CONVERSION_ANALYSIS=true             # Análisis de conversión y funnels
+ENABLE_ADVANCED_AB_TESTING=true            # A/B Testing avanzado con análisis estadístico
+ENABLE_CRM_INTEGRATION=false                # Integración con CRM (requiere credenciales)
+ENABLE_PREDICTIVE_CONTENT=true             # Contenido predictivo y pronósticos
+
+# CRM Integration (requiere configuración adicional)
+SALESFORCE_API_URL=                        # URL de API de Salesforce
+SALESFORCE_CLIENT_ID=                      # Client ID de Salesforce
+SALESFORCE_CLIENT_SECRET=                  # Client Secret de Salesforce
+HUBSPOT_API_KEY=                           # API Key de HubSpot
+PIPEDRIVE_API_TOKEN=                       # API Token de Pipedrive
+
+# Versión 15.0 - Ultimate Intelligence & Automation Suite
+ENABLE_ADVANCED_SENTIMENT=true             # Análisis de sentimiento avanzado con NLP
+ENABLE_AUTO_SUBTITLES=true                 # Generación automática de subtítulos
+ENABLE_COMPETITOR_DEEP_ANALYSIS=true       # Análisis profundo de competidores
+ENABLE_PERSONALIZED_RECOMMENDATIONS=true   # Recomendaciones personalizadas con ML
+ENABLE_ANALYTICS_INTEGRATION=true          # Integración con Analytics
+ENABLE_PROACTIVE_ALERTS=true               # Alertas proactivas con ML
+ENABLE_VOICE_TONE_ANALYSIS=true            # Análisis de voz y tono
+ENABLE_EMERGING_TRENDS=true                # Detección de tendencias emergentes
+ENABLE_VIRAL_SCORING=true                  # Sistema de scoring de viralidad
+ENABLE_MARKETING_INTEGRATION=false         # Integración con herramientas de marketing
+
+# Analytics Integration (requiere configuración adicional)
+GOOGLE_ANALYTICS_PROPERTY_ID=              # Google Analytics Property ID
+GOOGLE_ANALYTICS_API_KEY=                  # Google Analytics API Key
+FACEBOOK_ANALYTICS_ACCESS_TOKEN=           # Facebook Analytics Access Token
+
+# Marketing Integration (requiere configuración adicional)
+MAILCHIMP_API_KEY=                         # Mailchimp API Key
+SENDGRID_API_KEY=                          # SendGrid API Key
+HUBSPOT_MARKETING_API_KEY=                 # HubSpot Marketing API Key
 ```
 
 ## 🚀 Instalación
@@ -380,13 +537,138 @@ return [{ json: analytics }];
 
 ---
 
-**Versión**: 2.0  
+**Versión**: 15.0  
 **Última actualización**: 2024  
 **Autor**: Automatización n8n
 
 ### Changelog
 
-#### Versión 2.0
+#### Versión 15.0 - Ultimate Intelligence & Automation Suite 🚀
+- ✅ Análisis de sentimiento avanzado con NLP (detección de emociones, análisis por tópico)
+- ✅ Generación automática de subtítulos en múltiples idiomas (SRT, VTT)
+- ✅ Análisis profundo de competidores con patrones y estrategias de engagement
+- ✅ Recomendaciones personalizadas con ML basadas en perfil de usuario
+- ✅ Integración con plataformas de Analytics (Google Analytics, Facebook, YouTube)
+- ✅ Alertas proactivas con ML para prevenir problemas antes de que ocurran
+- ✅ Análisis de voz y tono (formal, casual, técnico) con métricas de legibilidad
+- ✅ Detección de tendencias emergentes en tiempo real con predicciones
+- ✅ Sistema de scoring de viralidad mejorado con componentes detallados
+- ✅ Integración con herramientas de marketing (Mailchimp, SendGrid, HubSpot Marketing)
+- ✅ Automatizaciones de marketing basadas en engagement
+- ✅ Notificaciones mejoradas con todas las nuevas métricas
+
+#### Versión 15.0 - Ultimate Intelligence & Automation Suite 🎯
+- ✅ Análisis de sentimiento avanzado con NLP y detección de emociones (joy, surprise, anger, fear, sadness)
+- ✅ Análisis de sentimiento por tópico (AI, automation, tutorial)
+- ✅ Generación automática de subtítulos en múltiples idiomas (SRT, VTT)
+- ✅ Análisis profundo de competidores con patrones y estrategias
+- ✅ Identificación de keywords y tipos de contenido más exitosos
+- ✅ Recomendaciones personalizadas con ML basadas en perfil de usuario
+- ✅ Sistema de scoring de personalización por video
+- ✅ Integración con Analytics (Google Analytics, Facebook, YouTube)
+- ✅ Métricas agregadas y insights de rendimiento
+- ✅ Alertas proactivas con ML para prevenir problemas
+- ✅ Predicciones de rendimiento y problemas potenciales
+- ✅ Análisis de voz y tono del contenido (formal, casual, técnico)
+- ✅ Análisis de legibilidad y características de voz
+- ✅ Detección de tendencias emergentes en tiempo real
+- ✅ Identificación de keywords en crecimiento
+- ✅ Sistema de scoring de viralidad mejorado con múltiples componentes
+- ✅ Análisis de potencial viral por título y contenido
+- ✅ Integración con herramientas de marketing (Mailchimp, SendGrid, HubSpot)
+- ✅ Generación automática de campañas de marketing
+- ✅ Automatizaciones de marketing basadas en engagement
+- ✅ Notificaciones mejoradas con todas las nuevas métricas
+
+#### Versión 14.0 - Advanced AI & Multi-Platform Intelligence 🤖
+- ✅ Análisis de video con IA avanzada (detección de escenas, objetos, emociones, audio)                                                                        
+- ✅ Clasificación automática de contenido con confianza
+- ✅ Recomendaciones inteligentes de contenido basadas en patrones exitosos
+- ✅ Generación automática de ideas de contenido
+- ✅ Integración multi-plataforma avanzada (Twitter, LinkedIn, Facebook)
+- ✅ Estrategia cross-platform con contenido unificado
+- ✅ Análisis de conversión con funnels detallados (views→likes→shares→comments)
+- ✅ Oportunidades de optimización de conversión
+- ✅ A/B Testing avanzado con análisis estadístico y power analysis
+- ✅ Configuraciones de test con hipótesis y criterios de ganador
+- ✅ Integración con sistemas CRM (Salesforce, HubSpot, Pipedrive)
+- ✅ Generación automática de leads y campañas
+- ✅ Contenido predictivo con pronósticos semanales y mensuales
+- ✅ Predicción de tendencias de contenido y engagement
+- ✅ Recomendaciones de timing y mix de contenido óptimo
+- ✅ Notificaciones mejoradas con todas las nuevas métricas
+
+#### Versión 13.0 - Business Intelligence & Collaboration 💼
+- ✅ Análisis de ROI (Return on Investment) completo
+- ✅ Integración con herramientas de diseño (Canva, Figma, Adobe Express)
+- ✅ Generación de reportes ejecutivos (JSON y texto)
+- ✅ Sistema de colaboración y trabajo en equipo
+- ✅ Exportación avanzada a múltiples formatos (CSV, XML, Markdown)
+- ✅ Métricas de negocio y KPIs
+- ✅ Tracking de crecimiento y eficiencia
+- ✅ Valor estimado de contenido generado
+
+#### Versión 8.1 - Social Media Optimization 📱
+- ✅ Optimización de contenido para múltiples plataformas (TikTok, Instagram, YouTube)
+- ✅ Generación automática de hashtags optimizados por plataforma
+- ✅ Títulos y descripciones optimizados para cada plataforma
+- ✅ Análisis de mejor tiempo para publicar por plataforma
+- ✅ Captions personalizados según tipo de contenido
+- ✅ Soporte para hasta 5 videos simultáneos
+- ✅ Detección automática de tipo de contenido
+
+#### Versión 8.0 - Enterprise Security & Predictive Intelligence 🔐
+- ✅ Auditoría y compliance completo con logging GDPR-ready
+- ✅ Verificaciones de seguridad automáticas (encriptación, acceso no autorizado)
+- ✅ Análisis predictivo avanzado con regresión lineal
+- ✅ Dashboard visual completo de métricas
+- ✅ Predicciones de próxima ejecución (videos, éxito, costos)
+- ✅ Historial de auditoría con retención configurable
+- ✅ Notificaciones mejoradas con seguridad y predicciones
+
+#### Versión 7.0 - AI-Powered Analytics & Optimization 🚀
+- ✅ Análisis de tendencias históricas con comparación temporal
+- ✅ Detección de anomalías usando Z-score estadístico
+- ✅ Optimización automática con recomendaciones inteligentes
+- ✅ Monitoreo de rendimiento con identificación de cuellos de botella
+- ✅ Análisis de eficiencia (videos/segundo, cost efficiency)
+- ✅ Recomendaciones automáticas de configuración
+- ✅ Notificaciones mejoradas con tendencias y anomalías
+
+#### Versión 6.0 - Ultimate Enterprise Features 🎯
+- ✅ Tracking de costos detallado con historial y promedios
+- ✅ Integración con bases de datos (PostgreSQL/MySQL)
+- ✅ Predicción ML de calidad de videos con scoring
+- ✅ Rate limiting inteligente de APIs con advertencias
+- ✅ Backup automático de resultados con limpieza
+- ✅ Integración con Slack y Discord para notificaciones
+- ✅ Notificaciones mejoradas con información de costos y ML
+
+#### Versión 5.0 - Enterprise Features 🚀
+- ✅ Priorización inteligente de videos por engagement y frescura
+- ✅ Filtros de calidad avanzados (likes, transcripción)
+- ✅ Health checks de APIs con monitoreo continuo
+- ✅ Métricas en tiempo real con cálculo de rendimiento
+- ✅ Exportación de métricas a JSON estructurado
+- ✅ Alertas inteligentes basadas en umbrales configurables
+- ✅ Preparación para cloud storage (S3/GCS)
+- ✅ Procesamiento paralelo configurable
+- ✅ Sistema de colas con priorización
+
+#### Versión 4.0 - Advanced Features
+- ✅ Retry con exponential backoff y jitter
+- ✅ Cache inteligente de videos procesados
+- ✅ Notificaciones por email además de Telegram
+- ✅ Webhooks externos para integraciones
+- ✅ Validación mejorada de calidad
+
+#### Versión 3.0 - Enhanced Features
+- ✅ Health check de APIs antes de ejecutar
+- ✅ Filtros de calidad de videos
+- ✅ Métricas en tiempo real
+- ✅ Notificaciones mejoradas
+
+#### Versión 2.0 - Core Features
 - ✅ Agregado webhook trigger para ejecución manual
 - ✅ Validación de scripts antes de ejecutar
 - ✅ Manejo robusto de errores con notificaciones

@@ -7,10 +7,13 @@ Incluye análisis de tendencias, scoring inteligente y recomendaciones personali
 
 import json
 import random
+import os
+import csv
+from pathlib import Path
 from typing import List, Dict, Optional, Tuple
 from datetime import datetime, timedelta
-from collections import Counter
-from dataclasses import dataclass
+from collections import Counter, defaultdict
+from dataclasses import dataclass, asdict
 
 
 @dataclass
@@ -174,6 +177,8 @@ class TikTokHashtagGenerator:
         self.content_type = content_type.lower() if content_type else None
         self.video_length = video_length.lower() if video_length else None
         self.hashtag_history = []  # Para tracking de uso
+        self.history_file = Path.home() / ".tiktok_hashtag_history.json"
+        self._load_history()
         
     def _calculate_hashtag_score(self, hashtag: str) -> HashtagScore:
         """
@@ -441,6 +446,300 @@ class TikTokHashtagGenerator:
             recommendations.append("Agrega más hashtags trending para aprovechar tendencias actuales")
         
         return recommendations
+    
+    def _load_history(self):
+        """Carga el historial de hashtags desde archivo"""
+        if self.history_file.exists():
+            try:
+                with open(self.history_file, 'r', encoding='utf-8') as f:
+                    self.hashtag_history = json.load(f)
+            except:
+                self.hashtag_history = []
+        else:
+            self.hashtag_history = []
+    
+    def _save_history(self):
+        """Guarda el historial de hashtags a archivo"""
+        try:
+            with open(self.history_file, 'w', encoding='utf-8') as f:
+                json.dump(self.hashtag_history, f, indent=2, ensure_ascii=False)
+        except Exception as e:
+            print(f"Warning: Could not save history: {e}")
+    
+    def save_to_history(self, hashtags: List[str], metadata: Optional[Dict] = None):
+        """Guarda un set de hashtags al historial"""
+        entry = {
+            "hashtags": hashtags,
+            "industry": self.industry,
+            "demographic": self.demographic,
+            "timestamp": datetime.now().isoformat(),
+            "metadata": metadata or {}
+        }
+        self.hashtag_history.append(entry)
+        # Mantener solo últimos 1000 registros
+        if len(self.hashtag_history) > 1000:
+            self.hashtag_history = self.hashtag_history[-1000:]
+        self._save_history()
+    
+    def get_most_used_hashtags(self, limit: int = 20) -> List[Tuple[str, int]]:
+        """Obtiene los hashtags más usados del historial"""
+        counter = Counter()
+        for entry in self.hashtag_history:
+            for tag in entry.get("hashtags", []):
+                counter[tag] += 1
+        return counter.most_common(limit)
+    
+    def compare_hashtag_sets(self, set1: List[str], set2: List[str]) -> Dict:
+        """Compara dos sets de hashtags"""
+        set1_clean = {tag.replace('#', '').lower() for tag in set1}
+        set2_clean = {tag.replace('#', '').lower() for tag in set2}
+        
+        common = set1_clean & set2_clean
+        only_set1 = set1_clean - set2_clean
+        only_set2 = set2_clean - set1_clean
+        
+        # Calcular scores promedio
+        scores1 = [self._calculate_hashtag_score(f"#{tag}") for tag in set1_clean]
+        scores2 = [self._calculate_hashtag_score(f"#{tag}") for tag in set2_clean]
+        
+        avg_score1 = sum(s.total_score for s in scores1) / len(scores1) if scores1 else 0
+        avg_score2 = sum(s.total_score for s in scores2) / len(scores2) if scores2 else 0
+        
+        return {
+            "set1_count": len(set1),
+            "set2_count": len(set2),
+            "common_count": len(common),
+            "common_hashtags": [f"#{tag}" for tag in common],
+            "only_in_set1": [f"#{tag}" for tag in only_set1],
+            "only_in_set2": [f"#{tag}" for tag in only_set2],
+            "similarity": len(common) / max(len(set1_clean), len(set2_clean)) if max(len(set1_clean), len(set2_clean)) > 0 else 0,
+            "avg_score_set1": round(avg_score1, 2),
+            "avg_score_set2": round(avg_score2, 2),
+            "better_set": "set1" if avg_score1 > avg_score2 else "set2" if avg_score2 > avg_score1 else "equal"
+        }
+    
+    def generate_variations(self, hashtags: List[str], count: int = 3) -> List[List[str]]:
+        """Genera variaciones de un set de hashtags"""
+        variations = []
+        
+        for _ in range(count):
+            variation = hashtags.copy()
+            
+            # Reemplazar algunos hashtags trending con alternativas
+            trending_replacements = {
+                "#FYP": ["#ForYouPage", "#Fypシ", "#ExplorePage"],
+                "#Viral": ["#Trending", "#TrendingNow", "#MustWatch"],
+                "#POV": ["#POVTok", "#PointOfView", "#StoryTime"]
+            }
+            
+            for i, tag in enumerate(variation):
+                if tag in trending_replacements:
+                    if random.random() < 0.3:  # 30% chance de reemplazar
+                        variation[i] = random.choice(trending_replacements[tag])
+            
+            # Agregar hashtags adicionales de combinaciones únicas
+            if random.random() < 0.5:
+                combo = random.choice(self.UNIQUE_COMBINATIONS)
+                variation.extend(combo[:2])
+            
+            # Eliminar duplicados y limitar
+            seen = set()
+            unique_variation = []
+            for tag in variation:
+                tag_clean = tag.replace('#', '').lower()
+                if tag_clean not in seen:
+                    seen.add(tag_clean)
+                    unique_variation.append(tag)
+            
+            variations.append(unique_variation[:15])  # Max 15 hashtags
+        
+        return variations
+    
+    def export_to_file(self, hashtags: List[str], filename: str, format: str = "txt"):
+        """Exporta hashtags a archivo en diferentes formatos"""
+        path = Path(filename)
+        
+        if format.lower() == "txt":
+            with open(path, 'w', encoding='utf-8') as f:
+                f.write(" ".join(hashtags))
+        
+        elif format.lower() == "json":
+            data = {
+                "hashtags": hashtags,
+                "industry": self.industry,
+                "demographic": self.demographic,
+                "generated_at": datetime.now().isoformat(),
+                "count": len(hashtags)
+            }
+            with open(path, 'w', encoding='utf-8') as f:
+                json.dump(data, f, indent=2, ensure_ascii=False)
+        
+        elif format.lower() == "csv":
+            with open(path, 'w', newline='', encoding='utf-8') as f:
+                writer = csv.writer(f)
+                writer.writerow(["Hashtag", "Score", "Relevance", "Trend", "Competition", "Engagement"])
+                for tag in hashtags:
+                    score = self._calculate_hashtag_score(tag)
+                    writer.writerow([
+                        tag,
+                        round(score.total_score, 2),
+                        round(score.relevance_score, 2),
+                        round(score.trend_score, 2),
+                        round(score.competition_score, 2),
+                        round(score.engagement_potential, 2)
+                    ])
+        
+        return str(path)
+    
+    def get_templates(self) -> Dict[str, Dict]:
+        """Obtiene templates predefinidos por tipo de contenido"""
+        templates = {
+            "tutorial": {
+                "name": "Tutorial",
+                "suggested_combinations": [
+                    ["#Tutorial", "#HowTo", "#StepByStep"],
+                    ["#LearnWithMe", "#Tips", "#ProTip"]
+                ],
+                "recommended_count": 8
+            },
+            "review": {
+                "name": "Review",
+                "suggested_combinations": [
+                    ["#Review", "#HonestReview", "#RealTalk"],
+                    ["#ProductReview", "#Unboxing", "#FirstImpressions"]
+                ],
+                "recommended_count": 10
+            },
+            "behind_scenes": {
+                "name": "Behind the Scenes",
+                "suggested_combinations": [
+                    ["#BehindTheScenes", "#Process", "#HowItsMade"],
+                    ["#DayInTheLife", "#Routine", "#DailyLife"]
+                ],
+                "recommended_count": 8
+            },
+            "comparison": {
+                "name": "Comparison",
+                "suggested_combinations": [
+                    ["#Comparison", "#Vs", "#WhichIsBetter"],
+                    ["#Review", "#Comparison", "#Test"]
+                ],
+                "recommended_count": 10
+            },
+            "challenge": {
+                "name": "Challenge",
+                "suggested_combinations": [
+                    ["#Challenge", "#ChallengeAccepted", "#TrendingChallenge"],
+                    ["#TryThis", "#YouNeedThis", "#MustTry"]
+                ],
+                "recommended_count": 12
+            },
+            "transformation": {
+                "name": "Transformation",
+                "suggested_combinations": [
+                    ["#BeforeAndAfter", "#Transformation", "#Results"],
+                    ["#GlowUp", "#Transformation", "#Progress"]
+                ],
+                "recommended_count": 10
+            }
+        }
+        return templates
+    
+    def apply_template(self, template_name: str) -> List[str]:
+        """Aplica un template predefinido"""
+        templates = self.get_templates()
+        if template_name.lower() not in templates:
+            return []
+        
+        template = templates[template_name.lower()]
+        hashtags = []
+        
+        # Agregar combinaciones del template
+        for combo in template["suggested_combinations"]:
+            hashtags.extend(combo)
+        
+        # Agregar hashtags de industria y demografía
+        base_hashtags = self.generate_hashtags(
+            count=template["recommended_count"] - len(hashtags),
+            include_unique=False
+        )
+        hashtags.extend(base_hashtags)
+        
+        # Eliminar duplicados
+        seen = set()
+        unique_hashtags = []
+        for tag in hashtags:
+            tag_clean = tag.replace('#', '').lower()
+            if tag_clean not in seen:
+                seen.add(tag_clean)
+                unique_hashtags.append(tag)
+        
+        return unique_hashtags[:template["recommended_count"]]
+    
+    def batch_generate(self, configs: List[Dict]) -> List[Dict]:
+        """Genera hashtags para múltiples configuraciones"""
+        results = []
+        
+        for config in configs:
+            industry = config.get("industry", self.industry)
+            demographic = config.get("demographic", self.demographic)
+            keywords = config.get("keywords", [])
+            count = config.get("count", 10)
+            
+            generator = TikTokHashtagGenerator(
+                industry=industry,
+                demographic=demographic,
+                custom_keywords=keywords,
+                content_type=config.get("content_type"),
+                video_length=config.get("video_length")
+            )
+            
+            hashtags = generator.generate_hashtags(count=count)
+            recommendation = generator.get_full_recommendation()
+            
+            results.append({
+                "config": config,
+                "hashtags": hashtags,
+                "recommendation": recommendation
+            })
+        
+        return results
+    
+    def get_statistics(self) -> Dict:
+        """Obtiene estadísticas del historial"""
+        if not self.hashtag_history:
+            return {"message": "No history available"}
+        
+        total_entries = len(self.hashtag_history)
+        all_hashtags = []
+        industry_counter = Counter()
+        demographic_counter = Counter()
+        
+        for entry in self.hashtag_history:
+            all_hashtags.extend(entry.get("hashtags", []))
+            industry_counter[entry.get("industry", "unknown")] += 1
+            demographic_counter[entry.get("demographic", "unknown")] += 1
+        
+        hashtag_counter = Counter(all_hashtags)
+        
+        # Calcular fechas
+        dates = [datetime.fromisoformat(e.get("timestamp", "")) for e in self.hashtag_history if e.get("timestamp")]
+        if dates:
+            first_date = min(dates)
+            last_date = max(dates)
+        else:
+            first_date = last_date = None
+        
+        return {
+            "total_entries": total_entries,
+            "total_unique_hashtags": len(hashtag_counter),
+            "most_used_hashtags": hashtag_counter.most_common(10),
+            "most_used_industries": industry_counter.most_common(5),
+            "most_used_demographics": demographic_counter.most_common(5),
+            "first_entry": first_date.isoformat() if first_date else None,
+            "last_entry": last_date.isoformat() if last_date else None,
+            "date_range_days": (last_date - first_date).days if first_date and last_date else 0
+        }
 
 
 def main():
@@ -453,13 +752,13 @@ def main():
     parser.add_argument(
         "--industry",
         type=str,
-        required=True,
+        required=False,
         help="Industria: tech, ecommerce, marketing, fitness, food, education, beauty, finance, automation"
     )
     parser.add_argument(
         "--demographic",
         type=str,
-        required=True,
+        required=False,
         help="Demografía: gen_z, millennial, tech_savvy, entrepreneurs, creators, professionals"
     )
     parser.add_argument(
@@ -500,8 +799,81 @@ def main():
         choices=["short", "medium", "long"],
         help="Duración del video"
     )
+    parser.add_argument(
+        "--export",
+        type=str,
+        help="Exportar a archivo (especificar ruta del archivo)"
+    )
+    parser.add_argument(
+        "--export-format",
+        type=str,
+        choices=["txt", "json", "csv"],
+        default="txt",
+        help="Formato de exportación (default: txt)"
+    )
+    parser.add_argument(
+        "--template",
+        type=str,
+        help="Aplicar template predefinido: tutorial, review, behind_scenes, comparison, challenge, transformation"
+    )
+    parser.add_argument(
+        "--variations",
+        type=int,
+        help="Generar N variaciones del set de hashtags"
+    )
+    parser.add_argument(
+        "--save-history",
+        action="store_true",
+        help="Guardar hashtags generados al historial"
+    )
+    parser.add_argument(
+        "--stats",
+        action="store_true",
+        help="Mostrar estadísticas del historial"
+    )
+    parser.add_argument(
+        "--most-used",
+        type=int,
+        help="Mostrar N hashtags más usados del historial"
+    )
+    parser.add_argument(
+        "--compare",
+        type=str,
+        nargs="+",
+        help="Comparar con otro set de hashtags (proporcionar como lista)"
+    )
+    parser.add_argument(
+        "--batch",
+        type=str,
+        help="Procesar múltiples configuraciones desde archivo JSON"
+    )
+    parser.add_argument(
+        "--list-templates",
+        action="store_true",
+        help="Listar todos los templates disponibles"
+    )
     
     args = parser.parse_args()
+    
+    # Listar templates
+    if args.list_templates:
+        generator_temp = TikTokHashtagGenerator("tech", "gen_z")
+        templates = generator_temp.get_templates()
+        print("\n📋 TEMPLATES DISPONIBLES:")
+        print("="*70)
+        for key, template in templates.items():
+            print(f"\n{key.upper()}:")
+            print(f"  Nombre: {template['name']}")
+            print(f"  Hashtags recomendados: {template['recommended_count']}")
+            print(f"  Combinaciones sugeridas:")
+            for combo in template['suggested_combinations']:
+                print(f"    - {' '.join(combo)}")
+        print("\n" + "="*70)
+        return
+    
+    # Validar argumentos requeridos
+    if not args.industry or not args.demographic:
+        parser.error("--industry y --demographic son requeridos (excepto con --list-templates)")
     
     generator = TikTokHashtagGenerator(
         industry=args.industry,
@@ -511,12 +883,69 @@ def main():
         video_length=args.video_length
     )
     
-    recommendation = generator.get_full_recommendation(include_scores=args.scores)
+    # Aplicar template si se especifica
+    if args.template:
+        hashtags = generator.apply_template(args.template)
+        recommendation = {
+            "industry": generator.industry,
+            "demographic": generator.demographic,
+            "main_hashtags": hashtags,
+            "unique_combinations": [],
+            "formatted_string": " ".join(hashtags),
+            "hashtag_count": len(hashtags),
+            "template_used": args.template,
+            "generated_at": datetime.now().isoformat()
+        }
+    else:
+        recommendation = generator.get_full_recommendation(include_scores=args.scores)
+    
+    # Generar variaciones si se solicita
+    if args.variations:
+        variations = generator.generate_variations(recommendation['main_hashtags'], count=args.variations)
+        recommendation['variations'] = variations
+    
+    # Comparar con otro set si se proporciona
+    if args.compare:
+        comparison = generator.compare_hashtag_sets(recommendation['main_hashtags'], args.compare)
+        recommendation['comparison'] = comparison
+    
+    # Guardar al historial si se solicita
+    if args.save_history:
+        generator.save_to_history(
+            recommendation['main_hashtags'],
+            metadata={
+                "content_type": args.content_type,
+                "video_length": args.video_length,
+                "template": args.template
+            }
+        )
+    
+    # Mostrar estadísticas
+    if args.stats:
+        stats = generator.get_statistics()
+        recommendation['statistics'] = stats
+    
+    # Mostrar más usados
+    if args.most_used:
+        most_used = generator.get_most_used_hashtags(limit=args.most_used)
+        recommendation['most_used_hashtags'] = [
+            {"hashtag": tag, "count": count} 
+            for tag, count in most_used
+        ]
     
     # Análisis de rendimiento si se solicita
     if args.analyze:
         analysis = generator.analyze_hashtag_performance(recommendation['main_hashtags'])
         recommendation['performance_analysis'] = analysis
+    
+    # Exportar a archivo si se solicita
+    if args.export:
+        exported_path = generator.export_to_file(
+            recommendation['main_hashtags'],
+            args.export,
+            format=args.export_format
+        )
+        recommendation['exported_to'] = exported_path
     
     if args.json:
         print(json.dumps(recommendation, indent=2, ensure_ascii=False))
@@ -556,6 +985,43 @@ def main():
                 print(f"\n💡 Recomendaciones:")
                 for rec in analysis['recommendations']:
                     print(f"   • {rec}")
+        
+        if args.template:
+            print(f"\n📋 Template Aplicado: {args.template.upper()}")
+        
+        if args.variations and 'variations' in recommendation:
+            print(f"\n🔄 Variaciones Generadas ({len(recommendation['variations'])}):")
+            for i, variation in enumerate(recommendation['variations'], 1):
+                print(f"   Variación {i}: {' '.join(variation[:10])}...")
+        
+        if args.compare and 'comparison' in recommendation:
+            comp = recommendation['comparison']
+            print(f"\n⚖️  Comparación:")
+            print(f"   Similitud: {comp['similarity']:.2%}")
+            print(f"   Hashtags comunes: {comp['common_count']}")
+            print(f"   Score promedio Set 1: {comp['avg_score_set1']:.2f}")
+            print(f"   Score promedio Set 2: {comp['avg_score_set2']:.2f}")
+            print(f"   Mejor set: {comp['better_set']}")
+        
+        if args.stats and 'statistics' in recommendation:
+            stats = recommendation['statistics']
+            if 'message' not in stats:
+                print(f"\n📊 Estadísticas del Historial:")
+                print(f"   Total de entradas: {stats['total_entries']}")
+                print(f"   Hashtags únicos: {stats['total_unique_hashtags']}")
+                print(f"   Rango de fechas: {stats['date_range_days']} días")
+                if stats['most_used_hashtags']:
+                    print(f"\n   Top Hashtags Más Usados:")
+                    for tag, count in stats['most_used_hashtags'][:5]:
+                        print(f"     {tag}: {count} veces")
+        
+        if args.most_used and 'most_used_hashtags' in recommendation:
+            print(f"\n🏆 Hashtags Más Usados:")
+            for item in recommendation['most_used_hashtags']:
+                print(f"   {item['hashtag']}: {item['count']} veces")
+        
+        if args.export and 'exported_to' in recommendation:
+            print(f"\n💾 Exportado a: {recommendation['exported_to']}")
         
         print(f"\n📝 Cadena Completa de Hashtags:")
         print("   " + recommendation['formatted_string'])

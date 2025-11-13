@@ -1,0 +1,626 @@
+{
+  "fecha_analisis": "2025-11-12T09:45:35.969416",
+  "periodo_analizado": "Últimos 30 días",
+  "total_publicaciones": 30,
+  "mejor_tipo_contenido": {
+    "tipo": "X",
+    "datos": {
+      "nombre": "Tutoriales/Educativos",
+      "cantidad_publicaciones": 12,
+      "engagement_total": 3639,
+      "engagement_promedio": 303.25,
+      "engagement_score_promedio": 518.4166666666666,
+      "engagement_rate_promedio": 15.55773778019334,
+      "likes_promedio": 230.08333333333334,
+      "comentarios_promedio": 38.75,
+      "shares_promedio": 34.416666666666664,
+      "impresiones_promedio": 1980.4166666666667,
+      "reach_promedio": 1618.0833333333333,
+      "porcentaje_con_media": 100.0,
+      "plataformas_mas_usadas": {
+        "Facebook": 3,
+        "LinkedIn": 3,
+        "Instagram": 2,
+        "TikTok": 2,
+        "Twitter": 2
+      },
+      "mejor_publicacion": "Publicacion(id='post_021', tipo_contenido='X', titulo='5 tips para mejorar tu productividad', plataforma='Facebook', fecha_publicacion=datetime.datetime(2025, 11, 9, 9, 45, 35, 965417), likes=457, comentarios=71, shares=81, impresiones=3379, reach=2799, hashtags=['#tutorial', '#educacion', '#aprende', '#tips'], tiene_media=True, duracion_video=84, metadata={'tipo_nombre': 'Tutoriales/Educativos', 'hora_publicacion': 9, 'dia_semana': 'Sunday'})"
+    },
+    "razones_superioridad": [
+      "Supera a Promocional/Producto por 416.2 puntos en engagement score (11.50% más en engagement rate)",
+      "Supera a Entretenimiento/Viral por 172.4 puntos en engagement score (7.24% más en engagement rate)"
+    ],
+    "caracteristicas_clave": [
+      "Mayoría de publicaciones incluyen contenido multimedia"
+    ],
+    "comparacion_con_otros": {
+      "Z": {
+        "nombre": "Promocional/Producto",
+        "cantidad_publicaciones": 11,
+        "engagement_total": 886,
+        "engagement_promedio": 80.54545454545455,
+        "engagement_score_promedio": 102.18181818181819,
+        "engagement_rate_promedio": 4.0611154519730945,
+        "likes_promedio": 71.54545454545455,
+        "comentarios_promedio": 7.181818181818182,
+        "shares_promedio": 1.8181818181818181,
+        "impresiones_promedio": 2064.6363636363635,
+        "reach_promedio": 1511.6363636363637,
+        "porcentaje_con_media": 72.72727272727273,
+        "plataformas_mas_usadas": {
+          "Facebook": 5,
+          "LinkedIn": 2,
+          "Twitter": 2,
+          "TikTok": 1,
+          "Instagram": 1
+        },
+        "mejor_publicacion": "Publicacion(id='post_019', tipo_contenido='Z', titulo='Lanzamiento: Servicio', plataforma='Twitter', fecha_publicacion=datetime.datetime(2025, 11, 11, 9, 45, 35, 965417), likes=152, comentarios=11, shares=3, impresiones=2753, reach=1941, hashtags=['#producto', '#nuevo', '#promocion'], tiene_media=True, duracion_video=20, metadata={'tipo_nombre': 'Promocional/Producto', 'hora_publicacion': 9, 'dia_semana': 'Tuesday'})"
+      },
+      "Y": {
+        "nombre": "Entretenimiento/Viral",
+        "cantidad_publicaciones": 7,
+        "engagement_total": 1532,
+        "engagement_promedio": 218.85714285714286,
+        "engagement_score_promedio": 346,
+        "engagement_rate_promedio": 8.314560011731368,
+        "likes_promedio": 174.57142857142858,
+        "comentarios_promedio": 25.0,
+        "shares_promedio": 19.285714285714285,
+        "impresiones_promedio": 2451.0,
+        "reach_promedio": 1837.5714285714287,
+        "porcentaje_con_media": 85.71428571428571,
+        "plataformas_mas_usadas": {
+          "Facebook": 3,
+          "Twitter": 3,
+          "Instagram": 1
+        },
+        "mejor_publicacion": "Publicacion(id='post_002', tipo_contenido='Y', titulo='Viral: Momento increíble', plataforma='Instagram', fecha_publicacion=datetime.datetime(2025, 10, 13, 9, 45, 35, 965417), likes=264, comentarios=59, shares=26, impresiones=3442, reach=2854, hashtags=['#entretenimiento', '#trending', '#diversion', '#viral'], tiene_media=False, duracion_video=25, metadata={'tipo_nombre': 'Entretenimiento/Viral', 'hora_publicacion': 9, 'dia_semana': 'Monday'})"
+      }
+    }
+  },
+  "analisis_por_tipo": {
+    "Z": {
+      "nombre": "Promocional/Producto",
+      "cantidad_publicaciones": 11,
+      "engagement_total": 886,
+      "engagement_promedio": 80.54545454545455,
+      "engagement_score_promedio": 102.18181818181819,
+      "engagement_rate_promedio": 4.0611154519730945,
+      "likes_promedio": 71.54545454545455,
+      "comentarios_promedio": 7.181818181818182,
+      "shares_promedio": 1.8181818181818181,
+      "impresiones_promedio": 2064.6363636363635,
+      "reach_promedio": 1511.6363636363637,
+      "porcentaje_con_media": 72.72727272727273,
+      "plataformas_mas_usadas": {
+        "Facebook": 5,
+        "LinkedIn": 2,
+        "Twitter": 2,
+        "TikTok": 1,
+        "Instagram": 1
+      },
+      "mejor_publicacion": "Publicacion(id='post_019', tipo_contenido='Z', titulo='Lanzamiento: Servicio', plataforma='Twitter', fecha_publicacion=datetime.datetime(2025, 11, 11, 9, 45, 35, 965417), likes=152, comentarios=11, shares=3, impresiones=2753, reach=1941, hashtags=['#producto', '#nuevo', '#promocion'], tiene_media=True, duracion_video=20, metadata={'tipo_nombre': 'Promocional/Producto', 'hora_publicacion': 9, 'dia_semana': 'Tuesday'})"
+    },
+    "Y": {
+      "nombre": "Entretenimiento/Viral",
+      "cantidad_publicaciones": 7,
+      "engagement_total": 1532,
+      "engagement_promedio": 218.85714285714286,
+      "engagement_score_promedio": 346,
+      "engagement_rate_promedio": 8.314560011731368,
+      "likes_promedio": 174.57142857142858,
+      "comentarios_promedio": 25.0,
+      "shares_promedio": 19.285714285714285,
+      "impresiones_promedio": 2451.0,
+      "reach_promedio": 1837.5714285714287,
+      "porcentaje_con_media": 85.71428571428571,
+      "plataformas_mas_usadas": {
+        "Facebook": 3,
+        "Twitter": 3,
+        "Instagram": 1
+      },
+      "mejor_publicacion": "Publicacion(id='post_002', tipo_contenido='Y', titulo='Viral: Momento increíble', plataforma='Instagram', fecha_publicacion=datetime.datetime(2025, 10, 13, 9, 45, 35, 965417), likes=264, comentarios=59, shares=26, impresiones=3442, reach=2854, hashtags=['#entretenimiento', '#trending', '#diversion', '#viral'], tiene_media=False, duracion_video=25, metadata={'tipo_nombre': 'Entretenimiento/Viral', 'hora_publicacion': 9, 'dia_semana': 'Monday'})"
+    },
+    "X": {
+      "nombre": "Tutoriales/Educativos",
+      "cantidad_publicaciones": 12,
+      "engagement_total": 3639,
+      "engagement_promedio": 303.25,
+      "engagement_score_promedio": 518.4166666666666,
+      "engagement_rate_promedio": 15.55773778019334,
+      "likes_promedio": 230.08333333333334,
+      "comentarios_promedio": 38.75,
+      "shares_promedio": 34.416666666666664,
+      "impresiones_promedio": 1980.4166666666667,
+      "reach_promedio": 1618.0833333333333,
+      "porcentaje_con_media": 100.0,
+      "plataformas_mas_usadas": {
+        "Facebook": 3,
+        "LinkedIn": 3,
+        "Instagram": 2,
+        "TikTok": 2,
+        "Twitter": 2
+      },
+      "mejor_publicacion": "Publicacion(id='post_021', tipo_contenido='X', titulo='5 tips para mejorar tu productividad', plataforma='Facebook', fecha_publicacion=datetime.datetime(2025, 11, 9, 9, 45, 35, 965417), likes=457, comentarios=71, shares=81, impresiones=3379, reach=2799, hashtags=['#tutorial', '#educacion', '#aprende', '#tips'], tiene_media=True, duracion_video=84, metadata={'tipo_nombre': 'Tutoriales/Educativos', 'hora_publicacion': 9, 'dia_semana': 'Sunday'})"
+    }
+  },
+  "analisis_por_plataforma": {
+    "Facebook": {
+      "cantidad_publicaciones": 11,
+      "engagement_score_promedio": 317.45454545454544,
+      "engagement_rate_promedio": 9.015206198980245,
+      "likes_promedio": 169.1818181818182,
+      "comentarios_promedio": 22.454545454545453,
+      "shares_promedio": 16.181818181818183,
+      "impresiones_promedio": 2204.3636363636365
+    },
+    "Instagram": {
+      "cantidad_publicaciones": 4,
+      "engagement_score_promedio": 326.25,
+      "engagement_rate_promedio": 11.66522315090839,
+      "likes_promedio": 154.5,
+      "comentarios_promedio": 31.0,
+      "shares_promedio": 15.75,
+      "impresiones_promedio": 2571.0
+    },
+    "LinkedIn": {
+      "cantidad_publicaciones": 5,
+      "engagement_score_promedio": 415,
+      "engagement_rate_promedio": 9.959428133680301,
+      "likes_promedio": 170.0,
+      "comentarios_promedio": 33.0,
+      "shares_promedio": 29.2,
+      "impresiones_promedio": 1965.0
+    },
+    "Twitter": {
+      "cantidad_publicaciones": 7,
+      "engagement_score_promedio": 251.14285714285714,
+      "engagement_rate_promedio": 9.882846550606212,
+      "likes_promedio": 133.14285714285714,
+      "comentarios_promedio": 14.571428571428571,
+      "shares_promedio": 14.857142857142858,
+      "impresiones_promedio": 1878.4285714285713
+    },
+    "TikTok": {
+      "cantidad_publicaciones": 3,
+      "engagement_score_promedio": 379,
+      "engagement_rate_promedio": 8.253938700360811,
+      "likes_promedio": 169.66666666666666,
+      "comentarios_promedio": 27.0,
+      "shares_promedio": 25.666666666666668,
+      "impresiones_promedio": 2042.3333333333333
+    }
+  },
+  "horarios_optimos": {
+    "09:00-12:00 (Mañana)": {
+      "cantidad": 30,
+      "engagement_score_promedio": 325.56666666666666,
+      "engagement_rate_promedio": 9.652234780538123
+    }
+  },
+  "dias_semana_optimos": {
+    "Lunes": {
+      "cantidad": 5,
+      "engagement_score_promedio": 519.8,
+      "engagement_rate_promedio": 9.459096806421993
+    },
+    "Miércoles": {
+      "cantidad": 2,
+      "engagement_score_promedio": 121.5,
+      "engagement_rate_promedio": 7.4522810996258215
+    },
+    "Jueves": {
+      "cantidad": 2,
+      "engagement_score_promedio": 124.5,
+      "engagement_rate_promedio": 4.939705943066183
+    },
+    "Sábado": {
+      "cantidad": 7,
+      "engagement_score_promedio": 446.14285714285717,
+      "engagement_rate_promedio": 12.22929750670507
+    },
+    "Viernes": {
+      "cantidad": 6,
+      "engagement_score_promedio": 191.5,
+      "engagement_rate_promedio": 5.931377017734008
+    },
+    "Martes": {
+      "cantidad": 3,
+      "engagement_score_promedio": 229.33333333333334,
+      "engagement_rate_promedio": 10.916116134585373
+    },
+    "Domingo": {
+      "cantidad": 5,
+      "engagement_score_promedio": 343.2,
+      "engagement_rate_promedio": 12.70917844831081
+    }
+  },
+  "hashtags_mas_efectivos": [
+    {
+      "hashtag": "#educacion",
+      "veces_usado": 11,
+      "engagement_score_promedio": 533.7272727272727,
+      "engagement_rate_promedio": 15.227981267233606
+    },
+    {
+      "hashtag": "#tips",
+      "veces_usado": 11,
+      "engagement_score_promedio": 531.4545454545455,
+      "engagement_rate_promedio": 15.17253642553928
+    },
+    {
+      "hashtag": "#tutorial",
+      "veces_usado": 12,
+      "engagement_score_promedio": 518.4166666666666,
+      "engagement_rate_promedio": 15.55773778019334
+    },
+    {
+      "hashtag": "#aprende",
+      "veces_usado": 11,
+      "engagement_score_promedio": 503.72727272727275,
+      "engagement_rate_promedio": 15.410065707102513
+    },
+    {
+      "hashtag": "#trending",
+      "veces_usado": 7,
+      "engagement_score_promedio": 346,
+      "engagement_rate_promedio": 8.314560011731368
+    },
+    {
+      "hashtag": "#diversion",
+      "veces_usado": 7,
+      "engagement_score_promedio": 346,
+      "engagement_rate_promedio": 8.314560011731368
+    },
+    {
+      "hashtag": "#viral",
+      "veces_usado": 7,
+      "engagement_score_promedio": 346,
+      "engagement_rate_promedio": 8.314560011731368
+    },
+    {
+      "hashtag": "#entretenimiento",
+      "veces_usado": 6,
+      "engagement_score_promedio": 322.1666666666667,
+      "engagement_rate_promedio": 8.43476874813533
+    },
+    {
+      "hashtag": "#nuevo",
+      "veces_usado": 10,
+      "engagement_score_promedio": 108.1,
+      "engagement_rate_promedio": 4.042745259756781
+    },
+    {
+      "hashtag": "#promocion",
+      "veces_usado": 11,
+      "engagement_score_promedio": 102.18181818181819,
+      "engagement_rate_promedio": 4.0611154519730945
+    }
+  ],
+  "tendencias_temporales": {
+    "tendencias_semanales": {
+      "2025-W42": {
+        "cantidad": 5,
+        "engagement_promedio": 231.4,
+        "engagement_rate_promedio": 8.66877669564222,
+        "engagement_score_promedio": 354.6,
+        "publicaciones_virales": 0
+      },
+      "2025-W43": {
+        "cantidad": 8,
+        "engagement_promedio": 137.125,
+        "engagement_rate_promedio": 7.332715953915074,
+        "engagement_score_promedio": 215.125,
+        "publicaciones_virales": 0
+      },
+      "2025-W44": {
+        "cantidad": 9,
+        "engagement_promedio": 202,
+        "engagement_rate_promedio": 10.98547865455405,
+        "engagement_score_promedio": 325.3333333333333,
+        "publicaciones_virales": 1
+      },
+      "2025-W45": {
+        "cantidad": 6,
+        "engagement_promedio": 275,
+        "engagement_rate_promedio": 11.425915664341694,
+        "engagement_score_promedio": 483.6666666666667,
+        "publicaciones_virales": 2
+      },
+      "2025-W46": {
+        "cantidad": 2,
+        "engagement_promedio": 167.5,
+        "engagement_rate_promedio": 10.068315214787692,
+        "engagement_score_promedio": 221.5,
+        "publicaciones_virales": 0
+      }
+    },
+    "direccion": "decreciente",
+    "cambio_porcentual": -37.53525098702764,
+    "semanas_analizadas": 5
+  },
+  "palabras_clave_efectivas": [
+    {
+      "palabra": "cómo",
+      "veces_usada": 6,
+      "engagement_score_promedio": 611.6666666666666,
+      "engagement_rate_promedio": 16.0987595905057,
+      "impacto": 3670.0
+    },
+    {
+      "palabra": "hacer",
+      "veces_usada": 6,
+      "engagement_score_promedio": 611.6666666666666,
+      "engagement_rate_promedio": 16.0987595905057,
+      "impacto": 3670.0
+    },
+    {
+      "palabra": "pasos",
+      "veces_usada": 6,
+      "engagement_score_promedio": 611.6666666666666,
+      "engagement_rate_promedio": 16.0987595905057,
+      "impacto": 3670.0
+    },
+    {
+      "palabra": "tips",
+      "veces_usada": 4,
+      "engagement_score_promedio": 497.25,
+      "engagement_rate_promedio": 14.082399401395623,
+      "impacto": 1989.0
+    },
+    {
+      "palabra": "mejorar",
+      "veces_usada": 4,
+      "engagement_score_promedio": 497.25,
+      "engagement_rate_promedio": 14.082399401395623,
+      "impacto": 1989.0
+    },
+    {
+      "palabra": "productividad",
+      "veces_usada": 2,
+      "engagement_score_promedio": 801.5,
+      "engagement_rate_promedio": 15.785462282729988,
+      "impacto": 1603.0
+    },
+    {
+      "palabra": "trending",
+      "veces_usada": 4,
+      "engagement_score_promedio": 220.5,
+      "engagement_rate_promedio": 7.415446059786779,
+      "impacto": 882.0
+    },
+    {
+      "palabra": "descubre",
+      "veces_usada": 5,
+      "engagement_score_promedio": 142.4,
+      "engagement_rate_promedio": 4.219003950477475,
+      "impacto": 712.0
+    },
+    {
+      "palabra": "nuestra",
+      "veces_usada": 5,
+      "engagement_score_promedio": 142.4,
+      "engagement_rate_promedio": 4.219003950477475,
+      "impacto": 712.0
+    },
+    {
+      "palabra": "promoción",
+      "veces_usada": 3,
+      "engagement_score_promedio": 146.66666666666666,
+      "engagement_rate_promedio": 4.69718175600649,
+      "impacto": 440.0
+    },
+    {
+      "palabra": "habilidad",
+      "veces_usada": 2,
+      "engagement_score_promedio": 193,
+      "engagement_rate_promedio": 12.379336520061258,
+      "impacto": 386
+    },
+    {
+      "palabra": "lanzamiento",
+      "veces_usada": 3,
+      "engagement_score_promedio": 105.66666666666667,
+      "engagement_rate_promedio": 5.588575768878184,
+      "impacto": 317.0
+    },
+    {
+      "palabra": "nuevo",
+      "veces_usada": 3,
+      "engagement_score_promedio": 94.66666666666667,
+      "engagement_rate_promedio": 4.160904203421412,
+      "impacto": 284.0
+    },
+    {
+      "palabra": "oferta",
+      "veces_usada": 3,
+      "engagement_score_promedio": 93.33333333333333,
+      "engagement_rate_promedio": 2.566174089634364,
+      "impacto": 280.0
+    },
+    {
+      "palabra": "mejor",
+      "veces_usada": 2,
+      "engagement_score_promedio": 111.5,
+      "engagement_rate_promedio": 6.93702957686201,
+      "impacto": 223.0
+    }
+  ],
+  "contenido_viral": {
+    "cantidad": 3,
+    "porcentaje": 10.0,
+    "engagement_promedio": 584.3333333333334,
+    "engagement_rate_promedio": 15.280593544370703,
+    "tipos_mas_virales": {
+      "X": 3
+    },
+    "plataformas_mas_virales": {
+      "Facebook": 1,
+      "LinkedIn": 1,
+      "TikTok": 1
+    },
+    "hashtags_mas_virales": {
+      "#tutorial": 3,
+      "#educacion": 3,
+      "#aprende": 3,
+      "#tips": 3
+    },
+    "publicaciones": [
+      {
+        "id": "post_021",
+        "titulo": "5 tips para mejorar tu productividad",
+        "tipo": "X",
+        "plataforma": "Facebook",
+        "engagement_score": 1075,
+        "engagement_rate": 18.023083752589525
+      },
+      {
+        "id": "post_023",
+        "titulo": "Cómo hacer Y en 5 pasos",
+        "tipo": "X",
+        "plataforma": "LinkedIn",
+        "engagement_score": 1042,
+        "engagement_rate": 15.05551042512862
+      },
+      {
+        "id": "post_030",
+        "titulo": "Cómo hacer Z en 5 pasos",
+        "tipo": "X",
+        "plataforma": "TikTok",
+        "engagement_score": 978,
+        "engagement_rate": 12.763186455393965
+      }
+    ]
+  },
+  "correlaciones": {
+    "media": {
+      "con_media_promedio": 341.2692307692308,
+      "sin_media_promedio": 223.5,
+      "diferencia_porcentual": 52.69316812940974
+    },
+    "hashtags": {
+      "hashtags_promedio": 3.7666666666666666,
+      "engagement_con_hashtags": 331.04347826086956,
+      "engagement_sin_hashtags": 307.57142857142856
+    },
+    "longitud_titulo": {
+      "longitud_promedio": 24.6,
+      "engagement_titulos_largos": 274.3076923076923,
+      "engagement_titulos_cortos": 364.7647058823529
+    }
+  },
+  "recomendaciones": [
+    {
+      "titulo": "Serie de Tutoriales Paso a Paso",
+      "descripcion": "Crear una serie semanal de tutoriales cortos (5-10 min) sobre temas específicos",
+      "razon": "Los tutoriales generan alto engagement porque proporcionan valor inmediato",
+      "formato_sugerido": "Video corto con capturas de pantalla y narración",
+      "hashtags_sugeridos": [
+        "#tutorial",
+        "#aprende",
+        "#pasoapaso",
+        "#tips"
+      ],
+      "frecuencia": "1-2 veces por semana"
+    },
+    {
+      "titulo": "Tips Rápidos en Formato Carousel",
+      "descripcion": "Publicaciones tipo carousel con 5-7 tips visuales y concisos",
+      "razon": "El formato carousel mantiene a la audiencia comprometida y genera más tiempo de visualización",
+      "formato_sugerido": "Carousel de Instagram/LinkedIn con imágenes/texto",
+      "hashtags_sugeridos": [
+        "#tips",
+        "#consejos",
+        "#productividad",
+        "#aprende"
+      ],
+      "frecuencia": "2-3 veces por semana"
+    },
+    {
+      "titulo": "Casos de Estudio con Resultados",
+      "descripcion": "Mostrar casos reales de cómo aplicar conocimientos con resultados medibles",
+      "razon": "Los casos de estudio generan credibilidad y comentarios de personas que quieren replicar",
+      "formato_sugerido": "Post largo con imágenes antes/después o métricas",
+      "hashtags_sugeridos": [
+        "#casoestudio",
+        "#resultados",
+        "#exito",
+        "#aprende"
+      ],
+      "frecuencia": "1 vez por semana"
+    },
+    {
+      "titulo": "Preguntas y Respuestas en Vivo",
+      "descripcion": "Sesiones de Q&A donde respondes preguntas frecuentes de tu audiencia",
+      "razon": "El formato interactivo genera alta participación en comentarios y shares",
+      "formato_sugerido": "Video en vivo o Stories con preguntas",
+      "hashtags_sugeridos": [
+        "#preguntas",
+        "#respuestas",
+        "#live",
+        "#comunidad"
+      ],
+      "frecuencia": "1 vez cada 2 semanas"
+    },
+    {
+      "titulo": "Guías Descargables Gratuitas",
+      "descripcion": "Crear PDFs o recursos descargables que complementen tus publicaciones",
+      "razon": "Los recursos descargables generan saves y shares, aumentando el engagement",
+      "formato_sugerido": "Post con link a descarga + preview del contenido",
+      "hashtags_sugeridos": [
+        "#descarga",
+        "#gratis",
+        "#recurso",
+        "#guia"
+      ],
+      "frecuencia": "1 vez por semana"
+    },
+    {
+      "titulo": "Replicar Patrón de Contenido Viral (Tipo X)",
+      "descripcion": "El 10.0% de tu contenido viral es de tipo X. Replica estos patrones.",
+      "razon": "Tu contenido viral tiene un engagement rate promedio de 15.28%",
+      "accion": "Analiza las publicaciones virales y replica su estructura, formato y timing",
+      "prioridad": "Alta"
+    },
+    {
+      "titulo": "Usar Palabras Clave de Alto Impacto",
+      "descripcion": "Incluye estas palabras en tus títulos: cómo, hacer, pasos",
+      "razon": "Estas palabras generan un engagement score promedio de 611.7",
+      "accion": "Incorpora las palabras: cómo, hacer, pasos en tus próximos títulos",
+      "prioridad": "Media"
+    },
+    {
+      "titulo": "Incluir Contenido Multimedia",
+      "descripcion": "Las publicaciones con media tienen un engagement significativamente mayor",
+      "razon": "El contenido con media tiene 52.7% más engagement",
+      "accion": "Asegúrate de incluir imágenes o videos en al menos el 80% de tus publicaciones",
+      "prioridad": "Alta"
+    },
+    {
+      "titulo": "Optimizar Horarios de Publicación",
+      "descripcion": "Publica más contenido en el horario: 09:00-12:00 (Mañana)",
+      "razon": "Este horario genera un engagement score promedio de 325.6",
+      "accion": "Programa el 40% de tus publicaciones en el horario 09:00-12:00 (Mañana)",
+      "prioridad": "Media"
+    }
+  ],
+  "resumen_ejecutivo": {
+    "tipo_ganador": "X",
+    "nombre_tipo": "Tutoriales/Educativos",
+    "engagement_rate_promedio": 15.55773778019334,
+    "engagement_score_promedio": 518.4166666666666,
+    "razones_principales": [
+      "Supera a Promocional/Producto por 416.2 puntos en engagement score (11.50% más en engagement rate)",
+      "Supera a Entretenimiento/Viral por 172.4 puntos en engagement score (7.24% más en engagement rate)"
+    ],
+    "caracteristicas_clave": [
+      "Mayoría de publicaciones incluyen contenido multimedia"
+    ],
+    "mejor_horario": "09:00-12:00 (Mañana)",
+    "mejor_dia": "Lunes",
+    "mejor_plataforma": "LinkedIn",
+    "tendencia": "decreciente",
+    "cambio_tendencia": -37.53525098702764,
+    "contenido_viral_porcentaje": 10.0
+  }
+}

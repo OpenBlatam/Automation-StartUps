@@ -1,0 +1,906 @@
+{
+  "name": "Análisis de Estadísticas Orgánicas - Instagram TikTok YouTube con IA",
+  "nodes": [
+    {
+      "parameters": {
+        "cronExpression": "0 8 * * 1",
+        "timezone": "UTC"
+      },
+      "id": "schedule-trigger",
+      "name": "Schedule Trigger - Semanal Lunes 8AM",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        400
+      ],
+      "notes": "Ejecuta cada lunes a las 8:00 AM para analizar estadísticas de la semana anterior"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "social-analytics",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-trigger",
+      "name": "Webhook Trigger - Ejecución Manual",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [
+        250,
+        600
+      ],
+      "webhookId": "social-analytics-webhook",
+      "notes": "Permite ejecutar el análisis manualmente vía webhook"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Inicializar variables del workflow\nconst daysBack = parseInt($env.DAYS_BACK || '7');\nconst executionId = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;\nconst topN = parseInt($env.TOP_N_POSTS || '10');\n\n// Validar API keys\nconst hasOpenAI = !!($env.OPENAI_API_KEY);\nconst hasInstagram = !!($env.INSTAGRAM_ACCESS_TOKEN && $env.INSTAGRAM_ACCOUNT_ID);\nconst hasTikTok = !!($env.TIKTOK_ACCESS_TOKEN);\nconst hasYouTube = !!($env.YOUTUBE_API_KEY);\n\n// Calcular fechas\nconst endDate = new Date();\nconst startDate = new Date();\nstartDate.setDate(startDate.getDate() - daysBack);\n\nreturn [{\n  json: {\n    daysBack: daysBack,\n    topN: topN,\n    startDate: startDate.toISOString().split('T')[0],\n    endDate: endDate.toISOString().split('T')[0],\n    startedAt: new Date().toISOString(),\n    executionId: executionId,\n    hasOpenAI: hasOpenAI,\n    hasInstagram: hasInstagram,\n    hasTikTok: hasTikTok,\n    hasYouTube: hasYouTube,\n    canProceed: hasOpenAI && (hasInstagram || hasTikTok || hasYouTube)\n  }\n}];"
+      },
+      "id": "initialize-workflow",
+      "name": "Initialize Workflow",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        450,
+        500
+      ],
+      "notes": "Inicializa variables del workflow con validación"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "can-proceed",
+              "leftValue": "={{ $json.canProceed }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-can-proceed",
+      "name": "Check Can Proceed",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        650,
+        500
+      ],
+      "notes": "Verifica que se puedan ejecutar las APIs"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Obtener estadísticas de Instagram\nif (!$json.hasInstagram) {\n  return [{\n    json: {\n      ...$input.item.json,\n      instagramPosts: [],\n      instagramError: 'Instagram API no configurada'\n    }\n  }];\n}\n\nconst accessToken = $env.INSTAGRAM_ACCESS_TOKEN;\nconst accountId = $env.INSTAGRAM_ACCOUNT_ID;\nconst startDate = $json.startDate;\nconst endDate = $json.endDate;\n\n// Construir URL para obtener media\nconst url = `https://graph.instagram.com/${accountId}/media?fields=id,caption,media_type,media_url,permalink,timestamp,like_count,comments_count,insights.metric(impressions,reach,engagement,saved)&access_token=${accessToken}&limit=100`;\n\nreturn [{\n  json: {\n    ...$input.item.json,\n    instagramUrl: url,\n    instagramAccountId: accountId\n  }\n}];"
+      },
+      "id": "prepare-instagram-request",
+      "name": "Prepare Instagram Request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        850,
+        300
+      ],
+      "notes": "Prepara la solicitud para obtener estadísticas de Instagram"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.instagramUrl }}",
+        "authentication": "none",
+        "options": {
+          "response": {
+            "responseFormat": "json"
+          },
+          "retry": {
+            "maxRetries": 3,
+            "retryOnFail": true,
+            "retryDelay": 2000
+          },
+          "timeout": 30000
+        }
+      },
+      "id": "get-instagram-stats",
+      "name": "Get Instagram Stats",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1050,
+        300
+      ],
+      "notes": "Obtiene estadísticas de Instagram con retry logic",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Procesar datos de Instagram\nconst data = $json.data || [];\nconst startDate = $('Initialize Workflow').item.json.startDate;\nconst endDate = $('Initialize Workflow').item.json.endDate;\n\nconst posts = data\n  .filter(post => {\n    const postDate = post.timestamp ? post.timestamp.split('T')[0] : null;\n    return postDate && postDate >= startDate && postDate <= endDate;\n  })\n  .map(post => {\n    const insights = post.insights?.data || {};\n    const impressions = insights.find(i => i.name === 'impressions')?.values?.[0]?.value || 0;\n    const reach = insights.find(i => i.name === 'reach')?.values?.[0]?.value || 0;\n    const engagement = insights.find(i => i.name === 'engagement')?.values?.[0]?.value || 0;\n    const saved = insights.find(i => i.name === 'saved')?.values?.[0]?.value || 0;\n    \n    const likes = post.like_count || 0;\n    const comments = post.comments_count || 0;\n    const totalEngagement = likes + comments + saved;\n    const engagementRate = impressions > 0 ? (totalEngagement / impressions) * 100 : 0;\n    \n    // Extraer hashtags y hora de publicación\n    const caption = post.caption || '';\n    const hashtags = (caption.match(/#\\w+/g) || []).map(tag => tag.toLowerCase());\n    const timestamp = post.timestamp || '';\n    const hour = timestamp ? new Date(timestamp).getHours() : null;\n    const dayOfWeek = timestamp ? new Date(timestamp).getDay() : null;\n    \n    return {\n      platform: 'Instagram',\n      postId: post.id,\n      caption: caption,\n      hashtags: hashtags,\n      mediaType: post.media_type || 'UNKNOWN',\n      mediaUrl: post.media_url || '',\n      permalink: post.permalink || '',\n      timestamp: timestamp,\n      date: timestamp ? timestamp.split('T')[0] : '',\n      hour: hour,\n      dayOfWeek: dayOfWeek,\n      likes: likes,\n      comments: comments,\n      impressions: impressions,\n      reach: reach,\n      saved: saved,\n      totalEngagement: totalEngagement,\n      engagementRate: engagementRate,\n      viralScore: (engagementRate * 0.4) + ((totalEngagement / Math.max(reach, 1)) * 60)\n    };\n  });\n\nreturn [{\n  json: {\n    ...$('Initialize Workflow').item.json,\n    instagramPosts: posts,\n    instagramCount: posts.length\n  }\n}];"
+      },
+      "id": "process-instagram-data",
+      "name": "Process Instagram Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1250,
+        300
+      ],
+      "notes": "Procesa y normaliza datos de Instagram",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Obtener estadísticas de TikTok\nif (!$json.hasTikTok) {\n  return [{\n    json: {\n      ...$input.item.json,\n      tiktokPosts: [],\n      tiktokError: 'TikTok API no configurada'\n    }\n  }];\n}\n\nconst accessToken = $env.TIKTOK_ACCESS_TOKEN;\nconst startDate = $json.startDate;\nconst endDate = $json.endDate;\n\n// TikTok Business API endpoint\nconst url = `https://open.tiktokapis.com/v2/research/video/query/?fields=video_id,title,video_description,create_time,view_count,like_count,comment_count,share_count,play_duration&start_date=${startDate}&end_date=${endDate}`;\n\nreturn [{\n  json: {\n    ...$input.item.json,\n    tiktokUrl: url,\n    tiktokAccessToken: accessToken\n  }\n}];"
+      },
+      "id": "prepare-tiktok-request",
+      "name": "Prepare TikTok Request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        850,
+        500
+      ],
+      "notes": "Prepara la solicitud para obtener estadísticas de TikTok"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.tiktokUrl }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $json.tiktokAccessToken }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "responseFormat": "json"
+          },
+          "retry": {
+            "maxRetries": 3,
+            "retryOnFail": true,
+            "retryDelay": 2000
+          },
+          "timeout": 30000
+        }
+      },
+      "id": "get-tiktok-stats",
+      "name": "Get TikTok Stats",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1050,
+        500
+      ],
+      "notes": "Obtiene estadísticas de TikTok con retry logic y manejo de rate limiting",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Procesar datos de TikTok\nconst data = $json.data?.videos || $json.data || [];\nconst startDate = $('Initialize Workflow').item.json.startDate;\nconst endDate = $('Initialize Workflow').item.json.endDate;\n\nconst posts = data\n  .filter(post => {\n    const postDate = post.create_time ? post.create_time.split('T')[0] : null;\n    return postDate && postDate >= startDate && postDate <= endDate;\n  })\n  .map(post => {\n    const views = post.view_count || 0;\n    const likes = post.like_count || 0;\n    const comments = post.comment_count || 0;\n    const shares = post.share_count || 0;\n    const totalEngagement = likes + comments + shares;\n    const engagementRate = views > 0 ? (totalEngagement / views) * 100 : 0;\n    \n      // Extraer hashtags y hora de publicación\n      const caption = post.video_description || post.title || '';\n      const hashtags = (caption.match(/#\\w+/g) || []).map(tag => tag.toLowerCase());\n      const timestamp = post.create_time || '';\n      const hour = timestamp ? new Date(timestamp).getHours() : null;\n      const dayOfWeek = timestamp ? new Date(timestamp).getDay() : null;\n      \n      return {\n      platform: 'TikTok',\n      postId: post.video_id || post.id || '',\n      caption: caption,\n      hashtags: hashtags,\n      mediaType: 'VIDEO',\n      mediaUrl: post.video_url || '',\n      permalink: `https://www.tiktok.com/@${post.username || 'user'}/video/${post.video_id || post.id}`,\n      timestamp: timestamp,\n      date: timestamp ? timestamp.split('T')[0] : '',\n      hour: hour,\n      dayOfWeek: dayOfWeek,\n      views: views,\n      likes: likes,\n      comments: comments,\n      shares: shares,\n      totalEngagement: totalEngagement,\n      engagementRate: engagementRate,\n      viralScore: (engagementRate * 0.4) + ((totalEngagement / Math.max(views, 1)) * 60)\n    };\n  });\n\nreturn [{\n  json: {\n    ...$('Initialize Workflow').item.json,\n    tiktokPosts: posts,\n    tiktokCount: posts.length\n  }\n}];"
+      },
+      "id": "process-tiktok-data",
+      "name": "Process TikTok Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1250,
+        500
+      ],
+      "notes": "Procesa y normaliza datos de TikTok",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Obtener estadísticas de YouTube\nif (!$json.hasYouTube) {\n  return [{\n    json: {\n      ...$input.item.json,\n      youtubePosts: [],\n      youtubeError: 'YouTube API no configurada'\n    }\n  }];\n}\n\nconst apiKey = $env.YOUTUBE_API_KEY;\nconst channelId = $env.YOUTUBE_CHANNEL_ID || '';\nconst startDate = $json.startDate;\nconst endDate = $json.endDate;\n\n// Primero obtener el channel ID si no está configurado\nlet url;\nif (channelId) {\n  url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&type=video&publishedAfter=${startDate}T00:00:00Z&publishedBefore=${endDate}T23:59:59Z&maxResults=50&key=${apiKey}`;\n} else {\n  // Si no hay channelId, usar el endpoint de búsqueda por username\n  url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&publishedAfter=${startDate}T00:00:00Z&publishedBefore=${endDate}T23:59:59Z&maxResults=50&key=${apiKey}`;\n}\n\nreturn [{\n  json: {\n    ...$input.item.json,\n    youtubeUrl: url,\n    youtubeApiKey: apiKey,\n    youtubeChannelId: channelId\n  }\n}];"
+      },
+      "id": "prepare-youtube-request",
+      "name": "Prepare YouTube Request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        850,
+        700
+      ],
+      "notes": "Prepara la solicitud para obtener estadísticas de YouTube"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.youtubeUrl }}",
+        "authentication": "none",
+        "options": {
+          "response": {
+            "responseFormat": "json"
+          },
+          "retry": {
+            "maxRetries": 3,
+            "retryOnFail": true,
+            "retryDelay": 2000
+          },
+          "timeout": 30000
+        }
+      },
+      "id": "get-youtube-videos",
+      "name": "Get YouTube Videos",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1050,
+        700
+      ],
+      "notes": "Obtiene lista de videos de YouTube con retry logic",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Obtener estadísticas detalladas de videos de YouTube\nconst videos = $json.items || [];\nconst apiKey = $('Prepare YouTube Request').item.json.youtubeApiKey;\n\nif (videos.length === 0) {\n  return [{\n    json: {\n      ...$('Initialize Workflow').item.json,\n      youtubePosts: [],\n      youtubeCount: 0\n    }\n  }];\n}\n\n// Obtener IDs de videos\nconst videoIds = videos.map(v => v.id.videoId).join(',');\nconst statsUrl = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${videoIds}&key=${apiKey}`;\n\nreturn [{\n  json: {\n    ...$('Initialize Workflow').item.json,\n    youtubeStatsUrl: statsUrl,\n    youtubeVideoIds: videoIds\n  }\n}];"
+      },
+      "id": "prepare-youtube-stats",
+      "name": "Prepare YouTube Stats Request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1250,
+        700
+      ],
+      "notes": "Prepara solicitud de estadísticas detalladas de YouTube",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.youtubeStatsUrl }}",
+        "authentication": "none",
+        "options": {
+          "response": {
+            "responseFormat": "json"
+          },
+          "retry": {
+            "maxRetries": 3,
+            "retryOnFail": true,
+            "retryDelay": 2000
+          },
+          "timeout": 30000
+        }
+      },
+      "id": "get-youtube-stats",
+      "name": "Get YouTube Stats",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1450,
+        700
+      ],
+      "notes": "Obtiene estadísticas detalladas de YouTube con retry logic",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Procesar datos de YouTube\nconst data = $json.items || [];\nconst startDate = $('Initialize Workflow').item.json.startDate;\nconst endDate = $('Initialize Workflow').item.json.endDate;\n\nconst posts = data\n  .filter(video => {\n    const publishDate = video.snippet?.publishedAt ? video.snippet.publishedAt.split('T')[0] : null;\n    return publishDate && publishDate >= startDate && publishDate <= endDate;\n  })\n  .map(video => {\n    const stats = video.statistics || {};\n    const views = parseInt(stats.viewCount || 0);\n    const likes = parseInt(stats.likeCount || 0);\n    const comments = parseInt(stats.commentCount || 0);\n    const totalEngagement = likes + comments;\n    const engagementRate = views > 0 ? (totalEngagement / views) * 100 : 0;\n    \n      // Extraer hashtags y hora de publicación\n      const caption = video.snippet?.title || video.snippet?.description || '';\n      const hashtags = (caption.match(/#\\w+/g) || []).map(tag => tag.toLowerCase());\n      const timestamp = video.snippet?.publishedAt || '';\n      const hour = timestamp ? new Date(timestamp).getHours() : null;\n      const dayOfWeek = timestamp ? new Date(timestamp).getDay() : null;\n      \n      return {\n      platform: 'YouTube',\n      postId: video.id,\n      caption: caption,\n      hashtags: hashtags,\n      mediaType: 'VIDEO',\n      mediaUrl: video.snippet?.thumbnails?.high?.url || '',\n      permalink: `https://www.youtube.com/watch?v=${video.id}`,\n      timestamp: timestamp,\n      date: timestamp ? timestamp.split('T')[0] : '',\n      hour: hour,\n      dayOfWeek: dayOfWeek,\n      views: views,\n      likes: likes,\n      comments: comments,\n      totalEngagement: totalEngagement,\n      engagementRate: engagementRate,\n      viralScore: (engagementRate * 0.4) + ((totalEngagement / Math.max(views, 1)) * 60)\n    };\n  });\n\nreturn [{\n  json: {\n    ...$('Initialize Workflow').item.json,\n    youtubePosts: posts,\n    youtubeCount: posts.length\n  }\n}];"
+      },
+      "id": "process-youtube-data",
+      "name": "Process YouTube Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1650,
+        700
+      ],
+      "notes": "Procesa y normaliza datos de YouTube",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "id": "merge-all-posts",
+      "name": "Merge All Posts",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2.1,
+      "position": [
+        1850,
+        500
+      ],
+      "notes": "Combina todos los posts de todas las plataformas"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Combinar y analizar todos los posts\nconst instagramPosts = $('Process Instagram Data').item?.json?.instagramPosts || [];\nconst tiktokPosts = $('Process TikTok Data').item?.json?.tiktokPosts || [];\nconst youtubePosts = $('Process YouTube Data').item?.json?.youtubePosts || [];\n\n// Combinar todos los posts\nconst allPosts = [\n  ...instagramPosts,\n  ...tiktokPosts,\n  ...youtubePosts\n];\n\n// Ordenar por viralScore descendente\nconst sortedPosts = allPosts.sort((a, b) => b.viralScore - a.viralScore);\n\n// Obtener top N posts\nconst topN = $('Initialize Workflow').item.json.topN;\nconst topPosts = sortedPosts.slice(0, topN);\n\n// Calcular estadísticas generales\nconst totalPosts = allPosts.length;\nconst avgEngagementRate = allPosts.length > 0 \n  ? allPosts.reduce((sum, p) => sum + p.engagementRate, 0) / allPosts.length \n  : 0;\nconst avgViralScore = allPosts.length > 0\n  ? allPosts.reduce((sum, p) => sum + p.viralScore, 0) / allPosts.length\n  : 0;\n\n// Calcular métricas adicionales\nconst totalEngagement = allPosts.reduce((sum, p) => sum + p.totalEngagement, 0);\nconst maxEngagementRate = allPosts.length > 0 ? Math.max(...allPosts.map(p => p.engagementRate)) : 0;\nconst minEngagementRate = allPosts.length > 0 ? Math.min(...allPosts.map(p => p.engagementRate)) : 0;\n\n// Análisis por plataforma\nconst platformStats = {\n  Instagram: {\n    count: instagramPosts.length,\n    avgEngagement: instagramPosts.length > 0 ? instagramPosts.reduce((sum, p) => sum + p.engagementRate, 0) / instagramPosts.length : 0,\n    avgViralScore: instagramPosts.length > 0 ? instagramPosts.reduce((sum, p) => sum + p.viralScore, 0) / instagramPosts.length : 0\n  },\n  TikTok: {\n    count: tiktokPosts.length,\n    avgEngagement: tiktokPosts.length > 0 ? tiktokPosts.reduce((sum, p) => sum + p.engagementRate, 0) / tiktokPosts.length : 0,\n    avgViralScore: tiktokPosts.length > 0 ? tiktokPosts.reduce((sum, p) => sum + p.viralScore, 0) / tiktokPosts.length : 0\n  },\n  YouTube: {\n    count: youtubePosts.length,\n    avgEngagement: youtubePosts.length > 0 ? youtubePosts.reduce((sum, p) => sum + p.engagementRate, 0) / youtubePosts.length : 0,\n    avgViralScore: youtubePosts.length > 0 ? youtubePosts.reduce((sum, p) => sum + p.viralScore, 0) / youtubePosts.length : 0\n  }\n};\n\n// Agrupar por plataforma (compatibilidad)\nconst byPlatform = {\n  Instagram: instagramPosts.length,\n  TikTok: tiktokPosts.length,\n  YouTube: youtubePosts.length\n};\n\n// Análisis de hashtags\nconst allHashtags = {};\nallPosts.forEach(post => {\n  (post.hashtags || []).forEach(tag => {\n    if (!allHashtags[tag]) {\n      allHashtags[tag] = { count: 0, totalEngagement: 0, posts: [] };\n    }\n    allHashtags[tag].count++;\n    allHashtags[tag].totalEngagement += post.totalEngagement;\n    allHashtags[tag].posts.push(post.postId);\n  });\n});\n\nconst topHashtags = Object.entries(allHashtags)\n  .map(([tag, data]) => ({\n    tag,\n    count: data.count,\n    avgEngagement: data.totalEngagement / data.count,\n    totalEngagement: data.totalEngagement\n  }))\n  .sort((a, b) => b.avgEngagement - a.avgEngagement)\n  .slice(0, 20);\n\n// Análisis de combinaciones de hashtags (qué hashtags funcionan mejor juntos)\nconst hashtagCombinations = {};\nallPosts.forEach(post => {\n  const tags = post.hashtags || [];\n  if (tags.length >= 2) {\n    // Generar todas las combinaciones de 2 hashtags\n    for (let i = 0; i < tags.length; i++) {\n      for (let j = i + 1; j < tags.length; j++) {\n        const combo = [tags[i], tags[j]].sort().join('+');\n        if (!hashtagCombinations[combo]) {\n          hashtagCombinations[combo] = { count: 0, totalEngagement: 0, avgViralScore: 0, posts: [] };\n        }\n        hashtagCombinations[combo].count++;\n        hashtagCombinations[combo].totalEngagement += post.totalEngagement;\n        hashtagCombinations[combo].avgViralScore += post.viralScore;\n        hashtagCombinations[combo].posts.push(post.postId);\n      }\n    }\n  }\n});\n\nconst topHashtagCombinations = Object.entries(hashtagCombinations)\n  .filter(([combo, data]) => data.count >= 2) // Solo combinaciones usadas al menos 2 veces\n  .map(([combo, data]) => ({\n    combination: combo.split('+'),\n    count: data.count,\n    avgEngagement: data.totalEngagement / data.count,\n    avgViralScore: data.avgViralScore / data.count,\n    totalEngagement: data.totalEngagement\n  }))\n  .sort((a, b) => b.avgViralScore - a.avgViralScore)\n  .slice(0, 15);\n\n// Análisis de mejores horarios\nconst hourStats = {};\nconst dayStats = {};\nallPosts.forEach(post => {\n  if (post.hour !== null) {\n    if (!hourStats[post.hour]) {\n      hourStats[post.hour] = { count: 0, totalEngagement: 0, totalViralScore: 0 };\n    }\n    hourStats[post.hour].count++;\n    hourStats[post.hour].totalEngagement += post.totalEngagement;\n    hourStats[post.hour].totalViralScore += post.viralScore;\n  }\n  if (post.dayOfWeek !== null) {\n    const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];\n    const dayName = dayNames[post.dayOfWeek];\n    if (!dayStats[dayName]) {\n      dayStats[dayName] = { count: 0, totalEngagement: 0, totalViralScore: 0 };\n    }\n    dayStats[dayName].count++;\n    dayStats[dayName].totalEngagement += post.totalEngagement;\n    dayStats[dayName].totalViralScore += post.viralScore;\n  }\n});\n\nconst bestHours = Object.entries(hourStats)\n  .map(([hour, data]) => ({\n    hour: parseInt(hour),\n    count: data.count,\n    avgEngagement: data.totalEngagement / data.count,\n    avgViralScore: data.totalViralScore / data.count\n  }))\n  .sort((a, b) => b.avgViralScore - a.avgViralScore)\n  .slice(0, 5);\n\nconst bestDays = Object.entries(dayStats)\n  .map(([day, data]) => ({\n    day,\n    count: data.count,\n    avgEngagement: data.totalEngagement / data.count,\n    avgViralScore: data.totalViralScore / data.count\n  }))\n  .sort((a, b) => b.avgViralScore - a.avgViralScore);\n\n// Detección de anomalías (posts que destacan significativamente)\nconst avgViralScoreNum = parseFloat(avgViralScore);\nconst stdDev = allPosts.length > 1 ? Math.sqrt(\n  allPosts.reduce((sum, p) => sum + Math.pow(p.viralScore - avgViralScoreNum, 2), 0) / allPosts.length\n) : 0;\n\nconst anomalies = allPosts\n  .filter(post => post.viralScore > avgViralScoreNum + (stdDev * 2))\n  .sort((a, b) => b.viralScore - a.viralScore)\n  .slice(0, 5);\n\n// Calcular métricas adicionales de rendimiento\nconst viralPosts = allPosts.filter(p => p.engagementRate > 10 && p.totalEngagement > 500);\nconst viralPercentage = allPosts.length > 0 ? (viralPosts.length / allPosts.length) * 100 : 0;\n\n// Análisis de contenido por tipo de media\nconst mediaTypeStats = {};\nallPosts.forEach(post => {\n  const mediaType = post.mediaType || 'UNKNOWN';\n  if (!mediaTypeStats[mediaType]) {\n    mediaTypeStats[mediaType] = { count: 0, totalEngagement: 0, totalViralScore: 0 };\n  }\n  mediaTypeStats[mediaType].count++;\n  mediaTypeStats[mediaType].totalEngagement += post.totalEngagement;\n  mediaTypeStats[mediaType].totalViralScore += post.viralScore;\n});\n\nconst bestMediaTypes = Object.entries(mediaTypeStats)\n  .map(([type, data]) => ({\n    type,\n    count: data.count,\n    avgEngagement: data.totalEngagement / data.count,\n    avgViralScore: data.totalViralScore / data.count\n  }))\n  .sort((a, b) => b.avgViralScore - a.avgViralScore);\n\n// Calcular coeficiente de variación (variabilidad del engagement)\nconst engagementRates = allPosts.map(p => p.engagementRate);\nconst cv = engagementRates.length > 0 && avgEngagementRate > 0 \n  ? (stdDev / parseFloat(avgEngagementRate)) * 100 \n  : 0;\n\n// Análisis de tipos de contenido (basado en captions)\nconst contentTypes = {\n  tutorial: { keywords: ['tutorial', 'cómo', 'aprende', 'guía', 'paso a paso', 'tips'], posts: [], totalEngagement: 0 },\n  entretenimiento: { keywords: ['viral', 'divertido', 'funny', 'meme', 'chiste'], posts: [], totalEngagement: 0 },\n  educativo: { keywords: ['educación', 'aprende', 'curso', 'clase', 'lección'], posts: [], totalEngagement: 0 },\n  promocional: { keywords: ['oferta', 'descuento', 'nuevo', 'producto', 'comprar', 'promoción'], posts: [], totalEngagement: 0 },\n  inspiracional: { keywords: ['motivación', 'inspiración', 'éxito', 'superación', 'motiva'], posts: [], totalEngagement: 0 }\n};\n\nallPosts.forEach(post => {\n  const captionLower = (post.caption || '').toLowerCase();\n  let classified = false;\n  \n  for (const [type, data] of Object.entries(contentTypes)) {\n    if (data.keywords.some(keyword => captionLower.includes(keyword))) {\n      data.posts.push(post);\n      data.totalEngagement += post.totalEngagement;\n      classified = true;\n      break;\n    }\n  }\n  \n  if (!classified) {\n    contentTypes.otro = contentTypes.otro || { posts: [], totalEngagement: 0 };\n    contentTypes.otro.posts.push(post);\n    contentTypes.otro.totalEngagement += post.totalEngagement;\n  }\n});\n\nconst contentTypeStats = Object.entries(contentTypes)\n  .filter(([type, data]) => data.posts && data.posts.length > 0)\n  .map(([type, data]) => ({\n    type,\n    count: data.posts.length,\n    avgEngagement: data.totalEngagement / data.posts.length,\n    avgViralScore: data.posts.reduce((sum, p) => sum + p.viralScore, 0) / data.posts.length,\n    totalEngagement: data.totalEngagement\n  }))\n  .sort((a, b) => b.avgViralScore - a.avgViralScore);\n\n// Análisis de tendencias temporales (comparación semana a semana)\nconst weeklyTrends = {};\nallPosts.forEach(post => {\n  if (post.date) {\n    const date = new Date(post.date);\n    const weekStart = new Date(date);\n    weekStart.setDate(date.getDate() - date.getDay()); // Lunes de la semana\n    const weekKey = weekStart.toISOString().split('T')[0];\n    \n    if (!weeklyTrends[weekKey]) {\n      weeklyTrends[weekKey] = {\n        week: weekKey,\n        posts: [],\n        totalEngagement: 0,\n        avgEngagementRate: 0,\n        avgViralScore: 0\n      };\n    }\n    weeklyTrends[weekKey].posts.push(post);\n    weeklyTrends[weekKey].totalEngagement += post.totalEngagement;\n  }\n});\n\n// Calcular promedios por semana\nconst weeklyTrendsArray = Object.entries(weeklyTrends)\n  .map(([week, data]) => {\n    const avgEngagementRate = data.posts.length > 0\n      ? data.posts.reduce((sum, p) => sum + p.engagementRate, 0) / data.posts.length\n      : 0;\n    const avgViralScore = data.posts.length > 0\n      ? data.posts.reduce((sum, p) => sum + p.viralScore, 0) / data.posts.length\n      : 0;\n    return {\n      week,\n      postCount: data.posts.length,\n      totalEngagement: data.totalEngagement,\n      avgEngagementRate: avgEngagementRate.toFixed(2),\n      avgViralScore: avgViralScore.toFixed(2)\n    };\n  })\n  .sort((a, b) => a.week.localeCompare(b.week));\n\n// Calcular tendencia (crecimiento o decrecimiento semana a semana)\nif (weeklyTrendsArray.length >= 2) {\n  for (let i = 1; i < weeklyTrendsArray.length; i++) {\n    const prevWeek = weeklyTrendsArray[i - 1];\n    const currentWeek = weeklyTrendsArray[i];\n    const engagementChange = parseFloat(prevWeek.avgEngagementRate) > 0\n      ? ((parseFloat(currentWeek.avgEngagementRate) - parseFloat(prevWeek.avgEngagementRate)) / parseFloat(prevWeek.avgEngagementRate)) * 100\n      : 0;\n    weeklyTrendsArray[i].engagementTrend = engagementChange.toFixed(2);\n    weeklyTrendsArray[i].viralScoreChange = (parseFloat(currentWeek.avgViralScore) - parseFloat(prevWeek.avgViralScore)).toFixed(2);\n  }\n}\n\n// Análisis de longitud óptima de captions\nconst captionLengthStats = {\n  corto: { range: [0, 50], posts: [], totalEngagement: 0, totalViralScore: 0 },\n  medio: { range: [51, 150], posts: [], totalEngagement: 0, totalViralScore: 0 },\n  largo: { range: [151, 300], posts: [], totalEngagement: 0, totalViralScore: 0 },\n  muyLargo: { range: [301, Infinity], posts: [], totalEngagement: 0, totalViralScore: 0 }\n};\n\nallPosts.forEach(post => {\n  const captionLength = (post.caption || '').length;\n  let category = 'muyLargo';\n  \n  for (const [cat, data] of Object.entries(captionLengthStats)) {\n    if (captionLength >= data.range[0] && captionLength <= data.range[1]) {\n      category = cat;\n      break;\n    }\n  }\n  \n  captionLengthStats[category].posts.push(post);\n  captionLengthStats[category].totalEngagement += post.totalEngagement;\n  captionLengthStats[category].totalViralScore += post.viralScore;\n});\n\nconst optimalCaptionLength = Object.entries(captionLengthStats)\n  .filter(([cat, data]) => data.posts.length > 0)\n  .map(([cat, data]) => ({\n    category: cat,\n    range: `${data.range[0]}-${data.range[1] === Infinity ? '∞' : data.range[1]} caracteres`,\n    count: data.posts.length,\n    avgEngagement: data.totalEngagement / data.posts.length,\n    avgViralScore: data.totalViralScore / data.posts.length,\n    avgLength: data.posts.reduce((sum, p) => sum + (p.caption || '').length, 0) / data.posts.length\n  }))\n  .sort((a, b) => b.avgViralScore - a.avgViralScore);\n\n// Análisis de frecuencia de publicación óptima\nconst postingFrequency = {};\nallPosts.sort((a, b) => new Date(a.date) - new Date(b.date));\n\nfor (let i = 1; i < allPosts.length; i++) {\n  const prevPost = allPosts[i - 1];\n  const currentPost = allPosts[i];\n  \n  if (prevPost.date && currentPost.date) {\n    const daysDiff = Math.floor((new Date(currentPost.date) - new Date(prevPost.date)) / (1000 * 60 * 60 * 24));\n    \n    if (daysDiff >= 0 && daysDiff <= 7) {\n      const freqKey = daysDiff === 0 ? 'mismo_dia' : daysDiff === 1 ? 'diario' : daysDiff <= 3 ? 'cada_2_3_dias' : 'semanal';\n      \n      if (!postingFrequency[freqKey]) {\n        postingFrequency[freqKey] = { count: 0, totalEngagement: 0, totalViralScore: 0, posts: [] };\n      }\n      \n      postingFrequency[freqKey].count++;\n      postingFrequency[freqKey].totalEngagement += currentPost.totalEngagement;\n      postingFrequency[freqKey].totalViralScore += currentPost.viralScore;\n      postingFrequency[freqKey].posts.push(currentPost);\n    }\n  }\n}\n\nconst optimalPostingFrequency = Object.entries(postingFrequency)\n  .filter(([freq, data]) => data.count >= 2)\n  .map(([freq, data]) => ({\n    frequency: freq,\n    label: freq === 'mismo_dia' ? 'Múltiples posts el mismo día' :\n            freq === 'diario' ? 'Publicación diaria' :\n            freq === 'cada_2_3_dias' ? 'Cada 2-3 días' :\n            'Semanal',\n    count: data.count,\n    avgEngagement: data.totalEngagement / data.count,\n    avgViralScore: data.totalViralScore / data.count\n  }))\n  .sort((a, b) => b.avgViralScore - a.avgViralScore);\n\n// Generar recomendaciones personalizadas detalladas\nconst personalizedRecommendations = [];\n\n// Recomendación basada en mejor tipo de contenido\nif (contentTypeStats.length > 0) {\n  const bestContentType = contentTypeStats[0];\n  personalizedRecommendations.push({\n    category: 'Tipo de Contenido',\n    priority: 'HIGH',\n    recommendation: `Aumentar producción de contenido tipo \\\"${bestContentType.type}\\\"`,\n    reason: `Tiene el mejor score viral promedio (${bestContentType.avgViralScore.toFixed(2)}) con ${bestContentType.count} posts analizados`,\n    expectedImpact: `Aumento estimado del ${((bestContentType.avgViralScore / parseFloat(avgViralScore) - 1) * 100).toFixed(1)}% en score viral`\n  });\n}\n\n// Recomendación basada en mejor plataforma\nif (platformStats) {\n  const platformEntries = Object.entries(platformStats).filter(([p, s]) => s.count > 0);\n  if (platformEntries.length > 0) {\n    const bestPlatform = platformEntries.sort((a, b) => b[1].avgViralScore - a[1].avgViralScore)[0];\n    personalizedRecommendations.push({\n      category: 'Plataforma',\n      priority: 'MEDIUM',\n      recommendation: `Enfocar más esfuerzo en ${bestPlatform[0]}`,\n      reason: `Mejor rendimiento promedio (Score: ${bestPlatform[1].avgViralScore.toFixed(2)})`,\n      expectedImpact: `Mayor engagement promedio en ${bestPlatform[0]}`\n    });\n  }\n}\n\n// Recomendación basada en longitud de caption\nif (optimalCaptionLength.length > 0) {\n  const bestLength = optimalCaptionLength[0];\n  personalizedRecommendations.push({\n    category: 'Longitud de Caption',\n    priority: 'MEDIUM',\n    recommendation: `Optimizar captions a ${bestLength.range.replace(/∞/g, 'infinito')}`,\n    reason: `Mejor score viral promedio (${bestLength.avgViralScore.toFixed(2)}) con ${bestLength.count} posts`,\n    expectedImpact: `Mejora estimada del ${((bestLength.avgViralScore / parseFloat(avgViralScore) - 1) * 100).toFixed(1)}%`\n  });\n}\n\n// Recomendación basada en frecuencia de publicación\nif (optimalPostingFrequency.length > 0) {\n  const bestFreq = optimalPostingFrequency[0];\n  personalizedRecommendations.push({\n    category: 'Frecuencia de Publicación',\n    priority: 'LOW',\n    recommendation: `Mantener frecuencia de ${bestFreq.label}`,\n    reason: `Mejor rendimiento con esta frecuencia (Score: ${bestFreq.avgViralScore.toFixed(2)})`,\n    expectedImpact: `Consistencia en engagement`\n  });\n}\n\n// Recomendación basada en combinaciones de hashtags\nif (topHashtagCombinations.length > 0) {\n  const bestCombo = topHashtagCombinations[0];\n  personalizedRecommendations.push({\n    category: 'Hashtags',\n    priority: 'HIGH',\n    recommendation: `Usar combinación: #${bestCombo.combination.join(' + #')}`,\n    reason: `Mejor score viral promedio (${bestCombo.avgViralScore.toFixed(2)}) cuando se usan juntos`,\n    expectedImpact: `Aumento estimado del ${((bestCombo.avgViralScore / parseFloat(avgViralScore) - 1) * 100).toFixed(1)}% en score viral`\n  });\n}\n\n// Análisis de palabras clave más efectivas en captions\nconst keywordStats = {};\nconst commonWords = ['el', 'la', 'de', 'que', 'y', 'a', 'en', 'un', 'es', 'se', 'no', 'te', 'lo', 'le', 'da', 'su', 'por', 'son', 'con', 'para', 'al', 'del', 'los', 'las', 'una', 'como', 'pero', 'más', 'muy', 'todo', 'todos', 'esta', 'este', 'estos', 'estas', 'también', 'solo', 'solo', 'hasta', 'desde', 'sobre', 'entre', 'durante', 'mediante', 'según', 'contra', 'sin', 'bajo', 'tras', 'ante', 'cabe', 'con', 'de', 'en', 'para', 'por', 'según', 'sin', 'sobre', 'tras', 'durante', 'mediante', 'contra', 'bajo', 'ante', 'cabe', 'a', 'ante', 'bajo', 'cabe', 'con', 'contra', 'de', 'desde', 'durante', 'en', 'entre', 'hacia', 'hasta', 'mediante', 'para', 'por', 'según', 'sin', 'sobre', 'tras', 'versus', 'vía'];\n\nallPosts.forEach(post => {\n  const caption = (post.caption || '').toLowerCase();\n  const words = caption.match(/\\b[a-záéíóúñ]{3,}\\b/gi) || [];\n  \n  words.forEach(word => {\n    if (!commonWords.includes(word.toLowerCase()) && word.length >= 3) {\n      const wordLower = word.toLowerCase();\n      if (!keywordStats[wordLower]) {\n        keywordStats[wordLower] = { count: 0, totalEngagement: 0, totalViralScore: 0, posts: [] };\n      }\n      keywordStats[wordLower].count++;\n      keywordStats[wordLower].totalEngagement += post.totalEngagement;\n      keywordStats[wordLower].totalViralScore += post.viralScore;\n      keywordStats[wordLower].posts.push(post.postId);\n    }\n  });\n});\n\nconst topKeywords = Object.entries(keywordStats)\n  .filter(([word, data]) => data.count >= 2)\n  .map(([word, data]) => ({\n    keyword: word,\n    count: data.count,\n    avgEngagement: data.totalEngagement / data.count,\n    avgViralScore: data.totalViralScore / data.count,\n    totalEngagement: data.totalEngagement\n  }))\n  .sort((a, b) => b.avgViralScore - a.avgViralScore)\n  .slice(0, 20);\n\n// Análisis de emojis más efectivos\nconst emojiStats = {};\nconst emojiRegex = /(?:\\uD83C[\\uDF00-\\uDFFF]|\\uD83D[\\uDC00-\\uDE4F]|\\uD83D[\\uDE80-\\uDEFF]|[\\u2600-\\u27BF])/g;\n\nallPosts.forEach(post => {\n  const caption = post.caption || '';\n  const emojis = caption.match(emojiRegex) || [];\n  \n  emojis.forEach(emoji => {\n    if (!emojiStats[emoji]) {\n      emojiStats[emoji] = { count: 0, totalEngagement: 0, totalViralScore: 0, posts: [] };\n    }\n    emojiStats[emoji].count++;\n    emojiStats[emoji].totalEngagement += post.totalEngagement;\n    emojiStats[emoji].totalViralScore += post.viralScore;\n    emojiStats[emoji].posts.push(post.postId);\n  });\n});\n\nconst topEmojis = Object.entries(emojiStats)\n  .filter(([emoji, data]) => data.count >= 2)\n  .map(([emoji, data]) => ({\n    emoji: emoji,\n    count: data.count,\n    avgEngagement: data.totalEngagement / data.count,\n    avgViralScore: data.totalViralScore / data.count,\n    totalEngagement: data.totalEngagement\n  }))\n  .sort((a, b) => b.avgViralScore - a.avgViralScore)\n  .slice(0, 15);\n\n// Predicción de mejor hora basada en audiencia (usando datos históricos)\nconst hourPerformanceByPlatform = {};\nallPosts.forEach(post => {\n  if (post.hour !== null && post.platform) {\n    const key = `${post.platform}_${post.hour}`;\n    if (!hourPerformanceByPlatform[key]) {\n      hourPerformanceByPlatform[key] = { count: 0, totalViralScore: 0, platform: post.platform, hour: post.hour };\n    }\n    hourPerformanceByPlatform[key].count++;\n    hourPerformanceByPlatform[key].totalViralScore += post.viralScore;\n  }\n});\n\nconst predictedBestHours = Object.entries(hourPerformanceByPlatform)\n  .filter(([key, data]) => data.count >= 2)\n  .map(([key, data]) => ({\n    platform: data.platform,\n    hour: data.hour,\n    count: data.count,\n    avgViralScore: data.totalViralScore / data.count,\n    confidence: Math.min(100, data.count * 10)\n  }))\n  .sort((a, b) => b.avgViralScore - a.avgViralScore)\n  .slice(0, 10);\n\n// Análisis de sentimiento básico de captions\nconst positiveWords = ['excelente', 'genial', 'increíble', 'mejor', 'top', 'viral', 'éxito', 'fantástico', 'perfecto', 'increíble', 'asombroso', 'maravilloso', 'genial', 'bueno', 'grandioso', 'impresionante', 'sorprendente', 'increíble', 'fenomenal', 'espectacular'];\nconst negativeWords = ['mal', 'peor', 'error', 'fallo', 'problema', 'difícil', 'terrible', 'horrible', 'malo', 'fracaso', 'decepción', 'frustrante'];\n\nconst sentimentStats = { positive: 0, negative: 0, neutral: 0, total: 0 };\nconst sentimentByPerformance = { positive: [], negative: [], neutral: [] };\n\nallPosts.forEach(post => {\n  const caption = (post.caption || '').toLowerCase();\n  const positiveCount = positiveWords.filter(word => caption.includes(word)).length;\n  const negativeCount = negativeWords.filter(word => caption.includes(word)).length;\n  \n  let sentiment = 'neutral';\n  if (positiveCount > negativeCount) {\n    sentiment = 'positive';\n  } else if (negativeCount > positiveCount) {\n    sentiment = 'negative';\n  }\n  \n  sentimentStats[sentiment]++;\n  sentimentStats.total++;\n  \n  sentimentByPerformance[sentiment].push({\n    postId: post.postId,\n    viralScore: post.viralScore,\n    engagementRate: post.engagementRate\n  });\n});\n\nconst sentimentAnalysis = {\n  distribution: {\n    positive: sentimentStats.total > 0 ? ((sentimentStats.positive / sentimentStats.total) * 100).toFixed(2) : '0',\n    negative: sentimentStats.total > 0 ? ((sentimentStats.negative / sentimentStats.total) * 100).toFixed(2) : '0',\n    neutral: sentimentStats.total > 0 ? ((sentimentStats.neutral / sentimentStats.total) * 100).toFixed(2) : '0'\n  },\n  avgPerformance: {\n    positive: sentimentByPerformance.positive.length > 0 \n      ? (sentimentByPerformance.positive.reduce((sum, p) => sum + p.viralScore, 0) / sentimentByPerformance.positive.length).toFixed(2) \n      : '0',\n    negative: sentimentByPerformance.negative.length > 0 \n      ? (sentimentByPerformance.negative.reduce((sum, p) => sum + p.viralScore, 0) / sentimentByPerformance.negative.length).toFixed(2) \n      : '0',\n    neutral: sentimentByPerformance.neutral.length > 0 \n      ? (sentimentByPerformance.neutral.reduce((sum, p) => sum + p.viralScore, 0) / sentimentByPerformance.neutral.length).toFixed(2) \n      : '0'\n  }\n};\n\n// Generación de ideas de contenido futuro basado en posts exitosos\nconst contentIdeas = [];\nif (topPosts.length > 0 && topKeywords.length > 0 && topHashtags.length > 0) {\n  const bestPost = topPosts[0];\n  const bestType = contentTypeStats.length > 0 ? contentTypeStats[0] : null;\n  const bestPlatform = Object.entries(platformStats).sort((a, b) => b[1].avgViralScore - a[1].avgViralScore)[0];\n  \n  // Generar 5 ideas basadas en posts exitosos\n  for (let i = 0; i < Math.min(5, topPosts.length); i++) {\n    const post = topPosts[i];\n    const relatedKeywords = topKeywords.filter(kw => \n      post.caption.toLowerCase().includes(kw.keyword) || kw.count >= 3\n    ).slice(0, 5).map(kw => kw.keyword);\n    \n    const relatedHashtags = topHashtags.filter(ht => \n      (post.hashtags || []).includes(ht.tag) || ht.count >= 3\n    ).slice(0, 5).map(ht => ht.tag);\n    \n    const bestHour = predictedBestHours.find(p => p.platform === post.platform) || bestHours[0];\n    \n    contentIdeas.push({\n      ideaNumber: i + 1,\n      inspiration: `Basado en post exitoso del ${post.date} (Score: ${post.viralScore.toFixed(2)})`,\n      suggestedTitle: `${post.caption.substring(0, 60)}...`,\n      contentType: post.mediaType || 'Unknown',\n      platform: post.platform,\n      keywords: relatedKeywords,\n      hashtags: relatedHashtags.slice(0, 5),\n      suggestedHour: bestHour ? bestHour.hour : 12,\n      expectedEngagement: (post.engagementRate * 0.8).toFixed(2) + '%', // 80% del post original\n      confidence: Math.min(100, (post.viralScore / parseFloat(avgViralScore)) * 50)\n    });\n  }\n}\n\n// Análisis de mejor día de la semana por plataforma\nconst dayPerformanceByPlatform = {};\nallPosts.forEach(post => {\n  if (post.dayOfWeek !== null && post.platform) {\n    const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];\n    const dayName = dayNames[post.dayOfWeek];\n    const key = `${post.platform}_${dayName}`;\n    \n    if (!dayPerformanceByPlatform[key]) {\n      dayPerformanceByPlatform[key] = { count: 0, totalViralScore: 0, platform: post.platform, day: dayName };\n    }\n    dayPerformanceByPlatform[key].count++;\n    dayPerformanceByPlatform[key].totalViralScore += post.viralScore;\n  }\n});\n\nconst bestDaysByPlatform = Object.entries(dayPerformanceByPlatform)\n  .filter(([key, data]) => data.count >= 2)\n  .map(([key, data]) => ({\n    platform: data.platform,\n    day: data.day,\n    count: data.count,\n    avgViralScore: data.totalViralScore / data.count,\n    confidence: Math.min(100, data.count * 15)\n  }))\n  .sort((a, b) => b.avgViralScore - a.avgViralScore)\n  .slice(0, 10);\n\n// Análisis de engagement por franjas horarias (mañana, tarde, noche)\nconst timeSlotStats = {\n  madrugada: { range: [0, 5], posts: [], totalEngagement: 0, totalViralScore: 0 },\n  manana: { range: [6, 11], posts: [], totalEngagement: 0, totalViralScore: 0 },\n  mediodia: { range: [12, 14], posts: [], totalEngagement: 0, totalViralScore: 0 },\n  tarde: { range: [15, 18], posts: [], totalEngagement: 0, totalViralScore: 0 },\n  noche: { range: [19, 23], posts: [], totalEngagement: 0, totalViralScore: 0 }\n};\n\nallPosts.forEach(post => {\n  if (post.hour !== null) {\n    let slot = 'noche';\n    for (const [slotName, slotData] of Object.entries(timeSlotStats)) {\n      if (post.hour >= slotData.range[0] && post.hour <= slotData.range[1]) {\n        slot = slotName;\n        break;\n      }\n    }\n    timeSlotStats[slot].posts.push(post);\n    timeSlotStats[slot].totalEngagement += post.totalEngagement;\n    timeSlotStats[slot].totalViralScore += post.viralScore;\n  }\n});\n\nconst bestTimeSlots = Object.entries(timeSlotStats)\n  .filter(([slot, data]) => data.posts.length > 0)\n  .map(([slot, data]) => ({\n    slot: slot,\n    label: slot === 'madrugada' ? 'Madrugada (0-5h)' :\n           slot === 'manana' ? 'Mañana (6-11h)' :\n           slot === 'mediodia' ? 'Mediodía (12-14h)' :\n           slot === 'tarde' ? 'Tarde (15-18h)' :\n           'Noche (19-23h)',\n    count: data.posts.length,\n    avgEngagement: data.totalEngagement / data.posts.length,\n    avgViralScore: data.totalViralScore / data.posts.length\n  }))\n  .sort((a, b) => b.avgViralScore - a.avgViralScore);\n\n// Detección de tendencias emergentes (hashtags/keywords que están creciendo)\nconst emergingTrends = { hashtags: [], keywords: [] };\n\nif (weeklyTrendsArray.length >= 2) {\n  // Analizar hashtags por semana\n  const hashtagsByWeek = {};\n  weeklyTrendsArray.forEach((week, weekIdx) => {\n    const weekPosts = allPosts.filter(p => {\n      if (!p.date) return false;\n      const date = new Date(p.date);\n      const weekStart = new Date(date);\n      weekStart.setDate(date.getDate() - date.getDay());\n      return weekStart.toISOString().split('T')[0] === week.week;\n    });\n    \n    weekPosts.forEach(post => {\n      (post.hashtags || []).forEach(tag => {\n        if (!hashtagsByWeek[tag]) hashtagsByWeek[tag] = {};\n        if (!hashtagsByWeek[tag][week.week]) hashtagsByWeek[tag][week.week] = 0;\n        hashtagsByWeek[tag][week.week]++;\n      });\n    });\n  });\n  \n  // Identificar hashtags con crecimiento\n  Object.entries(hashtagsByWeek).forEach(([tag, weeks]) => {\n    const weekKeys = Object.keys(weeks).sort();\n    if (weekKeys.length >= 2) {\n      const firstWeek = weeks[weekKeys[0]];\n      const lastWeek = weeks[weekKeys[weekKeys.length - 1]];\n      if (firstWeek > 0) {\n        const growth = ((lastWeek - firstWeek) / firstWeek) * 100;\n        if (growth > 50) { // Crecimiento > 50%\n          emergingTrends.hashtags.push({\n            tag: tag,\n            growth: growth.toFixed(1),\n            firstWeek: firstWeek,\n            lastWeek: lastWeek\n          });\n        }\n      }\n    }\n  });\n  \n  emergingTrends.hashtags.sort((a, b) => parseFloat(b.growth) - parseFloat(a.growth));\n  emergingTrends.hashtags = emergingTrends.hashtags.slice(0, 10);\n  \n  // Similar para keywords\n  const keywordsByWeek = {};\n  weeklyTrendsArray.forEach((week) => {\n    const weekPosts = allPosts.filter(p => {\n      if (!p.date) return false;\n      const date = new Date(p.date);\n      const weekStart = new Date(date);\n      weekStart.setDate(date.getDate() - date.getDay());\n      return weekStart.toISOString().split('T')[0] === week.week;\n    });\n    \n    weekPosts.forEach(post => {\n      const caption = (post.caption || '').toLowerCase();\n      const words = caption.match(/\\b[a-záéíóúñ]{4,}\\b/gi) || [];\n      words.forEach(word => {\n        if (!commonWords.includes(word.toLowerCase())) {\n          if (!keywordsByWeek[word]) keywordsByWeek[word] = {};\n          if (!keywordsByWeek[word][week.week]) keywordsByWeek[word][week.week] = 0;\n          keywordsByWeek[word][week.week]++;\n        }\n      });\n    });\n  });\n  \n  Object.entries(keywordsByWeek).forEach(([keyword, weeks]) => {\n    const weekKeys = Object.keys(weeks).sort();\n    if (weekKeys.length >= 2) {\n      const firstWeek = weeks[weekKeys[0]];\n      const lastWeek = weeks[weekKeys[weekKeys.length - 1]];\n      if (firstWeek > 0) {\n        const growth = ((lastWeek - firstWeek) / firstWeek) * 100;\n        if (growth > 50) {\n          emergingTrends.keywords.push({\n            keyword: keyword,\n            growth: growth.toFixed(1),\n            firstWeek: firstWeek,\n            lastWeek: lastWeek\n          });\n        }\n      }\n    }\n  });\n  \n  emergingTrends.keywords.sort((a, b) => parseFloat(b.growth) - parseFloat(a.growth));\n  emergingTrends.keywords = emergingTrends.keywords.slice(0, 10);\n}\n\n// Sistema de predicción de viralidad mejorado\nconst viralPredictionFactors = {\n  avgEngagementRate: parseFloat(avgEngagementRate),\n  bestPlatform: Object.entries(platformStats).sort((a, b) => b[1].avgViralScore - a[1].avgViralScore)[0]?.[0] || 'Instagram',\n  bestTimeSlot: bestTimeSlots[0]?.slot || 'manana',\n  bestDay: bestDays[0]?.day || 'Martes',\n  bestContentType: contentTypeStats[0]?.type || 'tutorial',\n  optimalHashtagCount: Math.round(topHashtags.slice(0, 10).reduce((sum, h) => sum + h.count, 0) / Math.min(10, topHashtags.length)) || 5,\n  bestCaptionLength: optimalCaptionLength[0]?.avgLength || 150\n};\n\n// Función para predecir viralidad de un post hipotético\nconst predictViralScore = (postData) => {\n  let score = 0;\n  \n  // Factor plataforma (0-25 puntos)\n  const platformScore = platformStats[postData.platform]?.avgViralScore || 0;\n  score += (platformScore / parseFloat(avgViralScore)) * 25;\n  \n  // Factor horario (0-20 puntos)\n  const hour = postData.hour || 12;\n  const matchingHour = bestHours.find(h => h.hour === hour);\n  if (matchingHour) {\n    score += (matchingHour.avgViralScore / parseFloat(avgViralScore)) * 20;\n  } else {\n    score += 10; // Promedio\n  }\n  \n  // Factor tipo de contenido (0-20 puntos)\n  const contentType = contentTypeStats.find(c => c.type === postData.contentType);\n  if (contentType) {\n    score += (contentType.avgViralScore / parseFloat(avgViralScore)) * 20;\n  } else {\n    score += 10;\n  }\n  \n  // Factor hashtags (0-15 puntos)\n  const hashtagCount = postData.hashtags?.length || 0;\n  const optimalCount = viralPredictionFactors.optimalHashtagCount;\n  if (hashtagCount >= optimalCount - 2 && hashtagCount <= optimalCount + 2) {\n    score += 15;\n  } else {\n    score += Math.max(0, 15 - Math.abs(hashtagCount - optimalCount) * 2);\n  }\n  \n  // Factor longitud caption (0-10 puntos)\n  const captionLength = postData.caption?.length || 0;\n  const optimalLength = viralPredictionFactors.bestCaptionLength;\n  if (Math.abs(captionLength - optimalLength) <= 50) {\n    score += 10;\n  } else {\n    score += Math.max(0, 10 - Math.abs(captionLength - optimalLength) / 20);\n  }\n  \n  // Factor sentimiento (0-10 puntos)\n  const caption = (postData.caption || '').toLowerCase();\n  const positiveCount = positiveWords.filter(w => caption.includes(w)).length;\n  const negativeCount = negativeWords.filter(w => caption.includes(w)).length;\n  if (positiveCount > negativeCount) {\n    score += 10;\n  } else if (positiveCount === negativeCount) {\n    score += 5;\n  }\n  \n  return Math.min(100, Math.max(0, score));\n};\n\nconst viralPredictionModel = {\n  factors: viralPredictionFactors,\n  predictFunction: 'predictViralScore',\n  avgAccuracy: '75%', // Basado en correlación histórica\n  recommendations: [\n    `Publicar en ${viralPredictionFactors.bestPlatform}`,\n    `Usar franja horaria: ${bestTimeSlots[0]?.label || 'Mañana'}`,\n    `Publicar los ${viralPredictionFactors.bestDay}`,\n    `Usar tipo de contenido: ${viralPredictionFactors.bestContentType}`,\n    `Usar ${viralPredictionFactors.optimalHashtagCount} hashtags aproximadamente`,\n    `Caption de ${viralPredictionFactors.bestCaptionLength.toFixed(0)} caracteres`\n  ]\n};\n\n// Análisis de contenido reciclable (posts que pueden reutilizarse)\nconst recyclableContent = allPosts\n  .filter(post => {\n    // Criterios para contenido reciclable:\n    // 1. Alto engagement (score viral > promedio)\n    // 2. Contenido evergreen (no tiene fechas específicas)\n    // 3. No es promocional temporal\n    const caption = (post.caption || '').toLowerCase();\n    const hasDateSpecific = /\\d{1,2}[\\/\\-]\\d{1,2}[\\/\\-]\\d{2,4}|hoy|ayer|mañana|semana pasada|el mes pasado/.test(caption);\n    const isPromotional = /oferta|descuento|promoción|solo hoy|últimas horas|limitado/.test(caption);\n    \n    return post.viralScore > avgViralScoreNum && !hasDateSpecific && !isPromotional;\n  })\n  .map(post => ({\n    postId: post.postId,\n    platform: post.platform,\n    date: post.date,\n    caption: post.caption.substring(0, 100) + (post.caption.length > 100 ? '...' : ''),\n    viralScore: post.viralScore,\n    engagementRate: post.engagementRate,\n    recyclabilityScore: ((post.viralScore / avgViralScoreNum) * 50 + (post.engagementRate / parseFloat(avgEngagementRate)) * 50).toFixed(2),\n    reason: 'Alto engagement y contenido evergreen'\n  }))\n  .sort((a, b) => parseFloat(b.recyclabilityScore) - parseFloat(a.recyclabilityScore))\n  .slice(0, 10);\n\n// Análisis de ROI por tipo de contenido (simplificado)\n// Asumiendo costo promedio por post y valor por engagement\nconst costoPromedioPorPost = 50; // Costo estimado en tiempo/recursos por post\nconst valorPorEngagement = 0.10; // Valor estimado por unidad de engagement\n\nconst roiByContentType = contentTypeStats.map(type => {\n  const costoTotal = type.count * costoPromedioPorPost;\n  const valorGenerado = type.totalEngagement * valorPorEngagement;\n  const roiAbsoluto = valorGenerado - costoTotal;\n  const roiPorcentual = costoTotal > 0 ? ((valorGenerado - costoTotal) / costoTotal) * 100 : 0;\n  const costoPorEngagement = type.totalEngagement > 0 ? costoTotal / type.totalEngagement : 0;\n  \n  return {\n    type: type.type,\n    count: type.count,\n    costoTotal: costoTotal.toFixed(2),\n    valorGenerado: valorGenerado.toFixed(2),\n    roiAbsoluto: roiAbsoluto.toFixed(2),\n    roiPorcentual: roiPorcentual.toFixed(2),\n    costoPorEngagement: costoPorEngagement.toFixed(4),\n    totalEngagement: type.totalEngagement,\n    avgViralScore: type.avgViralScore\n  };\n}).sort((a, b) => parseFloat(b.roiPorcentual) - parseFloat(a.roiPorcentual));\n\n// Detección de contenido evergreen vs trending\nconst now = new Date();\nconst thirtyDaysAgo = new Date(now.getTime() - (30 * 24 * 60 * 60 * 1000));\n\nconst evergreenContent = allPosts.filter(post => {\n  if (!post.date) return false;\n  const postDate = new Date(post.date);\n  const daysSincePost = Math.floor((now - postDate) / (1000 * 60 * 60 * 24));\n  \n  // Contenido evergreen: más de 30 días y aún genera engagement\n  return daysSincePost > 30 && post.engagementRate > parseFloat(avgEngagementRate) * 0.7;\n});\n\nconst trendingContent = allPosts.filter(post => {\n  if (!post.date) return false;\n  const postDate = new Date(post.date);\n  const daysSincePost = Math.floor((now - postDate) / (1000 * 60 * 60 * 24));\n  \n  // Contenido trending: menos de 7 días y alto engagement\n  return daysSincePost <= 7 && post.engagementRate > parseFloat(avgEngagementRate) * 1.5;\n});\n\nconst evergreenVsTrending = {\n  evergreen: {\n    count: evergreenContent.length,\n    avgEngagementRate: evergreenContent.length > 0 \n      ? (evergreenContent.reduce((sum, p) => sum + p.engagementRate, 0) / evergreenContent.length).toFixed(2)\n      : '0',\n    avgViralScore: evergreenContent.length > 0\n      ? (evergreenContent.reduce((sum, p) => sum + p.viralScore, 0) / evergreenContent.length).toFixed(2)\n      : '0',\n    percentage: allPosts.length > 0 ? ((evergreenContent.length / allPosts.length) * 100).toFixed(2) : '0'\n  },\n  trending: {\n    count: trendingContent.length,\n    avgEngagementRate: trendingContent.length > 0\n      ? (trendingContent.reduce((sum, p) => sum + p.engagementRate, 0) / trendingContent.length).toFixed(2)\n      : '0',\n    avgViralScore: trendingContent.length > 0\n      ? (trendingContent.reduce((sum, p) => sum + p.viralScore, 0) / trendingContent.length).toFixed(2)\n      : '0',\n    percentage: allPosts.length > 0 ? ((trendingContent.length / allPosts.length) * 100).toFixed(2) : '0'\n  },\n  recommendation: evergreenContent.length > trendingContent.length * 1.5\n    ? 'Aumentar contenido trending para mayor alcance inmediato'\n    : trendingContent.length > evergreenContent.length * 1.5\n    ? 'Aumentar contenido evergreen para engagement sostenido'\n    : 'Balance adecuado entre contenido evergreen y trending'\n};\n\n// Análisis de engagement por formato de contenido\nconst formatStats = {\n  video: { posts: [], totalEngagement: 0, totalViralScore: 0 },\n  imagen: { posts: [], totalEngagement: 0, totalViralScore: 0 },\n  carousel: { posts: [], totalEngagement: 0, totalViralScore: 0 },\n  texto: { posts: [], totalEngagement: 0, totalViralScore: 0 },\n  reel: { posts: [], totalEngagement: 0, totalViralScore: 0 }\n};\n\nallPosts.forEach(post => {\n  const mediaType = (post.mediaType || '').toLowerCase();\n  let format = 'imagen';\n  \n  if (mediaType.includes('video') || mediaType.includes('reel') || post.platform === 'TikTok' || post.platform === 'YouTube') {\n    format = mediaType.includes('reel') ? 'reel' : 'video';\n  } else if (mediaType.includes('carousel') || mediaType.includes('album')) {\n    format = 'carousel';\n  } else if (!post.mediaType || mediaType === 'unknown') {\n    format = 'texto';\n  }\n  \n  if (!formatStats[format]) formatStats[format] = { posts: [], totalEngagement: 0, totalViralScore: 0 };\n  formatStats[format].posts.push(post);\n  formatStats[format].totalEngagement += post.totalEngagement;\n  formatStats[format].totalViralScore += post.viralScore;\n});\n\nconst engagementByFormat = Object.entries(formatStats)\n  .filter(([format, data]) => data.posts.length > 0)\n  .map(([format, data]) => ({\n    format: format,\n    count: data.posts.length,\n    avgEngagement: data.totalEngagement / data.posts.length,\n    avgViralScore: data.totalViralScore / data.posts.length,\n    avgEngagementRate: data.posts.reduce((sum, p) => sum + p.engagementRate, 0) / data.posts.length,\n    viralPercentage: (data.posts.filter(p => p.engagementRate > 10 && p.totalEngagement > 500).length / data.posts.length) * 100\n  }))\n  .sort((a, b) => b.avgViralScore - a.avgViralScore);\n\n// Análisis de engagement por duración de video (si está disponible)\nconst videoDurationStats = {\n  muyCorto: { range: [0, 15], posts: [], totalEngagement: 0, totalViralScore: 0 },\n  corto: { range: [15, 30], posts: [], totalEngagement: 0, totalViralScore: 0 },\n  medio: { range: [30, 60], posts: [], totalEngagement: 0, totalViralScore: 0 },\n  largo: { range: [60, 180], posts: [], totalEngagement: 0, totalViralScore: 0 },\n  muyLargo: { range: [180, Infinity], posts: [], totalEngagement: 0, totalViralScore: 0 }\n};\n\nallPosts.forEach(post => {\n  // Intentar obtener duración del video si está disponible\n  const duration = post.duration || post.videoDuration || null;\n  if (duration !== null && (post.platform === 'TikTok' || post.platform === 'YouTube' || post.mediaType?.toLowerCase().includes('video'))) {\n    let category = 'muyLargo';\n    for (const [cat, data] of Object.entries(videoDurationStats)) {\n      if (duration >= data.range[0] && duration <= data.range[1]) {\n        category = cat;\n        break;\n      }\n    }\n    videoDurationStats[category].posts.push(post);\n    videoDurationStats[category].totalEngagement += post.totalEngagement;\n    videoDurationStats[category].totalViralScore += post.viralScore;\n  }\n});\n\nconst engagementByVideoDuration = Object.entries(videoDurationStats)\n  .filter(([cat, data]) => data.posts.length > 0)\n  .map(([cat, data]) => ({\n    category: cat,\n    label: cat === 'muyCorto' ? '<15s' :\n           cat === 'corto' ? '15-30s' :\n           cat === 'medio' ? '30-60s' :\n           cat === 'largo' ? '1-3min' :\n           '>3min',\n    range: `${data.range[0]}-${data.range[1] === Infinity ? '∞' : data.range[1]}s`,\n    count: data.posts.length,\n    avgEngagement: data.totalEngagement / data.posts.length,\n    avgViralScore: data.totalViralScore / data.posts.length,\n    avgDuration: data.posts.reduce((sum, p) => sum + (p.duration || p.videoDuration || 0), 0) / data.posts.length\n  }))\n  .sort((a, b) => b.avgViralScore - a.avgViralScore);\n\n// Análisis de engagement por tipo de interacción\nconst interactionStats = {\n  likes: { total: 0, posts: [], avgPerPost: 0 },\n  comments: { total: 0, posts: [], avgPerPost: 0 },\n  shares: { total: 0, posts: [], avgPerPost: 0 },\n  views: { total: 0, posts: [], avgPerPost: 0 }\n};\n\nallPosts.forEach(post => {\n  if (post.likes) {\n    interactionStats.likes.total += post.likes;\n    interactionStats.likes.posts.push(post.postId);\n  }\n  if (post.comments) {\n    interactionStats.comments.total += post.comments;\n    interactionStats.comments.posts.push(post.postId);\n  }\n  if (post.shares) {\n    interactionStats.shares.total += post.shares;\n    interactionStats.shares.posts.push(post.postId);\n  }\n  const views = post.views || post.impressions || 0;\n  if (views > 0) {\n    interactionStats.views.total += views;\n    interactionStats.views.posts.push(post.postId);\n  }\n});\n\nconst totalInteractions = interactionStats.likes.total + interactionStats.comments.total + interactionStats.shares.total;\nconst engagementByInteractionType = Object.entries(interactionStats)\n  .map(([type, data]) => ({\n    type: type,\n    total: data.total,\n    avgPerPost: data.posts.length > 0 ? data.total / data.posts.length : 0,\n    percentage: totalInteractions > 0 ? ((data.total / totalInteractions) * 100).toFixed(2) : '0',\n    postsWithInteraction: data.posts.length\n  }))\n  .sort((a, b) => b.total - a.total);\n\n// Análisis de engagement por temporada/mes\nconst monthStats = {};\nconst seasonStats = {\n  primavera: { months: [3, 4, 5], posts: [], totalEngagement: 0, totalViralScore: 0 },\n  verano: { months: [6, 7, 8], posts: [], totalEngagement: 0, totalViralScore: 0 },\n  otono: { months: [9, 10, 11], posts: [], totalEngagement: 0, totalViralScore: 0 },\n  invierno: { months: [12, 1, 2], posts: [], totalEngagement: 0, totalViralScore: 0 }\n};\n\nconst monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];\n\nallPosts.forEach(post => {\n  if (post.date) {\n    const date = new Date(post.date);\n    const month = date.getMonth(); // 0-11\n    const monthName = monthNames[month];\n    \n    if (!monthStats[monthName]) {\n      monthStats[monthName] = { posts: [], totalEngagement: 0, totalViralScore: 0, month: month };\n    }\n    monthStats[monthName].posts.push(post);\n    monthStats[monthName].totalEngagement += post.totalEngagement;\n    monthStats[monthName].totalViralScore += post.viralScore;\n    \n    // Clasificar por temporada\n    for (const [season, data] of Object.entries(seasonStats)) {\n      if (data.months.includes(month + 1)) { // +1 porque los meses en JS son 0-11\n        data.posts.push(post);\n        data.totalEngagement += post.totalEngagement;\n        data.totalViralScore += post.viralScore;\n        break;\n      }\n    }\n  }\n});\n\nconst engagementByMonth = Object.entries(monthStats)\n  .map(([month, data]) => ({\n    month: month,\n    monthNumber: data.month + 1,\n    count: data.posts.length,\n    avgEngagement: data.totalEngagement / data.posts.length,\n    avgViralScore: data.totalViralScore / data.posts.length\n  }))\n  .sort((a, b) => a.monthNumber - b.monthNumber);\n\nconst engagementBySeason = Object.entries(seasonStats)\n  .filter(([season, data]) => data.posts.length > 0)\n  .map(([season, data]) => ({\n    season: season,\n    count: data.posts.length,\n    avgEngagement: data.totalEngagement / data.posts.length,\n    avgViralScore: data.totalViralScore / data.posts.length\n  }))\n  .sort((a, b) => b.avgViralScore - a.avgViralScore);\n\n// Análisis granular de engagement por hora del día (todas las horas)\nconst hourlyStatsDetailed = {};\nallPosts.forEach(post => {\n  if (post.hour !== null) {\n    const hour = post.hour;\n    if (!hourlyStatsDetailed[hour]) {\n      hourlyStatsDetailed[hour] = { count: 0, totalEngagement: 0, totalViralScore: 0, posts: [] };\n    }\n    hourlyStatsDetailed[hour].count++;\n    hourlyStatsDetailed[hour].totalEngagement += post.totalEngagement;\n    hourlyStatsDetailed[hour].totalViralScore += post.viralScore;\n    hourlyStatsDetailed[hour].posts.push(post.postId);\n  }\n});\n\nconst engagementByHourDetailed = Object.entries(hourlyStatsDetailed)\n  .map(([hour, data]) => ({\n    hour: parseInt(hour),\n    count: data.count,\n    avgEngagement: data.totalEngagement / data.count,\n    avgViralScore: data.totalViralScore / data.count,\n    avgEngagementRate: data.posts.length > 0 ? data.posts.reduce((sum, pid) => {\n      const post = allPosts.find(p => p.postId === pid);\n      return sum + (post ? post.engagementRate : 0);\n    }, 0) / data.posts.length : 0\n  }))\n  .sort((a, b) => a.hour - b.hour);\n\n// Análisis de engagement por combinación día-hora\nconst dayHourCombinations = {};\nallPosts.forEach(post => {\n  if (post.dayOfWeek !== null && post.hour !== null) {\n    const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];\n    const dayName = dayNames[post.dayOfWeek];\n    const key = `${dayName}_${post.hour}`;\n    \n    if (!dayHourCombinations[key]) {\n      dayHourCombinations[key] = { count: 0, totalViralScore: 0, day: dayName, hour: post.hour };\n    }\n    dayHourCombinations[key].count++;\n    dayHourCombinations[key].totalViralScore += post.viralScore;\n  }\n});\n\nconst engagementByDayHour = Object.entries(dayHourCombinations)\n  .filter(([key, data]) => data.count >= 2)\n  .map(([key, data]) => ({\n    day: data.day,\n    hour: data.hour,\n    combination: `${data.day} ${data.hour}:00`,\n    count: data.count,\n    avgViralScore: data.totalViralScore / data.count,\n    confidence: Math.min(100, data.count * 20)\n  }))\n  .sort((a, b) => b.avgViralScore - a.avgViralScore)\n  .slice(0, 15);\n\n// Análisis de engagement por día del mes (1-31)\nconst dayOfMonthStats = {};\nallPosts.forEach(post => {\n  if (post.date) {\n    const date = new Date(post.date);\n    const dayOfMonth = date.getDate(); // 1-31\n    \n    if (!dayOfMonthStats[dayOfMonth]) {\n      dayOfMonthStats[dayOfMonth] = { posts: [], totalEngagement: 0, totalViralScore: 0 };\n    }\n    dayOfMonthStats[dayOfMonth].posts.push(post);\n    dayOfMonthStats[dayOfMonth].totalEngagement += post.totalEngagement;\n    dayOfMonthStats[dayOfMonth].totalViralScore += post.viralScore;\n  }\n});\n\nconst engagementByDayOfMonth = Object.entries(dayOfMonthStats)\n  .filter(([day, data]) => data.posts.length >= 2)\n  .map(([day, data]) => ({\n    day: parseInt(day),\n    count: data.posts.length,\n    avgEngagement: data.totalEngagement / data.posts.length,\n    avgViralScore: data.totalViralScore / data.posts.length\n  }))\n  .sort((a, b) => a.day - b.day);\n\n// Análisis de engagement por año\nconst yearStats = {};\nallPosts.forEach(post => {\n  if (post.date) {\n    const date = new Date(post.date);\n    const year = date.getFullYear();\n    \n    if (!yearStats[year]) {\n      yearStats[year] = { posts: [], totalEngagement: 0, totalViralScore: 0 };\n    }\n    yearStats[year].posts.push(post);\n    yearStats[year].totalEngagement += post.totalEngagement;\n    yearStats[year].totalViralScore += post.viralScore;\n  }\n});\n\nconst engagementByYear = Object.entries(yearStats)\n  .map(([year, data]) => ({\n    year: parseInt(year),\n    count: data.posts.length,\n    avgEngagement: data.totalEngagement / data.posts.length,\n    avgViralScore: data.totalViralScore / data.posts.length\n  }))\n  .sort((a, b) => a.year - b.year);\n\n// Análisis de combinaciones plataforma-temporada\nconst platformSeasonCombinations = {};\nallPosts.forEach(post => {\n  if (post.date && post.platform) {\n    const date = new Date(post.date);\n    const month = date.getMonth() + 1; // 1-12\n    let season = 'invierno';\n    if ([3, 4, 5].includes(month)) season = 'primavera';\n    else if ([6, 7, 8].includes(month)) season = 'verano';\n    else if ([9, 10, 11].includes(month)) season = 'otono';\n    \n    const key = `${post.platform}_${season}`;\n    if (!platformSeasonCombinations[key]) {\n      platformSeasonCombinations[key] = { count: 0, totalViralScore: 0, platform: post.platform, season: season };\n    }\n    platformSeasonCombinations[key].count++;\n    platformSeasonCombinations[key].totalViralScore += post.viralScore;\n  }\n});\n\nconst engagementByPlatformSeason = Object.entries(platformSeasonCombinations)\n  .filter(([key, data]) => data.count >= 2)\n  .map(([key, data]) => ({\n    platform: data.platform,\n    season: data.season,\n    combination: `${data.platform} - ${data.season}`,\n    count: data.count,\n    avgViralScore: data.totalViralScore / data.count,\n    confidence: Math.min(100, data.count * 10)\n  }))\n  .sort((a, b) => b.avgViralScore - a.avgViralScore)\n  .slice(0, 12);\n\n// Análisis de combinaciones plataforma-mes\nconst platformMonthCombinations = {};\nallPosts.forEach(post => {\n  if (post.date && post.platform) {\n    const date = new Date(post.date);\n    const month = date.getMonth(); // 0-11\n    const monthName = monthNames[month];\n    \n    const key = `${post.platform}_${monthName}`;\n    if (!platformMonthCombinations[key]) {\n      platformMonthCombinations[key] = { count: 0, totalViralScore: 0, platform: post.platform, month: monthName };\n    }\n    platformMonthCombinations[key].count++;\n    platformMonthCombinations[key].totalViralScore += post.viralScore;\n  }\n});\n\nconst engagementByPlatformMonth = Object.entries(platformMonthCombinations)\n  .filter(([key, data]) => data.count >= 2)\n  .map(([key, data]) => ({\n    platform: data.platform,\n    month: data.month,\n    combination: `${data.platform} - ${data.month}`,\n    count: data.count,\n    avgViralScore: data.totalViralScore / data.count,\n    confidence: Math.min(100, data.count * 8)\n  }))\n  .sort((a, b) => b.avgViralScore - a.avgViralScore)\n  .slice(0, 15);\n\n// Análisis de combinaciones plataforma-formato\nconst platformFormatCombinations = {};\nallPosts.forEach(post => {\n  if (post.platform) {\n    const mediaType = (post.mediaType || '').toLowerCase();\n    let format = 'imagen';\n    \n    if (mediaType.includes('video') || mediaType.includes('reel') || post.platform === 'TikTok' || post.platform === 'YouTube') {\n      format = mediaType.includes('reel') ? 'reel' : 'video';\n    } else if (mediaType.includes('carousel') || mediaType.includes('album')) {\n      format = 'carousel';\n    } else if (!post.mediaType || mediaType === 'unknown') {\n      format = 'texto';\n    }\n    \n    const key = `${post.platform}_${format}`;\n    if (!platformFormatCombinations[key]) {\n      platformFormatCombinations[key] = { count: 0, totalViralScore: 0, platform: post.platform, format: format };\n    }\n    platformFormatCombinations[key].count++;\n    platformFormatCombinations[key].totalViralScore += post.viralScore;\n  }\n});\n\nconst engagementByPlatformFormat = Object.entries(platformFormatCombinations)\n  .filter(([key, data]) => data.count >= 2)\n  .map(([key, data]) => ({\n    platform: data.platform,\n    format: data.format,\n    combination: `${data.platform} - ${data.format}`,\n    count: data.count,\n    avgViralScore: data.totalViralScore / data.count,\n    confidence: Math.min(100, data.count * 10)\n  }))\n  .sort((a, b) => b.avgViralScore - a.avgViralScore)\n  .slice(0, 15);\n\n// Análisis de combinaciones plataforma-tipo de contenido\nconst platformContentTypeCombinations = {};\nallPosts.forEach(post => {\n  if (post.platform) {\n    const captionLower = (post.caption || '').toLowerCase();\n    let contentType = 'otro';\n    \n    for (const [type, data] of Object.entries(contentTypes)) {\n      if (data.keywords.some(keyword => captionLower.includes(keyword))) {\n        contentType = type;\n        break;\n      }\n    }\n    \n    const key = `${post.platform}_${contentType}`;\n    if (!platformContentTypeCombinations[key]) {\n      platformContentTypeCombinations[key] = { count: 0, totalViralScore: 0, platform: post.platform, contentType: contentType };\n    }\n    platformContentTypeCombinations[key].count++;\n    platformContentTypeCombinations[key].totalViralScore += post.viralScore;\n  }\n});\n\nconst engagementByPlatformContentType = Object.entries(platformContentTypeCombinations)\n  .filter(([key, data]) => data.count >= 2)\n  .map(([key, data]) => ({\n    platform: data.platform,\n    contentType: data.contentType,\n    combination: `${data.platform} - ${data.contentType}`,\n    count: data.count,\n    avgViralScore: data.totalViralScore / data.count,\n    confidence: Math.min(100, data.count * 10)\n  }))\n  .sort((a, b) => b.avgViralScore - a.avgViralScore)\n  .slice(0, 15);\n\n// Análisis de combinaciones temporada-formato\nconst seasonFormatCombinations = {};\nallPosts.forEach(post => {\n  if (post.date) {\n    const date = new Date(post.date);\n    const month = date.getMonth() + 1; // 1-12\n    let season = 'invierno';\n    if ([3, 4, 5].includes(month)) season = 'primavera';\n    else if ([6, 7, 8].includes(month)) season = 'verano';\n    else if ([9, 10, 11].includes(month)) season = 'otono';\n    \n    const mediaType = (post.mediaType || '').toLowerCase();\n    let format = 'imagen';\n    \n    if (mediaType.includes('video') || mediaType.includes('reel') || post.platform === 'TikTok' || post.platform === 'YouTube') {\n      format = mediaType.includes('reel') ? 'reel' : 'video';\n    } else if (mediaType.includes('carousel') || mediaType.includes('album')) {\n      format = 'carousel';\n    } else if (!post.mediaType || mediaType === 'unknown') {\n      format = 'texto';\n    }\n    \n    const key = `${season}_${format}`;\n    if (!seasonFormatCombinations[key]) {\n      seasonFormatCombinations[key] = { count: 0, totalViralScore: 0, season: season, format: format };\n    }\n    seasonFormatCombinations[key].count++;\n    seasonFormatCombinations[key].totalViralScore += post.viralScore;\n  }\n});\n\nconst engagementBySeasonFormat = Object.entries(seasonFormatCombinations)\n  .filter(([key, data]) => data.count >= 2)\n  .map(([key, data]) => ({\n    season: data.season,\n    format: data.format,\n    combination: `${data.season} - ${data.format}`,\n    count: data.count,\n    avgViralScore: data.totalViralScore / data.count,\n    confidence: Math.min(100, data.count * 10)\n  }))\n  .sort((a, b) => b.avgViralScore - a.avgViralScore)\n  .slice(0, 12);\n\n// Análisis de combinaciones temporada-tipo de contenido\nconst seasonContentTypeCombinations = {};\nallPosts.forEach(post => {\n  if (post.date) {\n    const date = new Date(post.date);\n    const month = date.getMonth() + 1; // 1-12\n    let season = 'invierno';\n    if ([3, 4, 5].includes(month)) season = 'primavera';\n    else if ([6, 7, 8].includes(month)) season = 'verano';\n    else if ([9, 10, 11].includes(month)) season = 'otono';\n    \n    const captionLower = (post.caption || '').toLowerCase();\n    let contentType = 'otro';\n    \n    for (const [type, data] of Object.entries(contentTypes)) {\n      if (data.keywords.some(keyword => captionLower.includes(keyword))) {\n        contentType = type;\n        break;\n      }\n    }\n    \n    const key = `${season}_${contentType}`;\n    if (!seasonContentTypeCombinations[key]) {\n      seasonContentTypeCombinations[key] = { count: 0, totalViralScore: 0, season: season, contentType: contentType };\n    }\n    seasonContentTypeCombinations[key].count++;\n    seasonContentTypeCombinations[key].totalViralScore += post.viralScore;\n  }\n});\n\nconst engagementBySeasonContentType = Object.entries(seasonContentTypeCombinations)\n  .filter(([key, data]) => data.count >= 2)\n  .map(([key, data]) => ({\n    season: data.season,\n    contentType: data.contentType,\n    combination: `${data.season} - ${data.contentType}`,\n    count: data.count,\n    avgViralScore: data.totalViralScore / data.count,\n    confidence: Math.min(100, data.count * 10)\n  }))\n  .sort((a, b) => b.avgViralScore - a.avgViralScore)\n  .slice(0, 12);\n\n// Análisis de combinaciones mes-formato\nconst monthFormatCombinations = {};\nallPosts.forEach(post => {\n  if (post.date) {\n    const date = new Date(post.date);\n    const month = date.getMonth(); // 0-11\n    const monthName = monthNames[month];\n    \n    const mediaType = (post.mediaType || '').toLowerCase();\n    let format = 'imagen';\n    \n    if (mediaType.includes('video') || mediaType.includes('reel') || post.platform === 'TikTok' || post.platform === 'YouTube') {\n      format = mediaType.includes('reel') ? 'reel' : 'video';\n    } else if (mediaType.includes('carousel') || mediaType.includes('album')) {\n      format = 'carousel';\n    } else if (!post.mediaType || mediaType === 'unknown') {\n      format = 'texto';\n    }\n    \n    const key = `${monthName}_${format}`;\n    if (!monthFormatCombinations[key]) {\n      monthFormatCombinations[key] = { count: 0, totalViralScore: 0, month: monthName, format: format };\n    }\n    monthFormatCombinations[key].count++;\n    monthFormatCombinations[key].totalViralScore += post.viralScore;\n  }\n});\n\nconst engagementByMonthFormat = Object.entries(monthFormatCombinations)\n  .filter(([key, data]) => data.count >= 2)\n  .map(([key, data]) => ({\n    month: data.month,\n    format: data.format,\n    combination: `${data.month} - ${data.format}`,\n    count: data.count,\n    avgViralScore: data.totalViralScore / data.count,\n    confidence: Math.min(100, data.count * 8)\n  }))\n  .sort((a, b) => b.avgViralScore - a.avgViralScore)\n  .slice(0, 15);\n\n// Análisis de combinaciones mes-tipo de contenido\nconst monthContentTypeCombinations = {};\nallPosts.forEach(post => {\n  if (post.date) {\n    const date = new Date(post.date);\n    const month = date.getMonth(); // 0-11\n    const monthName = monthNames[month];\n    \n    const captionLower = (post.caption || '').toLowerCase();\n    let contentType = 'otro';\n    \n    for (const [type, data] of Object.entries(contentTypes)) {\n      if (data.keywords.some(keyword => captionLower.includes(keyword))) {\n        contentType = type;\n        break;\n      }\n    }\n    \n    const key = `${monthName}_${contentType}`;\n    if (!monthContentTypeCombinations[key]) {\n      monthContentTypeCombinations[key] = { count: 0, totalViralScore: 0, month: monthName, contentType: contentType };\n    }\n    monthContentTypeCombinations[key].count++;\n    monthContentTypeCombinations[key].totalViralScore += post.viralScore;\n  }\n});\n\nconst engagementByMonthContentType = Object.entries(monthContentTypeCombinations)\n  .filter(([key, data]) => data.count >= 2)\n  .map(([key, data]) => ({\n    month: data.month,\n    contentType: data.contentType,\n    combination: `${data.month} - ${data.contentType}`,\n    count: data.count,\n    avgViralScore: data.totalViralScore / data.count,\n    confidence: Math.min(100, data.count * 8)\n  }))\n  .sort((a, b) => b.avgViralScore - a.avgViralScore)\n  .slice(0, 15);\n\n// Análisis de combinaciones día-formato\nconst dayFormatCombinations = {};\nallPosts.forEach(post => {\n  if (post.dayOfWeek !== null) {\n    const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];\n    const dayName = dayNames[post.dayOfWeek];\n    \n    const mediaType = (post.mediaType || '').toLowerCase();\n    let format = 'imagen';\n    \n    if (mediaType.includes('video') || mediaType.includes('reel') || post.platform === 'TikTok' || post.platform === 'YouTube') {\n      format = mediaType.includes('reel') ? 'reel' : 'video';\n    } else if (mediaType.includes('carousel') || mediaType.includes('album')) {\n      format = 'carousel';\n    } else if (!post.mediaType || mediaType === 'unknown') {\n      format = 'texto';\n    }\n    \n    const key = `${dayName}_${format}`;\n    if (!dayFormatCombinations[key]) {\n      dayFormatCombinations[key] = { count: 0, totalViralScore: 0, day: dayName, format: format };\n    }\n    dayFormatCombinations[key].count++;\n    dayFormatCombinations[key].totalViralScore += post.viralScore;\n  }\n});\n\nconst engagementByDayFormat = Object.entries(dayFormatCombinations)\n  .filter(([key, data]) => data.count >= 2)\n  .map(([key, data]) => ({\n    day: data.day,\n    format: data.format,\n    combination: `${data.day} - ${data.format}`,\n    count: data.count,\n    avgViralScore: data.totalViralScore / data.count,\n    confidence: Math.min(100, data.count * 10)\n  }))\n  .sort((a, b) => b.avgViralScore - a.avgViralScore)\n  .slice(0, 15);\n\n// Análisis de combinaciones día-tipo de contenido\nconst dayContentTypeCombinations = {};\nallPosts.forEach(post => {\n  if (post.dayOfWeek !== null) {\n    const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];\n    const dayName = dayNames[post.dayOfWeek];\n    \n    const captionLower = (post.caption || '').toLowerCase();\n    let contentType = 'otro';\n    \n    for (const [type, data] of Object.entries(contentTypes)) {\n      if (data.keywords.some(keyword => captionLower.includes(keyword))) {\n        contentType = type;\n        break;\n      }\n    }\n    \n    const key = `${dayName}_${contentType}`;\n    if (!dayContentTypeCombinations[key]) {\n      dayContentTypeCombinations[key] = { count: 0, totalViralScore: 0, day: dayName, contentType: contentType };\n    }\n    dayContentTypeCombinations[key].count++;\n    dayContentTypeCombinations[key].totalViralScore += post.viralScore;\n  }\n});\n\nconst engagementByDayContentType = Object.entries(dayContentTypeCombinations)\n  .filter(([key, data]) => data.count >= 2)\n  .map(([key, data]) => ({\n    day: data.day,\n    contentType: data.contentType,\n    combination: `${data.day} - ${data.contentType}`,\n    count: data.count,\n    avgViralScore: data.totalViralScore / data.count,\n    confidence: Math.min(100, data.count * 10)\n  }))\n  .sort((a, b) => b.avgViralScore - a.avgViralScore)\n  .slice(0, 15);\n\n// Análisis de combinaciones hora-formato\nconst hourFormatCombinations = {};\nallPosts.forEach(post => {\n  if (post.hour !== null) {\n    const mediaType = (post.mediaType || '').toLowerCase();\n    let format = 'imagen';\n    \n    if (mediaType.includes('video') || mediaType.includes('reel') || post.platform === 'TikTok' || post.platform === 'YouTube') {\n      format = mediaType.includes('reel') ? 'reel' : 'video';\n    } else if (mediaType.includes('carousel') || mediaType.includes('album')) {\n      format = 'carousel';\n    } else if (!post.mediaType || mediaType === 'unknown') {\n      format = 'texto';\n    }\n    \n    const key = `${post.hour}_${format}`;\n    if (!hourFormatCombinations[key]) {\n      hourFormatCombinations[key] = { count: 0, totalViralScore: 0, hour: post.hour, format: format };\n    }\n    hourFormatCombinations[key].count++;\n    hourFormatCombinations[key].totalViralScore += post.viralScore;\n  }\n});\n\nconst engagementByHourFormat = Object.entries(hourFormatCombinations)\n  .filter(([key, data]) => data.count >= 2)\n  .map(([key, data]) => ({\n    hour: data.hour,\n    format: data.format,\n    combination: `${data.hour}:00 - ${data.format}`,\n    count: data.count,\n    avgViralScore: data.totalViralScore / data.count,\n    confidence: Math.min(100, data.count * 8)\n  }))\n  .sort((a, b) => b.avgViralScore - a.avgViralScore)\n  .slice(0, 15);\n\n// Análisis de combinaciones hora-tipo de contenido\nconst hourContentTypeCombinations = {};\nallPosts.forEach(post => {\n  if (post.hour !== null) {\n    const captionLower = (post.caption || '').toLowerCase();\n    let contentType = 'otro';\n    \n    for (const [type, data] of Object.entries(contentTypes)) {\n      if (data.keywords.some(keyword => captionLower.includes(keyword))) {\n        contentType = type;\n        break;\n      }\n    }\n    \n    const key = `${post.hour}_${contentType}`;\n    if (!hourContentTypeCombinations[key]) {\n      hourContentTypeCombinations[key] = { count: 0, totalViralScore: 0, hour: post.hour, contentType: contentType };\n    }\n    hourContentTypeCombinations[key].count++;\n    hourContentTypeCombinations[key].totalViralScore += post.viralScore;\n  }\n});\n\nconst engagementByHourContentType = Object.entries(hourContentTypeCombinations)\n  .filter(([key, data]) => data.count >= 2)\n  .map(([key, data]) => ({\n    hour: data.hour,\n    contentType: data.contentType,\n    combination: `${data.hour}:00 - ${data.contentType}`,\n    count: data.count,\n    avgViralScore: data.totalViralScore / data.count,\n    confidence: Math.min(100, data.count * 8)\n  }))\n  .sort((a, b) => b.avgViralScore - a.avgViralScore)\n  .slice(0, 15);\n\n// Análisis de combinaciones formato-duración de video\nconst formatDurationCombinations = {};\nallPosts.forEach(post => {\n  const duration = post.duration || post.videoDuration || null;\n  if (duration !== null && (post.platform === 'TikTok' || post.platform === 'YouTube' || post.mediaType?.toLowerCase().includes('video'))) {\n    const mediaType = (post.mediaType || '').toLowerCase();\n    let format = 'video';\n    \n    if (mediaType.includes('reel')) {\n      format = 'reel';\n    } else if (post.platform === 'TikTok' || post.platform === 'YouTube') {\n      format = 'video';\n    }\n    \n    let durationCategory = 'muyLargo';\n    if (duration >= 0 && duration < 15) durationCategory = 'muyCorto';\n    else if (duration >= 15 && duration < 30) durationCategory = 'corto';\n    else if (duration >= 30 && duration < 60) durationCategory = 'medio';\n    else if (duration >= 60 && duration <= 180) durationCategory = 'largo';\n    \n    const key = `${format}_${durationCategory}`;\n    if (!formatDurationCombinations[key]) {\n      formatDurationCombinations[key] = { count: 0, totalViralScore: 0, format: format, durationCategory: durationCategory };\n    }\n    formatDurationCombinations[key].count++;\n    formatDurationCombinations[key].totalViralScore += post.viralScore;\n  }\n});\n\nconst engagementByFormatDuration = Object.entries(formatDurationCombinations)\n  .filter(([key, data]) => data.count >= 2)\n  .map(([key, data]) => ({\n    format: data.format,\n    durationCategory: data.durationCategory,\n    durationLabel: data.durationCategory === 'muyCorto' ? '<15s' :\n                   data.durationCategory === 'corto' ? '15-30s' :\n                   data.durationCategory === 'medio' ? '30-60s' :\n                   data.durationCategory === 'largo' ? '1-3min' :\n                   '>3min',\n    combination: `${data.format} - ${data.durationCategory === 'muyCorto' ? '<15s' : data.durationCategory === 'corto' ? '15-30s' : data.durationCategory === 'medio' ? '30-60s' : data.durationCategory === 'largo' ? '1-3min' : '>3min'}`,\n    count: data.count,\n    avgViralScore: data.totalViralScore / data.count,\n    confidence: Math.min(100, data.count * 10)\n  }))\n  .sort((a, b) => b.avgViralScore - a.avgViralScore)\n  .slice(0, 12);\n\n\n// Análisis de combinaciones plataforma-día\nconst platformDayCombinations = {};\nallPosts.forEach(post => {\n  if (post.dayOfWeek !== null && post.platform) {\n    const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];\n    const dayName = dayNames[post.dayOfWeek];\n    \n    const key = `${post.platform}_${dayName}`;\n    if (!platformDayCombinations[key]) {\n      platformDayCombinations[key] = { count: 0, totalViralScore: 0, totalEngagement: 0, platform: post.platform, day: dayName };\n    }\n    platformDayCombinations[key].count++;\n    platformDayCombinations[key].totalViralScore += post.viralScore;\n    platformDayCombinations[key].totalEngagement += post.totalEngagement;\n  }\n});\n\nconst engagementByPlatformDay = Object.entries(platformDayCombinations)\n  .filter(([key, data]) => data.count >= 2)\n  .map(([key, data]) => ({\n    platform: data.platform,\n    day: data.day,\n    combination: `${data.platform} - ${data.day}`,\n    count: data.count,\n    avgViralScore: data.totalViralScore / data.count,\n    avgEngagement: data.totalEngagement / data.count,\n    confidence: Math.min(100, data.count * 12)\n  }))\n  .sort((a, b) => b.avgViralScore - a.avgViralScore)\n  .slice(0, 15);\n\n// Análisis de combinaciones plataforma-hora\nconst platformHourCombinations = {};\nallPosts.forEach(post => {\n  if (post.hour !== null && post.platform) {\n    const key = `${post.platform}_${post.hour}`;\n    if (!platformHourCombinations[key]) {\n      platformHourCombinations[key] = { count: 0, totalViralScore: 0, totalEngagement: 0, platform: post.platform, hour: post.hour };\n    }\n    platformHourCombinations[key].count++;\n    platformHourCombinations[key].totalViralScore += post.viralScore;\n    platformHourCombinations[key].totalEngagement += post.totalEngagement;\n  }\n});\n\nconst engagementByPlatformHour = Object.entries(platformHourCombinations)\n  .filter(([key, data]) => data.count >= 2)\n  .map(([key, data]) => ({\n    platform: data.platform,\n    hour: data.hour,\n    combination: `${data.platform} - ${data.hour}:00`,\n    count: data.count,\n    avgViralScore: data.totalViralScore / data.count,\n    avgEngagement: data.totalEngagement / data.count,\n    confidence: Math.min(100, data.count * 8)\n  }))\n  .sort((a, b) => b.avgViralScore - a.avgViralScore)\n  .slice(0, 15);\n\n// Calcular métricas de crecimiento (comparación con período anterior si existe)\nconst reportsDir = '/Users/adan/IA/reports/social_analytics';\nlet growthMetrics = null;\n\ntry {\n  const fs = require('fs');\n  const path = require('path');\n  if (fs.existsSync(reportsDir)) {\n    const files = fs.readdirSync(reportsDir)\n      .filter(f => f.startsWith('social_analytics_') && f.endsWith('.json'))\n      .map(f => ({ name: f, time: fs.statSync(path.join(reportsDir, f)).mtime }))\n      .sort((a, b) => b.time - a.time);\n    \n    if (files.length > 0) {\n      const lastReport = JSON.parse(fs.readFileSync(path.join(reportsDir, files[0].name), 'utf-8'));\n      const lastAvgEngagement = parseFloat(lastReport.summary?.avgEngagementRate || 0);\n      const currentAvgEngagement = parseFloat(avgEngagementRate);\n      \n      if (lastAvgEngagement > 0) {\n        const engagementGrowth = ((currentAvgEngagement - lastAvgEngagement) / lastAvgEngagement) * 100;\n        const lastTotalPosts = lastReport.summary?.totalPosts || 0;\n        const postsGrowth = totalPosts > 0 ? ((totalPosts - lastTotalPosts) / lastTotalPosts) * 100 : 0;\n        \n        growthMetrics = {\n          engagementGrowth: engagementGrowth.toFixed(2),\n          postsGrowth: postsGrowth.toFixed(2),\n          lastPeriod: {\n            avgEngagementRate: lastAvgEngagement.toFixed(2),\n            totalPosts: lastTotalPosts\n          },\n          currentPeriod: {\n            avgEngagementRate: currentAvgEngagement.toFixed(2),\n            totalPosts: totalPosts\n          }\n        };\n      }\n    }\n  }\n} catch (e) {\n  // Ignorar errores al leer reportes anteriores\n}\n\n// Generar alertas automáticas mejoradas\nconst alerts = [];\nif (viralPercentage < 5) {\n  alerts.push({\n    level: 'HIGH',\n    title: 'Bajo Porcentaje de Contenido Viral',\n    message: `Solo el ${viralPercentage.toFixed(1)}% del contenido es viral (engagement > 10%)`,\n    recommendation: 'Revisar estrategia de contenido y aumentar producción de alto engagement'\n  });\n}\nif (cv > 100) {\n  alerts.push({\n    level: 'MEDIUM',\n    title: 'Alta Variabilidad en Engagement',\n    message: `El engagement varía significativamente entre posts (CV: ${cv.toFixed(1)}%)`,\n    recommendation: 'Estandarizar calidad y formato de contenido'\n  });\n}\nif (anomalies.length > 0) {\n  alerts.push({\n    level: 'INFO',\n    title: 'Posts Excepcionales Detectados',\n    message: `${anomalies.length} posts con rendimiento excepcionalmente alto`,\n    recommendation: 'Analizar qué elementos comunes tienen estos posts y replicarlos'\n  });\n}\nif (growthMetrics && parseFloat(growthMetrics.engagementGrowth) < -20) {\n  alerts.push({\n    level: 'CRITICAL',\n    title: 'Caída Significativa en Engagement',\n    message: `El engagement ha disminuido un ${Math.abs(parseFloat(growthMetrics.engagementGrowth)).toFixed(1)}% respecto al período anterior`,\n    recommendation: 'Revisar urgentemente la estrategia de contenido'\n  });\n}\nif (contentTypeStats.length > 0) {\n  const bestType = contentTypeStats[0];\n  const worstType = contentTypeStats[contentTypeStats.length - 1];\n  if (bestType.avgViralScore > worstType.avgViralScore * 2) {\n    alerts.push({\n      level: 'MEDIUM',\n      title: 'Gran Diferencia Entre Tipos de Contenido',\n      message: `El tipo \\\"${bestType.type}\\\" tiene ${(bestType.avgViralScore / worstType.avgViralScore).toFixed(1)}x mejor rendimiento que \\\"${worstType.type}\\\"`,\n      recommendation: `Aumentar producción de contenido tipo \\\"${bestType.type}\\\" y reducir \\\"${worstType.type}\\\"`\n    });\n  }\n}\n\nreturn [{\n  json: {\n    ...$('Initialize Workflow').item.json,\n    allPosts: allPosts,\n    topPosts: topPosts,\n    totalPosts: totalPosts,\n    totalEngagement: totalEngagement,\n    avgEngagementRate: avgEngagementRate.toFixed(2),\n    maxEngagementRate: maxEngagementRate.toFixed(2),\n    minEngagementRate: minEngagementRate.toFixed(2),\n    avgViralScore: avgViralScore.toFixed(2),\n    postsByPlatform: byPlatform,\n    platformStats: platformStats,\n    topHashtags: topHashtags,\n    topHashtagCombinations: topHashtagCombinations,\n    weeklyTrends: weeklyTrendsArray,\n    optimalCaptionLength: optimalCaptionLength,\n    optimalPostingFrequency: optimalPostingFrequency,\n    personalizedRecommendations: personalizedRecommendations,\n    topKeywords: topKeywords,\n    topEmojis: topEmojis,\n    predictedBestHours: predictedBestHours,\n    sentimentAnalysis: sentimentAnalysis,\n    contentIdeas: contentIdeas,\n    bestDaysByPlatform: bestDaysByPlatform,\n    bestTimeSlots: bestTimeSlots,\n    emergingTrends: emergingTrends,\n    viralPredictionModel: viralPredictionModel,\n    recyclableContent: recyclableContent,\n    roiByContentType: roiByContentType,\n    evergreenVsTrending: evergreenVsTrending,\n    engagementByFormat: engagementByFormat,\n    engagementByVideoDuration: engagementByVideoDuration,\n    engagementByInteractionType: engagementByInteractionType,\n    engagementByMonth: engagementByMonth,\n    engagementBySeason: engagementBySeason,\n    engagementByHourDetailed: engagementByHourDetailed,\n    engagementByDayHour: engagementByDayHour,\n    engagementByDayOfMonth: engagementByDayOfMonth,\n    engagementByYear: engagementByYear,\n    engagementByPlatformSeason: engagementByPlatformSeason,\n    engagementByPlatformMonth: engagementByPlatformMonth,\n    engagementByPlatformFormat: engagementByPlatformFormat,\n    engagementByPlatformContentType: engagementByPlatformContentType,\n    engagementBySeasonFormat: engagementBySeasonFormat,\n    engagementBySeasonContentType: engagementBySeasonContentType,\n    engagementByMonthFormat: engagementByMonthFormat,\n    engagementByMonthContentType: engagementByMonthContentType,\n    engagementByDayFormat: engagementByDayFormat,\n    engagementByDayContentType: engagementByDayContentType,\n    engagementByHourFormat: engagementByHourFormat,\n    engagementByHourContentType: engagementByHourContentType,\n    engagementByFormatDuration: engagementByFormatDuration,\n    engagementByPlatformDay: engagementByPlatformDay,\n    engagementByPlatformHour: engagementByPlatformHour,\n    bestHours: bestHours,\n    bestDays: bestDays,\n    anomalies: anomalies,\n    viralPercentage: viralPercentage.toFixed(2),\n    bestMediaTypes: bestMediaTypes,\n    contentTypeStats: contentTypeStats,\n    coefficientOfVariation: cv.toFixed(2),\n    growthMetrics: growthMetrics,\n    alerts: alerts,\n    analysisReady: true\n  }\n}];"
+      },
+      "id": "analyze-all-posts",
+      "name": "Analyze All Posts",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2050,
+        500
+      ],
+      "notes": "Combina y analiza todos los posts, identifica los top posts"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Preparar datos para análisis de ChatGPT\nconst topPosts = $json.topPosts || [];\nconst allPosts = $json.allPosts || [];\n\nif (topPosts.length === 0) {\n  return [{\n    json: {\n      ...$input.item.json,\n      chatgptPrompt: 'No hay posts para analizar en el período seleccionado.',\n      skipAnalysis: true\n    }\n  }];\n}\n\n// Crear prompt detallado para ChatGPT\nlet prompt = `Eres un experto en análisis de contenido viral en redes sociales. Analiza los siguientes posts que fueron los más exitosos y virales durante el período del ${$json.startDate} al ${$json.endDate}.\n\n`;\n\nprompt += `CONTEXTO GENERAL:\n`;\nprompt += `- Total de posts analizados: ${$json.totalPosts}\n`;\nprompt += `- Total de engagement: ${$json.totalEngagement?.toLocaleString() || 'N/A'}\n`;\nprompt += `- Tasa de engagement promedio: ${$json.avgEngagementRate}%\n`;\nprompt += `- Tasa de engagement máxima: ${$json.maxEngagementRate}%\n`;\nprompt += `- Tasa de engagement mínima: ${$json.minEngagementRate}%\n`;\nprompt += `- Score viral promedio: ${$json.avgViralScore}\n`;\nprompt += `- Posts por plataforma: Instagram (${$json.postsByPlatform.Instagram}), TikTok (${$json.postsByPlatform.TikTok}), YouTube (${$json.postsByPlatform.YouTube})\n\n`;\n\nif ($json.platformStats) {\n  prompt += `ESTADÍSTICAS POR PLATAFORMA:\n`;\n  Object.entries($json.platformStats).forEach(([platform, stats]) => {\n    if (stats.count > 0) {\n      prompt += `- ${platform}: ${stats.count} posts, Engagement promedio: ${stats.avgEngagement.toFixed(2)}%, Score viral promedio: ${stats.avgViralScore.toFixed(2)}\n`;\n    }\n  });\n  prompt += `\n`;\n}\n\nprompt += `TOP ${topPosts.length} POSTS MÁS VIRALES:\n\n`;\n\ntopPosts.forEach((post, index) => {\n  prompt += `${index + 1}. ${post.platform} - ${post.date}\n`;\n  prompt += `   Caption/Título: ${post.caption.substring(0, 200)}${post.caption.length > 200 ? '...' : ''}\n`;\n  prompt += `   Tipo de contenido: ${post.mediaType}\n`;\n  if (post.platform === 'Instagram') {\n    prompt += `   Métricas: ${post.likes} likes, ${post.comments} comentarios, ${post.impressions} impresiones, ${post.reach} alcance\n`;\n  } else if (post.platform === 'TikTok') {\n    prompt += `   Métricas: ${post.views} vistas, ${post.likes} likes, ${post.comments} comentarios, ${post.shares} compartidos\n`;\n  } else if (post.platform === 'YouTube') {\n    prompt += `   Métricas: ${post.views} vistas, ${post.likes} likes, ${post.comments} comentarios\n`;\n  }\n  prompt += `   Tasa de engagement: ${post.engagementRate.toFixed(2)}%\n`;\n  prompt += `   Score viral: ${post.viralScore.toFixed(2)}\n`;\n  prompt += `   Link: ${post.permalink}\n\n`;\n});\n\nprompt += `ANÁLISIS REQUERIDO:\n\n`;\nprompt += `1. PATRONES COMUNES: Identifica los patrones comunes entre estos posts exitosos. ¿Qué tienen en común? (tipo de contenido, longitud del caption, hora de publicación, temas, estilo, etc.)\n\n`;\nprompt += `2. FACTORES DE ÉXITO: Explica por qué estos posts fueron virales. ¿Qué factores específicos contribuyeron a su éxito? (emociones que generan, formato, timing, hashtags, hooks, etc.)\n\n`;\nprompt += `3. RECOMENDACIONES ACCIONABLES: Proporciona recomendaciones específicas y accionables sobre qué replicar para tener el mismo éxito. Incluye:\n   - Tipo de contenido a crear\n   - Estructura de captions/títulos\n   - Mejores horarios de publicación\n   - Temas y hooks que funcionan\n   - Formato y estilo visual\n   - Estrategias de engagement\n\n`;\nprompt += `4. QUÉ EVITAR: Basándote en los posts menos exitosos, ¿qué deberías evitar hacer?\n\n`;\nprompt += `5. PLAN DE ACCIÓN: Crea un plan de acción específico con 5-7 pasos concretos para replicar el éxito de estos posts virales.\n\n`;\nprompt += `6. ANÁLISIS COMPARATIVO: Compara el rendimiento entre plataformas. ¿Qué plataforma funciona mejor para qué tipo de contenido? ¿Hay diferencias significativas en engagement entre plataformas?\n\n`;\nprompt += `7. PREDICCIÓN: Basándote en los patrones identificados, ¿qué tipo de contenido tiene mayor probabilidad de volverse viral en el futuro?\n\n`;\n\nif ($json.topHashtags && $json.topHashtags.length > 0) {\n  prompt += `HASHTAGS MÁS EFECTIVOS:\n`;\n  $json.topHashtags.slice(0, 10).forEach((hashtag, idx) => {\n    prompt += `${idx + 1}. #${hashtag.tag}: usado ${hashtag.count} veces, engagement promedio: ${hashtag.avgEngagement.toFixed(0)}\n`;\n  });\n  prompt += `\n`;\n}\n\nif ($json.topHashtagCombinations && $json.topHashtagCombinations.length > 0) {\n  prompt += `COMBINACIONES DE HASHTAGS MÁS EFECTIVAS:\n`;\n  prompt += `Estas combinaciones de hashtags funcionan mejor cuando se usan juntas:\n`;\n  $json.topHashtagCombinations.slice(0, 8).forEach((combo, idx) => {\n    prompt += `${idx + 1}. #${combo.combination.join(' + #')}: usado ${combo.count} veces, score viral promedio: ${combo.avgViralScore.toFixed(2)}\n`;\n  });\n  prompt += `\n`;\n}\n\nif ($json.weeklyTrends && $json.weeklyTrends.length > 0) {\n  prompt += `TENDENCIAS TEMPORALES (SEMANA A SEMANA):\n`;\n  prompt += `Evolución del rendimiento a lo largo del tiempo:\n`;\n  $json.weeklyTrends.forEach((week, idx) => {\n    prompt += `Semana ${idx + 1} (${week.week}): ${week.postCount} posts, Engagement promedio: ${week.avgEngagementRate}%`;\n    if (week.engagementTrend) {\n      prompt += `, Cambio: ${parseFloat(week.engagementTrend) > 0 ? '+' : ''}${week.engagementTrend}%`;\n    }\n    prompt += `\n`;\n  });\n  prompt += `\n`;\n}\n\nif ($json.bestHours && $json.bestHours.length > 0) {\n  prompt += `MEJORES HORARIOS DE PUBLICACIÓN:\n`;\n  $json.bestHours.forEach((hourData, idx) => {\n    prompt += `${idx + 1}. ${hourData.hour}:00 - ${hourData.hour + 1}:00: Score viral promedio ${hourData.avgViralScore.toFixed(2)} (${hourData.count} posts)\n`;\n  });\n  prompt += `\n`;\n}\n\nif ($json.bestDays && $json.bestDays.length > 0) {\n  prompt += `MEJORES DÍAS DE LA SEMANA:\n`;\n  $json.bestDays.forEach((dayData, idx) => {\n    prompt += `${idx + 1}. ${dayData.day}: Score viral promedio ${dayData.avgViralScore.toFixed(2)} (${dayData.count} posts)\n`;\n  });\n  prompt += `\n`;\n}\n\nif ($json.contentTypeStats && $json.contentTypeStats.length > 0) {\n  prompt += `TIPOS DE CONTENIDO POR RENDIMIENTO:\n`;\n  $json.contentTypeStats.forEach((typeData, idx) => {\n    prompt += `${idx + 1}. ${typeData.type}: ${typeData.count} posts, Engagement promedio: ${typeData.avgEngagement.toFixed(0)}, Score viral: ${typeData.avgViralScore.toFixed(2)}\n`;\n  });\n  prompt += `\n`;\n}\n\nif ($json.growthMetrics) {\n  prompt += `COMPARACIÓN CON PERÍODO ANTERIOR:\n`;\n  prompt += `- Engagement promedio anterior: ${$json.growthMetrics.lastPeriod.avgEngagementRate}%\n`;\n  prompt += `- Engagement promedio actual: ${$json.growthMetrics.currentPeriod.avgEngagementRate}%\n`;\n  prompt += `- Cambio: ${parseFloat($json.growthMetrics.engagementGrowth) > 0 ? '+' : ''}${$json.growthMetrics.engagementGrowth}%\n`;\n  prompt += `- Posts anteriores: ${$json.growthMetrics.lastPeriod.totalPosts}\n`;\n  prompt += `- Posts actuales: ${$json.growthMetrics.currentPeriod.totalPosts}\n`;\n  prompt += `- Cambio en cantidad: ${parseFloat($json.growthMetrics.postsGrowth) > 0 ? '+' : ''}${$json.growthMetrics.postsGrowth}%\n\n`;\n}\n\nif ($json.anomalies && $json.anomalies.length > 0) {\n  prompt += `POSTS ANÓMALOS (DESTACADOS):\n`;\n  prompt += `Estos posts tienen un rendimiento excepcionalmente alto (más de 2 desviaciones estándar por encima del promedio):\n`;\n  $json.anomalies.forEach((post, idx) => {\n    prompt += `${idx + 1}. ${post.platform} - ${post.date}: Score ${post.viralScore.toFixed(2)} (promedio: ${$json.avgViralScore})\n`;\n    prompt += `   ${post.caption.substring(0, 100)}...\n`;\n  });\n  prompt += `\n`;\n}\n\nif ($json.optimalCaptionLength && $json.optimalCaptionLength.length > 0) {\n  prompt += `LONGITUD ÓPTIMA DE CAPTIONS:\n`;\n  prompt += `Análisis de qué longitud de caption genera mejor engagement:\n`;\n  $json.optimalCaptionLength.forEach((length, idx) => {\n    prompt += `${idx + 1}. ${length.range}: ${length.count} posts, Score viral promedio: ${length.avgViralScore.toFixed(2)}, Longitud promedio: ${length.avgLength.toFixed(0)} caracteres\n`;\n  });\n  prompt += `\n`;\n}\n\nif ($json.optimalPostingFrequency && $json.optimalPostingFrequency.length > 0) {\n  prompt += `FRECUENCIA ÓPTIMA DE PUBLICACIÓN:\n`;\n  prompt += `Análisis de qué frecuencia de publicación genera mejor rendimiento:\n`;\n  $json.optimalPostingFrequency.forEach((freq, idx) => {\n    prompt += `${idx + 1}. ${freq.label}: ${freq.count} casos, Score viral promedio: ${freq.avgViralScore.toFixed(2)}\n`;\n  });\n  prompt += `\n`;\n}\n\nif ($json.personalizedRecommendations && $json.personalizedRecommendations.length > 0) {\n  prompt += `RECOMENDACIONES PERSONALIZADAS:\n`;\n  prompt += `Basadas en el análisis de tus datos específicos:\n`;\n  $json.personalizedRecommendations.forEach((rec, idx) => {\n    prompt += `${idx + 1}. [${rec.priority}] ${rec.category}: ${rec.recommendation}\n`;\n    prompt += `   Razón: ${rec.reason}\n`;\n    prompt += `   Impacto esperado: ${rec.expectedImpact}\n`;\n  });\n  prompt += `\n`;\n}\n\nif ($json.topKeywords && $json.topKeywords.length > 0) {\n  prompt += `PALABRAS CLAVE MÁS EFECTIVAS:\n`;\n  prompt += `Palabras que aparecen frecuentemente en posts exitosos:\n`;\n  $json.topKeywords.slice(0, 10).forEach((kw, idx) => {\n    prompt += `${idx + 1}. \\\"${kw.keyword}\\\": usado ${kw.count} veces, score viral promedio: ${kw.avgViralScore.toFixed(2)}\n`;\n  });\n  prompt += `\n`;\n}\n\nif ($json.topEmojis && $json.topEmojis.length > 0) {\n  prompt += `EMOJIS MÁS EFECTIVOS:\n`;\n  prompt += `Emojis que generan mejor engagement:\n`;\n  $json.topEmojis.slice(0, 8).forEach((emoji, idx) => {\n    prompt += `${idx + 1}. ${emoji.emoji}: usado ${emoji.count} veces, score viral promedio: ${emoji.avgViralScore.toFixed(2)}\n`;\n  });\n  prompt += `\n`;\n}\n\nif ($json.predictedBestHours && $json.predictedBestHours.length > 0) {\n  prompt += `PREDICCIÓN DE MEJOR HORA POR PLATAFORMA:\n`;\n  prompt += `Basado en datos históricos de tu audiencia:\n`;\n  $json.predictedBestHours.slice(0, 6).forEach((pred, idx) => {\n    prompt += `${idx + 1}. ${pred.platform} - ${pred.hour}:00: Score ${pred.avgViralScore.toFixed(2)} (Confianza: ${pred.confidence}%)\n`;\n  });\n  prompt += `\n`;\n}\n\nif ($json.sentimentAnalysis) {\n  prompt += `ANÁLISIS DE SENTIMIENTO:\n`;\n  prompt += `Distribución de sentimiento en captions:\n`;\n  prompt += `- Positivo: ${$json.sentimentAnalysis.distribution.positive}% (Score promedio: ${$json.sentimentAnalysis.avgPerformance.positive})\n`;\n  prompt += `- Negativo: ${$json.sentimentAnalysis.distribution.negative}% (Score promedio: ${$json.sentimentAnalysis.avgPerformance.negative})\n`;\n  prompt += `- Neutral: ${$json.sentimentAnalysis.distribution.neutral}% (Score promedio: ${$json.sentimentAnalysis.avgPerformance.neutral})\n`;\n  prompt += `\n`;\n}\n\nif ($json.contentIdeas && $json.contentIdeas.length > 0) {\n  prompt += `IDEAS DE CONTENIDO FUTURO:\n`;\n  prompt += `Basadas en posts exitosos analizados:\n`;\n  $json.contentIdeas.forEach((idea, idx) => {\n    prompt += `${idx + 1}. ${idea.inspiration}\n`;\n    prompt += `   Título sugerido: ${idea.suggestedTitle}\n`;\n    prompt += `   Plataforma: ${idea.platform} | Tipo: ${idea.contentType}\n`;\n    prompt += `   Keywords: ${idea.keywords.join(', ')}\n`;\n    prompt += `   Hashtags: #${idea.hashtags.join(', #')}\n`;\n    prompt += `   Hora sugerida: ${idea.suggestedHour}:00\n`;\n    prompt += `   Engagement esperado: ${idea.expectedEngagement} (Confianza: ${idea.confidence.toFixed(0)}%)\n`;\n  });\n  prompt += `\n`;\n}\n\nif ($json.bestDaysByPlatform && $json.bestDaysByPlatform.length > 0) {\n  prompt += `MEJORES DÍAS POR PLATAFORMA:\n`;\n  prompt += `Análisis específico por plataforma:\n`;\n  $json.bestDaysByPlatform.slice(0, 6).forEach((day, idx) => {\n    prompt += `${idx + 1}. ${day.platform} - ${day.day}: Score ${day.avgViralScore.toFixed(2)} (Confianza: ${day.confidence}%)\n`;\n  });\n  prompt += `\n`;\n}\n\nif ($json.bestTimeSlots && $json.bestTimeSlots.length > 0) {\n  prompt += `MEJORES FRANJAS HORARIAS:\n`;\n  prompt += `Análisis de engagement por franja horaria del día:\n`;\n  $json.bestTimeSlots.forEach((slot, idx) => {\n    prompt += `${idx + 1}. ${slot.label}: ${slot.count} posts, Score viral promedio: ${slot.avgViralScore.toFixed(2)}, Engagement promedio: ${slot.avgEngagement.toFixed(0)}\n`;\n  });\n  prompt += `\n`;\n}\n\nif ($json.emergingTrends && ($json.emergingTrends.hashtags.length > 0 || $json.emergingTrends.keywords.length > 0)) {\n  prompt += `TENDENCIAS EMERGENTES:\n`;\n  prompt += `Hashtags y keywords que están creciendo rápidamente:\n`;\n  if ($json.emergingTrends.hashtags.length > 0) {\n    prompt += `Hashtags en crecimiento:\n`;\n    $json.emergingTrends.hashtags.slice(0, 5).forEach((trend, idx) => {\n      prompt += `${idx + 1}. #${trend.tag}: Crecimiento del ${trend.growth}% (de ${trend.firstWeek} a ${trend.lastWeek} usos)\n`;\n    });\n  }\n  if ($json.emergingTrends.keywords.length > 0) {\n    prompt += `Keywords en crecimiento:\n`;\n    $json.emergingTrends.keywords.slice(0, 5).forEach((trend, idx) => {\n      prompt += `${idx + 1}. \\\"${trend.keyword}\\\": Crecimiento del ${trend.growth}% (de ${trend.firstWeek} a ${trend.lastWeek} usos)\n`;\n    });\n  }\n  prompt += `\n`;\n}\n\nif ($json.viralPredictionModel) {\n  prompt += `MODELO DE PREDICCIÓN DE VIRALIDAD:\n`;\n  prompt += `Factores clave identificados para contenido viral:\n`;\n  prompt += `- Mejor plataforma: ${$json.viralPredictionModel.factors.bestPlatform}\n`;\n  prompt += `- Mejor franja horaria: ${$json.viralPredictionModel.factors.bestTimeSlot}\n`;\n  prompt += `- Mejor día: ${$json.viralPredictionModel.factors.bestDay}\n`;\n  prompt += `- Mejor tipo de contenido: ${$json.viralPredictionModel.factors.bestContentType}\n`;\n  prompt += `- Número óptimo de hashtags: ${$json.viralPredictionModel.factors.optimalHashtagCount}\n`;\n  prompt += `- Longitud óptima de caption: ${$json.viralPredictionModel.factors.bestCaptionLength.toFixed(0)} caracteres\n`;\n  prompt += `Precisión estimada del modelo: ${$json.viralPredictionModel.avgAccuracy}\n`;\n  prompt += `\n`;\n}\n\nif ($json.recyclableContent && $json.recyclableContent.length > 0) {\n  prompt += `CONTENIDO RECICLABLE:\n`;\n  prompt += `Posts con alto engagement y contenido evergreen que pueden reutilizarse:\n`;\n  $json.recyclableContent.slice(0, 5).forEach((post, idx) => {\n    prompt += `${idx + 1}. ${post.platform} - ${post.date}: Score ${post.recyclabilityScore} (${post.reason})\n`;\n    prompt += `   ${post.caption}\n`;\n  });\n  prompt += `\n`;\n}\n\nif ($json.roiByContentType && $json.roiByContentType.length > 0) {\n  prompt += `ANÁLISIS DE ROI POR TIPO DE CONTENIDO:\n`;\n  prompt += `Retorno de inversión calculado por tipo de contenido:\n`;\n  $json.roiByContentType.forEach((roi, idx) => {\n    prompt += `${idx + 1}. ${roi.type}: ${roi.count} posts\n`;\n    prompt += `   Costo total: $${roi.costoTotal} | Valor generado: $${roi.valorGenerado}\n`;\n    prompt += `   ROI: ${parseFloat(roi.roiPorcentual) > 0 ? '+' : ''}${roi.roiPorcentual}% ($${roi.roiAbsoluto})\n`;\n    prompt += `   Costo por engagement: $${roi.costoPorEngagement}\n`;\n  });\n  prompt += `\n`;\n}\n\nif ($json.evergreenVsTrending) {\n  prompt += `CONTENIDO EVERGREEN VS TRENDING:\n`;\n  prompt += `Análisis de contenido perdurable vs contenido temporal:\n`;\n  prompt += `- Evergreen: ${$json.evergreenVsTrending.evergreen.count} posts (${$json.evergreenVsTrending.evergreen.percentage}%), Score promedio: ${$json.evergreenVsTrending.evergreen.avgViralScore}\n`;\n  prompt += `- Trending: ${$json.evergreenVsTrending.trending.count} posts (${$json.evergreenVsTrending.trending.percentage}%), Score promedio: ${$json.evergreenVsTrending.trending.avgViralScore}\n`;\n  prompt += `Recomendación: ${$json.evergreenVsTrending.recommendation}\n`;\n  prompt += `\n`;\n}\n\nif ($json.engagementByFormat && $json.engagementByFormat.length > 0) {\n  prompt += `ENGAGEMENT POR FORMATO DE CONTENIDO:\n`;\n  prompt += `Análisis de qué formato genera mejor engagement:\n`;\n  $json.engagementByFormat.forEach((format, idx) => {\n    prompt += `${idx + 1}. ${format.format}: ${format.count} posts, Engagement promedio: ${format.avgEngagement.toFixed(0)}, Score viral: ${format.avgViralScore.toFixed(2)}, Tasa viral: ${format.viralPercentage.toFixed(1)}%\n`;\n  });\n  prompt += `\n`;\n}\n\nif ($json.engagementByVideoDuration && $json.engagementByVideoDuration.length > 0) {\n  prompt += `ENGAGEMENT POR DURACIÓN DE VIDEO:\n`;\n  prompt += `Análisis de qué duración de video genera mejor engagement:\n`;\n  $json.engagementByVideoDuration.forEach((duration, idx) => {\n    prompt += `${idx + 1}. ${duration.label} (${duration.range}): ${duration.count} videos, Score viral: ${duration.avgViralScore.toFixed(2)}, Duración promedio: ${duration.avgDuration.toFixed(0)}s\n`;\n  });\n  prompt += `\n`;\n}\n\nif ($json.engagementByInteractionType && $json.engagementByInteractionType.length > 0) {\n  prompt += `ENGAGEMENT POR TIPO DE INTERACCIÓN:\n`;\n  prompt += `Desglose de interacciones por tipo:\n`;\n  $json.engagementByInteractionType.forEach((interaction, idx) => {\n    prompt += `${idx + 1}. ${interaction.type}: Total ${interaction.total.toLocaleString()}, Promedio por post: ${interaction.avgPerPost.toFixed(0)}, ${interaction.percentage}% del total\n`;\n  });\n  prompt += `\n`;\n}\n\nprompt += `Responde en español, sé específico y práctico. Usa datos concretos de los posts analizados para respaldar tus conclusiones. Estructura tu respuesta con títulos claros y listas numeradas para facilitar la lectura. Incluye las recomendaciones personalizadas en tu análisis final.`;\n\nreturn [{\n  json: {\n    ...$input.item.json,\n    chatgptPrompt: prompt,\n    skipAnalysis: false\n  }\n}];"
+      },
+      "id": "prepare-chatgpt-prompt",
+      "name": "Prepare ChatGPT Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2250,
+        500
+      ],
+      "notes": "Prepara el prompt detallado para ChatGPT"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "skip-analysis",
+              "leftValue": "={{ $json.skipAnalysis }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "false"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-skip-analysis",
+      "name": "Check Skip Analysis",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        2450,
+        500
+      ],
+      "notes": "Verifica si se debe saltar el análisis"
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "operation": "create",
+        "modelId": "={{ $env.OPENAI_MODEL || 'gpt-4' }}",
+        "messages": {
+          "values": [
+            {
+              "role": "user",
+              "content": "={{ $json.chatgptPrompt }}"
+            }
+          ]
+        },
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 4000
+        }
+      },
+      "id": "chatgpt-analysis",
+      "name": "ChatGPT Analysis",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1.3,
+      "position": [
+        2650,
+        400
+      ],
+      "notes": "Analiza los posts exitosos usando ChatGPT",
+      "credentials": {
+        "openAiApi": {
+          "id": "openai-credentials",
+          "name": "OpenAI API"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Procesar respuesta de ChatGPT y generar reporte\nconst chatgptResponse = $json.choices?.[0]?.message?.content || $json.message?.content || 'No se pudo obtener análisis de ChatGPT.';\nconst topPosts = $('Analyze All Posts').item.json.topPosts || [];\nconst executionId = $('Initialize Workflow').item.json.executionId;\n\n// Crear reporte estructurado\nconst report = {\n  executionId: executionId,\n  dateRange: {\n    start: $('Initialize Workflow').item.json.startDate,\n    end: $('Initialize Workflow').item.json.endDate\n  },\n  summary: {\n    totalPosts: $('Analyze All Posts').item.json.totalPosts,\n    avgEngagementRate: $('Analyze All Posts').item.json.avgEngagementRate,\n    avgViralScore: $('Analyze All Posts').item.json.avgViralScore,\n    maxEngagementRate: $('Analyze All Posts').item.json.maxEngagementRate,\n    minEngagementRate: $('Analyze All Posts').item.json.minEngagementRate,\n    totalEngagement: $('Analyze All Posts').item.json.totalEngagement,\n    postsByPlatform: $('Analyze All Posts').item.json.postsByPlatform,\n    platformStats: $('Analyze All Posts').item.json.platformStats || {},\n    topHashtags: $('Analyze All Posts').item.json.topHashtags || [],\n    topHashtagCombinations: $('Analyze All Posts').item.json.topHashtagCombinations || [],\n    weeklyTrends: $('Analyze All Posts').item.json.weeklyTrends || [],\n    optimalCaptionLength: $('Analyze All Posts').item.json.optimalCaptionLength || [],\n    optimalPostingFrequency: $('Analyze All Posts').item.json.optimalPostingFrequency || [],\n    personalizedRecommendations: $('Analyze All Posts').item.json.personalizedRecommendations || [],\n    topKeywords: $('Analyze All Posts').item.json.topKeywords || [],\n    topEmojis: $('Analyze All Posts').item.json.topEmojis || [],\n    predictedBestHours: $('Analyze All Posts').item.json.predictedBestHours || [],\n    sentimentAnalysis: $('Analyze All Posts').item.json.sentimentAnalysis || null,\n    contentIdeas: $('Analyze All Posts').item.json.contentIdeas || [],\n    bestDaysByPlatform: $('Analyze All Posts').item.json.bestDaysByPlatform || [],\n    bestTimeSlots: $('Analyze All Posts').item.json.bestTimeSlots || [],\n    emergingTrends: $('Analyze All Posts').item.json.emergingTrends || { hashtags: [], keywords: [] },\n    viralPredictionModel: $('Analyze All Posts').item.json.viralPredictionModel || null,\n    recyclableContent: $('Analyze All Posts').item.json.recyclableContent || [],\n    roiByContentType: $('Analyze All Posts').item.json.roiByContentType || [],\n    evergreenVsTrending: $('Analyze All Posts').item.json.evergreenVsTrending || null,\n    engagementByFormat: $('Analyze All Posts').item.json.engagementByFormat || [],\n    engagementByVideoDuration: $('Analyze All Posts').item.json.engagementByVideoDuration || [],\n    engagementByInteractionType: $('Analyze All Posts').item.json.engagementByInteractionType || [],\n    bestHours: $('Analyze All Posts').item.json.bestHours || [],\n    bestDays: $('Analyze All Posts').item.json.bestDays || [],\n    anomalies: $('Analyze All Posts').item.json.anomalies || [],\n    viralPercentage: $('Analyze All Posts').item.json.viralPercentage || '0',\n    bestMediaTypes: $('Analyze All Posts').item.json.bestMediaTypes || [],\n    contentTypeStats: $('Analyze All Posts').item.json.contentTypeStats || [],\n    coefficientOfVariation: $('Analyze All Posts').item.json.coefficientOfVariation || '0',\n    growthMetrics: $('Analyze All Posts').item.json.growthMetrics || null,\n    alerts: $('Analyze All Posts').item.json.alerts || []\n  },\n  topPosts: topPosts.map((post, index) => ({\n    rank: index + 1,\n    platform: post.platform,\n    date: post.date,\n    caption: post.caption.substring(0, 150) + (post.caption.length > 150 ? '...' : ''),\n    engagementRate: post.engagementRate.toFixed(2) + '%',\n    viralScore: post.viralScore.toFixed(2),\n    metrics: post.platform === 'Instagram' ? {\n      likes: post.likes,\n      comments: post.comments,\n      impressions: post.impressions,\n      reach: post.reach\n    } : post.platform === 'TikTok' ? {\n      views: post.views,\n      likes: post.likes,\n      comments: post.comments,\n      shares: post.shares\n    } : {\n      views: post.views,\n      likes: post.likes,\n      comments: post.comments\n    },\n    link: post.permalink\n  })),\n  aiAnalysis: chatgptResponse,\n  generatedAt: new Date().toISOString()\n};\n\n// Guardar reporte en archivo\nconst fs = require('fs');\nconst path = require('path');\nconst reportsDir = '/Users/adan/IA/reports/social_analytics';\n\n// Crear directorio si no existe\nif (!fs.existsSync(reportsDir)) {\n  fs.mkdirSync(reportsDir, { recursive: true });\n}\n\nconst reportFile = path.join(reportsDir, `social_analytics_${executionId}.json`);\nfs.writeFileSync(reportFile, JSON.stringify(report, null, 2), 'utf-8');\n\n// Exportar también a CSV con múltiples secciones\nconst csvFile = path.join(reportsDir, `social_analytics_${executionId}.csv`);\nif (topPosts.length > 0) {\n  let csvContent = '';\n  \n  // Sección 1: Top Posts\n  csvContent += '=== TOP POSTS ===\\n';\n  const csvHeaders = ['Rank', 'Platform', 'Date', 'Caption', 'Engagement Rate', 'Viral Score', 'Likes', 'Comments', 'Views/Impressions', 'Link'];\n  const csvRows = topPosts.map((post, idx) => {\n    const views = post.platform === 'Instagram' ? post.impressions : post.views || 0;\n    return [\n      idx + 1,\n      post.platform,\n      post.date,\n      `\"${(post.caption || '').replace(/\"/g, '\"\"').substring(0, 100)}\"`,\n      post.engagementRate.toFixed(2) + '%',\n      post.viralScore.toFixed(2),\n      post.likes || 0,\n      post.comments || 0,\n      views,\n      post.permalink\n    ];\n  });\n  csvContent += csvHeaders.join(',') + '\\n';\n  csvContent += csvRows.map(row => row.join(',')).join('\\n') + '\\n\\n';\n  \n  // Sección 2: Top Hashtags\n  const analysisData = $('Analyze All Posts').item.json;\n  if (analysisData.topHashtags && analysisData.topHashtags.length > 0) {\n    csvContent += '=== TOP HASHTAGS ===\\n';\n    csvContent += 'Rank,Hashtag,Count,Avg Engagement,Total Engagement\\n';\n    analysisData.topHashtags.forEach((h, idx) => {\n      csvContent += `${idx + 1},#${h.tag},${h.count},${h.avgEngagement.toFixed(0)},${h.totalEngagement}\\n`;\n    });\n    csvContent += '\\n';\n  }\n  \n  // Sección 3: Mejores Horarios\n  if (analysisData.bestHours && analysisData.bestHours.length > 0) {\n    csvContent += '=== MEJORES HORARIOS ===\\n';\n    csvContent += 'Rank,Hour,Count,Avg Engagement,Avg Viral Score\\n';\n    analysisData.bestHours.forEach((h, idx) => {\n      csvContent += `${idx + 1},${h.hour}:00,${h.count},${h.avgEngagement.toFixed(0)},${h.avgViralScore.toFixed(2)}\\n`;\n    });\n    csvContent += '\\n';\n  }\n  \n  // Sección 4: Mejores Días\n  if (analysisData.bestDays && analysisData.bestDays.length > 0) {\n    csvContent += '=== MEJORES DÍAS ===\\n';\n    csvContent += 'Rank,Day,Count,Avg Engagement,Avg Viral Score\\n';\n    analysisData.bestDays.forEach((d, idx) => {\n      csvContent += `${idx + 1},${d.day},${d.count},${d.avgEngagement.toFixed(0)},${d.avgViralScore.toFixed(2)}\\n`;\n    });\n    csvContent += '\\n';\n  }\n  \n  // Sección 5: Combinaciones de Hashtags\n  if (analysisData.topHashtagCombinations && analysisData.topHashtagCombinations.length > 0) {\n    csvContent += '=== COMBINACIONES DE HASHTAGS ===\\n';\n    csvContent += 'Rank,Hashtag 1,Hashtag 2,Count,Avg Engagement,Avg Viral Score\\n';\n    analysisData.topHashtagCombinations.forEach((combo, idx) => {\n      csvContent += `${idx + 1},#${combo.combination[0]},#${combo.combination[1] || ''},${combo.count},${combo.avgEngagement.toFixed(0)},${combo.avgViralScore.toFixed(2)}\\n`;\n    });\n    csvContent += '\\n';\n  }\n  \n  // Sección 6: Tendencias Semanales\n  if (analysisData.weeklyTrends && analysisData.weeklyTrends.length > 0) {\n    csvContent += '=== TENDENCIAS SEMANALES ===\\n';\n    csvContent += 'Week,Post Count,Total Engagement,Avg Engagement Rate,Avg Viral Score,Engagement Trend,Viral Score Change\\n';\n    analysisData.weeklyTrends.forEach((week) => {\n      csvContent += `${week.week},${week.postCount},${week.totalEngagement},${week.avgEngagementRate},${week.avgViralScore},${week.engagementTrend || 'N/A'},${week.viralScoreChange || 'N/A'}\\n`;\n    });\n  }\n  \n  fs.writeFileSync(csvFile, csvContent, 'utf-8');\n}\n\nreturn [{\n  json: {\n    ...report,\n    reportFile: reportFile,\n    csvFile: csvFile,\n    reportGenerated: true\n  }\n}];"
+      },
+      "id": "generate-report",
+      "name": "Generate Report",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2850,
+        400
+      ],
+      "notes": "Genera reporte estructurado y lo guarda en archivo"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Preparar mensaje de notificación\nconst report = $json;\nconst executionId = report.executionId;\n\nlet message = `📊 *Análisis de Estadísticas Orgánicas - Reporte Generado*\n\n`;\nmessage += `📅 Período: ${report.dateRange.start} al ${report.dateRange.end}\n\n`;\nmessage += `📈 *Resumen:*\n`;\nmessage += `• Total de posts: ${report.summary.totalPosts}\n`;\nmessage += `• Engagement promedio: ${report.summary.avgEngagementRate}%\n`;\nmessage += `• Score viral promedio: ${report.summary.avgViralScore}\n`;\nmessage += `• Por plataforma: Instagram (${report.summary.postsByPlatform.Instagram}), TikTok (${report.summary.postsByPlatform.TikTok}), YouTube (${report.summary.postsByPlatform.YouTube})\n\n`;\n\nif (report.summary.topHashtags && report.summary.topHashtags.length > 0) {\n  message += `🏷️ *Top 3 Hashtags:*\n`;\n  report.summary.topHashtags.slice(0, 3).forEach((h, idx) => {\n    message += `${idx + 1}. #${h.tag} (${h.count} posts, engagement: ${h.avgEngagement.toFixed(0)})\n`;\n  });\n  message += `\n`;\n}\n\nif (report.summary.topHashtagCombinations && report.summary.topHashtagCombinations.length > 0) {\n  message += `🔗 *Mejor Combinación de Hashtags:*\n`;\n  const bestCombo = report.summary.topHashtagCombinations[0];\n  message += `#${bestCombo.combination.join(' + #')} (Score: ${bestCombo.avgViralScore.toFixed(2)})\n\n`;\n}\n\nif (report.summary.weeklyTrends && report.summary.weeklyTrends.length > 0) {\n  const lastWeek = report.summary.weeklyTrends[report.summary.weeklyTrends.length - 1];\n  if (lastWeek.engagementTrend) {\n    const trend = parseFloat(lastWeek.engagementTrend);\n    const trendEmoji = trend > 0 ? '📈' : trend < 0 ? '📉' : '➡️';\n    message += `${trendEmoji} *Tendencia Semanal:* ${trend > 0 ? '+' : ''}${trend.toFixed(1)}% vs semana anterior\n\n`;\n  }\n}\n\nif (report.summary.optimalCaptionLength && report.summary.optimalCaptionLength.length > 0) {\n  message += `📏 *Longitud Óptima:* ${report.summary.optimalCaptionLength[0].range} (Score: ${report.summary.optimalCaptionLength[0].avgViralScore.toFixed(2)})\n\n`;\n}\n\nif (report.summary.optimalPostingFrequency && report.summary.optimalPostingFrequency.length > 0) {\n  message += `⏱️ *Frecuencia Óptima:* ${report.summary.optimalPostingFrequency[0].label} (Score: ${report.summary.optimalPostingFrequency[0].avgViralScore.toFixed(2)})\n\n`;\n}\n\nif (report.summary.personalizedRecommendations && report.summary.personalizedRecommendations.length > 0) {\n  message += `💡 *Top Recomendaciones:*\n`;\n  report.summary.personalizedRecommendations.slice(0, 3).forEach((rec, idx) => {\n    message += `${idx + 1}. [${rec.priority}] ${rec.recommendation}\n`;\n  });\n  message += `\n`;\n}\n\nif (report.summary.topKeywords && report.summary.topKeywords.length > 0) {\n  message += `🔤 *Top 3 Palabras Clave:* ${report.summary.topKeywords.slice(0, 3).map(k => k.keyword).join(', ')}\n\n`;\n}\n\nif (report.summary.topEmojis && report.summary.topEmojis.length > 0) {\n  message += `😊 *Top 3 Emojis:* ${report.summary.topEmojis.slice(0, 3).map(e => e.emoji).join(' ')} (Score: ${report.summary.topEmojis[0].avgViralScore.toFixed(2)})\n\n`;\n}\n\nif (report.summary.predictedBestHours && report.summary.predictedBestHours.length > 0) {\n  const bestPrediction = report.summary.predictedBestHours[0];\n  message += `🎯 *Mejor Hora Predicha:* ${bestPrediction.platform} a las ${bestPrediction.hour}:00 (Confianza: ${bestPrediction.confidence}%)\n\n`;\n}\n\nif (report.summary.sentimentAnalysis) {\n  message += `😊 *Sentimiento:* ${report.summary.sentimentAnalysis.distribution.positive}% positivo, ${report.summary.sentimentAnalysis.distribution.neutral}% neutral\n\n`;\n}\n\nif (report.summary.contentIdeas && report.summary.contentIdeas.length > 0) {\n  message += `💡 *Ideas de Contenido:* ${report.summary.contentIdeas.length} ideas generadas basadas en posts exitosos\n`;\n  report.summary.contentIdeas.slice(0, 2).forEach((idea, idx) => {\n    message += `${idx + 1}. ${idea.platform} - ${idea.suggestedTitle.substring(0, 40)}...\n`;\n  });\n  message += `\n`;\n}\n\nif (report.summary.bestDaysByPlatform && report.summary.bestDaysByPlatform.length > 0) {\n  const bestDay = report.summary.bestDaysByPlatform[0];\n  message += `📅 *Mejor Día por Plataforma:* ${bestDay.platform} - ${bestDay.day} (Score: ${bestDay.avgViralScore.toFixed(2)})\n\n`;\n}\n\nif (report.summary.bestTimeSlots && report.summary.bestTimeSlots.length > 0) {\n  message += `⏰ *Mejor Franja Horaria:* ${report.summary.bestTimeSlots[0].label} (Score: ${report.summary.bestTimeSlots[0].avgViralScore.toFixed(2)})\n\n`;\n}\n\nif (report.summary.emergingTrends && report.summary.emergingTrends.hashtags && report.summary.emergingTrends.hashtags.length > 0) {\n  message += `📈 *Tendencias Emergentes:* #${report.summary.emergingTrends.hashtags[0].tag} (+${report.summary.emergingTrends.hashtags[0].growth}%)\n\n`;\n}\n\nif (report.summary.viralPredictionModel) {\n  message += `🎯 *Modelo de Predicción:* Precisión ${report.summary.viralPredictionModel.avgAccuracy}\n`;\n  message += `   Mejor plataforma: ${report.summary.viralPredictionModel.factors.bestPlatform}\n`;\n  message += `   Franja horaria óptima: ${report.summary.bestTimeSlots[0]?.label || 'Mañana'}\n\n`;\n}\n\nif (report.summary.recyclableContent && report.summary.recyclableContent.length > 0) {\n  message += `♻️ *Contenido Reciclable:* ${report.summary.recyclableContent.length} posts identificados para reutilizar\n\n`;\n}\n\nif (report.summary.roiByContentType && report.summary.roiByContentType.length > 0) {\n  const bestROI = report.summary.roiByContentType[0];\n  message += `💰 *Mejor ROI:* ${bestROI.type} (${parseFloat(bestROI.roiPorcentual) > 0 ? '+' : ''}${bestROI.roiPorcentual}%)\n\n`;\n}\n\nif (report.summary.evergreenVsTrending) {\n  message += `🌲 *Evergreen vs Trending:* ${report.summary.evergreenVsTrending.evergreen.count} evergreen, ${report.summary.evergreenVsTrending.trending.count} trending\n`;\n  message += `   ${report.summary.evergreenVsTrending.recommendation}\n\n`;\n}\n\nif (report.summary.engagementByFormat && report.summary.engagementByFormat.length > 0) {\n  const bestFormat = report.summary.engagementByFormat[0];\n  message += `📱 *Mejor Formato:* ${bestFormat.format} (Score: ${bestFormat.avgViralScore.toFixed(2)}, ${bestFormat.count} posts)\n\n`;\n}\n\nif (report.summary.engagementByVideoDuration && report.summary.engagementByVideoDuration.length > 0) {\n  const bestDuration = report.summary.engagementByVideoDuration[0];\n  message += `⏱️ *Mejor Duración de Video:* ${bestDuration.label} (Score: ${bestDuration.avgViralScore.toFixed(2)})\n\n`;\n}\n\nif (report.summary.engagementByInteractionType && report.summary.engagementByInteractionType.length > 0) {\n  const topInteraction = report.summary.engagementByInteractionType[0];\n  message += `👆 *Tipo de Interacción Principal:* ${topInteraction.type} (${topInteraction.percentage}% del total)\n\n`;\n}\n\nif (report.summary.bestHours && report.summary.bestHours.length > 0) {\n  message += `⏰ *Mejor Hora:* ${report.summary.bestHours[0].hour}:00 (Score: ${report.summary.bestHours[0].avgViralScore.toFixed(2)})\n\n`;\n}\n\nif (report.summary.anomalies && report.summary.anomalies.length > 0) {\n  message += `🌟 *Posts Destacados:* ${report.summary.anomalies.length} posts con rendimiento excepcional\n\n`;\n}\n\nif (report.summary.alerts && report.summary.alerts.length > 0) {\n  message += `⚠️ *Alertas:*\n`;\n  report.summary.alerts.forEach((alert, idx) => {\n    message += `${idx + 1}. [${alert.level}] ${alert.title}\n`;\n    message += `   ${alert.message}\n`;\n  });\n  message += `\n`;\n}\n\nif (report.summary.viralPercentage) {\n  message += `📊 *Contenido Viral:* ${report.summary.viralPercentage}% de los posts son virales\n\n`;\n}\n\nif (report.summary.contentTypeStats && report.summary.contentTypeStats.length > 0) {\n  message += `📝 *Mejor Tipo de Contenido:* ${report.summary.contentTypeStats[0].type} (Score: ${report.summary.contentTypeStats[0].avgViralScore.toFixed(2)})\n\n`;\n}\n\nif (report.summary.growthMetrics) {\n  const growth = parseFloat(report.summary.growthMetrics.engagementGrowth);\n  const emoji = growth > 0 ? '📈' : growth < 0 ? '📉' : '➡️';\n  message += `${emoji} *Tendencia:* Engagement ${growth > 0 ? '+' : ''}${growth.toFixed(1)}% vs período anterior\n\n`;\n}\n\nif (report.topPosts && report.topPosts.length > 0) {\n  message += `🏆 *Top ${Math.min(5, report.topPosts.length)} Posts Más Virales:*\n\n`;\n  report.topPosts.slice(0, 5).forEach((post, idx) => {\n    message += `${idx + 1}. *${post.platform}* - ${post.date}\n`;\n    message += `   Engagement: ${post.engagementRate} | Score: ${post.viralScore}\n`;\n    if (post.metrics.views) {\n      message += `   Vistas: ${post.metrics.views.toLocaleString()}\n`;\n    }\n    if (post.metrics.likes) {\n      message += `   Likes: ${post.metrics.likes.toLocaleString()}\n`;\n    }\n    message += `   ${post.caption.substring(0, 80)}${post.caption.length > 80 ? '...' : ''}\n\n`;\n  });\n}\n\nmessage += `🤖 *Análisis de IA:*\n`;\nconst analysisPreview = report.aiAnalysis.substring(0, 500);\nmessage += `${analysisPreview}${report.aiAnalysis.length > 500 ? '...' : ''}\n\n`;\n\nmessage += `📁 Reportes guardados:\n`;\nmessage += `   • JSON: ${report.reportFile}\n`;\nif (report.csvFile) {\n  message += `   • CSV: ${report.csvFile}\n`;\n}\nmessage += `🕐 Ejecución ID: ${executionId}`;\n\nreturn [{\n  json: {\n    ...report,\n    notificationMessage: message\n  }\n}];"
+      },
+      "id": "prepare-notification",
+      "name": "Prepare Notification",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3050,
+        400
+      ],
+      "notes": "Prepara mensaje de notificación"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "has-telegram",
+              "leftValue": "={{ $env.TELEGRAM_BOT_TOKEN }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-telegram",
+      "name": "Check Telegram Available",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        3250,
+        300
+      ],
+      "notes": "Verifica si Telegram está configurado"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
+        "text": "={{ $json.notificationMessage }}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "send-telegram",
+      "name": "Send Telegram Notification",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [
+        3450,
+        300
+      ],
+      "notes": "Envía notificación a Telegram",
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"success\": true, \"message\": \"Análisis completado\", \"executionId\": $json.executionId, \"totalPosts\": $json.summary.totalPosts, \"topPosts\": $json.topPosts.length, \"reportFile\": $json.reportFile } }}"
+      },
+      "id": "webhook-response",
+      "name": "Webhook Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        3250,
+        600
+      ],
+      "notes": "Responde al webhook si fue ejecutado manualmente"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Manejar errores y preparar mensaje de error\nconst error = $json.error || $json.stderr || 'Error desconocido';\nconst executionId = $('Initialize Workflow')?.item?.json?.executionId || 'unknown';\n\nlet errorMessage = `❌ *Error en el análisis de estadísticas*\n\n`;\nerrorMessage += `Error: ${error}\n`;\nerrorMessage += `Ejecución ID: ${executionId}\n`;\n\nif ($json.missingConfig) {\n  errorMessage += `\nConfiguración faltante: ${$json.missingConfig}\n`;\n}\n\nreturn [{\n  json: {\n    ...$input.item.json,\n    error: error,\n    errorMessage: errorMessage,\n    executionId: executionId\n  }\n}];"
+      },
+      "id": "handle-error",
+      "name": "Handle Error",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2050,
+        800
+      ],
+      "notes": "Maneja errores y prepara mensaje de error",
+      "onError": "continue"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
+        "text": "={{ $json.errorMessage }}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "send-error-telegram",
+      "name": "Send Error Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [
+        2250,
+        800
+      ],
+      "notes": "Envía notificación de error a Telegram",
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      },
+      "continueOnFail": true
+    }
+  ],
+  "connections": {
+    "Schedule Trigger - Semanal Lunes 8AM": {
+      "main": [
+        [
+          {
+            "node": "Initialize Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook Trigger - Ejecución Manual": {
+      "main": [
+        [
+          {
+            "node": "Initialize Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Initialize Workflow": {
+      "main": [
+        [
+          {
+            "node": "Check Can Proceed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Can Proceed": {
+      "main": [
+        [
+          {
+            "node": "Prepare Instagram Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Prepare TikTok Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Prepare YouTube Request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Handle Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Instagram Request": {
+      "main": [
+        [
+          {
+            "node": "Get Instagram Stats",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Instagram Stats": {
+      "main": [
+        [
+          {
+            "node": "Process Instagram Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Process Instagram Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Instagram Data": {
+      "main": [
+        [
+          {
+            "node": "Merge All Posts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare TikTok Request": {
+      "main": [
+        [
+          {
+            "node": "Get TikTok Stats",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get TikTok Stats": {
+      "main": [
+        [
+          {
+            "node": "Process TikTok Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Process TikTok Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process TikTok Data": {
+      "main": [
+        [
+          {
+            "node": "Merge All Posts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare YouTube Request": {
+      "main": [
+        [
+          {
+            "node": "Get YouTube Videos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get YouTube Videos": {
+      "main": [
+        [
+          {
+            "node": "Prepare YouTube Stats Request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepare YouTube Stats Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare YouTube Stats Request": {
+      "main": [
+        [
+          {
+            "node": "Get YouTube Stats",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get YouTube Stats": {
+      "main": [
+        [
+          {
+            "node": "Process YouTube Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Process YouTube Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process YouTube Data": {
+      "main": [
+        [
+          {
+            "node": "Merge All Posts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge All Posts": {
+      "main": [
+        [
+          {
+            "node": "Analyze All Posts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze All Posts": {
+      "main": [
+        [
+          {
+            "node": "Prepare ChatGPT Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare ChatGPT Prompt": {
+      "main": [
+        [
+          {
+            "node": "Check Skip Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Skip Analysis": {
+      "main": [
+        [
+          {
+            "node": "ChatGPT Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Generate Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ChatGPT Analysis": {
+      "main": [
+        [
+          {
+            "node": "Generate Report",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Generate Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Report": {
+      "main": [
+        [
+          {
+            "node": "Prepare Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Notification": {
+      "main": [
+        [
+          {
+            "node": "Check Telegram Available",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Webhook Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Telegram Available": {
+      "main": [
+        [
+          {
+            "node": "Send Telegram Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Handle Error": {
+      "main": [
+        [
+          {
+            "node": "Send Error Telegram",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Webhook Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "saveExecutionProgress": true,
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1"
+}

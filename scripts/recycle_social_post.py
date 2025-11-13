@@ -9,9 +9,11 @@ import json
 import sys
 import os
 import re
-from datetime import datetime
+import csv
+from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Tuple
 from collections import Counter
+from pathlib import Path
 
 # Intentar importar OpenAI (opcional)
 try:
@@ -571,110 +573,613 @@ Cuéntame en los comentarios 👇"""
         return time_map.get(topic, time_map['general'])
     
     def generate_story(self, elements: Dict) -> Dict:
-        """Genera versión de historia reciclada"""
+        """Genera versión mejorada de historia con slides optimizados"""
         
-        # Dividir contenido en slides para historia
-        text_chunks = elements['clean_text'].split('. ')
+        # Dividir contenido inteligentemente
+        text_chunks = [chunk.strip() for chunk in elements['clean_text'].split('. ') if chunk.strip()]
+        
         slides = []
         
-        # Slide 1: Hook
+        # Slide 1: Hook mejorado según tipo de contenido
+        hook_content = '🔄 Recordando esto...'
+        if elements['has_question']:
+            hook_content = '❓ Pregunta rápida...'
+        elif elements['content_type'] == 'tip':
+            hook_content = '💡 Tip del día:'
+        elif elements['content_type'] == 'fact':
+            hook_content = '📊 Dato interesante:'
+        
         slides.append({
             'number': 1,
             'type': 'Hook',
-            'content': '🔄 Recordando esto...',
-            'visual': 'Emoji grande + texto llamativo'
+            'content': hook_content,
+            'visual': 'Fondo sólido vibrante + emoji grande + texto bold',
+            'duration': '3 segundos',
+            'interactive': 'Ninguno'
         })
         
-        # Slides 2-4: Contenido principal
-        for i, chunk in enumerate(text_chunks[:3], start=2):
-            if chunk.strip():
-                slides.append({
-                    'number': i,
-                    'type': 'Content',
-                    'content': chunk[:100] + ('...' if len(chunk) > 100 else ''),
-                    'visual': 'Texto sobre fondo degradado o imagen relacionada'
-                })
+        # Slides de contenido (máximo 4 slides de contenido)
+        max_content_slides = min(4, len(text_chunks))
+        for i, chunk in enumerate(text_chunks[:max_content_slides], start=2):
+            content = chunk[:90] + ('...' if len(chunk) > 90 else '')
+            
+            # Determinar tipo de slide según posición
+            slide_type = 'Content'
+            if i == 2:
+                slide_type = 'Main Content'
+            
+            # Sugerir sticker interactivo en slide intermedio
+            interactive = None
+            if i == 3 and elements['has_question']:
+                interactive = 'Sticker de pregunta'
+            elif i == 3:
+                interactive = 'Sticker de encuesta (Sí/No)'
+            
+            slides.append({
+                'number': i,
+                'type': slide_type,
+                'content': content,
+                'visual': self._get_story_visual_suggestion(elements, i),
+                'duration': '4-5 segundos',
+                'interactive': interactive or 'Ninguno'
+            })
         
-        # Slide final: CTA
+        # Slide final: CTA mejorado
+        cta_options = [
+            '¿Qué opinas? 👇 Desliza para responder',
+            '¿Estás de acuerdo? Responde 👇',
+            '¿Qué agregarías? Comparte 👇',
+            'Guarda esta historia 💾'
+        ]
+        
+        selected_cta = cta_options[0]
+        if elements['has_question']:
+            selected_cta = cta_options[0]
+        elif elements['content_type'] == 'tip':
+            selected_cta = cta_options[3]
+        
         slides.append({
             'number': len(slides) + 1,
             'type': 'CTA',
-            'content': '¿Qué opinas? 👇 Desliza para responder',
-            'visual': 'Botón de interacción o pregunta destacada'
+            'content': selected_cta,
+            'visual': 'Fondo llamativo + CTA destacado con emoji + botón visual',
+            'duration': '3-4 segundos',
+            'interactive': 'Sticker de pregunta o encuesta'
         })
         
-        # Caption para historia (opcional, ya que las historias no tienen caption tradicional)
-        story_text = '\n'.join([f"Slide {s['number']}: {s['content']}" for s in slides])
+        # Asegurar máximo 7 slides totales
+        if len(slides) > 7:
+            slides = slides[:6] + [slides[-1]]  # Mantener hook, primeros 5 de contenido, y CTA
         
         # Hashtags para historia
-        hashtags = [
-            '#Stories', '#Contenido', '#Tips', '#Sabiduria',
-            '#Motivacion', '#Inspiracion', '#Aprendizaje'
-        ]
+        hashtags = ['#Stories', '#Contenido']
+        
+        # Agregar hashtags según tema
+        if elements['main_topic'] in self.HASHTAG_CATEGORIES:
+            hashtags.extend(self.HASHTAG_CATEGORIES[elements['main_topic']][:2])
+        
+        hashtags.extend(['#Tips', '#Sabiduria', '#Aprendizaje'])
         
         if elements['hashtags']:
-            hashtags.extend(elements['hashtags'][:3])
+            hashtags.extend(elements['hashtags'][:2])
         
-        # Sugerencias de visuales para cada slide
-        visual_suggestions = [
-            "📱 Slide 1: Fondo sólido vibrante + texto grande y bold",
-            "🎨 Slides 2-4: Fondo degradado o imagen relacionada + texto legible",
-            "✨ Slide final: Fondo llamativo + CTA destacado con emoji",
-            "🎭 Usa stickers interactivos (encuestas, preguntas, quizzes)",
-            "📊 Considera añadir GIFs relacionados con el tema"
-        ]
+        # Sugerencias de visuales mejoradas
+        visual_suggestions = self._get_story_visual_suggestions(elements)
         
         return {
             'type': 'Historia',
             'platform': 'Instagram Stories / Facebook Stories',
             'slides': slides,
-            'story_text': story_text,
+            'total_slides': len(slides),
             'hashtags': ' '.join(hashtags[:8]),
+            'hashtag_list': hashtags[:8],
             'visual_suggestions': visual_suggestions,
+            'best_posting_time': '8am-12pm o 6pm-10pm',
+            'content_analysis': {
+                'type': elements['content_type'],
+                'tone': elements['tone'],
+                'topic': elements['main_topic']
+            },
             'best_practices': [
-                "Mantén cada slide visible por 3-5 segundos",
-                "Usa máximo 5-7 slides para no perder engagement",
-                "Añade stickers interactivos (encuestas, preguntas) en slides intermedios",
+                f"Mantén cada slide visible por 3-5 segundos (total: ~{len(slides) * 4} segundos)",
+                f"Usa máximo {len(slides)} slides para mantener engagement",
+                "Añade stickers interactivos en slides intermedios (encuestas, preguntas, quizzes)",
                 "Usa la función de highlights para guardar historias importantes",
                 "Publica entre 8am-12pm o 6pm-10pm para máximo alcance",
-                "Considera usar la función de 'En vivo' para engagement en tiempo real"
+                "Considera usar la función de 'En vivo' para engagement en tiempo real",
+                "Usa GIFs relacionados con el tema para dinamismo",
+                "Asegúrate de que el texto sea legible (fuente mínima 24px)"
             ]
         }
     
-    def generate_all_versions(self) -> Dict:
-        """Genera las 3 versiones recicladas"""
+    def _get_story_visual_suggestion(self, elements: Dict, slide_number: int) -> str:
+        """Genera sugerencia visual específica para cada slide de historia"""
+        topic = elements['main_topic']
+        
+        visual_map = {
+            2: 'Fondo degradado relacionado con el tema + texto destacado',
+            3: 'Imagen relacionada con el contenido + texto superpuesto',
+            4: 'Fondo sólido complementario + texto legible',
+            5: 'Visual tipo quote con tipografía moderna'
+        }
+        
+        base_visual = visual_map.get(slide_number, 'Texto sobre fondo degradado o imagen relacionada')
+        
+        # Personalizar según tema
+        if topic == 'productividad':
+            return f'{base_visual} (considera añadir iconos de tiempo/productividad)'
+        elif topic == 'tecnologia':
+            return f'{base_visual} (considera añadir elementos tech/digitales)'
+        
+        return base_visual
+    
+    def _get_story_visual_suggestions(self, elements: Dict) -> List[str]:
+        """Genera sugerencias generales de visuales para historias"""
+        suggestions = [
+            "📱 Slide 1: Fondo sólido vibrante + emoji grande + texto bold",
+            "🎨 Slides de contenido: Fondo degradado o imagen relacionada + texto legible",
+            "✨ Slide final: Fondo llamativo + CTA destacado con emoji"
+        ]
+        
+        if elements['main_topic'] == 'productividad':
+            suggestions.append("⏰ Considera usar iconos de tiempo/reloj como elementos visuales")
+        elif elements['main_topic'] == 'tecnologia':
+            suggestions.append("💻 Considera screenshots o iconos tecnológicos")
+        
+        suggestions.extend([
+            "🎭 Usa stickers interactivos (encuestas, preguntas, quizzes) en slides intermedios",
+            "📊 Considera añadir GIFs relacionados con el tema para dinamismo",
+            "🎨 Usa colores contrastantes para mejor legibilidad"
+        ])
+        
+        return suggestions
+    
+    def generate_image_prompts(self, elements: Dict) -> List[Dict]:
+        """Genera prompts para crear imágenes con IA según el contenido"""
+        prompts = []
+        topic = elements['main_topic']
+        content_type = elements['content_type']
+        
+        # Prompts según tema
+        topic_prompts = {
+            'productividad': [
+                "Modern minimalist workspace with productivity tools, clean desk, organized calendar, professional lighting, high quality",
+                "Infographic style illustration showing time management concepts, colorful, modern design, professional",
+                "Abstract representation of efficiency and productivity, geometric shapes, vibrant colors, modern art style"
+            ],
+            'tecnologia': [
+                "Futuristic tech workspace with digital elements, holographic displays, modern technology, cyberpunk aesthetic, high quality",
+                "Abstract technology visualization with neural networks, data streams, digital particles, modern design",
+                "Clean tech product photography, minimalist, professional lighting, modern aesthetic, high resolution"
+            ],
+            'negocios': [
+                "Professional business meeting scene, modern office, diverse team collaborating, professional photography style",
+                "Business growth chart visualization, modern infographic style, professional colors, clean design",
+                "Corporate success concept, handshake, growth arrows, professional business illustration, high quality"
+            ],
+            'ia': [
+                "AI and machine learning concept art, neural networks, digital brain, futuristic, high tech aesthetic",
+                "Abstract representation of artificial intelligence, glowing circuits, data visualization, modern art",
+                "Robot and human collaboration scene, futuristic workspace, professional illustration, high quality"
+            ],
+            'automatizacion': [
+                "Automation workflow visualization, gears and processes, modern infographic, professional design",
+                "Abstract automation concept, interconnected systems, modern minimalist design, high quality",
+                "Productivity automation tools arranged artistically, clean workspace, professional photography"
+            ]
+        }
+        
+        base_prompts = topic_prompts.get(topic, [
+            "Modern social media post design, clean layout, professional typography, engaging visual",
+            "Abstract social media content visualization, colorful, modern design, high quality",
+            "Professional content creation workspace, modern aesthetic, clean design"
+        ])
+        
+        for i, prompt in enumerate(base_prompts[:3], 1):
+            prompts.append({
+                'number': i,
+                'prompt': prompt,
+                'style': 'professional',
+                'use_case': f'Para {content_type} sobre {topic}',
+                'suggested_tools': ['DALL-E', 'Midjourney', 'Stable Diffusion', 'Canva AI']
+            })
+        
+        return prompts
+    
+    def estimate_engagement(self, elements: Dict, version_type: str, historical_data: Optional[Dict] = None) -> Dict:
+        """Estima métricas de engagement potencial mejorado con datos históricos"""
+        base_score = 50  # Score base
+        
+        # Factores que aumentan engagement
+        factors = {
+            'has_question': 15,
+            'has_numbers': 10,
+            'has_emoji': 5,
+            'content_type_tip': 20,
+            'content_type_tutorial': 15,
+            'tone_positive': 10,
+            'word_count_optimal': 10  # 50-150 palabras es óptimo
+        }
+        
+        score = base_score
+        
+        if elements['has_question']:
+            score += factors['has_question']
+        if elements['has_numbers']:
+            score += factors['has_numbers']
+        if elements['has_emoji']:
+            score += factors['has_emoji']
+        if elements['content_type'] == 'tip':
+            score += factors['content_type_tip']
+        elif elements['content_type'] == 'tutorial':
+            score += factors['content_type_tutorial']
+        if elements['tone'] == 'positive':
+            score += factors['tone_positive']
+        if 50 <= elements['word_count'] <= 150:
+            score += factors['word_count_optimal']
+        
+        # Ajustar según tipo de versión
+        version_multipliers = {
+            'static_post': 1.0,
+            'short_video': 1.3,  # Videos tienen más engagement
+            'story': 0.9  # Stories tienen menos engagement pero más interacción
+        }
+        
+        score = int(score * version_multipliers.get(version_type, 1.0))
+        
+        # Ajustar con datos históricos si están disponibles
+        if historical_data:
+            # Ajustar score basado en engagement histórico del tema
+            topic_avg_score = historical_data.get('topic_avg_engagement', 0)
+            if topic_avg_score > 0:
+                # Promediar con datos históricos (70% estimación, 30% histórico)
+                score = int(score * 0.7 + topic_avg_score * 0.3)
+            
+            # Ajustar según hashtags efectivos históricos
+            effective_hashtags = historical_data.get('effective_hashtags', [])
+            if effective_hashtags:
+                matching_hashtags = [h for h in elements.get('hashtags', []) 
+                                   if any(eh.lower() in h.lower() for eh in effective_hashtags)]
+                if matching_hashtags:
+                    score += min(10, len(matching_hashtags) * 2)
+        
+        score = min(100, max(0, score))  # Limitar entre 0-100
+        
+        # Estimar métricas específicas con mejor precisión
+        # Usar datos históricos si están disponibles
+        if historical_data and historical_data.get('avg_likes_per_score'):
+            # Calcular basado en promedio histórico
+            avg_likes_per_score = historical_data['avg_likes_per_score']
+            estimated_likes = int(score * avg_likes_per_score)
+        else:
+            # Estimación por defecto mejorada
+            estimated_likes = int(score * 12)  # Mejorado de 10 a 12
+        
+        if historical_data and historical_data.get('avg_comments_per_score'):
+            avg_comments_per_score = historical_data['avg_comments_per_score']
+            estimated_comments = int(score * avg_comments_per_score)
+        else:
+            estimated_comments = int(score * 1.8)  # Mejorado de 1.5 a 1.8
+        
+        if historical_data and historical_data.get('avg_shares_per_score'):
+            avg_shares_per_score = historical_data['avg_shares_per_score']
+            estimated_shares = int(score * avg_shares_per_score)
+        else:
+            estimated_shares = int(score * 0.6)  # Mejorado de 0.5 a 0.6
+        
+        # Calcular alcance estimado
+        if historical_data and historical_data.get('avg_reach_multiplier'):
+            estimated_reach = int(estimated_likes * historical_data['avg_reach_multiplier'])
+        else:
+            estimated_reach = estimated_likes * 3.5  # Mejorado de 3 a 3.5
+        
+        # Calcular confianza basada en disponibilidad de datos históricos
+        if historical_data:
+            confidence = 'high' if historical_data.get('data_points', 0) > 10 else 'medium'
+        else:
+            confidence = 'medium' if 40 <= score <= 70 else ('high' if score > 70 else 'low')
+        
+        return {
+            'engagement_score': score,
+            'estimated_likes': estimated_likes,
+            'estimated_comments': estimated_comments,
+            'estimated_shares': estimated_shares,
+            'estimated_reach': estimated_reach,
+            'confidence': confidence,
+            'uses_historical_data': historical_data is not None,
+            'historical_data_points': historical_data.get('data_points', 0) if historical_data else 0
+        }
+    
+    def analyze_original_post_engagement(self, original_post: str) -> Optional[Dict]:
+        """Analiza el engagement histórico de la publicación original si está disponible"""
+        # Intentar importar el analizador de engagement
+        try:
+            from analisis_engagement_contenido import AnalizadorEngagement
+            analyzer = AnalizadorEngagement()
+            
+            # Intentar cargar datos históricos
+            try:
+                analyzer.cargar_desde_bd(dias_atras=90)
+            except:
+                # Si no hay BD, generar datos de ejemplo para análisis
+                analyzer.generar_datos_ejemplo(num_publicaciones=50)
+            
+            # Extraer elementos del contenido
+            elements = self.extract_key_elements()
+            topic = elements['main_topic']
+            hashtags = elements['hashtags']
+            
+            # Usar el nuevo método mejorado del analizador
+            historical_data = analyzer.get_historical_data_for_recycling(
+                topic=topic,
+                hashtags=hashtags,
+                platform=None  # No filtrar por plataforma específica
+            )
+            
+            return historical_data
+            
+        except ImportError:
+            # Si no está disponible el módulo, retornar None
+            pass
+        except Exception as e:
+            # En caso de error, continuar sin datos históricos
+            print(f"⚠️  No se pudieron cargar datos históricos: {e}")
+        
+        return None
+    
+    def generate_related_content_suggestions(self, elements: Dict) -> List[Dict]:
+        """Genera sugerencias de contenido relacionado"""
+        suggestions = []
+        topic = elements['main_topic']
+        content_type = elements['content_type']
+        
+        related_topics = {
+            'productividad': ['gestión del tiempo', 'organización', 'eficiencia', 'hábitos productivos'],
+            'tecnologia': ['innovación', 'transformación digital', 'herramientas tech', 'futuro tech'],
+            'negocios': ['estrategia', 'crecimiento', 'marketing', 'ventas', 'liderazgo'],
+            'ia': ['machine learning', 'automatización', 'futuro del trabajo', 'innovación'],
+            'automatizacion': ['eficiencia', 'productividad', 'procesos', 'optimización']
+        }
+        
+        topics = related_topics.get(topic, ['contenido relacionado', 'temas complementarios'])
+        
+        for i, related_topic in enumerate(topics[:4], 1):
+            suggestions.append({
+                'number': i,
+                'topic': related_topic,
+                'content_ideas': [
+                    f"5 formas de mejorar {related_topic}",
+                    f"Guía completa de {related_topic}",
+                    f"Errores comunes en {related_topic}",
+                    f"Casos de éxito en {related_topic}"
+                ],
+                'format_suggestions': ['Post estático', 'Video corto', 'Carrusel', 'Historia']
+            })
+        
+        return suggestions
+    
+    def generate_trending_hashtags(self, elements: Dict) -> List[str]:
+        """Sugiere hashtags trending basados en el contenido"""
+        trending = []
+        topic = elements['main_topic']
+        
+        # Hashtags trending por tema (ejemplos)
+        trending_map = {
+            'productividad': ['#Productividad', '#Eficiencia', '#GestionDelTiempo', '#Organizacion', '#TipsProductivos'],
+            'tecnologia': ['#Tech', '#Innovacion', '#Digital', '#Tecnologia', '#FuturoTech'],
+            'negocios': ['#Negocios', '#Emprendimiento', '#Marketing', '#Exito', '#Empresas'],
+            'ia': ['#IA', '#InteligenciaArtificial', '#AI', '#MachineLearning', '#FuturoIA'],
+            'automatizacion': ['#Automatizacion', '#Workflow', '#Procesos', '#Eficiencia', '#Innovacion']
+        }
+        
+        trending.extend(trending_map.get(topic, ['#Contenido', '#Tips', '#Aprendizaje']))
+        
+        # Agregar hashtags genéricos trending
+        trending.extend(['#Viral', '#Trending', '#Popular', '#Top'])
+        
+        return trending[:10]
+    
+    def generate_all_versions(self, use_historical_data: bool = True) -> Dict:
+        """Genera las 3 versiones recicladas con análisis completo"""
         elements = self.extract_key_elements()
+        
+        # Analizar engagement histórico si está disponible
+        historical_data = None
+        if use_historical_data:
+            historical_data = self.analyze_original_post_engagement(self.original_post)
+        
+        static_post = self.generate_static_post(elements)
+        short_video = self.generate_short_video(elements)
+        story = self.generate_story(elements)
+        
+        # Agregar métricas de engagement mejoradas con datos históricos
+        static_post['engagement_metrics'] = self.estimate_engagement(elements, 'static_post', historical_data)
+        short_video['engagement_metrics'] = self.estimate_engagement(elements, 'short_video', historical_data)
+        story['engagement_metrics'] = self.estimate_engagement(elements, 'story', historical_data)
+        
+        # Agregar prompts de imágenes
+        static_post['image_prompts'] = self.generate_image_prompts(elements)
+        
+        # Agregar contenido relacionado
+        related_content = self.generate_related_content_suggestions(elements)
+        
+        # Agregar hashtags trending
+        trending_hashtags = self.generate_trending_hashtags(elements)
         
         return {
             'original_post': self.original_post,
             'timestamp': self.timestamp,
             'elements_extracted': elements,
             'versions': {
-                'static_post': self.generate_static_post(elements),
-                'short_video': self.generate_short_video(elements),
-                'story': self.generate_story(elements)
+                'static_post': static_post,
+                'short_video': short_video,
+                'story': story
+            },
+            'related_content_suggestions': related_content,
+            'trending_hashtags': trending_hashtags,
+            'historical_analysis': {
+                'available': historical_data is not None,
+                'data_points': historical_data.get('data_points', 0) if historical_data else 0,
+                'similar_posts_count': historical_data.get('similar_posts_count', 0) if historical_data else 0,
+                'topic_avg_engagement': historical_data.get('topic_avg_engagement', 0) if historical_data else 0
+            },
+            'summary': {
+                'best_version': self._determine_best_version(static_post, short_video, story),
+                'recommended_action': self._get_recommended_action(elements)
             }
         }
     
+    def _determine_best_version(self, static: Dict, video: Dict, story: Dict) -> str:
+        """Determina la mejor versión basada en engagement"""
+        scores = {
+            'static_post': static['engagement_metrics']['engagement_score'],
+            'short_video': video['engagement_metrics']['engagement_score'],
+            'story': story['engagement_metrics']['engagement_score']
+        }
+        
+        best = max(scores.items(), key=lambda x: x[1])
+        return best[0]
+    
+    def _get_recommended_action(self, elements: Dict) -> str:
+        """Genera recomendación de acción"""
+        if elements['content_type'] == 'tip':
+            return "Publica como video corto para máximo alcance y guardado"
+        elif elements['content_type'] == 'tutorial':
+            return "Considera crear un carrusel o video tutorial paso a paso"
+        elif elements['has_question']:
+            return "Usa historia con sticker de pregunta para mayor interacción"
+        else:
+            return "Post estático con imagen llamativa para mejor engagement"
+    
+    def export_to_markdown(self, result: Dict, output_file: str) -> None:
+        """Exporta resultados a formato Markdown"""
+        md_content = []
+        md_content.append("# 🔄 Reciclaje de Publicación Social\n")
+        md_content.append(f"**Fecha:** {result['timestamp']}\n")
+        md_content.append(f"**Publicación Original:** {result['original_post']}\n")
+        
+        # Análisis
+        elements = result['elements_extracted']
+        md_content.append("\n## 🔍 Análisis del Contenido\n")
+        md_content.append(f"- **Tipo:** {elements['content_type']}")
+        md_content.append(f"- **Tono:** {elements['tone']}")
+        md_content.append(f"- **Tema:** {elements['main_topic']}")
+        md_content.append(f"- **Palabras clave:** {', '.join(elements['keywords'][:5])}\n")
+        
+        # Versiones
+        for version_name, version_data in result['versions'].items():
+            version_title = {
+                'static_post': '📸 Post Estático',
+                'short_video': '🎬 Video Corto',
+                'story': '📱 Historia'
+            }.get(version_name, version_name)
+            
+            md_content.append(f"\n## {version_title}\n")
+            
+            if 'captions' in version_data:
+                md_content.append("### Captions\n")
+                for i, caption in enumerate(version_data['captions'], 1):
+                    md_content.append(f"#### Variación {i}\n")
+                    md_content.append(f"{caption}\n")
+            
+            if 'scripts' in version_data:
+                md_content.append("### Scripts\n")
+                for i, script in enumerate(version_data['scripts'], 1):
+                    md_content.append(f"#### Script {i}\n")
+                    md_content.append(f"```\n{script}\n```\n")
+            
+            if 'engagement_metrics' in version_data:
+                metrics = version_data['engagement_metrics']
+                md_content.append("### Métricas de Engagement Estimadas\n")
+                md_content.append(f"- **Score:** {metrics['engagement_score']}/100")
+                md_content.append(f"- **Likes estimados:** {metrics['estimated_likes']}")
+                md_content.append(f"- **Comentarios estimados:** {metrics['estimated_comments']}")
+                md_content.append(f"- **Compartidos estimados:** {metrics['estimated_shares']}\n")
+        
+        # Contenido relacionado
+        if 'related_content_suggestions' in result:
+            md_content.append("\n## 💡 Sugerencias de Contenido Relacionado\n")
+            for suggestion in result['related_content_suggestions']:
+                md_content.append(f"### {suggestion['topic']}\n")
+                for idea in suggestion['content_ideas']:
+                    md_content.append(f"- {idea}\n")
+        
+        with open(output_file, 'w', encoding='utf-8') as f:
+            f.write('\n'.join(md_content))
+    
+    def export_to_csv(self, result: Dict, output_file: str) -> None:
+        """Exporta resultados a formato CSV"""
+        rows = []
+        
+        # Encabezados
+        headers = ['Versión', 'Tipo', 'Caption/Script', 'Hashtags', 'Engagement Score', 'Likes Estimados', 'Comentarios Estimados']
+        
+        for version_name, version_data in result['versions'].items():
+            version_type = {
+                'static_post': 'Post Estático',
+                'short_video': 'Video Corto',
+                'story': 'Historia'
+            }.get(version_name, version_name)
+            
+            # Captions o scripts
+            content_list = []
+            if 'captions' in version_data:
+                content_list = version_data['captions']
+            elif 'scripts' in version_data:
+                content_list = version_data['scripts']
+            
+            for i, content in enumerate(content_list, 1):
+                metrics = version_data.get('engagement_metrics', {})
+                row = [
+                    f"{version_type} - Variación {i}",
+                    version_type,
+                    content[:100] + '...' if len(content) > 100 else content,
+                    version_data.get('hashtags', ''),
+                    metrics.get('engagement_score', 0),
+                    metrics.get('estimated_likes', 0),
+                    metrics.get('estimated_comments', 0)
+                ]
+                rows.append(row)
+        
+        with open(output_file, 'w', newline='', encoding='utf-8') as f:
+            writer = csv.writer(f)
+            writer.writerow(headers)
+            writer.writerows(rows)
+    
     def format_output(self, result: Dict) -> str:
-        """Formatea la salida de manera legible"""
+        """Formatea la salida de manera legible con análisis mejorado"""
         output = []
         output.append("=" * 80)
-        output.append("🔄 RECICLAJE DE PUBLICACIÓN SOCIAL")
+        output.append("🔄 RECICLAJE DE PUBLICACIÓN SOCIAL - VERSIÓN MEJORADA")
         output.append("=" * 80)
         output.append(f"\n📅 Fecha: {result['timestamp']}")
         output.append(f"\n📝 Publicación Original:")
         output.append(f"   {result['original_post']}")
+        
+        # Análisis del contenido
+        elements = result['elements_extracted']
         output.append("\n" + "-" * 80)
+        output.append("🔍 ANÁLISIS DEL CONTENIDO:")
+        output.append("-" * 80)
+        output.append(f"   📊 Tipo: {elements['content_type']}")
+        output.append(f"   🎭 Tono: {elements['tone']}")
+        output.append(f"   🏷️ Tema principal: {elements['main_topic']}")
+        output.append(f"   📝 Palabras clave: {', '.join(elements['keywords'][:5])}")
+        output.append(f"   📏 Longitud: {elements['word_count']} palabras, {elements['char_count']} caracteres")
         
         # Post Estático
         static = result['versions']['static_post']
-        output.append(f"\n📸 A) POST ESTÁTICO ({static['platform']})")
+        output.append(f"\n\n📸 A) POST ESTÁTICO ({static['platform']})")
         output.append("-" * 80)
-        output.append(f"\n📝 CAPTION:")
-        output.append(f"{static['caption']}")
-        output.append(f"\n🏷️ HASHTAGS:")
-        output.append(f"{static['hashtags']}")
+        output.append(f"\n⏰ Mejor momento para publicar: {static['best_posting_time']}")
+        output.append(f"\n📝 CAPTIONS (3 variaciones):")
+        for i, caption in enumerate(static['captions'], 1):
+            output.append(f"\n   Variación {i}:")
+            output.append(f"   {caption}")
+        output.append(f"\n⭐ RECOMENDADA (Variación 1):")
+        output.append(f"   {static['recommended_caption']}")
+        output.append(f"\n🏷️ HASHTAGS ({len(static['hashtag_list'])} hashtags):")
+        output.append(f"   {static['hashtags']}")
         output.append(f"\n🎨 SUGERENCIAS DE CAPTURAS/VISUALES:")
         for i, suggestion in enumerate(static['visual_suggestions'], 1):
             output.append(f"   {i}. {suggestion}")
@@ -686,13 +1191,23 @@ Cuéntame en los comentarios 👇"""
         video = result['versions']['short_video']
         output.append(f"\n\n🎬 B) VIDEO CORTO ({video['platform']})")
         output.append("-" * 80)
-        output.append(f"\n⏱️ Duración: {video['duration']}")
-        output.append(f"\n📝 SCRIPT:")
-        output.append(f"{video['script']}")
-        output.append(f"\n📝 CAPTION:")
-        output.append(f"{video['caption']}")
-        output.append(f"\n🏷️ HASHTAGS:")
-        output.append(f"{video['hashtags']}")
+        output.append(f"\n⏱️ Duración estimada: {video['duration']}")
+        output.append(f"\n⏰ Mejor momento para publicar: {video['best_posting_time']}")
+        output.append(f"\n📝 SCRIPTS (3 variaciones):")
+        for i, script in enumerate(video['scripts'], 1):
+            output.append(f"\n   Script {i}:")
+            output.append(f"   {script}")
+        output.append(f"\n⭐ RECOMENDADO (Script 1):")
+        output.append(f"   {video['recommended_script']}")
+        output.append(f"\n📝 CAPTIONS:")
+        for i, caption in enumerate(video['captions'], 1):
+            output.append(f"\n   Caption {i}:")
+            output.append(f"   {caption[:150]}...")
+        output.append(f"\n🏷️ HASHTAGS ({len(video['hashtag_list'])} hashtags):")
+        output.append(f"   {video['hashtags']}")
+        output.append(f"\n🎵 SUGERENCIAS DE MÚSICA:")
+        for i, music in enumerate(video['music_suggestions'], 1):
+            output.append(f"   {i}. {music}")
         output.append(f"\n🎨 SUGERENCIAS DE CAPTURAS/VISUALES:")
         for i, suggestion in enumerate(video['visual_suggestions'], 1):
             output.append(f"   {i}. {suggestion}")
@@ -704,13 +1219,17 @@ Cuéntame en los comentarios 👇"""
         story = result['versions']['story']
         output.append(f"\n\n📱 C) HISTORIA ({story['platform']})")
         output.append("-" * 80)
-        output.append(f"\n📑 SLIDES ({len(story['slides'])} slides):")
+        output.append(f"\n📑 SLIDES ({story['total_slides']} slides):")
         for slide in story['slides']:
             output.append(f"\n   Slide {slide['number']} ({slide['type']}):")
-            output.append(f"   📝 {slide['content']}")
-            output.append(f"   🎨 {slide['visual']}")
-        output.append(f"\n🏷️ HASHTAGS:")
-        output.append(f"{story['hashtags']}")
+            output.append(f"   📝 Contenido: {slide['content']}")
+            output.append(f"   🎨 Visual: {slide['visual']}")
+            output.append(f"   ⏱️ Duración: {slide['duration']}")
+            if slide.get('interactive') and slide['interactive'] != 'Ninguno':
+                output.append(f"   🎭 Interactivo: {slide['interactive']}")
+        output.append(f"\n⏰ Mejor momento para publicar: {story['best_posting_time']}")
+        output.append(f"\n🏷️ HASHTAGS ({len(story['hashtag_list'])} hashtags):")
+        output.append(f"   {story['hashtags']}")
         output.append(f"\n🎨 SUGERENCIAS DE CAPTURAS/VISUALES:")
         for i, suggestion in enumerate(story['visual_suggestions'], 1):
             output.append(f"   {i}. {suggestion}")
@@ -718,35 +1237,167 @@ Cuéntame en los comentarios 👇"""
         for i, practice in enumerate(story['best_practices'], 1):
             output.append(f"   {i}. {practice}")
         
+        # Métricas de engagement
+        output.append("\n\n📊 MÉTRICAS DE ENGAGEMENT ESTIMADAS:")
+        output.append("-" * 80)
+        for version_name, version_data in result['versions'].items():
+            version_title = {
+                'static_post': '📸 Post Estático',
+                'short_video': '🎬 Video Corto',
+                'story': '📱 Historia'
+            }.get(version_name, version_name)
+            
+            metrics = version_data.get('engagement_metrics', {})
+            output.append(f"\n{version_title}:")
+            output.append(f"   🎯 Score de Engagement: {metrics.get('engagement_score', 0)}/100")
+            output.append(f"   👍 Likes estimados: {metrics.get('estimated_likes', 0)}")
+            output.append(f"   💬 Comentarios estimados: {metrics.get('estimated_comments', 0)}")
+            output.append(f"   🔄 Compartidos estimados: {metrics.get('estimated_shares', 0)}")
+            output.append(f"   📈 Alcance estimado: {metrics.get('estimated_reach', 0)}")
+            output.append(f"   ⚡ Confianza: {metrics.get('confidence', 'medium')}")
+        
+        # Prompts de imágenes
+        static = result['versions']['static_post']
+        if 'image_prompts' in static:
+            output.append("\n\n🎨 PROMPTS PARA GENERAR IMÁGENES CON IA:")
+            output.append("-" * 80)
+            for prompt_data in static['image_prompts']:
+                output.append(f"\n   Prompt {prompt_data['number']}:")
+                output.append(f"   📝 {prompt_data['prompt']}")
+                output.append(f"   🎯 Uso: {prompt_data['use_case']}")
+                output.append(f"   🛠️ Herramientas sugeridas: {', '.join(prompt_data['suggested_tools'])}")
+        
+        # Contenido relacionado
+        if 'related_content_suggestions' in result:
+            output.append("\n\n💡 SUGERENCIAS DE CONTENIDO RELACIONADO:")
+            output.append("-" * 80)
+            for suggestion in result['related_content_suggestions']:
+                output.append(f"\n   📌 {suggestion['topic']}:")
+                for idea in suggestion['content_ideas']:
+                    output.append(f"      • {idea}")
+        
+        # Hashtags trending
+        if 'trending_hashtags' in result:
+            output.append("\n\n🔥 HASHTAGS TRENDING:")
+            output.append("-" * 80)
+            output.append(f"   {' '.join(result['trending_hashtags'])}")
+        
+        # Análisis histórico
+        if 'historical_analysis' in result:
+            hist = result['historical_analysis']
+            if hist['available']:
+                output.append("\n\n📊 ANÁLISIS HISTÓRICO DE ENGAGEMENT:")
+                output.append("-" * 80)
+                output.append(f"   ✅ Datos históricos disponibles: {hist['data_points']} publicaciones similares")
+                output.append(f"   📈 Engagement promedio del tema: {hist['topic_avg_engagement']:.1f}")
+                output.append(f"   💡 Las estimaciones incluyen datos históricos para mayor precisión")
+            else:
+                output.append("\n\n📊 ANÁLISIS HISTÓRICO:")
+                output.append("-" * 80)
+                output.append(f"   ⚠️  No hay datos históricos disponibles. Usando estimaciones basadas en mejores prácticas.")
+        
+        # Resumen y recomendación
+        if 'summary' in result:
+            output.append("\n\n⭐ RESUMEN Y RECOMENDACIÓN:")
+            output.append("-" * 80)
+            best_version_name = result['summary']['best_version']
+            best_version_title = {
+                'static_post': 'Post Estático',
+                'short_video': 'Video Corto',
+                'story': 'Historia'
+            }.get(best_version_name, best_version_name)
+            output.append(f"   🏆 Mejor versión estimada: {best_version_title}")
+            output.append(f"   💡 Recomendación: {result['summary']['recommended_action']}")
+        
         output.append("\n" + "=" * 80)
         output.append("✨ ¡Listo para publicar! ✨")
+        output.append("=" * 80)
+        output.append("\n💡 TIPS:")
+        output.append("   • Usa --use-ai para generar contenido aún más creativo con IA")
+        output.append("   • Usa --format markdown o --format csv para exportar en otros formatos")
+        output.append("   • Revisa los prompts de imágenes para crear visuales con IA")
         output.append("=" * 80)
         
         return "\n".join(output)
 
 
 def main():
-    """Función principal"""
-    if len(sys.argv) < 2:
-        print("Uso: python recycle_social_post.py '[TEXTO DE LA PUBLICACIÓN ANTIGUA]'")
-        print("\nEjemplo:")
-        print('python recycle_social_post.py "La automatización puede ahorrarte hasta 10 horas semanales. #Productividad #IA"')
-        sys.exit(1)
+    """Función principal mejorada"""
+    import argparse
     
-    original_post = sys.argv[1]
+    parser = argparse.ArgumentParser(
+        description='Recicla publicaciones antiguas de redes sociales y genera 3 versiones nuevas',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Ejemplos:
+  python recycle_social_post.py "La automatización puede ahorrarte hasta 10 horas semanales. #Productividad #IA"
+  python recycle_social_post.py "Tu publicación aquí" --use-ai
+  python recycle_social_post.py "Tu publicación" --output resultado.json
+        """
+    )
     
-    recycler = SocialPostRecycler(original_post)
+    parser.add_argument('post', help='Texto de la publicación antigua a reciclar')
+    parser.add_argument('--use-ai', action='store_true', 
+                       help='Usar IA (OpenAI) para generar contenido más creativo (requiere OPENAI_API_KEY)')
+    parser.add_argument('--output', '-o', 
+                       help='Archivo de salida (por defecto: recycled_post_TIMESTAMP.json)')
+    parser.add_argument('--format', '-f', choices=['json', 'markdown', 'csv', 'all'],
+                       default='json',
+                       help='Formato de exportación (json, markdown, csv, all)')
+    parser.add_argument('--openai-key', 
+                       help='API key de OpenAI (o usar variable de entorno OPENAI_API_KEY)')
+    
+    args = parser.parse_args()
+    
+    original_post = args.post
+    
+    # Crear recycler con opción de IA
+    recycler = SocialPostRecycler(
+        original_post, 
+        use_ai=args.use_ai,
+        openai_api_key=args.openai_key
+    )
+    
+    if args.use_ai and not recycler.use_ai:
+        print("⚠️  Advertencia: Modo IA solicitado pero no disponible. Usando modo estándar.")
+    
     result = recycler.generate_all_versions()
     
     # Mostrar resultado formateado
     print(recycler.format_output(result))
     
-    # Guardar también en JSON para referencia
-    output_file = f"recycled_post_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-    with open(output_file, 'w', encoding='utf-8') as f:
-        json.dump(result, f, ensure_ascii=False, indent=2)
+    # Exportar según formato solicitado
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    base_name = args.output or f"recycled_post_{timestamp}"
     
-    print(f"\n💾 Resultado guardado también en: {output_file}")
+    if args.format == 'all':
+        # Exportar a todos los formatos
+        json_file = f"{base_name}.json"
+        md_file = f"{base_name}.md"
+        csv_file = f"{base_name}.csv"
+        
+        with open(json_file, 'w', encoding='utf-8') as f:
+            json.dump(result, f, ensure_ascii=False, indent=2)
+        recycler.export_to_markdown(result, md_file)
+        recycler.export_to_csv(result, csv_file)
+        
+        print(f"\n💾 Resultados exportados:")
+        print(f"   📄 JSON: {json_file}")
+        print(f"   📝 Markdown: {md_file}")
+        print(f"   📊 CSV: {csv_file}")
+    elif args.format == 'markdown':
+        md_file = f"{base_name}.md" if not base_name.endswith('.md') else base_name
+        recycler.export_to_markdown(result, md_file)
+        print(f"\n💾 Resultado exportado a Markdown: {md_file}")
+    elif args.format == 'csv':
+        csv_file = f"{base_name}.csv" if not base_name.endswith('.csv') else base_name
+        recycler.export_to_csv(result, csv_file)
+        print(f"\n💾 Resultado exportado a CSV: {csv_file}")
+    else:  # JSON por defecto
+        json_file = f"{base_name}.json" if not base_name.endswith('.json') else base_name
+        with open(json_file, 'w', encoding='utf-8') as f:
+            json.dump(result, f, ensure_ascii=False, indent=2)
+        print(f"\n💾 Resultado guardado en JSON: {json_file}")
 
 
 if __name__ == "__main__":

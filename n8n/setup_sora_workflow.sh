@@ -157,3 +157,4 @@ echo -e "${GREEN}¡Configuración completada!${NC}"
 echo ""
 echo "📚 Lee README_SORA_AUTO_UPLOAD.md para más información"
 
+

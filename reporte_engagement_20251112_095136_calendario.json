@@ -1,0 +1,835 @@
+{
+  "semanas": 4,
+  "calendario": [
+    {
+      "semana": 1,
+      "fecha_inicio": "2025-11-12",
+      "publicaciones": [
+        {
+          "fecha": "2025-11-15",
+          "dia": "Jueves",
+          "hora": "09:00",
+          "tipo_contenido": "X",
+          "plataforma": "TikTok",
+          "titulo_sugerido": "Tutoriales/Educativos - Semana 1",
+          "hashtags_sugeridos": [
+            {
+              "hashtag": "#educacion",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#tutorial",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#aprende",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#tips",
+              "veces_usado": 13,
+              "engagement_score_promedio": 658.1538461538462,
+              "engagement_rate_promedio": 15.142110599899025
+            },
+            {
+              "hashtag": "#diversion",
+              "veces_usado": 10,
+              "engagement_score_promedio": 448.3,
+              "engagement_rate_promedio": 9.192243386219792
+            }
+          ],
+          "engagement_predicho": {
+            "engagement_score_predicho": 165.36818588025022,
+            "engagement_rate_predicho": 2.7991550611598415,
+            "confianza": 30.0,
+            "muestra": 3,
+            "factores": {
+              "horario": 1.0,
+              "dia": 0.14142091152815014
+            }
+          }
+        },
+        {
+          "fecha": "2025-11-15",
+          "dia": "Jueves",
+          "hora": "11:00",
+          "tipo_contenido": "X",
+          "plataforma": "TikTok",
+          "titulo_sugerido": "Tutoriales/Educativos - Semana 1",
+          "hashtags_sugeridos": [
+            {
+              "hashtag": "#educacion",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#tutorial",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#aprende",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#tips",
+              "veces_usado": 13,
+              "engagement_score_promedio": 658.1538461538462,
+              "engagement_rate_promedio": 15.142110599899025
+            },
+            {
+              "hashtag": "#diversion",
+              "veces_usado": 10,
+              "engagement_score_promedio": 448.3,
+              "engagement_rate_promedio": 9.192243386219792
+            }
+          ],
+          "engagement_predicho": {
+            "engagement_score_predicho": 165.36818588025022,
+            "engagement_rate_predicho": 2.7991550611598415,
+            "confianza": 30.0,
+            "muestra": 3,
+            "factores": {
+              "horario": 1.0,
+              "dia": 0.14142091152815014
+            }
+          }
+        },
+        {
+          "fecha": "2025-11-14",
+          "dia": "Miércoles",
+          "hora": "09:00",
+          "tipo_contenido": "X",
+          "plataforma": "TikTok",
+          "titulo_sugerido": "Tutoriales/Educativos - Semana 1",
+          "hashtags_sugeridos": [
+            {
+              "hashtag": "#educacion",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#tutorial",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#aprende",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#tips",
+              "veces_usado": 13,
+              "engagement_score_promedio": 658.1538461538462,
+              "engagement_rate_promedio": 15.142110599899025
+            },
+            {
+              "hashtag": "#diversion",
+              "veces_usado": 10,
+              "engagement_score_promedio": 448.3,
+              "engagement_rate_promedio": 9.192243386219792
+            }
+          ],
+          "engagement_predicho": {
+            "engagement_score_predicho": 327.99329758713134,
+            "engagement_rate_predicho": 5.551878640262529,
+            "confianza": 30.0,
+            "muestra": 3,
+            "factores": {
+              "horario": 1.0,
+              "dia": 0.2804959785522788
+            }
+          }
+        },
+        {
+          "fecha": "2025-11-12",
+          "dia": "Lunes",
+          "hora": "09:00",
+          "tipo_contenido": "X",
+          "plataforma": "TikTok",
+          "titulo_sugerido": "Tutoriales/Educativos - Semana 1",
+          "hashtags_sugeridos": [
+            {
+              "hashtag": "#educacion",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#tutorial",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#aprende",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#tips",
+              "veces_usado": 13,
+              "engagement_score_promedio": 658.1538461538462,
+              "engagement_rate_promedio": 15.142110599899025
+            },
+            {
+              "hashtag": "#diversion",
+              "veces_usado": 10,
+              "engagement_score_promedio": 448.3,
+              "engagement_rate_promedio": 9.192243386219792
+            }
+          ],
+          "engagement_predicho": {
+            "engagement_score_predicho": 668.1344950848971,
+            "engagement_rate_predicho": 11.309382415349594,
+            "confianza": 30.0,
+            "muestra": 3,
+            "factores": {
+              "horario": 1.0,
+              "dia": 0.5713806970509383
+            }
+          }
+        }
+      ]
+    },
+    {
+      "semana": 2,
+      "fecha_inicio": "2025-11-19",
+      "publicaciones": [
+        {
+          "fecha": "2025-11-22",
+          "dia": "Jueves",
+          "hora": "09:00",
+          "tipo_contenido": "X",
+          "plataforma": "TikTok",
+          "titulo_sugerido": "Tutoriales/Educativos - Semana 2",
+          "hashtags_sugeridos": [
+            {
+              "hashtag": "#educacion",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#tutorial",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#aprende",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#tips",
+              "veces_usado": 13,
+              "engagement_score_promedio": 658.1538461538462,
+              "engagement_rate_promedio": 15.142110599899025
+            },
+            {
+              "hashtag": "#diversion",
+              "veces_usado": 10,
+              "engagement_score_promedio": 448.3,
+              "engagement_rate_promedio": 9.192243386219792
+            }
+          ],
+          "engagement_predicho": {
+            "engagement_score_predicho": 165.36818588025022,
+            "engagement_rate_predicho": 2.7991550611598415,
+            "confianza": 30.0,
+            "muestra": 3,
+            "factores": {
+              "horario": 1.0,
+              "dia": 0.14142091152815014
+            }
+          }
+        },
+        {
+          "fecha": "2025-11-22",
+          "dia": "Jueves",
+          "hora": "11:00",
+          "tipo_contenido": "X",
+          "plataforma": "TikTok",
+          "titulo_sugerido": "Tutoriales/Educativos - Semana 2",
+          "hashtags_sugeridos": [
+            {
+              "hashtag": "#educacion",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#tutorial",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#aprende",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#tips",
+              "veces_usado": 13,
+              "engagement_score_promedio": 658.1538461538462,
+              "engagement_rate_promedio": 15.142110599899025
+            },
+            {
+              "hashtag": "#diversion",
+              "veces_usado": 10,
+              "engagement_score_promedio": 448.3,
+              "engagement_rate_promedio": 9.192243386219792
+            }
+          ],
+          "engagement_predicho": {
+            "engagement_score_predicho": 165.36818588025022,
+            "engagement_rate_predicho": 2.7991550611598415,
+            "confianza": 30.0,
+            "muestra": 3,
+            "factores": {
+              "horario": 1.0,
+              "dia": 0.14142091152815014
+            }
+          }
+        },
+        {
+          "fecha": "2025-11-21",
+          "dia": "Miércoles",
+          "hora": "09:00",
+          "tipo_contenido": "X",
+          "plataforma": "TikTok",
+          "titulo_sugerido": "Tutoriales/Educativos - Semana 2",
+          "hashtags_sugeridos": [
+            {
+              "hashtag": "#educacion",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#tutorial",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#aprende",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#tips",
+              "veces_usado": 13,
+              "engagement_score_promedio": 658.1538461538462,
+              "engagement_rate_promedio": 15.142110599899025
+            },
+            {
+              "hashtag": "#diversion",
+              "veces_usado": 10,
+              "engagement_score_promedio": 448.3,
+              "engagement_rate_promedio": 9.192243386219792
+            }
+          ],
+          "engagement_predicho": {
+            "engagement_score_predicho": 327.99329758713134,
+            "engagement_rate_predicho": 5.551878640262529,
+            "confianza": 30.0,
+            "muestra": 3,
+            "factores": {
+              "horario": 1.0,
+              "dia": 0.2804959785522788
+            }
+          }
+        },
+        {
+          "fecha": "2025-11-19",
+          "dia": "Lunes",
+          "hora": "09:00",
+          "tipo_contenido": "X",
+          "plataforma": "TikTok",
+          "titulo_sugerido": "Tutoriales/Educativos - Semana 2",
+          "hashtags_sugeridos": [
+            {
+              "hashtag": "#educacion",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#tutorial",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#aprende",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#tips",
+              "veces_usado": 13,
+              "engagement_score_promedio": 658.1538461538462,
+              "engagement_rate_promedio": 15.142110599899025
+            },
+            {
+              "hashtag": "#diversion",
+              "veces_usado": 10,
+              "engagement_score_promedio": 448.3,
+              "engagement_rate_promedio": 9.192243386219792
+            }
+          ],
+          "engagement_predicho": {
+            "engagement_score_predicho": 668.1344950848971,
+            "engagement_rate_predicho": 11.309382415349594,
+            "confianza": 30.0,
+            "muestra": 3,
+            "factores": {
+              "horario": 1.0,
+              "dia": 0.5713806970509383
+            }
+          }
+        }
+      ]
+    },
+    {
+      "semana": 3,
+      "fecha_inicio": "2025-11-26",
+      "publicaciones": [
+        {
+          "fecha": "2025-11-29",
+          "dia": "Jueves",
+          "hora": "09:00",
+          "tipo_contenido": "X",
+          "plataforma": "TikTok",
+          "titulo_sugerido": "Tutoriales/Educativos - Semana 3",
+          "hashtags_sugeridos": [
+            {
+              "hashtag": "#educacion",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#tutorial",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#aprende",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#tips",
+              "veces_usado": 13,
+              "engagement_score_promedio": 658.1538461538462,
+              "engagement_rate_promedio": 15.142110599899025
+            },
+            {
+              "hashtag": "#diversion",
+              "veces_usado": 10,
+              "engagement_score_promedio": 448.3,
+              "engagement_rate_promedio": 9.192243386219792
+            }
+          ],
+          "engagement_predicho": {
+            "engagement_score_predicho": 165.36818588025022,
+            "engagement_rate_predicho": 2.7991550611598415,
+            "confianza": 30.0,
+            "muestra": 3,
+            "factores": {
+              "horario": 1.0,
+              "dia": 0.14142091152815014
+            }
+          }
+        },
+        {
+          "fecha": "2025-11-29",
+          "dia": "Jueves",
+          "hora": "11:00",
+          "tipo_contenido": "X",
+          "plataforma": "TikTok",
+          "titulo_sugerido": "Tutoriales/Educativos - Semana 3",
+          "hashtags_sugeridos": [
+            {
+              "hashtag": "#educacion",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#tutorial",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#aprende",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#tips",
+              "veces_usado": 13,
+              "engagement_score_promedio": 658.1538461538462,
+              "engagement_rate_promedio": 15.142110599899025
+            },
+            {
+              "hashtag": "#diversion",
+              "veces_usado": 10,
+              "engagement_score_promedio": 448.3,
+              "engagement_rate_promedio": 9.192243386219792
+            }
+          ],
+          "engagement_predicho": {
+            "engagement_score_predicho": 165.36818588025022,
+            "engagement_rate_predicho": 2.7991550611598415,
+            "confianza": 30.0,
+            "muestra": 3,
+            "factores": {
+              "horario": 1.0,
+              "dia": 0.14142091152815014
+            }
+          }
+        },
+        {
+          "fecha": "2025-11-28",
+          "dia": "Miércoles",
+          "hora": "09:00",
+          "tipo_contenido": "X",
+          "plataforma": "TikTok",
+          "titulo_sugerido": "Tutoriales/Educativos - Semana 3",
+          "hashtags_sugeridos": [
+            {
+              "hashtag": "#educacion",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#tutorial",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#aprende",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#tips",
+              "veces_usado": 13,
+              "engagement_score_promedio": 658.1538461538462,
+              "engagement_rate_promedio": 15.142110599899025
+            },
+            {
+              "hashtag": "#diversion",
+              "veces_usado": 10,
+              "engagement_score_promedio": 448.3,
+              "engagement_rate_promedio": 9.192243386219792
+            }
+          ],
+          "engagement_predicho": {
+            "engagement_score_predicho": 327.99329758713134,
+            "engagement_rate_predicho": 5.551878640262529,
+            "confianza": 30.0,
+            "muestra": 3,
+            "factores": {
+              "horario": 1.0,
+              "dia": 0.2804959785522788
+            }
+          }
+        },
+        {
+          "fecha": "2025-11-26",
+          "dia": "Lunes",
+          "hora": "09:00",
+          "tipo_contenido": "X",
+          "plataforma": "TikTok",
+          "titulo_sugerido": "Tutoriales/Educativos - Semana 3",
+          "hashtags_sugeridos": [
+            {
+              "hashtag": "#educacion",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#tutorial",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#aprende",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#tips",
+              "veces_usado": 13,
+              "engagement_score_promedio": 658.1538461538462,
+              "engagement_rate_promedio": 15.142110599899025
+            },
+            {
+              "hashtag": "#diversion",
+              "veces_usado": 10,
+              "engagement_score_promedio": 448.3,
+              "engagement_rate_promedio": 9.192243386219792
+            }
+          ],
+          "engagement_predicho": {
+            "engagement_score_predicho": 668.1344950848971,
+            "engagement_rate_predicho": 11.309382415349594,
+            "confianza": 30.0,
+            "muestra": 3,
+            "factores": {
+              "horario": 1.0,
+              "dia": 0.5713806970509383
+            }
+          }
+        }
+      ]
+    },
+    {
+      "semana": 4,
+      "fecha_inicio": "2025-12-03",
+      "publicaciones": [
+        {
+          "fecha": "2025-12-06",
+          "dia": "Jueves",
+          "hora": "09:00",
+          "tipo_contenido": "X",
+          "plataforma": "TikTok",
+          "titulo_sugerido": "Tutoriales/Educativos - Semana 4",
+          "hashtags_sugeridos": [
+            {
+              "hashtag": "#educacion",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#tutorial",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#aprende",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#tips",
+              "veces_usado": 13,
+              "engagement_score_promedio": 658.1538461538462,
+              "engagement_rate_promedio": 15.142110599899025
+            },
+            {
+              "hashtag": "#diversion",
+              "veces_usado": 10,
+              "engagement_score_promedio": 448.3,
+              "engagement_rate_promedio": 9.192243386219792
+            }
+          ],
+          "engagement_predicho": {
+            "engagement_score_predicho": 165.36818588025022,
+            "engagement_rate_predicho": 2.7991550611598415,
+            "confianza": 30.0,
+            "muestra": 3,
+            "factores": {
+              "horario": 1.0,
+              "dia": 0.14142091152815014
+            }
+          }
+        },
+        {
+          "fecha": "2025-12-06",
+          "dia": "Jueves",
+          "hora": "11:00",
+          "tipo_contenido": "X",
+          "plataforma": "TikTok",
+          "titulo_sugerido": "Tutoriales/Educativos - Semana 4",
+          "hashtags_sugeridos": [
+            {
+              "hashtag": "#educacion",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#tutorial",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#aprende",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#tips",
+              "veces_usado": 13,
+              "engagement_score_promedio": 658.1538461538462,
+              "engagement_rate_promedio": 15.142110599899025
+            },
+            {
+              "hashtag": "#diversion",
+              "veces_usado": 10,
+              "engagement_score_promedio": 448.3,
+              "engagement_rate_promedio": 9.192243386219792
+            }
+          ],
+          "engagement_predicho": {
+            "engagement_score_predicho": 165.36818588025022,
+            "engagement_rate_predicho": 2.7991550611598415,
+            "confianza": 30.0,
+            "muestra": 3,
+            "factores": {
+              "horario": 1.0,
+              "dia": 0.14142091152815014
+            }
+          }
+        },
+        {
+          "fecha": "2025-12-05",
+          "dia": "Miércoles",
+          "hora": "09:00",
+          "tipo_contenido": "X",
+          "plataforma": "TikTok",
+          "titulo_sugerido": "Tutoriales/Educativos - Semana 4",
+          "hashtags_sugeridos": [
+            {
+              "hashtag": "#educacion",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#tutorial",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#aprende",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#tips",
+              "veces_usado": 13,
+              "engagement_score_promedio": 658.1538461538462,
+              "engagement_rate_promedio": 15.142110599899025
+            },
+            {
+              "hashtag": "#diversion",
+              "veces_usado": 10,
+              "engagement_score_promedio": 448.3,
+              "engagement_rate_promedio": 9.192243386219792
+            }
+          ],
+          "engagement_predicho": {
+            "engagement_score_predicho": 327.99329758713134,
+            "engagement_rate_predicho": 5.551878640262529,
+            "confianza": 30.0,
+            "muestra": 3,
+            "factores": {
+              "horario": 1.0,
+              "dia": 0.2804959785522788
+            }
+          }
+        },
+        {
+          "fecha": "2025-12-03",
+          "dia": "Lunes",
+          "hora": "09:00",
+          "tipo_contenido": "X",
+          "plataforma": "TikTok",
+          "titulo_sugerido": "Tutoriales/Educativos - Semana 4",
+          "hashtags_sugeridos": [
+            {
+              "hashtag": "#educacion",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#tutorial",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#aprende",
+              "veces_usado": 14,
+              "engagement_score_promedio": 717.7142857142857,
+              "engagement_rate_promedio": 15.563707515979514
+            },
+            {
+              "hashtag": "#tips",
+              "veces_usado": 13,
+              "engagement_score_promedio": 658.1538461538462,
+              "engagement_rate_promedio": 15.142110599899025
+            },
+            {
+              "hashtag": "#diversion",
+              "veces_usado": 10,
+              "engagement_score_promedio": 448.3,
+              "engagement_rate_promedio": 9.192243386219792
+            }
+          ],
+          "engagement_predicho": {
+            "engagement_score_predicho": 668.1344950848971,
+            "engagement_rate_predicho": 11.309382415349594,
+            "confianza": 30.0,
+            "muestra": 3,
+            "factores": {
+              "horario": 1.0,
+              "dia": 0.5713806970509383
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "recomendaciones": {
+    "mejor_horario": "09:00-12:00 (Mañana)",
+    "mejor_dia": "Jueves",
+    "mejor_plataforma": "TikTok",
+    "tipo_recomendado": "X"
+  }
+}

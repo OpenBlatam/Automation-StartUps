@@ -226,3 +226,4 @@ if __name__ == '__main__':
     logger.info(f"Iniciando servidor en {host}:{port}")
     app.run(host=host, port=port, debug=debug)
 
+

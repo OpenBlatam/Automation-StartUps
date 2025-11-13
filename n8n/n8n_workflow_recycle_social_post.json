@@ -1,0 +1,366 @@
+{
+  "name": "Reciclar Publicaciones Sociales",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "recycle-social-post",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-trigger",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [250, 300],
+      "webhookId": "recycle-social-post-webhook",
+      "notes": "Recibe la publicación antigua a reciclar"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Inicializar y validar datos del webhook\nconst originalPost = $input.item.json.post || $input.item.json.original_post || $input.item.json.text;\nconst useAI = $input.item.json.use_ai === true || $input.item.json.use_ai === 'true';\nconst outputFormat = $input.item.json.format || 'json';\nconst customOutput = $input.item.json.output || null;\n\n// Validaciones\nif (!originalPost || originalPost.trim().length === 0) {\n  return [{\n    json: {\n      error: 'El campo \"post\" o \"original_post\" es requerido',\n      received: $input.item.json,\n      canProceed: false\n    }\n  }];\n}\n\n// Configuración\nconst executionId = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;\nconst scriptPath = '/Users/adan/IA/scripts/recycle_social_post.py';\nconst hasOpenAI = !!($env.OPENAI_API_KEY);\n\n// Construir comando\nconst cmd = [\n  'python3',\n  scriptPath,\n  `\"${originalPost.replace(/\"/g, '\\\\\"')}\"`\n];\n\nif (useAI && hasOpenAI) {\n  cmd.push('--use-ai');\n}\n\nif (outputFormat && outputFormat !== 'json') {\n  cmd.push('--format', outputFormat);\n}\n\nif (customOutput) {\n  cmd.push('--output', customOutput);\n}\n\nreturn [{\n  json: {\n    originalPost: originalPost,\n    useAI: useAI && hasOpenAI,\n    outputFormat: outputFormat,\n    customOutput: customOutput,\n    executionId: executionId,\n    command: cmd.join(' '),\n    scriptPath: scriptPath,\n    hasOpenAI: hasOpenAI,\n    canProceed: true,\n    timestamp: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "initialize-workflow",
+      "name": "Initialize & Validate",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [450, 300],
+      "notes": "Valida y prepara los datos para ejecutar el script"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "can-proceed",
+              "leftValue": "={{ $json.canProceed }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-can-proceed",
+      "name": "Check Can Proceed",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [650, 300],
+      "notes": "Verifica que se pueda proceder con la ejecución"
+    },
+    {
+      "parameters": {
+        "command": "cd /Users/adan/IA && {{ $json.command }}",
+        "options": {
+          "timeout": 300000
+        }
+      },
+      "id": "execute-script",
+      "name": "Execute Recycle Script",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [850, 300],
+      "notes": "Ejecuta el script de reciclaje de publicaciones",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Procesar resultado del script\nconst output = $input.item.json.stdout || '';\nconst error = $input.item.json.stderr || '';\nconst exitCode = $input.item.json.exitCode || 0;\n\n// Intentar leer el archivo JSON generado\nconst fs = require('fs');\nconst path = require('path');\n\nlet result = null;\nlet jsonFile = null;\n\n// Buscar archivo JSON generado\nconst timestamp = $('Initialize & Validate').item.json.executionId.split('-')[0];\nconst possibleFiles = [\n  `/Users/adan/IA/recycled_post_${timestamp}*.json`,\n  `/Users/adan/IA/recycled_post_*.json`\n];\n\n// Intentar encontrar el archivo más reciente\nconst outputDir = '/Users/adan/IA';\ntry {\n  const files = fs.readdirSync(outputDir)\n    .filter(f => f.startsWith('recycled_post_') && f.endsWith('.json'))\n    .map(f => ({\n      name: f,\n      path: path.join(outputDir, f),\n      time: fs.statSync(path.join(outputDir, f)).mtime\n    }))\n    .sort((a, b) => b.time - a.time);\n  \n  if (files.length > 0) {\n    jsonFile = files[0].path;\n    const content = fs.readFileSync(jsonFile, 'utf-8');\n    result = JSON.parse(content);\n  }\n} catch (e) {\n  // Si no se encuentra archivo, intentar parsear del output\n  console.log('No se encontró archivo JSON, intentando parsear del output');\n}\n\n// Si hay error en la ejecución\nif (exitCode !== 0 && !result) {\n  return [{\n    json: {\n      error: 'Error al ejecutar el script',\n      exitCode: exitCode,\n      stderr: error,\n      stdout: output,\n      success: false\n    }\n  }];\n}\n\n// Si tenemos resultado, procesarlo\nif (result) {\n  return [{\n    json: {\n      success: true,\n      executionId: $('Initialize & Validate').item.json.executionId,\n      originalPost: result.original_post,\n      timestamp: result.timestamp,\n      analysis: result.elements_extracted,\n      versions: result.versions,\n      engagementMetrics: {\n        static: result.versions.static_post.engagement_metrics,\n        video: result.versions.short_video.engagement_metrics,\n        story: result.versions.story.engagement_metrics\n      },\n      bestVersion: result.summary?.best_version || 'static_post',\n      recommendation: result.summary?.recommended_action || '',\n      imagePrompts: result.versions.static_post.image_prompts || [],\n      relatedContent: result.related_content_suggestions || [],\n      trendingHashtags: result.trending_hashtags || [],\n      jsonFile: jsonFile,\n      output: output\n    }\n  }];\n}\n\n// Fallback: retornar output crudo\nreturn [{\n  json: {\n    success: true,\n    executionId: $('Initialize & Validate').item.json.executionId,\n    output: output,\n    error: error,\n    exitCode: exitCode,\n    note: 'Resultado parseado del output, archivo JSON no encontrado'\n  }\n}];"
+      },
+      "id": "process-results",
+      "name": "Process Results",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1050, 300],
+      "notes": "Procesa y estructura los resultados del script"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "response-success",
+              "name": "success",
+              "value": "={{ $json.success }}",
+              "type": "boolean"
+            },
+            {
+              "id": "response-data",
+              "name": "data",
+              "value": "={{ $json }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "format-response",
+      "name": "Format Response",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [1250, 300],
+      "notes": "Formatea la respuesta para el webhook"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "id": "webhook-response",
+      "name": "Webhook Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1450, 300],
+      "notes": "Responde al webhook con los resultados"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "has-telegram",
+              "leftValue": "={{ $env.TELEGRAM_BOT_TOKEN && $env.TELEGRAM_CHAT_ID }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-telegram",
+      "name": "Check Telegram Config",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1050, 500],
+      "notes": "Verifica si Telegram está configurado"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
+        "text": "🔄 *Reciclaje de Publicación Social Completado*\n\n📝 *Publicación Original:*\n{{ $('Initialize & Validate').item.json.originalPost }}\n\n📊 *Análisis:*\n• Tipo: {{ $json.analysis.content_type }}\n• Tono: {{ $json.analysis.tone }}\n• Tema: {{ $json.analysis.main_topic }}\n\n🏆 *Mejor Versión:* {{ $json.bestVersion }}\n💡 *Recomendación:* {{ $json.recommendation }}\n\n📈 *Métricas de Engagement:*\n• Post Estático: {{ $json.engagementMetrics.static.engagement_score }}/100\n• Video Corto: {{ $json.engagementMetrics.video.engagement_score }}/100\n• Historia: {{ $json.engagementMetrics.story.engagement_score }}/100\n\n✅ Resultado guardado en: {{ $json.jsonFile }}",
+        "additionalFields": {
+          "parseMode": "Markdown"
+        }
+      },
+      "id": "send-telegram",
+      "name": "Send Telegram Notification",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1250, 500],
+      "notes": "Envía notificación a Telegram con el resumen"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "has-error",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-error",
+      "name": "Check for Errors",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [650, 500],
+      "notes": "Verifica si hubo errores"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "error-response",
+              "name": "error",
+              "value": "={{ $json.error }}",
+              "type": "string"
+            },
+            {
+              "id": "error-details",
+              "name": "details",
+              "value": "={{ $json }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "format-error",
+      "name": "Format Error Response",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [850, 500],
+      "notes": "Formatea la respuesta de error"
+    }
+  ],
+  "connections": {
+    "Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Initialize & Validate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Initialize & Validate": {
+      "main": [
+        [
+          {
+            "node": "Check Can Proceed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Can Proceed": {
+      "main": [
+        [
+          {
+            "node": "Execute Recycle Script",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Check for Errors",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Recycle Script": {
+      "main": [
+        [
+          {
+            "node": "Process Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Results": {
+      "main": [
+        [
+          {
+            "node": "Format Response",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Telegram Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Response": {
+      "main": [
+        [
+          {
+            "node": "Webhook Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Telegram Config": {
+      "main": [
+        [
+          {
+            "node": "Send Telegram Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check for Errors": {
+      "main": [
+        [
+          {
+            "node": "Format Error Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Error Response": {
+      "main": [
+        [
+          {
+            "node": "Webhook Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2025-11-12T09:45:00.000Z",
+      "updatedAt": "2025-11-12T09:45:00.000Z",
+      "id": "social-media",
+      "name": "social-media"
+    },
+    {
+      "createdAt": "2025-11-12T09:45:00.000Z",
+      "updatedAt": "2025-11-12T09:45:00.000Z",
+      "id": "content-recycling",
+      "name": "content-recycling"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2025-11-12T09:45:00.000Z",
+  "versionId": "1"
+}
+
+

@@ -1,0 +1,11 @@
+{
+  "testimonial": "Antes de usar este servicio, estaba perdiendo clientes constantemente. Ahora tengo una tasa de retención del 95% y mis ingresos han aumentado un 40% en solo 3 meses. No puedo creer la diferencia que ha hecho.",
+  "target_audience": "mejorar la retención de clientes y aumentar ingresos",
+  "platform": "linkedin",
+  "tone": "profesional y empático",
+  "include_hashtags": true,
+  "include_call_to_action": true,
+  "model": "gpt-4o-mini"
+}
+
+

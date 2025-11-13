@@ -142,3 +142,4 @@ python3 scripts/generate_comment_responses.py "marketing" \
 - Combina con otros scripts para automatizar respuestas en redes sociales
 - Exporta a JSON para integrar con sistemas de gestión de redes sociales
 
+

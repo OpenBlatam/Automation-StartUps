@@ -72,7 +72,23 @@ python scripts/testimonial_to_social_post.py \
 
 ## 🔧 Integración con n8n
 
-### Opción 1: Usar Code Node (Python)
+### Opción 1: Usar API REST (Recomendado)
+
+La forma más fácil y robusta es usar la API REST Flask incluida:
+
+1. **Iniciar la API**:
+```bash
+cd scripts
+pip install -r requirements_testimonial.txt
+python testimonial_api.py
+```
+
+2. **Configurar variable de entorno en n8n**:
+   - `TESTIMONIAL_API_URL`: URL de la API (default: http://localhost:5000)
+
+3. **Importar workflow**: Usa `n8n_workflow_testimonial_mejorado.json` que ya incluye la integración con la API.
+
+### Opción 2: Usar Code Node (Python)
 
 1. **Agregar un nodo Code** en tu workflow
 2. **Seleccionar Python** como lenguaje
@@ -122,53 +138,6 @@ return {
         platform: post_data["platform"],
         length: post_data["length"]
     }
-}
-```
-
-### Opción 2: Usar HTTP Request Node (API REST)
-
-Si prefieres exponer el script como API REST, puedes usar el siguiente ejemplo con Flask:
-
-**Crear `scripts/testimonial_api.py`**:
-
-```python
-from flask import Flask, request, jsonify
-from testimonial_to_social_post import TestimonialToSocialPostConverter
-import os
-
-app = Flask(__name__)
-
-@app.route('/convert', methods=['POST'])
-def convert_testimonial():
-    data = request.json
-    converter = TestimonialToSocialPostConverter()
-    
-    result = converter.convert_testimonial(
-        testimonial=data['testimonial'],
-        target_audience_problem=data['target_audience'],
-        platform=data.get('platform', 'general'),
-        tone=data.get('tone', 'cálido y profesional'),
-        include_hashtags=data.get('include_hashtags', True),
-        include_call_to_action=data.get('include_call_to_action', True)
-    )
-    
-    return jsonify(result)
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
-```
-
-Luego en n8n, usar un nodo **HTTP Request**:
-
-- **Method**: POST
-- **URL**: `http://localhost:5000/convert`
-- **Body**: JSON
-```json
-{
-  "testimonial": "{{ $json.testimonial }}",
-  "target_audience": "{{ $json.target_audience }}",
-  "platform": "instagram",
-  "tone": "cálido y profesional"
 }
 ```
 
