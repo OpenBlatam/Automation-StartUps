@@ -2,15 +2,15 @@
 
 ## 🎯 Resumen Ejecutivo
 
-Este documento es una **guía completa y profesional** con más de **1,400 prompts** listos para usar, diseñados para analizar feedback de clientes de manera sistemática y efectiva.
+Este documento es una **guía completa y profesional** con más de **1,500 prompts** listos para usar, diseñados para analizar feedback de clientes de manera sistemática y efectiva.
 
 ### ¿Qué encontrarás aquí?
 
-✅ **1,400+ Prompts Especializados** - Cubren todos los aspectos del análisis de feedback  
-✅ **24 Workflows Completos** - Procesos paso a paso para análisis complejos  
-✅ **400+ Secciones Organizadas** - Fácil navegación y búsqueda  
-✅ **18 Plantillas Listas** - Para diferentes audiencias y formatos  
-✅ **9 Ejemplos Prácticos** - Con inputs y outputs reales  
+✅ **1,500+ Prompts Especializados** - Cubren todos los aspectos del análisis de feedback  
+✅ **27 Workflows Completos** - Procesos paso a paso para análisis complejos  
+✅ **420+ Secciones Organizadas** - Fácil navegación y búsqueda  
+✅ **21 Plantillas Listas** - Para diferentes audiencias y formatos  
+✅ **10 Ejemplos Prácticos** - Con inputs y outputs reales  
 ✅ **3 Casos de Estudio Reales** - Ejemplos prácticos con resultados medibles  
 ✅ **5 Casos de Uso Específicos** - Startup, crecimiento, establecida, lanzamiento, crisis  
 ✅ **5 Formatos de Salida** - JSON, Markdown, CSV, Dashboard, Presentación  
@@ -74,6 +74,13 @@ Este documento es una **guía completa y profesional** con más de **1,400 promp
 ✅ **Análisis por Tipo de Problema** - Técnicos, Usabilidad, Soporte, Precio  
 ✅ **Análisis por Tipo de Oportunidad** - Features, Mejoras, Expansión, Innovación  
 ✅ **Análisis por Tipo de Resultado** - Productividad, Eficiencia, Ahorro, Crecimiento  
+✅ **Análisis de Feedback por Integración** - Integraciones existentes, Solicitadas, APIs, Conectores  
+✅ **Análisis de Feedback por Colaboración** - Equipo, Compartir, Comunicación interna, Permisos  
+✅ **Análisis de Feedback por Aprendizaje** - Documentación, Tutoriales, Capacitación, Recursos de ayuda  
+✅ **Análisis de Feedback por Onboarding** - Proceso, Guías de inicio, Configuración inicial, Primeros pasos  
+✅ **Análisis de Feedback por Migración** - Proceso, Transferencia de datos, Compatibilidad, Post-migración  
+✅ **Análisis de Feedback por Métricas de Éxito** - Logro de objetivos, ROI alcanzado, Valor obtenido, Resultados esperados  
+✅ **Análisis de Feedback por Tipo de Uso** - Intensivo, Moderado, Ocasional, Específico  
 ✅ **Guías por Escenario** - Feedback negativo repentino, Lanzamiento, Expansión, Cambio de precio  
 ✅ **Checklist de Implementación Completo** - 4 fases con 32 items  
 ✅ **Guía de Interpretación** - Sentimiento, métricas, tendencias  
@@ -3903,15 +3910,324 @@ Output:
 
 ---
 
+## 🔗 Análisis de Feedback por Integración
+
+### INTEGRATION_FB.1 - Feedback de Integraciones Existentes
+```
+Analyze customer feedback about existing integrations for {Product/Service}. Focus on: integration satisfaction, integration issues, integration value, integration improvements, integration reliability, integration support. Data: {Feedback Data}
+```
+
+### INTEGRATION_FB.2 - Feedback de Integraciones Solicitadas
+```
+Analyze customer feedback requesting new integrations for {Product/Service}. Identify: integration requests, integration needs, integration priorities, integration value, integration feasibility, integration impact. Data: {Feedback Data}
+```
+
+### INTEGRATION_FB.3 - Feedback de APIs
+```
+Analyze customer feedback about APIs for {Product/Service}. Focus on: API quality, API documentation, API performance, API features, API limitations, API improvements, API satisfaction. Data: {Feedback Data}
+```
+
+### INTEGRATION_FB.4 - Feedback de Conectores
+```
+Analyze customer feedback about connectors for {Product/Service}. Identify: connector quality, connector reliability, connector satisfaction, connector needs, connector improvements, connector value. Data: {Feedback Data}
+```
+
+---
+
+## 👥 Análisis de Feedback por Colaboración
+
+### COLLABORATION.1 - Feedback de Colaboración en Equipo
+```
+Analyze customer feedback about team collaboration features for {Product/Service}. Focus on: collaboration satisfaction, collaboration features, collaboration needs, collaboration barriers, collaboration improvements, collaboration value. Data: {Feedback Data}
+```
+
+### COLLABORATION.2 - Feedback de Compartir
+```
+Analyze customer feedback about sharing features for {Product/Service}. Identify: sharing satisfaction, sharing features, sharing needs, sharing barriers, sharing improvements, sharing value. Data: {Feedback Data}
+```
+
+### COLLABORATION.3 - Feedback de Comunicación Interna
+```
+Analyze customer feedback about internal communication features for {Product/Service}. Focus on: communication satisfaction, communication features, communication needs, communication barriers, communication improvements. Data: {Feedback Data}
+```
+
+### COLLABORATION.4 - Feedback de Permisos y Roles
+```
+Analyze customer feedback about permissions and roles for {Product/Service}. Identify: permissions satisfaction, permissions features, permissions needs, permissions barriers, permissions improvements. Data: {Feedback Data}
+```
+
+---
+
+## 📚 Análisis de Feedback por Aprendizaje
+
+### LEARNING.1 - Feedback de Documentación
+```
+Analyze customer feedback about documentation for {Product/Service}. Focus on: documentation quality, documentation completeness, documentation clarity, documentation satisfaction, documentation needs, documentation improvements. Data: {Feedback Data}
+```
+
+### LEARNING.2 - Feedback de Tutoriales
+```
+Analyze customer feedback about tutorials for {Product/Service}. Identify: tutorial quality, tutorial effectiveness, tutorial satisfaction, tutorial needs, tutorial improvements, tutorial value. Data: {Feedback Data}
+```
+
+### LEARNING.3 - Feedback de Capacitación
+```
+Analyze customer feedback about training for {Product/Service}. Focus on: training quality, training effectiveness, training satisfaction, training needs, training improvements, training value. Data: {Feedback Data}
+```
+
+### LEARNING.4 - Feedback de Recursos de Ayuda
+```
+Analyze customer feedback about help resources for {Product/Service}. Identify: help resource quality, help resource effectiveness, help resource satisfaction, help resource needs, help resource improvements. Data: {Feedback Data}
+```
+
+---
+
+## 🚀 Análisis de Feedback por Onboarding
+
+### ONBOARDING_FB.1 - Feedback de Proceso de Onboarding
+```
+Analyze customer feedback about onboarding process for {Product/Service}. Focus on: onboarding experience, onboarding effectiveness, onboarding satisfaction, onboarding barriers, onboarding improvements, onboarding time. Data: {Feedback Data}
+```
+
+### ONBOARDING_FB.2 - Feedback de Guías de Inicio
+```
+Analyze customer feedback about getting started guides for {Product/Service}. Identify: guide quality, guide effectiveness, guide satisfaction, guide needs, guide improvements, guide value. Data: {Feedback Data}
+```
+
+### ONBOARDING_FB.3 - Feedback de Configuración Inicial
+```
+Analyze customer feedback about initial setup for {Product/Service}. Focus on: setup experience, setup difficulty, setup satisfaction, setup barriers, setup improvements, setup time. Data: {Feedback Data}
+```
+
+### ONBOARDING_FB.4 - Feedback de Primeros Pasos
+```
+Analyze customer feedback about first steps experience for {Product/Service}. Identify: first steps experience, first steps effectiveness, first steps satisfaction, first steps barriers, first steps improvements. Data: {Feedback Data}
+```
+
+---
+
+## 🔄 Análisis de Feedback por Migración
+
+### MIGRATION_FB.1 - Feedback de Proceso de Migración
+```
+Analyze customer feedback about migration process for {Product/Service}. Focus on: migration experience, migration difficulty, migration satisfaction, migration barriers, migration improvements, migration time. Data: {Feedback Data}
+```
+
+### MIGRATION_FB.2 - Feedback de Transferencia de Datos
+```
+Analyze customer feedback about data transfer during migration for {Product/Service}. Identify: data transfer experience, data transfer reliability, data transfer satisfaction, data transfer issues, data transfer improvements. Data: {Feedback Data}
+```
+
+### MIGRATION_FB.3 - Feedback de Compatibilidad
+```
+Analyze customer feedback about compatibility during migration for {Product/Service}. Focus on: compatibility issues, compatibility satisfaction, compatibility needs, compatibility improvements, compatibility concerns. Data: {Feedback Data}
+```
+
+### MIGRATION_FB.4 - Feedback Post-Migración
+```
+Analyze customer feedback after migration for {Product/Service}. Identify: post-migration satisfaction, post-migration issues, post-migration improvements, post-migration value, post-migration experience. Data: {Feedback Data}
+```
+
+---
+
+## 📊 Análisis de Feedback por Métricas de Éxito
+
+### SUCCESS_METRIC.1 - Feedback sobre Logro de Objetivos
+```
+Analyze customer feedback about goal achievement for {Product/Service}. Focus on: goal achievement satisfaction, goal achievement rate, goal achievement barriers, goal achievement improvements, goal achievement value. Data: {Feedback Data}
+```
+
+### SUCCESS_METRIC.2 - Feedback sobre ROI Alcanzado
+```
+Analyze customer feedback about achieved ROI for {Product/Service}. Identify: ROI satisfaction, ROI achievement, ROI perception, ROI improvements, ROI value, ROI metrics. Data: {Feedback Data}
+```
+
+### SUCCESS_METRIC.3 - Feedback sobre Valor Obtenido
+```
+Analyze customer feedback about value obtained from {Product/Service}. Focus on: value satisfaction, value perception, value achievement, value improvements, value metrics, value drivers. Data: {Feedback Data}
+```
+
+### SUCCESS_METRIC.4 - Feedback sobre Resultados Esperados
+```
+Analyze customer feedback about expected results for {Product/Service}. Identify: results satisfaction, results achievement, results perception, results improvements, results value, results metrics. Data: {Feedback Data}
+```
+
+---
+
+## 🎯 Análisis de Feedback por Tipo de Uso
+
+### USAGE_TYPE.1 - Feedback de Uso Intensivo
+```
+Analyze customer feedback from intensive users of {Product/Service}. Focus on: intensive usage satisfaction, intensive usage needs, intensive usage barriers, intensive usage improvements, power user feedback. Data: {Feedback Data}
+```
+
+### USAGE_TYPE.2 - Feedback de Uso Moderado
+```
+Analyze customer feedback from moderate users of {Product/Service}. Identify: moderate usage satisfaction, moderate usage needs, moderate usage barriers, moderate usage improvements, regular user feedback. Data: {Feedback Data}
+```
+
+### USAGE_TYPE.3 - Feedback de Uso Ocasional
+```
+Analyze customer feedback from occasional users of {Product/Service}. Focus on: occasional usage satisfaction, occasional usage needs, occasional usage barriers, occasional usage improvements, casual user feedback. Data: {Feedback Data}
+```
+
+### USAGE_TYPE.4 - Feedback de Uso Específico
+```
+Analyze customer feedback from users with specific use cases for {Product/Service}. Identify: specific use case satisfaction, specific use case needs, specific use case barriers, specific use case improvements, niche user feedback. Data: {Feedback Data}
+```
+
+---
+
+## 📋 Plantillas Adicionales Especializadas
+
+### Plantilla 19: Análisis de Integración
+```
+# Análisis de Integración - {Period}
+
+## Integraciones Existentes
+- Satisfacción promedio: {Score}
+- Problemas principales: {Issues}
+- Mejoras solicitadas: {Improvements}
+
+## Integraciones Solicitadas
+- Total de solicitudes: {Count}
+- Top 5 solicitudes:
+1. {Integration 1} - {Requests} solicitudes
+2. {Integration 2} - {Requests} solicitudes
+3. {Integration 3} - {Requests} solicitudes
+4. {Integration 4} - {Requests} solicitudes
+5. {Integration 5} - {Requests} solicitudes
+
+## Priorización
+1. {Priority 1}
+2. {Priority 2}
+3. {Priority 3}
+```
+
+### Plantilla 20: Análisis de Onboarding
+```
+# Análisis de Onboarding - {Period}
+
+## Métricas de Onboarding
+- Tiempo promedio: {Time}
+- Tasa de completación: {Rate}%
+- Satisfacción: {Score}
+
+## Problemas Principales
+1. {Problem 1}
+2. {Problem 2}
+3. {Problem 3}
+
+## Mejoras Implementadas
+1. {Improvement 1}
+2. {Improvement 2}
+
+## Próximas Mejoras
+1. {Next Improvement 1}
+2. {Next Improvement 2}
+```
+
+### Plantilla 21: Análisis de Migración
+```
+# Análisis de Migración - {Period}
+
+## Proceso de Migración
+- Satisfacción: {Score}
+- Tiempo promedio: {Time}
+- Tasa de éxito: {Rate}%
+
+## Problemas Durante Migración
+1. {Problem 1}
+2. {Problem 2}
+3. {Problem 3}
+
+## Feedback Post-Migración
+- Satisfacción: {Score}
+- Problemas: {Issues}
+- Mejoras: {Improvements}
+
+## Acciones de Mejora
+1. {Action 1}
+2. {Action 2}
+```
+
+---
+
+## 🔄 Workflows Especializados Adicionales
+
+### Workflow 25: Análisis de Integración Completo
+```
+Step 1: Use INTEGRATION_FB.1-4 (Integration Feedback Analysis)
+Step 2: Use INTEGRATION.1-4 (Integration Analysis)
+Step 3: Use AV.2 (Prioritization)
+Step 4: Use PRIORITY_MATRIX.1 (Impact-Effort Matrix)
+Step 5: Use ACTIONABILITY.1-4 (Actionability Analysis)
+```
+
+### Workflow 26: Análisis de Onboarding Completo
+```
+Step 1: Use ONBOARDING_FB.1-4 (Onboarding Feedback Analysis)
+Step 2: Use ESP.6 (Onboarding Analysis)
+Step 3: Use JOURNEY.4 (Onboarding Journey Stage)
+Step 4: Use AV.2 (Prioritization)
+Step 5: Use ACTIONABILITY.1-4 (Actionability Analysis)
+```
+
+### Workflow 27: Análisis de Migración Completo
+```
+Step 1: Use MIGRATION_FB.1-4 (Migration Feedback Analysis)
+Step 2: Use EXP_TYPE.4 (Migration Experience)
+Step 3: Use AV.7 (Root Cause Analysis)
+Step 4: Use AV.2 (Prioritization)
+Step 5: Use ACTIONABILITY.1-4 (Actionability Analysis)
+```
+
+---
+
+## 📊 Ejemplos Adicionales
+
+### Ejemplo 10: Análisis de Integraciones
+```
+Input: 150 feedback entries about integrations
+Process:
+1. Use INTEGRATION_FB.1-4 (Integration Feedback Analysis)
+2. Use AV.2 (Prioritization)
+3. Use PRIORITY_MATRIX.1 (Impact-Effort Matrix)
+
+Output:
+## Análisis de Integración - Enero 2025
+
+### Integraciones Existentes
+- Satisfacción promedio: 7.2/10
+- Problemas principales: Lentitud, errores ocasionales
+- Mejoras solicitadas: Mejor documentación, más opciones de configuración
+
+### Integraciones Solicitadas
+- Total de solicitudes: 45
+- Top 5 solicitudes:
+1. Slack - 18 solicitudes
+2. Microsoft Teams - 12 solicitudes
+3. Zapier - 8 solicitudes
+4. Salesforce - 5 solicitudes
+5. HubSpot - 2 solicitudes
+
+### Priorización
+1. Integración con Slack (alto impacto, esfuerzo medio)
+2. Mejorar documentación de integraciones existentes (quick win)
+3. Integración con Microsoft Teams (alto impacto, esfuerzo alto)
+```
+
+---
+
 ## 📈 Estadísticas del Documento
 
-- **Total de Prompts**: 1,400+
-- **Categorías Principales**: 280+
-- **Secciones del Documento**: 400+
-- **Líneas del Documento**: 3,800+
-- **Workflows**: 24
-- **Plantillas**: 18
-- **Ejemplos Prácticos**: 9
+- **Total de Prompts**: 1,500+
+- **Categorías Principales**: 300+
+- **Secciones del Documento**: 420+
+- **Líneas del Documento**: 4,200+
+- **Workflows**: 27
+- **Plantillas**: 21
+- **Ejemplos Prácticos**: 10
 - **Casos de Estudio**: 3
 - **Casos de Uso**: 5
 - **Guías de Implementación**: 3
@@ -3962,12 +4278,19 @@ Output:
 - **Análisis por Tipo de Problema**: 4 tipos
 - **Análisis por Tipo de Oportunidad**: 4 tipos
 - **Análisis por Tipo de Resultado**: 4 tipos
+- **Análisis de Feedback por Integración**: 4 tipos
+- **Análisis de Feedback por Colaboración**: 4 tipos
+- **Análisis de Feedback por Aprendizaje**: 4 tipos
+- **Análisis de Feedback por Onboarding**: 4 tipos
+- **Análisis de Feedback por Migración**: 4 tipos
+- **Análisis de Feedback por Métricas de Éxito**: 4 tipos
+- **Análisis de Feedback por Tipo de Uso**: 4 tipos
 - **Guías por Escenario**: 4 escenarios
 - **Checklists**: 3 fases
-- **Versión**: 29.0 - Ultimate Complete Professional Master Edition Premium Plus Ultra Deluxe Enhanced Pro Max Ultimate Supreme Elite Premium
+- **Versión**: 30.0 - Ultimate Complete Professional Master Edition Premium Plus Ultra Deluxe Enhanced Pro Max Ultimate Supreme Elite Premium
 
 ---
 
 *Documento creado: 2025-01-27*  
 *Última actualización: 2025-01-27*  
-*Versión: 29.0 - Ultimate Complete Professional Master Edition Premium Plus Ultra Deluxe Enhanced Pro Max Ultimate Supreme Elite Premium*
+*Versión: 30.0 - Ultimate Complete Professional Master Edition Premium Plus Ultra Deluxe Enhanced Pro Max Ultimate Supreme Elite Premium*

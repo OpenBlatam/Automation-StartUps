@@ -1,0 +1,2917 @@
+{
+  "fecha_analisis": "2025-11-12T00:55:49.580372",
+  "total_segmentos": 8,
+  "analisis_segmentos": {
+    "total_segmentos": 8,
+    "segmento_primario": {
+      "id": "SEG-004",
+      "nombre": "Retail E-commerce Emergente - Latam",
+      "descripcion": "Empresas de retail que están digitalizando sus operaciones en Latinoamérica",
+      "firmograficos": {
+        "industria": "Retail y E-commerce",
+        "tamano": "Mediana (51-250)",
+        "geografia": "Latinoamérica",
+        "madurez_digital": "Emergente (3-5)"
+      },
+      "comportamentales": {
+        "adopcion_tecnologica": "Mayoría Temprana",
+        "urgencia_problema": "Alta (7-9)"
+      },
+      "psicograficos": {
+        "apetito_innovacion": "Alto (7-8)",
+        "aversion_riesgo": "Media (4-6)"
+      },
+      "scoring": {
+        "tamano": 8.0,
+        "crecimiento": 9.5,
+        "accesibilidad": 8.0,
+        "competencia": 7.0,
+        "ajuste_producto": 8.5,
+        "score_total": 8.275,
+        "score_riesgo": 0.195,
+        "score_oportunidad": 0.875
+      },
+      "caracteristicas_clave": [
+        "Presupuesto creciente para digitalización",
+        "Necesidad de competir con Amazon",
+        "Enfoque en experiencia del cliente",
+        "Decisiones relativamente rápidas"
+      ],
+      "oportunidades": [
+        "Mercado en rápido crecimiento",
+        "Necesidad clara de diferenciación",
+        "Presupuesto disponible",
+        "Casos de uso medibles"
+      ],
+      "desafios": [
+        "Margen de error bajo",
+        "Necesidad de resultados rápidos",
+        "Competencia con grandes players"
+      ],
+      "score_total": 8.275,
+      "score_prioridad": 38.21000000000001,
+      "metricas_mercado": {
+        "tam": 15000.0,
+        "sam": 4500.0,
+        "som": 450.0,
+        "tasa_crecimiento_anual": 25.0,
+        "penetracion_actual": 10.0,
+        "potencial_crecimiento": 10.0
+      },
+      "analisis_competencia": {
+        "numero_competidores": 12,
+        "intensidad_competitiva": 7.5,
+        "diferenciacion_posible": 8.0,
+        "barreras_entrada": 6.0,
+        "poder_negociacion_clientes": 6.5,
+        "poder_negociacion_proveedores": 5.0,
+        "score_competitivo": 0.5375
+      },
+      "precio_promedio_anual": 25000.0,
+      "ciclo_venta_dias": 45,
+      "tasa_conversion_esperada": 12.0,
+      "roi_esperado": 53.99999999999999
+    },
+    "segmento_secundario": {
+      "id": "SEG-002",
+      "nombre": "Medianas Empresas Fintech - Global",
+      "descripcion": "Empresas fintech medianas con madurez digital avanzada y alta urgencia regulatoria",
+      "firmograficos": {
+        "industria": "Servicios Financieros",
+        "tamano": "Mediana (51-250)",
+        "geografia": "Global/Multi-región",
+        "madurez_digital": "Avanzado (6-8)"
+      },
+      "comportamentales": {
+        "adopcion_tecnologica": "Adoptador Temprano",
+        "urgencia_problema": "Crítica (10)"
+      },
+      "psicograficos": {
+        "apetito_innovacion": "Alto (7-8)",
+        "aversion_riesgo": "Media (4-6)"
+      },
+      "scoring": {
+        "tamano": 8.5,
+        "crecimiento": 8.5,
+        "accesibilidad": 7.0,
+        "competencia": 7.5,
+        "ajuste_producto": 9.0,
+        "score_total": 8.175,
+        "score_riesgo": 0.23499999999999996,
+        "score_oportunidad": 0.865
+      },
+      "caracteristicas_clave": [
+        "Presupuesto sólido para compliance",
+        "Necesidad de seguridad y escalabilidad",
+        "Procesos de aprobación estructurados",
+        "Enfoque en ROI medible"
+      ],
+      "oportunidades": [
+        "Presupuesto significativo disponible",
+        "Necesidad crítica de soluciones",
+        "Contratos multi-año",
+        "Expansión a múltiples mercados"
+      ],
+      "desafios": [
+        "Procesos de venta más largos",
+        "Mayor competencia",
+        "Requisitos de compliance estrictos"
+      ],
+      "score_total": 8.175,
+      "score_prioridad": 37.690000000000005,
+      "metricas_mercado": {
+        "tam": 8000.0,
+        "sam": 3200.0,
+        "som": 320.0,
+        "tasa_crecimiento_anual": 22.0,
+        "penetracion_actual": 10.0,
+        "potencial_crecimiento": 10.0
+      },
+      "analisis_competencia": {
+        "numero_competidores": 8,
+        "intensidad_competitiva": 7.0,
+        "diferenciacion_posible": 8.5,
+        "barreras_entrada": 7.5,
+        "poder_negociacion_clientes": 6.0,
+        "poder_negociacion_proveedores": 5.5,
+        "score_competitivo": 0.6025
+      },
+      "precio_promedio_anual": 85000.0,
+      "ciclo_venta_dias": 90,
+      "tasa_conversion_esperada": 8.5,
+      "roi_esperado": 27.200000000000003
+    },
+    "ranking_completo": [
+      {
+        "id": "SEG-004",
+        "nombre": "Retail E-commerce Emergente - Latam",
+        "descripcion": "Empresas de retail que están digitalizando sus operaciones en Latinoamérica",
+        "firmograficos": {
+          "industria": "Retail y E-commerce",
+          "tamano": "Mediana (51-250)",
+          "geografia": "Latinoamérica",
+          "madurez_digital": "Emergente (3-5)"
+        },
+        "comportamentales": {
+          "adopcion_tecnologica": "Mayoría Temprana",
+          "urgencia_problema": "Alta (7-9)"
+        },
+        "psicograficos": {
+          "apetito_innovacion": "Alto (7-8)",
+          "aversion_riesgo": "Media (4-6)"
+        },
+        "scoring": {
+          "tamano": 8.0,
+          "crecimiento": 9.5,
+          "accesibilidad": 8.0,
+          "competencia": 7.0,
+          "ajuste_producto": 8.5,
+          "score_total": 8.275,
+          "score_riesgo": 0.195,
+          "score_oportunidad": 0.875
+        },
+        "caracteristicas_clave": [
+          "Presupuesto creciente para digitalización",
+          "Necesidad de competir con Amazon",
+          "Enfoque en experiencia del cliente",
+          "Decisiones relativamente rápidas"
+        ],
+        "oportunidades": [
+          "Mercado en rápido crecimiento",
+          "Necesidad clara de diferenciación",
+          "Presupuesto disponible",
+          "Casos de uso medibles"
+        ],
+        "desafios": [
+          "Margen de error bajo",
+          "Necesidad de resultados rápidos",
+          "Competencia con grandes players"
+        ],
+        "score_total": 8.275,
+        "score_prioridad": 38.21000000000001,
+        "metricas_mercado": {
+          "tam": 15000.0,
+          "sam": 4500.0,
+          "som": 450.0,
+          "tasa_crecimiento_anual": 25.0,
+          "penetracion_actual": 10.0,
+          "potencial_crecimiento": 10.0
+        },
+        "analisis_competencia": {
+          "numero_competidores": 12,
+          "intensidad_competitiva": 7.5,
+          "diferenciacion_posible": 8.0,
+          "barreras_entrada": 6.0,
+          "poder_negociacion_clientes": 6.5,
+          "poder_negociacion_proveedores": 5.0,
+          "score_competitivo": 0.5375
+        },
+        "precio_promedio_anual": 25000.0,
+        "ciclo_venta_dias": 45,
+        "tasa_conversion_esperada": 12.0,
+        "roi_esperado": 53.99999999999999
+      },
+      {
+        "id": "SEG-002",
+        "nombre": "Medianas Empresas Fintech - Global",
+        "descripcion": "Empresas fintech medianas con madurez digital avanzada y alta urgencia regulatoria",
+        "firmograficos": {
+          "industria": "Servicios Financieros",
+          "tamano": "Mediana (51-250)",
+          "geografia": "Global/Multi-región",
+          "madurez_digital": "Avanzado (6-8)"
+        },
+        "comportamentales": {
+          "adopcion_tecnologica": "Adoptador Temprano",
+          "urgencia_problema": "Crítica (10)"
+        },
+        "psicograficos": {
+          "apetito_innovacion": "Alto (7-8)",
+          "aversion_riesgo": "Media (4-6)"
+        },
+        "scoring": {
+          "tamano": 8.5,
+          "crecimiento": 8.5,
+          "accesibilidad": 7.0,
+          "competencia": 7.5,
+          "ajuste_producto": 9.0,
+          "score_total": 8.175,
+          "score_riesgo": 0.23499999999999996,
+          "score_oportunidad": 0.865
+        },
+        "caracteristicas_clave": [
+          "Presupuesto sólido para compliance",
+          "Necesidad de seguridad y escalabilidad",
+          "Procesos de aprobación estructurados",
+          "Enfoque en ROI medible"
+        ],
+        "oportunidades": [
+          "Presupuesto significativo disponible",
+          "Necesidad crítica de soluciones",
+          "Contratos multi-año",
+          "Expansión a múltiples mercados"
+        ],
+        "desafios": [
+          "Procesos de venta más largos",
+          "Mayor competencia",
+          "Requisitos de compliance estrictos"
+        ],
+        "score_total": 8.175,
+        "score_prioridad": 37.690000000000005,
+        "metricas_mercado": {
+          "tam": 8000.0,
+          "sam": 3200.0,
+          "som": 320.0,
+          "tasa_crecimiento_anual": 22.0,
+          "penetracion_actual": 10.0,
+          "potencial_crecimiento": 10.0
+        },
+        "analisis_competencia": {
+          "numero_competidores": 8,
+          "intensidad_competitiva": 7.0,
+          "diferenciacion_posible": 8.5,
+          "barreras_entrada": 7.5,
+          "poder_negociacion_clientes": 6.0,
+          "poder_negociacion_proveedores": 5.5,
+          "score_competitivo": 0.6025
+        },
+        "precio_promedio_anual": 85000.0,
+        "ciclo_venta_dias": 90,
+        "tasa_conversion_esperada": 8.5,
+        "roi_esperado": 27.200000000000003
+      },
+      {
+        "id": "SEG-001",
+        "nombre": "Tech Startups Innovadoras - Latam",
+        "descripcion": "Startups tecnológicas en Latinoamérica con alta adopción tecnológica y apetito por innovación",
+        "firmograficos": {
+          "industria": "Tecnología",
+          "tamano": "Startup (1-10)",
+          "geografia": "Latinoamérica",
+          "madurez_digital": "Emergente (3-5)"
+        },
+        "comportamentales": {
+          "adopcion_tecnologica": "Innovador",
+          "urgencia_problema": "Alta (7-9)"
+        },
+        "psicograficos": {
+          "apetito_innovacion": "Disruptivo (9-10)",
+          "aversion_riesgo": "Tolerante al Riesgo (9-10)"
+        },
+        "scoring": {
+          "tamano": 7.5,
+          "crecimiento": 9.0,
+          "accesibilidad": 8.5,
+          "competencia": 6.0,
+          "ajuste_producto": 9.5,
+          "score_total": 8.125,
+          "score_riesgo": 0.23499999999999996,
+          "score_oportunidad": 0.8699999999999999
+        },
+        "caracteristicas_clave": [
+          "Presupuesto limitado pero flexible",
+          "Decisión rápida",
+          "Open source y tecnologías modernas",
+          "Equipos pequeños y ágiles"
+        ],
+        "oportunidades": [
+          "Alto potencial de crecimiento",
+          "Referencias virales en ecosistema startup",
+          "Casos de uso innovadores",
+          "Expansión rápida si hay éxito"
+        ],
+        "desafios": [
+          "Presupuesto limitado inicial",
+          "Alta tasa de mortalidad",
+          "Necesidad de demostrar ROI rápido"
+        ],
+        "score_total": 8.125,
+        "score_prioridad": 37.51
+      },
+      {
+        "id": "SEG-007",
+        "nombre": "EdTech Scale-ups - Global",
+        "descripcion": "Empresas de tecnología educativa en fase de escalamiento global",
+        "firmograficos": {
+          "industria": "Educación",
+          "tamano": "Mediana (51-250)",
+          "geografia": "Global/Multi-región",
+          "madurez_digital": "Avanzado (6-8)"
+        },
+        "comportamentales": {
+          "adopcion_tecnologica": "Adoptador Temprano",
+          "urgencia_problema": "Alta (7-9)"
+        },
+        "psicograficos": {
+          "apetito_innovacion": "Alto (7-8)",
+          "aversion_riesgo": "Baja (7-8)"
+        },
+        "scoring": {
+          "tamano": 7.0,
+          "crecimiento": 9.0,
+          "accesibilidad": 8.5,
+          "competencia": 6.0,
+          "ajuste_producto": 9.0,
+          "score_total": 7.925000000000001,
+          "score_riesgo": 0.23499999999999996,
+          "score_oportunidad": 0.8400000000000001
+        },
+        "caracteristicas_clave": [
+          "Presupuesto de crecimiento",
+          "Necesidad de escalar rápidamente",
+          "Enfoque en experiencia del usuario",
+          "Decisiones ágiles"
+        ],
+        "oportunidades": [
+          "Alto crecimiento del mercado",
+          "Necesidad de diferenciación",
+          "Presupuesto disponible",
+          "Referencias en sector educativo"
+        ],
+        "desafios": [
+          "Presupuesto limitado por crecimiento",
+          "Necesidad de resultados rápidos",
+          "Competencia con grandes players"
+        ],
+        "score_total": 7.925000000000001,
+        "score_prioridad": 36.59
+      },
+      {
+        "id": "SEG-006",
+        "nombre": "Manufacturing 4.0 - Asia-Pacífico",
+        "descripcion": "Empresas manufactureras adoptando Industria 4.0 en Asia-Pacífico",
+        "firmograficos": {
+          "industria": "Manufactura",
+          "tamano": "Grande (251-1000)",
+          "geografia": "Asia-Pacífico",
+          "madurez_digital": "Emergente (3-5)"
+        },
+        "comportamentales": {
+          "adopcion_tecnologica": "Mayoría Temprana",
+          "urgencia_problema": "Alta (7-9)"
+        },
+        "psicograficos": {
+          "apetito_innovacion": "Moderado (4-6)",
+          "aversion_riesgo": "Media (4-6)"
+        },
+        "scoring": {
+          "tamano": 9.0,
+          "crecimiento": 8.0,
+          "accesibilidad": 6.0,
+          "competencia": 7.5,
+          "ajuste_producto": 7.0,
+          "score_total": 7.6,
+          "score_riesgo": 0.28,
+          "score_oportunidad": 0.8
+        },
+        "caracteristicas_clave": [
+          "Presupuesto significativo",
+          "Enfoque en eficiencia operativa",
+          "Procesos de aprobación estructurados",
+          "Necesidad de integración con sistemas legacy"
+        ],
+        "oportunidades": [
+          "Mercado grande y creciente",
+          "Presupuesto disponible",
+          "Necesidad clara de transformación",
+          "Contratos multi-año"
+        ],
+        "desafios": [
+          "Integración compleja",
+          "Ciclos de venta largos",
+          "Necesidad de demostrar ROI operativo",
+          "Competencia local fuerte"
+        ],
+        "score_total": 7.6,
+        "score_prioridad": 35.040000000000006
+      },
+      {
+        "id": "SEG-003",
+        "nombre": "Enterprise Healthcare - Norte América",
+        "descripcion": "Grandes empresas de salud con necesidad crítica de digitalización post-COVID",
+        "firmograficos": {
+          "industria": "Salud y Farmacéutica",
+          "tamano": "Enterprise (1000+)",
+          "geografia": "Norte América",
+          "madurez_digital": "Avanzado (6-8)"
+        },
+        "comportamentales": {
+          "adopcion_tecnologica": "Mayoría Temprana",
+          "urgencia_problema": "Crítica (10)"
+        },
+        "psicograficos": {
+          "apetito_innovacion": "Moderado (4-6)",
+          "aversion_riesgo": "Alta (1-3)"
+        },
+        "scoring": {
+          "tamano": 9.5,
+          "crecimiento": 7.0,
+          "accesibilidad": 5.0,
+          "competencia": 8.0,
+          "ajuste_producto": 7.5,
+          "score_total": 7.5,
+          "score_riesgo": 0.31999999999999995,
+          "score_oportunidad": 0.79
+        },
+        "caracteristicas_clave": [
+          "Presupuesto muy grande",
+          "Procesos de compra complejos y largos",
+          "Enfoque en compliance y seguridad",
+          "Múltiples stakeholders"
+        ],
+        "oportunidades": [
+          "Contratos de gran valor",
+          "Relaciones a largo plazo",
+          "Oportunidades de upsell",
+          "Referencias en industria regulada"
+        ],
+        "desafios": [
+          "Ciclos de venta muy largos (12-18 meses)",
+          "Alta aversión al riesgo",
+          "Múltiples aprobaciones requeridas",
+          "Competencia de grandes vendors"
+        ],
+        "score_total": 7.5,
+        "score_prioridad": 34.519999999999996
+      },
+      {
+        "id": "SEG-005",
+        "nombre": "Consultorías Digitales - Europa",
+        "descripcion": "Consultorías que necesitan herramientas avanzadas para sus clientes",
+        "firmograficos": {
+          "industria": "Consultoría y Servicios Profesionales",
+          "tamano": "Mediana (51-250)",
+          "geografia": "Europa",
+          "madurez_digital": "Avanzado (6-8)"
+        },
+        "comportamentales": {
+          "adopcion_tecnologica": "Adoptador Temprano",
+          "urgencia_problema": "Media (4-6)"
+        },
+        "psicograficos": {
+          "apetito_innovacion": "Alto (7-8)",
+          "aversion_riesgo": "Baja (7-8)"
+        },
+        "scoring": {
+          "tamano": 6.5,
+          "crecimiento": 7.5,
+          "accesibilidad": 7.5,
+          "competencia": 6.5,
+          "ajuste_producto": 8.0,
+          "score_total": 7.199999999999999,
+          "score_riesgo": 0.29000000000000004,
+          "score_oportunidad": 0.735
+        },
+        "caracteristicas_clave": [
+          "Presupuesto variable por proyecto",
+          "Necesidad de white-label",
+          "Enfoque en valor para clientes finales",
+          "Decisiones basadas en ROI claro"
+        ],
+        "oportunidades": [
+          "Acceso a múltiples clientes finales",
+          "Modelo de partnership",
+          "Casos de uso diversos",
+          "Expansión geográfica"
+        ],
+        "desafios": [
+          "Presupuesto por proyecto",
+          "Necesidad de customización",
+          "Competencia con herramientas propias"
+        ],
+        "score_total": 7.199999999999999,
+        "score_prioridad": 33.16
+      },
+      {
+        "id": "SEG-008",
+        "nombre": "Enterprise Conservadoras - Global",
+        "descripcion": "Grandes empresas tradicionales con baja adopción tecnológica y alta aversión al riesgo",
+        "firmograficos": {
+          "industria": "Energía y Utilities",
+          "tamano": "Enterprise (1000+)",
+          "geografia": "Global/Multi-región",
+          "madurez_digital": "Inicial (0-2)"
+        },
+        "comportamentales": {
+          "adopcion_tecnologica": "Rezagado (Laggard)",
+          "urgencia_problema": "Baja (1-3)"
+        },
+        "psicograficos": {
+          "apetito_innovacion": "Conservador (1-3)",
+          "aversion_riesgo": "Alta (1-3)"
+        },
+        "scoring": {
+          "tamano": 9.5,
+          "crecimiento": 4.0,
+          "accesibilidad": 3.0,
+          "competencia": 5.0,
+          "ajuste_producto": 4.0,
+          "score_total": 5.15,
+          "score_riesgo": 0.59,
+          "score_oportunidad": 0.5650000000000001
+        },
+        "caracteristicas_clave": [
+          "Presupuesto muy grande pero difícil de acceder",
+          "Procesos extremadamente largos",
+          "Múltiples capas de aprobación",
+          "Enfoque en riesgo y compliance"
+        ],
+        "oportunidades": [
+          "Contratos de muy alto valor",
+          "Relaciones a muy largo plazo",
+          "Baja rotación una vez dentro"
+        ],
+        "desafios": [
+          "Ciclos de venta extremadamente largos (18-24 meses)",
+          "Muy alta aversión al riesgo",
+          "Muy difícil acceso",
+          "Bajo apetito por innovación"
+        ],
+        "score_total": 5.15,
+        "score_prioridad": 23.68
+      }
+    ]
+  },
+  "justificacion_estrategica": {
+    "segmento_primario": {
+      "segmento": "Retail E-commerce Emergente - Latam",
+      "score_total": 8.275,
+      "justificacion": {
+        "razones_estrategicas": [
+          "Score de atractivo más alto (8.28/10)",
+          "Excelente ajuste de producto (8.5/10)",
+          "Alto crecimiento del mercado (9.5/10)",
+          "Buena accesibilidad (8.0/10)",
+          "Competencia moderada (7.0/10)"
+        ],
+        "ventajas_competitivas": [
+          "Alta probabilidad de éxito inicial",
+          "Ciclos de venta relativamente cortos",
+          "Alto potencial de referencias",
+          "Casos de uso claros y medibles",
+          "Alineación con perfil de cliente ideal"
+        ],
+        "estrategia_recomendada": [
+          "Enfoque en inbound marketing y contenido",
+          "Programa de early adopters con descuentos",
+          "Casos de estudio rápidos y virales",
+          "Partnerships con aceleradoras e incubadoras",
+          "Modelo de pricing flexible para startups"
+        ],
+        "metricas_clave": [
+          "Tasa de conversión objetivo: >15%",
+          "CAC objetivo: <$2,000",
+          "LTV objetivo: >$50,000",
+          "Tiempo de ciclo de venta: <60 días",
+          "NPS objetivo: >50"
+        ]
+      }
+    },
+    "segmento_secundario": {
+      "segmento": "Medianas Empresas Fintech - Global",
+      "score_total": 8.175,
+      "justificacion": {
+        "razones_estrategicas": [
+          "Segundo score más alto (8.18/10)",
+          "Tamaño de mercado significativo (8.5/10)",
+          "Presupuesto disponible (7.0/10)",
+          "Necesidad crítica del problema (Crítica (10))",
+          "Buen ajuste de producto (9.0/10)"
+        ],
+        "ventajas_competitivas": [
+          "Mayor valor de contrato promedio",
+          "Relaciones más estables a largo plazo",
+          "Oportunidades de upsell significativas",
+          "Referencias en industria regulada",
+          "Menor tasa de churn"
+        ],
+        "estrategia_recomendada": [
+          "Enfoque en ventas directas y consultivas",
+          "Contenido técnico y casos de estudio profundos",
+          "Programa de pilotos y pruebas de concepto",
+          "Partnerships con consultoras especializadas",
+          "Modelo de pricing enterprise con escalamiento"
+        ],
+        "metricas_clave": [
+          "Tasa de conversión objetivo: >8%",
+          "CAC objetivo: <$15,000",
+          "LTV objetivo: >$200,000",
+          "Tiempo de ciclo de venta: <120 días",
+          "NPS objetivo: >60"
+        ]
+      }
+    },
+    "complementariedad": {
+      "sinergias": [
+        "El segmento primario genera casos de estudio para el secundario",
+        "El segmento secundario valida el producto para el primario",
+        "Diversificación de riesgo entre segmentos",
+        "Oportunidades de cross-sell entre segmentos relacionados"
+      ],
+      "distribucion_recomendada": {
+        "segmento_primario": "60% de recursos de ventas y marketing",
+        "segmento_secundario": "40% de recursos de ventas y marketing"
+      },
+      "roadmap": [
+        "Año 1: Enfoque principal en segmento primario para validación rápida",
+        "Año 1-2: Desarrollo paralelo del segmento secundario",
+        "Año 2+: Optimización y expansión en ambos segmentos",
+        "Año 3+: Considerar segmentos adicionales basados en aprendizaje"
+      ]
+    }
+  },
+  "matriz_riesgo_oportunidad": {
+    "alta_oportunidad_bajo_riesgo": [
+      {
+        "segmento": "Tech Startups Innovadoras - Latam",
+        "score_oportunidad": 0.8699999999999999,
+        "score_riesgo": 0.23499999999999996,
+        "score_prioridad": 37.51
+      },
+      {
+        "segmento": "Medianas Empresas Fintech - Global",
+        "score_oportunidad": 0.865,
+        "score_riesgo": 0.23499999999999996,
+        "score_prioridad": 37.690000000000005
+      },
+      {
+        "segmento": "Enterprise Healthcare - Norte América",
+        "score_oportunidad": 0.79,
+        "score_riesgo": 0.31999999999999995,
+        "score_prioridad": 34.519999999999996
+      },
+      {
+        "segmento": "Retail E-commerce Emergente - Latam",
+        "score_oportunidad": 0.875,
+        "score_riesgo": 0.195,
+        "score_prioridad": 38.21000000000001
+      },
+      {
+        "segmento": "Consultorías Digitales - Europa",
+        "score_oportunidad": 0.735,
+        "score_riesgo": 0.29000000000000004,
+        "score_prioridad": 33.16
+      },
+      {
+        "segmento": "Manufacturing 4.0 - Asia-Pacífico",
+        "score_oportunidad": 0.8,
+        "score_riesgo": 0.28,
+        "score_prioridad": 35.040000000000006
+      },
+      {
+        "segmento": "EdTech Scale-ups - Global",
+        "score_oportunidad": 0.8400000000000001,
+        "score_riesgo": 0.23499999999999996,
+        "score_prioridad": 36.59
+      }
+    ],
+    "alta_oportunidad_alto_riesgo": [],
+    "baja_oportunidad_bajo_riesgo": [],
+    "baja_oportunidad_alto_riesgo": [
+      {
+        "segmento": "Enterprise Conservadoras - Global",
+        "score_oportunidad": 0.5650000000000001,
+        "score_riesgo": 0.59,
+        "score_prioridad": 23.68
+      }
+    ]
+  },
+  "canales_distribucion": {
+    "Tech Startups Innovadoras - Latam": {
+      "canales_recomendados": [
+        "Marketing digital y redes sociales",
+        "Partnerships con aceleradoras",
+        "Eventos y conferencias de startups",
+        "Content marketing y SEO",
+        "Expansión local con partners regionales"
+      ],
+      "prioridad": "Alta",
+      "presupuesto_estimado_mensual": 2500.0
+    },
+    "Medianas Empresas Fintech - Global": {
+      "canales_recomendados": [
+        "Ventas directas (inside sales)",
+        "Marketing digital B2B",
+        "Webinars y eventos virtuales",
+        "Partnerships estratégicos",
+        "Modelo multi-región con hubs locales"
+      ],
+      "prioridad": "Alta",
+      "presupuesto_estimado_mensual": 11250.0
+    },
+    "Enterprise Healthcare - Norte América": {
+      "canales_recomendados": [
+        "Ventas directas (field sales)",
+        "Partnerships con consultoras",
+        "Eventos enterprise y conferencias",
+        "Referencias y casos de estudio"
+      ],
+      "prioridad": "Alta",
+      "presupuesto_estimado_mensual": 20000.0
+    },
+    "Retail E-commerce Emergente - Latam": {
+      "canales_recomendados": [
+        "Ventas directas (inside sales)",
+        "Marketing digital B2B",
+        "Webinars y eventos virtuales",
+        "Partnerships estratégicos",
+        "Expansión local con partners regionales"
+      ],
+      "prioridad": "Alta",
+      "presupuesto_estimado_mensual": 7500.0
+    },
+    "Consultorías Digitales - Europa": {
+      "canales_recomendados": [
+        "Ventas directas (inside sales)",
+        "Marketing digital B2B",
+        "Webinars y eventos virtuales",
+        "Partnerships estratégicos"
+      ],
+      "prioridad": "Alta",
+      "presupuesto_estimado_mensual": 7500.0
+    },
+    "Manufacturing 4.0 - Asia-Pacífico": {
+      "canales_recomendados": [
+        "Ventas directas (inside sales)",
+        "Marketing digital B2B",
+        "Webinars y eventos virtuales",
+        "Partnerships estratégicos"
+      ],
+      "prioridad": "Alta",
+      "presupuesto_estimado_mensual": 12500.0
+    },
+    "EdTech Scale-ups - Global": {
+      "canales_recomendados": [
+        "Ventas directas (inside sales)",
+        "Marketing digital B2B",
+        "Webinars y eventos virtuales",
+        "Partnerships estratégicos",
+        "Modelo multi-región con hubs locales"
+      ],
+      "prioridad": "Alta",
+      "presupuesto_estimado_mensual": 11250.0
+    },
+    "Enterprise Conservadoras - Global": {
+      "canales_recomendados": [
+        "Ventas directas (field sales)",
+        "Partnerships con consultoras",
+        "Eventos enterprise y conferencias",
+        "Referencias y casos de estudio",
+        "Modelo multi-región con hubs locales"
+      ],
+      "prioridad": "Alta",
+      "presupuesto_estimado_mensual": 30000.0
+    }
+  },
+  "recomendaciones_pricing": {
+    "Tech Startups Innovadoras - Latam": {
+      "estrategia_pricing": [
+        "Modelo freemium o trial extendido",
+        "Pricing escalonado por uso",
+        "Descuentos para early adopters (30-50%)",
+        "Pago mensual flexible"
+      ],
+      "precio_base_anual_usd": 0,
+      "rango_recomendado": {
+        "minimo": 0,
+        "promedio": 0,
+        "maximo": 0
+      },
+      "modelo_recomendado": "SaaS mensual con escalamiento"
+    },
+    "Medianas Empresas Fintech - Global": {
+      "estrategia_pricing": [
+        "Pricing anual con descuento (15-20%)",
+        "Tiers claros (Starter, Professional, Enterprise)",
+        "Opciones de pago trimestral o anual",
+        "Upsell basado en features",
+        "Premium pricing justificado por valor crítico"
+      ],
+      "precio_base_anual_usd": 85000.0,
+      "rango_recomendado": {
+        "minimo": 59499.99999999999,
+        "promedio": 85000.0,
+        "maximo": 127500.0
+      },
+      "modelo_recomendado": "SaaS anual con tiers"
+    },
+    "Enterprise Healthcare - Norte América": {
+      "estrategia_pricing": [
+        "Pricing enterprise personalizado",
+        "Contratos multi-año con descuentos",
+        "Modelo basado en usuarios/volumen",
+        "Negociación directa con descuentos por volumen",
+        "Premium pricing justificado por valor crítico",
+        "Garantías y SLAs como parte del pricing"
+      ],
+      "precio_base_anual_usd": 0,
+      "rango_recomendado": {
+        "minimo": 0,
+        "promedio": 0,
+        "maximo": 0
+      },
+      "modelo_recomendado": "Enterprise custom pricing"
+    },
+    "Retail E-commerce Emergente - Latam": {
+      "estrategia_pricing": [
+        "Pricing anual con descuento (15-20%)",
+        "Tiers claros (Starter, Professional, Enterprise)",
+        "Opciones de pago trimestral o anual",
+        "Upsell basado en features"
+      ],
+      "precio_base_anual_usd": 25000.0,
+      "rango_recomendado": {
+        "minimo": 17500.0,
+        "promedio": 25000.0,
+        "maximo": 37500.0
+      },
+      "modelo_recomendado": "SaaS anual con tiers"
+    },
+    "Consultorías Digitales - Europa": {
+      "estrategia_pricing": [
+        "Pricing anual con descuento (15-20%)",
+        "Tiers claros (Starter, Professional, Enterprise)",
+        "Opciones de pago trimestral o anual",
+        "Upsell basado en features"
+      ],
+      "precio_base_anual_usd": 0,
+      "rango_recomendado": {
+        "minimo": 0,
+        "promedio": 0,
+        "maximo": 0
+      },
+      "modelo_recomendado": "SaaS anual con tiers"
+    },
+    "Manufacturing 4.0 - Asia-Pacífico": {
+      "estrategia_pricing": [
+        "Pricing enterprise personalizado",
+        "Contratos multi-año con descuentos",
+        "Modelo basado en usuarios/volumen",
+        "Negociación directa con descuentos por volumen"
+      ],
+      "precio_base_anual_usd": 0,
+      "rango_recomendado": {
+        "minimo": 0,
+        "promedio": 0,
+        "maximo": 0
+      },
+      "modelo_recomendado": "SaaS anual con tiers"
+    },
+    "EdTech Scale-ups - Global": {
+      "estrategia_pricing": [
+        "Pricing anual con descuento (15-20%)",
+        "Tiers claros (Starter, Professional, Enterprise)",
+        "Opciones de pago trimestral o anual",
+        "Upsell basado en features"
+      ],
+      "precio_base_anual_usd": 0,
+      "rango_recomendado": {
+        "minimo": 0,
+        "promedio": 0,
+        "maximo": 0
+      },
+      "modelo_recomendado": "SaaS anual con tiers"
+    },
+    "Enterprise Conservadoras - Global": {
+      "estrategia_pricing": [
+        "Pricing enterprise personalizado",
+        "Contratos multi-año con descuentos",
+        "Modelo basado en usuarios/volumen",
+        "Negociación directa con descuentos por volumen",
+        "Garantías y SLAs como parte del pricing"
+      ],
+      "precio_base_anual_usd": 0,
+      "rango_recomendado": {
+        "minimo": 0,
+        "promedio": 0,
+        "maximo": 0
+      },
+      "modelo_recomendado": "Enterprise custom pricing"
+    }
+  },
+  "tendencias_mercado": {
+    "por_industria": {
+      "Tecnología": [
+        {
+          "segmento": "Tech Startups Innovadoras - Latam",
+          "crecimiento": 9.0,
+          "oportunidad": 0.8699999999999999
+        }
+      ],
+      "Servicios Financieros": [
+        {
+          "segmento": "Medianas Empresas Fintech - Global",
+          "crecimiento": 8.5,
+          "oportunidad": 0.865
+        }
+      ],
+      "Salud y Farmacéutica": [
+        {
+          "segmento": "Enterprise Healthcare - Norte América",
+          "crecimiento": 7.0,
+          "oportunidad": 0.79
+        }
+      ],
+      "Retail y E-commerce": [
+        {
+          "segmento": "Retail E-commerce Emergente - Latam",
+          "crecimiento": 9.5,
+          "oportunidad": 0.875
+        }
+      ],
+      "Consultoría y Servicios Profesionales": [
+        {
+          "segmento": "Consultorías Digitales - Europa",
+          "crecimiento": 7.5,
+          "oportunidad": 0.735
+        }
+      ],
+      "Manufactura": [
+        {
+          "segmento": "Manufacturing 4.0 - Asia-Pacífico",
+          "crecimiento": 8.0,
+          "oportunidad": 0.8
+        }
+      ],
+      "Educación": [
+        {
+          "segmento": "EdTech Scale-ups - Global",
+          "crecimiento": 9.0,
+          "oportunidad": 0.8400000000000001
+        }
+      ],
+      "Energía y Utilities": [
+        {
+          "segmento": "Enterprise Conservadoras - Global",
+          "crecimiento": 4.0,
+          "oportunidad": 0.5650000000000001
+        }
+      ]
+    },
+    "por_geografia": {
+      "Latinoamérica": [
+        {
+          "segmento": "Tech Startups Innovadoras - Latam",
+          "crecimiento": 9.0,
+          "accesibilidad": 8.5
+        },
+        {
+          "segmento": "Retail E-commerce Emergente - Latam",
+          "crecimiento": 9.5,
+          "accesibilidad": 8.0
+        }
+      ],
+      "Global/Multi-región": [
+        {
+          "segmento": "Medianas Empresas Fintech - Global",
+          "crecimiento": 8.5,
+          "accesibilidad": 7.0
+        },
+        {
+          "segmento": "EdTech Scale-ups - Global",
+          "crecimiento": 9.0,
+          "accesibilidad": 8.5
+        },
+        {
+          "segmento": "Enterprise Conservadoras - Global",
+          "crecimiento": 4.0,
+          "accesibilidad": 3.0
+        }
+      ],
+      "Norte América": [
+        {
+          "segmento": "Enterprise Healthcare - Norte América",
+          "crecimiento": 7.0,
+          "accesibilidad": 5.0
+        }
+      ],
+      "Europa": [
+        {
+          "segmento": "Consultorías Digitales - Europa",
+          "crecimiento": 7.5,
+          "accesibilidad": 7.5
+        }
+      ],
+      "Asia-Pacífico": [
+        {
+          "segmento": "Manufacturing 4.0 - Asia-Pacífico",
+          "crecimiento": 8.0,
+          "accesibilidad": 6.0
+        }
+      ]
+    },
+    "por_tamano": {
+      "Startup (1-10)": [
+        {
+          "segmento": "Tech Startups Innovadoras - Latam",
+          "score_total": 8.125
+        }
+      ],
+      "Mediana (51-250)": [
+        {
+          "segmento": "Medianas Empresas Fintech - Global",
+          "score_total": 8.175
+        },
+        {
+          "segmento": "Retail E-commerce Emergente - Latam",
+          "score_total": 8.275
+        },
+        {
+          "segmento": "Consultorías Digitales - Europa",
+          "score_total": 7.199999999999999
+        },
+        {
+          "segmento": "EdTech Scale-ups - Global",
+          "score_total": 7.925000000000001
+        }
+      ],
+      "Enterprise (1000+)": [
+        {
+          "segmento": "Enterprise Healthcare - Norte América",
+          "score_total": 7.5
+        },
+        {
+          "segmento": "Enterprise Conservadoras - Global",
+          "score_total": 5.15
+        }
+      ],
+      "Grande (251-1000)": [
+        {
+          "segmento": "Manufacturing 4.0 - Asia-Pacífico",
+          "score_total": 7.6
+        }
+      ]
+    },
+    "insights": [
+      "Industria con mayor crecimiento promedio: Retail y E-commerce",
+      "Geografía más accesible: Latinoamérica",
+      "Recomendación: Enfoque en segmentos con alta urgencia y buen ajuste de producto",
+      "Oportunidad: Segmentos emergentes muestran mayor potencial de crecimiento"
+    ]
+  },
+  "dashboard_ejecutivo": {
+    "resumen_ejecutivo": {
+      "total_segmentos": 8,
+      "segmento_primario": "Retail E-commerce Emergente - Latam",
+      "segmento_secundario": "Medianas Empresas Fintech - Global",
+      "fecha_analisis": "2025-11-12 00:55:49"
+    },
+    "metricas_agregadas": {
+      "score_promedio": 7.493750000000001,
+      "score_maximo": 8.275,
+      "score_minimo": 5.15,
+      "segmentos_alta_prioridad": 8
+    },
+    "top_segmentos": [
+      {
+        "nombre": "Retail E-commerce Emergente - Latam",
+        "score": 8.275,
+        "oportunidad": 0.875,
+        "riesgo": 0.195
+      },
+      {
+        "nombre": "Medianas Empresas Fintech - Global",
+        "score": 8.175,
+        "oportunidad": 0.865,
+        "riesgo": 0.23499999999999996
+      },
+      {
+        "nombre": "Tech Startups Innovadoras - Latam",
+        "score": 8.125,
+        "oportunidad": 0.8699999999999999,
+        "riesgo": 0.23499999999999996
+      }
+    ],
+    "alertas": [
+      {
+        "tipo": "Alto Riesgo",
+        "segmento": "Enterprise Conservadoras - Global",
+        "mensaje": "Segmento con alto riesgo (0.59). Requiere estrategia especial."
+      },
+      {
+        "tipo": "Baja Oportunidad",
+        "segmento": "Enterprise Conservadoras - Global",
+        "mensaje": "Segmento con baja oportunidad (0.57). Considerar baja prioridad."
+      }
+    ]
+  },
+  "analisis_predictivo": {
+    "Medianas Empresas Fintech - Global": {
+      "mercado": [
+        {
+          "ano": 1,
+          "tam_proyectado": 3904.0,
+          "crecimiento_anual": 22.0
+        },
+        {
+          "ano": 2,
+          "tam_proyectado": 4762.88,
+          "crecimiento_anual": 22.0
+        },
+        {
+          "ano": 3,
+          "tam_proyectado": 5810.7136,
+          "crecimiento_anual": 22.0
+        }
+      ],
+      "ingresos": [
+        {
+          "ano": 1,
+          "ingresos_proyectados": 468.47999999999996,
+          "penetracion": 12.0,
+          "crecimiento_vs_anterior": 0
+        },
+        {
+          "ano": 2,
+          "ingresos_proyectados": 685.8547199999999,
+          "penetracion": 14.399999999999999,
+          "crecimiento_vs_anterior": 46.4
+        },
+        {
+          "ano": 3,
+          "ingresos_proyectados": 1004.0913100799999,
+          "penetracion": 17.279999999999998,
+          "crecimiento_vs_anterior": 46.4
+        }
+      ],
+      "tam_actual": 3200.0,
+      "crecimiento_anual": 22.0,
+      "valor_presente_3anos": 2158.4260300799997
+    },
+    "Retail E-commerce Emergente - Latam": {
+      "mercado": [
+        {
+          "ano": 1,
+          "tam_proyectado": 5625.0,
+          "crecimiento_anual": 25.0
+        },
+        {
+          "ano": 2,
+          "tam_proyectado": 7031.25,
+          "crecimiento_anual": 25.0
+        },
+        {
+          "ano": 3,
+          "tam_proyectado": 8789.0625,
+          "crecimiento_anual": 25.0
+        }
+      ],
+      "ingresos": [
+        {
+          "ano": 1,
+          "ingresos_proyectados": 675.0,
+          "penetracion": 12.0,
+          "crecimiento_vs_anterior": 0
+        },
+        {
+          "ano": 2,
+          "ingresos_proyectados": 1012.4999999999999,
+          "penetracion": 14.399999999999999,
+          "crecimiento_vs_anterior": 49.99999999999998
+        },
+        {
+          "ano": 3,
+          "ingresos_proyectados": 1518.7499999999998,
+          "penetracion": 17.279999999999998,
+          "crecimiento_vs_anterior": 50.0
+        }
+      ],
+      "tam_actual": 4500.0,
+      "crecimiento_anual": 25.0,
+      "valor_presente_3anos": 3206.25
+    }
+  },
+  "matriz_bcg": {
+    "estrellas": [
+      {
+        "nombre": "Tech Startups Innovadoras - Latam",
+        "crecimiento": 9.0,
+        "cuota_relativa": 0.9818731117824773,
+        "score_total": 8.125
+      },
+      {
+        "nombre": "Medianas Empresas Fintech - Global",
+        "crecimiento": 8.5,
+        "cuota_relativa": 0.9879154078549849,
+        "score_total": 8.175
+      },
+      {
+        "nombre": "Retail E-commerce Emergente - Latam",
+        "crecimiento": 9.5,
+        "cuota_relativa": 1.0,
+        "score_total": 8.275
+      },
+      {
+        "nombre": "Consultorías Digitales - Europa",
+        "crecimiento": 7.5,
+        "cuota_relativa": 0.8700906344410875,
+        "score_total": 7.199999999999999
+      },
+      {
+        "nombre": "Manufacturing 4.0 - Asia-Pacífico",
+        "crecimiento": 8.0,
+        "cuota_relativa": 0.9184290030211479,
+        "score_total": 7.6
+      },
+      {
+        "nombre": "EdTech Scale-ups - Global",
+        "crecimiento": 9.0,
+        "cuota_relativa": 0.9577039274924471,
+        "score_total": 7.925000000000001
+      }
+    ],
+    "vacas_lecheras": [
+      {
+        "nombre": "Enterprise Healthcare - Norte América",
+        "crecimiento": 7.0,
+        "cuota_relativa": 0.9063444108761329,
+        "score_total": 7.5
+      }
+    ],
+    "interrogantes": [],
+    "perros": [
+      {
+        "nombre": "Enterprise Conservadoras - Global",
+        "crecimiento": 4.0,
+        "cuota_relativa": 0.622356495468278,
+        "score_total": 5.15
+      }
+    ]
+  },
+  "analisis_sinergias": {
+    "total_sinergias": 1,
+    "sinergias": [
+      {
+        "segmento_1": "Tech Startups Innovadoras - Latam",
+        "segmento_2": "Retail E-commerce Emergente - Latam",
+        "score_sinergia": 0.55,
+        "tipo_sinergia": "Geográfica (misma región)",
+        "oportunidades": [
+          "Compartir recursos de marketing local",
+          "Eventos conjuntos en la región",
+          "Upsell de segmento pequeño a grande",
+          "Programa de crecimiento con clientes"
+        ]
+      }
+    ]
+  },
+  "plan_accion": {
+    "resumen": {
+      "segmento_primario": "Retail E-commerce Emergente - Latam",
+      "segmento_secundario": "Medianas Empresas Fintech - Global",
+      "prioridad_total": 8
+    },
+    "acciones_inmediatas": [
+      "Validar product-market fit con Retail E-commerce Emergente - Latam",
+      "Identificar primeros 10 prospectos en Retail E-commerce Emergente - Latam",
+      "Desarrollar materiales de marketing para Retail E-commerce Emergente - Latam",
+      "Configurar tracking de métricas clave para Retail E-commerce Emergente - Latam"
+    ],
+    "acciones_3_meses": [
+      "Lanzar campaña de marketing inicial",
+      "Cerrar primeros 5 clientes",
+      "Generar primeros casos de estudio",
+      "Optimizar proceso de ventas basado en feedback"
+    ],
+    "acciones_6_meses": [
+      "Escalar canales exitosos",
+      "Desarrollar programa de referencias",
+      "Expandir a segmento secundario",
+      "Optimizar unidad económica"
+    ],
+    "acciones_12_meses": [
+      "Alcanzar objetivos de ingresos",
+      "Establecer posición de mercado",
+      "Desarrollar ventajas competitivas sostenibles",
+      "Evaluar expansión a nuevos segmentos"
+    ],
+    "recursos_necesarios": {
+      "presupuesto_marketing_mensual": 7500.0,
+      "equipo_ventas": "5-7 personas",
+      "presupuesto_cac": 2400.0,
+      "tiempo_estimado_roi": "0 meses"
+    },
+    "riesgos_y_mitigacion": [
+      {
+        "riesgo": "Alto CAC",
+        "mitigacion": "Optimizar canales de adquisición, mejorar tasa de conversión"
+      },
+      {
+        "riesgo": "Baja tasa de conversión",
+        "mitigacion": "Mejorar mensaje, ajustar pricing, optimizar proceso de ventas"
+      },
+      {
+        "riesgo": "Competencia intensa",
+        "mitigacion": "Diferenciación clara, enfoque en nicho, mejorar producto"
+      }
+    ]
+  },
+  "analisis_cohortes": {
+    "por_industria": {
+      "Tecnología": [
+        {
+          "nombre": "Tech Startups Innovadoras - Latam",
+          "score": 8.125,
+          "oportunidad": 0.8699999999999999,
+          "riesgo": 0.23499999999999996
+        }
+      ],
+      "Servicios Financieros": [
+        {
+          "nombre": "Medianas Empresas Fintech - Global",
+          "score": 8.175,
+          "oportunidad": 0.865,
+          "riesgo": 0.23499999999999996
+        }
+      ],
+      "Salud y Farmacéutica": [
+        {
+          "nombre": "Enterprise Healthcare - Norte América",
+          "score": 7.5,
+          "oportunidad": 0.79,
+          "riesgo": 0.31999999999999995
+        }
+      ],
+      "Retail y E-commerce": [
+        {
+          "nombre": "Retail E-commerce Emergente - Latam",
+          "score": 8.275,
+          "oportunidad": 0.875,
+          "riesgo": 0.195
+        }
+      ],
+      "Consultoría y Servicios Profesionales": [
+        {
+          "nombre": "Consultorías Digitales - Europa",
+          "score": 7.199999999999999,
+          "oportunidad": 0.735,
+          "riesgo": 0.29000000000000004
+        }
+      ],
+      "Manufactura": [
+        {
+          "nombre": "Manufacturing 4.0 - Asia-Pacífico",
+          "score": 7.6,
+          "oportunidad": 0.8,
+          "riesgo": 0.28
+        }
+      ],
+      "Educación": [
+        {
+          "nombre": "EdTech Scale-ups - Global",
+          "score": 7.925000000000001,
+          "oportunidad": 0.8400000000000001,
+          "riesgo": 0.23499999999999996
+        }
+      ],
+      "Energía y Utilities": [
+        {
+          "nombre": "Enterprise Conservadoras - Global",
+          "score": 5.15,
+          "oportunidad": 0.5650000000000001,
+          "riesgo": 0.59
+        }
+      ]
+    },
+    "por_geografia": {
+      "Latinoamérica": [
+        {
+          "nombre": "Tech Startups Innovadoras - Latam",
+          "score": 8.125,
+          "crecimiento": 9.0
+        },
+        {
+          "nombre": "Retail E-commerce Emergente - Latam",
+          "score": 8.275,
+          "crecimiento": 9.5
+        }
+      ],
+      "Global/Multi-región": [
+        {
+          "nombre": "Medianas Empresas Fintech - Global",
+          "score": 8.175,
+          "crecimiento": 8.5
+        },
+        {
+          "nombre": "EdTech Scale-ups - Global",
+          "score": 7.925000000000001,
+          "crecimiento": 9.0
+        },
+        {
+          "nombre": "Enterprise Conservadoras - Global",
+          "score": 5.15,
+          "crecimiento": 4.0
+        }
+      ],
+      "Norte América": [
+        {
+          "nombre": "Enterprise Healthcare - Norte América",
+          "score": 7.5,
+          "crecimiento": 7.0
+        }
+      ],
+      "Europa": [
+        {
+          "nombre": "Consultorías Digitales - Europa",
+          "score": 7.199999999999999,
+          "crecimiento": 7.5
+        }
+      ],
+      "Asia-Pacífico": [
+        {
+          "nombre": "Manufacturing 4.0 - Asia-Pacífico",
+          "score": 7.6,
+          "crecimiento": 8.0
+        }
+      ]
+    },
+    "por_tamano": {
+      "Startup (1-10)": [
+        {
+          "nombre": "Tech Startups Innovadoras - Latam",
+          "score": 8.125,
+          "precio": 0
+        }
+      ],
+      "Mediana (51-250)": [
+        {
+          "nombre": "Medianas Empresas Fintech - Global",
+          "score": 8.175,
+          "precio": 85000.0
+        },
+        {
+          "nombre": "Retail E-commerce Emergente - Latam",
+          "score": 8.275,
+          "precio": 25000.0
+        },
+        {
+          "nombre": "Consultorías Digitales - Europa",
+          "score": 7.199999999999999,
+          "precio": 0
+        },
+        {
+          "nombre": "EdTech Scale-ups - Global",
+          "score": 7.925000000000001,
+          "precio": 0
+        }
+      ],
+      "Enterprise (1000+)": [
+        {
+          "nombre": "Enterprise Healthcare - Norte América",
+          "score": 7.5,
+          "precio": 0
+        },
+        {
+          "nombre": "Enterprise Conservadoras - Global",
+          "score": 5.15,
+          "precio": 0
+        }
+      ],
+      "Grande (251-1000)": [
+        {
+          "nombre": "Manufacturing 4.0 - Asia-Pacífico",
+          "score": 7.6,
+          "precio": 0
+        }
+      ]
+    },
+    "por_urgencia": {
+      "Alta (7-9)": [
+        {
+          "nombre": "Tech Startups Innovadoras - Latam",
+          "score": 8.125,
+          "ajuste_producto": 9.5
+        },
+        {
+          "nombre": "Retail E-commerce Emergente - Latam",
+          "score": 8.275,
+          "ajuste_producto": 8.5
+        },
+        {
+          "nombre": "Manufacturing 4.0 - Asia-Pacífico",
+          "score": 7.6,
+          "ajuste_producto": 7.0
+        },
+        {
+          "nombre": "EdTech Scale-ups - Global",
+          "score": 7.925000000000001,
+          "ajuste_producto": 9.0
+        }
+      ],
+      "Crítica (10)": [
+        {
+          "nombre": "Medianas Empresas Fintech - Global",
+          "score": 8.175,
+          "ajuste_producto": 9.0
+        },
+        {
+          "nombre": "Enterprise Healthcare - Norte América",
+          "score": 7.5,
+          "ajuste_producto": 7.5
+        }
+      ],
+      "Media (4-6)": [
+        {
+          "nombre": "Consultorías Digitales - Europa",
+          "score": 7.199999999999999,
+          "ajuste_producto": 8.0
+        }
+      ],
+      "Baja (1-3)": [
+        {
+          "nombre": "Enterprise Conservadoras - Global",
+          "score": 5.15,
+          "ajuste_producto": 4.0
+        }
+      ]
+    },
+    "metricas_cohortes": {
+      "por_industria": {
+        "Tecnología": {
+          "cantidad": 1,
+          "score_promedio": 8.125,
+          "score_maximo": 8.125,
+          "score_minimo": 8.125
+        },
+        "Servicios Financieros": {
+          "cantidad": 1,
+          "score_promedio": 8.175,
+          "score_maximo": 8.175,
+          "score_minimo": 8.175
+        },
+        "Salud y Farmacéutica": {
+          "cantidad": 1,
+          "score_promedio": 7.5,
+          "score_maximo": 7.5,
+          "score_minimo": 7.5
+        },
+        "Retail y E-commerce": {
+          "cantidad": 1,
+          "score_promedio": 8.275,
+          "score_maximo": 8.275,
+          "score_minimo": 8.275
+        },
+        "Consultoría y Servicios Profesionales": {
+          "cantidad": 1,
+          "score_promedio": 7.199999999999999,
+          "score_maximo": 7.199999999999999,
+          "score_minimo": 7.199999999999999
+        },
+        "Manufactura": {
+          "cantidad": 1,
+          "score_promedio": 7.6,
+          "score_maximo": 7.6,
+          "score_minimo": 7.6
+        },
+        "Educación": {
+          "cantidad": 1,
+          "score_promedio": 7.925000000000001,
+          "score_maximo": 7.925000000000001,
+          "score_minimo": 7.925000000000001
+        },
+        "Energía y Utilities": {
+          "cantidad": 1,
+          "score_promedio": 5.15,
+          "score_maximo": 5.15,
+          "score_minimo": 5.15
+        }
+      },
+      "por_geografia": {
+        "Latinoamérica": {
+          "cantidad": 2,
+          "score_promedio": 8.2,
+          "score_maximo": 8.275,
+          "score_minimo": 8.125
+        },
+        "Global/Multi-región": {
+          "cantidad": 3,
+          "score_promedio": 7.083333333333333,
+          "score_maximo": 8.175,
+          "score_minimo": 5.15
+        },
+        "Norte América": {
+          "cantidad": 1,
+          "score_promedio": 7.5,
+          "score_maximo": 7.5,
+          "score_minimo": 7.5
+        },
+        "Europa": {
+          "cantidad": 1,
+          "score_promedio": 7.199999999999999,
+          "score_maximo": 7.199999999999999,
+          "score_minimo": 7.199999999999999
+        },
+        "Asia-Pacífico": {
+          "cantidad": 1,
+          "score_promedio": 7.6,
+          "score_maximo": 7.6,
+          "score_minimo": 7.6
+        }
+      },
+      "por_tamano": {
+        "Startup (1-10)": {
+          "cantidad": 1,
+          "score_promedio": 8.125,
+          "score_maximo": 8.125,
+          "score_minimo": 8.125
+        },
+        "Mediana (51-250)": {
+          "cantidad": 4,
+          "score_promedio": 7.893750000000001,
+          "score_maximo": 8.275,
+          "score_minimo": 7.199999999999999
+        },
+        "Enterprise (1000+)": {
+          "cantidad": 2,
+          "score_promedio": 6.325,
+          "score_maximo": 7.5,
+          "score_minimo": 5.15
+        },
+        "Grande (251-1000)": {
+          "cantidad": 1,
+          "score_promedio": 7.6,
+          "score_maximo": 7.6,
+          "score_minimo": 7.6
+        }
+      },
+      "por_urgencia": {
+        "Alta (7-9)": {
+          "cantidad": 4,
+          "score_promedio": 7.98125,
+          "score_maximo": 8.275,
+          "score_minimo": 7.6
+        },
+        "Crítica (10)": {
+          "cantidad": 2,
+          "score_promedio": 7.8375,
+          "score_maximo": 8.175,
+          "score_minimo": 7.5
+        },
+        "Media (4-6)": {
+          "cantidad": 1,
+          "score_promedio": 7.199999999999999,
+          "score_maximo": 7.199999999999999,
+          "score_minimo": 7.199999999999999
+        },
+        "Baja (1-3)": {
+          "cantidad": 1,
+          "score_promedio": 5.15,
+          "score_maximo": 5.15,
+          "score_minimo": 5.15
+        }
+      }
+    }
+  },
+  "recomendaciones_partnerships": {
+    "Tech Startups Innovadoras - Latam": {
+      "partnerships_recomendados": [
+        "Aceleradoras e incubadoras",
+        "Venture capital firms",
+        "Comunidades de startups",
+        "Influencers del ecosistema startup",
+        "Partners locales con conocimiento regional"
+      ],
+      "tipo_partnership": "Ecosystem partnerships (aceleradoras, VCs)",
+      "valor_esperado": "Alto - Potencial de aceleración significativa"
+    },
+    "Medianas Empresas Fintech - Global": {
+      "partnerships_recomendados": [
+        "Consultoras especializadas en la industria",
+        "Integradores de sistemas",
+        "Agencias de marketing B2B",
+        "Plataformas de marketplace",
+        "Instituciones financieras y bancos",
+        "Partners multi-región con presencia global"
+      ],
+      "tipo_partnership": "Solution partnerships (integradores, consultoras)",
+      "valor_esperado": "Alto - Potencial de aceleración significativa"
+    },
+    "Enterprise Healthcare - Norte América": {
+      "partnerships_recomendados": [
+        "Grandes consultoras (Big 4)",
+        "Vendors enterprise establecidos",
+        "Asociaciones de industria",
+        "Eventos y conferencias enterprise",
+        "Hospitales y sistemas de salud"
+      ],
+      "tipo_partnership": "Solution partnerships (integradores, consultoras)",
+      "valor_esperado": "Medio-Alto - Beneficio claro para crecimiento"
+    },
+    "Retail E-commerce Emergente - Latam": {
+      "partnerships_recomendados": [
+        "Consultoras especializadas en la industria",
+        "Integradores de sistemas",
+        "Agencias de marketing B2B",
+        "Plataformas de marketplace",
+        "Plataformas de e-commerce y marketplaces",
+        "Partners locales con conocimiento regional"
+      ],
+      "tipo_partnership": "Strategic partnerships (complementarios)",
+      "valor_esperado": "Alto - Potencial de aceleración significativa"
+    },
+    "Consultorías Digitales - Europa": {
+      "partnerships_recomendados": [
+        "Consultoras especializadas en la industria",
+        "Integradores de sistemas",
+        "Agencias de marketing B2B",
+        "Plataformas de marketplace"
+      ],
+      "tipo_partnership": "Strategic partnerships (complementarios)",
+      "valor_esperado": "Medio-Alto - Beneficio claro para crecimiento"
+    },
+    "Manufacturing 4.0 - Asia-Pacífico": {
+      "partnerships_recomendados": [
+        "Grandes consultoras (Big 4)",
+        "Vendors enterprise establecidos",
+        "Asociaciones de industria",
+        "Eventos y conferencias enterprise"
+      ],
+      "tipo_partnership": "Strategic partnerships (complementarios)",
+      "valor_esperado": "Medio-Alto - Beneficio claro para crecimiento"
+    },
+    "EdTech Scale-ups - Global": {
+      "partnerships_recomendados": [
+        "Consultoras especializadas en la industria",
+        "Integradores de sistemas",
+        "Agencias de marketing B2B",
+        "Plataformas de marketplace",
+        "Partners multi-región con presencia global"
+      ],
+      "tipo_partnership": "Channel partnerships (distribuidores, resellers)",
+      "valor_esperado": "Medio-Alto - Beneficio claro para crecimiento"
+    },
+    "Enterprise Conservadoras - Global": {
+      "partnerships_recomendados": [
+        "Grandes consultoras (Big 4)",
+        "Vendors enterprise establecidos",
+        "Asociaciones de industria",
+        "Eventos y conferencias enterprise",
+        "Partners multi-región con presencia global"
+      ],
+      "tipo_partnership": "Channel partnerships (distribuidores, resellers)",
+      "valor_esperado": "Medio - Beneficio moderado"
+    }
+  },
+  "analisis_mercado_total": {
+    "tam_total": 23000.0,
+    "sam_total": 7700.0,
+    "som_total": 770.0,
+    "segmentos_con_metricas": 2,
+    "crecimiento_promedio": 23.5,
+    "penetracion_actual": 10.0,
+    "oportunidad_crecimiento": 6930.0,
+    "evaluacion": {
+      "tamano_mercado": "Muy Grande",
+      "oportunidad": "Excelente",
+      "recomendacion": "Mercado con gran oportunidad de crecimiento. Enfoque en expansión agresiva."
+    }
+  },
+  "matriz_priorizacion_mejorada": {
+    "alta_prioridad": [
+      {
+        "nombre": "Retail E-commerce Emergente - Latam",
+        "score_prioridad": 36.702000000000005,
+        "score_atractivo": 8.275,
+        "score_oportunidad": 0.875,
+        "score_riesgo": 0.195,
+        "recomendacion": "Prioridad máxima - Enfoque inmediato"
+      },
+      {
+        "nombre": "Medianas Empresas Fintech - Global",
+        "score_prioridad": 36.188,
+        "score_atractivo": 8.175,
+        "score_oportunidad": 0.865,
+        "score_riesgo": 0.23499999999999996,
+        "recomendacion": "Prioridad máxima - Enfoque inmediato"
+      },
+      {
+        "nombre": "Tech Startups Innovadoras - Latam",
+        "score_prioridad": 36.017,
+        "score_atractivo": 8.125,
+        "score_oportunidad": 0.8699999999999999,
+        "score_riesgo": 0.23499999999999996,
+        "recomendacion": "Prioridad máxima - Enfoque inmediato"
+      },
+      {
+        "nombre": "EdTech Scale-ups - Global",
+        "score_prioridad": 35.143,
+        "score_atractivo": 7.925000000000001,
+        "score_oportunidad": 0.8400000000000001,
+        "score_riesgo": 0.23499999999999996,
+        "recomendacion": "Prioridad máxima - Enfoque inmediato"
+      },
+      {
+        "nombre": "Manufacturing 4.0 - Asia-Pacífico",
+        "score_prioridad": 33.647999999999996,
+        "score_atractivo": 7.6,
+        "score_oportunidad": 0.8,
+        "score_riesgo": 0.28,
+        "recomendacion": "Prioridad máxima - Enfoque inmediato"
+      },
+      {
+        "nombre": "Enterprise Healthcare - Norte América",
+        "score_prioridad": 33.134,
+        "score_atractivo": 7.5,
+        "score_oportunidad": 0.79,
+        "score_riesgo": 0.31999999999999995,
+        "recomendacion": "Prioridad máxima - Enfoque inmediato"
+      },
+      {
+        "nombre": "Consultorías Digitales - Europa",
+        "score_prioridad": 31.857,
+        "score_atractivo": 7.199999999999999,
+        "score_oportunidad": 0.735,
+        "score_riesgo": 0.29000000000000004,
+        "recomendacion": "Prioridad máxima - Enfoque inmediato"
+      },
+      {
+        "nombre": "Enterprise Conservadoras - Global",
+        "score_prioridad": 22.701,
+        "score_atractivo": 5.15,
+        "score_oportunidad": 0.5650000000000001,
+        "score_riesgo": 0.59,
+        "recomendacion": "Prioridad máxima - Enfoque inmediato"
+      }
+    ],
+    "media_alta_prioridad": [],
+    "media_prioridad": [],
+    "baja_prioridad": []
+  },
+  "analisis_inversion_recomendada": {
+    "total_segmentos": 8,
+    "inversiones_recomendadas": [
+      {
+        "segmento": "Medianas Empresas Fintech - Global",
+        "inversion_recomendada": 35294.11764705882,
+        "roi_esperado_3anos": 228.9750907162842,
+        "payback_ano": 2,
+        "evaluacion": "Excelente",
+        "recomendacion": "Inversión altamente recomendada - ROI excelente"
+      },
+      {
+        "segmento": "Retail E-commerce Emergente - Latam",
+        "inversion_recomendada": 20000.0,
+        "roi_esperado_3anos": 224.2517558896254,
+        "payback_ano": 2,
+        "evaluacion": "Excelente",
+        "recomendacion": "Inversión altamente recomendada - ROI excelente"
+      },
+      {
+        "segmento": "EdTech Scale-ups - Global",
+        "inversion_recomendada": 24000.0,
+        "roi_esperado_3anos": 223.02670354082602,
+        "payback_ano": 2,
+        "evaluacion": "Excelente",
+        "recomendacion": "Inversión altamente recomendada - ROI excelente"
+      },
+      {
+        "segmento": "Tech Startups Innovadoras - Latam",
+        "inversion_recomendada": 6000.0,
+        "roi_esperado_3anos": 220.5488696434597,
+        "payback_ano": 2,
+        "evaluacion": "Excelente",
+        "recomendacion": "Inversión altamente recomendada - ROI excelente"
+      },
+      {
+        "segmento": "Manufacturing 4.0 - Asia-Pacífico",
+        "inversion_recomendada": 100000.0,
+        "roi_esperado_3anos": 219.1886510701842,
+        "payback_ano": 2,
+        "evaluacion": "Excelente",
+        "recomendacion": "Inversión altamente recomendada - ROI excelente"
+      },
+      {
+        "segmento": "Consultorías Digitales - Europa",
+        "inversion_recomendada": 35000.0,
+        "roi_esperado_3anos": 218.51286158660383,
+        "payback_ano": 2,
+        "evaluacion": "Excelente",
+        "recomendacion": "Inversión altamente recomendada - ROI excelente"
+      },
+      {
+        "segmento": "Enterprise Healthcare - Norte América",
+        "inversion_recomendada": 300000.0,
+        "roi_esperado_3anos": 217.50452583205683,
+        "payback_ano": 2,
+        "evaluacion": "Excelente",
+        "recomendacion": "Inversión altamente recomendada - ROI excelente"
+      },
+      {
+        "segmento": "Enterprise Conservadoras - Global",
+        "inversion_recomendada": 1050000.0,
+        "roi_esperado_3anos": 183.81153917968507,
+        "payback_ano": 2,
+        "evaluacion": "Muy Bueno",
+        "recomendacion": "Inversión altamente recomendada - ROI excelente"
+      }
+    ],
+    "inversion_total_recomendada": 1570294.1176470588,
+    "top_3_inversiones": [
+      {
+        "segmento": "Medianas Empresas Fintech - Global",
+        "inversion_recomendada": 35294.11764705882,
+        "roi_esperado_3anos": 228.9750907162842,
+        "payback_ano": 2,
+        "evaluacion": "Excelente",
+        "recomendacion": "Inversión altamente recomendada - ROI excelente"
+      },
+      {
+        "segmento": "Retail E-commerce Emergente - Latam",
+        "inversion_recomendada": 20000.0,
+        "roi_esperado_3anos": 224.2517558896254,
+        "payback_ano": 2,
+        "evaluacion": "Excelente",
+        "recomendacion": "Inversión altamente recomendada - ROI excelente"
+      },
+      {
+        "segmento": "EdTech Scale-ups - Global",
+        "inversion_recomendada": 24000.0,
+        "roi_esperado_3anos": 223.02670354082602,
+        "payback_ano": 2,
+        "evaluacion": "Excelente",
+        "recomendacion": "Inversión altamente recomendada - ROI excelente"
+      }
+    ]
+  },
+  "analisis_riesgo_financiero": {
+    "total_segmentos": 8,
+    "riesgos": [
+      {
+        "segmento": "Tech Startups Innovadoras - Latam",
+        "nivel_riesgo": "Bajo",
+        "score_riesgo": 0,
+        "ratio_ltv_cac": 1111.1111111111118,
+        "payback_meses": 0.07200000000000001,
+        "margen_porcentaje": 69.39999999999999,
+        "mitigaciones": []
+      },
+      {
+        "segmento": "Medianas Empresas Fintech - Global",
+        "nivel_riesgo": "Bajo",
+        "score_riesgo": 0,
+        "ratio_ltv_cac": 5666.666666666668,
+        "payback_meses": 0.021176470588235297,
+        "margen_porcentaje": 69.82352941176471,
+        "mitigaciones": []
+      },
+      {
+        "segmento": "Enterprise Healthcare - Norte América",
+        "nivel_riesgo": "Bajo",
+        "score_riesgo": 0,
+        "ratio_ltv_cac": 2666.6666666666642,
+        "payback_meses": 0.09,
+        "margen_porcentaje": 69.25,
+        "mitigaciones": []
+      },
+      {
+        "segmento": "Retail E-commerce Emergente - Latam",
+        "nivel_riesgo": "Bajo",
+        "score_riesgo": 0,
+        "ratio_ltv_cac": 1388.8888888888898,
+        "payback_meses": 0.0576,
+        "margen_porcentaje": 69.52000000000001,
+        "mitigaciones": []
+      },
+      {
+        "segmento": "Consultorías Digitales - Europa",
+        "nivel_riesgo": "Bajo",
+        "score_riesgo": 0,
+        "ratio_ltv_cac": 714.2857142857144,
+        "payback_meses": 0.084,
+        "margen_porcentaje": 69.3,
+        "mitigaciones": []
+      },
+      {
+        "segmento": "Manufacturing 4.0 - Asia-Pacífico",
+        "nivel_riesgo": "Bajo",
+        "score_riesgo": 0,
+        "ratio_ltv_cac": 1000.0000000000006,
+        "payback_meses": 0.08,
+        "margen_porcentaje": 69.33333333333334,
+        "mitigaciones": []
+      },
+      {
+        "segmento": "EdTech Scale-ups - Global",
+        "nivel_riesgo": "Bajo",
+        "score_riesgo": 0,
+        "ratio_ltv_cac": 1388.8888888888898,
+        "payback_meses": 0.0576,
+        "margen_porcentaje": 69.52000000000001,
+        "mitigaciones": []
+      },
+      {
+        "segmento": "Enterprise Conservadoras - Global",
+        "nivel_riesgo": "Bajo",
+        "score_riesgo": 0,
+        "ratio_ltv_cac": 253.96825396825412,
+        "payback_meses": 0.315,
+        "margen_porcentaje": 67.375,
+        "mitigaciones": []
+      }
+    ],
+    "resumen": {
+      "alto_riesgo": 0,
+      "medio_riesgo": 0,
+      "bajo_riesgo": 8
+    }
+  },
+  "analisis_competencia_comparativa": {
+    "segmentos_por_intensidad_competitiva": {
+      "baja": [],
+      "media": [],
+      "alta": [
+        {
+          "segmento": "Medianas Empresas Fintech - Global",
+          "intensidad": 7.0,
+          "competidores": 8
+        },
+        {
+          "segmento": "Retail E-commerce Emergente - Latam",
+          "intensidad": 7.5,
+          "competidores": 12
+        }
+      ]
+    },
+    "segmentos_por_diferenciacion": {
+      "alta": [
+        {
+          "segmento": "Medianas Empresas Fintech - Global",
+          "diferenciacion": 8.5,
+          "oportunidad": "Alta oportunidad de diferenciación"
+        },
+        {
+          "segmento": "Retail E-commerce Emergente - Latam",
+          "diferenciacion": 8.0,
+          "oportunidad": "Alta oportunidad de diferenciación"
+        }
+      ],
+      "media": [],
+      "baja": []
+    },
+    "recomendaciones_competitivas": [
+      "Enfoque en segmentos con alta diferenciación: Medianas Empresas Fintech - Global, Retail E-commerce Emergente - Latam"
+    ]
+  },
+  "analisis_tendencias_temporales": {
+    "proyeccion_mercado": {
+      "ano_1": {
+        "tam": 28510.0,
+        "sam": 9529.0,
+        "som": 952.9,
+        "crecimiento_vs_anterior": 0
+      },
+      "ano_2": {
+        "tam": 35344.7,
+        "sam": 11794.130000000001,
+        "som": 1179.413,
+        "crecimiento_vs_anterior": 23.770909854129506
+      },
+      "ano_3": {
+        "tam": 43823.659,
+        "sam": 14599.7761,
+        "som": 1459.97761,
+        "crecimiento_vs_anterior": 23.788495632997076
+      },
+      "ano_4": {
+        "tam": 54343.770229999995,
+        "sam": 18075.398717,
+        "som": 1807.5398716999998,
+        "crecimiento_vs_anterior": 23.805999442690084
+      },
+      "ano_5": {
+        "tam": 67398.03249309999,
+        "sam": 22381.57627849,
+        "som": 2238.157627849,
+        "crecimiento_vs_anterior": 23.82341672739987
+      }
+    },
+    "evolucion_segmentos": {
+      "Medianas Empresas Fintech - Global": [
+        {
+          "ano": 1,
+          "mercado": 3904.0,
+          "penetracion": 12.0,
+          "ingresos_potenciales": 468.47999999999996
+        },
+        {
+          "ano": 2,
+          "mercado": 4762.88,
+          "penetracion": 14.0,
+          "ingresos_potenciales": 666.8032000000001
+        },
+        {
+          "ano": 3,
+          "mercado": 5810.7136,
+          "penetracion": 16.0,
+          "ingresos_potenciales": 929.7141760000001
+        },
+        {
+          "ano": 4,
+          "mercado": 7089.070591999999,
+          "penetracion": 18.0,
+          "ingresos_potenciales": 1276.0327065599997
+        },
+        {
+          "ano": 5,
+          "mercado": 8648.666122239998,
+          "penetracion": 20.0,
+          "ingresos_potenciales": 1729.7332244479996
+        }
+      ],
+      "Retail E-commerce Emergente - Latam": [
+        {
+          "ano": 1,
+          "mercado": 5625.0,
+          "penetracion": 12.0,
+          "ingresos_potenciales": 675.0
+        },
+        {
+          "ano": 2,
+          "mercado": 7031.25,
+          "penetracion": 14.0,
+          "ingresos_potenciales": 984.3750000000001
+        },
+        {
+          "ano": 3,
+          "mercado": 8789.0625,
+          "penetracion": 16.0,
+          "ingresos_potenciales": 1406.25
+        },
+        {
+          "ano": 4,
+          "mercado": 10986.328125,
+          "penetracion": 18.0,
+          "ingresos_potenciales": 1977.5390625
+        },
+        {
+          "ano": 5,
+          "mercado": 13732.91015625,
+          "penetracion": 20.0,
+          "ingresos_potenciales": 2746.58203125
+        }
+      ]
+    },
+    "tendencias_clave": [
+      "Mercado en crecimiento sostenido",
+      "Penetración creciente en segmentos prioritarios",
+      "Oportunidad de expansión geográfica",
+      "Necesidad de diferenciación competitiva"
+    ]
+  },
+  "analisis_benchmarking_competitivo": {
+    "mejores_practicas_por_categoria": {
+      "mejor_score_total": {
+        "segmento": "Retail E-commerce Emergente - Latam",
+        "score": 8.275,
+        "caracteristicas": [
+          "Industria: Retail y E-commerce",
+          "Geografía: Latinoamérica",
+          "Tamaño: Mediana (51-250)"
+        ]
+      },
+      "mejor_oportunidad": {
+        "segmento": "Retail E-commerce Emergente - Latam",
+        "oportunidad": 0.875,
+        "caracteristicas": [
+          "Crecimiento: 9.5/10",
+          "Ajuste producto: 8.5/10"
+        ]
+      },
+      "menor_riesgo": {
+        "segmento": "Retail E-commerce Emergente - Latam",
+        "riesgo": 0.195,
+        "caracteristicas": [
+          "Competencia: 7.0/10",
+          "Accesibilidad: 8.0/10"
+        ]
+      }
+    },
+    "benchmarks_metricas": {
+      "mejor_ratio_ltv_cac": {
+        "segmento": "Medianas Empresas Fintech - Global",
+        "ratio": 5666.666666666668,
+        "cac": 150.0,
+        "ltv": 850000.0000000001
+      },
+      "promedio_ratio": 1773.809523809524,
+      "promedio_cac": 980.625,
+      "promedio_ltv": 896874.9999999998
+    },
+    "recomendaciones_benchmarking": [
+      "Aplicar características de Retail E-commerce Emergente - Latam a otros segmentos",
+      "Replicar estrategia de Retail E-commerce Emergente - Latam para maximizar oportunidad",
+      "Mitigar riesgos usando enfoque de Retail E-commerce Emergente - Latam"
+    ]
+  },
+  "roadmap_estrategico": {
+    "vision_3anos": "Liderar en segmentos prioritarios alcanzando $2,310M en ingresos potenciales en 3 años",
+    "objetivos_por_ano": {
+      "ano_1": {
+        "objetivo_principal": "Validar y escalar en segmento primario",
+        "metricas": {
+          "ingresos_objetivo": "$5M ARR",
+          "clientes_objetivo": 200,
+          "penetracion_objetivo": "15%"
+        },
+        "iniciativas": [
+          "Lanzar en segmento primario",
+          "Desarrollar casos de estudio",
+          "Optimizar unidad económica"
+        ]
+      },
+      "ano_2": {
+        "objetivo_principal": "Expandir a segmento secundario y optimizar",
+        "metricas": {
+          "ingresos_objetivo": "$15M ARR",
+          "clientes_objetivo": 500,
+          "penetracion_objetivo": "20%"
+        },
+        "iniciativas": [
+          "Expandir a segmento secundario",
+          "Desarrollar partnerships",
+          "Optimizar operaciones"
+        ]
+      },
+      "ano_3": {
+        "objetivo_principal": "Consolidar posición y explorar nuevos segmentos",
+        "metricas": {
+          "ingresos_objetivo": "$30M ARR",
+          "clientes_objetivo": 1000,
+          "penetracion_objetivo": "25%"
+        },
+        "iniciativas": [
+          "Consolidar posición de mercado",
+          "Explorar nuevos segmentos",
+          "Desarrollar ecosistema"
+        ]
+      }
+    },
+    "hitos_clave": [
+      "Mes 3: Primeros 10 clientes en segmento primario",
+      "Mes 6: $1M ARR alcanzado",
+      "Mes 12: Expansión a segmento secundario",
+      "Mes 18: $5M ARR alcanzado",
+      "Mes 24: Posición de mercado establecida",
+      "Mes 36: $15M+ ARR y evaluación de nuevos segmentos"
+    ],
+    "recursos_necesarios": {
+      "inversion_total_3anos": 4710882.352941176,
+      "equipo_ano_1": "10-15 personas",
+      "equipo_ano_2": "25-35 personas",
+      "equipo_ano_3": "50-70 personas",
+      "presupuesto_marketing_anual": "$500K - $2M"
+    },
+    "riesgos_estrategicos": [
+      {
+        "riesgo": "Competencia intensa en segmentos prioritarios",
+        "probabilidad": "Media",
+        "impacto": "Alto",
+        "mitigacion": "Diferenciación clara y construcción de ventajas competitivas"
+      },
+      {
+        "riesgo": "Cambios en mercado o regulación",
+        "probabilidad": "Baja",
+        "impacto": "Alto",
+        "mitigacion": "Diversificación de segmentos y monitoreo continuo"
+      },
+      {
+        "riesgo": "Escalamiento de operaciones",
+        "probabilidad": "Media",
+        "impacto": "Medio",
+        "mitigacion": "Inversión en procesos y tecnología desde inicio"
+      }
+    ]
+  },
+  "metricas_operacionales": {
+    "por_segmento": {
+      "Tech Startups Innovadoras - Latam": {
+        "cac": 30.0,
+        "ltv": 33333.33333333335,
+        "ratio_ltv_cac": 1111.1111111111118,
+        "payback_meses": 0.07200000000000001,
+        "vida_media_cliente": 6.6666666666666705,
+        "tasa_retencion": 0.8500000000000001,
+        "ciclo_venta_dias": 90,
+        "tasa_conversion": 10.0
+      },
+      "Medianas Empresas Fintech - Global": {
+        "cac": 150.0,
+        "ltv": 850000.0000000001,
+        "ratio_ltv_cac": 5666.666666666668,
+        "payback_meses": 0.021176470588235297,
+        "vida_media_cliente": 10.000000000000002,
+        "tasa_retencion": 0.9,
+        "ciclo_venta_dias": 90,
+        "tasa_conversion": 8.5
+      },
+      "Enterprise Healthcare - Norte América": {
+        "cac": 1500.0,
+        "ltv": 3999999.9999999963,
+        "ratio_ltv_cac": 2666.6666666666642,
+        "payback_meses": 0.09,
+        "vida_media_cliente": 19.999999999999982,
+        "tasa_retencion": 0.95,
+        "ciclo_venta_dias": 90,
+        "tasa_conversion": 10.0
+      },
+      "Retail E-commerce Emergente - Latam": {
+        "cac": 120.0,
+        "ltv": 166666.66666666677,
+        "ratio_ltv_cac": 1388.8888888888898,
+        "payback_meses": 0.0576,
+        "vida_media_cliente": 6.6666666666666705,
+        "tasa_retencion": 0.8500000000000001,
+        "ciclo_venta_dias": 45,
+        "tasa_conversion": 12.0
+      },
+      "Consultorías Digitales - Europa": {
+        "cac": 175.0,
+        "ltv": 125000.00000000003,
+        "ratio_ltv_cac": 714.2857142857144,
+        "payback_meses": 0.084,
+        "vida_media_cliente": 5.000000000000001,
+        "tasa_retencion": 0.8,
+        "ciclo_venta_dias": 90,
+        "tasa_conversion": 10.0
+      },
+      "Manufacturing 4.0 - Asia-Pacífico": {
+        "cac": 500.0,
+        "ltv": 500000.0000000003,
+        "ratio_ltv_cac": 1000.0000000000006,
+        "payback_meses": 0.08,
+        "vida_media_cliente": 6.6666666666666705,
+        "tasa_retencion": 0.8500000000000001,
+        "ciclo_venta_dias": 90,
+        "tasa_conversion": 10.0
+      },
+      "EdTech Scale-ups - Global": {
+        "cac": 120.0,
+        "ltv": 166666.66666666677,
+        "ratio_ltv_cac": 1388.8888888888898,
+        "payback_meses": 0.0576,
+        "vida_media_cliente": 6.6666666666666705,
+        "tasa_retencion": 0.8500000000000001,
+        "ciclo_venta_dias": 90,
+        "tasa_conversion": 10.0
+      },
+      "Enterprise Conservadoras - Global": {
+        "cac": 5250.0,
+        "ltv": 1333333.3333333342,
+        "ratio_ltv_cac": 253.96825396825412,
+        "payback_meses": 0.315,
+        "vida_media_cliente": 6.6666666666666705,
+        "tasa_retencion": 0.8500000000000001,
+        "ciclo_venta_dias": 90,
+        "tasa_conversion": 10.0
+      }
+    },
+    "agregadas": {
+      "cac_promedio": 980.625,
+      "ltv_promedio": 896874.9999999998,
+      "ratio_promedio": 1773.809523809524,
+      "mejor_segmento_ratio": "Medianas Empresas Fintech - Global"
+    },
+    "recomendaciones": [
+      "Replicar modelo de Medianas Empresas Fintech - Global en otros segmentos"
+    ]
+  },
+  "reporte_ejecutivo": "====================================================================================================\nREPORTE EJECUTIVO - ANÁLISIS DE SEGMENTACIÓN DE MERCADO\n====================================================================================================\n\nFecha: 2025-11-12 00:55:49\nTotal de Segmentos Analizados: 8\n\n\n----------------------------------------------------------------------------------------------------\nRESUMEN EJECUTIVO\n----------------------------------------------------------------------------------------------------\n\n🎯 Segmento Primario: Retail E-commerce Emergente - Latam\n   Score Total: 8.28/10\n   Oportunidad: 0.88\n   Riesgo: 0.20\n\n📊 Segmento Secundario: Medianas Empresas Fintech - Global\n   Score Total: 8.18/10\n\n----------------------------------------------------------------------------------------------------\nANÁLISIS DE MERCADO TOTAL\n----------------------------------------------------------------------------------------------------\n\nTAM Total: $23,000M\nSAM Total: $7,700M\nSOM Total: $770M\nCrecimiento Promedio: 23.5%\nPenetración Actual: 10.0%\nOportunidad de Crecimiento: $6,930M\n\n----------------------------------------------------------------------------------------------------\nTOP 3 SEGMENTOS\n----------------------------------------------------------------------------------------------------\n\n1. Retail E-commerce Emergente - Latam\n   Score: 8.28/10\n   Industria: Retail y E-commerce\n   Geografía: Latinoamérica\n\n2. Medianas Empresas Fintech - Global\n   Score: 8.18/10\n   Industria: Servicios Financieros\n   Geografía: Global/Multi-región\n\n3. Tech Startups Innovadoras - Latam\n   Score: 8.12/10\n   Industria: Tecnología\n   Geografía: Latinoamérica\n\n----------------------------------------------------------------------------------------------------\nPLAN DE ACCIÓN - PRÓXIMOS PASOS\n----------------------------------------------------------------------------------------------------\n\nAcciones Inmediatas:\n   • Validar product-market fit con Retail E-commerce Emergente - Latam\n   • Identificar primeros 10 prospectos en Retail E-commerce Emergente - Latam\n   • Desarrollar materiales de marketing para Retail E-commerce Emergente - Latam",
+  "resumen_ejecutivo_completo": "====================================================================================================\nRESUMEN EJECUTIVO COMPLETO - ANÁLISIS DE SEGMENTACIÓN\n====================================================================================================\n\nFecha: 2025-11-12 00:55:49\nTotal Segmentos Analizados: 8\n\n\n----------------------------------------------------------------------------------------------------\nSEGMENTOS PRIORITARIOS\n----------------------------------------------------------------------------------------------------\n\n🎯 SEGMENTO PRIMARIO: Retail E-commerce Emergente - Latam\n   Score Total: 8.28/10\n   CAC: $120\n   LTV: $166,667\n   Ratio LTV:CAC: 1388.89\n\n📊 SEGMENTO SECUNDARIO: Medianas Empresas Fintech - Global\n   Score Total: 8.18/10\n   CAC: $150\n   LTV: $850,000\n\n----------------------------------------------------------------------------------------------------\nOPORTUNIDAD DE MERCADO\n----------------------------------------------------------------------------------------------------\n\nTAM Total: $23,000M\nSAM Total: $7,700M\nSOM Total: $770M\nOportunidad de Crecimiento: $6,930M\n\n----------------------------------------------------------------------------------------------------\nINVERSIÓN RECOMENDADA\n----------------------------------------------------------------------------------------------------\n\nInversión Total: $1,570,294\n\nTop 3 Inversiones:\n   1. Medianas Empresas Fintech - Global: ROI 229.0%\n   2. Retail E-commerce Emergente - Latam: ROI 224.3%\n   3. EdTech Scale-ups - Global: ROI 223.0%\n\n----------------------------------------------------------------------------------------------------\nROADMAP ESTRATÉGICO\n----------------------------------------------------------------------------------------------------\n\nVisión 3 Años: Liderar en segmentos prioritarios alcanzando $2,310M en ingresos potenciales en 3 años\n\nObjetivos Año 1:\n   Validar y escalar en segmento primario\n   Ingresos Objetivo: $5M ARR\n\n----------------------------------------------------------------------------------------------------\nRECOMENDACIONES CLAVE\n----------------------------------------------------------------------------------------------------\n\n1. Enfoque inmediato en segmento primario para validación rápida\n2. Desarrollo paralelo del segmento secundario\n3. Optimización continua de unidad económica\n4. Construcción de ventajas competitivas sostenibles",
+  "matriz_visual": "\n====================================================================================================\nMATRIZ DE SEGMENTACIÓN AVANZADA - ANÁLISIS MULTI-CRITERIO\n====================================================================================================\n\nSegmento                                 Score    Tamaño   Crec.    Acces.   Comp.    Ajuste  \n----------------------------------------------------------------------------------------------------\nRetail E-commerce Emergente - Latam        8.28     8.0     9.5     8.0     7.0     8.5\nMedianas Empresas Fintech - Global         8.18     8.5     8.5     7.0     7.5     9.0\nTech Startups Innovadoras - Latam          8.12     7.5     9.0     8.5     6.0     9.5\nEdTech Scale-ups - Global                  7.93     7.0     9.0     8.5     6.0     9.0\nManufacturing 4.0 - Asia-Pacífico          7.60     9.0     8.0     6.0     7.5     7.0\nEnterprise Healthcare - Norte América      7.50     9.5     7.0     5.0     8.0     7.5\nConsultorías Digitales - Europa            7.20     6.5     7.5     7.5     6.5     8.0\nEnterprise Conservadoras - Global          5.15     9.5     4.0     3.0     5.0     4.0\n\n====================================================================================================\n\n🎯 SEGMENTO PRIMARIO: Retail E-commerce Emergente - Latam\n   Score Total: 8.28/10\n\n📊 SEGMENTO SECUNDARIO: Medianas Empresas Fintech - Global\n   Score Total: 8.18/10\n",
+  "matriz_priorizacion_visual": "\n====================================================================================================\nMATRIZ DE PRIORIZACIÓN VISUAL\n====================================================================================================\n\n🔥 ALTA PRIORIDAD (Score >= 8.0):\n----------------------------------------------------------------------------------------------------\n  ⭐ Retail E-commerce Emergente - Latam                Score:  36.70\n     Atractivo: 8.28 | Oportunidad: 0.88 | Riesgo: 0.20\n  ⭐ Medianas Empresas Fintech - Global                 Score:  36.19\n     Atractivo: 8.18 | Oportunidad: 0.86 | Riesgo: 0.23\n  ⭐ Tech Startups Innovadoras - Latam                  Score:  36.02\n     Atractivo: 8.12 | Oportunidad: 0.87 | Riesgo: 0.23\n  ⭐ EdTech Scale-ups - Global                          Score:  35.14\n     Atractivo: 7.93 | Oportunidad: 0.84 | Riesgo: 0.23\n  ⭐ Manufacturing 4.0 - Asia-Pacífico                  Score:  33.65\n     Atractivo: 7.60 | Oportunidad: 0.80 | Riesgo: 0.28\n  ⭐ Enterprise Healthcare - Norte América              Score:  33.13\n     Atractivo: 7.50 | Oportunidad: 0.79 | Riesgo: 0.32\n  ⭐ Consultorías Digitales - Europa                    Score:  31.86\n     Atractivo: 7.20 | Oportunidad: 0.73 | Riesgo: 0.29\n  ⭐ Enterprise Conservadoras - Global                  Score:  22.70\n     Atractivo: 5.15 | Oportunidad: 0.57 | Riesgo: 0.59\n\n⭐ MEDIA-ALTA PRIORIDAD (Score 7.0-7.9):\n----------------------------------------------------------------------------------------------------\n\n📊 MEDIA PRIORIDAD (Score 6.0-6.9):\n----------------------------------------------------------------------------------------------------\n\n📉 BAJA PRIORIDAD (Score < 6.0):\n----------------------------------------------------------------------------------------------------\n\n====================================================================================================\n",
+  "analisis_segmento_primario": {
+    "customer_journey": {
+      "segmento": "Retail E-commerce Emergente - Latam",
+      "etapas": [
+        {
+          "nombre": "Awareness",
+          "descripcion": "Cliente descubre el problema y busca soluciones",
+          "actividades": [
+            "Content marketing",
+            "SEO",
+            "Social media",
+            "Webinars",
+            "Eventos"
+          ],
+          "canales": [
+            "LinkedIn",
+            "Email marketing",
+            "Webinars",
+            "Eventos B2B"
+          ],
+          "duracion_estimada": "2-4 semanas"
+        },
+        {
+          "nombre": "Consideration",
+          "descripcion": "Cliente evalúa opciones y compara soluciones",
+          "actividades": [
+            "Demos",
+            "Trials",
+            "Case studies",
+            "Comparaciones",
+            "ROI calculators"
+          ],
+          "canales": [
+            "Website",
+            "Email",
+            "Sales calls",
+            "Webinars"
+          ],
+          "duracion_estimada": "22 días"
+        },
+        {
+          "nombre": "Decision",
+          "descripcion": "Cliente toma decisión de compra",
+          "actividades": [
+            "Negociación",
+            "Contratos",
+            "Aprobaciones"
+          ],
+          "canales": [
+            "Sales calls",
+            "Email",
+            "Contratos digitales"
+          ],
+          "duracion_estimada": "22 días"
+        },
+        {
+          "nombre": "Onboarding",
+          "descripcion": "Cliente se integra y comienza a usar el producto",
+          "actividades": [
+            "Setup inicial",
+            "Configuración",
+            "Entrenamiento",
+            "Primera implementación"
+          ],
+          "canales": [
+            "Email",
+            "Video calls",
+            "Documentación",
+            "Support"
+          ],
+          "duracion_estimada": "2-4 semanas"
+        },
+        {
+          "nombre": "Adoption",
+          "descripcion": "Cliente adopta el producto y obtiene valor",
+          "actividades": [
+            "Uso regular",
+            "Implementación de features",
+            "Obtención de valor"
+          ],
+          "canales": [
+            "In-app",
+            "Email",
+            "Support",
+            "Check-ins"
+          ],
+          "duracion_estimada": "1-3 meses"
+        },
+        {
+          "nombre": "Expansion",
+          "descripcion": "Cliente expande uso y adopta más features",
+          "actividades": [
+            "Upsell",
+            "Nuevos casos de uso",
+            "Expansión de usuarios"
+          ],
+          "canales": [
+            "Account management",
+            "Email",
+            "In-app prompts"
+          ],
+          "duracion_estimada": "Ongoing"
+        }
+      ],
+      "puntos_contacto": [
+        "Primera interacción con contenido",
+        "Demo o trial",
+        "Conversación con ventas",
+        "Onboarding inicial",
+        "Primera implementación exitosa",
+        "Check-ins regulares"
+      ],
+      "momentos_verdad": [
+        "Primera demo exitosa",
+        "Onboarding sin fricciones",
+        "Primera implementación exitosa",
+        "Primer valor obtenido",
+        "Primera expansión"
+      ],
+      "fricciones": [],
+      "oportunidades_optimizacion": [
+        "Automatizar proceso de onboarding",
+        "Crear contenido educativo para awareness",
+        "Desarrollar casos de estudio para consideration",
+        "Simplificar proceso de decisión",
+        "Implementar programa de éxito del cliente"
+      ]
+    },
+    "estrategia_producto": {
+      "segmento": "Retail E-commerce Emergente - Latam",
+      "prioridades_producto": [],
+      "features_criticas": [],
+      "roadmap_recomendado": {
+        "corto_plazo_3meses": [
+          "Optimizar features core para mejor ajuste producto-mercado",
+          "Mejorar onboarding y primera experiencia",
+          "Implementar métricas de adopción"
+        ],
+        "medio_plazo_6meses": [
+          "Desarrollar features de expansión",
+          "Mejorar integraciones",
+          "Optimizar para escalabilidad"
+        ],
+        "largo_plazo_12meses": [
+          "Features avanzadas y diferenciadoras",
+          "Expansión a nuevos casos de uso",
+          "Plataforma y ecosistema"
+        ]
+      },
+      "metricas_producto": {
+        "adopcion_objetivo": "70% de usuarios activos mensuales",
+        "tiempo_valor_objetivo": "< 7 días",
+        "retencion_objetivo": "85%+ retención anual",
+        "nps_objetivo": "50+",
+        "expansion_rate_objetivo": "30% de clientes expanden en 12 meses"
+      },
+      "recomendaciones": [
+        "Enfoque en Retail y E-commerce - features específicas de industria",
+        "Desarrollar programa de early adopters para feedback rápido",
+        "Implementar analytics de producto para entender uso",
+        "Crear programa de éxito del cliente para retención"
+      ]
+    },
+    "fit_canal": {
+      "segmento": "Retail E-commerce Emergente - Latam",
+      "canales_evaluados": [
+        {
+          "nombre": "Self-Service",
+          "score": 4,
+          "pros": [],
+          "contras": [
+            "Precio muy alto",
+            "Complejidad alta"
+          ]
+        },
+        {
+          "nombre": "Inside Sales",
+          "score": 8,
+          "pros": [
+            "Balance costo-efectividad",
+            "Escalable"
+          ],
+          "contras": []
+        },
+        {
+          "nombre": "Field Sales",
+          "score": 5,
+          "pros": [],
+          "contras": []
+        },
+        {
+          "nombre": "Partners/Channel",
+          "score": 6,
+          "pros": [],
+          "contras": []
+        }
+      ],
+      "mejor_fit": {
+        "canal": "Inside Sales",
+        "score": 8,
+        "razones": [
+          "Balance costo-efectividad",
+          "Escalable"
+        ]
+      },
+      "recomendaciones": [
+        "Enfoque principal en Inside Sales",
+        "Considerar modelo híbrido si múltiples canales tienen score alto",
+        "Optimizar canal principal antes de expandir"
+      ]
+    },
+    "contenido_messaging": {
+      "segmento": "Retail E-commerce Emergente - Latam",
+      "mensaje_principal": "Para Retail y E-commerce que enfrenta desafío clave, [Producto] ofrece [Solución] que [Beneficio Principal]",
+      "value_propositions": [],
+      "tipos_contenido": [
+        "Case studies específicos de industria",
+        "White papers técnicos",
+        "Webinars educativos",
+        "Blog posts sobre mejores prácticas",
+        "Videos de producto",
+        "ROI calculators",
+        "Comparaciones competitivas"
+      ],
+      "tono_recomendado": "Balanceado, práctico, enfocado en resultados",
+      "palabras_clave": [
+        "retail y e-commerce",
+        "mediana",
+        "solución",
+        "digitalización"
+      ],
+      "objetivos_contenido": [
+        "Generar awareness en el mercado objetivo",
+        "Educar sobre el problema y solución",
+        "Establecer thought leadership",
+        "Generar leads cualificados",
+        "Apoyar proceso de ventas"
+      ]
+    }
+  },
+  "analisis_segmento_secundario": {
+    "customer_journey": {
+      "segmento": "Medianas Empresas Fintech - Global",
+      "etapas": [
+        {
+          "nombre": "Awareness",
+          "descripcion": "Cliente descubre el problema y busca soluciones",
+          "actividades": [
+            "Content marketing",
+            "SEO",
+            "Social media",
+            "Webinars",
+            "Eventos"
+          ],
+          "canales": [
+            "LinkedIn",
+            "Email marketing",
+            "Webinars",
+            "Eventos B2B"
+          ],
+          "duracion_estimada": "2-4 semanas"
+        },
+        {
+          "nombre": "Consideration",
+          "descripcion": "Cliente evalúa opciones y compara soluciones",
+          "actividades": [
+            "Demos",
+            "Trials",
+            "Case studies",
+            "Comparaciones",
+            "ROI calculators"
+          ],
+          "canales": [
+            "Website",
+            "Email",
+            "Sales calls",
+            "Webinars"
+          ],
+          "duracion_estimada": "45 días"
+        },
+        {
+          "nombre": "Decision",
+          "descripcion": "Cliente toma decisión de compra",
+          "actividades": [
+            "Negociación",
+            "Contratos",
+            "Aprobaciones",
+            "Pilotos",
+            "Pruebas de concepto"
+          ],
+          "canales": [
+            "Sales calls",
+            "Email",
+            "Contratos digitales"
+          ],
+          "duracion_estimada": "45 días"
+        },
+        {
+          "nombre": "Onboarding",
+          "descripcion": "Cliente se integra y comienza a usar el producto",
+          "actividades": [
+            "Setup inicial",
+            "Configuración",
+            "Entrenamiento",
+            "Primera implementación"
+          ],
+          "canales": [
+            "Email",
+            "Video calls",
+            "Documentación",
+            "Support"
+          ],
+          "duracion_estimada": "2-4 semanas"
+        },
+        {
+          "nombre": "Adoption",
+          "descripcion": "Cliente adopta el producto y obtiene valor",
+          "actividades": [
+            "Uso regular",
+            "Implementación de features",
+            "Obtención de valor"
+          ],
+          "canales": [
+            "In-app",
+            "Email",
+            "Support",
+            "Check-ins"
+          ],
+          "duracion_estimada": "1-3 meses"
+        },
+        {
+          "nombre": "Expansion",
+          "descripcion": "Cliente expande uso y adopta más features",
+          "actividades": [
+            "Upsell",
+            "Nuevos casos de uso",
+            "Expansión de usuarios"
+          ],
+          "canales": [
+            "Account management",
+            "Email",
+            "In-app prompts"
+          ],
+          "duracion_estimada": "Ongoing"
+        }
+      ],
+      "puntos_contacto": [
+        "Primera interacción con contenido",
+        "Demo o trial",
+        "Conversación con ventas",
+        "Onboarding inicial",
+        "Primera implementación exitosa",
+        "Check-ins regulares"
+      ],
+      "momentos_verdad": [
+        "Primera demo exitosa",
+        "Onboarding sin fricciones",
+        "Primera implementación exitosa",
+        "Primer valor obtenido",
+        "Primera expansión"
+      ],
+      "fricciones": [],
+      "oportunidades_optimizacion": [
+        "Automatizar proceso de onboarding",
+        "Crear contenido educativo para awareness",
+        "Desarrollar casos de estudio para consideration",
+        "Simplificar proceso de decisión",
+        "Implementar programa de éxito del cliente"
+      ]
+    },
+    "estrategia_producto": {
+      "segmento": "Medianas Empresas Fintech - Global",
+      "prioridades_producto": [
+        "Resolución rápida del problema crítico",
+        "Alta confiabilidad y uptime",
+        "Soporte 24/7"
+      ],
+      "features_criticas": [
+        "Core features que resuelven el problema principal",
+        "Integraciones avanzadas y APIs"
+      ],
+      "roadmap_recomendado": {
+        "corto_plazo_3meses": [
+          "Optimizar features core para mejor ajuste producto-mercado",
+          "Mejorar onboarding y primera experiencia",
+          "Implementar métricas de adopción"
+        ],
+        "medio_plazo_6meses": [
+          "Desarrollar features de expansión",
+          "Mejorar integraciones",
+          "Optimizar para escalabilidad"
+        ],
+        "largo_plazo_12meses": [
+          "Features avanzadas y diferenciadoras",
+          "Expansión a nuevos casos de uso",
+          "Plataforma y ecosistema"
+        ]
+      },
+      "metricas_producto": {
+        "adopcion_objetivo": "70% de usuarios activos mensuales",
+        "tiempo_valor_objetivo": "< 7 días",
+        "retencion_objetivo": "85%+ retención anual",
+        "nps_objetivo": "50+",
+        "expansion_rate_objetivo": "30% de clientes expanden en 12 meses"
+      },
+      "recomendaciones": [
+        "Enfoque en Servicios Financieros - features específicas de industria",
+        "Desarrollar programa de early adopters para feedback rápido",
+        "Implementar analytics de producto para entender uso",
+        "Crear programa de éxito del cliente para retención"
+      ]
+    },
+    "fit_canal": {
+      "segmento": "Medianas Empresas Fintech - Global",
+      "canales_evaluados": [
+        {
+          "nombre": "Self-Service",
+          "score": 4,
+          "pros": [],
+          "contras": [
+            "Precio muy alto",
+            "Complejidad alta"
+          ]
+        },
+        {
+          "nombre": "Inside Sales",
+          "score": 8,
+          "pros": [
+            "Balance costo-efectividad",
+            "Escalable"
+          ],
+          "contras": []
+        },
+        {
+          "nombre": "Field Sales",
+          "score": 5,
+          "pros": [],
+          "contras": []
+        },
+        {
+          "nombre": "Partners/Channel",
+          "score": 8,
+          "pros": [
+            "Acceso a mercado",
+            "Credibilidad"
+          ],
+          "contras": []
+        }
+      ],
+      "mejor_fit": {
+        "canal": "Inside Sales",
+        "score": 8,
+        "razones": [
+          "Balance costo-efectividad",
+          "Escalable"
+        ]
+      },
+      "recomendaciones": [
+        "Enfoque principal en Inside Sales",
+        "Considerar modelo híbrido si múltiples canales tienen score alto",
+        "Optimizar canal principal antes de expandir"
+      ]
+    },
+    "contenido_messaging": {
+      "segmento": "Medianas Empresas Fintech - Global",
+      "mensaje_principal": "Para Servicios Financieros que enfrenta problema crítico, [Producto] ofrece [Solución] que [Beneficio Principal]",
+      "value_propositions": [
+        "Resuelve problema crítico inmediatamente",
+        "Ajuste perfecto producto-mercado"
+      ],
+      "tipos_contenido": [
+        "Case studies específicos de industria",
+        "White papers técnicos",
+        "Webinars educativos",
+        "Blog posts sobre mejores prácticas",
+        "Videos de producto",
+        "ROI calculators",
+        "Comparaciones competitivas"
+      ],
+      "tono_recomendado": "Balanceado, práctico, enfocado en resultados",
+      "palabras_clave": [
+        "servicios financieros",
+        "mediana",
+        "solución",
+        "automatización"
+      ],
+      "objetivos_contenido": [
+        "Generar awareness en el mercado objetivo",
+        "Educar sobre el problema y solución",
+        "Establecer thought leadership",
+        "Generar leads cualificados",
+        "Apoyar proceso de ventas"
+      ]
+    }
+  }
+}

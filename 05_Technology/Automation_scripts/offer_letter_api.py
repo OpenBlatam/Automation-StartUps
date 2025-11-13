@@ -307,15 +307,17 @@ def validate_offer_data(data: Dict) -> Tuple[bool, List[str]]:
     
     # Validar formato de fecha
     if data.get('start_date'):
+        date_str = str(data.get('start_date', '')).strip()
         date_pattern = r'^\d{4}-\d{2}-\d{2}$'
-        if not re.match(date_pattern, str(data.get('start_date', ''))):
+        if not re.match(date_pattern, date_str):
             errors.append("start_date must be in format YYYY-MM-DD")
         else:
             try:
-                parsed_date = datetime.strptime(str(data.get('start_date')), '%Y-%m-%d').date()
+                parsed_date = datetime.strptime(date_str, '%Y-%m-%d').date()
+                current_date = date.today()
                 if parsed_date.year < 2000 or parsed_date.year > 2100:
                     errors.append("start_date year must be between 2000 and 2100")
-                if parsed_date < date.today():
+                elif parsed_date < current_date:
                     errors.append("start_date cannot be in the past")
             except ValueError:
                 errors.append("start_date is not a valid date")
@@ -334,8 +336,9 @@ def validate_offer_data(data: Dict) -> Tuple[bool, List[str]]:
     
     # Validar email si está presente
     if data.get('candidate_email'):
-        email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-        if not re.match(email_pattern, str(data.get('candidate_email', ''))):
+        email_pattern = r'^[a-zA-Z0-9]([a-zA-Z0-9._-]*[a-zA-Z0-9])?@[a-zA-Z0-9]([a-zA-Z0-9.-]*[a-zA-Z0-9])?\.[a-zA-Z]{2,}$'
+        email_value = str(data.get('candidate_email', '')).strip()
+        if not re.match(email_pattern, email_value):
             errors.append("candidate_email must be a valid email address")
     
     # Validar longitud de campos de texto usando configuración
@@ -3913,37 +3916,44 @@ class OfferLetterDatabase:
     def _init_database(self):
         """Inicializa la base de datos"""
         with sqlite3.connect(self.db_path) as conn:
-        cursor = conn.cursor()
-        
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS offers (
-                id TEXT PRIMARY KEY,
-                candidate_name TEXT NOT NULL,
-                candidate_email TEXT NOT NULL,
-                position_title TEXT NOT NULL,
-                department TEXT NOT NULL,
-                salary REAL NOT NULL,
-                currency TEXT DEFAULT 'USD',
-                status TEXT DEFAULT 'draft',
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                offer_data TEXT,
-                offer_letter_content TEXT
-            )
-        ''')
-        
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS offer_history (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                offer_id TEXT NOT NULL,
-                action TEXT NOT NULL,
-                timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                details TEXT,
-                FOREIGN KEY (offer_id) REFERENCES offers(id)
-            )
-        ''')
-        
-        conn.commit()
+            cursor = conn.cursor()
+            
+            cursor.execute('''
+                CREATE TABLE IF NOT EXISTS offers (
+                    id TEXT PRIMARY KEY,
+                    candidate_name TEXT NOT NULL,
+                    candidate_email TEXT NOT NULL,
+                    position_title TEXT NOT NULL,
+                    department TEXT NOT NULL,
+                    salary REAL NOT NULL,
+                    currency TEXT DEFAULT 'USD',
+                    status TEXT DEFAULT 'draft',
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    offer_data TEXT,
+                    offer_letter_content TEXT
+                )
+            ''')
+            
+            cursor.execute('''
+                CREATE TABLE IF NOT EXISTS offer_history (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    offer_id TEXT NOT NULL,
+                    action TEXT NOT NULL,
+                    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    details TEXT,
+                    FOREIGN KEY (offer_id) REFERENCES offers(id)
+                )
+            ''')
+            
+            # Crear índices para mejorar rendimiento de consultas
+            cursor.execute('CREATE INDEX IF NOT EXISTS idx_offers_status ON offers(status)')
+            cursor.execute('CREATE INDEX IF NOT EXISTS idx_offers_email ON offers(candidate_email)')
+            cursor.execute('CREATE INDEX IF NOT EXISTS idx_offers_created_at ON offers(created_at DESC)')
+            cursor.execute('CREATE INDEX IF NOT EXISTS idx_offer_history_offer_id ON offer_history(offer_id)')
+            cursor.execute('CREATE INDEX IF NOT EXISTS idx_offer_history_timestamp ON offer_history(timestamp DESC)')
+            
+            conn.commit()
     
     def create_offer(self, offer_id: str, data: OfferLetterData, offer_letter: str) -> bool:
         """Crea un nuevo registro de oferta"""
@@ -3954,31 +3964,31 @@ class OfferLetterDatabase:
                 return False
             
             with sqlite3.connect(self.db_path) as conn:
-            cursor = conn.cursor()
-            
-            cursor.execute('''
-                INSERT INTO offers (id, candidate_name, candidate_email, position_title,
-                                  department, salary, currency, status, offer_data, offer_letter_content)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            ''', (
-                offer_id,
-                data.candidate_name,
-                data.candidate_email,
-                data.position_title,
-                data.department,
-                data.salary,
-                data.currency,
-                OfferStatus.GENERATED.value,
-                json.dumps(asdict(data)),
-                offer_letter
-            ))
-            
-            cursor.execute('''
-                INSERT INTO offer_history (offer_id, action, details)
-                VALUES (?, ?, ?)
-            ''', (offer_id, 'created', 'Oferta creada'))
-            
-            conn.commit()
+                cursor = conn.cursor()
+                
+                cursor.execute('''
+                    INSERT INTO offers (id, candidate_name, candidate_email, position_title,
+                                      department, salary, currency, status, offer_data, offer_letter_content)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ''', (
+                    offer_id,
+                    data.candidate_name,
+                    data.candidate_email,
+                    data.position_title,
+                    data.department,
+                    data.salary,
+                    data.currency,
+                    OfferStatus.GENERATED.value,
+                    json.dumps(asdict(data)),
+                    offer_letter
+                ))
+                
+                cursor.execute('''
+                    INSERT INTO offer_history (offer_id, action, details)
+                    VALUES (?, ?, ?)
+                ''', (offer_id, 'created', 'Oferta creada'))
+                
+                conn.commit()
             return True
         except sqlite3.Error as e:
             logger.error(f"Error de base de datos al crear oferta: {str(e)}", exc_info=True)
@@ -5593,15 +5603,14 @@ class OfferLetterAPI:
             if self.use_database and self.db:
                 try:
                     # Actualizar oferta en BD
-                    conn = sqlite3.connect(self.db.db_path)
-                    cursor = conn.cursor()
-                    cursor.execute('''
-                        UPDATE offers 
-                        SET offer_data = ?, offer_letter_content = ?, updated_at = CURRENT_TIMESTAMP
-                        WHERE id = ?
-                    ''', (json.dumps(offer_data), new_letter, offer_id))
-                    conn.commit()
-                    conn.close()
+                    with sqlite3.connect(self.db.db_path) as conn:
+                        cursor = conn.cursor()
+                        cursor.execute('''
+                            UPDATE offers 
+                            SET offer_data = ?, offer_letter_content = ?, updated_at = CURRENT_TIMESTAMP
+                            WHERE id = ?
+                        ''', (json.dumps(offer_data), new_letter, offer_id))
+                        conn.commit()
                 except Exception as e:
                     logger.error(f"Error al actualizar en BD: {str(e)}")
                     return False
@@ -5641,7 +5650,7 @@ class UpsellManager:
     def _init_database(self):
         """Inicializa la base de datos de upsells"""
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             cursor = conn.cursor()
             
             # Tabla de productos
@@ -5790,7 +5799,6 @@ class UpsellManager:
             ''')
             
             conn.commit()
-            conn.close()
             logger.info("Base de datos de upsells inicializada")
         except Exception as e:
             logger.error(f"Error al inicializar base de datos de upsells: {str(e)}")
@@ -5798,13 +5806,12 @@ class UpsellManager:
     def _load_default_upsells(self):
         """Carga algunos upsells de ejemplo"""
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             cursor = conn.cursor()
             
             # Verificar si ya hay datos
             cursor.execute('SELECT COUNT(*) FROM products')
             if cursor.fetchone()[0] > 0:
-                conn.close()
                 return
             
             # Productos de ejemplo
@@ -5838,7 +5845,6 @@ class UpsellManager:
             ''', default_upsells)
             
             conn.commit()
-            conn.close()
             logger.info("Upsells de ejemplo cargados")
         except Exception as e:
             logger.error(f"Error al cargar upsells de ejemplo: {str(e)}")
@@ -5846,7 +5852,7 @@ class UpsellManager:
     def get_customer_purchase_history(self, customer_id: str) -> List[str]:
         """Obtiene historial de compras de un cliente"""
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             cursor = conn.cursor()
             cursor.execute('''
                 SELECT DISTINCT product_id 
@@ -5856,7 +5862,6 @@ class UpsellManager:
                 LIMIT 20
             ''', (customer_id,))
             history = [row[0] for row in cursor.fetchall()]
-            conn.close()
             return history
         except Exception as e:
             logger.error(f"Error al obtener historial: {str(e)}")
@@ -5914,20 +5919,6 @@ class UpsellManager:
                     logger.debug(f"Cache hit para {cache_key}")
                     return cached
             
-            # Validar que el producto existe
-            conn = sqlite3.connect(self.db_path)
-            cursor = conn.cursor()
-            cursor.execute('SELECT id, name, price FROM products WHERE id = ?', (product_id,))
-            product = cursor.fetchone()
-            if not product:
-                conn.close()
-                logger.warning(f"Producto {product_id} no encontrado")
-                return []
-            
-            product_name, product_price = product[1], product[2]
-            conn.row_factory = sqlite3.Row
-            cursor = conn.cursor()
-            
             # Obtener historial del cliente si está disponible
             purchased_products = []
             if customer_id and exclude_purchased:
@@ -5948,8 +5939,19 @@ class UpsellManager:
                 where_clauses.append(f'u.upsell_product_id NOT IN ({placeholders})')
                 params.extend(purchased_products)
             
-            # Verificar ofertas temporales activas
-            current_time = datetime.now().isoformat()
+            # Validar que el producto existe y obtener upsells
+            with sqlite3.connect(self.db_path) as conn:
+                conn.row_factory = sqlite3.Row
+                cursor = conn.cursor()
+                
+                # Validar producto
+                cursor.execute('SELECT id, name, price FROM products WHERE id = ?', (product_id,))
+                product = cursor.fetchone()
+                if not product:
+                    logger.warning(f"Producto {product_id} no encontrado")
+                    return []
+                
+                product_name, product_price = product[1], product[2]
             
             # Algoritmo mejorado: combina múltiples factores
             # Score = (conversion_rate * 0.4) + (popularity_score * 0.3) + 
@@ -5965,6 +5967,7 @@ class UpsellManager:
                     u.total_views,
                     u.total_purchases,
                     u.priority,
+                        u.popularity_score,
                     p.id as upsell_product_id,
                     p.name as upsell_product_name,
                     p.description as upsell_product_description,
@@ -6074,7 +6077,6 @@ class UpsellManager:
                 upsells.append(upsell_data)
             
             conn.commit()
-            conn.close()
             
             # Guardar en cache
             if use_cache:
@@ -6147,13 +6149,12 @@ class UpsellManager:
             upsell_product_id: ID del upsell comprado (opcional)
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             cursor = conn.cursor()
             
             # Validar que el producto existe
             cursor.execute('SELECT id FROM products WHERE id = ?', (product_id,))
             if not cursor.fetchone():
-                conn.close()
                 logger.warning(f"Producto {product_id} no encontrado al registrar compra")
                 return False
             
@@ -6194,7 +6195,6 @@ class UpsellManager:
                 ''', (product_id, upsell_product_id))
             
             conn.commit()
-            conn.close()
             logger.info(f"Compra registrada: producto {product_id}, upsell {upsell_product_id}")
             return True
             
@@ -6216,7 +6216,7 @@ class UpsellManager:
                 logger.error("El precio debe ser mayor a 0")
                 return False
             
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             cursor = conn.cursor()
             
             tags_str = ','.join(tags) if tags else None
@@ -6226,7 +6226,6 @@ class UpsellManager:
             ''', (product_id, name, price, category, description, tags_str, stock_quantity))
             
             conn.commit()
-            conn.close()
             logger.info(f"Producto agregado: {product_id} - {name}")
             return True
         except Exception as e:
@@ -6243,7 +6242,7 @@ class UpsellManager:
                 logger.error("El bundle_price debe ser mayor a 0")
                 return False
             
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             cursor = conn.cursor()
             
             # Validar que ambos productos existen
@@ -6253,12 +6252,10 @@ class UpsellManager:
             
             if product_id not in products:
                 logger.error(f"Producto principal {product_id} no encontrado")
-                conn.close()
                 return False
             
             if upsell_product_id not in products:
                 logger.error(f"Producto upsell {upsell_product_id} no encontrado")
-                conn.close()
                 return False
             
             original_price = products[upsell_product_id][1]
@@ -6283,7 +6280,6 @@ class UpsellManager:
                   original_price, savings, emotional_reason, priority))
             
             conn.commit()
-            conn.close()
             logger.info(f"Upsell agregado: {product_id} -> {upsell_product_id}")
             return True
         except Exception as e:
@@ -6301,7 +6297,7 @@ class UpsellManager:
             Diccionario con estadísticas de upsells
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
@@ -6359,7 +6355,6 @@ class UpsellManager:
                 ''')
             
             row = cursor.fetchone()
-            conn.close()
             
             if row:
                 return {
@@ -6381,13 +6376,12 @@ class UpsellManager:
                                  end_date: str, discount_percentage: float) -> bool:
         """Crea una oferta por tiempo limitado para un upsell"""
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             cursor = conn.cursor()
             
             # Validar que el upsell existe
             cursor.execute('SELECT id FROM upsells WHERE id = ?', (upsell_id,))
             if not cursor.fetchone():
-                conn.close()
                 logger.error(f"Upsell {upsell_id} no encontrado")
                 return False
             
@@ -6399,7 +6393,6 @@ class UpsellManager:
             ''', (offer_id, upsell_id, start_date, end_date, discount_percentage))
             
             conn.commit()
-            conn.close()
             logger.info(f"Oferta temporal creada: {offer_id} para upsell {upsell_id}")
             return True
         except Exception as e:
@@ -6409,7 +6402,7 @@ class UpsellManager:
     def get_top_performing_upsells(self, limit: int = 10, days: int = 30) -> List[Dict]:
         """Obtiene los upsells con mejor rendimiento"""
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
@@ -6450,7 +6443,6 @@ class UpsellManager:
                     "total_views": row["total_views"]
                 })
             
-            conn.close()
             return results
         except Exception as e:
             logger.error(f"Error al obtener top upsells: {str(e)}", exc_info=True)
@@ -6483,7 +6475,7 @@ class UpsellManager:
     def get_cross_sell_recommendations(self, product_id: str, limit: int = 3) -> List[Dict]:
         """Obtiene recomendaciones de cross-sell (productos relacionados)"""
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
@@ -6512,7 +6504,6 @@ class UpsellManager:
                     "in_stock": row["stock_quantity"] == -1 or row["stock_quantity"] > 0
                 })
             
-            conn.close()
             return recommendations
         except Exception as e:
             logger.error(f"Error al obtener cross-sells: {str(e)}", exc_info=True)
@@ -6522,13 +6513,12 @@ class UpsellManager:
                       similarity_score: float = 0.5) -> bool:
         """Agrega un cross-sell (producto relacionado)"""
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             cursor = conn.cursor()
             
             cursor.execute('SELECT id FROM products WHERE id IN (?, ?)', 
                           (product_id, related_product_id))
             if len(cursor.fetchall()) != 2:
-                conn.close()
                 return False
             
             cross_sell_id = str(uuid.uuid4())
@@ -6539,7 +6529,6 @@ class UpsellManager:
             ''', (cross_sell_id, product_id, related_product_id, similarity_score))
             
             conn.commit()
-            conn.close()
             return True
         except Exception as e:
             logger.error(f"Error al agregar cross-sell: {str(e)}", exc_info=True)
@@ -6548,14 +6537,13 @@ class UpsellManager:
     def get_similar_products(self, product_id: str, limit: int = 5) -> List[Dict]:
         """Obtiene productos similares basados en categoría, tags y precio"""
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
             cursor.execute('SELECT category, tags, price FROM products WHERE id = ?', (product_id,))
             product = cursor.fetchone()
             if not product:
-                conn.close()
                 return []
             
             category = product["category"]
@@ -6589,7 +6577,6 @@ class UpsellManager:
                 })
             
             similar_products.sort(key=lambda x: x["similarity_score"], reverse=True)
-            conn.close()
             return similar_products
         except Exception as e:
             logger.error(f"Error al obtener productos similares: {str(e)}", exc_info=True)
@@ -6598,7 +6585,7 @@ class UpsellManager:
     def register_webhook(self, url: str, events: List[str], secret: str = "") -> bool:
         """Registra un webhook para eventos de upsells"""
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             cursor = conn.cursor()
             
             webhook_id = str(uuid.uuid4())
@@ -6610,7 +6597,6 @@ class UpsellManager:
             ''', (webhook_id, url, events_json, secret))
             
             conn.commit()
-            conn.close()
             return True
         except Exception as e:
             logger.error(f"Error al registrar webhook: {str(e)}", exc_info=True)
@@ -6620,13 +6606,12 @@ class UpsellManager:
         """Dispara un webhook para un evento"""
         try:
             import requests
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
             cursor.execute('SELECT * FROM upsell_webhooks WHERE is_active = 1')
             webhooks = cursor.fetchall()
-            conn.close()
             
             for webhook in webhooks:
                 events = json.loads(webhook['events'])
@@ -6644,7 +6629,7 @@ class UpsellManager:
     def check_performance_alerts(self, upsell_id: str = None):
         """Verifica y crea alertas de rendimiento"""
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
@@ -6686,7 +6671,6 @@ class UpsellManager:
                         })
             
             conn.commit()
-            conn.close()
             return alerts_created
         except Exception as e:
             logger.error(f"Error al verificar alertas: {str(e)}", exc_info=True)
@@ -6768,7 +6752,7 @@ class UpsellManager:
             Diccionario con métricas en tiempo real
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
@@ -6822,8 +6806,6 @@ class UpsellManager:
                     "upsell": r["upsell_name"],
                     "views": r["total_views"]
                 })
-            
-            conn.close()
             
             return {
                 "timestamp": datetime.now().isoformat(),
@@ -6903,7 +6885,7 @@ class UpsellManager:
             Diccionario con insights del cliente
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
@@ -6950,8 +6932,6 @@ class UpsellManager:
             
             preferred_categories = [row["category"] for row in cursor.fetchall()]
             
-            conn.close()
-            
             return {
                 "customer_id": customer_id,
                 "total_purchases": history["total_purchases"] or 0,
@@ -6988,7 +6968,7 @@ class UpsellManager:
             Diccionario con probabilidad de conversión y factores
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
@@ -7003,7 +6983,6 @@ class UpsellManager:
             
             upsell = cursor.fetchone()
             if not upsell:
-                conn.close()
                 return {"probability": 0.0, "error": "Upsell no encontrado"}
             
             # Factores base
@@ -7047,8 +7026,6 @@ class UpsellManager:
                               popularity_factor + time_offer_factor + customer_factor
             total_probability = min(total_probability, 0.95)  # Máximo 95%
             
-            conn.close()
-            
             return {
                 "upsell_id": upsell_id,
                 "probability": round(total_probability * 100, 2),
@@ -7078,7 +7055,7 @@ class UpsellManager:
             Lista de upsells en tendencia
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
@@ -7135,7 +7112,6 @@ class UpsellManager:
                     "trend_score": round((row["recent_purchases"] * 2.0 + row["total_views"] * 0.1), 2)
                 })
             
-            conn.close()
             return trending
         except Exception as e:
             logger.error(f"Error al obtener upsells en tendencia: {str(e)}", exc_info=True)
@@ -7152,7 +7128,7 @@ class UpsellManager:
             Lista de sugerencias de upsells potenciales
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
@@ -7160,7 +7136,6 @@ class UpsellManager:
             cursor.execute('SELECT category, price, tags FROM products WHERE id = ?', (product_id,))
             product = cursor.fetchone()
             if not product:
-                conn.close()
                 return []
             
             category = product["category"]
@@ -7210,8 +7185,6 @@ class UpsellManager:
             
             # Ordenar por score
             suggestions.sort(key=lambda x: x["compatibility_score"], reverse=True)
-            
-            conn.close()
             return suggestions[:5]  # Top 5 sugerencias
         except Exception as e:
             logger.error(f"Error al generar sugerencias: {str(e)}", exc_info=True)
@@ -7229,7 +7202,7 @@ class UpsellManager:
             Diccionario con pronóstico
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
@@ -7250,7 +7223,6 @@ class UpsellManager:
             
             upsell = cursor.fetchone()
             if not upsell:
-                conn.close()
                 return {}
             
             # Calcular días desde creación
@@ -7273,8 +7245,6 @@ class UpsellManager:
             ''', (upsell_id,))
             bundle_price = cursor.fetchone()["bundle_price"] or 0
             forecast_revenue = forecast_purchases * bundle_price
-            
-            conn.close()
             
             return {
                 "upsell_id": upsell_id,
@@ -7308,7 +7278,7 @@ class UpsellManager:
             Diccionario con resultados de optimización
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             cursor = conn.cursor()
             
             # Encontrar upsells con bajo rendimiento
@@ -7352,8 +7322,6 @@ class UpsellManager:
                         "reason": f"Baja conversión ({round(conversion_rate * 100, 1)}%). Aumentar descuento puede mejorar rendimiento."
                     })
             
-            conn.close()
-            
             return {
                 "optimizations_found": len(optimizations),
                 "optimizations": optimizations,
@@ -7371,7 +7339,7 @@ class UpsellManager:
             Diccionario con todas las métricas principales
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
@@ -7436,8 +7404,6 @@ class UpsellManager:
             ''')
             customer_stats = cursor.fetchone()
             
-            conn.close()
-            
             return {
                 "timestamp": datetime.now().isoformat(),
                 "overview": {
@@ -7471,7 +7437,7 @@ class UpsellManager:
             Lista de productos recomendados
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
@@ -7483,7 +7449,6 @@ class UpsellManager:
             customer_products = {row["product_id"] for row in cursor.fetchall()}
             
             if not customer_products:
-                conn.close()
                 return []
             
             # Encontrar clientes similares (que compraron productos similares)
@@ -7504,7 +7469,6 @@ class UpsellManager:
             similar_customers = [row["customer_id"] for row in cursor.fetchall()]
             
             if not similar_customers:
-                conn.close()
                 return []
             
             # Obtener productos comprados por clientes similares pero no por este cliente
@@ -7534,7 +7498,6 @@ class UpsellManager:
                     "reason": f"Comprado por {row['recommendation_score']} clientes similares"
                 })
             
-            conn.close()
             return recommendations
         except Exception as e:
             logger.error(f"Error en recomendaciones colaborativas: {str(e)}", exc_info=True)
@@ -7552,7 +7515,7 @@ class UpsellManager:
             Diccionario con impacto en ingresos
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
@@ -7583,8 +7546,6 @@ class UpsellManager:
             else:
                 roi = 0
             
-            conn.close()
-            
             return {
                 "period_days": days,
                 "product_id": product_id,
@@ -7613,7 +7574,7 @@ class UpsellManager:
             Diccionario con tendencias por mes
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
@@ -7646,8 +7607,6 @@ class UpsellManager:
                     "revenue": round(row["revenue"] or 0, 2)
                 })
             
-            conn.close()
-            
             return {
                 "product_id": product_id,
                 "monthly_trends": trends,
@@ -7661,12 +7620,11 @@ class UpsellManager:
                               message_template: str) -> bool:
         """Crea una variante de mensaje para A/B testing"""
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             cursor = conn.cursor()
             
             cursor.execute('SELECT id FROM upsells WHERE id = ?', (upsell_id,))
             if not cursor.fetchone():
-                conn.close()
                 return False
             
             variant_id = str(uuid.uuid4())
@@ -7677,7 +7635,6 @@ class UpsellManager:
             ''', (variant_id, upsell_id, variant_name, message_template))
             
             conn.commit()
-            conn.close()
             return True
         except Exception as e:
             logger.error(f"Error al crear variante: {str(e)}", exc_info=True)
@@ -7686,7 +7643,7 @@ class UpsellManager:
     def get_best_message_variant(self, upsell_id: str) -> Optional[str]:
         """Obtiene la mejor variante de mensaje basada en conversión"""
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             cursor = conn.cursor()
             
             cursor.execute('''
@@ -7698,7 +7655,6 @@ class UpsellManager:
             ''', (upsell_id,))
             
             result = cursor.fetchone()
-            conn.close()
             return result[0] if result else None
         except Exception as e:
             logger.error(f"Error al obtener mejor variante: {str(e)}")
@@ -7707,7 +7663,7 @@ class UpsellManager:
     def record_variant_view(self, variant_id: str):
         """Registra una vista de una variante de mensaje"""
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             cursor = conn.cursor()
             
             cursor.execute('''
@@ -7717,14 +7673,13 @@ class UpsellManager:
             ''', (variant_id,))
             
             conn.commit()
-            conn.close()
         except Exception as e:
             logger.error(f"Error al registrar vista de variante: {str(e)}")
     
     def record_variant_conversion(self, variant_id: str):
         """Registra una conversión de una variante de mensaje"""
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             cursor = conn.cursor()
             
             cursor.execute('''
@@ -7739,7 +7694,6 @@ class UpsellManager:
             ''', (variant_id,))
             
             conn.commit()
-            conn.close()
         except Exception as e:
             logger.error(f"Error al registrar conversión de variante: {str(e)}")
     
@@ -7805,7 +7759,7 @@ class UpsellManager:
             Diccionario con todos los datos
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
@@ -7832,8 +7786,6 @@ class UpsellManager:
             # Exportar historial de clientes
             cursor.execute('SELECT * FROM customer_history ORDER BY purchased_at DESC LIMIT 1000')
             customer_history = [dict(row) for row in cursor.fetchall()]
-            
-            conn.close()
             
             export_data = {
                 "exported_at": datetime.now().isoformat(),
@@ -7869,7 +7821,7 @@ class UpsellManager:
             Diccionario con estado del sistema
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             cursor = conn.cursor()
             
             # Verificar integridad de la base de datos
@@ -7888,8 +7840,6 @@ class UpsellManager:
             
             # Verificar tamaño de la base de datos
             db_size = os.path.getsize(self.db_path) if os.path.exists(self.db_path) else 0
-            
-            conn.close()
             
             return {
                 "status": "healthy" if integrity == "ok" else "degraded",
@@ -7945,7 +7895,7 @@ class UpsellManager:
             Diccionario con puntos ganados y total
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             cursor = conn.cursor()
             
             # Obtener historial del cliente
@@ -7968,8 +7918,6 @@ class UpsellManager:
             
             # Obtener puntos totales (simulado, en producción usar tabla de puntos)
             total_points = points_earned  # Simplificado
-            
-            conn.close()
             
             return {
                 "customer_id": customer_id,
@@ -8059,7 +8007,7 @@ class UpsellManager:
             Diccionario con comparación
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
@@ -8081,13 +8029,10 @@ class UpsellManager:
             metrics2 = get_upsell_metrics(upsell_id2)
             
             if not metrics1 or not metrics2:
-                conn.close()
                 return {}
             
             revenue1 = (metrics1["total_purchases"] or 0) * (metrics1["bundle_price"] or 0)
             revenue2 = (metrics2["total_purchases"] or 0) * (metrics2["bundle_price"] or 0)
-            
-            conn.close()
             
             return {
                 "upsell_1": {
@@ -8125,7 +8070,7 @@ class UpsellManager:
             Diccionario con resultados de todas las variantes
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
@@ -8165,8 +8110,6 @@ class UpsellManager:
                         v["is_winner"] = True
                         break
             
-            conn.close()
-            
             return {
                 "upsell_id": upsell_id,
                 "total_variants": len(variants),
@@ -8188,7 +8131,7 @@ class UpsellManager:
             Diccionario con recomendaciones de precio
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
@@ -8207,7 +8150,6 @@ class UpsellManager:
             
             upsell = cursor.fetchone()
             if not upsell:
-                conn.close()
                 return {}
             
             current_price = upsell["bundle_price"]
@@ -8255,8 +8197,6 @@ class UpsellManager:
                     "reason": "Rendimiento óptimo. Mantener precio actual."
                 })
             
-            conn.close()
-            
             return {
                 "upsell_id": upsell_id,
                 "current_metrics": {
@@ -8282,7 +8222,7 @@ class UpsellManager:
             Diccionario con análisis de cohortes
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
@@ -8315,8 +8255,6 @@ class UpsellManager:
                         (row["total_purchases"] or 0) / max(row["customers"], 1), 2
                     )
                 })
-            
-            conn.close()
             
             return {
                 "period": {
@@ -8415,7 +8353,7 @@ class UpsellManager:
             True si se creó exitosamente
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             cursor = conn.cursor()
             
             alert_id = str(uuid.uuid4())
@@ -8426,7 +8364,6 @@ class UpsellManager:
             ''', (alert_id, alert_type, threshold, product_id))
             
             conn.commit()
-            conn.close()
             return True
         except Exception as e:
             logger.error(f"Error al crear alerta: {str(e)}", exc_info=True)
@@ -8443,7 +8380,7 @@ class UpsellManager:
             Diccionario con nivel de urgencia
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
@@ -8453,7 +8390,6 @@ class UpsellManager:
             
             product = cursor.fetchone()
             if not product:
-                conn.close()
                 return {}
             
             stock = product["stock_quantity"] or 0
@@ -8475,8 +8411,6 @@ class UpsellManager:
             else:
                 urgency_level = "normal"
                 message = "Disponible"
-            
-            conn.close()
             
             return {
                 "product_id": product_id,
@@ -8505,7 +8439,7 @@ class UpsellManager:
             True si se registró exitosamente
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             cursor = conn.cursor()
             
             # Crear tabla de eventos si no existe
@@ -8530,7 +8464,6 @@ class UpsellManager:
             ''', (event_id, event_type, entity_type, entity_id, details_json))
             
             conn.commit()
-            conn.close()
             
             logger.info(f"Evento registrado: {event_type} - {entity_type}:{entity_id}")
             return True
@@ -8553,7 +8486,7 @@ class UpsellManager:
             Lista de eventos
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
@@ -8600,7 +8533,6 @@ class UpsellManager:
                     "created_at": row["created_at"]
                 })
             
-            conn.close()
             return events
         except Exception as e:
             logger.error(f"Error al obtener historial: {str(e)}", exc_info=True)
@@ -8618,7 +8550,7 @@ class UpsellManager:
             Diccionario con análisis del embudo
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
@@ -8651,8 +8583,6 @@ class UpsellManager:
             # Calcular tasas
             view_to_purchase_rate = (total_purchases / max(total_views, 1)) * 100
             
-            conn.close()
-            
             return {
                 "period_days": days,
                 "product_id": product_id,
@@ -8683,7 +8613,7 @@ class UpsellManager:
             Diccionario con journey del cliente
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
@@ -8726,8 +8656,6 @@ class UpsellManager:
             for p in purchases:
                 cat = p["product_category"]
                 categories[cat] = categories.get(cat, 0) + 1
-            
-            conn.close()
             
             return {
                 "customer_id": customer_id,
@@ -8817,7 +8745,7 @@ class UpsellManager:
             True si se creó exitosamente
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             cursor = conn.cursor()
             
             # Crear tabla de cupones si no existe
@@ -8844,7 +8772,6 @@ class UpsellManager:
             ''', (coupon_id, code, discount_type, discount_value, min_purchase, max_uses, valid_until))
             
             conn.commit()
-            conn.close()
             return True
         except Exception as e:
             logger.error(f"Error al crear cupón: {str(e)}", exc_info=True)
@@ -8862,7 +8789,7 @@ class UpsellManager:
             Diccionario con información del cupón y descuento aplicado
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
@@ -8873,18 +8800,15 @@ class UpsellManager:
             
             coupon = cursor.fetchone()
             if not coupon:
-                conn.close()
                 return {"valid": False, "error": "Cupón no encontrado"}
             
             # Validar fecha de expiración
             if coupon["valid_until"]:
                 if datetime.now() > datetime.fromisoformat(coupon["valid_until"].replace('Z', '+00:00')).replace(tzinfo=None):
-                    conn.close()
                     return {"valid": False, "error": "Cupón expirado"}
             
             # Validar compra mínima
             if purchase_amount < coupon["min_purchase"]:
-                conn.close()
                 return {
                     "valid": False,
                     "error": f"Compra mínima requerida: ${coupon['min_purchase']:.2f}"
@@ -8892,7 +8816,6 @@ class UpsellManager:
             
             # Validar máximo de usos
             if coupon["max_uses"] and coupon["current_uses"] >= coupon["max_uses"]:
-                conn.close()
                 return {"valid": False, "error": "Cupón agotado"}
             
             # Calcular descuento
@@ -8902,8 +8825,6 @@ class UpsellManager:
                 discount_amount = min(coupon["discount_value"], purchase_amount)
             
             final_amount = purchase_amount - discount_amount
-            
-            conn.close()
             
             return {
                 "valid": True,
@@ -8930,7 +8851,7 @@ class UpsellManager:
             Diccionario con análisis competitivo
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
@@ -8940,7 +8861,6 @@ class UpsellManager:
             
             product = cursor.fetchone()
             if not product:
-                conn.close()
                 return {}
             
             # Obtener productos similares en la misma categoría
@@ -8970,8 +8890,6 @@ class UpsellManager:
                     "is_cheaper": row["price"] < product["price"]
                 })
             
-            conn.close()
-            
             return {
                 "product_id": product_id,
                 "product_name": product["name"],
@@ -8999,7 +8917,7 @@ class UpsellManager:
             Diccionario con rendimiento por categoría
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
@@ -9031,8 +8949,6 @@ class UpsellManager:
                     "avg_conversion_rate": round((row["avg_conversion"] or 0) * 100, 2),
                     "total_revenue": round(row["total_revenue"] or 0, 2)
                 })
-            
-            conn.close()
             
             return {
                 "period_days": days,
@@ -9101,7 +9017,7 @@ class UpsellManager:
             True si se agregó exitosamente
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             cursor = conn.cursor()
             
             # Crear tabla de wishlist si no existe
@@ -9122,7 +9038,6 @@ class UpsellManager:
             ''', (wishlist_id, customer_id, product_id))
             
             conn.commit()
-            conn.close()
             return True
         except Exception as e:
             logger.error(f"Error al agregar a wishlist: {str(e)}", exc_info=True)
@@ -9139,7 +9054,7 @@ class UpsellManager:
             Lista de productos en wishlist
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
@@ -9166,7 +9081,6 @@ class UpsellManager:
                     "added_at": row["created_at"]
                 })
             
-            conn.close()
             return items
         except Exception as e:
             logger.error(f"Error al obtener wishlist: {str(e)}", exc_info=True)
@@ -9184,7 +9098,7 @@ class UpsellManager:
             Diccionario con métricas de engagement
         """
         try:
-            conn = sqlite3.connect(self.db_path)
+            with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
@@ -9223,8 +9137,6 @@ class UpsellManager:
             # Calcular engagement score
             engagement_score = (total_views * 0.3 + wishlist_adds * 0.4 + total_purchases * 0.3)
             
-            conn.close()
-            
             return {
                 "period_days": days,
                 "product_id": product_id,
@@ -9251,54 +9163,52 @@ class UpsellManager:
             Diccionario con análisis de abandono
         """
         try:
-            conn = sqlite3.connect(self.db_path)
-            conn.row_factory = sqlite3.Row
-            cursor = conn.cursor()
-            
-            # Obtener vistas de upsells (simulando carritos iniciados)
-            cursor.execute('''
-                SELECT 
-                    COUNT(DISTINCT u.product_id) as products_viewed,
-                    SUM(u.total_views) as total_views
-                FROM upsells u
-                WHERE u.is_active = 1
-            ''')
-            views_data = cursor.fetchone()
-            
-            # Obtener compras completadas
-            cursor.execute('''
-                SELECT COUNT(DISTINCT product_id) as products_purchased
-                FROM purchases
-            ''')
-            purchases_data = cursor.fetchone()
-            
-            products_viewed = views_data["products_viewed"] or 0
-            products_purchased = purchases_data["products_purchased"] or 0
-            total_views = views_data["total_views"] or 0
-            
-            # Calcular tasa de abandono (simulado)
-            abandonment_rate = ((products_viewed - products_purchased) / max(products_viewed, 1)) * 100
-            
-            conn.close()
-            
-            return {
-                "period_days": days,
-                "analysis": {
-                    "products_viewed": products_viewed,
-                    "products_purchased": products_purchased,
-                    "total_views": total_views,
-                    "abandonment_rate": round(abandonment_rate, 2),
-                    "conversion_rate": round(100 - abandonment_rate, 2)
-                },
-                "recommendations": {
-                    "urgency": "Alta" if abandonment_rate > 70 else "Media" if abandonment_rate > 50 else "Baja",
-                    "suggested_actions": [
-                        "Enviar recordatorios de carrito abandonado",
-                        "Ofrecer descuentos adicionales",
-                        "Mejorar mensajes de urgencia"
-                    ] if abandonment_rate > 50 else ["Mantener estrategia actual"]
+            with sqlite3.connect(self.db_path) as conn:
+                conn.row_factory = sqlite3.Row
+                cursor = conn.cursor()
+                
+                # Obtener vistas de upsells (simulando carritos iniciados)
+                cursor.execute('''
+                    SELECT 
+                        COUNT(DISTINCT u.product_id) as products_viewed,
+                        SUM(u.total_views) as total_views
+                    FROM upsells u
+                    WHERE u.is_active = 1
+                ''')
+                views_data = cursor.fetchone()
+                
+                # Obtener compras completadas
+                cursor.execute('''
+                    SELECT COUNT(DISTINCT product_id) as products_purchased
+                    FROM purchases
+                ''')
+                purchases_data = cursor.fetchone()
+                
+                products_viewed = views_data["products_viewed"] or 0
+                products_purchased = purchases_data["products_purchased"] or 0
+                total_views = views_data["total_views"] or 0
+                
+                # Calcular tasa de abandono (simulado)
+                abandonment_rate = ((products_viewed - products_purchased) / max(products_viewed, 1)) * 100
+                
+                return {
+                    "period_days": days,
+                    "analysis": {
+                        "products_viewed": products_viewed,
+                        "products_purchased": products_purchased,
+                        "total_views": total_views,
+                        "abandonment_rate": round(abandonment_rate, 2),
+                        "conversion_rate": round(100 - abandonment_rate, 2)
+                    },
+                    "recommendations": {
+                        "urgency": "Alta" if abandonment_rate > 70 else "Media" if abandonment_rate > 50 else "Baja",
+                        "suggested_actions": [
+                            "Enviar recordatorios de carrito abandonado",
+                            "Ofrecer descuentos adicionales",
+                            "Mejorar mensajes de urgencia"
+                        ] if abandonment_rate > 50 else ["Mantener estrategia actual"]
+                    }
                 }
-            }
         except Exception as e:
             logger.error(f"Error en análisis de abandono: {str(e)}", exc_info=True)
             return {}
@@ -9315,42 +9225,40 @@ class UpsellManager:
             Diccionario con recompensas
         """
         try:
-            conn = sqlite3.connect(self.db_path)
-            cursor = conn.cursor()
-            
-            # Crear tabla de referidos si no existe
-            cursor.execute('''
-                CREATE TABLE IF NOT EXISTS referrals (
-                    id TEXT PRIMARY KEY,
-                    referrer_id TEXT NOT NULL,
-                    referred_id TEXT NOT NULL,
-                    reward_points INTEGER DEFAULT 0,
-                    created_at TEXT NOT NULL DEFAULT (datetime('now')),
-                    UNIQUE(referrer_id, referred_id)
-                )
-            ''')
-            
-            # Verificar si ya existe
-            cursor.execute('''
-                SELECT id FROM referrals 
-                WHERE referrer_id = ? AND referred_id = ?
-            ''', (referrer_id, referred_id))
-            
-            if cursor.fetchone():
-                conn.close()
-                return {"success": False, "error": "Referido ya registrado"}
-            
-            # Calcular puntos de recompensa (100 puntos por referido)
-            reward_points = 100
-            
-            referral_id = str(uuid.uuid4())
-            cursor.execute('''
-                INSERT INTO referrals (id, referrer_id, referred_id, reward_points)
-                VALUES (?, ?, ?, ?)
-            ''', (referral_id, referrer_id, referred_id, reward_points))
-            
-            conn.commit()
-            conn.close()
+            with sqlite3.connect(self.db_path) as conn:
+                cursor = conn.cursor()
+                
+                # Crear tabla de referidos si no existe
+                cursor.execute('''
+                    CREATE TABLE IF NOT EXISTS referrals (
+                        id TEXT PRIMARY KEY,
+                        referrer_id TEXT NOT NULL,
+                        referred_id TEXT NOT NULL,
+                        reward_points INTEGER DEFAULT 0,
+                        created_at TEXT NOT NULL DEFAULT (datetime('now')),
+                        UNIQUE(referrer_id, referred_id)
+                    )
+                ''')
+                
+                # Verificar si ya existe
+                cursor.execute('''
+                    SELECT id FROM referrals 
+                    WHERE referrer_id = ? AND referred_id = ?
+                ''', (referrer_id, referred_id))
+                
+                if cursor.fetchone():
+                    return {"success": False, "error": "Referido ya registrado"}
+                
+                # Calcular puntos de recompensa (100 puntos por referido)
+                reward_points = 100
+                
+                referral_id = str(uuid.uuid4())
+                cursor.execute('''
+                    INSERT INTO referrals (id, referrer_id, referred_id, reward_points)
+                    VALUES (?, ?, ?, ?)
+                ''', (referral_id, referrer_id, referred_id, reward_points))
+                
+                conn.commit()
             
             return {
                 "success": True,
@@ -9381,31 +9289,30 @@ class UpsellManager:
             if rating < 1 or rating > 5:
                 return False
             
-            conn = sqlite3.connect(self.db_path)
-            cursor = conn.cursor()
-            
-            # Crear tabla de reviews si no existe
-            cursor.execute('''
-                CREATE TABLE IF NOT EXISTS product_reviews (
-                    id TEXT PRIMARY KEY,
-                    product_id TEXT NOT NULL,
-                    customer_id TEXT NOT NULL,
-                    rating INTEGER NOT NULL,
-                    comment TEXT,
-                    created_at TEXT NOT NULL DEFAULT (datetime('now')),
-                    UNIQUE(product_id, customer_id)
-                )
-            ''')
-            
-            review_id = str(uuid.uuid4())
-            cursor.execute('''
-                INSERT OR REPLACE INTO product_reviews 
-                (id, product_id, customer_id, rating, comment)
-                VALUES (?, ?, ?, ?, ?)
-            ''', (review_id, product_id, customer_id, rating, comment))
-            
-            conn.commit()
-            conn.close()
+            with sqlite3.connect(self.db_path) as conn:
+                cursor = conn.cursor()
+                
+                # Crear tabla de reviews si no existe
+                cursor.execute('''
+                    CREATE TABLE IF NOT EXISTS product_reviews (
+                        id TEXT PRIMARY KEY,
+                        product_id TEXT NOT NULL,
+                        customer_id TEXT NOT NULL,
+                        rating INTEGER NOT NULL,
+                        comment TEXT,
+                        created_at TEXT NOT NULL DEFAULT (datetime('now')),
+                        UNIQUE(product_id, customer_id)
+                    )
+                ''')
+                
+                review_id = str(uuid.uuid4())
+                cursor.execute('''
+                    INSERT OR REPLACE INTO product_reviews 
+                    (id, product_id, customer_id, rating, comment)
+                    VALUES (?, ?, ?, ?, ?)
+                ''', (review_id, product_id, customer_id, rating, comment))
+                
+                conn.commit()
             return True
         except Exception as e:
             logger.error(f"Error al agregar review: {str(e)}", exc_info=True)
@@ -9423,55 +9330,53 @@ class UpsellManager:
             Diccionario con reseñas y estadísticas
         """
         try:
-            conn = sqlite3.connect(self.db_path)
-            conn.row_factory = sqlite3.Row
-            cursor = conn.cursor()
-            
-            cursor.execute('''
-                SELECT 
-                    rating,
-                    comment,
-                    created_at
-                FROM product_reviews
-                WHERE product_id = ?
-                ORDER BY created_at DESC
-                LIMIT ?
-            ''', (product_id, limit))
-            
-            reviews = []
-            for row in cursor.fetchall():
-                reviews.append({
-                    "rating": row["rating"],
-                    "comment": row["comment"],
-                    "created_at": row["created_at"]
-                })
-            
-            # Calcular estadísticas
-            cursor.execute('''
-                SELECT 
-                    COUNT(*) as total_reviews,
-                    AVG(rating) as avg_rating,
-                    COUNT(CASE WHEN rating >= 4 THEN 1 END) as positive_reviews
-                FROM product_reviews
-                WHERE product_id = ?
-            ''', (product_id,))
-            
-            stats = cursor.fetchone()
-            
-            conn.close()
-            
-            return {
-                "product_id": product_id,
-                "reviews": reviews,
-                "statistics": {
-                    "total_reviews": stats["total_reviews"] or 0,
-                    "average_rating": round(stats["avg_rating"] or 0, 2),
-                    "positive_reviews": stats["positive_reviews"] or 0,
-                    "positive_percentage": round(
-                        ((stats["positive_reviews"] or 0) / max(stats["total_reviews"] or 1, 1)) * 100, 2
-                    )
+            with sqlite3.connect(self.db_path) as conn:
+                conn.row_factory = sqlite3.Row
+                cursor = conn.cursor()
+                
+                cursor.execute('''
+                    SELECT 
+                        rating,
+                        comment,
+                        created_at
+                    FROM product_reviews
+                    WHERE product_id = ?
+                    ORDER BY created_at DESC
+                    LIMIT ?
+                ''', (product_id, limit))
+                
+                reviews = []
+                for row in cursor.fetchall():
+                    reviews.append({
+                        "rating": row["rating"],
+                        "comment": row["comment"],
+                        "created_at": row["created_at"]
+                    })
+                
+                # Calcular estadísticas
+                cursor.execute('''
+                    SELECT 
+                        COUNT(*) as total_reviews,
+                        AVG(rating) as avg_rating,
+                        COUNT(CASE WHEN rating >= 4 THEN 1 END) as positive_reviews
+                    FROM product_reviews
+                    WHERE product_id = ?
+                ''', (product_id,))
+                
+                stats = cursor.fetchone()
+                
+                return {
+                    "product_id": product_id,
+                    "reviews": reviews,
+                    "statistics": {
+                        "total_reviews": stats["total_reviews"] or 0,
+                        "average_rating": round(stats["avg_rating"] or 0, 2),
+                        "positive_reviews": stats["positive_reviews"] or 0,
+                        "positive_percentage": round(
+                            ((stats["positive_reviews"] or 0) / max(stats["total_reviews"] or 1, 1)) * 100, 2
+                        )
+                    }
                 }
-            }
         except Exception as e:
             logger.error(f"Error al obtener reviews: {str(e)}", exc_info=True)
             return {}
@@ -9488,51 +9393,50 @@ class UpsellManager:
             Lista de productos encontrados
         """
         try:
-            conn = sqlite3.connect(self.db_path)
-            conn.row_factory = sqlite3.Row
-            cursor = conn.cursor()
-            
-            search_term = f"%{query}%"
-            cursor.execute('''
-                SELECT 
-                    id,
-                    name,
-                    description,
-                    price,
-                    category,
-                    tags
-                FROM products
-                WHERE is_active = 1
-                    AND (
-                        name LIKE ? OR
-                        description LIKE ? OR
-                        category LIKE ? OR
-                        tags LIKE ?
-                    )
-                ORDER BY 
-                    CASE 
-                        WHEN name LIKE ? THEN 1
-                        WHEN category LIKE ? THEN 2
-                        ELSE 3
-                    END,
-                    price ASC
-                LIMIT ?
-            ''', (search_term, search_term, search_term, search_term, 
-                  f"{query}%", f"{query}%", limit))
-            
-            results = []
-            for row in cursor.fetchall():
-                results.append({
-                    "product_id": row["id"],
-                    "name": row["name"],
-                    "description": row["description"],
-                    "price": float(row["price"]),
-                    "category": row["category"],
-                    "tags": row["tags"]
-                })
-            
-            conn.close()
-            return results
+            with sqlite3.connect(self.db_path) as conn:
+                conn.row_factory = sqlite3.Row
+                cursor = conn.cursor()
+                
+                search_term = f"%{query}%"
+                cursor.execute('''
+                    SELECT 
+                        id,
+                        name,
+                        description,
+                        price,
+                        category,
+                        tags
+                    FROM products
+                    WHERE is_active = 1
+                        AND (
+                            name LIKE ? OR
+                            description LIKE ? OR
+                            category LIKE ? OR
+                            tags LIKE ?
+                        )
+                    ORDER BY 
+                        CASE 
+                            WHEN name LIKE ? THEN 1
+                            WHEN category LIKE ? THEN 2
+                            ELSE 3
+                        END,
+                        price ASC
+                    LIMIT ?
+                ''', (search_term, search_term, search_term, search_term, 
+                      f"{query}%", f"{query}%", limit))
+                
+                results = []
+                for row in cursor.fetchall():
+                    results.append({
+                        "product_id": row["id"],
+                        "name": row["name"],
+                        "description": row["description"],
+                        "price": float(row["price"]),
+                        "category": row["category"],
+                        "tags": row["tags"]
+                    })
+                
+                return results
         except Exception as e:
             logger.error(f"Error en búsqueda: {str(e)}", exc_info=True)
             return []
@@ -9548,55 +9452,53 @@ class UpsellManager:
             Diccionario con métricas de retención
         """
         try:
-            conn = sqlite3.connect(self.db_path)
-            conn.row_factory = sqlite3.Row
-            cursor = conn.cursor()
-            
-            cutoff_date = (datetime.now() - timedelta(days=days)).isoformat()
-            
-            # Clientes nuevos
-            cursor.execute('''
-                SELECT COUNT(DISTINCT customer_id) as new_customers
-                FROM customer_history
-                WHERE purchased_at >= ?
-            ''', (cutoff_date,))
-            new_customers = cursor.fetchone()["new_customers"] or 0
-            
-            # Clientes que regresaron
-            cursor.execute('''
-                SELECT COUNT(DISTINCT customer_id) as returning_customers
-                FROM customer_history
-                WHERE customer_id IN (
-                    SELECT DISTINCT customer_id 
-                    FROM customer_history 
-                    WHERE purchased_at < ?
-                )
-                AND purchased_at >= ?
-            ''', (cutoff_date, cutoff_date))
-            returning_customers = cursor.fetchone()["returning_customers"] or 0
-            
-            # Total de clientes únicos
-            cursor.execute('''
-                SELECT COUNT(DISTINCT customer_id) as total_customers
-                FROM customer_history
-            ''')
-            total_customers = cursor.fetchone()["total_customers"] or 0
-            
-            # Calcular tasa de retención
-            retention_rate = (returning_customers / max(total_customers - new_customers, 1)) * 100 if total_customers > new_customers else 0
-            
-            conn.close()
-            
-            return {
-                "period_days": days,
-                "metrics": {
-                    "new_customers": new_customers,
-                    "returning_customers": returning_customers,
-                    "total_customers": total_customers,
-                    "retention_rate": round(retention_rate, 2)
-                },
-                "retention_level": "Alta" if retention_rate > 50 else "Media" if retention_rate > 30 else "Baja"
-            }
+            with sqlite3.connect(self.db_path) as conn:
+                conn.row_factory = sqlite3.Row
+                cursor = conn.cursor()
+                
+                cutoff_date = (datetime.now() - timedelta(days=days)).isoformat()
+                
+                # Clientes nuevos
+                cursor.execute('''
+                    SELECT COUNT(DISTINCT customer_id) as new_customers
+                    FROM customer_history
+                    WHERE purchased_at >= ?
+                ''', (cutoff_date,))
+                new_customers = cursor.fetchone()["new_customers"] or 0
+                
+                # Clientes que regresaron
+                cursor.execute('''
+                    SELECT COUNT(DISTINCT customer_id) as returning_customers
+                    FROM customer_history
+                    WHERE customer_id IN (
+                        SELECT DISTINCT customer_id 
+                        FROM customer_history 
+                        WHERE purchased_at < ?
+                    )
+                    AND purchased_at >= ?
+                ''', (cutoff_date, cutoff_date))
+                returning_customers = cursor.fetchone()["returning_customers"] or 0
+                
+                # Total de clientes únicos
+                cursor.execute('''
+                    SELECT COUNT(DISTINCT customer_id) as total_customers
+                    FROM customer_history
+                ''')
+                total_customers = cursor.fetchone()["total_customers"] or 0
+                
+                # Calcular tasa de retención
+                retention_rate = (returning_customers / max(total_customers - new_customers, 1)) * 100 if total_customers > new_customers else 0
+                
+                return {
+                    "period_days": days,
+                    "metrics": {
+                        "new_customers": new_customers,
+                        "returning_customers": returning_customers,
+                        "total_customers": total_customers,
+                        "retention_rate": round(retention_rate, 2)
+                    },
+                    "retention_level": "Alta" if retention_rate > 50 else "Media" if retention_rate > 30 else "Baja"
+                }
         except Exception as e:
             logger.error(f"Error al calcular retención: {str(e)}", exc_info=True)
             return {}
@@ -9613,52 +9515,49 @@ class UpsellManager:
             Lista de productos recomendados por tags
         """
         try:
-            conn = sqlite3.connect(self.db_path)
-            conn.row_factory = sqlite3.Row
-            cursor = conn.cursor()
-            
-            # Obtener tags del producto
-            cursor.execute('SELECT tags FROM products WHERE id = ?', (product_id,))
-            product = cursor.fetchone()
-            if not product or not product["tags"]:
-                conn.close()
-                return []
-            
-            product_tags = set(product["tags"].split(','))
-            
-            # Buscar productos con tags similares
-            cursor.execute('''
-                SELECT 
-                    id,
-                    name,
-                    price,
-                    category,
-                    tags
-                FROM products
-                WHERE id != ? AND is_active = 1
-            ''', (product_id,))
-            
-            candidates = []
-            for row in cursor.fetchall():
-                if row["tags"]:
-                    candidate_tags = set(row["tags"].split(','))
-                    common_tags = product_tags.intersection(candidate_tags)
-                    if common_tags:
-                        similarity = len(common_tags) / max(len(product_tags.union(candidate_tags)), 1)
-                        candidates.append({
-                            "product_id": row["id"],
-                            "name": row["name"],
-                            "price": float(row["price"]),
-                            "category": row["category"],
-                            "similarity_score": round(similarity, 3),
-                            "common_tags": list(common_tags)
-                        })
-            
-            # Ordenar por similitud
-            candidates.sort(key=lambda x: x["similarity_score"], reverse=True)
-            
-            conn.close()
-            return candidates[:limit]
+            with sqlite3.connect(self.db_path) as conn:
+                conn.row_factory = sqlite3.Row
+                cursor = conn.cursor()
+                
+                # Obtener tags del producto
+                cursor.execute('SELECT tags FROM products WHERE id = ?', (product_id,))
+                product = cursor.fetchone()
+                if not product or not product["tags"]:
+                    return []
+                
+                product_tags = set(product["tags"].split(','))
+                
+                # Buscar productos con tags similares
+                cursor.execute('''
+                    SELECT 
+                        id,
+                        name,
+                        price,
+                        category,
+                        tags
+                    FROM products
+                    WHERE id != ? AND is_active = 1
+                ''', (product_id,))
+                
+                candidates = []
+                for row in cursor.fetchall():
+                    if row["tags"]:
+                        candidate_tags = set(row["tags"].split(','))
+                        common_tags = product_tags.intersection(candidate_tags)
+                        if common_tags:
+                            similarity = len(common_tags) / max(len(product_tags.union(candidate_tags)), 1)
+                            candidates.append({
+                                "product_id": row["id"],
+                                "name": row["name"],
+                                "price": float(row["price"]),
+                                "category": row["category"],
+                                "similarity_score": round(similarity, 3),
+                                "common_tags": list(common_tags)
+                            })
+                
+                # Ordenar por similitud
+                candidates.sort(key=lambda x: x["similarity_score"], reverse=True)
+                return candidates[:limit]
         except Exception as e:
             logger.error(f"Error en recomendaciones por tags: {str(e)}", exc_info=True)
             return []
@@ -9768,8 +9667,6 @@ class UpsellManager:
                 best_rated = max([p for p in products if p["avg_rating"] > 0], 
                                key=lambda x: x["avg_rating"], default=None)
                 
-                conn.close()
-                
                 return {
                     "products": products,
                     "comparison": {
@@ -9781,7 +9678,6 @@ class UpsellManager:
                     }
                 }
             
-            conn.close()
             return {}
         except Exception as e:
             logger.error(f"Error al comparar productos: {str(e)}", exc_info=True)
@@ -9799,42 +9695,41 @@ class UpsellManager:
             Lista de productos más buscados
         """
         try:
-            conn = sqlite3.connect(self.db_path)
-            conn.row_factory = sqlite3.Row
-            cursor = conn.cursor()
-            
-            cutoff_date = (datetime.now() - timedelta(days=days)).isoformat()
-            
-            cursor.execute('''
-                SELECT 
-                    p.id,
-                    p.name,
-                    p.price,
-                    p.category,
-                    SUM(u.total_views) as total_views,
-                    SUM(u.total_purchases) as total_purchases
-                FROM products p
-                JOIN upsells u ON p.id = u.product_id
-                WHERE u.is_active = 1
-                GROUP BY p.id, p.name, p.price, p.category
-                ORDER BY total_views DESC
-                LIMIT ?
-            ''', (limit,))
-            
-            products = []
-            for row in cursor.fetchall():
-                products.append({
-                    "product_id": row["id"],
-                    "name": row["name"],
-                    "price": float(row["price"]),
-                    "category": row["category"],
-                    "total_views": row["total_views"] or 0,
-                    "total_purchases": row["total_purchases"] or 0,
-                    "popularity_score": (row["total_views"] or 0) + (row["total_purchases"] or 0) * 2
-                })
-            
-            conn.close()
-            return products
+            with sqlite3.connect(self.db_path) as conn:
+                conn.row_factory = sqlite3.Row
+                cursor = conn.cursor()
+                
+                cutoff_date = (datetime.now() - timedelta(days=days)).isoformat()
+                
+                cursor.execute('''
+                    SELECT 
+                        p.id,
+                        p.name,
+                        p.price,
+                        p.category,
+                        SUM(u.total_views) as total_views,
+                        SUM(u.total_purchases) as total_purchases
+                    FROM products p
+                    JOIN upsells u ON p.id = u.product_id
+                    WHERE u.is_active = 1
+                    GROUP BY p.id, p.name, p.price, p.category
+                    ORDER BY total_views DESC
+                    LIMIT ?
+                ''', (limit,))
+                
+                products = []
+                for row in cursor.fetchall():
+                    products.append({
+                        "product_id": row["id"],
+                        "name": row["name"],
+                        "price": float(row["price"]),
+                        "category": row["category"],
+                        "total_views": row["total_views"] or 0,
+                        "total_purchases": row["total_purchases"] or 0,
+                        "popularity_score": (row["total_views"] or 0) + (row["total_purchases"] or 0) * 2
+                    })
+                
+                return products
         except Exception as e:
             logger.error(f"Error al obtener productos más buscados: {str(e)}", exc_info=True)
             return []
@@ -9850,38 +9745,37 @@ class UpsellManager:
             Lista de productos con stock bajo
         """
         try:
-            conn = sqlite3.connect(self.db_path)
-            conn.row_factory = sqlite3.Row
-            cursor = conn.cursor()
-            
-            cursor.execute('''
-                SELECT 
-                    id,
-                    name,
-                    price,
-                    category,
-                    stock_quantity
-                FROM products
-                WHERE is_active = 1
-                    AND stock_quantity <= ?
-                ORDER BY stock_quantity ASC
-            ''', (threshold,))
-            
-            alerts = []
-            for row in cursor.fetchall():
-                urgency = "critical" if row["stock_quantity"] <= 3 else "high" if row["stock_quantity"] <= 5 else "medium"
-                alerts.append({
-                    "product_id": row["id"],
-                    "name": row["name"],
-                    "price": float(row["price"]),
-                    "category": row["category"],
-                    "stock_quantity": row["stock_quantity"],
-                    "urgency": urgency,
-                    "message": f"¡Solo quedan {row['stock_quantity']} unidades!" if row["stock_quantity"] > 0 else "¡Agotado!"
-                })
-            
-            conn.close()
-            return alerts
+            with sqlite3.connect(self.db_path) as conn:
+                conn.row_factory = sqlite3.Row
+                cursor = conn.cursor()
+                
+                cursor.execute('''
+                    SELECT 
+                        id,
+                        name,
+                        price,
+                        category,
+                        stock_quantity
+                    FROM products
+                    WHERE is_active = 1
+                        AND stock_quantity <= ?
+                    ORDER BY stock_quantity ASC
+                ''', (threshold,))
+                
+                alerts = []
+                for row in cursor.fetchall():
+                    urgency = "critical" if row["stock_quantity"] <= 3 else "high" if row["stock_quantity"] <= 5 else "medium"
+                    alerts.append({
+                        "product_id": row["id"],
+                        "name": row["name"],
+                        "price": float(row["price"]),
+                        "category": row["category"],
+                        "stock_quantity": row["stock_quantity"],
+                        "urgency": urgency,
+                        "message": f"¡Solo quedan {row['stock_quantity']} unidades!" if row["stock_quantity"] > 0 else "¡Agotado!"
+                    })
+                
+                return alerts
         except Exception as e:
             logger.error(f"Error al obtener alertas de stock: {str(e)}", exc_info=True)
             return []
@@ -9926,36 +9820,35 @@ class UpsellManager:
             Lista de búsquedas en tendencia
         """
         try:
-            conn = sqlite3.connect(self.db_path)
-            conn.row_factory = sqlite3.Row
-            cursor = conn.cursor()
-            
-            cursor.execute('''
-                SELECT 
-                    p.name,
-                    p.category,
-                    SUM(u.total_views) as search_count,
-                    COUNT(DISTINCT u.id) as upsells_count
-                FROM products p
-                JOIN upsells u ON p.id = u.product_id
-                WHERE u.is_active = 1
-                GROUP BY p.id, p.name, p.category
-                ORDER BY search_count DESC
-                LIMIT ?
-            ''', (limit,))
-            
-            trends = []
-            for row in cursor.fetchall():
-                trends.append({
-                    "search_term": row["name"],
-                    "category": row["category"],
-                    "search_count": row["search_count"] or 0,
-                    "upsells_count": row["upsells_count"],
-                    "trend_score": (row["search_count"] or 0) * 1.5 + row["upsells_count"] * 10
-                })
-            
-            conn.close()
-            return trends
+            with sqlite3.connect(self.db_path) as conn:
+                conn.row_factory = sqlite3.Row
+                cursor = conn.cursor()
+                
+                cursor.execute('''
+                    SELECT 
+                        p.name,
+                        p.category,
+                        SUM(u.total_views) as search_count,
+                        COUNT(DISTINCT u.id) as upsells_count
+                    FROM products p
+                    JOIN upsells u ON p.id = u.product_id
+                    WHERE u.is_active = 1
+                    GROUP BY p.id, p.name, p.category
+                    ORDER BY search_count DESC
+                    LIMIT ?
+                ''', (limit,))
+                
+                trends = []
+                for row in cursor.fetchall():
+                    trends.append({
+                        "search_term": row["name"],
+                        "category": row["category"],
+                        "search_count": row["search_count"] or 0,
+                        "upsells_count": row["upsells_count"],
+                        "trend_score": (row["search_count"] or 0) * 1.5 + row["upsells_count"] * 10
+                    })
+                
+                return trends
         except Exception as e:
             logger.error(f"Error al obtener tendencias: {str(e)}", exc_info=True)
             return []
@@ -9972,42 +9865,41 @@ class UpsellManager:
             Lista de productos frecuentemente comprados juntos
         """
         try:
-            conn = sqlite3.connect(self.db_path)
-            conn.row_factory = sqlite3.Row
-            cursor = conn.cursor()
-            
-            # Encontrar productos comprados en la misma transacción o por los mismos clientes
-            cursor.execute('''
-                SELECT 
-                    p2.id,
-                    p2.name,
-                    p2.price,
-                    p2.category,
-                    COUNT(DISTINCT ch1.customer_id) as customers_count
-                FROM customer_history ch1
-                JOIN customer_history ch2 ON ch1.customer_id = ch2.customer_id
-                JOIN products p2 ON ch2.product_id = p2.id
-                WHERE ch1.product_id = ?
-                    AND ch2.product_id != ?
-                    AND p2.is_active = 1
-                GROUP BY p2.id, p2.name, p2.price, p2.category
-                ORDER BY customers_count DESC
-                LIMIT ?
-            ''', (product_id, product_id, limit))
-            
-            products = []
-            for row in cursor.fetchall():
-                products.append({
-                    "product_id": row["id"],
-                    "name": row["name"],
-                    "price": float(row["price"]),
-                    "category": row["category"],
-                    "customers_bought_together": row["customers_count"],
-                    "compatibility_score": min(row["customers_count"] / 10.0, 1.0)  # Normalizado
-                })
-            
-            conn.close()
-            return products
+            with sqlite3.connect(self.db_path) as conn:
+                conn.row_factory = sqlite3.Row
+                cursor = conn.cursor()
+                
+                # Encontrar productos comprados en la misma transacción o por los mismos clientes
+                cursor.execute('''
+                    SELECT 
+                        p2.id,
+                        p2.name,
+                        p2.price,
+                        p2.category,
+                        COUNT(DISTINCT ch1.customer_id) as customers_count
+                    FROM customer_history ch1
+                    JOIN customer_history ch2 ON ch1.customer_id = ch2.customer_id
+                    JOIN products p2 ON ch2.product_id = p2.id
+                    WHERE ch1.product_id = ?
+                        AND ch2.product_id != ?
+                        AND p2.is_active = 1
+                    GROUP BY p2.id, p2.name, p2.price, p2.category
+                    ORDER BY customers_count DESC
+                    LIMIT ?
+                ''', (product_id, product_id, limit))
+                
+                products = []
+                for row in cursor.fetchall():
+                    products.append({
+                        "product_id": row["id"],
+                        "name": row["name"],
+                        "price": float(row["price"]),
+                        "category": row["category"],
+                        "customers_bought_together": row["customers_count"],
+                        "compatibility_score": min(row["customers_count"] / 10.0, 1.0)  # Normalizado
+                    })
+                
+                return products
         except Exception as e:
             logger.error(f"Error al obtener productos relacionados: {str(e)}", exc_info=True)
             return []
@@ -10024,51 +9916,49 @@ class UpsellManager:
             Diccionario con métricas de velocidad
         """
         try:
-            conn = sqlite3.connect(self.db_path)
-            conn.row_factory = sqlite3.Row
-            cursor = conn.cursor()
-            
-            cutoff_date = (datetime.now() - timedelta(days=days)).isoformat()
-            
-            # Simular cálculo de velocidad (en producción se necesitaría tracking de vistas)
-            cursor.execute('''
-                SELECT 
-                    COUNT(*) as total_purchases,
-                    AVG(CASE WHEN u.total_views > 0 
-                        THEN (u.total_purchases * 1.0 / u.total_views) ELSE 0 END) as avg_conversion
-                FROM upsells u
-                WHERE u.is_active = 1
-            ''')
-            
-            metrics = cursor.fetchone()
-            
-            # Calcular velocidad estimada (simulado)
-            avg_conversion = metrics["avg_conversion"] or 0
-            total_purchases = metrics["total_purchases"] or 0
-            
-            # Velocidad alta = conversión rápida
-            if avg_conversion > 0.2:
-                velocity = "Alta"
-                estimated_hours = 2
-            elif avg_conversion > 0.1:
-                velocity = "Media"
-                estimated_hours = 24
-            else:
-                velocity = "Baja"
-                estimated_hours = 72
-            
-            conn.close()
-            
-            return {
-                "period_days": days,
-                "product_id": product_id,
-                "metrics": {
-                    "total_purchases": total_purchases,
-                    "avg_conversion_rate": round(avg_conversion * 100, 2),
-                    "conversion_velocity": velocity,
-                    "estimated_conversion_hours": estimated_hours
+            with sqlite3.connect(self.db_path) as conn:
+                conn.row_factory = sqlite3.Row
+                cursor = conn.cursor()
+                
+                cutoff_date = (datetime.now() - timedelta(days=days)).isoformat()
+                
+                # Simular cálculo de velocidad (en producción se necesitaría tracking de vistas)
+                cursor.execute('''
+                    SELECT 
+                        COUNT(*) as total_purchases,
+                        AVG(CASE WHEN u.total_views > 0 
+                            THEN (u.total_purchases * 1.0 / u.total_views) ELSE 0 END) as avg_conversion
+                    FROM upsells u
+                    WHERE u.is_active = 1
+                ''')
+                
+                metrics = cursor.fetchone()
+                
+                # Calcular velocidad estimada (simulado)
+                avg_conversion = metrics["avg_conversion"] or 0
+                total_purchases = metrics["total_purchases"] or 0
+                
+                # Velocidad alta = conversión rápida
+                if avg_conversion > 0.2:
+                    velocity = "Alta"
+                    estimated_hours = 2
+                elif avg_conversion > 0.1:
+                    velocity = "Media"
+                    estimated_hours = 24
+                else:
+                    velocity = "Baja"
+                    estimated_hours = 72
+                
+                return {
+                    "period_days": days,
+                    "product_id": product_id,
+                    "metrics": {
+                        "total_purchases": total_purchases,
+                        "avg_conversion_rate": round(avg_conversion * 100, 2),
+                        "conversion_velocity": velocity,
+                        "estimated_conversion_hours": estimated_hours
+                    }
                 }
-            }
         except Exception as e:
             logger.error(f"Error al calcular velocidad: {str(e)}", exc_info=True)
             return {}
@@ -10084,100 +9974,97 @@ class UpsellManager:
             Diccionario con sugerencias de precio
         """
         try:
-            conn = sqlite3.connect(self.db_path)
-            conn.row_factory = sqlite3.Row
-            cursor = conn.cursor()
-            
-            cursor.execute('''
-                SELECT 
-                    p.price,
-                    p.stock_quantity,
-                    AVG(pr.rating) as avg_rating,
-                    COUNT(pr.id) as review_count,
-                    SUM(u.total_views) as total_views,
-                    SUM(u.total_purchases) as total_purchases
-                FROM products p
-                LEFT JOIN product_reviews pr ON p.id = pr.product_id
-                LEFT JOIN upsells u ON p.id = u.product_id
-                WHERE p.id = ?
-                GROUP BY p.id
-            ''', (product_id,))
-            
-            product = cursor.fetchone()
-            if not product:
-                conn.close()
-                return {}
-            
-            current_price = product["price"]
-            stock = product["stock_quantity"] or 0
-            avg_rating = product["avg_rating"] or 0
-            views = product["total_views"] or 0
-            purchases = product["total_purchases"] or 0
-            conversion = (purchases / max(views, 1)) if views > 0 else 0
-            
-            suggestions = []
-            
-            # Sugerencia 1: Stock bajo -> aumentar precio
-            if stock <= 5 and stock > 0:
-                new_price = current_price * 1.1
-                suggestions.append({
-                    "strategy": "scarcity_pricing",
+            with sqlite3.connect(self.db_path) as conn:
+                conn.row_factory = sqlite3.Row
+                cursor = conn.cursor()
+                
+                cursor.execute('''
+                    SELECT 
+                        p.price,
+                        p.stock_quantity,
+                        AVG(pr.rating) as avg_rating,
+                        COUNT(pr.id) as review_count,
+                        SUM(u.total_views) as total_views,
+                        SUM(u.total_purchases) as total_purchases
+                    FROM products p
+                    LEFT JOIN product_reviews pr ON p.id = pr.product_id
+                    LEFT JOIN upsells u ON p.id = u.product_id
+                    WHERE p.id = ?
+                    GROUP BY p.id
+                ''', (product_id,))
+                
+                product = cursor.fetchone()
+                if not product:
+                    return {}
+                
+                current_price = product["price"]
+                stock = product["stock_quantity"] or 0
+                avg_rating = product["avg_rating"] or 0
+                views = product["total_views"] or 0
+                purchases = product["total_purchases"] or 0
+                conversion = (purchases / max(views, 1)) if views > 0 else 0
+                
+                suggestions = []
+                
+                # Sugerencia 1: Stock bajo -> aumentar precio
+                if stock <= 5 and stock > 0:
+                    new_price = current_price * 1.1
+                    suggestions.append({
+                        "strategy": "scarcity_pricing",
+                        "current_price": round(current_price, 2),
+                        "suggested_price": round(new_price, 2),
+                        "change_percent": 10.0,
+                        "reason": "Stock bajo - aplicar pricing de escasez"
+                    })
+                
+                # Sugerencia 2: Alta demanda -> aumentar precio
+                if conversion > 0.2 and views > 50:
+                    new_price = current_price * 1.05
+                    suggestions.append({
+                        "strategy": "demand_pricing",
+                        "current_price": round(current_price, 2),
+                        "suggested_price": round(new_price, 2),
+                        "change_percent": 5.0,
+                        "reason": "Alta demanda detectada"
+                    })
+                
+                # Sugerencia 3: Baja conversión -> reducir precio
+                if conversion < 0.05 and views > 30:
+                    new_price = current_price * 0.9
+                    suggestions.append({
+                        "strategy": "conversion_boost",
+                        "current_price": round(current_price, 2),
+                        "suggested_price": round(new_price, 2),
+                        "change_percent": -10.0,
+                        "reason": "Baja conversión - reducir precio para aumentar ventas"
+                    })
+                
+                # Sugerencia 4: Alta calificación -> premium pricing
+                if avg_rating >= 4.5 and product["review_count"] >= 10:
+                    new_price = current_price * 1.08
+                    suggestions.append({
+                        "strategy": "premium_pricing",
+                        "current_price": round(current_price, 2),
+                        "suggested_price": round(new_price, 2),
+                        "change_percent": 8.0,
+                        "reason": "Alta calificación - aplicar premium pricing"
+                    })
+                
+                if not suggestions:
+                    suggestions.append({
+                        "strategy": "maintain",
+                        "current_price": round(current_price, 2),
+                        "suggested_price": round(current_price, 2),
+                        "change_percent": 0.0,
+                        "reason": "Precio actual es óptimo"
+                    })
+                
+                return {
+                    "product_id": product_id,
                     "current_price": round(current_price, 2),
-                    "suggested_price": round(new_price, 2),
-                    "change_percent": 10.0,
-                    "reason": "Stock bajo - aplicar pricing de escasez"
-                })
-            
-            # Sugerencia 2: Alta demanda -> aumentar precio
-            if conversion > 0.2 and views > 50:
-                new_price = current_price * 1.05
-                suggestions.append({
-                    "strategy": "demand_pricing",
-                    "current_price": round(current_price, 2),
-                    "suggested_price": round(new_price, 2),
-                    "change_percent": 5.0,
-                    "reason": "Alta demanda detectada"
-                })
-            
-            # Sugerencia 3: Baja conversión -> reducir precio
-            if conversion < 0.05 and views > 30:
-                new_price = current_price * 0.9
-                suggestions.append({
-                    "strategy": "conversion_boost",
-                    "current_price": round(current_price, 2),
-                    "suggested_price": round(new_price, 2),
-                    "change_percent": -10.0,
-                    "reason": "Baja conversión - reducir precio para aumentar ventas"
-                })
-            
-            # Sugerencia 4: Alta calificación -> premium pricing
-            if avg_rating >= 4.5 and product["review_count"] >= 10:
-                new_price = current_price * 1.08
-                suggestions.append({
-                    "strategy": "premium_pricing",
-                    "current_price": round(current_price, 2),
-                    "suggested_price": round(new_price, 2),
-                    "change_percent": 8.0,
-                    "reason": "Alta calificación - aplicar premium pricing"
-                })
-            
-            if not suggestions:
-                suggestions.append({
-                    "strategy": "maintain",
-                    "current_price": round(current_price, 2),
-                    "suggested_price": round(current_price, 2),
-                    "change_percent": 0.0,
-                    "reason": "Precio actual es óptimo"
-                })
-            
-            conn.close()
-            
-            return {
-                "product_id": product_id,
-                "current_price": round(current_price, 2),
-                "suggestions": suggestions,
-                "best_suggestion": suggestions[0] if suggestions else None
-            }
+                    "suggestions": suggestions,
+                    "best_suggestion": suggestions[0] if suggestions else None
+                }
         except Exception as e:
             logger.error(f"Error en sugerencias de precio: {str(e)}", exc_info=True)
             return {}
@@ -10194,84 +10081,81 @@ class UpsellManager:
             Lista de recomendaciones basadas en comportamiento
         """
         try:
-            conn = sqlite3.connect(self.db_path)
-            conn.row_factory = sqlite3.Row
-            cursor = conn.cursor()
-            
-            # Obtener categorías y tags más visitados/comprados
-            cursor.execute('''
-                SELECT 
-                    p.category,
-                    p.tags,
-                    COUNT(*) as interaction_count
-                FROM customer_history ch
-                JOIN products p ON ch.product_id = p.id
-                WHERE ch.customer_id = ?
-                GROUP BY p.category, p.tags
-                ORDER BY interaction_count DESC
-                LIMIT 3
-            ''', (customer_id,))
-            
-            preferences = cursor.fetchall()
-            if not preferences:
-                conn.close()
-                return []
-            
-            # Buscar productos similares
-            preferred_categories = [p["category"] for p in preferences]
-            preferred_tags = set()
-            for p in preferences:
-                if p["tags"]:
-                    preferred_tags.update(p["tags"].split(','))
-            
-            # Buscar productos en categorías preferidas
-            placeholders = ','.join(['?'] * len(preferred_categories))
-            cursor.execute(f'''
-                SELECT DISTINCT
-                    p.id,
-                    p.name,
-                    p.price,
-                    p.category,
-                    p.tags,
-                    COUNT(DISTINCT ch2.customer_id) as popularity
-                FROM products p
-                LEFT JOIN customer_history ch2 ON p.id = ch2.product_id
-                WHERE p.category IN ({placeholders})
-                    AND p.id NOT IN (
-                        SELECT product_id FROM customer_history WHERE customer_id = ?
-                    )
-                    AND p.is_active = 1
-                GROUP BY p.id, p.name, p.price, p.category, p.tags
-                ORDER BY popularity DESC, p.price ASC
-                LIMIT ?
-            ''', (*preferred_categories, customer_id, limit))
-            
-            recommendations = []
-            for row in cursor.fetchall():
-                # Calcular score basado en preferencias
-                category_match = 1.0 if row["category"] in preferred_categories else 0.5
-                tag_match = 0.0
-                if row["tags"] and preferred_tags:
-                    product_tags = set(row["tags"].split(','))
-                    common_tags = product_tags.intersection(preferred_tags)
-                    tag_match = len(common_tags) / max(len(preferred_tags), 1)
+            with sqlite3.connect(self.db_path) as conn:
+                conn.row_factory = sqlite3.Row
+                cursor = conn.cursor()
                 
-                score = (category_match * 0.6 + tag_match * 0.4) * (1 + (row["popularity"] or 0) / 100)
+                # Obtener categorías y tags más visitados/comprados
+                cursor.execute('''
+                    SELECT 
+                        p.category,
+                        p.tags,
+                        COUNT(*) as interaction_count
+                    FROM customer_history ch
+                    JOIN products p ON ch.product_id = p.id
+                    WHERE ch.customer_id = ?
+                    GROUP BY p.category, p.tags
+                    ORDER BY interaction_count DESC
+                    LIMIT 3
+                ''', (customer_id,))
                 
-                recommendations.append({
-                    "product_id": row["id"],
-                    "name": row["name"],
-                    "price": float(row["price"]),
-                    "category": row["category"],
-                    "tags": row["tags"],
-                    "behavioral_score": round(score, 3),
-                    "reason": f"Basado en tu preferencia por {row['category']}"
-                })
-            
-            recommendations.sort(key=lambda x: x["behavioral_score"], reverse=True)
-            
-            conn.close()
-            return recommendations[:limit]
+                preferences = cursor.fetchall()
+                if not preferences:
+                    return []
+                
+                # Buscar productos similares
+                preferred_categories = [p["category"] for p in preferences]
+                preferred_tags = set()
+                for p in preferences:
+                    if p["tags"]:
+                        preferred_tags.update(p["tags"].split(','))
+                
+                # Buscar productos en categorías preferidas
+                placeholders = ','.join(['?'] * len(preferred_categories))
+                cursor.execute(f'''
+                    SELECT DISTINCT
+                        p.id,
+                        p.name,
+                        p.price,
+                        p.category,
+                        p.tags,
+                        COUNT(DISTINCT ch2.customer_id) as popularity
+                    FROM products p
+                    LEFT JOIN customer_history ch2 ON p.id = ch2.product_id
+                    WHERE p.category IN ({placeholders})
+                        AND p.id NOT IN (
+                            SELECT product_id FROM customer_history WHERE customer_id = ?
+                        )
+                        AND p.is_active = 1
+                    GROUP BY p.id, p.name, p.price, p.category, p.tags
+                    ORDER BY popularity DESC, p.price ASC
+                    LIMIT ?
+                ''', (*preferred_categories, customer_id, limit))
+                
+                recommendations = []
+                for row in cursor.fetchall():
+                    # Calcular score basado en preferencias
+                    category_match = 1.0 if row["category"] in preferred_categories else 0.5
+                    tag_match = 0.0
+                    if row["tags"] and preferred_tags:
+                        product_tags = set(row["tags"].split(','))
+                        common_tags = product_tags.intersection(preferred_tags)
+                        tag_match = len(common_tags) / max(len(preferred_tags), 1)
+                    
+                    score = (category_match * 0.6 + tag_match * 0.4) * (1 + (row["popularity"] or 0) / 100)
+                    
+                    recommendations.append({
+                        "product_id": row["id"],
+                        "name": row["name"],
+                        "price": float(row["price"]),
+                        "category": row["category"],
+                        "tags": row["tags"],
+                        "behavioral_score": round(score, 3),
+                        "reason": f"Basado en tu preferencia por {row['category']}"
+                    })
+                
+                recommendations.sort(key=lambda x: x["behavioral_score"], reverse=True)
+                return recommendations[:limit]
         except Exception as e:
             logger.error(f"Error en recomendaciones de comportamiento: {str(e)}", exc_info=True)
             return []
@@ -10287,56 +10171,54 @@ class UpsellManager:
             Diccionario con matriz de afinidad
         """
         try:
-            conn = sqlite3.connect(self.db_path)
-            conn.row_factory = sqlite3.Row
-            cursor = conn.cursor()
-            
-            # Obtener productos más populares
-            cursor.execute('''
-                SELECT 
-                    p.id,
-                    p.name,
-                    COUNT(DISTINCT ch.customer_id) as customers
-                FROM products p
-                JOIN customer_history ch ON p.id = ch.product_id
-                WHERE p.is_active = 1
-                GROUP BY p.id, p.name
-                ORDER BY customers DESC
-                LIMIT ?
-            ''', (limit,))
-            
-            products = [{"id": row["id"], "name": row["name"]} for row in cursor.fetchall()]
-            
-            # Calcular afinidad entre productos
-            affinity_matrix = {}
-            for i, prod1 in enumerate(products):
-                for prod2 in products[i+1:]:
-                    cursor.execute('''
-                        SELECT COUNT(DISTINCT customer_id) as common_customers
-                        FROM customer_history ch1
-                        JOIN customer_history ch2 ON ch1.customer_id = ch2.customer_id
-                        WHERE ch1.product_id = ? AND ch2.product_id = ?
-                    ''', (prod1["id"], prod2["id"]))
-                    
-                    result = cursor.fetchone()
-                    common = result["common_customers"] or 0
-                    
-                    if common > 0:
-                        key = f"{prod1['id']}-{prod2['id']}"
-                        affinity_matrix[key] = {
-                            "product_1": prod1["name"],
-                            "product_2": prod2["name"],
-                            "affinity_score": common,
-                            "relationship": "strong" if common >= 5 else "moderate" if common >= 2 else "weak"
-                        }
-            
-            conn.close()
-            
-            return {
-                "products_analyzed": len(products),
-                "affinity_pairs": len(affinity_matrix),
-                "matrix": affinity_matrix
-            }
+            with sqlite3.connect(self.db_path) as conn:
+                conn.row_factory = sqlite3.Row
+                cursor = conn.cursor()
+                
+                # Obtener productos más populares
+                cursor.execute('''
+                    SELECT 
+                        p.id,
+                        p.name,
+                        COUNT(DISTINCT ch.customer_id) as customers
+                    FROM products p
+                    JOIN customer_history ch ON p.id = ch.product_id
+                    WHERE p.is_active = 1
+                    GROUP BY p.id, p.name
+                    ORDER BY customers DESC
+                    LIMIT ?
+                ''', (limit,))
+                
+                products = [{"id": row["id"], "name": row["name"]} for row in cursor.fetchall()]
+                
+                # Calcular afinidad entre productos
+                affinity_matrix = {}
+                for i, prod1 in enumerate(products):
+                    for prod2 in products[i+1:]:
+                        cursor.execute('''
+                            SELECT COUNT(DISTINCT customer_id) as common_customers
+                            FROM customer_history ch1
+                            JOIN customer_history ch2 ON ch1.customer_id = ch2.customer_id
+                            WHERE ch1.product_id = ? AND ch2.product_id = ?
+                        ''', (prod1["id"], prod2["id"]))
+                        
+                        result = cursor.fetchone()
+                        common = result["common_customers"] or 0
+                        
+                        if common > 0:
+                            key = f"{prod1['id']}-{prod2['id']}"
+                            affinity_matrix[key] = {
+                                "product_1": prod1["name"],
+                                "product_2": prod2["name"],
+                                "affinity_score": common,
+                                "relationship": "strong" if common >= 5 else "moderate" if common >= 2 else "weak"
+                            }
+                
+                return {
+                    "products_analyzed": len(products),
+                    "affinity_pairs": len(affinity_matrix),
+                    "matrix": affinity_matrix
+                }
         except Exception as e:
             logger.error(f"Error en matriz de afinidad: {str(e)}", exc_info=True)
             return {}
@@ -10352,71 +10234,68 @@ class UpsellManager:
             Diccionario con métricas de LTV
         """
         try:
-            conn = sqlite3.connect(self.db_path)
-            conn.row_factory = sqlite3.Row
-            cursor = conn.cursor()
-            
-            # Obtener todas las compras del cliente
-            cursor.execute('''
-                SELECT 
-                    SUM(total_amount) as total_spent,
-                    COUNT(*) as total_orders,
-                    MIN(purchased_at) as first_purchase,
-                    MAX(purchased_at) as last_purchase,
-                    AVG(total_amount) as avg_order_value
-                FROM purchases
-                WHERE customer_id = ?
-            ''', (customer_id,))
-            
-            stats = cursor.fetchone()
-            
-            if not stats or not stats["total_spent"]:
-                conn.close()
-                return {}
-            
-            total_spent = float(stats["total_spent"] or 0)
-            total_orders = stats["total_orders"] or 0
-            avg_order_value = float(stats["avg_order_value"] or 0)
-            
-            # Calcular días como cliente
-            first_purchase = datetime.fromisoformat(stats["first_purchase"].replace('Z', '+00:00')).replace(tzinfo=None)
-            days_as_customer = (datetime.now() - first_purchase).days
-            days_as_customer = max(days_as_customer, 1)
-            
-            # Calcular frecuencia de compra
-            purchase_frequency = total_orders / (days_as_customer / 30)  # Compras por mes
-            
-            # Estimar LTV (simplificado: gasto promedio mensual * meses estimados)
-            monthly_value = total_spent / (days_as_customer / 30)
-            estimated_ltv = monthly_value * 12  # Estimar 1 año
-            
-            # Clasificar cliente
-            if total_spent >= 5000:
-                tier = "Premium"
-            elif total_spent >= 2000:
-                tier = "Gold"
-            elif total_spent >= 1000:
-                tier = "Silver"
-            else:
-                tier = "Bronze"
-            
-            conn.close()
-            
-            return {
-                "customer_id": customer_id,
-                "ltv_metrics": {
-                    "total_spent": round(total_spent, 2),
-                    "total_orders": total_orders,
-                    "avg_order_value": round(avg_order_value, 2),
-                    "days_as_customer": days_as_customer,
-                    "purchase_frequency_per_month": round(purchase_frequency, 2),
-                    "monthly_value": round(monthly_value, 2),
-                    "estimated_ltv": round(estimated_ltv, 2)
-                },
-                "customer_tier": tier,
-                "first_purchase": stats["first_purchase"],
-                "last_purchase": stats["last_purchase"]
-            }
+            with sqlite3.connect(self.db_path) as conn:
+                conn.row_factory = sqlite3.Row
+                cursor = conn.cursor()
+                
+                # Obtener todas las compras del cliente
+                cursor.execute('''
+                    SELECT 
+                        SUM(total_amount) as total_spent,
+                        COUNT(*) as total_orders,
+                        MIN(purchased_at) as first_purchase,
+                        MAX(purchased_at) as last_purchase,
+                        AVG(total_amount) as avg_order_value
+                    FROM purchases
+                    WHERE customer_id = ?
+                ''', (customer_id,))
+                
+                stats = cursor.fetchone()
+                
+                if not stats or not stats["total_spent"]:
+                    return {}
+                
+                total_spent = float(stats["total_spent"] or 0)
+                total_orders = stats["total_orders"] or 0
+                avg_order_value = float(stats["avg_order_value"] or 0)
+                
+                # Calcular días como cliente
+                first_purchase = datetime.fromisoformat(stats["first_purchase"].replace('Z', '+00:00')).replace(tzinfo=None)
+                days_as_customer = (datetime.now() - first_purchase).days
+                days_as_customer = max(days_as_customer, 1)
+                
+                # Calcular frecuencia de compra
+                purchase_frequency = total_orders / (days_as_customer / 30)  # Compras por mes
+                
+                # Estimar LTV (simplificado: gasto promedio mensual * meses estimados)
+                monthly_value = total_spent / (days_as_customer / 30)
+                estimated_ltv = monthly_value * 12  # Estimar 1 año
+                
+                # Clasificar cliente
+                if total_spent >= 5000:
+                    tier = "Premium"
+                elif total_spent >= 2000:
+                    tier = "Gold"
+                elif total_spent >= 1000:
+                    tier = "Silver"
+                else:
+                    tier = "Bronze"
+                
+                return {
+                    "customer_id": customer_id,
+                    "ltv_metrics": {
+                        "total_spent": round(total_spent, 2),
+                        "total_orders": total_orders,
+                        "avg_order_value": round(avg_order_value, 2),
+                        "days_as_customer": days_as_customer,
+                        "purchase_frequency_per_month": round(purchase_frequency, 2),
+                        "monthly_value": round(monthly_value, 2),
+                        "estimated_ltv": round(estimated_ltv, 2)
+                    },
+                    "customer_tier": tier,
+                    "first_purchase": stats["first_purchase"],
+                    "last_purchase": stats["last_purchase"]
+                }
         except Exception as e:
             logger.error(f"Error al calcular LTV: {str(e)}", exc_info=True)
             return {}
@@ -10433,47 +10312,45 @@ class UpsellManager:
             Diccionario con tasa de éxito
         """
         try:
-            conn = sqlite3.connect(self.db_path)
-            conn.row_factory = sqlite3.Row
-            cursor = conn.cursor()
-            
-            cutoff_date = (datetime.now() - timedelta(days=days)).isoformat()
-            
-            where_clause = "WHERE u.product_id = ?" if product_id else ""
-            params = (product_id, cutoff_date) if product_id else (cutoff_date,)
-            
-            # Total de compras con upsell
-            query = f'''
-                SELECT 
-                    COUNT(DISTINCT p.id) as purchases_with_upsell,
-                    COUNT(DISTINCT CASE WHEN p.upsell_product_id IS NOT NULL THEN p.id END) as upsell_purchases
-                FROM purchases p
-                JOIN upsells u ON p.product_id = u.product_id
-                {where_clause}
-                AND p.purchased_at >= ?
-            '''
-            
-            cursor.execute(query, params)
-            stats = cursor.fetchone()
-            
-            total_purchases = stats["purchases_with_upsell"] or 0
-            upsell_purchases = stats["upsell_purchases"] or 0
-            
-            success_rate = (upsell_purchases / max(total_purchases, 1)) * 100
-            
-            conn.close()
-            
-            return {
-                "period_days": days,
-                "product_id": product_id,
-                "metrics": {
-                    "total_purchases": total_purchases,
-                    "upsell_purchases": upsell_purchases,
-                    "success_rate": round(success_rate, 2),
-                    "no_upsell_purchases": total_purchases - upsell_purchases
-                },
-                "performance": "Excelente" if success_rate > 40 else "Bueno" if success_rate > 25 else "Mejorable"
-            }
+            with sqlite3.connect(self.db_path) as conn:
+                conn.row_factory = sqlite3.Row
+                cursor = conn.cursor()
+                
+                cutoff_date = (datetime.now() - timedelta(days=days)).isoformat()
+                
+                where_clause = "WHERE u.product_id = ?" if product_id else ""
+                params = (product_id, cutoff_date) if product_id else (cutoff_date,)
+                
+                # Total de compras con upsell
+                query = f'''
+                    SELECT 
+                        COUNT(DISTINCT p.id) as purchases_with_upsell,
+                        COUNT(DISTINCT CASE WHEN p.upsell_product_id IS NOT NULL THEN p.id END) as upsell_purchases
+                    FROM purchases p
+                    JOIN upsells u ON p.product_id = u.product_id
+                    {where_clause}
+                    AND p.purchased_at >= ?
+                '''
+                
+                cursor.execute(query, params)
+                stats = cursor.fetchone()
+                
+                total_purchases = stats["purchases_with_upsell"] or 0
+                upsell_purchases = stats["upsell_purchases"] or 0
+                
+                success_rate = (upsell_purchases / max(total_purchases, 1)) * 100
+                
+                return {
+                    "period_days": days,
+                    "product_id": product_id,
+                    "metrics": {
+                        "total_purchases": total_purchases,
+                        "upsell_purchases": upsell_purchases,
+                        "success_rate": round(success_rate, 2),
+                        "no_upsell_purchases": total_purchases - upsell_purchases
+                    },
+                    "performance": "Excelente" if success_rate > 40 else "Bueno" if success_rate > 25 else "Mejorable"
+                }
         except Exception as e:
             logger.error(f"Error al calcular tasa de éxito: {str(e)}", exc_info=True)
             return {}
@@ -13274,56 +13151,53 @@ class OfferVersionManager:
     
     def _init_versions_table(self):
         """Inicializa tabla de versiones"""
-        conn = sqlite3.connect(self.db_path)
-        cursor = conn.cursor()
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS offer_versions (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                offer_id TEXT NOT NULL,
-                version_number INTEGER NOT NULL,
-                offer_data TEXT NOT NULL,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                created_by TEXT,
-                change_summary TEXT,
-                FOREIGN KEY (offer_id) REFERENCES offers(id)
-            )
-        ''')
-        conn.commit()
-        conn.close()
+        with sqlite3.connect(self.db_path) as conn:
+            cursor = conn.cursor()
+            cursor.execute('''
+                CREATE TABLE IF NOT EXISTS offer_versions (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    offer_id TEXT NOT NULL,
+                    version_number INTEGER NOT NULL,
+                    offer_data TEXT NOT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    created_by TEXT,
+                    change_summary TEXT,
+                    FOREIGN KEY (offer_id) REFERENCES offers(id)
+                )
+            ''')
+            conn.commit()
     
     def create_version(self, offer_id: str, offer_data: Dict, created_by: str = "", 
                       change_summary: str = "") -> int:
         """Crea una nueva versión de una oferta"""
-        conn = sqlite3.connect(self.db_path)
-        cursor = conn.cursor()
-        
-        # Obtener última versión
-        cursor.execute('SELECT MAX(version_number) FROM offer_versions WHERE offer_id = ?', (offer_id,))
-        last_version = cursor.fetchone()[0] or 0
-        new_version = last_version + 1
-        
-        cursor.execute('''
-            INSERT INTO offer_versions (offer_id, version_number, offer_data, created_by, change_summary)
-            VALUES (?, ?, ?, ?, ?)
-        ''', (offer_id, new_version, json.dumps(offer_data), created_by, change_summary))
-        
-        conn.commit()
-        conn.close()
-        return new_version
+        with sqlite3.connect(self.db_path) as conn:
+            cursor = conn.cursor()
+            
+            # Obtener última versión
+            cursor.execute('SELECT MAX(version_number) FROM offer_versions WHERE offer_id = ?', (offer_id,))
+            last_version = cursor.fetchone()[0] or 0
+            new_version = last_version + 1
+            
+            cursor.execute('''
+                INSERT INTO offer_versions (offer_id, version_number, offer_data, created_by, change_summary)
+                VALUES (?, ?, ?, ?, ?)
+            ''', (offer_id, new_version, json.dumps(offer_data), created_by, change_summary))
+            
+            conn.commit()
+            return new_version
     
     def get_versions(self, offer_id: str) -> List[Dict]:
         """Obtiene todas las versiones de una oferta"""
-        conn = sqlite3.connect(self.db_path)
-        conn.row_factory = sqlite3.Row
-        cursor = conn.cursor()
-        
-        cursor.execute('''
-            SELECT * FROM offer_versions WHERE offer_id = ? ORDER BY version_number DESC
-        ''', (offer_id,))
-        rows = cursor.fetchall()
-        conn.close()
-        
-        return [dict(row) for row in rows]
+        with sqlite3.connect(self.db_path) as conn:
+            conn.row_factory = sqlite3.Row
+            cursor = conn.cursor()
+            
+            cursor.execute('''
+                SELECT * FROM offer_versions WHERE offer_id = ? ORDER BY version_number DESC
+            ''', (offer_id,))
+            rows = cursor.fetchall()
+            
+            return [dict(row) for row in rows]
 
 
 class WebhookManager:
@@ -13335,32 +13209,30 @@ class WebhookManager:
     
     def _init_webhooks_table(self):
         """Inicializa tabla de webhooks"""
-        conn = sqlite3.connect(self.db_path)
-        cursor = conn.cursor()
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS webhooks (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                url TEXT NOT NULL,
-                events TEXT NOT NULL,
-                secret TEXT,
-                active BOOLEAN DEFAULT 1,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            )
-        ''')
-        conn.commit()
-        conn.close()
+        with sqlite3.connect(self.db_path) as conn:
+            cursor = conn.cursor()
+            cursor.execute('''
+                CREATE TABLE IF NOT EXISTS webhooks (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    url TEXT NOT NULL,
+                    events TEXT NOT NULL,
+                    secret TEXT,
+                    active BOOLEAN DEFAULT 1,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                )
+            ''')
+            conn.commit()
     
     def register(self, url: str, events: List[str], secret: str = "") -> bool:
         """Registra un nuevo webhook"""
         try:
-            conn = sqlite3.connect(self.db_path)
-            cursor = conn.cursor()
-            cursor.execute('''
-                INSERT INTO webhooks (url, events, secret)
-                VALUES (?, ?, ?)
-            ''', (url, json.dumps(events), secret))
-            conn.commit()
-            conn.close()
+            with sqlite3.connect(self.db_path) as conn:
+                cursor = conn.cursor()
+                cursor.execute('''
+                    INSERT INTO webhooks (url, events, secret)
+                    VALUES (?, ?, ?)
+                ''', (url, json.dumps(events), secret))
+                conn.commit()
             return True
         except Exception as e:
             logger.error(f"Error al registrar webhook: {str(e)}")
@@ -13370,13 +13242,12 @@ class WebhookManager:
         """Dispara un webhook para un evento"""
         try:
             import requests
-            conn = sqlite3.connect(self.db_path)
-            conn.row_factory = sqlite3.Row
-            cursor = conn.cursor()
-            
-            cursor.execute('SELECT * FROM webhooks WHERE active = 1')
-            webhooks = cursor.fetchall()
-            conn.close()
+            with sqlite3.connect(self.db_path) as conn:
+                conn.row_factory = sqlite3.Row
+                cursor = conn.cursor()
+                
+                cursor.execute('SELECT * FROM webhooks WHERE active = 1')
+                webhooks = cursor.fetchall()
             
             for webhook in webhooks:
                 events = json.loads(webhook['events'])

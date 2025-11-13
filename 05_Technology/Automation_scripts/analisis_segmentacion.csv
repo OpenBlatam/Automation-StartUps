@@ -1,0 +1,9 @@
+ID,Nombre,Industria,Tamaño,Geografía,Madurez Digital,Adopción Tecnológica,Urgencia Problema,Apetito Innovación,Aversión Riesgo,Score Tamaño,Score Crecimiento,Score Accesibilidad,Score Competencia,Score Ajuste Producto,Score Total
+SEG-001,Tech Startups Innovadoras - Latam,Tecnología,Startup (1-10),Latinoamérica,Emergente (3-5),Innovador,Alta (7-9),Disruptivo (9-10),Tolerante al Riesgo (9-10),7.5,9.0,8.5,6.0,9.5,8.125
+SEG-002,Medianas Empresas Fintech - Global,Servicios Financieros,Mediana (51-250),Global/Multi-región,Avanzado (6-8),Adoptador Temprano,Crítica (10),Alto (7-8),Media (4-6),8.5,8.5,7.0,7.5,9.0,8.175
+SEG-003,Enterprise Healthcare - Norte América,Salud y Farmacéutica,Enterprise (1000+),Norte América,Avanzado (6-8),Mayoría Temprana,Crítica (10),Moderado (4-6),Alta (1-3),9.5,7.0,5.0,8.0,7.5,7.5
+SEG-004,Retail E-commerce Emergente - Latam,Retail y E-commerce,Mediana (51-250),Latinoamérica,Emergente (3-5),Mayoría Temprana,Alta (7-9),Alto (7-8),Media (4-6),8.0,9.5,8.0,7.0,8.5,8.275
+SEG-005,Consultorías Digitales - Europa,Consultoría y Servicios Profesionales,Mediana (51-250),Europa,Avanzado (6-8),Adoptador Temprano,Media (4-6),Alto (7-8),Baja (7-8),6.5,7.5,7.5,6.5,8.0,7.199999999999999
+SEG-006,Manufacturing 4.0 - Asia-Pacífico,Manufactura,Grande (251-1000),Asia-Pacífico,Emergente (3-5),Mayoría Temprana,Alta (7-9),Moderado (4-6),Media (4-6),9.0,8.0,6.0,7.5,7.0,7.6
+SEG-007,EdTech Scale-ups - Global,Educación,Mediana (51-250),Global/Multi-región,Avanzado (6-8),Adoptador Temprano,Alta (7-9),Alto (7-8),Baja (7-8),7.0,9.0,8.5,6.0,9.0,7.925000000000001
+SEG-008,Enterprise Conservadoras - Global,Energía y Utilities,Enterprise (1000+),Global/Multi-región,Inicial (0-2),Rezagado (Laggard),Baja (1-3),Conservador (1-3),Alta (1-3),9.5,4.0,3.0,5.0,4.0,5.15
