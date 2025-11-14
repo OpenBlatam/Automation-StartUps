@@ -1,0 +1,417 @@
+{
+  "timestamp": "2025-11-13T10:59:49.350681",
+  "stats": {
+    "total_files": 17967,
+    "total_size": 882264420,
+    "total_size_formatted": "841.39 MB",
+    "total_folders": 2506
+  },
+  "by_extension": {
+    ".py": 994,
+    ".md": 11422,
+    ".csv": 231,
+    ".json": 198,
+    ".html": 246,
+    ".js": 299,
+    ".sh": 118,
+    ".txt": 104,
+    "(sin extensión)": 3083,
+    ".svg": 190,
+    ".yaml": 13,
+    ".bak": 77,
+    ".docx": 140,
+    ".bak22": 1,
+    ".bak25": 1,
+    ".bak13": 1,
+    ".bak14": 1,
+    ".bak15": 1,
+    ".bak12": 1,
+    ".bak24": 1,
+    ".bak23": 1,
+    ".bak4": 1,
+    ".bak3": 1,
+    ".bak2": 1,
+    ".bak5": 1,
+    ".bak19": 1,
+    ".bak26": 1,
+    ".bak17": 1,
+    ".bak10": 1,
+    ".bak11": 1,
+    ".bak29": 1,
+    ".bak16": 1,
+    ".bak20": 1,
+    ".bak18": 1,
+    ".bak9": 1,
+    ".bak34": 1,
+    ".bak7": 1,
+    ".bak33": 1,
+    ".bak32": 1,
+    ".bak6": 1,
+    ".bak8": 1,
+    ".yml": 19,
+    ".jsx": 32,
+    ".ini": 1,
+    ".env": 2,
+    ".xml": 28,
+    ".conf": 4,
+    ".example": 8,
+    ".gs": 4,
+    ".log": 12,
+    ".rtf": 9,
+    ".db": 2,
+    ".png": 1,
+    ".20250919_174020": 1,
+    ".20250919_171155": 1,
+    ".20250919_173028": 1,
+    ".20250919_175604": 1,
+    ".20250919_174747": 1,
+    ".zip": 6,
+    ".ts": 174,
+    ".css": 15,
+    ".sql": 3,
+    ".ps1": 14,
+    ".bat": 2,
+    ".pack": 2,
+    ".tsx": 16,
+    ".pkl": 6,
+    ".h5": 4,
+    ".sample": 13,
+    ".prisma": 2,
+    ".idx": 2,
+    ".xlsx": 216,
+    ".pdf": 177,
+    ".pptx": 30,
+    ".srt": 3,
+    ".doc": 11,
+    ".gz": 1
+  },
+  "by_category": {
+    "Analytics": 188,
+    "Healthcare": 14,
+    "Real Estate": 18,
+    "Risk Management": 154,
+    "International Business": 26,
+    "User Guides": 22,
+    "AI": 1354,
+    "Thought Leadership": 7,
+    "Professional Services": 7,
+    "Media": 17,
+    "Sports": 10,
+    "Product Management": 13,
+    "Advanced Features": 94,
+    "R&D": 26,
+    "Business Strategy": 736,
+    "Strategy": 254,
+    "Manufacturing": 25,
+    "Documentation": 2190,
+    "Project Management": 108,
+    "Non-Profit": 9,
+    "Technology": 1413,
+    "QA": 49,
+    "Legal/Compliance": 143,
+    "System Architecture": 20,
+    "Government": 10,
+    "Operations": 166,
+    "Sustainability": 34,
+    "Education": 32,
+    "Customer Service": 119,
+    "E-Commerce": 5,
+    "Consulting": 18,
+    "HR": 92,
+    "Supply Chain": 22,
+    "Entertainment": 31,
+    "Innovation": 78,
+    "Finance": 405,
+    "Procurement": 7,
+    "Marketing": 5697,
+    "Customer Experience": 18,
+    "Sales": 105,
+    "Retail": 10
+  },
+  "folders_with_most_files": [
+    [
+      "01_marketing/Other",
+      3964
+    ],
+    [
+      "08_ai_artificial_intelligence/Ai_systems",
+      958
+    ],
+    [
+      "06_documentation/Other",
+      580
+    ],
+    [
+      "05_technology/Automation_scripts",
+      448
+    ],
+    [
+      "06_documentation/Other/Guides",
+      314
+    ],
+    [
+      "06_documentation/Templates",
+      298
+    ],
+    [
+      "05_technology/Other",
+      244
+    ],
+    [
+      "06_documentation",
+      236
+    ],
+    [
+      "assets/misc/xlsx",
+      201
+    ],
+    [
+      "01_marketing/Templates",
+      197
+    ],
+    [
+      "04_business_strategy/Business_plans",
+      195
+    ],
+    [
+      "04_business_strategy/Strategic_plans",
+      184
+    ],
+    [
+      "01_marketing",
+      184
+    ],
+    [
+      "tools",
+      164
+    ],
+    [
+      "01_webinar_campaign/Webinar_other",
+      137
+    ],
+    [
+      "Templates",
+      136
+    ],
+    [
+      "assets/misc/pdf",
+      136
+    ],
+    [
+      "01_marketing/Analytics",
+      114
+    ],
+    [
+      "01_marketing/Guides",
+      113
+    ],
+    [
+      "02_finance/Other",
+      110
+    ]
+  ],
+  "largest_files": [
+    [
+      "assets/98_Backups/zip/snapshot_20251029_234656.zip",
+      301464276,
+      "287.50 MB"
+    ],
+    [
+      "assets/01_marketing/db/content_index.db",
+      95080448,
+      "90.68 MB"
+    ],
+    [
+      "assets/01_marketing/json/marketing_split_report.json",
+      42814772,
+      "40.83 MB"
+    ],
+    [
+      "assets/97_analysis_reports/json/large_files_report.json",
+      38449834,
+      "36.67 MB"
+    ],
+    [
+      "assets/misc/json/search_index.json",
+      13813275,
+      "13.17 MB"
+    ],
+    [
+      "backups/backup_ultra_avanzado_20251006_132017/backup_ultra_avanzado_20251006_132017.tar.gz",
+      13532451,
+      "12.91 MB"
+    ],
+    [
+      "06_documentation/Data_Files/learning_data.json",
+      10147484,
+      "9.68 MB"
+    ],
+    [
+      "97_analysis_reports/Data_Files/dependency_analysis_report.json",
+      4797482,
+      "4.58 MB"
+    ],
+    [
+      "97_analysis_reports/Data_Files/semantic_index.json",
+      4777893,
+      "4.56 MB"
+    ],
+    [
+      "06_documentation/duplicate_similar_report.csv",
+      4593153,
+      "4.38 MB"
+    ],
+    [
+      "02_finance/Forecasting/modelo_prediccion_exito.pkl",
+      3059505,
+      "2.92 MB"
+    ],
+    [
+      "06_documentation/Data_Files/yaml_preview.json",
+      2869445,
+      "2.74 MB"
+    ],
+    [
+      "06_documentation/Data_Files/rename_mapping.json",
+      2515188,
+      "2.40 MB"
+    ],
+    [
+      "backups/backup_ultra_avanzado_20251006_132017/bulk-documents-1760139000562.pdf",
+      2489191,
+      "2.37 MB"
+    ],
+    [
+      "97_analysis_reports/Data_Files/content_intelligence_dashboard.json",
+      2340895,
+      "2.23 MB"
+    ],
+    [
+      "assets/misc/pdf/curso_marketing_ia_ultra_mejorado.pdf",
+      1816465,
+      "1.73 MB"
+    ],
+    [
+      "02_finance/Data_files/simulaciones_escenarios.json",
+      1803810,
+      "1.72 MB"
+    ],
+    [
+      "06_documentation/Other/Analytics/dashboard_metricas_ia_marketing_refactorizadomdbackup.20250919_171155",
+      1658491,
+      "1.58 MB"
+    ],
+    [
+      "01_marketing/Other/behavioral_psychology_marketing_analysis.md",
+      1601236,
+      "1.53 MB"
+    ],
+    [
+      "backups/duplicates/fab85a153ccf27957e1e13948216cc6ca1305a8ef17fd8af139a0765c3a2e0fb/behavioral-psychology-marketing-analysis.md",
+      1601027,
+      "1.53 MB"
+    ]
+  ],
+  "recent_files": [
+    [
+      "04_business_strategy/Business_cases/business_case_completo.md",
+      1763053183.5497754,
+      "2025-11-13T10:59:43.549775"
+    ],
+    [
+      "06_documentation/GUIA_ORGANIZACION_MEJORADA.md",
+      1763053180.841572,
+      "2025-11-13T10:59:40.841572"
+    ],
+    [
+      "06_documentation/Scripts/generate_index.py",
+      1763053131.810284,
+      "2025-11-13T10:58:51.810284"
+    ],
+    [
+      "08_ai_artificial_intelligence/Ai_systems/ideas_instagram_ia_bulk.md",
+      1763053128.2921045,
+      "2025-11-13T10:58:48.292104"
+    ],
+    [
+      "06_documentation/Scripts/verify_organization.py",
+      1763053109.288781,
+      "2025-11-13T10:58:29.288781"
+    ],
+    [
+      "08_ai_artificial_intelligence/Ai_systems/propuesta_consultoria_template.md",
+      1763053043.5433445,
+      "2025-11-13T10:57:23.543344"
+    ],
+    [
+      "organize_root_files.py",
+      1763053030.0550094,
+      "2025-11-13T10:57:10.055009"
+    ],
+    [
+      "06_documentation/RESUMEN_ORGANIZACION_RAIZ_2025.md",
+      1763053030.051655,
+      "2025-11-13T10:57:10.051655"
+    ],
+    [
+      "06_documentation/Scripts/organize_root_files.py",
+      1763052876.6596432,
+      "2025-11-13T10:54:36.659643"
+    ],
+    [
+      "08_ai_artificial_intelligence/Ai_systems/captions_instagram_ia_bulk.md",
+      1763052615.0248249,
+      "2025-11-13T10:50:15.024825"
+    ],
+    [
+      "08_ai_artificial_intelligence/Ai_systems/perfil_cliente_ia_bulk_documentos.md",
+      1763052614.9163322,
+      "2025-11-13T10:50:14.916332"
+    ],
+    [
+      "06_documentation/calendario_contenido_semana.md",
+      1763006911.6581123,
+      "2025-11-12T22:08:31.658112"
+    ],
+    [
+      "05_technology/Automation_scripts/offer_letter_api.py",
+      1762932846.0394063,
+      "2025-11-12T01:34:06.039406"
+    ],
+    [
+      "05_technology/Automation_scripts/advanced_segmentation_matrix.py",
+      1762932846.027792,
+      "2025-11-12T01:34:06.027792"
+    ],
+    [
+      "05_technology/Automation_scripts/analisis_mercado_offer_letter_api.md",
+      1762931778.455838,
+      "2025-11-12T01:16:18.455838"
+    ],
+    [
+      "08_ai_artificial_intelligence/Analisis_Tendencias_IA_Automatizacion_Bulk.md",
+      1762930581.6066747,
+      "2025-11-12T00:56:21.606675"
+    ],
+    [
+      "05_technology/Automation_scripts/reporte_ejecutivo_segmentacion.txt",
+      1762930549.6732173,
+      "2025-11-12T00:55:49.673217"
+    ],
+    [
+      "05_technology/Automation_scripts/analisis_segmentacion.csv",
+      1762930549.6722267,
+      "2025-11-12T00:55:49.672227"
+    ],
+    [
+      "05_technology/Automation_scripts/analisis_segmentacion.json",
+      1762930549.6468832,
+      "2025-11-12T00:55:49.646883"
+    ],
+    [
+      "01_marketing/Guides/encuesta_validacion_mvp_ia_bulk.md",
+      1762929984.8978746,
+      "2025-11-12T00:46:24.897875"
+    ]
+  ]
+}

@@ -9,6 +9,7 @@ path: "07_risk_management/Risk_assessments/readme.md"
 # Risk_Assessments
 
 ## Archivos
+- analisis_riesgos_proyecto_matriz.md
 - 01_RISK_MANAGEMENT_POLICY.md
 - 02_RISK_ASSESSMENT_TEMPLATE.md
 - 03_RISK_REGISTER.md

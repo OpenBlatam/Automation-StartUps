@@ -24,5 +24,6 @@ Resumen: 0 carpetas, 7 archivos
 - [plan_implementacion_completo.md](./plan_implementacion_completo.md) — 20.3KB
 - [plan_implementacion_detallado.md](./plan_implementacion_detallado.md) — 10.6KB
 - [plan_implementacion_estrategica_integrado.md](./plan_implementacion_estrategica_integrado.md) — 19.0KB
+- [plan_implementacion_mejorado_crm.md](./plan_implementacion_mejorado_crm.md) — Plan mejorado con tabla, Gantt y ruta crítica
 - [readme.md](./readme.md) — 392.0B
 - [roadmap_implementacion_recomendaciones.md](./roadmap_implementacion_recomendaciones.md) — 12.0KB
