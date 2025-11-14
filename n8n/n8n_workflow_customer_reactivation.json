@@ -1,0 +1,308 @@
+{
+  "name": "Customer Reactivation Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "cronExpression": "0 9 * * 1",
+        "timezone": "UTC",
+        "options": {}
+      },
+      "id": "schedule-weekly",
+      "name": "Weekly Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [150, 300],
+      "notes": "Ejecuta cada lunes a las 9 AM para identificar clientes inactivos"
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL }}/customers/inactive",
+        "method": "GET",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "={{ $env.API_KEY }}"
+            }
+          ]
+        },
+        "options": {
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "daysInactive",
+                "value": "={{ $env.DAYS_INACTIVE || '90' }}"
+              },
+              {
+                "name": "minPurchaseValue",
+                "value": "={{ $env.MIN_PURCHASE_VALUE || '50' }}"
+              },
+              {
+                "name": "limit",
+                "value": "100"
+              }
+            ]
+          }
+        }
+      },
+      "id": "fetch-inactive-customers",
+      "name": "Fetch Inactive Customers",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [350, 300],
+      "notes": "Obtiene lista de clientes inactivos desde CRM"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Analizar y segmentar clientes inactivos\nconst customers = $input.all();\n\nconst segmented = {\n  highValue: [],\n  mediumValue: [],\n  lowValue: [],\n  churnRisk: []\n};\n\nfor (const customer of customers) {\n  const data = customer.json;\n  const totalSpent = data.totalSpent || 0;\n  const daysInactive = data.daysInactive || 0;\n  const lastPurchaseValue = data.lastPurchaseValue || 0;\n  \n  // Calcular score de reactivación (0-100)\n  let reactivationScore = 50;\n  \n  if (totalSpent > 500) reactivationScore += 30;\n  else if (totalSpent > 200) reactivationScore += 20;\n  else if (totalSpent > 100) reactivationScore += 10;\n  \n  if (lastPurchaseValue > 100) reactivationScore += 15;\n  if (data.previousPurchases > 5) reactivationScore += 15;\n  if (daysInactive < 60) reactivationScore += 10;\n  if (daysInactive > 180) reactivationScore -= 20; // Más difícil reactivar\n  \n  data.reactivationScore = Math.max(0, Math.min(100, reactivationScore));\n  \n  // Segmentar\n  if (totalSpent > 500 && reactivationScore > 70) {\n    segmented.highValue.push(data);\n  } else if (totalSpent > 200 && reactivationScore > 50) {\n    segmented.mediumValue.push(data);\n  } else if (reactivationScore < 30) {\n    segmented.churnRisk.push(data);\n  } else {\n    segmented.lowValue.push(data);\n  }\n}\n\n// Retornar todos segmentados\nconst allSegmented = [\n  ...segmented.highValue.map(c => ({ json: { ...c, segment: 'high_value' } })),\n  ...segmented.mediumValue.map(c => ({ json: { ...c, segment: 'medium_value' } })),\n  ...segmented.lowValue.map(c => ({ json: { ...c, segment: 'low_value' } })),\n  ...segmented.churnRisk.map(c => ({ json: { ...c, segment: 'churn_risk' } }))\n];\n\nreturn allSegmented;"
+      },
+      "id": "segment-inactive",
+      "name": "Segment Inactive Customers",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [550, 300],
+      "notes": "Segmenta clientes inactivos por valor y score de reactivación"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-001",
+              "leftValue": "={{ $json.segment }}",
+              "rightValue": "high_value",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "filter-high-value",
+      "name": "Filter High Value",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [750, 200],
+      "notes": "Filtra clientes de alto valor"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generar mensaje de reactivación personalizado\nconst customer = $input.item.json;\nconst segment = customer.segment;\nconst daysInactive = customer.daysInactive || 90;\nconst totalSpent = customer.totalSpent || 0;\nconst firstName = customer.firstName || 'Cliente';\nconst language = customer.language || 'es';\n\nlet subject, body, offer, discountCode;\n\nif (segment === 'high_value') {\n  subject = language === 'es' ? `🎁 Oferta Exclusiva para Ti, ${firstName}` : `🎁 Exclusive Offer for You, ${firstName}`;\n  offer = language === 'es' ? '30% de descuento + Envío Gratis' : '30% Off + Free Shipping';\n  discountCode = 'COMEBACK30';\n  body = language === 'es' ? \n    `Hola ${firstName},\n\nTe extrañamos. Hace ${daysInactive} días que no te vemos por aquí.\n\nComo cliente valioso (has gastado $${totalSpent.toFixed(2)}), queremos ofrecerte:\n\n✨ 30% de descuento en tu próxima compra\n🚚 Envío GRATIS\n🎁 Producto gratis con compras >$100\n\nEsta oferta es exclusiva para ti y expira en 7 días.\n\nCódigo: COMEBACK30\n\n[Ver Ofertas Especiales]` :\n    `Hi ${firstName},\n\nWe miss you. It's been ${daysInactive} days since we last saw you.\n\nAs a valued customer (you've spent $${totalSpent.toFixed(2)}), we want to offer you:\n\n✨ 30% off your next purchase\n🚚 FREE Shipping\n🎁 Free product with purchases >$100\n\nThis offer is exclusive to you and expires in 7 days.\n\nCode: COMEBACK30\n\n[View Special Offers]`;\n} else if (segment === 'medium_value') {\n  subject = language === 'es' ? `¿Te acuerdas de nosotros, ${firstName}?` : `Remember us, ${firstName}?`;\n  offer = language === 'es' ? '20% de descuento' : '20% Off';\n  discountCode = 'COMEBACK20';\n  body = language === 'es' ?\n    `Hola ${firstName},\n\nHace tiempo que no te vemos. ¿Qué tal si volvemos a conectar?\n\nTe ofrecemos 20% de descuento en tu próxima compra.\n\nCódigo: COMEBACK20\n\n[Ver Catálogo]` :\n    `Hi ${firstName},\n\nIt's been a while. How about we reconnect?\n\nWe're offering you 20% off your next purchase.\n\nCode: COMEBACK20\n\n[View Catalog]`;\n} else {\n  subject = language === 'es' ? `¡Hola de nuevo, ${firstName}!` : `Hello again, ${firstName}!`;\n  offer = language === 'es' ? '15% de descuento' : '15% Off';\n  discountCode = 'COMEBACK15';\n  body = language === 'es' ?\n    `Hola ${firstName},\n\nNos encantaría verte de nuevo. Aquí tienes 15% de descuento.\n\nCódigo: COMEBACK15\n\n[Ver Productos]` :\n    `Hi ${firstName},\n\nWe'd love to see you again. Here's 15% off.\n\nCode: COMEBACK15\n\n[View Products]`;\n}\n\nreturn [{\n  json: {\n    ...customer,\n    messageSubject: subject,\n    messageBody: body,\n    offer: offer,\n    discountCode: discountCode,\n    messageType: 'reactivation',\n    expiresIn: 7\n  }\n}];"
+      },
+      "id": "generate-reactivation-message",
+      "name": "Generate Reactivation Message",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [950, 300],
+      "notes": "Genera mensaje de reactivación personalizado"
+    },
+    {
+      "parameters": {
+        "resource": "email",
+        "operation": "send",
+        "fromEmail": "={{ $env.FROM_EMAIL }}",
+        "toEmail": "={{ $json.email }}",
+        "subject": "={{ $json.messageSubject }}",
+        "html": "={{ $json.messageBody.replace(/\\n/g, '<br>') }}",
+        "text": "={{ $json.messageBody }}",
+        "options": {
+          "replyTo": "={{ $env.REPLY_TO_EMAIL }}"
+        }
+      },
+      "id": "send-reactivation-email",
+      "name": "Send Reactivation Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [1150, 300],
+      "credentials": {
+        "smtp": {
+          "id": "smtp-credentials",
+          "name": "SMTP Credentials"
+        }
+      },
+      "notes": "Envía email de reactivación",
+      "continueOnFail": true,
+      "retryOnFail": true,
+      "maxTries": 3
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL }}/analytics/track",
+        "method": "POST",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"event\": \"reactivation_campaign_sent\",\n  \"customerId\": \"{{ $json.customerId }}\",\n  \"segment\": \"{{ $json.segment }}\",\n  \"reactivationScore\": {{ $json.reactivationScore }},\n  \"daysInactive\": {{ $json.daysInactive }},\n  \"discountCode\": \"{{ $json.discountCode }}\",\n  \"timestamp\": \"{{ $now }}\"\n}",
+        "options": {}
+      },
+      "id": "track-reactivation",
+      "name": "Track Reactivation",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1350, 300],
+      "notes": "Registra envío de campaña de reactivación",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generar reporte de reactivación\nconst allCustomers = $input.all();\n\nconst report = {\n  date: new Date().toISOString(),\n  totalCustomers: allCustomers.length,\n  bySegment: {\n    high_value: 0,\n    medium_value: 0,\n    low_value: 0,\n    churn_risk: 0\n  },\n  averageScore: 0,\n  totalPotentialValue: 0\n};\n\nlet totalScore = 0;\n\nfor (const customer of allCustomers) {\n  const data = customer.json;\n  report.bySegment[data.segment] = (report.bySegment[data.segment] || 0) + 1;\n  totalScore += data.reactivationScore || 0;\n  report.totalPotentialValue += data.totalSpent || 0;\n}\n\nreport.averageScore = totalScore / allCustomers.length;\n\nreturn [{\n  json: report\n}];"
+      },
+      "id": "generate-report",
+      "name": "Generate Reactivation Report",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1550, 300],
+      "notes": "Genera reporte de la campaña de reactivación"
+    },
+    {
+      "parameters": {
+        "resource": "email",
+        "operation": "send",
+        "fromEmail": "={{ $env.FROM_EMAIL }}",
+        "toEmail": "={{ $env.REPORT_RECIPIENTS || 'team@yourdomain.com' }}",
+        "subject": "Reporte Semanal de Reactivación",
+        "html": "=<h2>Reporte de Campaña de Reactivación</h2><p><strong>Fecha:</strong> {{ $json.date }}</p><p><strong>Total Clientes:</strong> {{ $json.totalCustomers }}</p><h3>Por Segmento:</h3><ul><li>Alto Valor: {{ $json.bySegment.high_value }}</li><li>Medio Valor: {{ $json.bySegment.medium_value }}</li><li>Bajo Valor: {{ $json.bySegment.low_value }}</li><li>Riesgo Churn: {{ $json.bySegment.churn_risk }}</li></ul><p><strong>Score Promedio:</strong> {{ $json.averageScore.toFixed(2) }}</p><p><strong>Valor Potencial Total:</strong> ${{ $json.totalPotentialValue.toFixed(2) }}</p>",
+        "text": "Reporte de Reactivación\\n\\nTotal: {{ $json.totalCustomers }}\\nScore Promedio: {{ $json.averageScore.toFixed(2) }}",
+        "options": {}
+      },
+      "id": "send-report",
+      "name": "Send Report Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [1750, 300],
+      "credentials": {
+        "smtp": {
+          "id": "smtp-credentials",
+          "name": "SMTP Credentials"
+        }
+      },
+      "notes": "Envía reporte al equipo",
+      "continueOnFail": true
+    }
+  ],
+  "connections": {
+    "Weekly Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Fetch Inactive Customers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Inactive Customers": {
+      "main": [
+        [
+          {
+            "node": "Segment Inactive Customers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Segment Inactive Customers": {
+      "main": [
+        [
+          {
+            "node": "Filter High Value",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Generate Reactivation Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter High Value": {
+      "main": [
+        [
+          {
+            "node": "Generate Reactivation Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Reactivation Message": {
+      "main": [
+        [
+          {
+            "node": "Send Reactivation Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Reactivation Email": {
+      "main": [
+        [
+          {
+            "node": "Track Reactivation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Track Reactivation": {
+      "main": [
+        [
+          {
+            "node": "Generate Reactivation Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Reactivation Report": {
+      "main": [
+        [
+          {
+            "node": "Send Report Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "customer-reactivation",
+      "name": "Customer Reactivation"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1.0"
+}
+
+
+
+

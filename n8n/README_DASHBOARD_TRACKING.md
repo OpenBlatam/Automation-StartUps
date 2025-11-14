@@ -275,3 +275,4 @@ El dashboard se genera automáticamente con:
 - [ ] Comparación con competidores usando tracking
 
 
+

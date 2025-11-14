@@ -530,3 +530,4 @@ applyPredictions(predictions, tendencias);
 **ROI**: Muy Alto (aprovecha análisis avanzado existente)
 
 
+

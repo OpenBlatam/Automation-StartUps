@@ -232,3 +232,4 @@ plan = analizador.generar_plan_accion_mejora()
 **Licencia**: Uso interno
 
 
+

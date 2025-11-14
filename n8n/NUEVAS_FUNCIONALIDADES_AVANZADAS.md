@@ -339,3 +339,4 @@ const anomalies = allPosts
 **Estado:** ✅ Completado y listo para producción
 
 
+

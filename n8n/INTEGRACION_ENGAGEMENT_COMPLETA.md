@@ -360,3 +360,4 @@ if (lastUpdate.getTime() < weekAgo) {
 **Requisitos**: APIs de métricas configuradas
 
 
+

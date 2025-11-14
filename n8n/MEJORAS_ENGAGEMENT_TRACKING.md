@@ -491,3 +491,4 @@ const weeklyReport = {
 **Nota**: Estas mejoras se pueden integrar gradualmente al workflow existente. Se recomienda empezar con tracking básico y luego agregar optimización automática.
 
 
+

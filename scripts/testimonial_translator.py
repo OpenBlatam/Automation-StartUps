@@ -249,3 +249,4 @@ Idioma objetivo: {target_lang_name}"""
             return 'es'  # Default
 
 
+

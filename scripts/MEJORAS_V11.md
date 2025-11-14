@@ -238,3 +238,4 @@ calendario = analizador.generar_roadmap_contenido(semanas=12)
 **Licencia**: Uso interno
 
 
+

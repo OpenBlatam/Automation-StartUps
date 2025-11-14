@@ -1,0 +1,67 @@
+{
+  "name": "Real-time Personalization Engine",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "personalize",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-personalize",
+      "name": "Personalization Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [150, 400],
+      "webhookId": "personalization-trigger",
+      "notes": "Recibe requests de personalización en tiempo real"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Real-time Personalization Engine\nconst request = $input.item.json;\n\nconst customerId = request.customerId || request.email;\nconst context = request.context || {};\n\n// Obtener perfil del cliente (en producción vendría de DB/CDP)\nconst customerProfile = request.customerProfile || {\n  customerId,\n  segments: [],\n  preferences: {},\n  behavior: {},\n  history: []\n};\n\n// Personalización por contexto\nconst personalizations = {\n  // Personalización de contenido\n  content: personalizeContent(customerProfile, context),\n  \n  // Personalización de productos\n  products: personalizeProducts(customerProfile, context),\n  \n  // Personalización de ofertas\n  offers: personalizeOffers(customerProfile, context),\n  \n  // Personalización de mensajes\n  messages: personalizeMessages(customerProfile, context),\n  \n  // Personalización de timing\n  timing: personalizeTiming(customerProfile, context),\n  \n  // Personalización de canal\n  channel: personalizeChannel(customerProfile, context)\n};\n\n// Calcular score de personalización (0-100)\nconst personalizationScore = calculatePersonalizationScore(personalizations, customerProfile);\n\n// Generar recomendaciones\nconst recommendations = generateRecommendations(customerProfile, personalizations);\n\nfunction personalizeContent(profile, context) {\n  const content = {\n    headline: getPersonalizedHeadline(profile, context),\n    cta: getPersonalizedCTA(profile, context),\n    images: getPersonalizedImages(profile, context),\n    copy: getPersonalizedCopy(profile, context)\n  };\n  \n  return content;\n}\n\nfunction getPersonalizedHeadline(profile, context) {\n  const segments = profile.segments || [];\n  \n  if (segments.includes('vip')) {\n    return `Hola ${profile.firstName || 'Cliente'}, acceso exclusivo para ti`;\n  }\n  \n  if (segments.includes('returning')) {\n    return `¡Bienvenido de nuevo, ${profile.firstName || 'Cliente'}!`;\n  }\n  \n  if (context.pageCategory === 'pricing') {\n    return 'Encuentra el plan perfecto para ti';\n  }\n  \n  return 'Descubre lo que tenemos para ti';\n}\n\nfunction getPersonalizedCTA(profile, context) {\n  const segments = profile.segments || [];\n  \n  if (segments.includes('high_intent')) {\n    return 'Comprar Ahora';\n  }\n  \n  if (context.pageCategory === 'product') {\n    return 'Ver Detalles';\n  }\n  \n  return 'Explorar Más';\n}\n\nfunction getPersonalizedImages(profile, context) {\n  const preferences = profile.preferences || {};\n  const imageStyle = preferences.imageStyle || 'modern';\n  \n  return {\n    style: imageStyle,\n    category: context.pageCategory || 'general',\n    personalized: true\n  };\n}\n\nfunction getPersonalizedCopy(profile, context) {\n  const behavior = profile.behavior || {};\n  const tone = behavior.preferredTone || 'friendly';\n  \n  return {\n    tone,\n    length: behavior.preferredLength || 'medium',\n    focus: getCopyFocus(profile, context)\n  };\n}\n\nfunction getCopyFocus(profile, context) {\n  const segments = profile.segments || [];\n  \n  if (segments.includes('price_sensitive')) {\n    return 'value';\n  }\n  \n  if (segments.includes('quality_focused')) {\n    return 'quality';\n  }\n  \n  return 'benefits';\n}\n\nfunction personalizeProducts(profile, context) {\n  const history = profile.history || [];\n  const preferences = profile.preferences || {};\n  \n  // Productos recomendados basados en historial\n  const recommendedProducts = getRecommendedProducts(history, preferences);\n  \n  // Ordenar por relevancia\n  const sortedProducts = recommendedProducts.sort((a, b) => b.relevance - a.relevance);\n  \n  return {\n    products: sortedProducts.slice(0, 6), // Top 6\n    algorithm: 'collaborative_filtering',\n    confidence: calculateConfidence(history)\n  };\n}\n\nfunction getRecommendedProducts(history, preferences) {\n  // Simulación - en producción usaría ML\n  const allProducts = [\n    { id: 'prod1', name: 'Producto A', category: 'electronics', price: 99, relevance: 0.9 },\n    { id: 'prod2', name: 'Producto B', category: 'clothing', price: 49, relevance: 0.8 },\n    { id: 'prod3', name: 'Producto C', category: 'electronics', price: 149, relevance: 0.7 }\n  ];\n  \n  // Ajustar relevancia basado en historial\n  history.forEach(item => {\n    if (item.category) {\n      allProducts.forEach(prod => {\n        if (prod.category === item.category) {\n          prod.relevance += 0.1;\n        }\n      });\n    }\n  });\n  \n  return allProducts;\n}\n\nfunction calculateConfidence(history) {\n  if (history.length > 10) return 0.9;\n  if (history.length > 5) return 0.7;\n  if (history.length > 0) return 0.5;\n  return 0.3;\n}\n\nfunction personalizeOffers(profile, context) {\n  const segments = profile.segments || [];\n  const behavior = profile.behavior || {};\n  \n  const offers = [];\n  \n  // Oferta basada en segmento\n  if (segments.includes('vip')) {\n    offers.push({\n      type: 'exclusive_discount',\n      value: 25,\n      code: 'VIP25',\n      urgency: 'limited_time'\n    });\n  } else if (segments.includes('returning')) {\n    offers.push({\n      type: 'loyalty_discount',\n      value: 15,\n      code: 'LOYAL15',\n      urgency: 'standard'\n    });\n  } else {\n    offers.push({\n      type: 'welcome_discount',\n      value: 10,\n      code: 'WELCOME10',\n      urgency: 'standard'\n    });\n  }\n  \n  // Oferta basada en comportamiento\n  if (behavior.cartAbandoned) {\n    offers.push({\n      type: 'recovery_discount',\n      value: 20,\n      code: 'RECOVER20',\n      urgency: 'high'\n    });\n  }\n  \n  return offers;\n}\n\nfunction personalizeMessages(profile, context) {\n  const segments = profile.segments || [];\n  const behavior = profile.behavior || {};\n  \n  return {\n    greeting: getPersonalizedGreeting(profile),\n    body: getPersonalizedBody(profile, context),\n    closing: getPersonalizedClosing(profile),\n    tone: behavior.preferredTone || 'friendly'\n  };\n}\n\nfunction getPersonalizedGreeting(profile) {\n  const firstName = profile.firstName || 'Cliente';\n  const segments = profile.segments || [];\n  \n  if (segments.includes('vip')) {\n    return `Estimado/a ${firstName}`;\n  }\n  \n  return `Hola ${firstName}`;\n}\n\nfunction getPersonalizedBody(profile, context) {\n  const segments = profile.segments || [];\n  \n  if (segments.includes('price_sensitive')) {\n    return 'Tenemos ofertas especiales que no querrás perderte';\n  }\n  \n  if (context.pageCategory === 'product') {\n    return 'Este producto podría ser perfecto para ti';\n  }\n  \n  return 'Tenemos algo especial para ti';\n}\n\nfunction getPersonalizedClosing(profile) {\n  const segments = profile.segments || [];\n  \n  if (segments.includes('vip')) {\n    return 'Gracias por ser parte de nuestra comunidad VIP';\n  }\n  \n  return '¡Esperamos verte pronto!';\n}\n\nfunction personalizeTiming(profile, context) {\n  const behavior = profile.behavior || {};\n  const preferredTime = behavior.preferredTime || 'afternoon';\n  \n  return {\n    sendTime: calculateOptimalSendTime(preferredTime),\n    frequency: getOptimalFrequency(profile),\n    urgency: context.urgency || 'medium'\n  };\n}\n\nfunction calculateOptimalSendTime(preferredTime) {\n  const timeMap = {\n    'morning': '09:00',\n    'afternoon': '14:00',\n    'evening': '18:00',\n    'night': '20:00'\n  };\n  \n  return timeMap[preferredTime] || '14:00';\n}\n\nfunction getOptimalFrequency(profile) {\n  const segments = profile.segments || [];\n  \n  if (segments.includes('vip')) {\n    return 'daily';\n  }\n  \n  if (segments.includes('active')) {\n    return 'weekly';\n  }\n  \n  return 'biweekly';\n}\n\nfunction personalizeChannel(profile, context) {\n  const preferences = profile.preferences || {};\n  const behavior = profile.behavior || {};\n  \n  const channelPreferences = preferences.channels || ['email'];\n  const channelPerformance = behavior.channelPerformance || {};\n  \n  // Ordenar canales por preferencia y performance\n  const channels = channelPreferences.map(channel => ({\n    channel,\n    preference: 1,\n    performance: channelPerformance[channel] || 0.5,\n    score: (1 + (channelPerformance[channel] || 0.5)) / 2\n  })).sort((a, b) => b.score - a.score);\n  \n  return {\n    primary: channels[0]?.channel || 'email',\n    secondary: channels[1]?.channel || null,\n    all: channels.map(c => c.channel)\n  };\n}\n\nfunction calculatePersonalizationScore(personalizations, profile) {\n  let score = 0;\n  \n  // Score basado en cantidad de datos del perfil\n  const profileCompleteness = calculateProfileCompleteness(profile);\n  score += profileCompleteness * 0.4;\n  \n  // Score basado en personalizaciones aplicadas\n  const personalizationDepth = Object.keys(personalizations).length / 6;\n  score += personalizationDepth * 0.3;\n  \n  // Score basado en relevancia\n  const relevance = calculateRelevance(personalizations, profile);\n  score += relevance * 0.3;\n  \n  return Math.round(score * 100);\n}\n\nfunction calculateProfileCompleteness(profile) {\n  let completeness = 0;\n  \n  if (profile.segments && profile.segments.length > 0) completeness += 0.25;\n  if (profile.preferences && Object.keys(profile.preferences).length > 0) completeness += 0.25;\n  if (profile.behavior && Object.keys(profile.behavior).length > 0) completeness += 0.25;\n  if (profile.history && profile.history.length > 0) completeness += 0.25;\n  \n  return completeness;\n}\n\nfunction calculateRelevance(personalizations, profile) {\n  // Calcular qué tan relevantes son las personalizaciones\n  let relevance = 0.5;\n  \n  if (personalizations.products.products.length > 0) relevance += 0.2;\n  if (personalizations.offers.length > 0) relevance += 0.2;\n  if (personalizations.content.headline) relevance += 0.1;\n  \n  return Math.min(1, relevance);\n}\n\nfunction generateRecommendations(profile, personalizations) {\n  const recommendations = [];\n  \n  // Recomendación de productos\n  if (personalizations.products.products.length > 0) {\n    recommendations.push({\n      type: 'product',\n      priority: 'high',\n      message: 'Productos recomendados para ti',\n      action: 'show_products'\n    });\n  }\n  \n  // Recomendación de ofertas\n  if (personalizations.offers.length > 0) {\n    recommendations.push({\n      type: 'offer',\n      priority: 'medium',\n      message: 'Ofertas especiales disponibles',\n      action: 'show_offers'\n    });\n  }\n  \n  return recommendations;\n}\n\nreturn [{\n  json: {\n    customerId,\n    personalizations,\n    personalizationScore,\n    recommendations,\n    timestamp: new Date().toISOString(),\n    context\n  }\n}];"
+      },
+      "id": "personalize-engine",
+      "name": "Personalization Engine",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [350, 400],
+      "notes": "Motor de personalización en tiempo real"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}"
+      },
+      "id": "response",
+      "name": "Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [550, 400]
+    }
+  ],
+  "connections": {
+    "Personalization Webhook": {
+      "main": [[
+        { "node": "Personalization Engine", "type": "main", "index": 0 }
+      ]]
+    },
+    "Personalization Engine": {
+      "main": [[
+        { "node": "Response", "type": "main", "index": 0 }
+      ]]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1"
+}
+
+
+
+

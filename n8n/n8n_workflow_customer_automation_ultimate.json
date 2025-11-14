@@ -1,0 +1,537 @@
+{
+  "name": "Customer Action Automation Workflow - ULTIMATE Edition",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "cart-abandonment",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-cart",
+      "name": "Cart Abandonment Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [150, 400],
+      "webhookId": "cart-abandonment-trigger",
+      "notes": "Trigger principal para carrito abandonado"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "page-visit",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-page",
+      "name": "Page Visit Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [150, 600],
+      "webhookId": "page-visit-trigger",
+      "notes": "Trigger para visitas a páginas"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "customer-inactive",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-inactive",
+      "name": "Inactive Customer Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [150, 800],
+      "webhookId": "inactive-customer-trigger",
+      "notes": "Trigger para clientes inactivos"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Deduplicación ultra-avanzada con rate limiting\nconst event = $input.item.json;\nconst staticData = $getWorkflowStaticData('global');\n\n// Inicializar estructuras\nif (!staticData.processedEvents) {\n  staticData.processedEvents = new Map();\n}\nif (!staticData.rateLimits) {\n  staticData.rateLimits = new Map();\n}\n\n// Rate limiting por cliente (máx 3 eventos/hora)\nconst customerKey = `${event.customerId || event.email}`;\nconst now = Date.now();\nconst oneHourAgo = now - (60 * 60 * 1000);\n\nif (!staticData.rateLimits.has(customerKey)) {\n  staticData.rateLimits.set(customerKey, []);\n}\n\nconst customerEvents = staticData.rateLimits.get(customerKey);\nconst recentEvents = customerEvents.filter(timestamp => timestamp > oneHourAgo);\n\nif (recentEvents.length >= 3) {\n  // Rate limit excedido\n  return [];\n}\n\nrecentEvents.push(now);\nstaticData.rateLimits.set(customerKey, recentEvents);\n\n// Deduplicación\nconst eventKey = `${event.eventType}_${customerKey}_${event.cartId || event.sessionId}`;\nconst lastProcessed = staticData.processedEvents.get(eventKey);\nconst dedupWindow = 60 * 60 * 1000; // 1 hora\n\nif (lastProcessed && (now - lastProcessed) < dedupWindow) {\n  return [];\n}\n\nstaticData.processedEvents.set(eventKey, now);\n\n// Limpieza (mantener solo últimas 24h)\nconst oneDayAgo = now - (24 * 60 * 60 * 1000);\nfor (const [key, timestamp] of staticData.processedEvents.entries()) {\n  if (timestamp < oneDayAgo) staticData.processedEvents.delete(key);\n}\nfor (const [key, timestamps] of staticData.rateLimits.entries()) {\n  staticData.rateLimits.set(key, timestamps.filter(t => t > oneDayAgo));\n}\n\nreturn [{\n  json: {\n    ...event,\n    eventId: `evt_${now}_${Math.random().toString(36).substr(2, 9)}`,\n    isDuplicate: false,\n    rateLimitOk: true\n  }\n}];"
+      },
+      "id": "deduplicate-ultimate",
+      "name": "Ultimate Deduplication",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [350, 400],
+      "notes": "Deduplicación con rate limiting",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "functionCode": "// Enriquecimiento ULTIMATE con análisis completo\nconst event = $input.item.json;\n\nif (!event.customerId && !event.email) {\n  throw new Error('Se requiere customerId o email');\n}\n\n// Datos base\nconst enriched = {\n  customerId: event.customerId || `guest_${Date.now()}`,\n  email: event.email,\n  firstName: event.firstName || 'Cliente',\n  lastName: event.lastName || '',\n  cartValue: event.cartValue || 0,\n  cartItems: event.cartItems || [],\n  cartId: event.cartId || `cart_${Date.now()}`,\n  timestamp: new Date().toISOString(),\n  eventType: event.eventType,\n  pageUrl: event.pageUrl || '',\n  pageCategory: event.pageCategory || '',\n  sessionId: event.sessionId || `session_${Date.now()}`,\n  eventId: event.eventId,\n  device: event.device || 'unknown',\n  browser: event.browser || 'unknown',\n  referrer: event.referrer || 'direct',\n  utmSource: event.utmSource || null,\n  utmCampaign: event.utmCampaign || null\n};\n\n// Cálculos avanzados\nenriched.totalValue = (event.cartItems || []).reduce((sum, item) => \n  sum + (item.price * item.quantity), 0) || event.cartValue || 0;\n\nenriched.itemCount = (event.cartItems || []).length || 0;\n\n// Segmentación mejorada\nif (enriched.totalValue > 500) {\n  enriched.customerSegment = 'vip';\n} else if (enriched.totalValue > 200) {\n  enriched.customerSegment = 'premium';\n} else if (enriched.totalValue > 100) {\n  enriched.customerSegment = 'high_value';\n} else if (enriched.totalValue > 50) {\n  enriched.customerSegment = 'medium_value';\n} else {\n  enriched.customerSegment = 'low_value';\n}\n\n// Scoring avanzado (0-100)\nlet score = 50;\nif (enriched.totalValue > 500) score += 30;\nelse if (enriched.totalValue > 200) score += 25;\nelse if (enriched.totalValue > 100) score += 20;\nelse if (enriched.totalValue > 50) score += 10;\n\nif (enriched.itemCount > 5) score += 15;\nelse if (enriched.itemCount > 2) score += 10;\n\nif (event.previousPurchases > 10) score += 20;\nelse if (event.previousPurchases > 0) score += 15;\n\nif (event.timeOnSite > 600) score += 15; // 10+ minutos\nelse if (event.timeOnSite > 300) score += 10;\n\nif (event.pagesViewed > 10) score += 10;\nelse if (event.pagesViewed > 5) score += 5;\n\nif (event.device === 'mobile') score += 5; // Mobile users más comprometidos\nif (event.utmSource && event.utmSource !== 'direct') score += 5;\n\nenriched.conversionScore = Math.min(100, score);\n\n// Urgencia mejorada\nif (enriched.conversionScore > 80) enriched.urgency = 'critical';\nelse if (enriched.conversionScore > 65) enriched.urgency = 'high';\nelse if (enriched.conversionScore > 50) enriched.urgency = 'medium';\nelse enriched.urgency = 'low';\n\n// Análisis de comportamiento\nenriched.behaviorPattern = {\n  isReturning: event.previousPurchases > 0,\n  isHighIntent: enriched.conversionScore > 70,\n  isMobileUser: event.device === 'mobile',\n  hasUtmTracking: !!event.utmSource,\n  engagementLevel: enriched.conversionScore > 60 ? 'high' : 'medium'\n};\n\nreturn [{\n  json: enriched\n}];"
+      },
+      "id": "enrich-ultimate",
+      "name": "Ultimate Enrichment",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [550, 400],
+      "notes": "Enriquecimiento completo con análisis de comportamiento"
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "operation": "create",
+        "model": "gpt-4",
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "Eres un experto en marketing y copywriting. Genera mensajes de email marketing personalizados, persuasivos y optimizados para conversión. Usa el tono y estilo especificado."
+            },
+            {
+              "role": "user",
+              "content": "Genera un email de recuperación de carrito para:\nCliente: {{ $json.firstName }}\nValor carrito: ${{ $json.totalValue }}\nItems: {{ $json.cartItems.map(i => i.name).join(', ') }}\nSegmento: {{ $json.customerSegment }}\nScore: {{ $json.conversionScore }}\nVariante: {{ $json.abTestVariant }}\nIdioma: {{ $json.language }}\n\nGenera:\n1. Asunto optimizado (máx 50 caracteres)\n2. Cuerpo del mensaje (máx 200 palabras)\n3. CTA claro\n4. Sugerencia de descuento apropiado\n\nFormato JSON: {subject, body, cta, discount, urgencyLevel}"
+            }
+          ]
+        },
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 500
+        }
+      },
+      "id": "ai-generate-message",
+      "name": "AI Generate Message (GPT-4)",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1.3,
+      "position": [2550, 400],
+      "credentials": {
+        "openAiApi": {
+          "id": "openai-credentials",
+          "name": "OpenAI API"
+        }
+      },
+      "notes": "Genera mensaje usando IA (GPT-4)",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.SENTIMENT_API_URL || 'https://api.sentiment.com' }}/analyze",
+        "method": "POST",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"text\": \"{{ $json.messageBody }}\",\n  \"language\": \"{{ $json.language || 'es' }}\"\n}",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": false,
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "sentiment-analysis",
+      "name": "Sentiment Analysis",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [2750, 400],
+      "notes": "Analiza sentimiento del mensaje",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "to": "={{ $json.phone || $json.mobile }}",
+        "message": "={{ $json.messageBody.substring(0, 160) }}",
+        "options": {}
+      },
+      "id": "send-whatsapp",
+      "name": "Send WhatsApp",
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [2950, 500],
+      "credentials": {
+        "whatsAppApi": {
+          "id": "whatsapp-credentials",
+          "name": "WhatsApp Business API"
+        }
+      },
+      "notes": "Envía mensaje por WhatsApp",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "resource": "notification",
+        "operation": "send",
+        "title": "={{ $json.messageSubject }}",
+        "message": "={{ $json.messageBody.substring(0, 100) }}",
+        "userId": "={{ $json.customerId }}",
+        "options": {
+          "data": "={{ JSON.stringify({cartId: $json.cartId, discountCode: $json.discountCode}) }}"
+        }
+      },
+      "id": "send-push",
+      "name": "Send Push Notification",
+      "type": "n8n-nodes-base.pushover",
+      "typeVersion": 1.1,
+      "position": [2950, 600],
+      "credentials": {
+        "pushoverApi": {
+          "id": "pushover-credentials",
+          "name": "Pushover API"
+        }
+      },
+      "notes": "Envía notificación push",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "functionCode": "// Análisis de mejor momento para enviar (ML)\nconst data = $input.item.json;\nconst customerHistory = data.customerHistory || {};\n\n// Analizar patrones históricos\nconst bestSendTimes = customerHistory.bestSendTimes || [];\nconst openRates = customerHistory.openRates || {};\nconst clickRates = customerHistory.clickRates || {};\n\n// Calcular hora óptima basada en:\n// 1. Historial de aperturas\n// 2. Zona horaria\n// 3. Día de la semana\n// 4. Comportamiento reciente\n\nconst now = new Date();\nconst customerTimezone = data.preferences?.timezone || 'UTC';\nconst dayOfWeek = now.getDay();\n\n// Hora óptima por defecto\nlet optimalHour = 10; // 10 AM\nlet optimalDay = dayOfWeek;\n\n// Ajustar según historial\nif (bestSendTimes.length > 0) {\n  const avgHour = bestSendTimes.reduce((sum, time) => sum + time.hour, 0) / bestSendTimes.length;\n  optimalHour = Math.round(avgHour);\n}\n\n// Ajustar según día de semana\nif (dayOfWeek === 0 || dayOfWeek === 6) {\n  // Fin de semana, enviar más tarde\n  optimalHour = Math.max(optimalHour, 11);\n}\n\n// Calcular delay hasta hora óptima\nconst targetDate = new Date(now);\ntargetDate.setHours(optimalHour, 0, 0, 0);\n\nif (targetDate < now) {\n  // Si ya pasó la hora óptima hoy, enviar mañana\n  targetDate.setDate(targetDate.getDate() + 1);\n}\n\nconst delayMs = targetDate.getTime() - now.getTime();\nconst delayHours = delayMs / (1000 * 60 * 60);\n\n// Limitar delay máximo a 24 horas\nconst finalDelayHours = Math.min(delayHours, 24);\n\nreturn [{\n  json: {\n    ...data,\n    mlOptimizedDelay: finalDelayHours,\n    optimalSendTime: targetDate.toISOString(),\n    optimalHour: optimalHour,\n    mlConfidence: bestSendTimes.length > 5 ? 0.9 : 0.6\n  }\n}];"
+      },
+      "id": "ml-timing-optimization",
+      "name": "ML Timing Optimization",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1750, 400],
+      "notes": "Optimización de timing con ML basado en historial"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Upsell/Cross-sell inteligente\nconst data = $input.item.json;\nconst cartItems = data.cartItems || [];\nconst customerHistory = data.customerHistory || {};\n\n// Analizar items en carrito\nconst categories = cartItems.map(item => item.category || 'general');\nconst uniqueCategories = [...new Set(categories)];\n\n// Productos relacionados basados en:\n// 1. Categorías en carrito\n// 2. Historial de compras\n// 3. Productos frecuentemente comprados juntos\n\nconst recommendations = [];\n\n// Si tiene items de categoría A, recomendar complementos de categoría B\nif (uniqueCategories.includes('electronics')) {\n  recommendations.push({\n    name: 'Cable Premium',\n    price: 29.99,\n    reason: 'Frequently bought together',\n    discount: 15\n  });\n}\n\nif (uniqueCategories.includes('clothing')) {\n  recommendations.push({\n    name: 'Accesorio de Moda',\n    price: 19.99,\n    reason: 'Perfect match',\n    discount: 10\n  });\n}\n\n// Agregar productos del historial que no están en carrito\nif (customerHistory.favoriteProducts) {\n  const favoriteNotInCart = customerHistory.favoriteProducts\n    .filter(p => !cartItems.some(ci => ci.id === p.id))\n    .slice(0, 2);\n  recommendations.push(...favoriteNotInCart);\n}\n\nreturn [{\n  json: {\n    ...data,\n    upsellRecommendations: recommendations.slice(0, 3),\n    hasUpsell: recommendations.length > 0\n  }\n}];"
+      },
+      "id": "upsell-analysis",
+      "name": "Upsell/Cross-sell Analysis",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1950, 400],
+      "notes": "Analiza oportunidades de upsell/cross-sell"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Programa de fidelidad y recompensas\nconst data = $input.item.json;\nconst customerHistory = data.customerHistory || {};\nconst totalSpent = customerHistory.totalSpent || 0;\nconst previousPurchases = customerHistory.previousPurchases || 0;\n\n// Calcular puntos y nivel\nlet loyaltyPoints = Math.floor(totalSpent / 10); // 1 punto por cada $10\nlet loyaltyLevel = 'bronze';\n\nif (totalSpent > 1000) loyaltyLevel = 'platinum';\nelse if (totalSpent > 500) loyaltyLevel = 'gold';\nelse if (totalSpent > 200) loyaltyLevel = 'silver';\n\n// Beneficios por nivel\nconst benefits = {\n  platinum: {\n    discount: 20,\n    freeShipping: true,\n    earlyAccess: true,\n    pointsMultiplier: 2\n  },\n  gold: {\n    discount: 15,\n    freeShipping: true,\n    earlyAccess: false,\n    pointsMultiplier: 1.5\n  },\n  silver: {\n    discount: 10,\n    freeShipping: false,\n    earlyAccess: false,\n    pointsMultiplier: 1.2\n  },\n  bronze: {\n    discount: 5,\n    freeShipping: false,\n    earlyAccess: false,\n    pointsMultiplier: 1\n  }\n};\n\nconst customerBenefits = benefits[loyaltyLevel];\n\n// Calcular descuento adicional por puntos\nconst pointsDiscount = Math.floor(loyaltyPoints / 100) * 5; // 5% por cada 100 puntos\nconst maxPointsDiscount = 25; // Máximo 25%\nconst finalPointsDiscount = Math.min(pointsDiscount, maxPointsDiscount);\n\nreturn [{\n  json: {\n    ...data,\n    loyaltyProgram: {\n      level: loyaltyLevel,\n      points: loyaltyPoints,\n      totalSpent: totalSpent,\n      previousPurchases: previousPurchases,\n      benefits: customerBenefits,\n      pointsDiscount: finalPointsDiscount,\n      nextLevel: loyaltyLevel === 'bronze' ? 'silver' : loyaltyLevel === 'silver' ? 'gold' : 'platinum',\n      pointsToNextLevel: loyaltyLevel === 'bronze' ? 200 - totalSpent : loyaltyLevel === 'silver' ? 500 - totalSpent : 1000 - totalSpent\n    }\n  }\n}];"
+      },
+      "id": "loyalty-program",
+      "name": "Loyalty Program Analysis",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [2150, 400],
+      "notes": "Analiza programa de fidelidad y calcula beneficios"
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL }}/webhooks/email-opened",
+        "method": "POST",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"event\": \"email_opened\",\n  \"customerId\": \"{{ $json.customerId }}\",\n  \"messageId\": \"{{ $json.messageId }}\",\n  \"timestamp\": \"{{ $now }}\",\n  \"abTestVariant\": \"{{ $json.abTestVariant }}\"\n}",
+        "options": {}
+      },
+      "id": "track-email-open",
+      "name": "Track Email Open",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [3150, 400],
+      "notes": "Tracking de apertura de email (pixel tracking)",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL }}/webhooks/link-clicked",
+        "method": "POST",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"event\": \"link_clicked\",\n  \"customerId\": \"{{ $json.customerId }}\",\n  \"messageId\": \"{{ $json.messageId }}\",\n  \"linkUrl\": \"{{ $json.linkUrl }}\",\n  \"timestamp\": \"{{ $now }}\",\n  \"abTestVariant\": \"{{ $json.abTestVariant }}\"\n}",
+        "options": {}
+      },
+      "id": "track-link-click",
+      "name": "Track Link Click",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [3150, 500],
+      "notes": "Tracking de clics en links",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "functionCode": "={{ $json.mlOptimizedDelay }}",
+        "unit": "hours",
+        "options": {}
+      },
+      "id": "wait-ml-optimized",
+      "name": "Wait ML Optimized",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [2350, 300],
+      "notes": "Espera tiempo optimizado por ML"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generar mensaje ULTIMATE con todas las mejoras\nconst data = $input.item.json;\nconst aiMessage = $json.aiMessage || null;\nconst sentiment = $json.sentiment || { score: 0.5, label: 'neutral' };\n\n// Usar mensaje de IA si está disponible, sino usar template\nlet finalMessage;\n\nif (aiMessage && aiMessage.choices && aiMessage.choices[0]) {\n  try {\n    const aiContent = JSON.parse(aiMessage.choices[0].message.content);\n    finalMessage = {\n      subject: aiContent.subject || data.messageSubject,\n      body: aiContent.body || data.messageBody,\n      cta: aiContent.cta || 'Completar Compra',\n      discount: aiContent.discount || data.discountCode\n    };\n  } catch (e) {\n    // Si falla parsing, usar template\n    finalMessage = null;\n  }\n}\n\nif (!finalMessage) {\n  // Template fallback mejorado\n  const customerName = data.firstName || 'Cliente';\n  const cartValue = data.totalValue || 0;\n  const items = data.cartItems || [];\n  const discount = data.loyaltyProgram?.benefits?.discount || 10;\n  const loyaltyLevel = data.loyaltyProgram?.level || 'bronze';\n  const points = data.loyaltyProgram?.points || 0;\n  const upsells = data.upsellRecommendations || [];\n  \n  finalMessage = {\n    subject: loyaltyLevel === 'platinum' ? `🎁 Oferta VIP Exclusiva - ${discount}% OFF` : `¿Olvidaste algo, ${customerName}?`,\n    body: `Hola ${customerName},\n\n${loyaltyLevel !== 'bronze' ? `Como miembro ${loyaltyLevel}, ` : ''}Notamos que dejaste algunos artículos en tu carrito:\n\n${items.map(item => `• ${item.name} - $${item.price.toFixed(2)}`).join('\\n')}\n\nTotal: $${cartValue.toFixed(2)}\n\n${points > 0 ? `💎 Tienes ${points} puntos disponibles (${data.loyaltyProgram.pointsDiscount}% descuento adicional)\\n\\n` : ''}${upsells.length > 0 ? `\\n✨ Recomendaciones para ti:\\n${upsells.map(u => `• ${u.name} - $${u.price.toFixed(2)} (${u.discount}% OFF)`).join('\\n')}\\n\\n` : ''}Aprovecha ${discount}% de descuento${loyaltyLevel !== 'bronze' ? ' exclusivo para ti' : ''}.\n\nCódigo: ${loyaltyLevel === 'platinum' ? 'VIP20' : loyaltyLevel === 'gold' ? 'GOLD15' : 'SAVE10'}\n\n[Completar Compra Ahora]`,\n    cta: 'Completar Compra Ahora',\n    discount: discount\n  };\n}\n\n// Ajustar según análisis de sentimiento\nif (sentiment.score < 0.3) {\n  // Sentimiento negativo, hacer más positivo\n  finalMessage.body = finalMessage.body.replace(/\\?/g, '!');\n  finalMessage.body += '\\n\\n¡Estamos aquí para ayudarte!';\n}\n\nreturn [{\n  json: {\n    ...data,\n    messageSubject: finalMessage.subject,\n    messageBody: finalMessage.body,\n    messageCta: finalMessage.cta,\n    discountCode: finalMessage.discount,\n    sentimentScore: sentiment.score,\n    sentimentLabel: sentiment.label,\n    aiGenerated: !!aiMessage,\n    includesUpsell: data.hasUpsell,\n    includesLoyalty: !!data.loyaltyProgram\n  }\n}];"
+      },
+      "id": "generate-ultimate-message",
+      "name": "Generate Ultimate Message",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [2750, 300],
+      "notes": "Genera mensaje final con todas las mejoras"
+    },
+    {
+      "parameters": {
+        "resource": "email",
+        "operation": "send",
+        "fromEmail": "={{ $env.FROM_EMAIL }}",
+        "toEmail": "={{ $json.email }}",
+        "subject": "={{ $json.messageSubject }}",
+        "html": "={{ $json.messageBody.replace(/\\n/g, '<br>') + '<br><br><a href=\"' + $env.BASE_URL + '/cart/' + $json.cartId + '?code=' + $json.discountCode + '\">' + $json.messageCta + '</a><img src=\"' + $env.TRACKING_PIXEL_URL + '?id=' + $json.messageId + '\" width=\"1\" height=\"1\" />' }}",
+        "text": "={{ $json.messageBody }}",
+        "options": {
+          "replyTo": "={{ $env.REPLY_TO_EMAIL }}",
+          "attachments": ""
+        }
+      },
+      "id": "send-email-ultimate",
+      "name": "Send Email Ultimate",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [2950, 300],
+      "credentials": {
+        "smtp": {
+          "id": "smtp-credentials",
+          "name": "SMTP Credentials"
+        }
+      },
+      "notes": "Envía email con tracking pixel",
+      "continueOnFail": true,
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL }}/analytics/track",
+        "method": "POST",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"event\": \"automation_complete\",\n  \"customerId\": \"{{ $json.customerId }}\",\n  \"eventId\": \"{{ $json.eventId }}\",\n  \"conversionScore\": {{ $json.conversionScore }},\n  \"abTestVariant\": \"{{ $json.abTestVariant }}\",\n  \"loyaltyLevel\": \"{{ $json.loyaltyProgram?.level }}\",\n  \"hasUpsell\": {{ $json.hasUpsell || false }},\n  \"aiGenerated\": {{ $json.aiGenerated || false }},\n  \"sentimentScore\": {{ $json.sentimentScore || 0.5 }},\n  \"mlOptimized\": true,\n  \"timestamp\": \"{{ $now }}\",\n  \"workflow\": \"customer_automation_ultimate\"\n}",
+        "options": {}
+      },
+      "id": "track-ultimate",
+      "name": "Track Ultimate Event",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [3150, 300],
+      "notes": "Tracking completo de todas las métricas",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"success\": true,\n  \"message\": \"Workflow ULTIMATE iniciado\",\n  \"customerId\": \"{{ $json.customerId }}\",\n  \"eventId\": \"{{ $json.eventId }}\",\n  \"conversionScore\": {{ $json.conversionScore }},\n  \"loyaltyLevel\": \"{{ $json.loyaltyProgram?.level }}\",\n  \"estimatedSendTime\": \"{{ $json.optimalSendTime }}\",\n  \"mlConfidence\": {{ $json.mlConfidence || 0.8 }},\n  \"features\": {\n    \"aiGenerated\": {{ $json.aiGenerated || false }},\n    \"mlOptimized\": true,\n    \"upsell\": {{ $json.hasUpsell || false }},\n    \"loyalty\": {{ $json.loyaltyProgram ? true : false }}\n  }\n}",
+        "options": {}
+      },
+      "id": "webhook-response-ultimate",
+      "name": "Webhook Response Ultimate",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1750, 600],
+      "notes": "Responde con información completa"
+    }
+  ],
+  "connections": {
+    "Cart Abandonment Webhook": {
+      "main": [
+        [
+          {
+            "node": "Ultimate Deduplication",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Page Visit Webhook": {
+      "main": [
+        [
+          {
+            "node": "Ultimate Deduplication",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Inactive Customer Webhook": {
+      "main": [
+        [
+          {
+            "node": "Ultimate Deduplication",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ultimate Deduplication": {
+      "main": [
+        [
+          {
+            "node": "Ultimate Enrichment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ultimate Enrichment": {
+      "main": [
+        [
+          {
+            "node": "ML Timing Optimization",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ML Timing Optimization": {
+      "main": [
+        [
+          {
+            "node": "Upsell/Cross-sell Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upsell/Cross-sell Analysis": {
+      "main": [
+        [
+          {
+            "node": "Loyalty Program Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loyalty Program Analysis": {
+      "main": [
+        [
+          {
+            "node": "Wait ML Optimized",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait ML Optimized": {
+      "main": [
+        [
+          {
+            "node": "AI Generate Message (GPT-4)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Generate Message (GPT-4)": {
+      "main": [
+        [
+          {
+            "node": "Sentiment Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sentiment Analysis": {
+      "main": [
+        [
+          {
+            "node": "Generate Ultimate Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Ultimate Message": {
+      "main": [
+        [
+          {
+            "node": "Send Email Ultimate",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send WhatsApp",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send Push Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Email Ultimate": {
+      "main": [
+        [
+          {
+            "node": "Track Email Open",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Track Ultimate Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send WhatsApp": {
+      "main": [
+        [
+          {
+            "node": "Track Ultimate Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Push Notification": {
+      "main": [
+        [
+          {
+            "node": "Track Ultimate Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": ""
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "customer-automation-ultimate",
+      "name": "Customer Automation ULTIMATE"
+    }
+  ],
+  "triggerCount": 3,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "3.0"
+}
+
+
+
+

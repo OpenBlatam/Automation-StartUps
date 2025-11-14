@@ -320,3 +320,4 @@ chmod +x /Users/adan/IA/n8n/scripts/generate_weekly_report.sh
 **Documentación**: Completa
 
 
+

@@ -326,3 +326,4 @@ El sistema ahora incluye **análisis de ROI avanzado**:
 **Estado**: ✅ Completo y listo para producción
 
 
+

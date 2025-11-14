@@ -1,0 +1,136 @@
+{
+  "name": "Advanced Attribution - Multi-Touch",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 24
+            }
+          ]
+        }
+      },
+      "id": "schedule-daily",
+      "name": "Daily Schedule",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [150, 400],
+      "notes": "Ejecuta análisis de atribución diariamente"
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL }}/events/conversions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "id": "get-conversions",
+      "name": "Get Conversions",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [350, 400],
+      "notes": "Obtiene todas las conversiones del período"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Advanced Multi-Touch Attribution\nconst conversions = $input.all();\n\n// Modelos de atribución\nconst attributionModels = {\n  'first_touch': (touchpoints) => {\n    return touchpoints[0] || null;\n  },\n  'last_touch': (touchpoints) => {\n    return touchpoints[touchpoints.length - 1] || null;\n  },\n  'linear': (touchpoints) => {\n    const credit = 100 / touchpoints.length;\n    return touchpoints.map(tp => ({ ...tp, credit }));\n  },\n  'time_decay': (touchpoints) => {\n    const total = touchpoints.length;\n    const now = Date.now();\n    const weights = touchpoints.map((tp, idx) => {\n      const timeDiff = (now - new Date(tp.timestamp)) / (1000 * 60 * 60 * 24); // días\n      const weight = Math.exp(-timeDiff / 7); // Decaimiento exponencial (7 días)\n      return weight;\n    });\n    const sumWeights = weights.reduce((a, b) => a + b, 0);\n    return touchpoints.map((tp, idx) => ({\n      ...tp,\n      credit: (weights[idx] / sumWeights) * 100\n    }));\n  },\n  'position_based': (touchpoints) => {\n    const total = touchpoints.length;\n    if (total === 1) {\n      return [{ ...touchpoints[0], credit: 100 }];\n    }\n    \n    const firstCredit = 40;\n    const lastCredit = 40;\n    const middleCredit = (100 - firstCredit - lastCredit) / Math.max(1, total - 2);\n    \n    return touchpoints.map((tp, idx) => {\n      if (idx === 0) return { ...tp, credit: firstCredit };\n      if (idx === total - 1) return { ...tp, credit: lastCredit };\n      return { ...tp, credit: middleCredit };\n    });\n  },\n  'data_driven': (touchpoints, conversionValue) => {\n    // Modelo basado en datos históricos\n    // En producción, esto usaría ML para calcular créditos\n    const channelPerformance = {\n      'email': 1.2,\n      'social': 1.0,\n      'paid_search': 1.5,\n      'organic': 0.8,\n      'direct': 0.9,\n      'referral': 1.1\n    };\n    \n    const weights = touchpoints.map(tp => {\n      const channel = tp.channel || 'unknown';\n      return channelPerformance[channel] || 1.0;\n    });\n    \n    const sumWeights = weights.reduce((a, b) => a + b, 0);\n    return touchpoints.map((tp, idx) => ({\n      ...tp,\n      credit: (weights[idx] / sumWeights) * 100\n    }));\n  }\n};\n\n// Procesar cada conversión\nconst attributionResults = conversions.map(conversion => {\n  const customerId = conversion.json.customerId;\n  const conversionValue = conversion.json.value || 0;\n  const conversionTimestamp = conversion.json.timestamp;\n  \n  // Obtener touchpoints (en producción vendría de DB)\n  const touchpoints = conversion.json.touchpoints || [];\n  \n  // Calcular atribución para cada modelo\n  const attributions = {};\n  \n  Object.keys(attributionModels).forEach(modelName => {\n    const model = attributionModels[modelName];\n    attributions[modelName] = model(touchpoints, conversionValue);\n  });\n  \n  // Calcular modelo consensuado (promedio)\n  const consensusAttribution = calculateConsensusAttribution(attributions);\n  \n  return {\n    customerId,\n    conversionId: conversion.json.conversionId,\n    conversionValue,\n    conversionTimestamp,\n    touchpoints,\n    attributions,\n    consensusAttribution,\n    touchpointCount: touchpoints.length,\n    timeToConversion: calculateTimeToConversion(touchpoints),\n    channelMix: calculateChannelMix(touchpoints)\n  };\n});\n\nfunction calculateConsensusAttribution(attributions) {\n  // Agrupar por touchpoint\n  const touchpointCredits = {};\n  \n  Object.values(attributions).forEach(modelResult => {\n    if (Array.isArray(modelResult)) {\n      modelResult.forEach(tp => {\n        const key = `${tp.channel}_${tp.timestamp}`;\n        if (!touchpointCredits[key]) {\n          touchpointCredits[key] = { touchpoint: tp, credits: [] };\n        }\n        touchpointCredits[key].credits.push(tp.credit || 0);\n      });\n    } else if (modelResult) {\n      const key = `${modelResult.channel}_${modelResult.timestamp}`;\n      if (!touchpointCredits[key]) {\n        touchpointCredits[key] = { touchpoint: modelResult, credits: [] };\n      }\n      touchpointCredits[key].credits.push(100);\n    }\n  });\n  \n  // Calcular promedio\n  return Object.values(touchpointCredits).map(({ touchpoint, credits }) => ({\n    ...touchpoint,\n    credit: credits.reduce((a, b) => a + b, 0) / credits.length\n  }));\n}\n\nfunction calculateTimeToConversion(touchpoints) {\n  if (touchpoints.length < 2) return 0;\n  \n  const firstTouch = new Date(touchpoints[0].timestamp);\n  const lastTouch = new Date(touchpoints[touchpoints.length - 1].timestamp);\n  \n  return (lastTouch - firstTouch) / (1000 * 60 * 60 * 24); // días\n}\n\nfunction calculateChannelMix(touchpoints) {\n  const channels = {};\n  touchpoints.forEach(tp => {\n    const channel = tp.channel || 'unknown';\n    channels[channel] = (channels[channel] || 0) + 1;\n  });\n  \n  return channels;\n}\n\n// Agregar resultados por canal\nconst channelPerformance = {};\nattributionResults.forEach(result => {\n  result.consensusAttribution.forEach(attr => {\n    const channel = attr.channel || 'unknown';\n    if (!channelPerformance[channel]) {\n      channelPerformance[channel] = {\n        channel,\n        totalConversions: 0,\n        totalValue: 0,\n        totalCredit: 0,\n        avgTouchpoints: 0,\n        avgTimeToConversion: 0\n      };\n    }\n    \n    channelPerformance[channel].totalConversions += 1;\n    channelPerformance[channel].totalValue += result.conversionValue * (attr.credit / 100);\n    channelPerformance[channel].totalCredit += attr.credit;\n  });\n});\n\n// Calcular promedios\nObject.keys(channelPerformance).forEach(channel => {\n  const perf = channelPerformance[channel];\n  perf.avgCredit = perf.totalCredit / perf.totalConversions;\n  perf.avgValue = perf.totalValue / perf.totalConversions;\n});\n\nreturn [{\n  json: {\n    period: new Date().toISOString().split('T')[0],\n    totalConversions: attributionResults.length,\n    totalValue: attributionResults.reduce((sum, r) => sum + r.conversionValue, 0),\n    attributionResults,\n    channelPerformance,\n    insights: generateInsights(channelPerformance, attributionResults),\n    timestamp: new Date().toISOString()\n  }\n}];\n\nfunction generateInsights(channelPerformance, results) {\n  const insights = [];\n  \n  // Identificar canales top\n  const topChannels = Object.values(channelPerformance)\n    .sort((a, b) => b.totalValue - a.totalValue)\n    .slice(0, 3);\n  \n  insights.push({\n    type: 'top_channels',\n    message: `Top 3 canales por valor: ${topChannels.map(c => c.channel).join(', ')}`,\n    recommendation: 'Aumentar inversión en estos canales'\n  });\n  \n  // Identificar canales sub-optimizados\n  const lowPerforming = Object.values(channelPerformance)\n    .filter(c => c.avgCredit < 10 && c.totalConversions > 5);\n  \n  if (lowPerforming.length > 0) {\n    insights.push({\n      type: 'underperforming_channels',\n      message: `Canales con bajo crédito: ${lowPerforming.map(c => c.channel).join(', ')}`,\n      recommendation: 'Revisar estrategia o reducir inversión'\n    });\n  }\n  \n  // Analizar tiempo de conversión\n  const avgTimeToConversion = results.reduce((sum, r) => sum + r.timeToConversion, 0) / results.length;\n  \n  insights.push({\n    type: 'conversion_timing',\n    message: `Tiempo promedio a conversión: ${avgTimeToConversion.toFixed(1)} días`,\n    recommendation: avgTimeToConversion > 30 ? 'Considerar acelerar el proceso' : 'Timing óptimo'\n  });\n  \n  return insights;\n}"
+      },
+      "id": "calculate-attribution",
+      "name": "Calculate Attribution",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [550, 400],
+      "notes": "Calcula atribución multi-touch con múltiples modelos"
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL }}/attribution/save",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "attributionData",
+              "value": "={{ JSON.stringify($json) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "save-attribution",
+      "name": "Save Attribution Data",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [750, 400],
+      "notes": "Guarda los resultados de atribución"
+    },
+    {
+      "parameters": {
+        "to": "={{ $env.REPORT_RECIPIENTS }}",
+        "subject": "Reporte de Atribución - {{ $json.period }}",
+        "emailType": "html",
+        "message": "={{ `\n<h2>Reporte de Atribución Multi-Touch</h2>\n<p><strong>Período:</strong> ${$json.period}</p>\n<p><strong>Total Conversiones:</strong> ${$json.totalConversions}</p>\n<p><strong>Valor Total:</strong> $${$json.totalValue.toFixed(2)}</p>\n\n<h3>Rendimiento por Canal</h3>\n<table border='1'>\n  <tr><th>Canal</th><th>Conversiones</th><th>Valor Total</th><th>Crédito Promedio</th></tr>\n  ${Object.values($json.channelPerformance).map(c => \n    `<tr><td>${c.channel}</td><td>${c.totalConversions}</td><td>$${c.totalValue.toFixed(2)}</td><td>${c.avgCredit.toFixed(1)}%</td></tr>`\n  ).join('')}\n</table>\n\n<h3>Insights</h3>\n<ul>\n  ${$json.insights.map(i => `<li><strong>${i.type}:</strong> ${i.message}<br/>Recomendación: ${i.recommendation}</li>`).join('')}\n</ul>\n` }}",
+        "options": {}
+      },
+      "id": "send-report",
+      "name": "Send Attribution Report",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [950, 400],
+      "notes": "Envía reporte de atribución por email"
+    }
+  ],
+  "connections": {
+    "Daily Schedule": {
+      "main": [[
+        { "node": "Get Conversions", "type": "main", "index": 0 }
+      ]]
+    },
+    "Get Conversions": {
+      "main": [[
+        { "node": "Calculate Attribution", "type": "main", "index": 0 }
+      ]]
+    },
+    "Calculate Attribution": {
+      "main": [[
+        { "node": "Save Attribution Data", "type": "main", "index": 0 }
+      ]]
+    },
+    "Save Attribution Data": {
+      "main": [[
+        { "node": "Send Attribution Report", "type": "main", "index": 0 }
+      ]]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1"
+}
+
+
+
+

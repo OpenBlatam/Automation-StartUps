@@ -264,3 +264,4 @@ calculator = ROICalculator(
 - [ ] Predicción de ROI con ML
 
 
+

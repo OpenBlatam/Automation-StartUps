@@ -142,3 +142,4 @@ Para migrar desde la versión 1.0:
 **Nota**: La versión mejorada (2.0) es completamente compatible con la versión 1.0 y puede usarse como reemplazo directo.
 
 
+

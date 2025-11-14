@@ -1,0 +1,261 @@
+{
+  "name": "Churn Prediction & Prevention Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "cronExpression": "0 4 * * *",
+        "timezone": "UTC",
+        "options": {}
+      },
+      "id": "schedule-daily",
+      "name": "Daily Schedule (4 AM)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [150, 300],
+      "notes": "Ejecuta diariamente para predecir churn"
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL }}/customers/at-risk",
+        "method": "GET",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "={{ $env.API_KEY }}"
+            }
+          ]
+        },
+        "options": {
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "daysInactive",
+                "value": "60"
+              },
+              {
+                "name": "limit",
+                "value": "500"
+              }
+            ]
+          }
+        }
+      },
+      "id": "fetch-at-risk",
+      "name": "Fetch At-Risk Customers",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [350, 300],
+      "notes": "Obtiene clientes en riesgo de churn"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Predicción de churn usando ML y factores múltiples\nconst customers = $input.all();\n\nconst predictions = [];\n\nfor (const customer of customers) {\n  const data = customer.json;\n  \n  // Factores de riesgo\n  const daysInactive = data.daysSinceLastPurchase || 0;\n  const orderCount = data.orderCount || 0;\n  const totalSpent = data.totalSpent || 0;\n  const avgOrderValue = totalSpent / (orderCount || 1);\n  const engagementScore = data.engagementScore || 0;\n  const complaintCount = data.complaintCount || 0;\n  const supportTickets = data.supportTickets || 0;\n  const emailOpenRate = data.emailOpenRate || 0;\n  const lastInteraction = data.lastInteraction || 0;\n  \n  // Calcular probabilidad de churn (0-100)\n  let churnProbability = 0;\n  \n  // Factor: Tiempo inactivo (peso: 40%)\n  if (daysInactive > 180) churnProbability += 40;\n  else if (daysInactive > 120) churnProbability += 30;\n  else if (daysInactive > 90) churnProbability += 20;\n  else if (daysInactive > 60) churnProbability += 10;\n  \n  // Factor: Engagement (peso: 25%)\n  if (engagementScore < 20) churnProbability += 25;\n  else if (engagementScore < 40) churnProbability += 15;\n  else if (engagementScore < 60) churnProbability += 8;\n  \n  // Factor: Problemas/Quejas (peso: 20%)\n  if (complaintCount > 3 || supportTickets > 5) churnProbability += 20;\n  else if (complaintCount > 1 || supportTickets > 2) churnProbability += 10;\n  \n  // Factor: Email engagement (peso: 10%)\n  if (emailOpenRate < 10) churnProbability += 10;\n  else if (emailOpenRate < 20) churnProbability += 5;\n  \n  // Factor: Valor del cliente (peso: 5% - clientes de alto valor menos propensos)\n  if (totalSpent > 500) churnProbability -= 5;\n  else if (totalSpent > 200) churnProbability -= 3;\n  \n  churnProbability = Math.max(0, Math.min(100, churnProbability));\n  \n  // Determinar nivel de riesgo\n  let riskLevel = 'low';\n  if (churnProbability > 70) riskLevel = 'critical';\n  else if (churnProbability > 50) riskLevel = 'high';\n  else if (churnProbability > 30) riskLevel = 'medium';\n  \n  // Calcular valor en riesgo\n  const valueAtRisk = totalSpent * (churnProbability / 100);\n  \n  // Generar recomendaciones de prevención\n  const recommendations = [];\n  \n  if (daysInactive > 60) {\n    recommendations.push({\n      type: 'reactivation',\n      action: 'send_special_offer',\n      description: 'Enviar oferta especial de reactivación'\n    });\n  }\n  \n  if (engagementScore < 40) {\n    recommendations.push({\n      type: 'engagement',\n      action: 'increase_communication',\n      description: 'Aumentar frecuencia de comunicación'\n    });\n  }\n  \n  if (complaintCount > 0 || supportTickets > 0) {\n    recommendations.push({\n      type: 'support',\n      action: 'proactive_support',\n      description: 'Contacto proactivo para resolver problemas'\n    });\n  }\n  \n  if (emailOpenRate < 15) {\n    recommendations.push({\n      type: 'content',\n      action: 'improve_messaging',\n      description: 'Mejorar contenido y timing de mensajes'\n    });\n  }\n  \n  predictions.push({\n    ...data,\n    churnProbability: churnProbability,\n    riskLevel: riskLevel,\n    valueAtRisk: valueAtRisk,\n    recommendations: recommendations,\n    predictedChurnDate: daysInactive > 90 ? \n      new Date(Date.now() + (30 * 24 * 60 * 60 * 1000)).toISOString() : null\n  });\n}\n\n// Ordenar por probabilidad de churn (mayor primero)\npredictions.sort((a, b) => b.churnProbability - a.churnProbability);\n\n// Retornar predicciones\nreturn predictions.map(p => ({ json: p }));"
+      },
+      "id": "predict-churn",
+      "name": "Predict Churn",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [550, 300],
+      "notes": "Predice probabilidad de churn para cada cliente"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-001",
+              "leftValue": "={{ $json.riskLevel }}",
+              "rightValue": "critical",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "filter-critical",
+      "name": "Filter Critical Risk",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [750, 200],
+      "notes": "Filtra clientes con riesgo crítico"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generar campaña de prevención de churn personalizada\nconst customer = $input.item.json;\nconst riskLevel = customer.riskLevel;\nconst churnProbability = customer.churnProbability;\nconst totalSpent = customer.totalSpent || 0;\nconst firstName = customer.firstName || 'Cliente';\nconst language = customer.language || 'es';\n\nlet subject, body, offer, discountCode, urgency;\n\nif (riskLevel === 'critical') {\n  urgency = 'high';\n  discountCode = 'STAY30';\n  offer = language === 'es' ? '30% de descuento + Envío Gratis' : '30% Off + Free Shipping';\n  subject = language === 'es' ? \n    `🎁 Oferta Especial para Ti, ${firstName}` : \n    `🎁 Special Offer for You, ${firstName}`;\n  body = language === 'es' ?\n    `Hola ${firstName},\n\nNotamos que hace tiempo que no te vemos por aquí. Como cliente valioso (has gastado $${totalSpent.toFixed(2)}), no queremos perderte.\n\nTe ofrecemos una oferta especial:\n\n✨ 30% de descuento en tu próxima compra\n🚚 Envío GRATIS\n💎 Acceso a productos exclusivos\n\nEsta oferta es exclusiva para ti y expira en 7 días.\n\nCódigo: STAY30\n\n[Ver Ofertas Especiales]` :\n    `Hi ${firstName},\n\nWe noticed it's been a while since we last saw you. As a valued customer (you've spent $${totalSpent.toFixed(2)}), we don't want to lose you.\n\nWe're offering you a special deal:\n\n✨ 30% off your next purchase\n🚚 FREE Shipping\n💎 Access to exclusive products\n\nThis offer is exclusive to you and expires in 7 days.\n\nCode: STAY30\n\n[View Special Offers]`;\n} else if (riskLevel === 'high') {\n  urgency = 'medium';\n  discountCode = 'STAY20';\n  offer = language === 'es' ? '20% de descuento' : '20% Off';\n  subject = language === 'es' ? \n    `¿Te acuerdas de nosotros, ${firstName}?` : \n    `Remember us, ${firstName}?`;\n  body = language === 'es' ?\n    `Hola ${firstName},\n\nHace tiempo que no te vemos. ¿Qué tal si volvemos a conectar?\n\nTe ofrecemos 20% de descuento en tu próxima compra.\n\nCódigo: STAY20\n\n[Ver Catálogo]` :\n    `Hi ${firstName},\n\nIt's been a while. How about we reconnect?\n\nWe're offering you 20% off your next purchase.\n\nCode: STAY20\n\n[View Catalog]`;\n} else {\n  urgency = 'low';\n  discountCode = 'STAY15';\n  offer = language === 'es' ? '15% de descuento' : '15% Off';\n  subject = language === 'es' ? \n    `¡Hola de nuevo, ${firstName}!` : \n    `Hello again, ${firstName}!`;\n  body = language === 'es' ?\n    `Hola ${firstName},\n\nNos encantaría verte de nuevo. Aquí tienes 15% de descuento.\n\nCódigo: STAY15\n\n[Ver Productos]` :\n    `Hi ${firstName},\n\nWe'd love to see you again. Here's 15% off.\n\nCode: STAY15\n\n[View Products]`;\n}\n\nreturn [{\n  json: {\n    ...customer,\n    messageSubject: subject,\n    messageBody: body,\n    offer: offer,\n    discountCode: discountCode,\n    urgency: urgency,\n    campaignType: 'churn_prevention'\n  }\n}];"
+      },
+      "id": "generate-prevention-campaign",
+      "name": "Generate Prevention Campaign",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [950, 300],
+      "notes": "Genera campaña de prevención de churn"
+    },
+    {
+      "parameters": {
+        "resource": "email",
+        "operation": "send",
+        "fromEmail": "={{ $env.FROM_EMAIL }}",
+        "toEmail": "={{ $json.email }}",
+        "subject": "={{ $json.messageSubject }}",
+        "html": "={{ $json.messageBody.replace(/\\n/g, '<br>') }}",
+        "text": "={{ $json.messageBody }}",
+        "options": {}
+      },
+      "id": "send-prevention-email",
+      "name": "Send Prevention Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [1150, 300],
+      "credentials": {
+        "smtp": {
+          "id": "smtp-credentials",
+          "name": "SMTP Credentials"
+        }
+      },
+      "notes": "Envía email de prevención de churn",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generar reporte de churn prediction\nconst allPredictions = $input.all();\n\nconst report = {\n  date: new Date().toISOString(),\n  totalAnalyzed: allPredictions.length,\n  byRiskLevel: {\n    critical: 0,\n    high: 0,\n    medium: 0,\n    low: 0\n  },\n  totalValueAtRisk: 0,\n  averageChurnProbability: 0,\n  topRisks: []\n};\n\nlet totalProbability = 0;\n\nfor (const pred of allPredictions) {\n  const data = pred.json;\n  report.byRiskLevel[data.riskLevel] = (report.byRiskLevel[data.riskLevel] || 0) + 1;\n  report.totalValueAtRisk += data.valueAtRisk || 0;\n  totalProbability += data.churnProbability || 0;\n}\n\nreport.averageChurnProbability = totalProbability / allPredictions.length;\n\n// Top 10 riesgos\nreport.topRisks = allPredictions\n  .slice(0, 10)\n  .map(p => ({\n    customerId: p.json.customerId,\n    email: p.json.email,\n    churnProbability: p.json.churnProbability,\n    valueAtRisk: p.json.valueAtRisk,\n    riskLevel: p.json.riskLevel\n  }));\n\nreturn [{\n  json: report\n}];"
+      },
+      "id": "generate-churn-report",
+      "name": "Generate Churn Report",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1350, 300],
+      "notes": "Genera reporte de predicción de churn"
+    },
+    {
+      "parameters": {
+        "resource": "email",
+        "operation": "send",
+        "fromEmail": "={{ $env.FROM_EMAIL }}",
+        "toEmail": "={{ $env.ALERT_EMAIL || 'team@yourdomain.com' }}",
+        "subject": "Alerta: {{ $json.byRiskLevel.critical }} Clientes en Riesgo Crítico de Churn",
+        "html": "=<h2>Reporte de Predicción de Churn</h2><p><strong>Total Analizados:</strong> {{ $json.totalAnalyzed }}</p><h3>Por Nivel de Riesgo:</h3><ul><li>Crítico: {{ $json.byRiskLevel.critical }}</li><li>Alto: {{ $json.byRiskLevel.high }}</li><li>Medio: {{ $json.byRiskLevel.medium }}</li><li>Bajo: {{ $json.byRiskLevel.low }}</li></ul><p><strong>Valor Total en Riesgo:</strong> ${{ $json.totalValueAtRisk.toFixed(2) }}</p><p><strong>Probabilidad Promedio de Churn:</strong> {{ $json.averageChurnProbability.toFixed(2) }}%</p><h3>Top 10 Riesgos:</h3><ul>{{ $json.topRisks.map(r => `<li>${r.email}: ${r.churnProbability.toFixed(1)}% ($${r.valueAtRisk.toFixed(2)})</li>`).join('') }}</ul>",
+        "text": "Reporte de Churn\\nCríticos: {{ $json.byRiskLevel.critical }}\\nValor en Riesgo: ${{ $json.totalValueAtRisk.toFixed(2) }}",
+        "options": {}
+      },
+      "id": "send-churn-report",
+      "name": "Send Churn Report",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [1550, 300],
+      "credentials": {
+        "smtp": {
+          "id": "smtp-credentials",
+          "name": "SMTP Credentials"
+        }
+      },
+      "notes": "Envía reporte de churn",
+      "continueOnFail": true
+    }
+  ],
+  "connections": {
+    "Daily Schedule (4 AM)": {
+      "main": [
+        [
+          {
+            "node": "Fetch At-Risk Customers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch At-Risk Customers": {
+      "main": [
+        [
+          {
+            "node": "Predict Churn",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Predict Churn": {
+      "main": [
+        [
+          {
+            "node": "Filter Critical Risk",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Generate Churn Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Critical Risk": {
+      "main": [
+        [
+          {
+            "node": "Generate Prevention Campaign",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Prevention Campaign": {
+      "main": [
+        [
+          {
+            "node": "Send Prevention Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Churn Report": {
+      "main": [
+        [
+          {
+            "node": "Send Churn Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "churn-prediction",
+      "name": "Churn Prediction"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1.0"
+}
+
+
+
+

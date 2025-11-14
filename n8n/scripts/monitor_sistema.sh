@@ -167,3 +167,4 @@ echo "   - Verifica la configuración en: $N8N_DIR/.env"
 echo "   - Consulta la documentación en: README_FINAL_SISTEMA_COMPLETO.md"
 
 
+

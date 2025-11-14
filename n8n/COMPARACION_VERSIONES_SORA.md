@@ -246,3 +246,4 @@ WEBHOOK_URL=                  # Solo si necesitas integraciones
 **Versión Recomendada**: v2.0 para producción, v3.0 para máximo engagement
 
 
+

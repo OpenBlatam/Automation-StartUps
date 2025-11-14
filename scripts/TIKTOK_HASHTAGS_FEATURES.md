@@ -246,3 +246,4 @@ Formato simple: lista de hashtags separados por espacios
 **Total de funcionalidades**: 15+
 
 
+

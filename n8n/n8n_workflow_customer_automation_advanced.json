@@ -1,0 +1,723 @@
+{
+  "name": "Customer Action Automation Workflow - Advanced Edition",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "cart-abandonment",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-cart",
+      "name": "Cart Abandonment Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [150, 300],
+      "webhookId": "cart-abandonment-trigger",
+      "notes": "Trigger: Se activa cuando un cliente abandona el carrito"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "page-visit",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-page",
+      "name": "Page Visit Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [150, 500],
+      "webhookId": "page-visit-trigger",
+      "notes": "Trigger: Se activa cuando un cliente visita una página específica"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Deduplicación avanzada - Evita procesar el mismo evento múltiples veces\nconst event = $input.item.json;\nconst eventId = `${event.eventType}_${event.customerId || event.email}_${event.cartId || event.sessionId}_${Date.now()}`;\n\n// Usar staticData para tracking de eventos procesados\nconst staticData = $getWorkflowStaticData('global');\nif (!staticData.processedEvents) {\n  staticData.processedEvents = new Map();\n}\n\n// Verificar si ya procesamos este evento (dentro de última hora)\nconst eventKey = `${event.eventType}_${event.customerId || event.email}_${event.cartId || event.sessionId}`;\nconst lastProcessed = staticData.processedEvents.get(eventKey);\nconst oneHourAgo = Date.now() - (60 * 60 * 1000);\n\nif (lastProcessed && lastProcessed > oneHourAgo) {\n  // Evento duplicado, no procesar\n  return [];\n}\n\n// Marcar como procesado\nstaticData.processedEvents.set(eventKey, Date.now());\n\n// Limpiar eventos antiguos (más de 24 horas)\nconst oneDayAgo = Date.now() - (24 * 60 * 60 * 1000);\nfor (const [key, timestamp] of staticData.processedEvents.entries()) {\n  if (timestamp < oneDayAgo) {\n    staticData.processedEvents.delete(key);\n  }\n}\n\nreturn [{\n  json: {\n    ...event,\n    eventId: eventId,\n    isDuplicate: false\n  }\n}];"
+      },
+      "id": "deduplicate-events",
+      "name": "Deduplicate Events",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [350, 300],
+      "notes": "Evita procesar eventos duplicados",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "functionCode": "// Enriquecer datos con información del CRM y historial del cliente\nconst event = $input.item.json;\n\n// Validar datos requeridos\nif (!event.customerId && !event.email) {\n  throw new Error('Se requiere customerId o email');\n}\n\n// Preparar datos base\nconst enrichedData = {\n  customerId: event.customerId || `guest_${Date.now()}`,\n  email: event.email,\n  firstName: event.firstName || 'Cliente',\n  lastName: event.lastName || '',\n  cartValue: event.cartValue || 0,\n  cartItems: event.cartItems || [],\n  cartId: event.cartId || `cart_${Date.now()}`,\n  timestamp: new Date().toISOString(),\n  eventType: event.eventType,\n  pageUrl: event.pageUrl || '',\n  pageCategory: event.pageCategory || '',\n  sessionId: event.sessionId || `session_${Date.now()}`,\n  eventId: event.eventId\n};\n\n// Calcular valor total del carrito\nenrichedData.totalValue = (event.cartItems || []).reduce((sum, item) => sum + (item.price * item.quantity), 0) || event.cartValue || 0;\n\n// Determinar segmento de cliente mejorado\nif (enrichedData.totalValue > 200) {\n  enrichedData.customerSegment = 'premium';\n} else if (enrichedData.totalValue > 100) {\n  enrichedData.customerSegment = 'high_value';\n} else if (enrichedData.totalValue > 50) {\n  enrichedData.customerSegment = 'medium_value';\n} else {\n  enrichedData.customerSegment = 'low_value';\n}\n\n// Número de items\nenrichedData.itemCount = (event.cartItems || []).length || 0;\n\n// Calcular score de conversión (0-100)\nlet conversionScore = 50; // Base\nif (enrichedData.totalValue > 100) conversionScore += 20;\nif (enrichedData.itemCount > 2) conversionScore += 10;\nif (event.previousPurchases) conversionScore += 15;\nif (event.timeOnSite > 300) conversionScore += 10; // Más de 5 minutos\nif (event.pagesViewed > 3) conversionScore += 5;\n\nenrichedData.conversionScore = Math.min(100, conversionScore);\n\n// Determinar urgencia (basado en score)\nenrichedData.urgency = enrichedData.conversionScore > 70 ? 'high' : enrichedData.conversionScore > 50 ? 'medium' : 'low';\n\nreturn [{\n  json: enrichedData\n}];"
+      },
+      "id": "enrich-data-advanced",
+      "name": "Enrich Customer Data Advanced",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [550, 300],
+      "notes": "Enriquece datos con análisis avanzado y scoring"
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL || 'https://api.yourdomain.com' }}/customers/{{ $json.customerId || $json.email }}/history",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "={{ $env.API_KEY }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": false,
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "fetch-customer-history",
+      "name": "Fetch Customer History",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [750, 200],
+      "notes": "Obtiene historial del cliente desde CRM",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL || 'https://api.yourdomain.com' }}/customers/{{ $json.customerId || $json.email }}/preferences",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "={{ $env.API_KEY }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": false,
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "fetch-customer-preferences",
+      "name": "Fetch Customer Preferences",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [750, 300],
+      "notes": "Obtiene preferencias del cliente (idioma, zona horaria, etc.)",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "functionCode": "// Combinar datos enriquecidos con historial y preferencias\nconst customerData = $input.first().json;\nconst historyData = $input.all().find(item => item.json.history)?.json || {};\nconst preferencesData = $input.all().find(item => item.json.preferences)?.json || {};\n\n// Combinar toda la información\nconst combined = {\n  ...customerData,\n  customerHistory: {\n    previousPurchases: historyData.previousPurchases || 0,\n    totalSpent: historyData.totalSpent || 0,\n    lastPurchaseDate: historyData.lastPurchaseDate || null,\n    averageOrderValue: historyData.averageOrderValue || 0,\n    favoriteCategories: historyData.favoriteCategories || []\n  },\n  preferences: {\n    language: preferencesData.language || 'es',\n    timezone: preferencesData.timezone || 'UTC',\n    preferredContactTime: preferencesData.preferredContactTime || '09:00-18:00',\n    communicationChannel: preferencesData.communicationChannel || 'email',\n    unsubscribeStatus: preferencesData.unsubscribeStatus || false\n  }\n};\n\n// Verificar si está desuscrito\nif (combined.preferences.unsubscribeStatus) {\n  throw new Error('Cliente desuscrito - no enviar mensajes');\n}\n\n// Ajustar score basado en historial\nif (combined.customerHistory.previousPurchases > 0) {\n  combined.conversionScore = Math.min(100, combined.conversionScore + 10);\n}\nif (combined.customerHistory.totalSpent > 500) {\n  combined.customerSegment = 'loyal_customer';\n}\n\nreturn [{\n  json: combined\n}];"
+      },
+      "id": "merge-customer-data",
+      "name": "Merge Customer Data",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [950, 300],
+      "notes": "Combina todos los datos del cliente"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-001",
+              "leftValue": "={{ $json.eventType }}",
+              "rightValue": "cart_abandonment",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "filter-cart-event",
+      "name": "Filter Cart Event",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1150, 300],
+      "notes": "Filtra eventos de carrito"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-002",
+              "leftValue": "={{ $json.totalValue }}",
+              "rightValue": 50,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-cart-value",
+      "name": "Check Cart Value",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1350, 300],
+      "notes": "Solo procesa carritos con valor significativo"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Análisis predictivo - Determinar timing óptimo basado en comportamiento\nconst data = $input.item.json;\n\n// Obtener hora actual en timezone del cliente\nconst customerTimezone = data.preferences?.timezone || 'UTC';\nconst now = new Date();\n\n// Convertir a timezone del cliente (simplificado)\nlet customerHour = now.getUTCHours();\nif (customerTimezone !== 'UTC') {\n  // Ajuste básico (en producción usar librería como date-fns-tz)\n  const offset = customerTimezone.includes('America') ? -5 : customerTimezone.includes('Europe') ? 1 : 0;\n  customerHour = (customerHour + offset + 24) % 24;\n}\n\n// Determinar timing óptimo basado en:\n// 1. Score de conversión\n// 2. Hora del día del cliente\n// 3. Urgencia\n// 4. Historial de engagement\n\nlet optimalDelayHours = 1; // Default\n\n// Ajustar según score de conversión\nif (data.conversionScore > 80) {\n  optimalDelayHours = 0.5; // Alta probabilidad, enviar rápido\n} else if (data.conversionScore > 60) {\n  optimalDelayHours = 1;\n} else if (data.conversionScore > 40) {\n  optimalDelayHours = 2;\n} else {\n  optimalDelayHours = 4;\n}\n\n// Ajustar según hora del día (evitar horas muertas)\nif (customerHour < 6 || customerHour > 22) {\n  // Horas de sueño, esperar hasta mañana\n  const hoursUntilMorning = customerHour < 6 ? (6 - customerHour) : (24 - customerHour + 6);\n  optimalDelayHours = Math.max(optimalDelayHours, hoursUntilMorning);\n} else if (customerHour >= 9 && customerHour <= 17) {\n  // Horas de trabajo, timing óptimo\n  optimalDelayHours = Math.max(optimalDelayHours, 1);\n}\n\n// Ajustar según urgencia\nif (data.urgency === 'high') {\n  optimalDelayHours = Math.min(optimalDelayHours, 1);\n}\n\n// Calcular timestamp objetivo\nconst targetTimestamp = new Date(now.getTime() + (optimalDelayHours * 60 * 60 * 1000));\n\nreturn [{\n  json: {\n    ...data,\n    optimalDelayHours: optimalDelayHours,\n    targetSendTime: targetTimestamp.toISOString(),\n    customerHour: customerHour,\n    timingOptimized: true\n  }\n}];"
+      },
+      "id": "predictive-timing",
+      "name": "Predictive Timing Analysis",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1550, 300],
+      "notes": "Calcula timing óptimo para envío de mensajes"
+    },
+    {
+      "parameters": {
+        "functionCode": "// A/B Testing - Asignar variante de mensaje\nconst data = $input.item.json;\n\n// Usar hash del customerId para asignación consistente\nconst hashCustomerId = (str) => {\n  let hash = 0;\n  for (let i = 0; i < str.length; i++) {\n    const char = str.charCodeAt(i);\n    hash = ((hash << 5) - hash) + char;\n    hash = hash & hash; // Convert to 32bit integer\n  }\n  return Math.abs(hash);\n};\n\nconst customerHash = hashCustomerId(data.customerId || data.email);\nconst variant = customerHash % 2 === 0 ? 'A' : 'B';\n\n// Configuraciones de variantes\nconst variants = {\n  A: {\n    tone: 'friendly',\n    discount: data.customerSegment === 'premium' ? 15 : 10,\n    urgency: 'moderate',\n    emoji: true\n  },\n  B: {\n    tone: 'professional',\n    discount: data.customerSegment === 'premium' ? 20 : 12,\n    urgency: 'high',\n    emoji: false\n  }\n};\n\nconst selectedVariant = variants[variant];\n\nreturn [{\n  json: {\n    ...data,\n    abTestVariant: variant,\n    abTestConfig: selectedVariant,\n    abTestId: `ab_${data.eventId}_${variant}`\n  }\n}];"
+      },
+      "id": "ab-test-assignment",
+      "name": "A/B Test Assignment",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1750, 300],
+      "notes": "Asigna variante A/B para testing"
+    },
+    {
+      "parameters": {
+        "functionCode": "={{ $json.optimalDelayHours }}",
+        "unit": "hours",
+        "options": {}
+      },
+      "id": "wait-optimized",
+      "name": "Wait Optimized Time",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [1950, 200],
+      "notes": "Espera tiempo optimizado calculado"
+    },
+    {
+      "parameters": {
+        "amount": 24,
+        "unit": "hours",
+        "options": {}
+      },
+      "id": "wait-24h",
+      "name": "Wait 24 Hours",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [1950, 300],
+      "notes": "Espera 24 horas para segundo mensaje"
+    },
+    {
+      "parameters": {
+        "amount": 72,
+        "unit": "hours",
+        "options": {}
+      },
+      "id": "wait-72h",
+      "name": "Wait 72 Hours",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [1950, 400],
+      "notes": "Espera 72 horas para mensaje final"
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL || 'https://api.yourdomain.com' }}/carts/{{ $json.cartId }}/status",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "={{ $env.API_KEY }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": false,
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "check-cart-status",
+      "name": "Check Cart Status",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [2150, 300],
+      "notes": "Verifica estado del carrito",
+      "continueOnFail": true,
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-003",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "completed",
+              "operator": {
+                "type": "string",
+                "operation": "notEqual"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-not-completed",
+      "name": "Check Not Completed",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [2350, 300],
+      "notes": "Verifica que carrito no esté completado"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generar mensaje avanzado con personalización, A/B testing y multi-idioma\nconst data = $input.item.json;\nconst messageType = $json.messageType || 'first_reminder';\nconst variant = data.abTestConfig || {};\nconst language = data.preferences?.language || 'es';\nconst customerName = data.firstName || 'Cliente';\nconst cartValue = data.totalValue || 0;\nconst items = data.cartItems || [];\nconst discount = variant.discount || 10;\n\n// Templates multi-idioma\nconst templates = {\n  es: {\n    first_reminder: {\n      subject: variant.tone === 'friendly' ? `¡Hola ${customerName}! ¿Olvidaste algo?` : `Recordatorio: Artículos en tu carrito`,\n      greeting: variant.tone === 'friendly' ? `¡Hola ${customerName}!` : `Estimado/a ${customerName},`,\n      body: `Notamos que dejaste algunos artículos en tu carrito${variant.emoji ? ' 🛒' : ''}:\n\n${items.map(item => `• ${item.name} - $${item.price.toFixed(2)}`).join('\\n')}\n\nTotal: $${cartValue.toFixed(2)}\n\n${variant.urgency === 'high' ? '⚡ ¡No te pierdas esta oportunidad! ' : ''}Tu carrito está guardado y listo para ti.\n\n[Completar Compra]`\n    },\n    second_reminder: {\n      subject: `Última oportunidad: ${discount}% OFF en tu carrito`,\n      greeting: `Hola ${customerName},`,\n      body: `Tus artículos siguen esperándote:\n\n${items.map(item => `• ${item.name} - $${item.price.toFixed(2)}`).join('\\n')}\n\nTotal: $${cartValue.toFixed(2)}\n\nComo agradecimiento, te ofrecemos un descuento especial del ${discount}%.\n\nCódigo: SAVE${discount}\n\n[Completar Compra con Descuento]`\n    },\n    final_reminder: {\n      subject: data.customerSegment === 'premium' ? `Oferta exclusiva VIP: ${discount}% OFF` : `Última oportunidad: ${discount}% OFF`,\n      greeting: data.customerSegment === 'premium' ? `Estimado/a cliente VIP ${customerName},` : `Hola ${customerName},`,\n      body: data.customerSegment === 'premium' ? `Como cliente valioso, queremos ofrecerte un descuento exclusivo del ${discount}%.\n\n${items.map(item => `• ${item.name} - $${item.price.toFixed(2)}`).join('\\n')}\n\nTotal original: $${cartValue.toFixed(2)}\nTotal con descuento: $${(cartValue * (1 - discount/100)).toFixed(2)}\n\nCódigo exclusivo: VIP${discount}\n\nEsta oferta expira en 48 horas.\n\n[Completar Compra Ahora]` : `No queremos que te pierdas estos artículos:\n\n${items.map(item => `• ${item.name} - $${item.price.toFixed(2)}`).join('\\n')}\n\nTotal: $${cartValue.toFixed(2)}\n\nAprovecha ${discount}% de descuento con el código: SAVE${discount}\n\n[Completar Compra]`\n    }\n  },\n  en: {\n    first_reminder: {\n      subject: variant.tone === 'friendly' ? `Hi ${customerName}! Did you forget something?` : `Reminder: Items in your cart`,\n      greeting: variant.tone === 'friendly' ? `Hi ${customerName}!` : `Dear ${customerName},`,\n      body: `We noticed you left some items in your cart${variant.emoji ? ' 🛒' : ''}:\n\n${items.map(item => `• ${item.name} - $${item.price.toFixed(2)}`).join('\\n')}\n\nTotal: $${cartValue.toFixed(2)}\n\n${variant.urgency === 'high' ? '⚡ Don\\'t miss this opportunity! ' : ''}Your cart is saved and ready for you.\n\n[Complete Purchase]`\n    },\n    second_reminder: {\n      subject: `Last chance: ${discount}% OFF on your cart`,\n      greeting: `Hi ${customerName},`,\n      body: `Your items are still waiting for you:\n\n${items.map(item => `• ${item.name} - $${item.price.toFixed(2)}`).join('\\n')}\n\nTotal: $${cartValue.toFixed(2)}\n\nAs a thank you, we're offering you a special ${discount}% discount.\n\nCode: SAVE${discount}\n\n[Complete Purchase with Discount]`\n    },\n    final_reminder: {\n      subject: data.customerSegment === 'premium' ? `Exclusive VIP offer: ${discount}% OFF` : `Last chance: ${discount}% OFF`,\n      greeting: data.customerSegment === 'premium' ? `Dear VIP customer ${customerName},` : `Hi ${customerName},`,\n      body: data.customerSegment === 'premium' ? `As a valued customer, we want to offer you an exclusive ${discount}% discount.\n\n${items.map(item => `• ${item.name} - $${item.price.toFixed(2)}`).join('\\n')}\n\nOriginal total: $${cartValue.toFixed(2)}\nTotal with discount: $${(cartValue * (1 - discount/100)).toFixed(2)}\n\nExclusive code: VIP${discount}\n\nThis offer expires in 48 hours.\n\n[Complete Purchase Now]` : `We don't want you to miss these items:\n\n${items.map(item => `• ${item.name} - $${item.price.toFixed(2)}`).join('\\n')}\n\nTotal: $${cartValue.toFixed(2)}\n\nGet ${discount}% off with code: SAVE${discount}\n\n[Complete Purchase]`\n    }\n  }\n};\n\nconst template = templates[language]?.[messageType] || templates.es[messageType];\n\nreturn [{\n  json: {\n    ...data,\n    messageSubject: template.subject,\n    messageBody: `${template.greeting}\n\n${template.body}`,\n    discountCode: messageType === 'first_reminder' ? null : `SAVE${discount}`,\n    messageType: messageType,\n    language: language,\n    abTestVariant: data.abTestVariant,\n    personalization: {\n      customerName: customerName,\n      cartValue: cartValue,\n      itemCount: items.length,\n      discount: discount\n    }\n  }\n}];"
+      },
+      "id": "generate-message-advanced",
+      "name": "Generate Advanced Message",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [2550, 300],
+      "notes": "Genera mensaje avanzado con A/B testing y multi-idioma"
+    },
+    {
+      "parameters": {
+        "resource": "email",
+        "operation": "send",
+        "fromEmail": "={{ $env.FROM_EMAIL || 'noreply@yourdomain.com' }}",
+        "toEmail": "={{ $json.email }}",
+        "subject": "={{ $json.messageSubject }}",
+        "text": "={{ $json.messageBody }}",
+        "html": "={{ $json.messageBody.replace(/\\n/g, '<br>') }}",
+        "options": {
+          "replyTo": "={{ $env.REPLY_TO_EMAIL || 'support@yourdomain.com' }}",
+          "ccEmail": "",
+          "bccEmail": "",
+          "attachments": ""
+        }
+      },
+      "id": "send-email-advanced",
+      "name": "Send Email Advanced",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [2750, 300],
+      "credentials": {
+        "smtp": {
+          "id": "smtp-credentials",
+          "name": "SMTP Credentials"
+        }
+      },
+      "notes": "Envía email con HTML",
+      "continueOnFail": true,
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "to": "={{ $json.phone || $json.mobile }}",
+        "message": "={{ $json.messageBody.substring(0, 160) }}",
+        "options": {}
+      },
+      "id": "send-sms-advanced",
+      "name": "Send SMS Advanced",
+      "type": "n8n-nodes-base.twilio",
+      "typeVersion": 1.1,
+      "position": [2750, 400],
+      "credentials": {
+        "twilioApi": {
+          "id": "twilio-credentials",
+          "name": "Twilio API"
+        }
+      },
+      "notes": "Envía SMS (si hay teléfono y preferencia)",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL || 'https://api.yourdomain.com' }}/tracking",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "method": "POST",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"event\": \"message_sent\",\n  \"customerId\": \"{{ $json.customerId }}\",\n  \"eventType\": \"{{ $json.eventType }}\",\n  \"messageType\": \"{{ $json.messageType }}\",\n  \"abTestVariant\": \"{{ $json.abTestVariant }}\",\n  \"abTestId\": \"{{ $json.abTestId }}\",\n  \"conversionScore\": {{ $json.conversionScore }},\n  \"timestamp\": \"{{ $now }}\",\n  \"workflow\": \"customer_automation_advanced\",\n  \"language\": \"{{ $json.language }}\",\n  \"channel\": \"email\"\n}",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": false,
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "track-event-advanced",
+      "name": "Track Event Advanced",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [2950, 300],
+      "notes": "Registra evento con métricas avanzadas",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL || 'https://api.yourdomain.com' }}/analytics/predict",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "method": "POST",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"customerId\": \"{{ $json.customerId }}\",\n  \"cartValue\": {{ $json.totalValue }},\n  \"conversionScore\": {{ $json.conversionScore }},\n  \"customerSegment\": \"{{ $json.customerSegment }}\",\n  \"abTestVariant\": \"{{ $json.abTestVariant }}\",\n  \"messageType\": \"{{ $json.messageType }}\"\n}",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": false,
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "predictive-analytics",
+      "name": "Predictive Analytics",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [2550, 200],
+      "notes": "Envía datos para análisis predictivo ML",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"success\": true,\n  \"message\": \"Workflow iniciado\",\n  \"customerId\": \"{{ $json.customerId }}\",\n  \"eventId\": \"{{ $json.eventId }}\",\n  \"conversionScore\": {{ $json.conversionScore }},\n  \"estimatedSendTime\": \"{{ $json.targetSendTime }}\"\n}",
+        "options": {}
+      },
+      "id": "webhook-response",
+      "name": "Webhook Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1750, 500],
+      "notes": "Responde al webhook"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Manejo de errores avanzado\nconst error = $input.first().error || $input.first().json.error;\n\nif (error) {\n  // Log error para análisis\n  return [{\n    json: {\n      error: true,\n      errorMessage: error.message || String(error),\n      timestamp: new Date().toISOString(),\n      workflow: 'customer_automation_advanced',\n      customerId: $json.customerId || 'unknown'\n    }\n  }];\n}\n\nreturn [];"
+      },
+      "id": "error-handler",
+      "name": "Error Handler",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [3150, 300],
+      "notes": "Maneja errores y los registra",
+      "continueOnFail": true
+    }
+  ],
+  "connections": {
+    "Cart Abandonment Webhook": {
+      "main": [
+        [
+          {
+            "node": "Deduplicate Events",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Page Visit Webhook": {
+      "main": [
+        [
+          {
+            "node": "Deduplicate Events",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Deduplicate Events": {
+      "main": [
+        [
+          {
+            "node": "Enrich Customer Data Advanced",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enrich Customer Data Advanced": {
+      "main": [
+        [
+          {
+            "node": "Fetch Customer History",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Fetch Customer Preferences",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Customer History": {
+      "main": [
+        [
+          {
+            "node": "Merge Customer Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Customer Preferences": {
+      "main": [
+        [
+          {
+            "node": "Merge Customer Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Customer Data": {
+      "main": [
+        [
+          {
+            "node": "Filter Cart Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Cart Event": {
+      "main": [
+        [
+          {
+            "node": "Check Cart Value",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Cart Value": {
+      "main": [
+        [
+          {
+            "node": "Predictive Timing Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Predictive Timing Analysis": {
+      "main": [
+        [
+          {
+            "node": "A/B Test Assignment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "A/B Test Assignment": {
+      "main": [
+        [
+          {
+            "node": "Wait Optimized Time",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Wait 24 Hours",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Wait 72 Hours",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait Optimized Time": {
+      "main": [
+        [
+          {
+            "node": "Check Cart Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 24 Hours": {
+      "main": [
+        [
+          {
+            "node": "Check Cart Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 72 Hours": {
+      "main": [
+        [
+          {
+            "node": "Check Cart Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Cart Status": {
+      "main": [
+        [
+          {
+            "node": "Check Not Completed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Not Completed": {
+      "main": [
+        [
+          {
+            "node": "Generate Advanced Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Advanced Message": {
+      "main": [
+        [
+          {
+            "node": "Predictive Analytics",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send Email Advanced",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send SMS Advanced",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Email Advanced": {
+      "main": [
+        [
+          {
+            "node": "Track Event Advanced",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Error Handler",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send SMS Advanced": {
+      "main": [
+        [
+          {
+            "node": "Track Event Advanced",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": ""
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "customer-automation-advanced",
+      "name": "Customer Automation Advanced"
+    }
+  ],
+  "triggerCount": 2,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "2.0"
+}
+
+
+
+

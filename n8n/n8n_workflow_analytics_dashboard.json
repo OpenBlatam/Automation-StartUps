@@ -1,0 +1,407 @@
+{
+  "name": "Analytics Dashboard Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "cronExpression": "0 */6 * * *",
+        "timezone": "UTC",
+        "options": {}
+      },
+      "id": "schedule-analytics",
+      "name": "Schedule Analytics (Every 6h)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [150, 300],
+      "notes": "Ejecuta cada 6 horas para actualizar dashboard"
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL }}/analytics/cart-abandonment",
+        "method": "GET",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "={{ $env.API_KEY }}"
+            }
+          ]
+        },
+        "options": {
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "period",
+                "value": "24h"
+              }
+            ]
+          }
+        }
+      },
+      "id": "fetch-cart-metrics",
+      "name": "Fetch Cart Abandonment Metrics",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [350, 200],
+      "notes": "Obtiene métricas de carrito abandonado",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL }}/analytics/email-performance",
+        "method": "GET",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "={{ $env.API_KEY }}"
+            }
+          ]
+        },
+        "options": {
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "period",
+                "value": "24h"
+              }
+            ]
+          }
+        }
+      },
+      "id": "fetch-email-metrics",
+      "name": "Fetch Email Performance",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [350, 300],
+      "notes": "Obtiene métricas de performance de emails",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL }}/analytics/conversion",
+        "method": "GET",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "={{ $env.API_KEY }}"
+            }
+          ]
+        },
+        "options": {
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "period",
+                "value": "24h"
+              }
+            ]
+          }
+        }
+      },
+      "id": "fetch-conversion-metrics",
+      "name": "Fetch Conversion Metrics",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [350, 400],
+      "notes": "Obtiene métricas de conversión",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL }}/analytics/ab-test",
+        "method": "GET",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "={{ $env.API_KEY }}"
+            }
+          ]
+        },
+        "options": {
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "period",
+                "value": "7d"
+              }
+            ]
+          }
+        }
+      },
+      "id": "fetch-ab-test-metrics",
+      "name": "Fetch A/B Test Metrics",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [350, 500],
+      "notes": "Obtiene resultados de A/B testing",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "functionCode": "// Consolidar todas las métricas\nconst cartMetrics = $input.item.json.cartMetrics || {};\nconst emailMetrics = $input.item.json.emailMetrics || {};\nconst conversionMetrics = $input.item.json.conversionMetrics || {};\nconst abTestMetrics = $input.item.json.abTestMetrics || {};\n\n// Combinar todos los datos\nconst allInputs = $input.all();\n\nlet cartData = {};\nlet emailData = {};\nlet conversionData = {};\nlet abTestData = {};\n\nfor (const item of allInputs) {\n  const data = item.json;\n  if (data.cartAbandonmentRate !== undefined) {\n    cartData = data;\n  } else if (data.openRate !== undefined) {\n    emailData = data;\n  } else if (data.conversionRate !== undefined) {\n    conversionData = data;\n  } else if (data.variantA !== undefined) {\n    abTestData = data;\n  }\n}\n\n// Calcular métricas consolidadas\nconst dashboard = {\n  timestamp: new Date().toISOString(),\n  period: '24h',\n  \n  cartAbandonment: {\n    total: cartData.totalCarts || 0,\n    abandoned: cartData.abandonedCarts || 0,\n    rate: cartData.cartAbandonmentRate || 0,\n    recovered: cartData.recoveredCarts || 0,\n    recoveryRate: cartData.recoveryRate || 0,\n    totalValue: cartData.totalValue || 0,\n    recoveredValue: cartData.recoveredValue || 0\n  },\n  \n  email: {\n    sent: emailData.emailsSent || 0,\n    delivered: emailData.emailsDelivered || 0,\n    opened: emailData.emailsOpened || 0,\n    clicked: emailData.emailsClicked || 0,\n    openRate: emailData.openRate || 0,\n    clickRate: emailData.clickRate || 0,\n    bounceRate: emailData.bounceRate || 0\n  },\n  \n  conversion: {\n    totalVisitors: conversionData.totalVisitors || 0,\n    conversions: conversionData.conversions || 0,\n    conversionRate: conversionData.conversionRate || 0,\n    revenue: conversionData.revenue || 0,\n    averageOrderValue: conversionData.averageOrderValue || 0\n  },\n  \n  abTesting: {\n    variantA: {\n      sent: abTestData.variantA?.sent || 0,\n      opened: abTestData.variantA?.opened || 0,\n      clicked: abTestData.variantA?.clicked || 0,\n      converted: abTestData.variantA?.converted || 0,\n      openRate: abTestData.variantA?.openRate || 0,\n      clickRate: abTestData.variantA?.clickRate || 0,\n      conversionRate: abTestData.variantA?.conversionRate || 0\n    },\n    variantB: {\n      sent: abTestData.variantB?.sent || 0,\n      opened: abTestData.variantB?.opened || 0,\n      clicked: abTestData.variantB?.clicked || 0,\n      converted: abTestData.variantB?.converted || 0,\n      openRate: abTestData.variantB?.openRate || 0,\n      clickRate: abTestData.variantB?.clickRate || 0,\n      conversionRate: abTestData.variantB?.conversionRate || 0\n    },\n    winner: abTestData.winner || 'TBD',\n    confidence: abTestData.confidence || 0\n  },\n  \n  // KPIs calculados\n  kpis: {\n    roi: ((conversionData.revenue || 0) / (emailData.emailsSent || 1) * 100).toFixed(2),\n    recoveryEfficiency: ((cartData.recoveredValue || 0) / (cartData.totalValue || 1) * 100).toFixed(2),\n    emailEffectiveness: ((emailData.emailsClicked || 0) / (emailData.emailsSent || 1) * 100).toFixed(2)\n  }\n};\n\nreturn [{\n  json: dashboard\n}];"
+      },
+      "id": "consolidate-metrics",
+      "name": "Consolidate Metrics",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [550, 300],
+      "notes": "Consolida todas las métricas en un dashboard"
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.DASHBOARD_API_URL || $env.API_BASE_URL }}/dashboard/update",
+        "method": "POST",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json }}",
+        "options": {}
+      },
+      "id": "update-dashboard",
+      "name": "Update Dashboard",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [750, 300],
+      "notes": "Actualiza dashboard con métricas consolidadas",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generar alertas si métricas están fuera de rango\nconst dashboard = $input.item.json;\n\nconst alerts = [];\n\n// Alerta: Tasa de abandono muy alta\nif (dashboard.cartAbandonment.rate > 75) {\n  alerts.push({\n    level: 'warning',\n    type: 'high_abandonment_rate',\n    message: `Tasa de abandono muy alta: ${dashboard.cartAbandonment.rate.toFixed(2)}%`,\n    value: dashboard.cartAbandonment.rate,\n    threshold: 75\n  });\n}\n\n// Alerta: Tasa de apertura muy baja\nif (dashboard.email.openRate < 20) {\n  alerts.push({\n    level: 'warning',\n    type: 'low_open_rate',\n    message: `Tasa de apertura muy baja: ${dashboard.email.openRate.toFixed(2)}%`,\n    value: dashboard.email.openRate,\n    threshold: 20\n  });\n}\n\n// Alerta: Tasa de conversión muy baja\nif (dashboard.conversion.conversionRate < 10) {\n  alerts.push({\n    level: 'critical',\n    type: 'low_conversion_rate',\n    message: `Tasa de conversión muy baja: ${dashboard.conversion.conversionRate.toFixed(2)}%`,\n    value: dashboard.conversion.conversionRate,\n    threshold: 10\n  });\n}\n\n// Alerta: Tasa de bounce alta\nif (dashboard.email.bounceRate > 5) {\n  alerts.push({\n    level: 'critical',\n    type: 'high_bounce_rate',\n    message: `Tasa de bounce muy alta: ${dashboard.email.bounceRate.toFixed(2)}%`,\n    value: dashboard.email.bounceRate,\n    threshold: 5\n  });\n}\n\n// Alerta: A/B test con resultado significativo\nif (dashboard.abTesting.confidence > 0.95 && dashboard.abTesting.winner !== 'TBD') {\n  alerts.push({\n    level: 'info',\n    type: 'ab_test_winner',\n    message: `A/B Test: Variante ${dashboard.abTesting.winner} es ganadora (${(dashboard.abTesting.confidence * 100).toFixed(1)}% confianza)`,\n    winner: dashboard.abTesting.winner,\n    confidence: dashboard.abTesting.confidence\n  });\n}\n\nreturn [{\n  json: {\n    ...dashboard,\n    alerts: alerts,\n    hasAlerts: alerts.length > 0\n  }\n}];"
+      },
+      "id": "generate-alerts",
+      "name": "Generate Alerts",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [950, 300],
+      "notes": "Genera alertas si métricas están fuera de rango"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-001",
+              "leftValue": "={{ $json.hasAlerts }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-alerts",
+      "name": "Check Alerts",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1150, 300],
+      "notes": "Verifica si hay alertas"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
+        "text": "={{ '🚨 Alertas de Dashboard\\n\\n' + $json.alerts.map(a => `${a.level === 'critical' ? '🔴' : a.level === 'warning' ? '🟡' : '🔵'} ${a.message}`).join('\\n') }}",
+        "options": {}
+      },
+      "id": "send-telegram-alert",
+      "name": "Send Telegram Alert",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1350, 200],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      },
+      "notes": "Envía alertas a Telegram",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "resource": "email",
+        "operation": "send",
+        "fromEmail": "={{ $env.FROM_EMAIL }}",
+        "toEmail": "={{ $env.ALERT_EMAIL || 'alerts@yourdomain.com' }}",
+        "subject": "Alertas de Dashboard - {{ $json.alerts.filter(a => a.level === 'critical').length }} Críticas",
+        "html": "={{ '<h2>Alertas del Dashboard</h2>' + $json.alerts.map(a => `<p><strong>${a.level.toUpperCase()}</strong>: ${a.message}</p>`).join('') + '<h3>Métricas Actuales</h3><ul><li>Abandono: ' + $json.cartAbandonment.rate.toFixed(2) + '%</li><li>Apertura: ' + $json.email.openRate.toFixed(2) + '%</li><li>Conversión: ' + $json.conversion.conversionRate.toFixed(2) + '%</li></ul>' }}",
+        "text": "Alertas:\\n\\n{{ $json.alerts.map(a => a.message).join('\\n') }}",
+        "options": {}
+      },
+      "id": "send-email-alert",
+      "name": "Send Email Alert",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [1350, 300],
+      "credentials": {
+        "smtp": {
+          "id": "smtp-credentials",
+          "name": "SMTP Credentials"
+        }
+      },
+      "notes": "Envía alertas por email",
+      "continueOnFail": true
+    }
+  ],
+  "connections": {
+    "Schedule Analytics (Every 6h)": {
+      "main": [
+        [
+          {
+            "node": "Fetch Cart Abandonment Metrics",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Fetch Email Performance",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Fetch Conversion Metrics",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Fetch A/B Test Metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Cart Abandonment Metrics": {
+      "main": [
+        [
+          {
+            "node": "Consolidate Metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Email Performance": {
+      "main": [
+        [
+          {
+            "node": "Consolidate Metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Conversion Metrics": {
+      "main": [
+        [
+          {
+            "node": "Consolidate Metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch A/B Test Metrics": {
+      "main": [
+        [
+          {
+            "node": "Consolidate Metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consolidate Metrics": {
+      "main": [
+        [
+          {
+            "node": "Update Dashboard",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Generate Alerts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Alerts": {
+      "main": [
+        [
+          {
+            "node": "Check Alerts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Alerts": {
+      "main": [
+        [
+          {
+            "node": "Send Telegram Alert",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send Email Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "analytics-dashboard",
+      "name": "Analytics Dashboard"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1.0"
+}
+
+
+
+

@@ -258,3 +258,4 @@ TIMEZONE=America/Mexico_City
 **Nota**: Estas mejoras son opcionales y se pueden implementar gradualmente. Se recomienda empezar con análisis visual y generación de thumbnails para obtener el mayor impacto.
 
 
+

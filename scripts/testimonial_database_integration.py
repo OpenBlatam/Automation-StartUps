@@ -292,3 +292,4 @@ class DatabaseIntegration:
             logger.info("Conexión a BD cerrada")
 
 
+

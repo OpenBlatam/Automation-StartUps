@@ -284,3 +284,4 @@ converter.enable_cache(
 - Los templates se cargan automáticamente desde `n8n/templates/`
 
 
+

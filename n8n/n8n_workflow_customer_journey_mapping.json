@@ -1,0 +1,206 @@
+{
+  "name": "Customer Journey Mapping - Advanced",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "journey-event",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-journey",
+      "name": "Journey Event Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [150, 400],
+      "webhookId": "journey-event-trigger",
+      "notes": "Captura todos los eventos del customer journey"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Mapeo completo del Customer Journey\nconst event = $input.item.json;\n\n// Definir etapas del journey\nconst journeyStages = {\n  'awareness': { order: 1, name: 'Conocimiento', touchpoints: [] },\n  'consideration': { order: 2, name: 'Consideración', touchpoints: [] },\n  'decision': { order: 3, name: 'Decisión', touchpoints: [] },\n  'purchase': { order: 4, name: 'Compra', touchpoints: [] },\n  'retention': { order: 5, name: 'Retención', touchpoints: [] },\n  'advocacy': { order: 6, name: 'Defensa', touchpoints: [] }\n};\n\n// Determinar etapa actual basada en eventos\nfunction determineStage(events) {\n  const lastEvent = events[events.length - 1];\n  \n  // Si compró, está en retention o advocacy\n  if (lastEvent.eventType === 'purchase_completed') {\n    const daysSincePurchase = (Date.now() - new Date(lastEvent.timestamp)) / (1000 * 60 * 60 * 24);\n    if (daysSincePurchase > 90 && lastEvent.reviewSubmitted) {\n      return 'advocacy';\n    }\n    return 'retention';\n  }\n  \n  // Si está en checkout, está en decision\n  if (lastEvent.eventType === 'checkout_started' || lastEvent.pageCategory === 'checkout') {\n    return 'decision';\n  }\n  \n  // Si visitó pricing o comparó productos, está en consideration\n  if (lastEvent.pageCategory === 'pricing' || lastEvent.pageCategory === 'compare' || \n      lastEvent.eventType === 'product_comparison') {\n    return 'consideration';\n  }\n  \n  // Si visitó blog o recursos, está en awareness\n  if (lastEvent.pageCategory === 'blog' || lastEvent.pageCategory === 'resources' ||\n      lastEvent.eventType === 'content_viewed') {\n    return 'awareness';\n  }\n  \n  // Default: basado en número de visitas\n  const visitCount = events.filter(e => e.eventType === 'page_visit').length;\n  if (visitCount === 1) return 'awareness';\n  if (visitCount < 5) return 'consideration';\n  return 'decision';\n}\n\n// Calcular métricas del journey\nfunction calculateJourneyMetrics(events) {\n  const metrics = {\n    totalTouchpoints: events.length,\n    uniqueChannels: new Set(events.map(e => e.channel || 'unknown')).size,\n    totalTime: 0,\n    conversionPath: [],\n    frictionPoints: [],\n    opportunities: []\n  };\n  \n  // Calcular tiempo total\n  if (events.length > 1) {\n    const firstEvent = new Date(events[0].timestamp);\n    const lastEvent = new Date(events[events.length - 1].timestamp);\n    metrics.totalTime = (lastEvent - firstEvent) / (1000 * 60 * 60); // horas\n  }\n  \n  // Identificar path de conversión\n  events.forEach((event, index) => {\n    if (event.eventType === 'page_visit' || event.eventType === 'cart_added') {\n      metrics.conversionPath.push({\n        step: index + 1,\n        action: event.eventType,\n        page: event.pageUrl,\n        timestamp: event.timestamp\n      });\n    }\n  });\n  \n  // Identificar fricciones (eventos que no llevan a conversión)\n  const cartAbandons = events.filter(e => e.eventType === 'cart_abandoned');\n  const longPauses = [];\n  for (let i = 1; i < events.length; i++) {\n    const timeDiff = (new Date(events[i].timestamp) - new Date(events[i-1].timestamp)) / (1000 * 60 * 60);\n    if (timeDiff > 24) { // Pausa de más de 24 horas\n      longPauses.push({\n        between: events[i-1].eventType,\n        and: events[i].eventType,\n        pauseHours: timeDiff\n      });\n    }\n  }\n  \n  metrics.frictionPoints = [\n    ...cartAbandons.map(e => ({ type: 'cart_abandoned', timestamp: e.timestamp })),\n    ...longPauses.map(p => ({ type: 'long_pause', details: p }))\n  ];\n  \n  // Identificar oportunidades\n  const highIntentEvents = events.filter(e => \n    e.conversionScore > 70 || e.pageCategory === 'pricing' || e.pageCategory === 'checkout'\n  );\n  \n  if (highIntentEvents.length > 0 && !events.some(e => e.eventType === 'purchase_completed')) {\n    metrics.opportunities.push({\n      type: 'high_intent_no_conversion',\n      events: highIntentEvents.length,\n      recommendation: 'Enviar oferta especial o asistencia personalizada'\n    });\n  }\n  \n  return metrics;\n}\n\n// Procesar evento\nconst customerId = event.customerId || event.email;\nconst eventData = {\n  customerId,\n  eventId: event.eventId || `evt_${Date.now()}`,\n  eventType: event.eventType,\n  timestamp: event.timestamp || new Date().toISOString(),\n  pageUrl: event.pageUrl,\n  pageCategory: event.pageCategory,\n  channel: event.channel || 'web',\n  device: event.device,\n  referrer: event.referrer,\n  utmSource: event.utmSource,\n  utmCampaign: event.utmCampaign,\n  conversionScore: event.conversionScore || 50,\n  cartValue: event.cartValue || 0\n};\n\n// Obtener historial del cliente (simulado - en producción vendría de DB)\nconst customerHistory = event.customerHistory || [eventData];\n\n// Determinar etapa actual\nconst currentStage = determineStage(customerHistory);\n\n// Calcular métricas\nconst journeyMetrics = calculateJourneyMetrics(customerHistory);\n\n// Mapeo completo del journey\nconst journeyMap = {\n  customerId,\n  currentStage,\n  stageDetails: journeyStages[currentStage],\n  journeyMetrics,\n  touchpoints: customerHistory.map(e => ({\n    stage: determineStage([e]),\n    event: e,\n    timestamp: e.timestamp\n  })),\n  nextRecommendedAction: getNextRecommendedAction(currentStage, journeyMetrics),\n  journeyHealth: calculateJourneyHealth(journeyMetrics),\n  estimatedConversionProbability: estimateConversionProbability(currentStage, journeyMetrics),\n  timestamp: new Date().toISOString()\n};\n\nfunction getNextRecommendedAction(stage, metrics) {\n  const actions = {\n    'awareness': 'Enviar contenido educativo o guía de inicio',\n    'consideration': 'Enviar comparación de productos o caso de estudio',\n    'decision': 'Enviar oferta especial o asistencia personalizada',\n    'purchase': 'Enviar onboarding y recursos de bienvenida',\n    'retention': 'Enviar contenido de valor o ofertas de upsell',\n    'advocacy': 'Solicitar reseña o referido'\n  };\n  \n  if (metrics.frictionPoints.length > 0) {\n    return 'Resolver fricción identificada: ' + metrics.frictionPoints[0].type;\n  }\n  \n  return actions[stage] || 'Continuar engagement general';\n}\n\nfunction calculateJourneyHealth(metrics) {\n  let healthScore = 100;\n  \n  // Penalizar por fricciones\n  healthScore -= metrics.frictionPoints.length * 10;\n  \n  // Penalizar por tiempo excesivo sin conversión\n  if (metrics.totalTime > 168) { // Más de 1 semana\n    healthScore -= 20;\n  }\n  \n  // Bonificar por múltiples touchpoints\n  if (metrics.totalTouchpoints > 5) {\n    healthScore += 10;\n  }\n  \n  // Bonificar por múltiples canales\n  if (metrics.uniqueChannels > 2) {\n    healthScore += 10;\n  }\n  \n  return Math.max(0, Math.min(100, healthScore));\n}\n\nfunction estimateConversionProbability(stage, metrics) {\n  const baseProbabilities = {\n    'awareness': 5,\n    'consideration': 20,\n    'decision': 60,\n    'purchase': 95,\n    'retention': 50,\n    'advocacy': 30\n  };\n  \n  let probability = baseProbabilities[stage] || 10;\n  \n  // Ajustar según métricas\n  if (metrics.totalTouchpoints > 5) probability += 10;\n  if (metrics.uniqueChannels > 2) probability += 5;\n  if (metrics.frictionPoints.length > 0) probability -= 15;\n  \n  return Math.max(0, Math.min(100, probability));\n}\n\nreturn [{\n  json: journeyMap\n}];"
+      },
+      "id": "journey-mapper",
+      "name": "Journey Mapper",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [350, 400],
+      "notes": "Mapea el journey completo del cliente"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "type": "string"
+          },
+          "conditions": [
+            {
+              "id": "health-check",
+              "leftValue": "={{ $json.journeyHealth }}",
+              "rightValue": 50,
+              "operator": {
+                "type": "number",
+                "operation": "smaller"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-health",
+      "name": "Check Journey Health",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [550, 400],
+      "notes": "Verifica si el journey necesita intervención"
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL }}/journey/update",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "customerId",
+              "value": "={{ $json.customerId }}"
+            },
+            {
+              "name": "journeyMap",
+              "value": "={{ JSON.stringify($json) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "save-journey",
+      "name": "Save Journey Map",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [750, 300],
+      "notes": "Guarda el journey map en la base de datos"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generar recomendación de acción basada en journey\nconst journey = $input.item.json;\n\nconst recommendation = {\n  customerId: journey.customerId,\n  currentStage: journey.currentStage,\n  recommendedAction: journey.nextRecommendedAction,\n  urgency: journey.journeyHealth < 50 ? 'high' : 'medium',\n  estimatedImpact: journey.estimatedConversionProbability,\n  actionDetails: {\n    type: getActionType(journey.currentStage),\n    channel: getBestChannel(journey.touchpoints),\n    timing: getOptimalTiming(journey.journeyMetrics),\n    content: getContentSuggestion(journey.currentStage, journey.journeyMetrics)\n  },\n  timestamp: new Date().toISOString()\n};\n\nfunction getActionType(stage) {\n  const types = {\n    'awareness': 'content_delivery',\n    'consideration': 'product_comparison',\n    'decision': 'special_offer',\n    'purchase': 'onboarding',\n    'retention': 'value_content',\n    'advocacy': 'referral_request'\n  };\n  return types[stage] || 'general_engagement';\n}\n\nfunction getBestChannel(touchpoints) {\n  const channelCounts = {};\n  touchpoints.forEach(tp => {\n    const channel = tp.event.channel || 'web';\n    channelCounts[channel] = (channelCounts[channel] || 0) + 1;\n  });\n  \n  const mostUsed = Object.keys(channelCounts).reduce((a, b) => \n    channelCounts[a] > channelCounts[b] ? a : b\n  );\n  \n  return mostUsed || 'email';\n}\n\nfunction getOptimalTiming(metrics) {\n  // Si hay fricción, actuar rápido\n  if (metrics.frictionPoints.length > 0) {\n    return 'immediate';\n  }\n  \n  // Si está en decision, actuar en 1 hora\n  return '1_hour';\n}\n\nfunction getContentSuggestion(stage, metrics) {\n  const suggestions = {\n    'awareness': 'Guía de inicio o blog post relevante',\n    'consideration': 'Comparación de productos o caso de estudio',\n    'decision': 'Oferta especial o demo personalizada',\n    'purchase': 'Bienvenida y recursos de onboarding',\n    'retention': 'Contenido de valor o oferta de upsell',\n    'advocacy': 'Solicitud de reseña o programa de referidos'\n  };\n  \n  return suggestions[stage] || 'Contenido general de engagement';\n}\n\nreturn [{\n  json: recommendation\n}];"
+      },
+      "id": "generate-recommendation",
+      "name": "Generate Action Recommendation",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [750, 500],
+      "notes": "Genera recomendación de acción basada en journey"
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL }}/automation/trigger",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "customerId",
+              "value": "={{ $json.customerId }}"
+            },
+            {
+              "name": "action",
+              "value": "={{ $json.recommendedAction }}"
+            },
+            {
+              "name": "actionDetails",
+              "value": "={{ JSON.stringify($json.actionDetails) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "trigger-action",
+      "name": "Trigger Recommended Action",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [950, 500],
+      "notes": "Dispara la acción recomendada"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { success: true, journeyMap: $json } }}"
+      },
+      "id": "response",
+      "name": "Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1150, 400]
+    }
+  ],
+  "connections": {
+    "Journey Event Webhook": {
+      "main": [[
+        { "node": "Journey Mapper", "type": "main", "index": 0 }
+      ]]
+    },
+    "Journey Mapper": {
+      "main": [[
+        { "node": "Check Journey Health", "type": "main", "index": 0 }
+      ]]
+    },
+    "Check Journey Health": {
+      "main": [[
+        { "node": "Save Journey Map", "type": "main", "index": 0 }
+      ], [
+        { "node": "Generate Action Recommendation", "type": "main", "index": 0 }
+      ]]
+    },
+    "Save Journey Map": {
+      "main": [[
+        { "node": "Response", "type": "main", "index": 0 }
+      ]]
+    },
+    "Generate Action Recommendation": {
+      "main": [[
+        { "node": "Trigger Recommended Action", "type": "main", "index": 0 }
+      ]]
+    },
+    "Trigger Recommended Action": {
+      "main": [[
+        { "node": "Response", "type": "main", "index": 0 }
+      ]]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1"
+}
+
+
+
+

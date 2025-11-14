@@ -297,3 +297,4 @@ const visionAnalysis = await openai.chat.completions.create({
 **Nota**: Estas mejoras se pueden implementar gradualmente. Se recomienda empezar con las de Fase 1 para obtener el mayor impacto inmediato.
 
 
+

@@ -394,3 +394,4 @@ El sistema ahora incluye **análisis predictivo avanzado**:
 **Estado**: ✅ Completo y listo para producción
 
 
+

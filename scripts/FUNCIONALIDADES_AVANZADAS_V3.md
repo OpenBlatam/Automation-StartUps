@@ -321,3 +321,4 @@ with open("metricas_2024.json") as f:
 **Líneas de Código**: 5700+
 
 
+

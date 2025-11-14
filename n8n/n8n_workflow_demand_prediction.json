@@ -1,0 +1,258 @@
+{
+  "name": "Demand Prediction Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "cronExpression": "0 6 * * *",
+        "timezone": "UTC",
+        "options": {}
+      },
+      "id": "schedule-daily",
+      "name": "Daily Schedule (6 AM)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [150, 300],
+      "notes": "Ejecuta diariamente para predecir demanda"
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL }}/analytics/historical-sales",
+        "method": "GET",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "={{ $env.API_KEY }}"
+            }
+          ]
+        },
+        "options": {
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "period",
+                "value": "90d"
+              }
+            ]
+          }
+        }
+      },
+      "id": "fetch-historical-data",
+      "name": "Fetch Historical Sales Data",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [350, 300],
+      "notes": "Obtiene datos históricos de ventas",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "functionCode": "// Predicción de demanda usando análisis de tendencias y ML\nconst historicalData = $input.item.json;\nconst salesData = historicalData.sales || [];\nconst products = historicalData.products || [];\n\nconst predictions = [];\n\n// Analizar cada producto\nfor (const product of products) {\n  const productId = product.id;\n  const productName = product.name;\n  const productSales = salesData.filter(s => s.productId === productId);\n  \n  // Calcular tendencias\n  const last30Days = productSales.filter(s => {\n    const saleDate = new Date(s.date);\n    const daysAgo = (Date.now() - saleDate.getTime()) / (1000 * 60 * 60 * 24);\n    return daysAgo <= 30;\n  });\n  \n  const last7Days = last30Days.filter(s => {\n    const saleDate = new Date(s.date);\n    const daysAgo = (Date.now() - saleDate.getTime()) / (1000 * 60 * 60 * 24);\n    return daysAgo <= 7;\n  });\n  \n  // Calcular promedios\n  const avgLast30Days = last30Days.length > 0 ? \n    last30Days.reduce((sum, s) => sum + s.quantity, 0) / last30Days.length : 0;\n  const avgLast7Days = last7Days.length > 0 ? \n    last7Days.reduce((sum, s) => sum + s.quantity, 0) / last7Days.length : 0;\n  \n  // Calcular tendencia\n  const trend = avgLast7Days > avgLast30Days * 1.2 ? 'increasing' : \n                avgLast7Days < avgLast30Days * 0.8 ? 'decreasing' : 'stable';\n  \n  // Predicción para próximos 7 días\n  let predictedDemand = avgLast7Days * 7;\n  \n  // Ajustar según tendencia\n  if (trend === 'increasing') {\n    predictedDemand *= 1.15; // +15% si está aumentando\n  } else if (trend === 'decreasing') {\n    predictedDemand *= 0.85; // -15% si está disminuyendo\n  }\n  \n  // Ajustar según estacionalidad (simplificado)\n  const currentMonth = new Date().getMonth();\n  const seasonalFactors = {\n    11: 1.3, // Diciembre (Navidad)\n    0: 1.2,  // Enero (post-Navidad)\n    1: 0.9,  // Febrero (bajo)\n    2: 1.0,  // Marzo\n    3: 1.1,  // Abril\n    4: 1.0,  // Mayo\n    5: 1.0,  // Junio\n    6: 0.95, // Julio (verano)\n    7: 0.95, // Agosto (verano)\n    8: 1.1,  // Septiembre\n    9: 1.2,  // Octubre\n    10: 1.25 // Noviembre (Black Friday)\n  };\n  \n  const seasonalFactor = seasonalFactors[currentMonth] || 1.0;\n  predictedDemand *= seasonalFactor;\n  \n  // Calcular confianza (0-100)\n  let confidence = 70; // Base\n  if (productSales.length > 90) confidence += 15; // Más datos = más confianza\n  if (trend === 'stable') confidence += 10; // Tendencias estables = más confianza\n  if (last30Days.length > 20) confidence += 5;\n  confidence = Math.min(100, confidence);\n  \n  // Determinar nivel de stock recomendado\n  const currentStock = product.currentStock || 0;\n  const daysOfStock = currentStock / (avgLast7Days || 1);\n  \n  let stockRecommendation = 'adequate';\n  if (daysOfStock < 7) {\n    stockRecommendation = 'low';\n  } else if (daysOfStock > 30) {\n    stockRecommendation = 'high';\n  }\n  \n  // Recomendación de acción\n  let actionRecommendation = 'monitor';\n  if (predictedDemand > currentStock * 1.5) {\n    actionRecommendation = 'increase_stock';\n  } else if (predictedDemand < currentStock * 0.5) {\n    actionRecommendation = 'reduce_stock';\n  } else if (trend === 'increasing' && daysOfStock < 14) {\n    actionRecommendation = 'prepare_increase';\n  }\n  \n  predictions.push({\n    productId: productId,\n    productName: productName,\n    currentStock: currentStock,\n    predictedDemand: Math.round(predictedDemand),\n    trend: trend,\n    confidence: confidence,\n    daysOfStock: Math.round(daysOfStock),\n    stockRecommendation: stockRecommendation,\n    actionRecommendation: actionRecommendation,\n    seasonalFactor: seasonalFactor\n  });\n}\n\n// Ordenar por riesgo (bajo stock primero)\npredictions.sort((a, b) => {\n  if (a.stockRecommendation === 'low' && b.stockRecommendation !== 'low') return -1;\n  if (a.stockRecommendation !== 'low' && b.stockRecommendation === 'low') return 1;\n  return a.daysOfStock - b.daysOfStock;\n});\n\nreturn predictions.map(p => ({ json: p }));"
+      },
+      "id": "predict-demand",
+      "name": "Predict Demand",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [550, 300],
+      "notes": "Predice demanda usando análisis de tendencias"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-001",
+              "leftValue": "={{ $json.stockRecommendation }}",
+              "rightValue": "low",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "filter-low-stock",
+      "name": "Filter Low Stock",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [750, 300],
+      "notes": "Filtra productos con stock bajo"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generar alerta de stock bajo\nconst prediction = $input.item.json;\n\nconst alert = {\n  type: 'stock_alert',\n  severity: prediction.daysOfStock < 3 ? 'critical' : 'warning',\n  productId: prediction.productId,\n  productName: prediction.productName,\n  currentStock: prediction.currentStock,\n  predictedDemand: prediction.predictedDemand,\n  daysOfStock: prediction.daysOfStock,\n  actionRequired: prediction.actionRecommendation,\n  message: `Producto ${prediction.productName} tiene solo ${prediction.daysOfStock} días de stock. Demanda predicha: ${prediction.predictedDemand} unidades.`,\n  timestamp: new Date().toISOString()\n};\n\nreturn [{\n  json: alert\n}];"
+      },
+      "id": "generate-stock-alert",
+      "name": "Generate Stock Alert",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [950, 200],
+      "notes": "Genera alerta de stock bajo"
+    },
+    {
+      "parameters": {
+        "resource": "email",
+        "operation": "send",
+        "fromEmail": "={{ $env.FROM_EMAIL }}",
+        "toEmail": "={{ $env.ALERT_EMAIL || 'team@yourdomain.com' }}",
+        "subject": "🚨 Alerta: Stock Bajo - {{ $json.productName }}",
+        "html": "=<h2>Alerta de Stock</h2><p><strong>Producto:</strong> {{ $json.productName }}</p><p><strong>Stock Actual:</strong> {{ $json.currentStock }} unidades</p><p><strong>Días de Stock:</strong> {{ $json.daysOfStock }}</p><p><strong>Demanda Predicha (7 días):</strong> {{ $json.predictedDemand }} unidades</p><p><strong>Acción Requerida:</strong> {{ $json.actionRequired }}</p><p><strong>Severidad:</strong> {{ $json.severity.toUpperCase() }}</p>",
+        "text": "Alerta de Stock\\nProducto: {{ $json.productName }}\\nStock: {{ $json.currentStock }}\\nDías: {{ $json.daysOfStock }}",
+        "options": {}
+      },
+      "id": "send-stock-alert",
+      "name": "Send Stock Alert",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [1150, 200],
+      "credentials": {
+        "smtp": {
+          "id": "smtp-credentials",
+          "name": "SMTP Credentials"
+        }
+      },
+      "notes": "Envía alerta de stock bajo",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generar reporte de predicción de demanda\nconst allPredictions = $input.all();\n\nconst report = {\n  date: new Date().toISOString(),\n  totalProducts: allPredictions.length,\n  byStockLevel: {\n    low: 0,\n    adequate: 0,\n    high: 0\n  },\n  byTrend: {\n    increasing: 0,\n    stable: 0,\n    decreasing: 0\n  },\n  totalPredictedDemand: 0,\n  totalCurrentStock: 0,\n  alerts: []\n};\n\nfor (const pred of allPredictions) {\n  const data = pred.json;\n  report.byStockLevel[data.stockRecommendation] = \n    (report.byStockLevel[data.stockRecommendation] || 0) + 1;\n  report.byTrend[data.trend] = (report.byTrend[data.trend] || 0) + 1;\n  report.totalPredictedDemand += data.predictedDemand || 0;\n  report.totalCurrentStock += data.currentStock || 0;\n  \n  if (data.stockRecommendation === 'low') {\n    report.alerts.push({\n      product: data.productName,\n      daysOfStock: data.daysOfStock,\n      predictedDemand: data.predictedDemand\n    });\n  }\n}\n\nreturn [{\n  json: report\n}];"
+      },
+      "id": "generate-demand-report",
+      "name": "Generate Demand Report",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [950, 400],
+      "notes": "Genera reporte de predicción de demanda"
+    },
+    {
+      "parameters": {
+        "resource": "email",
+        "operation": "send",
+        "fromEmail": "={{ $env.FROM_EMAIL }}",
+        "toEmail": "={{ $env.REPORT_RECIPIENTS || 'team@yourdomain.com' }}",
+        "subject": "Reporte Diario de Predicción de Demanda",
+        "html": "=<h2>Reporte de Predicción de Demanda</h2><p><strong>Total Productos:</strong> {{ $json.totalProducts }}</p><h3>Por Nivel de Stock:</h3><ul><li>Bajo: {{ $json.byStockLevel.low }}</li><li>Adecuado: {{ $json.byStockLevel.adequate }}</li><li>Alto: {{ $json.byStockLevel.high }}</li></ul><h3>Por Tendencia:</h3><ul><li>Aumentando: {{ $json.byTrend.increasing }}</li><li>Estable: {{ $json.byTrend.stable }}</li><li>Disminuyendo: {{ $json.byTrend.decreasing }}</li></ul><p><strong>Demanda Total Predicha (7 días):</strong> {{ $json.totalPredictedDemand }}</p><p><strong>Stock Total Actual:</strong> {{ $json.totalCurrentStock }}</p>{{ $json.alerts.length > 0 ? '<h3>Alertas:</h3><ul>' + $json.alerts.map(a => `<li>${a.product}: ${a.daysOfStock} días de stock (Demanda: ${a.predictedDemand})</li>`).join('') + '</ul>' : '' }}",
+        "text": "Reporte de Demanda\\nTotal: {{ $json.totalProducts }}\\nAlertas: {{ $json.alerts.length }}",
+        "options": {}
+      },
+      "id": "send-demand-report",
+      "name": "Send Demand Report",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [1150, 400],
+      "credentials": {
+        "smtp": {
+          "id": "smtp-credentials",
+          "name": "SMTP Credentials"
+        }
+      },
+      "notes": "Envía reporte de predicción de demanda",
+      "continueOnFail": true
+    }
+  ],
+  "connections": {
+    "Daily Schedule (6 AM)": {
+      "main": [
+        [
+          {
+            "node": "Fetch Historical Sales Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Historical Sales Data": {
+      "main": [
+        [
+          {
+            "node": "Predict Demand",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Predict Demand": {
+      "main": [
+        [
+          {
+            "node": "Filter Low Stock",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Generate Demand Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Low Stock": {
+      "main": [
+        [
+          {
+            "node": "Generate Stock Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Stock Alert": {
+      "main": [
+        [
+          {
+            "node": "Send Stock Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Demand Report": {
+      "main": [
+        [
+          {
+            "node": "Send Demand Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "demand-prediction",
+      "name": "Demand Prediction"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1.0"
+}
+
+
+
+

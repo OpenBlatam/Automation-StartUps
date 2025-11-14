@@ -102,3 +102,4 @@ python scripts/testimonial_to_social_post.py \
 - [ ] Generación de contenido multimedia (carousel, video scripts)
 
 
+

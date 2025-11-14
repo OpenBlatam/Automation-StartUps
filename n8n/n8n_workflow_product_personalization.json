@@ -1,0 +1,215 @@
+{
+  "name": "Product Personalization Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "browse-product",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-browse",
+      "name": "Browse Product Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [150, 300],
+      "webhookId": "browse-product-trigger",
+      "notes": "Trigger cuando cliente navega producto"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Análisis de comportamiento y personalización de productos\nconst event = $input.item.json;\n\nconst customerId = event.customerId;\nconst productId = event.productId;\nconst productCategory = event.productCategory || 'general';\nconst productPrice = event.productPrice || 0;\nconst timeOnPage = event.timeOnPage || 0;\nconst scrollDepth = event.scrollDepth || 0;\nconst viewedImages = event.viewedImages || 0;\n\n// Calcular interés en producto (0-100)\nlet interestScore = 50;\n\nif (timeOnPage > 120) interestScore += 20; // Más de 2 minutos\nelse if (timeOnPage > 60) interestScore += 10;\n\nif (scrollDepth > 80) interestScore += 15; // Scroll profundo\nelse if (scrollDepth > 50) interestScore += 8;\n\nif (viewedImages > 5) interestScore += 10; // Vio muchas imágenes\nelse if (viewedImages > 2) interestScore += 5;\n\nif (event.addedToWishlist) interestScore += 15;\nif (event.addedToCart) interestScore += 20;\nif (event.sharedProduct) interestScore += 10;\n\ninterestScore = Math.min(100, Math.max(0, interestScore));\n\n// Determinar nivel de interés\nlet interestLevel = 'low';\nif (interestScore > 70) interestLevel = 'high';\nelse if (interestScore > 50) interestLevel = 'medium';\n\n// Obtener historial del cliente (simulado)\nconst customerHistory = event.customerHistory || {};\nconst favoriteCategories = customerHistory.favoriteCategories || [];\nconst averageOrderValue = customerHistory.averageOrderValue || 0;\nconst priceSensitivity = customerHistory.priceSensitivity || 'medium';\n\n// Recomendaciones personalizadas\nconst recommendations = [];\n\n// Productos relacionados en misma categoría\nif (productCategory) {\n  recommendations.push({\n    type: 'related_category',\n    category: productCategory,\n    reason: 'Similar products you might like'\n  });\n}\n\n// Productos complementarios\nif (productCategory === 'electronics') {\n  recommendations.push({\n    type: 'complementary',\n    category: 'accessories',\n    reason: 'Frequently bought together'\n  });\n}\n\n// Productos en rango de precio similar\nif (productPrice > 0) {\n  const priceRange = {\n    min: productPrice * 0.7,\n    max: productPrice * 1.3\n  };\n  recommendations.push({\n    type: 'similar_price',\n    priceRange: priceRange,\n    reason: 'Similar price range'\n  });\n}\n\n// Productos de categorías favoritas\nif (favoriteCategories.length > 0 && !favoriteCategories.includes(productCategory)) {\n  recommendations.push({\n    type: 'favorite_category',\n    categories: favoriteCategories,\n    reason: 'From your favorite categories'\n  });\n}\n\n// Personalización de precio\nlet personalizedPrice = productPrice;\nlet discountSuggestion = null;\n\nif (priceSensitivity === 'high' && interestLevel === 'high') {\n  discountSuggestion = {\n    percentage: 15,\n    reason: 'Special offer for high interest'\n  };\n  personalizedPrice = productPrice * 0.85;\n} else if (priceSensitivity === 'high' && interestLevel === 'medium') {\n  discountSuggestion = {\n    percentage: 10,\n    reason: 'Limited time offer'\n  };\n  personalizedPrice = productPrice * 0.9;\n}\n\n// Timing para follow-up\nlet followUpDelay = 24; // horas por defecto\nif (interestLevel === 'high') followUpDelay = 6; // Alta interés, follow-up rápido\nelse if (interestLevel === 'medium') followUpDelay = 12;\nelse followUpDelay = 48; // Bajo interés, esperar más\n\nreturn [{\n  json: {\n    ...event,\n    interestScore: interestScore,\n    interestLevel: interestLevel,\n    recommendations: recommendations,\n    personalizedPrice: personalizedPrice,\n    discountSuggestion: discountSuggestion,\n    followUpDelay: followUpDelay,\n    personalizationData: {\n      favoriteCategories: favoriteCategories,\n      averageOrderValue: averageOrderValue,\n      priceSensitivity: priceSensitivity\n    }\n  }\n}];"
+      },
+      "id": "analyze-interest",
+      "name": "Analyze Product Interest",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [350, 300],
+      "notes": "Analiza interés y genera personalización"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-001",
+              "leftValue": "={{ $json.interestLevel }}",
+              "rightValue": "high",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "check-high-interest",
+      "name": "Check High Interest",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [550, 300],
+      "notes": "Filtra productos de alto interés"
+    },
+    {
+      "parameters": {
+        "amount": "={{ $json.followUpDelay }}",
+        "unit": "hours",
+        "options": {}
+      },
+      "id": "wait-followup",
+      "name": "Wait for Follow-up",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [750, 300],
+      "notes": "Espera tiempo optimizado para follow-up"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generar mensaje personalizado de producto\nconst data = $input.item.json;\nconst customerName = data.firstName || 'Cliente';\nconst productName = data.productName || 'este producto';\nconst interestLevel = data.interestLevel;\nconst discountSuggestion = data.discountSuggestion;\nconst recommendations = data.recommendations || [];\nconst language = data.language || 'es';\n\nlet subject, body, ctaText, ctaUrl;\n\nif (interestLevel === 'high') {\n  subject = language === 'es' ? \n    `¿Aún interesado en ${productName}?` : \n    `Still interested in ${productName}?`;\n  \n  body = language === 'es' ?\n    `Hola ${customerName},\n\nVimos que estuviste viendo ${productName} con mucho interés.\n\n${discountSuggestion ? `🎁 Oferta especial para ti: ${discountSuggestion.percentage}% de descuento\\n\\n` : ''}${recommendations.length > 0 ? `✨ También te recomendamos:\\n${recommendations.slice(0, 3).map(r => `• Productos ${r.reason}`).join('\\n')}\\n\\n` : ''}¿Te gustaría verlo de nuevo?\n\n[Ver Producto]` :\n    `Hi ${customerName},\n\nWe saw you were very interested in ${productName}.\n\n${discountSuggestion ? `🎁 Special offer for you: ${discountSuggestion.percentage}% off\\n\\n` : ''}${recommendations.length > 0 ? `✨ We also recommend:\\n${recommendations.slice(0, 3).map(r => `• Products ${r.reason}`).join('\\n')}\\n\\n` : ''}Would you like to see it again?\n\n[View Product]`;\n  \n  ctaText = language === 'es' ? 'Ver Producto' : 'View Product';\n} else if (interestLevel === 'medium') {\n  subject = language === 'es' ? \n    `¿Qué te pareció ${productName}?` : \n    `What did you think of ${productName}?`;\n  \n  body = language === 'es' ?\n    `Hola ${customerName},\n\nVimos que estuviste viendo ${productName}.\n\n${recommendations.length > 0 ? `✨ Te recomendamos productos similares:\\n${recommendations.slice(0, 2).map(r => `• ${r.reason}`).join('\\n')}\\n\\n` : ''}[Ver Productos Relacionados]` :\n    `Hi ${customerName},\n\nWe saw you were viewing ${productName}.\n\n${recommendations.length > 0 ? `✨ We recommend similar products:\\n${recommendations.slice(0, 2).map(r => `• ${r.reason}`).join('\\n')}\\n\\n` : ''}[View Related Products]`;\n  \n  ctaText = language === 'es' ? 'Ver Productos Relacionados' : 'View Related Products';\n} else {\n  subject = language === 'es' ? \n    `Más productos que te pueden interesar` : \n    `More products you might like`;\n  \n  body = language === 'es' ?\n    `Hola ${customerName},\n\nBasado en tus intereses, aquí tienes productos que podrían interesarte:\n\n${recommendations.slice(0, 3).map(r => `• ${r.reason}`).join('\\n')}\n\n[Explorar Productos]` :\n    `Hi ${customerName},\n\nBased on your interests, here are products you might like:\n\n${recommendations.slice(0, 3).map(r => `• ${r.reason}`).join('\\n')}\n\n[Explore Products]`;\n  \n  ctaText = language === 'es' ? 'Explorar Productos' : 'Explore Products';\n}\n\nctaUrl = `${data.baseUrl || 'https://yourdomain.com'}/product/${data.productId}${discountSuggestion ? '?discount=' + discountSuggestion.percentage : ''}`;\n\nreturn [{\n  json: {\n    ...data,\n    messageSubject: subject,\n    messageBody: body,\n    ctaText: ctaText,\n    ctaUrl: ctaUrl,\n    messageType: 'product_personalization'\n  }\n}];"
+      },
+      "id": "generate-personalized-message",
+      "name": "Generate Personalized Message",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [950, 300],
+      "notes": "Genera mensaje personalizado de producto"
+    },
+    {
+      "parameters": {
+        "resource": "email",
+        "operation": "send",
+        "fromEmail": "={{ $env.FROM_EMAIL }}",
+        "toEmail": "={{ $json.email }}",
+        "subject": "={{ $json.messageSubject }}",
+        "html": "={{ $json.messageBody.replace(/\\n/g, '<br>') + '<br><br><a href=\"' + $json.ctaUrl + '\">' + $json.ctaText + '</a>' }}",
+        "text": "={{ $json.messageBody }}",
+        "options": {}
+      },
+      "id": "send-personalized-email",
+      "name": "Send Personalized Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [1150, 300],
+      "credentials": {
+        "smtp": {
+          "id": "smtp-credentials",
+          "name": "SMTP Credentials"
+        }
+      },
+      "notes": "Envía email personalizado",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL }}/analytics/track",
+        "method": "POST",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"event\": \"product_personalization\",\n  \"customerId\": \"{{ $json.customerId }}\",\n  \"productId\": \"{{ $json.productId }}\",\n  \"interestScore\": {{ $json.interestScore }},\n  \"interestLevel\": \"{{ $json.interestLevel }}\",\n  \"discountSuggested\": {{ $json.discountSuggestion ? true : false }},\n  \"timestamp\": \"{{ $now }}\"\n}",
+        "options": {}
+      },
+      "id": "track-personalization",
+      "name": "Track Personalization",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1350, 300],
+      "notes": "Registra evento de personalización",
+      "continueOnFail": true
+    }
+  ],
+  "connections": {
+    "Browse Product Webhook": {
+      "main": [
+        [
+          {
+            "node": "Analyze Product Interest",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Product Interest": {
+      "main": [
+        [
+          {
+            "node": "Check High Interest",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check High Interest": {
+      "main": [
+        [
+          {
+            "node": "Wait for Follow-up",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait for Follow-up": {
+      "main": [
+        [
+          {
+            "node": "Generate Personalized Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Personalized Message": {
+      "main": [
+        [
+          {
+            "node": "Send Personalized Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Personalized Email": {
+      "main": [
+        [
+          {
+            "node": "Track Personalization",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "product-personalization",
+      "name": "Product Personalization"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1.0"
+}
+
+
+
+

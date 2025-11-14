@@ -282,3 +282,4 @@ Nueva publicación generada:
         return self.notification_history[-limit:]
 
 
+

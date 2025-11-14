@@ -1,0 +1,190 @@
+{
+  "name": "Campaign Auto-Optimizer",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "campaign-optimize",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-optimize",
+      "name": "Webhook: Optimize Campaign",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [150, 300],
+      "webhookId": "campaign-optimize"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Analizar métricas actuales de la campaña\nconst metrics = $input.item.json.metrics;\nconst campaignDay = $input.item.json.campaignDay || 1;\n\n// Calcular scores de performance\nconst performance = {\n  engagement: calculateEngagementScore(metrics),\n  conversion: calculateConversionScore(metrics),\n  reach: calculateReachScore(metrics),\n  overall: 0\n};\n\nperformance.overall = (\n  performance.engagement * 0.4 +\n  performance.conversion * 0.4 +\n  performance.reach * 0.2\n);\n\n// Detectar problemas\nconst issues = detectIssues(metrics, performance);\n\n// Generar recomendaciones\nconst recommendations = generateRecommendations(issues, campaignDay, metrics);\n\nfunction calculateEngagementScore(metrics) {\n  const rate = metrics.engagementRate || 0;\n  if (rate >= 0.08) return 1.0;\n  if (rate >= 0.05) return 0.7;\n  if (rate >= 0.03) return 0.5;\n  return 0.3;\n}\n\nfunction calculateConversionScore(metrics) {\n  const rate = metrics.conversionRate || 0;\n  if (rate >= 0.15) return 1.0;\n  if (rate >= 0.10) return 0.7;\n  if (rate >= 0.05) return 0.5;\n  return 0.3;\n}\n\nfunction calculateReachScore(metrics) {\n  const reach = metrics.totalReach || 0;\n  if (reach >= 10000) return 1.0;\n  if (reach >= 5000) return 0.7;\n  if (reach >= 2000) return 0.5;\n  return 0.3;\n}\n\nfunction detectIssues(metrics, performance) {\n  const issues = [];\n  \n  if (performance.engagement < 0.5) {\n    issues.push({\n      type: 'low_engagement',\n      severity: 'high',\n      message: 'Engagement rate está por debajo del objetivo'\n    });\n  }\n  \n  if (performance.conversion < 0.5) {\n    issues.push({\n      type: 'low_conversion',\n      severity: 'medium',\n      message: 'Tasa de conversión está baja'\n    });\n  }\n  \n  if (performance.reach < 0.5) {\n    issues.push({\n      type: 'low_reach',\n      severity: 'medium',\n      message: 'Alcance está por debajo del esperado'\n    });\n  }\n  \n  return issues;\n}\n\nfunction generateRecommendations(issues, campaignDay, metrics) {\n  const recommendations = [];\n  \n  issues.forEach(issue => {\n    switch(issue.type) {\n      case 'low_engagement':\n        recommendations.push({\n          action: 'boost_engagement',\n          type: 'content',\n          priority: 'high',\n          steps: [\n            'Publicar contenido adicional de apoyo',\n            'Responder a todos los comentarios',\n            'Compartir en Stories/Reels',\n            'Colaborar con influencers micro'\n          ]\n        });\n        break;\n      \n      case 'low_conversion':\n        recommendations.push({\n          action: 'improve_conversion',\n          type: 'offer',\n          priority: 'high',\n          steps: [\n            campaignDay < 3 ? 'Aumentar urgencia en mensajes' : 'Aumentar descuento',\n            'Mejorar CTA en posts',\n            'Agregar testimonios/social proof',\n            'Crear landing page optimizada'\n          ]\n        });\n        break;\n      \n      case 'low_reach':\n        recommendations.push({\n          action: 'increase_reach',\n          type: 'distribution',\n          priority: 'medium',\n          steps: [\n            'Amplificar en más plataformas',\n            'Usar hashtags trending',\n            'Programar reposts en horarios pico',\n            'Incentivar shares con giveaway'\n          ]\n        });\n        break;\n    }\n  });\n  \n  return recommendations;\n}\n\nreturn [{\n  json: {\n    performance,\n    issues,\n    recommendations,\n    campaignDay,\n    timestamp: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "analyze-performance",
+      "name": "Analyze Performance",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [350, 300],
+      "notes": "Analiza performance y detecta problemas"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "type": "number"
+          },
+          "conditions": [
+            {
+              "id": "check-performance",
+              "leftValue": "={{ $json.performance.overall }}",
+              "rightValue": 0.7,
+              "operator": {
+                "type": "number",
+                "operation": "smaller"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-needs-optimization",
+      "name": "Needs Optimization?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [550, 300],
+      "notes": "Verifica si necesita optimización"
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.N8N_BASE_URL }}/webhook/launch-campaign",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "action",
+              "value": "boost_engagement"
+            },
+            {
+              "name": "recommendations",
+              "value": "={{ JSON.stringify($json.recommendations) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "trigger-optimization",
+      "name": "Trigger Optimization",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [750, 200],
+      "notes": "Dispara acciones de optimización"
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.EMAIL_SERVICE_URL }}/send",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "to",
+              "value": "={{ $env.ALERT_EMAIL }}"
+            },
+            {
+              "name": "subject",
+              "value": "🚨 Campaña Necesita Optimización"
+            },
+            {
+              "name": "body",
+              "value": "={{ `Performance: ${($json.performance.overall * 100).toFixed(1)}%\\n\\nIssues:\\n${$json.issues.map(i => `- ${i.message}`).join('\\n')}\\n\\nRecommendations:\\n${$json.recommendations.map(r => `- ${r.action}: ${r.steps.join(', ')}`).join('\\n')}` }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "send-alert",
+      "name": "Send Alert Email",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [750, 400],
+      "notes": "Envía alerta por email"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ success: true, analysis: $json }) }}"
+      },
+      "id": "respond",
+      "name": "Respond",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [950, 300],
+      "notes": "Responde con análisis"
+    }
+  ],
+  "connections": {
+    "Webhook: Optimize Campaign": {
+      "main": [[
+        { "node": "Analyze Performance", "type": "main", "index": 0 }
+      ]]
+    },
+    "Analyze Performance": {
+      "main": [[
+        { "node": "Needs Optimization?", "type": "main", "index": 0 }
+      ]]
+    },
+    "Needs Optimization?": {
+      "main": [[
+        { "node": "Trigger Optimization", "type": "main", "index": 0 },
+        { "node": "Send Alert Email", "type": "main", "index": 0 }
+      ], [
+        { "node": "Respond", "type": "main", "index": 0 }
+      ]]
+    },
+    "Trigger Optimization": {
+      "main": [[
+        { "node": "Respond", "type": "main", "index": 0 }
+      ]]
+    },
+    "Send Alert Email": {
+      "main": [[
+        { "node": "Respond", "type": "main", "index": 0 }
+      ]]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1"
+}
+
+
+

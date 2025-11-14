@@ -1,0 +1,124 @@
+{
+  "name": "Compliance & Privacy Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "privacy-request",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-privacy",
+      "name": "Privacy Request Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [150, 400],
+      "webhookId": "privacy-request-trigger",
+      "notes": "Recibe requests de privacidad (GDPR, CCPA)"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Compliance & Privacy Automation\nconst request = $input.item.json;\n\nconst requestType = request.type; // 'access', 'deletion', 'portability', 'opt_out'\nconst customerId = request.customerId || request.email;\nconst jurisdiction = request.jurisdiction || 'GDPR'; // GDPR, CCPA, LGPD\n\n// Validar request\nif (!requestType || !customerId) {\n  throw new Error('Request type and customer ID are required');\n}\n\n// Procesar según tipo\nlet result;\n\nswitch (requestType) {\n  case 'access':\n    result = await processAccessRequest(customerId, jurisdiction);\n    break;\n  case 'deletion':\n    result = await processDeletionRequest(customerId, jurisdiction);\n    break;\n  case 'portability':\n    result = await processPortabilityRequest(customerId, jurisdiction);\n    break;\n  case 'opt_out':\n    result = await processOptOutRequest(customerId, jurisdiction);\n    break;\n  default:\n    throw new Error(`Unknown request type: ${requestType}`);\n}\n\nasync function processAccessRequest(customerId, jurisdiction) {\n  // Recopilar todos los datos del cliente\n  const customerData = {\n    profile: await getCustomerProfile(customerId),\n    transactions: await getCustomerTransactions(customerId),\n    interactions: await getCustomerInteractions(customerId),\n    preferences: await getCustomerPreferences(customerId),\n    consent: await getCustomerConsent(customerId),\n    logs: await getCustomerLogs(customerId)\n  };\n  \n  // Formatear según jurisdicción\n  const formattedData = formatDataForJurisdiction(customerData, jurisdiction);\n  \n  return {\n    type: 'access',\n    status: 'completed',\n    data: formattedData,\n    format: jurisdiction === 'GDPR' ? 'json' : 'csv',\n    timestamp: new Date().toISOString(),\n    expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() // 30 días\n  };\n}\n\nasync function processDeletionRequest(customerId, jurisdiction) {\n  // Anonimizar o eliminar datos según jurisdicción\n  const deletionSteps = [];\n  \n  if (jurisdiction === 'GDPR') {\n    // GDPR: derecho al olvido - eliminar completamente\n    deletionSteps.push(await deleteCustomerProfile(customerId));\n    deletionSteps.push(await deleteCustomerTransactions(customerId));\n    deletionSteps.push(await deleteCustomerInteractions(customerId));\n    deletionSteps.push(await deleteCustomerPreferences(customerId));\n    deletionSteps.push(await deleteCustomerLogs(customerId));\n  } else if (jurisdiction === 'CCPA') {\n    // CCPA: eliminar datos de venta\n    deletionSteps.push(await deleteCustomerSalesData(customerId));\n    deletionSteps.push(await anonymizeCustomerProfile(customerId));\n  }\n  \n  // Registrar la eliminación\n  await logDeletionRequest(customerId, jurisdiction, deletionSteps);\n  \n  return {\n    type: 'deletion',\n    status: 'completed',\n    jurisdiction,\n    stepsCompleted: deletionSteps.length,\n    timestamp: new Date().toISOString(),\n    confirmationId: generateConfirmationId()\n  };\n}\n\nasync function processPortabilityRequest(customerId, jurisdiction) {\n  // Exportar datos en formato portable\n  const customerData = await getCustomerProfile(customerId);\n  \n  const portableData = {\n    profile: customerData.profile,\n    transactions: customerData.transactions,\n    preferences: customerData.preferences,\n    format: 'json', // Formato estándar para portabilidad\n    exportedAt: new Date().toISOString()\n  };\n  \n  return {\n    type: 'portability',\n    status: 'completed',\n    data: portableData,\n    downloadUrl: await generateDownloadUrl(portableData),\n    expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString() // 7 días\n  };\n}\n\nasync function processOptOutRequest(customerId, jurisdiction) {\n  // Procesar opt-out de marketing\n  const optOutResult = await updateCustomerConsent(customerId, {\n    marketing: false,\n    email: false,\n    sms: false,\n    push: false,\n    cookies: false,\n    optOutDate: new Date().toISOString(),\n    jurisdiction\n  });\n  \n  // Detener todas las automatizaciones activas\n  await stopActiveAutomations(customerId);\n  \n  return {\n    type: 'opt_out',\n    status: 'completed',\n    consentUpdated: optOutResult,\n    automationsStopped: true,\n    timestamp: new Date().toISOString()\n  };\n}\n\n// Funciones helper (simuladas - en producción serían llamadas a APIs/DB)\nasync function getCustomerProfile(customerId) {\n  return { id: customerId, name: 'Customer', email: 'customer@example.com' };\n}\n\nasync function getCustomerTransactions(customerId) {\n  return [];\n}\n\nasync function getCustomerInteractions(customerId) {\n  return [];\n}\n\nasync function getCustomerPreferences(customerId) {\n  return {};\n}\n\nasync function getCustomerConsent(customerId) {\n  return { marketing: true, email: true };\n}\n\nasync function getCustomerLogs(customerId) {\n  return [];\n}\n\nfunction formatDataForJurisdiction(data, jurisdiction) {\n  if (jurisdiction === 'GDPR') {\n    return JSON.stringify(data, null, 2);\n  } else if (jurisdiction === 'CCPA') {\n    return convertToCSV(data);\n  }\n  return data;\n}\n\nfunction convertToCSV(data) {\n  // Conversión simplificada a CSV\n  return 'data,value\\n' + Object.entries(data).map(([k, v]) => `${k},${v}`).join('\\n');\n}\n\nasync function deleteCustomerProfile(customerId) {\n  return { step: 'profile_deleted', success: true };\n}\n\nasync function deleteCustomerTransactions(customerId) {\n  return { step: 'transactions_deleted', success: true };\n}\n\nasync function deleteCustomerInteractions(customerId) {\n  return { step: 'interactions_deleted', success: true };\n}\n\nasync function deleteCustomerPreferences(customerId) {\n  return { step: 'preferences_deleted', success: true };\n}\n\nasync function deleteCustomerLogs(customerId) {\n  return { step: 'logs_deleted', success: true };\n}\n\nasync function deleteCustomerSalesData(customerId) {\n  return { step: 'sales_data_deleted', success: true };\n}\n\nasync function anonymizeCustomerProfile(customerId) {\n  return { step: 'profile_anonymized', success: true };\n}\n\nasync function logDeletionRequest(customerId, jurisdiction, steps) {\n  return { logged: true };\n}\n\nfunction generateConfirmationId() {\n  return `DEL_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;\n}\n\nasync function generateDownloadUrl(data) {\n  return `https://api.example.com/download/${generateConfirmationId()}`;\n}\n\nasync function updateCustomerConsent(customerId, consent) {\n  return { updated: true, consent };\n}\n\nasync function stopActiveAutomations(customerId) {\n  return { stopped: true, count: 0 };\n}\n\nreturn [{\n  json: {\n    requestId: `REQ_${Date.now()}`,\n    customerId,\n    requestType,\n    jurisdiction,\n    result,\n    timestamp: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "process-request",
+      "name": "Process Privacy Request",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [350, 400],
+      "notes": "Procesa requests de privacidad según jurisdicción"
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL }}/privacy/log",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "request",
+              "value": "={{ JSON.stringify($json) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "log-request",
+      "name": "Log Privacy Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [550, 400],
+      "notes": "Registra el request para auditoría"
+    },
+    {
+      "parameters": {
+        "to": "={{ $json.customerId.includes('@') ? $json.customerId : $env.ADMIN_EMAIL }}",
+        "subject": "={{ $json.requestType === 'access' ? 'Your Data Access Request' : $json.requestType === 'deletion' ? 'Data Deletion Confirmation' : 'Privacy Request Update' }}",
+        "emailType": "html",
+        "message": "={{ generateEmailContent($json) }}",
+        "options": {}
+      },
+      "id": "send-confirmation",
+      "name": "Send Confirmation Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [750, 400],
+      "notes": "Envía confirmación al cliente"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { success: true, requestId: $json.requestId, status: $json.result.status } }}"
+      },
+      "id": "response",
+      "name": "Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [950, 400]
+    }
+  ],
+  "connections": {
+    "Privacy Request Webhook": {
+      "main": [[
+        { "node": "Process Privacy Request", "type": "main", "index": 0 }
+      ]]
+    },
+    "Process Privacy Request": {
+      "main": [[
+        { "node": "Log Privacy Request", "type": "main", "index": 0 }
+      ]]
+    },
+    "Log Privacy Request": {
+      "main": [[
+        { "node": "Send Confirmation Email", "type": "main", "index": 0 }
+      ]]
+    },
+    "Send Confirmation Email": {
+      "main": [[
+        { "node": "Response", "type": "main", "index": 0 }
+      ]]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1"
+}
+
+
+
+
