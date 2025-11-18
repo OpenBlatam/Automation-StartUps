@@ -5609,6 +5609,2260 @@ class SocialMediaSentimentAnalyzer:
             'high_severity_count': sum(1 for a in alerts if a['severity'] == 'high'),
             'medium_severity_count': sum(1 for a in alerts if a['severity'] == 'medium')
         }
+    
+    def analyze_sentiment_by_user_segment(self, product_service: str = "") -> Dict:
+        """Analyze sentiment by user segments (new vs existing, active vs inactive)"""
+        six_months_ago = datetime.now() - timedelta(days=180)
+        
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        
+        # Get user activity data
+        query = '''
+            SELECT author_id, 
+                   MIN(date) as first_post_date,
+                   COUNT(*) as post_count,
+                   AVG(sentiment_score) as avg_sentiment,
+                   AVG(engagement) as avg_engagement
+            FROM sentiment_data
+            WHERE date >= ? AND author_id IS NOT NULL
+        '''
+        params = [six_months_ago.isoformat()]
+        
+        if product_service:
+            query += ' AND product_service = ?'
+            params.append(product_service)
+        
+        query += ' GROUP BY author_id'
+        
+        cursor.execute(query, params)
+        data = cursor.fetchall()
+        conn.close()
+        
+        if not data:
+            return {'success': False, 'error': 'No user data available'}
+        
+        # Segment users
+        segments = {
+            'new_users': {'scores': [], 'count': 0, 'engagement': []},
+            'existing_users': {'scores': [], 'count': 0, 'engagement': []},
+            'active_users': {'scores': [], 'count': 0, 'engagement': []},
+            'inactive_users': {'scores': [], 'count': 0, 'engagement': []}
+        }
+        
+        cutoff_date = datetime.now() - timedelta(days=90)
+        
+        for row in data:
+            author_id = row[0]
+            first_post = datetime.fromisoformat(row[1])
+            post_count = row[2]
+            sentiment = row[3]
+            engagement = row[4] or 0
+            
+            # New vs existing
+            if first_post >= cutoff_date:
+                segments['new_users']['scores'].append(sentiment)
+                segments['new_users']['count'] += 1
+                segments['new_users']['engagement'].append(engagement)
+            else:
+                segments['existing_users']['scores'].append(sentiment)
+                segments['existing_users']['count'] += 1
+                segments['existing_users']['engagement'].append(engagement)
+            
+            # Active vs inactive
+            if post_count >= 5:
+                segments['active_users']['scores'].append(sentiment)
+                segments['active_users']['count'] += 1
+                segments['active_users']['engagement'].append(engagement)
+            else:
+                segments['inactive_users']['scores'].append(sentiment)
+                segments['inactive_users']['count'] += 1
+                segments['inactive_users']['engagement'].append(engagement)
+        
+        # Calculate metrics
+        segment_analysis = {}
+        for segment, data_dict in segments.items():
+            if data_dict['count'] > 0:
+                segment_analysis[segment] = {
+                    'avg_sentiment': round(statistics.mean(data_dict['scores']), 3),
+                    'user_count': data_dict['count'],
+                    'avg_engagement': round(statistics.mean(data_dict['engagement']), 1)
+                }
+        
+        return {
+            'success': True,
+            'segment_analysis': segment_analysis,
+            'insights': self._generate_segment_insights(segment_analysis)
+        }
+    
+    def _generate_segment_insights(self, segment_analysis: Dict) -> List[str]:
+        """Generate insights from user segment analysis"""
+        insights = []
+        
+        if 'new_users' in segment_analysis and 'existing_users' in segment_analysis:
+            new_sentiment = segment_analysis['new_users']['avg_sentiment']
+            existing_sentiment = segment_analysis['existing_users']['avg_sentiment']
+            
+            if new_sentiment > existing_sentiment + 0.1:
+                insights.append("New users show significantly more positive sentiment than existing users")
+            elif existing_sentiment > new_sentiment + 0.1:
+                insights.append("Existing users show more positive sentiment than new users")
+        
+        if 'active_users' in segment_analysis and 'inactive_users' in segment_analysis:
+            active_sentiment = segment_analysis['active_users']['avg_sentiment']
+            inactive_sentiment = segment_analysis['inactive_users']['avg_sentiment']
+            
+            if active_sentiment > inactive_sentiment + 0.1:
+                insights.append("Active users show more positive sentiment than inactive users")
+        
+        return insights
+    
+    def analyze_sentiment_by_response_time(self, product_service: str = "") -> Dict:
+        """Analyze sentiment correlation with response time (if available)"""
+        six_months_ago = datetime.now() - timedelta(days=180)
+        
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        
+        query = '''
+            SELECT content, sentiment_score, sentiment_label, date
+            FROM sentiment_data
+            WHERE date >= ?
+        '''
+        params = [six_months_ago.isoformat()]
+        
+        if product_service:
+            query += ' AND product_service = ?'
+            params.append(product_service)
+        
+        cursor.execute(query, params)
+        data = cursor.fetchall()
+        conn.close()
+        
+        if not data:
+            return {'success': False, 'error': 'No data available'}
+        
+        # Categorize by response time indicators in content
+        response_categories = {
+            'fast_response': {'scores': [], 'count': 0},
+            'slow_response': {'scores': [], 'count': 0},
+            'no_response': {'scores': [], 'count': 0}
+        }
+        
+        fast_keywords = ['quick', 'fast', 'immediate', 'instant', 'prompt', 'rapid', 'swift']
+        slow_keywords = ['slow', 'delayed', 'late', 'wait', 'long time', 'took forever', 'hours', 'days']
+        
+        for row in data:
+            content = (row[0] or "").lower()
+            sentiment = row[1]
+            label = row[2]
+            
+            if any(keyword in content for keyword in fast_keywords):
+                response_categories['fast_response']['scores'].append(sentiment)
+                response_categories['fast_response']['count'] += 1
+            elif any(keyword in content for keyword in slow_keywords):
+                response_categories['slow_response']['scores'].append(sentiment)
+                response_categories['slow_response']['count'] += 1
+            else:
+                response_categories['no_response']['scores'].append(sentiment)
+                response_categories['no_response']['count'] += 1
+        
+        # Calculate metrics
+        response_analysis = {}
+        for category, data_dict in response_categories.items():
+            if data_dict['count'] > 0:
+                response_analysis[category] = {
+                    'avg_sentiment': round(statistics.mean(data_dict['scores']), 3),
+                    'count': data_dict['count']
+                }
+        
+        return {
+            'success': True,
+            'response_analysis': response_analysis
+        }
+    
+    def generate_sentiment_forecast(self, product_service: str = "", days_ahead: int = 30) -> Dict:
+        """Generate sentiment forecast for next N days using trend analysis"""
+        trends = self.analyze_6_month_trends(product_service)
+        velocity = self.calculate_sentiment_velocity(product_service, days=30)
+        
+        if not trends.get('success'):
+            return {'success': False, 'error': 'Insufficient data for forecasting'}
+        
+        # Get current sentiment
+        if trends.get('monthly_metrics'):
+            last_month = sorted(trends['monthly_metrics'].keys())[-1]
+            current_sentiment = trends['monthly_metrics'][last_month]['avg_sentiment']
+        else:
+            return {'success': False, 'error': 'Could not determine current sentiment'}
+        
+        # Calculate forecast
+        if velocity.get('success'):
+            velocity_value = velocity.get('velocity', 0)
+        else:
+            # Estimate velocity from trend
+            if trends.get('overall_trend', {}).get('direction') == 'improving':
+                velocity_value = 0.01
+            elif trends.get('overall_trend', {}).get('direction') == 'declining':
+                velocity_value = -0.01
+            else:
+                velocity_value = 0
+        
+        # Project forward
+        forecast_sentiment = current_sentiment + (velocity_value * days_ahead)
+        
+        # Clamp to reasonable range
+        forecast_sentiment = max(-1, min(1, forecast_sentiment))
+        
+        # Calculate confidence based on data quality
+        if trends.get('monthly_metrics'):
+            months_count = len(trends['monthly_metrics'])
+            confidence = min(95, 50 + (months_count * 7.5))  # More months = higher confidence
+        else:
+            confidence = 50
+        
+        # Determine forecast direction
+        if forecast_sentiment > current_sentiment + 0.05:
+            direction = 'improving'
+        elif forecast_sentiment < current_sentiment - 0.05:
+            direction = 'declining'
+        else:
+            direction = 'stable'
+        
+        return {
+            'success': True,
+            'current_sentiment': round(current_sentiment, 3),
+            'forecast_sentiment': round(forecast_sentiment, 3),
+            'forecast_days': days_ahead,
+            'forecast_direction': direction,
+            'confidence': round(confidence, 1),
+            'velocity': round(velocity_value, 4),
+            'interpretation': f"Sentiment forecast: {direction} to {forecast_sentiment:.3f} in {days_ahead} days (confidence: {confidence:.1f}%)"
+        }
+    
+    def analyze_sentiment_by_topic_cluster(self, product_service: str = "", n_topics: int = 5) -> Dict:
+        """Analyze sentiment by topic clusters using keyword grouping"""
+        six_months_ago = datetime.now() - timedelta(days=180)
+        
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        
+        query = '''
+            SELECT content, sentiment_score, sentiment_label, engagement
+            FROM sentiment_data
+            WHERE date >= ?
+        '''
+        params = [six_months_ago.isoformat()]
+        
+        if product_service:
+            query += ' AND product_service = ?'
+            params.append(product_service)
+        
+        cursor.execute(query, params)
+        data = cursor.fetchall()
+        conn.close()
+        
+        if not data:
+            return {'success': False, 'error': 'No data available'}
+        
+        # Extract topics from keywords
+        keyword_sentiment = defaultdict(lambda: {'scores': [], 'count': 0, 'engagement': []})
+        
+        stop_words = {'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 
+                     'of', 'with', 'by', 'is', 'are', 'was', 'were', 'be', 'been', 'being',
+                     'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could',
+                     'should', 'may', 'might', 'must', 'can', 'this', 'that', 'these', 'those'}
+        
+        for row in data:
+            content = (row[0] or "").lower()
+            sentiment = row[1]
+            engagement = row[4] or 0
+            
+            words = re.findall(r'\b\w+\b', content)
+            for word in words:
+                if len(word) > 4 and word not in stop_words:
+                    keyword_sentiment[word]['scores'].append(sentiment)
+                    keyword_sentiment[word]['count'] += 1
+                    keyword_sentiment[word]['engagement'].append(engagement)
+        
+        # Get top keywords
+        top_keywords = sorted(keyword_sentiment.items(), key=lambda x: x[1]['count'], reverse=True)[:n_topics*3]
+        
+        # Group into topic clusters (simplified)
+        topic_clusters = {}
+        for idx, (keyword, data_dict) in enumerate(top_keywords[:n_topics]):
+            topic_name = f"topic_{idx+1}_{keyword}"
+            topic_clusters[topic_name] = {
+                'primary_keyword': keyword,
+                'avg_sentiment': round(statistics.mean(data_dict['scores']), 3),
+                'count': data_dict['count'],
+                'avg_engagement': round(statistics.mean(data_dict['engagement']), 1)
+            }
+        
+        return {
+            'success': True,
+            'topic_clusters': topic_clusters,
+            'total_topics': len(topic_clusters)
+        }
+    
+    def generate_comprehensive_health_report(self, product_service: str = "") -> Dict:
+        """Generate comprehensive health report combining all metrics"""
+        health = self.calculate_sentiment_health_score(product_service)
+        satisfaction = self.calculate_customer_satisfaction_score(product_service)
+        risk = self.calculate_risk_score(product_service)
+        crisis = self.detect_crisis_situations(product_service)
+        churn = self.predict_churn_risk(product_service)
+        
+        report = {
+            'success': True,
+            'timestamp': datetime.now().isoformat(),
+            'product_service': product_service or 'All Products',
+            'overall_health': {},
+            'key_metrics': {},
+            'risk_assessment': {},
+            'recommendations': []
+        }
+        
+        # Overall health
+        if health.get('success'):
+            report['overall_health'] = {
+                'health_score': health.get('health_score', 0),
+                'health_level': health.get('health_level', 'unknown'),
+                'satisfaction_score': satisfaction.get('satisfaction_score', 0) if satisfaction.get('success') else 0,
+                'nps_score': satisfaction.get('nps_score', 0) if satisfaction.get('success') else 0
+            }
+        
+        # Key metrics
+        if satisfaction.get('success'):
+            report['key_metrics'] = {
+                'positive_pct': satisfaction.get('positive_pct', 0),
+                'negative_pct': satisfaction.get('negative_pct', 0),
+                'promoter_pct': satisfaction.get('promoter_pct', 0),
+                'detractor_pct': satisfaction.get('detractor_pct', 0)
+            }
+        
+        # Risk assessment
+        if risk.get('success'):
+            report['risk_assessment'] = {
+                'risk_score': risk.get('risk_score', 0),
+                'risk_level': risk.get('risk_level', 'unknown'),
+                'crisis_score': crisis.get('crisis_score', 0) if crisis.get('success') else 0,
+                'crisis_level': crisis.get('crisis_level', 'unknown') if crisis.get('success') else 'unknown',
+                'churn_risk': churn.get('churn_risk_score', 0) if churn.get('success') else 0,
+                'churn_level': churn.get('churn_risk_level', 'unknown') if churn.get('success') else 'unknown'
+            }
+        
+        # Aggregate recommendations
+        if health.get('recommendations'):
+            report['recommendations'].extend(health['recommendations'])
+        if crisis.get('recommendations'):
+            report['recommendations'].extend(crisis['recommendations'])
+        if churn.get('recommendations'):
+            report['recommendations'].extend(churn['recommendations'])
+        
+        # Remove duplicates
+        report['recommendations'] = list(dict.fromkeys(report['recommendations']))
+        
+        return report
+    
+    def analyze_sentiment_by_device_type(self, product_service: str = "") -> Dict:
+        """Analyze sentiment by device type (mobile, desktop, tablet) if available"""
+        six_months_ago = datetime.now() - timedelta(days=180)
+        
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        
+        query = '''
+            SELECT source, platform, sentiment_score, sentiment_label, engagement
+            FROM sentiment_data
+            WHERE date >= ?
+        '''
+        params = [six_months_ago.isoformat()]
+        
+        if product_service:
+            query += ' AND product_service = ?'
+            params.append(product_service)
+        
+        cursor.execute(query, params)
+        data = cursor.fetchall()
+        conn.close()
+        
+        if not data:
+            return {'success': False, 'error': 'No data available'}
+        
+        # Infer device type from source/platform
+        device_types = defaultdict(lambda: {'scores': [], 'count': 0, 'positive': 0, 'negative': 0, 'engagement': []})
+        
+        for row in data:
+            source = (row[0] or "").lower()
+            platform = (row[1] or "").lower()
+            sentiment = row[2]
+            label = row[3]
+            engagement = row[4] or 0
+            
+            # Infer device type
+            if 'mobile' in source or 'mobile' in platform or 'app' in source:
+                device = 'mobile'
+            elif 'tablet' in source or 'tablet' in platform:
+                device = 'tablet'
+            elif 'desktop' in source or 'web' in source or 'browser' in source:
+                device = 'desktop'
+            else:
+                device = 'unknown'
+            
+            device_types[device]['scores'].append(sentiment)
+            device_types[device]['count'] += 1
+            device_types[device]['engagement'].append(engagement)
+            if label == 'positive':
+                device_types[device]['positive'] += 1
+            elif label == 'negative':
+                device_types[device]['negative'] += 1
+        
+        # Calculate metrics
+        device_analysis = {}
+        for device, data_dict in device_types.items():
+            if data_dict['count'] > 0:
+                device_analysis[device] = {
+                    'avg_sentiment': round(statistics.mean(data_dict['scores']), 3),
+                    'count': data_dict['count'],
+                    'positive_pct': round((data_dict['positive'] / data_dict['count'] * 100), 1),
+                    'negative_pct': round((data_dict['negative'] / data_dict['count'] * 100), 1),
+                    'avg_engagement': round(statistics.mean(data_dict['engagement']), 1)
+                }
+        
+        return {
+            'success': True,
+            'device_analysis': device_analysis
+        }
+    
+    def analyze_sentiment_by_time_period(self, period_type: str = "quarter", product_service: str = "") -> Dict:
+        """Analyze sentiment by time periods (quarter, month, week)"""
+        six_months_ago = datetime.now() - timedelta(days=180)
+        
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        
+        query = '''
+            SELECT date, sentiment_score, sentiment_label, engagement
+            FROM sentiment_data
+            WHERE date >= ?
+        '''
+        params = [six_months_ago.isoformat()]
+        
+        if product_service:
+            query += ' AND product_service = ?'
+            params.append(product_service)
+        
+        cursor.execute(query, params)
+        data = cursor.fetchall()
+        conn.close()
+        
+        if not data:
+            return {'success': False, 'error': 'No data available'}
+        
+        # Group by time period
+        period_data = defaultdict(lambda: {'scores': [], 'count': 0, 'positive': 0, 'negative': 0, 'engagement': []})
+        
+        for row in data:
+            try:
+                date_obj = datetime.fromisoformat(row[0])
+                sentiment = row[1]
+                label = row[2]
+                engagement = row[3] or 0
+                
+                if period_type == 'quarter':
+                    period_key = f"{date_obj.year}-Q{(date_obj.month-1)//3 + 1}"
+                elif period_type == 'month':
+                    period_key = date_obj.strftime('%Y-%m')
+                elif period_type == 'week':
+                    week_num = date_obj.isocalendar()[1]
+                    period_key = f"{date_obj.year}-W{week_num:02d}"
+                else:
+                    period_key = date_obj.strftime('%Y-%m-%d')
+                
+                period_data[period_key]['scores'].append(sentiment)
+                period_data[period_key]['count'] += 1
+                period_data[period_key]['engagement'].append(engagement)
+                if label == 'positive':
+                    period_data[period_key]['positive'] += 1
+                elif label == 'negative':
+                    period_data[period_key]['negative'] += 1
+            except:
+                continue
+        
+        # Calculate metrics
+        period_analysis = {}
+        for period, data_dict in period_data.items():
+            if data_dict['count'] > 0:
+                period_analysis[period] = {
+                    'avg_sentiment': round(statistics.mean(data_dict['scores']), 3),
+                    'count': data_dict['count'],
+                    'positive_pct': round((data_dict['positive'] / data_dict['count'] * 100), 1),
+                    'negative_pct': round((data_dict['negative'] / data_dict['count'] * 100), 1),
+                    'avg_engagement': round(statistics.mean(data_dict['engagement']), 1)
+                }
+        
+        return {
+            'success': True,
+            'period_type': period_type,
+            'period_analysis': period_analysis
+        }
+    
+    def calculate_sentiment_stability_score(self, product_service: str = "", days: int = 30) -> Dict:
+        """Calculate sentiment stability score (consistency over time)"""
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        
+        start_date = datetime.now() - timedelta(days=days)
+        
+        query = '''
+            SELECT date, AVG(sentiment_score) as daily_avg
+            FROM sentiment_data
+            WHERE date >= ?
+        '''
+        params = [start_date.isoformat()]
+        
+        if product_service:
+            query += ' AND product_service = ?'
+            params.append(product_service)
+        
+        query += ' GROUP BY DATE(date) ORDER BY date'
+        
+        cursor.execute(query, params)
+        data = cursor.fetchall()
+        conn.close()
+        
+        if len(data) < 2:
+            return {'success': False, 'error': 'Insufficient data for stability calculation'}
+        
+        # Calculate daily averages
+        daily_sentiments = []
+        for row in data:
+            daily_sentiments.append(row[1])
+        
+        # Calculate stability (lower variance = higher stability)
+        if len(daily_sentiments) > 1:
+            variance = statistics.variance(daily_sentiments)
+            std_dev = statistics.stdev(daily_sentiments)
+            
+            # Convert to stability score (0-100)
+            # Lower variance = higher stability
+            stability_score = max(0, min(100, 100 - (std_dev * 100)))
+        else:
+            stability_score = 100
+            variance = 0
+            std_dev = 0
+        
+        # Determine stability level
+        if stability_score >= 80:
+            stability_level = 'very_stable'
+        elif stability_score >= 60:
+            stability_level = 'stable'
+        elif stability_score >= 40:
+            stability_level = 'moderate'
+        elif stability_score >= 20:
+            stability_level = 'volatile'
+        else:
+            stability_level = 'highly_volatile'
+        
+        return {
+            'success': True,
+            'stability_score': round(stability_score, 1),
+            'stability_level': stability_level,
+            'variance': round(variance, 4),
+            'std_deviation': round(std_dev, 4),
+            'period_days': days,
+            'data_points': len(daily_sentiments)
+        }
+    
+    def analyze_sentiment_by_hashtag_sentiment(self, product_service: str = "") -> Dict:
+        """Analyze sentiment of posts with hashtags vs without"""
+        six_months_ago = datetime.now() - timedelta(days=180)
+        
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        
+        query = '''
+            SELECT content, sentiment_score, sentiment_label, engagement
+            FROM sentiment_data
+            WHERE date >= ?
+        '''
+        params = [six_months_ago.isoformat()]
+        
+        if product_service:
+            query += ' AND product_service = ?'
+            params.append(product_service)
+        
+        cursor.execute(query, params)
+        data = cursor.fetchall()
+        conn.close()
+        
+        if not data:
+            return {'success': False, 'error': 'No data available'}
+        
+        hashtag_data = {'scores': [], 'count': 0, 'positive': 0, 'negative': 0, 'engagement': []}
+        no_hashtag_data = {'scores': [], 'count': 0, 'positive': 0, 'negative': 0, 'engagement': []}
+        
+        for row in data:
+            content = row[0] or ""
+            sentiment = row[1]
+            label = row[2]
+            engagement = row[3] or 0
+            
+            has_hashtag = '#' in content
+            
+            if has_hashtag:
+                hashtag_data['scores'].append(sentiment)
+                hashtag_data['count'] += 1
+                hashtag_data['engagement'].append(engagement)
+                if label == 'positive':
+                    hashtag_data['positive'] += 1
+                elif label == 'negative':
+                    hashtag_data['negative'] += 1
+            else:
+                no_hashtag_data['scores'].append(sentiment)
+                no_hashtag_data['count'] += 1
+                no_hashtag_data['engagement'].append(engagement)
+                if label == 'positive':
+                    no_hashtag_data['positive'] += 1
+                elif label == 'negative':
+                    no_hashtag_data['negative'] += 1
+        
+        # Calculate metrics
+        analysis = {}
+        
+        if hashtag_data['count'] > 0:
+            analysis['with_hashtags'] = {
+                'avg_sentiment': round(statistics.mean(hashtag_data['scores']), 3),
+                'count': hashtag_data['count'],
+                'positive_pct': round((hashtag_data['positive'] / hashtag_data['count'] * 100), 1),
+                'negative_pct': round((hashtag_data['negative'] / hashtag_data['count'] * 100), 1),
+                'avg_engagement': round(statistics.mean(hashtag_data['engagement']), 1)
+            }
+        
+        if no_hashtag_data['count'] > 0:
+            analysis['without_hashtags'] = {
+                'avg_sentiment': round(statistics.mean(no_hashtag_data['scores']), 3),
+                'count': no_hashtag_data['count'],
+                'positive_pct': round((no_hashtag_data['positive'] / no_hashtag_data['count'] * 100), 1),
+                'negative_pct': round((no_hashtag_data['negative'] / no_hashtag_data['count'] * 100), 1),
+                'avg_engagement': round(statistics.mean(no_hashtag_data['engagement']), 1)
+            }
+        
+        # Calculate difference
+        if 'with_hashtags' in analysis and 'without_hashtags' in analysis:
+            sentiment_diff = analysis['with_hashtags']['avg_sentiment'] - analysis['without_hashtags']['avg_sentiment']
+            
+            return {
+                'success': True,
+                'analysis': analysis,
+                'difference': {
+                    'sentiment_diff': round(sentiment_diff, 3),
+                    'interpretation': 'better' if sentiment_diff > 0.1 else 'worse' if sentiment_diff < -0.1 else 'similar'
+                }
+            }
+        
+        return {'success': False, 'error': 'Insufficient data for comparison'}
+    
+    def analyze_sentiment_by_mention_count(self, product_service: str = "") -> Dict:
+        """Analyze sentiment correlation with mention count (brand/product mentions)"""
+        six_months_ago = datetime.now() - timedelta(days=180)
+        
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        
+        query = '''
+            SELECT content, sentiment_score, sentiment_label, engagement
+            FROM sentiment_data
+            WHERE date >= ?
+        '''
+        params = [six_months_ago.isoformat()]
+        
+        if product_service:
+            query += ' AND product_service = ?'
+            params.append(product_service)
+        
+        cursor.execute(query, params)
+        data = cursor.fetchall()
+        conn.close()
+        
+        if not data:
+            return {'success': False, 'error': 'No data available'}
+        
+        # Count mentions (e.g., @mentions, brand names)
+        mention_categories = {
+            'high_mentions': {'min': 3, 'scores': [], 'count': 0, 'engagement': []},
+            'medium_mentions': {'min': 2, 'max': 2, 'scores': [], 'count': 0, 'engagement': []},
+            'low_mentions': {'min': 1, 'max': 1, 'scores': [], 'count': 0, 'engagement': []},
+            'no_mentions': {'max': 0, 'scores': [], 'count': 0, 'engagement': []}
+        }
+        
+        for row in data:
+            content = row[0] or ""
+            sentiment = row[1]
+            engagement = row[3] or 0
+            
+            # Count @mentions
+            mention_count = len(re.findall(r'@\w+', content))
+            
+            if mention_count >= 3:
+                cat = 'high_mentions'
+            elif mention_count == 2:
+                cat = 'medium_mentions'
+            elif mention_count == 1:
+                cat = 'low_mentions'
+            else:
+                cat = 'no_mentions'
+            
+            mention_categories[cat]['scores'].append(sentiment)
+            mention_categories[cat]['count'] += 1
+            mention_categories[cat]['engagement'].append(engagement)
+        
+        # Calculate metrics
+        mention_analysis = {}
+        for cat, data_dict in mention_categories.items():
+            if data_dict['count'] > 0:
+                mention_analysis[cat] = {
+                    'avg_sentiment': round(statistics.mean(data_dict['scores']), 3),
+                    'count': data_dict['count'],
+                    'avg_engagement': round(statistics.mean(data_dict['engagement']), 1)
+                }
+        
+        return {
+            'success': True,
+            'mention_analysis': mention_analysis
+        }
+    
+    def analyze_sentiment_by_urgency_keywords(self, product_service: str = "") -> Dict:
+        """Analyze sentiment in posts with urgency keywords"""
+        six_months_ago = datetime.now() - timedelta(days=180)
+        
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        
+        query = '''
+            SELECT content, sentiment_score, sentiment_label, engagement
+            FROM sentiment_data
+            WHERE date >= ?
+        '''
+        params = [six_months_ago.isoformat()]
+        
+        if product_service:
+            query += ' AND product_service = ?'
+            params.append(product_service)
+        
+        cursor.execute(query, params)
+        data = cursor.fetchall()
+        conn.close()
+        
+        if not data:
+            return {'success': False, 'error': 'No data available'}
+        
+        # Urgency keywords
+        urgency_keywords = ['urgent', 'asap', 'immediately', 'now', 'critical', 'emergency', 
+                          'important', 'priority', 'rush', 'hurry', 'quickly', 'fast']
+        
+        urgency_data = {'scores': [], 'count': 0, 'positive': 0, 'negative': 0, 'engagement': []}
+        no_urgency_data = {'scores': [], 'count': 0, 'positive': 0, 'negative': 0, 'engagement': []}
+        
+        for row in data:
+            content = (row[0] or "").lower()
+            sentiment = row[1]
+            label = row[2]
+            engagement = row[3] or 0
+            
+            has_urgency = any(keyword in content for keyword in urgency_keywords)
+            
+            if has_urgency:
+                urgency_data['scores'].append(sentiment)
+                urgency_data['count'] += 1
+                urgency_data['engagement'].append(engagement)
+                if label == 'positive':
+                    urgency_data['positive'] += 1
+                elif label == 'negative':
+                    urgency_data['negative'] += 1
+            else:
+                no_urgency_data['scores'].append(sentiment)
+                no_urgency_data['count'] += 1
+                no_urgency_data['engagement'].append(engagement)
+                if label == 'positive':
+                    no_urgency_data['positive'] += 1
+                elif label == 'negative':
+                    no_urgency_data['negative'] += 1
+        
+        # Calculate metrics
+        analysis = {}
+        
+        if urgency_data['count'] > 0:
+            analysis['with_urgency'] = {
+                'avg_sentiment': round(statistics.mean(urgency_data['scores']), 3),
+                'count': urgency_data['count'],
+                'positive_pct': round((urgency_data['positive'] / urgency_data['count'] * 100), 1),
+                'negative_pct': round((urgency_data['negative'] / urgency_data['count'] * 100), 1),
+                'avg_engagement': round(statistics.mean(urgency_data['engagement']), 1)
+            }
+        
+        if no_urgency_data['count'] > 0:
+            analysis['without_urgency'] = {
+                'avg_sentiment': round(statistics.mean(no_urgency_data['scores']), 3),
+                'count': no_urgency_data['count'],
+                'positive_pct': round((no_urgency_data['positive'] / no_urgency_data['count'] * 100), 1),
+                'negative_pct': round((no_urgency_data['negative'] / no_urgency_data['count'] * 100), 1),
+                'avg_engagement': round(statistics.mean(no_urgency_data['engagement']), 1)
+            }
+        
+        return {
+            'success': True,
+            'analysis': analysis
+        }
+    
+    def calculate_sentiment_correlation_matrix(self, product_service: str = "") -> Dict:
+        """Calculate correlation matrix between different sentiment metrics"""
+        trends = self.analyze_6_month_trends(product_service)
+        
+        if not trends.get('success'):
+            return {'success': False, 'error': 'Insufficient data for correlation analysis'}
+        
+        # Extract metrics from monthly data
+        if not trends.get('monthly_metrics'):
+            return {'success': False, 'error': 'No monthly metrics available'}
+        
+        months = sorted(trends['monthly_metrics'].keys())
+        metrics_data = []
+        
+        for month in months:
+            metrics = trends['monthly_metrics'][month]
+            metrics_data.append({
+                'month': month,
+                'sentiment': metrics['avg_sentiment'],
+                'positive_pct': (metrics['positive_count'] / metrics['total_count'] * 100) if metrics['total_count'] > 0 else 0,
+                'negative_pct': (metrics['negative_count'] / metrics['total_count'] * 100) if metrics['total_count'] > 0 else 0,
+                'engagement': metrics.get('avg_engagement', 0),
+                'total_count': metrics['total_count']
+            })
+        
+        if len(metrics_data) < 3:
+            return {'success': False, 'error': 'Insufficient data points for correlation'}
+        
+        # Calculate correlations (simplified Pearson correlation)
+        def calculate_correlation(x, y):
+            if len(x) != len(y) or len(x) < 2:
+                return 0
+            try:
+                mean_x = statistics.mean(x)
+                mean_y = statistics.mean(y)
+                
+                numerator = sum((x[i] - mean_x) * (y[i] - mean_y) for i in range(len(x)))
+                denominator_x = math.sqrt(sum((x[i] - mean_x) ** 2 for i in range(len(x))))
+                denominator_y = math.sqrt(sum((y[i] - mean_y) ** 2 for i in range(len(y))))
+                
+                if denominator_x == 0 or denominator_y == 0:
+                    return 0
+                
+                return numerator / (denominator_x * denominator_y)
+            except:
+                return 0
+        
+        sentiments = [m['sentiment'] for m in metrics_data]
+        positive_pcts = [m['positive_pct'] for m in metrics_data]
+        negative_pcts = [m['negative_pct'] for m in metrics_data]
+        engagements = [m['engagement'] for m in metrics_data]
+        counts = [m['total_count'] for m in metrics_data]
+        
+        correlations = {
+            'sentiment_vs_positive': round(calculate_correlation(sentiments, positive_pcts), 3),
+            'sentiment_vs_negative': round(calculate_correlation(sentiments, negative_pcts), 3),
+            'sentiment_vs_engagement': round(calculate_correlation(sentiments, engagements), 3),
+            'positive_vs_engagement': round(calculate_correlation(positive_pcts, engagements), 3),
+            'negative_vs_engagement': round(calculate_correlation(negative_pcts, engagements), 3),
+            'count_vs_sentiment': round(calculate_correlation(counts, sentiments), 3)
+        }
+        
+        return {
+            'success': True,
+            'correlations': correlations,
+            'data_points': len(metrics_data)
+        }
+    
+    def generate_sentiment_insights_ai(self, product_service: str = "") -> Dict:
+        """Generate AI-powered insights combining multiple analyses"""
+        trends = self.analyze_6_month_trends(product_service)
+        health = self.calculate_sentiment_health_score(product_service)
+        risk = self.calculate_risk_score(product_service)
+        satisfaction = self.calculate_customer_satisfaction_score(product_service)
+        
+        if not trends.get('success'):
+            return {'success': False, 'error': 'Insufficient data for AI insights'}
+        
+        insights = []
+        key_findings = []
+        recommendations = []
+        
+        # Insight 1: Overall health
+        if health.get('success'):
+            health_score = health.get('health_score', 0)
+            health_level = health.get('health_level', 'unknown')
+            
+            if health_score >= 80:
+                insights.append("Excellent sentiment health - maintaining strong positive sentiment")
+                key_findings.append(f"Health score of {health_score}/100 indicates robust customer satisfaction")
+            elif health_score >= 65:
+                insights.append("Good sentiment health with room for improvement")
+                key_findings.append(f"Health score of {health_score}/100 shows positive trend")
+            elif health_score < 50:
+                insights.append("Sentiment health requires attention - negative trends detected")
+                key_findings.append(f"Health score of {health_score}/100 indicates significant concerns")
+        
+        # Insight 2: Trend analysis
+        if trends.get('overall_trend'):
+            trend_direction = trends['overall_trend'].get('direction', 'stable')
+            trend_magnitude = trends['overall_trend'].get('magnitude', 0)
+            
+            if trend_direction == 'improving':
+                insights.append(f"Sentiment is improving with magnitude {trend_magnitude:.3f}")
+                key_findings.append("Positive momentum detected in customer sentiment")
+            elif trend_direction == 'declining':
+                insights.append(f"Sentiment is declining with magnitude {abs(trend_magnitude):.3f}")
+                key_findings.append("Negative trend requires immediate attention")
+                recommendations.append("Investigate root causes of sentiment decline")
+        
+        # Insight 3: Risk assessment
+        if risk.get('success'):
+            risk_score = risk.get('risk_score', 0)
+            risk_level = risk.get('risk_level', 'unknown')
+            
+            if risk_score > 70:
+                insights.append(f"High risk detected (score: {risk_score}/100)")
+                key_findings.append("Multiple risk factors identified")
+                recommendations.append("Implement risk mitigation strategies immediately")
+            elif risk_score < 30:
+                insights.append(f"Low risk environment (score: {risk_score}/100)")
+                key_findings.append("Stable sentiment with minimal risk factors")
+        
+        # Insight 4: Satisfaction
+        if satisfaction.get('success'):
+            nps = satisfaction.get('nps_score', 0)
+            if nps > 50:
+                insights.append(f"Strong NPS score of {nps:+.1f} indicates high customer loyalty")
+            elif nps < 0:
+                insights.append(f"Negative NPS score of {nps:+.1f} suggests customer dissatisfaction")
+                recommendations.append("Focus on converting detractors to promoters")
+        
+        # Insight 5: Emerging patterns
+        if trends.get('emerging_preferences'):
+            insights.append(f"{len(trends['emerging_preferences'])} emerging preferences identified")
+            for pref in trends['emerging_preferences'][:2]:
+                recommendations.append(f"Consider enhancing {pref.get('topic', '').replace('_', ' ')} based on emerging trends")
+        
+        return {
+            'success': True,
+            'insights': insights,
+            'key_findings': key_findings,
+            'recommendations': recommendations,
+            'summary': f"Generated {len(insights)} insights, {len(key_findings)} key findings, and {len(recommendations)} recommendations"
+        }
+    
+    def analyze_sentiment_by_sentiment_intensity(self, product_service: str = "") -> Dict:
+        """Analyze sentiment by intensity levels (very positive, positive, neutral, negative, very negative)"""
+        six_months_ago = datetime.now() - timedelta(days=180)
+        
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        
+        query = '''
+            SELECT sentiment_score, sentiment_label, engagement
+            FROM sentiment_data
+            WHERE date >= ?
+        '''
+        params = [six_months_ago.isoformat()]
+        
+        if product_service:
+            query += ' AND product_service = ?'
+            params.append(product_service)
+        
+        cursor.execute(query, params)
+        data = cursor.fetchall()
+        conn.close()
+        
+        if not data:
+            return {'success': False, 'error': 'No data available'}
+        
+        # Categorize by intensity
+        intensity_categories = {
+            'very_positive': {'min': 0.5, 'scores': [], 'count': 0, 'engagement': []},
+            'positive': {'min': 0.1, 'max': 0.49, 'scores': [], 'count': 0, 'engagement': []},
+            'neutral': {'min': -0.09, 'max': 0.09, 'scores': [], 'count': 0, 'engagement': []},
+            'negative': {'min': -0.49, 'max': -0.1, 'scores': [], 'count': 0, 'engagement': []},
+            'very_negative': {'max': -0.5, 'scores': [], 'count': 0, 'engagement': []}
+        }
+        
+        for row in data:
+            sentiment = row[0]
+            engagement = row[2] or 0
+            
+            if sentiment >= 0.5:
+                cat = 'very_positive'
+            elif sentiment >= 0.1:
+                cat = 'positive'
+            elif sentiment >= -0.09:
+                cat = 'neutral'
+            elif sentiment >= -0.49:
+                cat = 'negative'
+            else:
+                cat = 'very_negative'
+            
+            intensity_categories[cat]['scores'].append(sentiment)
+            intensity_categories[cat]['count'] += 1
+            intensity_categories[cat]['engagement'].append(engagement)
+        
+        # Calculate metrics
+        intensity_analysis = {}
+        for cat, data_dict in intensity_categories.items():
+            if data_dict['count'] > 0:
+                intensity_analysis[cat] = {
+                    'avg_sentiment': round(statistics.mean(data_dict['scores']), 3),
+                    'count': data_dict['count'],
+                    'percentage': round((data_dict['count'] / len(data) * 100), 1),
+                    'avg_engagement': round(statistics.mean(data_dict['engagement']), 1)
+                }
+        
+        return {
+            'success': True,
+            'intensity_analysis': intensity_analysis,
+            'total_count': len(data)
+        }
+
+    def analyze_sentiment_by_question_vs_statement(self, product_service: str = "") -> Dict:
+        """Analyze sentiment differences between questions and statements"""
+        six_months_ago = datetime.now() - timedelta(days=180)
+        
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        
+        query = '''
+            SELECT text, sentiment_score, sentiment_label, engagement
+            FROM sentiment_data
+            WHERE date >= ?
+        '''
+        params = [six_months_ago.isoformat()]
+        
+        if product_service:
+            query += ' AND product_service = ?'
+            params.append(product_service)
+        
+        cursor.execute(query, params)
+        data = cursor.fetchall()
+        conn.close()
+        
+        if not data:
+            return {'success': False, 'error': 'No data available'}
+        
+        questions = {'scores': [], 'count': 0, 'engagement': []}
+        statements = {'scores': [], 'count': 0, 'engagement': []}
+        
+        for row in data:
+            text = row[0] or ""
+            sentiment = row[1]
+            engagement = row[3] or 0
+            
+            # Detect if it's a question
+            is_question = text.strip().endswith('?') or '?' in text
+            
+            if is_question:
+                questions['scores'].append(sentiment)
+                questions['count'] += 1
+                questions['engagement'].append(engagement)
+            else:
+                statements['scores'].append(sentiment)
+                statements['count'] += 1
+                statements['engagement'].append(engagement)
+        
+        analysis = {}
+        if questions['count'] > 0:
+            analysis['questions'] = {
+                'avg_sentiment': round(statistics.mean(questions['scores']), 3),
+                'count': questions['count'],
+                'percentage': round((questions['count'] / len(data) * 100), 1),
+                'avg_engagement': round(statistics.mean(questions['engagement']), 1),
+                'positive_pct': round((sum(1 for s in questions['scores'] if s > 0.1) / questions['count'] * 100), 1),
+                'negative_pct': round((sum(1 for s in questions['scores'] if s < -0.1) / questions['count'] * 100), 1)
+            }
+        
+        if statements['count'] > 0:
+            analysis['statements'] = {
+                'avg_sentiment': round(statistics.mean(statements['scores']), 3),
+                'count': statements['count'],
+                'percentage': round((statements['count'] / len(data) * 100), 1),
+                'avg_engagement': round(statistics.mean(statements['engagement']), 1),
+                'positive_pct': round((sum(1 for s in statements['scores'] if s > 0.1) / statements['count'] * 100), 1),
+                'negative_pct': round((sum(1 for s in statements['scores'] if s < -0.1) / statements['count'] * 100), 1)
+            }
+        
+        difference = 0
+        if questions['count'] > 0 and statements['count'] > 0:
+            difference = analysis['questions']['avg_sentiment'] - analysis['statements']['avg_sentiment']
+        
+        return {
+            'success': True,
+            'analysis': analysis,
+            'difference': round(difference, 3),
+            'interpretation': 'Questions have higher sentiment' if difference > 0 else 'Statements have higher sentiment' if difference < 0 else 'No significant difference',
+            'total_count': len(data)
+        }
+
+    def analyze_sentiment_by_emoji_usage(self, product_service: str = "") -> Dict:
+        """Analyze sentiment differences between posts with and without emojis"""
+        six_months_ago = datetime.now() - timedelta(days=180)
+        
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        
+        query = '''
+            SELECT text, sentiment_score, sentiment_label, engagement
+            FROM sentiment_data
+            WHERE date >= ?
+        '''
+        params = [six_months_ago.isoformat()]
+        
+        if product_service:
+            query += ' AND product_service = ?'
+            params.append(product_service)
+        
+        cursor.execute(query, params)
+        data = cursor.fetchall()
+        conn.close()
+        
+        if not data:
+            return {'success': False, 'error': 'No data available'}
+        
+        # Simple emoji detection (common emoji ranges)
+        emoji_pattern = re.compile(
+            "["
+            "\U0001F600-\U0001F64F"  # emoticons
+            "\U0001F300-\U0001F5FF"  # symbols & pictographs
+            "\U0001F680-\U0001F6FF"  # transport & map
+            "\U0001F1E0-\U0001F1FF"  # flags
+            "\U00002702-\U000027B0"
+            "\U000024C2-\U0001F251"
+            "]+", flags=re.UNICODE)
+        
+        with_emoji = {'scores': [], 'count': 0, 'engagement': []}
+        without_emoji = {'scores': [], 'count': 0, 'engagement': []}
+        
+        for row in data:
+            text = row[0] or ""
+            sentiment = row[1]
+            engagement = row[3] or 0
+            
+            has_emoji = bool(emoji_pattern.search(text))
+            
+            if has_emoji:
+                with_emoji['scores'].append(sentiment)
+                with_emoji['count'] += 1
+                with_emoji['engagement'].append(engagement)
+            else:
+                without_emoji['scores'].append(sentiment)
+                without_emoji['count'] += 1
+                without_emoji['engagement'].append(engagement)
+        
+        analysis = {}
+        if with_emoji['count'] > 0:
+            analysis['with_emoji'] = {
+                'avg_sentiment': round(statistics.mean(with_emoji['scores']), 3),
+                'count': with_emoji['count'],
+                'percentage': round((with_emoji['count'] / len(data) * 100), 1),
+                'avg_engagement': round(statistics.mean(with_emoji['engagement']), 1),
+                'positive_pct': round((sum(1 for s in with_emoji['scores'] if s > 0.1) / with_emoji['count'] * 100), 1),
+                'negative_pct': round((sum(1 for s in with_emoji['scores'] if s < -0.1) / with_emoji['count'] * 100), 1)
+            }
+        
+        if without_emoji['count'] > 0:
+            analysis['without_emoji'] = {
+                'avg_sentiment': round(statistics.mean(without_emoji['scores']), 3),
+                'count': without_emoji['count'],
+                'percentage': round((without_emoji['count'] / len(data) * 100), 1),
+                'avg_engagement': round(statistics.mean(without_emoji['engagement']), 1),
+                'positive_pct': round((sum(1 for s in without_emoji['scores'] if s > 0.1) / without_emoji['count'] * 100), 1),
+                'negative_pct': round((sum(1 for s in without_emoji['scores'] if s < -0.1) / without_emoji['count'] * 100), 1)
+            }
+        
+        difference = 0
+        if with_emoji['count'] > 0 and without_emoji['count'] > 0:
+            difference = analysis['with_emoji']['avg_sentiment'] - analysis['without_emoji']['avg_sentiment']
+        
+        return {
+            'success': True,
+            'analysis': analysis,
+            'difference': round(difference, 3),
+            'interpretation': 'Posts with emojis have higher sentiment' if difference > 0 else 'Posts without emojis have higher sentiment' if difference < 0 else 'No significant difference',
+            'total_count': len(data)
+        }
+
+    def calculate_sentiment_volatility_index(self, product_service: str = "", days: int = 30) -> Dict:
+        """Calculate sentiment volatility index (how much sentiment fluctuates)"""
+        end_date = datetime.now()
+        start_date = end_date - timedelta(days=days)
+        
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        
+        query = '''
+            SELECT date, sentiment_score
+            FROM sentiment_data
+            WHERE date >= ? AND date <= ?
+        '''
+        params = [start_date.isoformat(), end_date.isoformat()]
+        
+        if product_service:
+            query += ' AND product_service = ?'
+            params.append(product_service)
+        
+        query += ' ORDER BY date'
+        
+        cursor.execute(query, params)
+        data = cursor.fetchall()
+        conn.close()
+        
+        if len(data) < 2:
+            return {'success': False, 'error': 'Insufficient data for volatility calculation'}
+        
+        # Group by day
+        daily_sentiment = {}
+        for row in data:
+            date_str = row[0]
+            date_obj = datetime.fromisoformat(date_str)
+            day_key = date_obj.strftime('%Y-%m-%d')
+            sentiment = row[1]
+            
+            if day_key not in daily_sentiment:
+                daily_sentiment[day_key] = []
+            daily_sentiment[day_key].append(sentiment)
+        
+        # Calculate daily averages
+        daily_avgs = [statistics.mean(scores) for scores in daily_sentiment.values()]
+        
+        if len(daily_avgs) < 2:
+            return {'success': False, 'error': 'Insufficient daily data'}
+        
+        # Calculate volatility (standard deviation of daily changes)
+        daily_changes = []
+        for i in range(1, len(daily_avgs)):
+            daily_changes.append(abs(daily_avgs[i] - daily_avgs[i-1]))
+        
+        volatility = statistics.stdev(daily_changes) if len(daily_changes) > 1 else 0
+        avg_change = statistics.mean(daily_changes) if daily_changes else 0
+        
+        # Volatility index (0-100 scale)
+        volatility_index = min(100, max(0, volatility * 100))
+        
+        # Determine volatility level
+        if volatility_index < 20:
+            level = 'very_stable'
+        elif volatility_index < 40:
+            level = 'stable'
+        elif volatility_index < 60:
+            level = 'moderate'
+        elif volatility_index < 80:
+            level = 'volatile'
+        else:
+            level = 'highly_volatile'
+        
+        return {
+            'success': True,
+            'volatility_index': round(volatility_index, 2),
+            'volatility_level': level,
+            'volatility': round(volatility, 4),
+            'avg_daily_change': round(avg_change, 4),
+            'days_analyzed': len(daily_avgs),
+            'data_points': len(data),
+            'interpretation': f'Sentiment is {level.replace("_", " ")} over the analyzed period'
+        }
+
+    def analyze_sentiment_by_polarity_shift(self, product_service: str = "") -> Dict:
+        """Analyze sentiment polarity shifts (positive to negative or vice versa)"""
+        six_months_ago = datetime.now() - timedelta(days=180)
+        
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        
+        query = '''
+            SELECT author_id, date, sentiment_score, sentiment_label
+            FROM sentiment_data
+            WHERE date >= ?
+        '''
+        params = [six_months_ago.isoformat()]
+        
+        if product_service:
+            query += ' AND product_service = ?'
+            params.append(product_service)
+        
+        query += ' ORDER BY author_id, date'
+        
+        cursor.execute(query, params)
+        data = cursor.fetchall()
+        conn.close()
+        
+        if not data:
+            return {'success': False, 'error': 'No data available'}
+        
+        # Group by author
+        author_sentiments = {}
+        for row in data:
+            author_id = row[0] or 'unknown'
+            date_str = row[1]
+            sentiment = row[2]
+            label = row[3]
+            
+            if author_id not in author_sentiments:
+                author_sentiments[author_id] = []
+            
+            author_sentiments[author_id].append({
+                'date': datetime.fromisoformat(date_str),
+                'sentiment': sentiment,
+                'label': label
+            })
+        
+        # Detect shifts
+        positive_to_negative = 0
+        negative_to_positive = 0
+        stable_positive = 0
+        stable_negative = 0
+        mixed_patterns = 0
+        
+        for author_id, sentiments in author_sentiments.items():
+            if len(sentiments) < 2:
+                continue
+            
+            # Sort by date
+            sentiments.sort(key=lambda x: x['date'])
+            
+            first_sentiment = sentiments[0]['sentiment']
+            last_sentiment = sentiments[-1]['sentiment']
+            
+            # Check for significant shifts
+            if first_sentiment > 0.1 and last_sentiment < -0.1:
+                positive_to_negative += 1
+            elif first_sentiment < -0.1 and last_sentiment > 0.1:
+                negative_to_positive += 1
+            elif first_sentiment > 0.1 and last_sentiment > 0.1:
+                stable_positive += 1
+            elif first_sentiment < -0.1 and last_sentiment < -0.1:
+                stable_negative += 1
+            else:
+                mixed_patterns += 1
+        
+        total_authors = len([a for a in author_sentiments.values() if len(a) >= 2])
+        
+        return {
+            'success': True,
+            'shift_analysis': {
+                'positive_to_negative': positive_to_negative,
+                'negative_to_positive': negative_to_positive,
+                'stable_positive': stable_positive,
+                'stable_negative': stable_negative,
+                'mixed_patterns': mixed_patterns
+            },
+            'percentages': {
+                'positive_to_negative_pct': round((positive_to_negative / total_authors * 100), 1) if total_authors > 0 else 0,
+                'negative_to_positive_pct': round((negative_to_positive / total_authors * 100), 1) if total_authors > 0 else 0,
+                'stable_positive_pct': round((stable_positive / total_authors * 100), 1) if total_authors > 0 else 0,
+                'stable_negative_pct': round((stable_negative / total_authors * 100), 1) if total_authors > 0 else 0,
+                'mixed_patterns_pct': round((mixed_patterns / total_authors * 100), 1) if total_authors > 0 else 0
+            },
+            'total_authors_analyzed': total_authors,
+            'net_shift': round((negative_to_positive - positive_to_negative) / total_authors * 100, 1) if total_authors > 0 else 0
+        }
+
+    def detect_sentiment_anomalies(self, product_service: str = "", threshold: float = 2.0) -> Dict:
+        """Detect sentiment anomalies using statistical methods"""
+        six_months_ago = datetime.now() - timedelta(days=180)
+        
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        
+        query = '''
+            SELECT date, sentiment_score, text, platform, engagement
+            FROM sentiment_data
+            WHERE date >= ?
+        '''
+        params = [six_months_ago.isoformat()]
+        
+        if product_service:
+            query += ' AND product_service = ?'
+            params.append(product_service)
+        
+        query += ' ORDER BY date'
+        
+        cursor.execute(query, params)
+        data = cursor.fetchall()
+        conn.close()
+        
+        if len(data) < 10:
+            return {'success': False, 'error': 'Insufficient data for anomaly detection'}
+        
+        # Calculate rolling average and standard deviation
+        sentiments = [row[1] for row in data]
+        mean_sentiment = statistics.mean(sentiments)
+        std_sentiment = statistics.stdev(sentiments) if len(sentiments) > 1 else 0
+        
+        anomalies = []
+        for i, row in enumerate(data):
+            sentiment = row[1]
+            z_score = (sentiment - mean_sentiment) / std_sentiment if std_sentiment > 0 else 0
+            
+            if abs(z_score) > threshold:
+                anomalies.append({
+                    'date': row[0],
+                    'sentiment': sentiment,
+                    'z_score': round(z_score, 3),
+                    'text': (row[2] or '')[:100],
+                    'platform': row[3] or 'unknown',
+                    'engagement': row[4] or 0,
+                    'severity': 'high' if abs(z_score) > 3.0 else 'medium'
+                })
+        
+        # Categorize anomalies
+        positive_anomalies = [a for a in anomalies if a['sentiment'] > mean_sentiment]
+        negative_anomalies = [a for a in anomalies if a['sentiment'] < mean_sentiment]
+        
+        return {
+            'success': True,
+            'total_anomalies': len(anomalies),
+            'positive_anomalies': len(positive_anomalies),
+            'negative_anomalies': len(negative_anomalies),
+            'anomaly_rate': round((len(anomalies) / len(data) * 100), 2),
+            'mean_sentiment': round(mean_sentiment, 3),
+            'std_sentiment': round(std_sentiment, 3),
+            'threshold': threshold,
+            'anomalies': sorted(anomalies, key=lambda x: abs(x['z_score']), reverse=True)[:20],
+            'high_severity_count': len([a for a in anomalies if a['severity'] == 'high'])
+        }
+
+    def analyze_sentiment_by_reply_type(self, product_service: str = "") -> Dict:
+        """Analyze sentiment differences between replies and original posts"""
+        six_months_ago = datetime.now() - timedelta(days=180)
+        
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        
+        query = '''
+            SELECT text, sentiment_score, sentiment_label, engagement, platform
+            FROM sentiment_data
+            WHERE date >= ?
+        '''
+        params = [six_months_ago.isoformat()]
+        
+        if product_service:
+            query += ' AND product_service = ?'
+            params.append(product_service)
+        
+        cursor.execute(query, params)
+        data = cursor.fetchall()
+        conn.close()
+        
+        if not data:
+            return {'success': False, 'error': 'No data available'}
+        
+        # Detect replies (simple heuristic: starts with @ or contains "reply to" or "re:")
+        replies = {'scores': [], 'count': 0, 'engagement': []}
+        original_posts = {'scores': [], 'count': 0, 'engagement': []}
+        
+        for row in data:
+            text = (row[0] or "").lower()
+            sentiment = row[1]
+            engagement = row[3] or 0
+            
+            # Simple reply detection
+            is_reply = (
+                text.startswith('@') or
+                'reply to' in text or
+                text.startswith('re:') or
+                text.startswith('re ')
+            )
+            
+            if is_reply:
+                replies['scores'].append(sentiment)
+                replies['count'] += 1
+                replies['engagement'].append(engagement)
+            else:
+                original_posts['scores'].append(sentiment)
+                original_posts['count'] += 1
+                original_posts['engagement'].append(engagement)
+        
+        analysis = {}
+        if replies['count'] > 0:
+            analysis['replies'] = {
+                'avg_sentiment': round(statistics.mean(replies['scores']), 3),
+                'count': replies['count'],
+                'percentage': round((replies['count'] / len(data) * 100), 1),
+                'avg_engagement': round(statistics.mean(replies['engagement']), 1),
+                'positive_pct': round((sum(1 for s in replies['scores'] if s > 0.1) / replies['count'] * 100), 1),
+                'negative_pct': round((sum(1 for s in replies['scores'] if s < -0.1) / replies['count'] * 100), 1)
+            }
+        
+        if original_posts['count'] > 0:
+            analysis['original_posts'] = {
+                'avg_sentiment': round(statistics.mean(original_posts['scores']), 3),
+                'count': original_posts['count'],
+                'percentage': round((original_posts['count'] / len(data) * 100), 1),
+                'avg_engagement': round(statistics.mean(original_posts['engagement']), 1),
+                'positive_pct': round((sum(1 for s in original_posts['scores'] if s > 0.1) / original_posts['count'] * 100), 1),
+                'negative_pct': round((sum(1 for s in original_posts['scores'] if s < -0.1) / original_posts['count'] * 100), 1)
+            }
+        
+        difference = 0
+        if replies['count'] > 0 and original_posts['count'] > 0:
+            difference = analysis['replies']['avg_sentiment'] - analysis['original_posts']['avg_sentiment']
+        
+        return {
+            'success': True,
+            'analysis': analysis,
+            'difference': round(difference, 3),
+            'interpretation': 'Replies have higher sentiment' if difference > 0 else 'Original posts have higher sentiment' if difference < 0 else 'No significant difference',
+            'total_count': len(data)
+        }
+
+    def calculate_sentiment_network_metrics(self, product_service: str = "") -> Dict:
+        """Calculate network metrics based on mentions and interactions"""
+        six_months_ago = datetime.now() - timedelta(days=180)
+        
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        
+        query = '''
+            SELECT author_id, text, sentiment_score, engagement
+            FROM sentiment_data
+            WHERE date >= ?
+        '''
+        params = [six_months_ago.isoformat()]
+        
+        if product_service:
+            query += ' AND product_service = ?'
+            params.append(product_service)
+        
+        cursor.execute(query, params)
+        data = cursor.fetchall()
+        conn.close()
+        
+        if not data:
+            return {'success': False, 'error': 'No data available'}
+        
+        # Extract mentions
+        mention_pattern = re.compile(r'@(\w+)')
+        author_mentions = {}
+        author_sentiment = {}
+        author_engagement = {}
+        
+        for row in data:
+            author_id = row[0] or 'unknown'
+            text = row[1] or ""
+            sentiment = row[2]
+            engagement = row[3] or 0
+            
+            # Track author metrics
+            if author_id not in author_sentiment:
+                author_sentiment[author_id] = []
+                author_engagement[author_id] = []
+                author_mentions[author_id] = set()
+            
+            author_sentiment[author_id].append(sentiment)
+            author_engagement[author_id].append(engagement)
+            
+            # Extract mentions
+            mentions = mention_pattern.findall(text)
+            author_mentions[author_id].update(mentions)
+        
+        # Calculate network metrics
+        total_authors = len(author_sentiment)
+        total_mentions = sum(len(mentions) for mentions in author_mentions.values())
+        avg_mentions_per_author = total_mentions / total_authors if total_authors > 0 else 0
+        
+        # Most connected authors
+        most_connected = sorted(
+            [(author, len(mentions)) for author, mentions in author_mentions.items()],
+            key=lambda x: x[1],
+            reverse=True
+        )[:10]
+        
+        # Author influence (sentiment + engagement + mentions)
+        author_influence = []
+        for author_id in author_sentiment:
+            avg_sent = statistics.mean(author_sentiment[author_id])
+            total_eng = sum(author_engagement[author_id])
+            mention_count = len(author_mentions[author_id])
+            influence_score = (avg_sent * 0.3) + (min(total_eng / 1000, 1) * 0.4) + (min(mention_count / 10, 1) * 0.3)
+            
+            author_influence.append({
+                'author_id': author_id,
+                'influence_score': round(influence_score, 3),
+                'avg_sentiment': round(avg_sent, 3),
+                'total_engagement': total_eng,
+                'mention_count': mention_count
+            })
+        
+        author_influence.sort(key=lambda x: x['influence_score'], reverse=True)
+        
+        return {
+            'success': True,
+            'network_metrics': {
+                'total_authors': total_authors,
+                'total_mentions': total_mentions,
+                'avg_mentions_per_author': round(avg_mentions_per_author, 2),
+                'network_density': round((total_mentions / (total_authors * (total_authors - 1))) if total_authors > 1 else 0, 4)
+            },
+            'most_connected_authors': [
+                {'author_id': author, 'mention_count': count}
+                for author, count in most_connected
+            ],
+            'top_influencers': author_influence[:10]
+        }
+
+    def analyze_sentiment_consistency(self, product_service: str = "", author_id: str = "") -> Dict:
+        """Analyze sentiment consistency for authors or overall"""
+        six_months_ago = datetime.now() - timedelta(days=180)
+        
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        
+        query = '''
+            SELECT author_id, sentiment_score, date
+            FROM sentiment_data
+            WHERE date >= ?
+        '''
+        params = [six_months_ago.isoformat()]
+        
+        if product_service:
+            query += ' AND product_service = ?'
+            params.append(product_service)
+        
+        if author_id:
+            query += ' AND author_id = ?'
+            params.append(author_id)
+        
+        query += ' ORDER BY author_id, date'
+        
+        cursor.execute(query, params)
+        data = cursor.fetchall()
+        conn.close()
+        
+        if not data:
+            return {'success': False, 'error': 'No data available'}
+        
+        # Group by author
+        author_sentiments = {}
+        for row in data:
+            auth_id = row[0] or 'unknown'
+            sentiment = row[1]
+            
+            if auth_id not in author_sentiments:
+                author_sentiments[auth_id] = []
+            
+            author_sentiments[auth_id].append(sentiment)
+        
+        # Calculate consistency metrics
+        consistency_scores = []
+        for auth_id, sentiments in author_sentiments.items():
+            if len(sentiments) < 2:
+                continue
+            
+            # Calculate standard deviation (lower = more consistent)
+            std_dev = statistics.stdev(sentiments) if len(sentiments) > 1 else 0
+            consistency_score = max(0, 100 - (std_dev * 100))  # Convert to 0-100 scale
+            
+            consistency_scores.append({
+                'author_id': auth_id,
+                'consistency_score': round(consistency_score, 2),
+                'std_deviation': round(std_dev, 4),
+                'post_count': len(sentiments),
+                'avg_sentiment': round(statistics.mean(sentiments), 3),
+                'sentiment_range': round(max(sentiments) - min(sentiments), 3)
+            })
+        
+        consistency_scores.sort(key=lambda x: x['consistency_score'], reverse=True)
+        
+        overall_consistency = statistics.mean([s['consistency_score'] for s in consistency_scores]) if consistency_scores else 0
+        
+        return {
+            'success': True,
+            'overall_consistency_score': round(overall_consistency, 2),
+            'consistency_level': 'high' if overall_consistency > 70 else 'medium' if overall_consistency > 40 else 'low',
+            'total_authors_analyzed': len(consistency_scores),
+            'most_consistent_authors': consistency_scores[:10],
+            'least_consistent_authors': sorted(consistency_scores, key=lambda x: x['consistency_score'])[:10]
+        }
+
+    def analyze_sentiment_by_seasonal_hour(self, product_service: str = "") -> Dict:
+        """Analyze sentiment by specific seasonal hours (morning, afternoon, evening, night)"""
+        six_months_ago = datetime.now() - timedelta(days=180)
+        
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        
+        query = '''
+            SELECT date, sentiment_score, engagement
+            FROM sentiment_data
+            WHERE date >= ?
+        '''
+        params = [six_months_ago.isoformat()]
+        
+        if product_service:
+            query += ' AND product_service = ?'
+            params.append(product_service)
+        
+        cursor.execute(query, params)
+        data = cursor.fetchall()
+        conn.close()
+        
+        if not data:
+            return {'success': False, 'error': 'No data available'}
+        
+        seasonal_hours = {
+            'morning': {'scores': [], 'count': 0, 'engagement': []},  # 6-12
+            'afternoon': {'scores': [], 'count': 0, 'engagement': []},  # 12-18
+            'evening': {'scores': [], 'count': 0, 'engagement': []},  # 18-22
+            'night': {'scores': [], 'count': 0, 'engagement': []}  # 22-6
+        }
+        
+        for row in data:
+            date_str = row[0]
+            sentiment = row[1]
+            engagement = row[2] or 0
+            
+            try:
+                date_obj = datetime.fromisoformat(date_str)
+                hour = date_obj.hour
+                
+                if 6 <= hour < 12:
+                    period = 'morning'
+                elif 12 <= hour < 18:
+                    period = 'afternoon'
+                elif 18 <= hour < 22:
+                    period = 'evening'
+                else:
+                    period = 'night'
+                
+                seasonal_hours[period]['scores'].append(sentiment)
+                seasonal_hours[period]['count'] += 1
+                seasonal_hours[period]['engagement'].append(engagement)
+            except:
+                continue
+        
+        analysis = {}
+        for period, data_dict in seasonal_hours.items():
+            if data_dict['count'] > 0:
+                analysis[period] = {
+                    'avg_sentiment': round(statistics.mean(data_dict['scores']), 3),
+                    'count': data_dict['count'],
+                    'percentage': round((data_dict['count'] / len(data) * 100), 1),
+                    'avg_engagement': round(statistics.mean(data_dict['engagement']), 1),
+                    'positive_pct': round((sum(1 for s in data_dict['scores'] if s > 0.1) / data_dict['count'] * 100), 1),
+                    'negative_pct': round((sum(1 for s in data_dict['scores'] if s < -0.1) / data_dict['count'] * 100), 1)
+                }
+        
+        best_period = max(analysis.items(), key=lambda x: x[1]['avg_sentiment']) if analysis else None
+        
+        return {
+            'success': True,
+            'seasonal_analysis': analysis,
+            'best_period': {'period': best_period[0], 'sentiment': best_period[1]['avg_sentiment']} if best_period else None,
+            'total_count': len(data)
+        }
+
+    def analyze_sentiment_by_media_type(self, product_service: str = "") -> Dict:
+        """Analyze sentiment by media type (text, image, video, link)"""
+        six_months_ago = datetime.now() - timedelta(days=180)
+        
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        
+        query = '''
+            SELECT text, sentiment_score, engagement, platform
+            FROM sentiment_data
+            WHERE date >= ?
+        '''
+        params = [six_months_ago.isoformat()]
+        
+        if product_service:
+            query += ' AND product_service = ?'
+            params.append(product_service)
+        
+        cursor.execute(query, params)
+        data = cursor.fetchall()
+        conn.close()
+        
+        if not data:
+            return {'success': False, 'error': 'No data available'}
+        
+        # Simple media type detection based on text content
+        media_types = {
+            'text_only': {'scores': [], 'count': 0, 'engagement': []},
+            'with_link': {'scores': [], 'count': 0, 'engagement': []},
+            'with_media': {'scores': [], 'count': 0, 'engagement': []}
+        }
+        
+        url_pattern = re.compile(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
+        image_pattern = re.compile(r'\.(jpg|jpeg|png|gif|bmp|webp)', re.IGNORECASE)
+        video_pattern = re.compile(r'\.(mp4|avi|mov|wmv|flv|webm)', re.IGNORECASE)
+        
+        for row in data:
+            text = row[0] or ""
+            sentiment = row[1]
+            engagement = row[3] or 0
+            
+            has_url = bool(url_pattern.search(text))
+            has_image = bool(image_pattern.search(text)) or 'image' in text.lower() or 'photo' in text.lower()
+            has_video = bool(video_pattern.search(text)) or 'video' in text.lower() or 'watch' in text.lower()
+            
+            if has_video or has_image:
+                media_type = 'with_media'
+            elif has_url:
+                media_type = 'with_link'
+            else:
+                media_type = 'text_only'
+            
+            media_types[media_type]['scores'].append(sentiment)
+            media_types[media_type]['count'] += 1
+            media_types[media_type]['engagement'].append(engagement)
+        
+        analysis = {}
+        for media_type, data_dict in media_types.items():
+            if data_dict['count'] > 0:
+                analysis[media_type] = {
+                    'avg_sentiment': round(statistics.mean(data_dict['scores']), 3),
+                    'count': data_dict['count'],
+                    'percentage': round((data_dict['count'] / len(data) * 100), 1),
+                    'avg_engagement': round(statistics.mean(data_dict['engagement']), 1),
+                    'positive_pct': round((sum(1 for s in data_dict['scores'] if s > 0.1) / data_dict['count'] * 100), 1),
+                    'negative_pct': round((sum(1 for s in data_dict['scores'] if s < -0.1) / data_dict['count'] * 100), 1)
+                }
+        
+        return {
+            'success': True,
+            'media_analysis': analysis,
+            'total_count': len(data)
+        }
+
+    def analyze_sentiment_by_keyword_frequency(self, product_service: str = "", keywords: List[str] = None) -> Dict:
+        """Analyze sentiment by specific keyword frequency"""
+        if not keywords:
+            keywords = ['love', 'hate', 'great', 'terrible', 'amazing', 'awful', 'best', 'worst']
+        
+        six_months_ago = datetime.now() - timedelta(days=180)
+        
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        
+        query = '''
+            SELECT text, sentiment_score, engagement
+            FROM sentiment_data
+            WHERE date >= ?
+        '''
+        params = [six_months_ago.isoformat()]
+        
+        if product_service:
+            query += ' AND product_service = ?'
+            params.append(product_service)
+        
+        cursor.execute(query, params)
+        data = cursor.fetchall()
+        conn.close()
+        
+        if not data:
+            return {'success': False, 'error': 'No data available'}
+        
+        keyword_analysis = {}
+        for keyword in keywords:
+            keyword_analysis[keyword] = {'scores': [], 'count': 0, 'engagement': []}
+        
+        for row in data:
+            text = (row[0] or "").lower()
+            sentiment = row[1]
+            engagement = row[2] or 0
+            
+            for keyword in keywords:
+                if keyword.lower() in text:
+                    keyword_analysis[keyword]['scores'].append(sentiment)
+                    keyword_analysis[keyword]['count'] += 1
+                    keyword_analysis[keyword]['engagement'].append(engagement)
+        
+        analysis = {}
+        for keyword, data_dict in keyword_analysis.items():
+            if data_dict['count'] > 0:
+                analysis[keyword] = {
+                    'avg_sentiment': round(statistics.mean(data_dict['scores']), 3),
+                    'count': data_dict['count'],
+                    'frequency': round((data_dict['count'] / len(data) * 100), 2),
+                    'avg_engagement': round(statistics.mean(data_dict['engagement']), 1),
+                    'positive_pct': round((sum(1 for s in data_dict['scores'] if s > 0.1) / data_dict['count'] * 100), 1),
+                    'negative_pct': round((sum(1 for s in data_dict['scores'] if s < -0.1) / data_dict['count'] * 100), 1)
+                }
+        
+        return {
+            'success': True,
+            'keyword_analysis': analysis,
+            'total_count': len(data),
+            'keywords_analyzed': keywords
+        }
+
+    def analyze_sentiment_by_social_interaction(self, product_service: str = "") -> Dict:
+        """Analyze sentiment by type of social interaction (share, like, comment, retweet)"""
+        six_months_ago = datetime.now() - timedelta(days=180)
+        
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        
+        query = '''
+            SELECT text, sentiment_score, engagement, platform
+            FROM sentiment_data
+            WHERE date >= ?
+        '''
+        params = [six_months_ago.isoformat()]
+        
+        if product_service:
+            query += ' AND product_service = ?'
+            params.append(product_service)
+        
+        cursor.execute(query, params)
+        data = cursor.fetchall()
+        conn.close()
+        
+        if not data:
+            return {'success': False, 'error': 'No data available'}
+        
+        interaction_types = {
+            'high_engagement': {'scores': [], 'count': 0, 'engagement': []},  # Top 25%
+            'medium_engagement': {'scores': [], 'count': 0, 'engagement': []},  # Middle 50%
+            'low_engagement': {'scores': [], 'count': 0, 'engagement': []}  # Bottom 25%
+        }
+        
+        engagements = [row[2] or 0 for row in data]
+        if engagements:
+            sorted_engagements = sorted(engagements)
+            high_threshold = sorted_engagements[int(len(sorted_engagements) * 0.75)] if len(sorted_engagements) > 0 else 0
+            low_threshold = sorted_engagements[int(len(sorted_engagements) * 0.25)] if len(sorted_engagements) > 0 else 0
+        
+        for row in data:
+            sentiment = row[1]
+            engagement = row[2] or 0
+            
+            if engagement >= high_threshold:
+                interaction_type = 'high_engagement'
+            elif engagement <= low_threshold:
+                interaction_type = 'low_engagement'
+            else:
+                interaction_type = 'medium_engagement'
+            
+            interaction_types[interaction_type]['scores'].append(sentiment)
+            interaction_types[interaction_type]['count'] += 1
+            interaction_types[interaction_type]['engagement'].append(engagement)
+        
+        analysis = {}
+        for interaction_type, data_dict in interaction_types.items():
+            if data_dict['count'] > 0:
+                analysis[interaction_type] = {
+                    'avg_sentiment': round(statistics.mean(data_dict['scores']), 3),
+                    'count': data_dict['count'],
+                    'percentage': round((data_dict['count'] / len(data) * 100), 1),
+                    'avg_engagement': round(statistics.mean(data_dict['engagement']), 1),
+                    'positive_pct': round((sum(1 for s in data_dict['scores'] if s > 0.1) / data_dict['count'] * 100), 1),
+                    'negative_pct': round((sum(1 for s in data_dict['scores'] if s < -0.1) / data_dict['count'] * 100), 1)
+                }
+        
+        return {
+            'success': True,
+            'interaction_analysis': analysis,
+            'total_count': len(data)
+        }
+
+    def analyze_sentiment_by_mention_type(self, product_service: str = "") -> Dict:
+        """Analyze sentiment by type of mention (user, brand, influencer)"""
+        six_months_ago = datetime.now() - timedelta(days=180)
+        
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        
+        query = '''
+            SELECT text, sentiment_score, engagement, author_followers
+            FROM sentiment_data
+            WHERE date >= ?
+        '''
+        params = [six_months_ago.isoformat()]
+        
+        if product_service:
+            query += ' AND product_service = ?'
+            params.append(product_service)
+        
+        cursor.execute(query, params)
+        data = cursor.fetchall()
+        conn.close()
+        
+        if not data:
+            return {'success': False, 'error': 'No data available'}
+        
+        mention_pattern = re.compile(r'@(\w+)')
+        mention_types = {
+            'user_mention': {'scores': [], 'count': 0, 'engagement': []},  # Regular users
+            'influencer_mention': {'scores': [], 'count': 0, 'engagement': []},  # High followers
+            'no_mention': {'scores': [], 'count': 0, 'engagement': []}
+        }
+        
+        influencer_threshold = 10000  # Followers threshold
+        
+        for row in data:
+            text = row[0] or ""
+            sentiment = row[1]
+            engagement = row[2] or 0
+            followers = row[3] or 0
+            
+            mentions = mention_pattern.findall(text)
+            
+            if not mentions:
+                mention_type = 'no_mention'
+            elif followers >= influencer_threshold:
+                mention_type = 'influencer_mention'
+            else:
+                mention_type = 'user_mention'
+            
+            mention_types[mention_type]['scores'].append(sentiment)
+            mention_types[mention_type]['count'] += 1
+            mention_types[mention_type]['engagement'].append(engagement)
+        
+        analysis = {}
+        for mention_type, data_dict in mention_types.items():
+            if data_dict['count'] > 0:
+                analysis[mention_type] = {
+                    'avg_sentiment': round(statistics.mean(data_dict['scores']), 3),
+                    'count': data_dict['count'],
+                    'percentage': round((data_dict['count'] / len(data) * 100), 1),
+                    'avg_engagement': round(statistics.mean(data_dict['engagement']), 1),
+                    'positive_pct': round((sum(1 for s in data_dict['scores'] if s > 0.1) / data_dict['count'] * 100), 1),
+                    'negative_pct': round((sum(1 for s in data_dict['scores'] if s < -0.1) / data_dict['count'] * 100), 1)
+                }
+        
+        return {
+            'success': True,
+            'mention_type_analysis': analysis,
+            'total_count': len(data)
+        }
+
+    def analyze_sentiment_by_content_type(self, product_service: str = "") -> Dict:
+        """Analyze sentiment by content type (original, retweet, shared, reply)"""
+        six_months_ago = datetime.now() - timedelta(days=180)
+        
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        
+        query = '''
+            SELECT text, sentiment_score, engagement, platform
+            FROM sentiment_data
+            WHERE date >= ?
+        '''
+        params = [six_months_ago.isoformat()]
+        
+        if product_service:
+            query += ' AND product_service = ?'
+            params.append(product_service)
+        
+        cursor.execute(query, params)
+        data = cursor.fetchall()
+        conn.close()
+        
+        if not data:
+            return {'success': False, 'error': 'No data available'}
+        
+        content_types = {
+            'original': {'scores': [], 'count': 0, 'engagement': []},
+            'retweet': {'scores': [], 'count': 0, 'engagement': []},
+            'shared': {'scores': [], 'count': 0, 'engagement': []},
+            'reply': {'scores': [], 'count': 0, 'engagement': []}
+        }
+        
+        for row in data:
+            text = (row[0] or "").lower()
+            sentiment = row[1]
+            engagement = row[2] or 0
+            
+            # Detect content type
+            if text.startswith('rt ') or 'retweet' in text:
+                content_type = 'retweet'
+            elif 'shared' in text or 'repost' in text:
+                content_type = 'shared'
+            elif text.startswith('@') or 'reply' in text:
+                content_type = 'reply'
+            else:
+                content_type = 'original'
+            
+            content_types[content_type]['scores'].append(sentiment)
+            content_types[content_type]['count'] += 1
+            content_types[content_type]['engagement'].append(engagement)
+        
+        analysis = {}
+        for content_type, data_dict in content_types.items():
+            if data_dict['count'] > 0:
+                analysis[content_type] = {
+                    'avg_sentiment': round(statistics.mean(data_dict['scores']), 3),
+                    'count': data_dict['count'],
+                    'percentage': round((data_dict['count'] / len(data) * 100), 1),
+                    'avg_engagement': round(statistics.mean(data_dict['engagement']), 1),
+                    'positive_pct': round((sum(1 for s in data_dict['scores'] if s > 0.1) / data_dict['count'] * 100), 1),
+                    'negative_pct': round((sum(1 for s in data_dict['scores'] if s < -0.1) / data_dict['count'] * 100), 1)
+                }
+        
+        return {
+            'success': True,
+            'content_type_analysis': analysis,
+            'total_count': len(data)
+        }
+
+    def analyze_sentiment_by_hashtag_category(self, product_service: str = "") -> Dict:
+        """Analyze sentiment by hashtag category (promotional, informational, trending)"""
+        six_months_ago = datetime.now() - timedelta(days=180)
+        
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        
+        query = '''
+            SELECT text, sentiment_score, engagement
+            FROM sentiment_data
+            WHERE date >= ?
+        '''
+        params = [six_months_ago.isoformat()]
+        
+        if product_service:
+            query += ' AND product_service = ?'
+            params.append(product_service)
+        
+        cursor.execute(query, params)
+        data = cursor.fetchall()
+        conn.close()
+        
+        if not data:
+            return {'success': False, 'error': 'No data available'}
+        
+        hashtag_pattern = re.compile(r'#(\w+)')
+        promotional_keywords = ['sale', 'discount', 'offer', 'deal', 'promo', 'buy', 'shop', 'save']
+        informational_keywords = ['news', 'update', 'info', 'learn', 'guide', 'tutorial', 'howto']
+        trending_keywords = ['trending', 'viral', 'hot', 'popular', 'now']
+        
+        hashtag_categories = {
+            'promotional': {'scores': [], 'count': 0, 'engagement': []},
+            'informational': {'scores': [], 'count': 0, 'engagement': []},
+            'trending': {'scores': [], 'count': 0, 'engagement': []},
+            'other': {'scores': [], 'count': 0, 'engagement': []},
+            'no_hashtags': {'scores': [], 'count': 0, 'engagement': []}
+        }
+        
+        for row in data:
+            text = (row[0] or "").lower()
+            sentiment = row[1]
+            engagement = row[2] or 0
+            
+            hashtags = hashtag_pattern.findall(text)
+            
+            if not hashtags:
+                category = 'no_hashtags'
+            else:
+                hashtag_text = ' '.join(hashtags).lower()
+                if any(keyword in hashtag_text for keyword in promotional_keywords):
+                    category = 'promotional'
+                elif any(keyword in hashtag_text for keyword in informational_keywords):
+                    category = 'informational'
+                elif any(keyword in hashtag_text for keyword in trending_keywords):
+                    category = 'trending'
+                else:
+                    category = 'other'
+            
+            hashtag_categories[category]['scores'].append(sentiment)
+            hashtag_categories[category]['count'] += 1
+            hashtag_categories[category]['engagement'].append(engagement)
+        
+        analysis = {}
+        for category, data_dict in hashtag_categories.items():
+            if data_dict['count'] > 0:
+                analysis[category] = {
+                    'avg_sentiment': round(statistics.mean(data_dict['scores']), 3),
+                    'count': data_dict['count'],
+                    'percentage': round((data_dict['count'] / len(data) * 100), 1),
+                    'avg_engagement': round(statistics.mean(data_dict['engagement']), 1),
+                    'positive_pct': round((sum(1 for s in data_dict['scores'] if s > 0.1) / data_dict['count'] * 100), 1),
+                    'negative_pct': round((sum(1 for s in data_dict['scores'] if s < -0.1) / data_dict['count'] * 100), 1)
+                }
+        
+        return {
+            'success': True,
+            'hashtag_category_analysis': analysis,
+            'total_count': len(data)
+        }
+
+    def analyze_sentiment_by_event_type(self, product_service: str = "", event_keywords: Dict[str, List[str]] = None) -> Dict:
+        """Analyze sentiment by event type (launch, update, promotion, crisis)"""
+        if not event_keywords:
+            event_keywords = {
+                'launch': ['launch', 'release', 'new', 'introducing', 'announce'],
+                'update': ['update', 'upgrade', 'improve', 'enhance', 'fix'],
+                'promotion': ['sale', 'discount', 'offer', 'promo', 'deal'],
+                'crisis': ['issue', 'problem', 'bug', 'error', 'down', 'broken']
+            }
+        
+        six_months_ago = datetime.now() - timedelta(days=180)
+        
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        
+        query = '''
+            SELECT text, sentiment_score, engagement, date
+            FROM sentiment_data
+            WHERE date >= ?
+        '''
+        params = [six_months_ago.isoformat()]
+        
+        if product_service:
+            query += ' AND product_service = ?'
+            params.append(product_service)
+        
+        cursor.execute(query, params)
+        data = cursor.fetchall()
+        conn.close()
+        
+        if not data:
+            return {'success': False, 'error': 'No data available'}
+        
+        event_types = {event: {'scores': [], 'count': 0, 'engagement': []} for event in event_keywords.keys()}
+        event_types['other'] = {'scores': [], 'count': 0, 'engagement': []}
+        
+        for row in data:
+            text = (row[0] or "").lower()
+            sentiment = row[1]
+            engagement = row[2] or 0
+            
+            event_type = 'other'
+            for event, keywords in event_keywords.items():
+                if any(keyword in text for keyword in keywords):
+                    event_type = event
+                    break
+            
+            event_types[event_type]['scores'].append(sentiment)
+            event_types[event_type]['count'] += 1
+            event_types[event_type]['engagement'].append(engagement)
+        
+        analysis = {}
+        for event_type, data_dict in event_types.items():
+            if data_dict['count'] > 0:
+                analysis[event_type] = {
+                    'avg_sentiment': round(statistics.mean(data_dict['scores']), 3),
+                    'count': data_dict['count'],
+                    'percentage': round((data_dict['count'] / len(data) * 100), 1),
+                    'avg_engagement': round(statistics.mean(data_dict['engagement']), 1),
+                    'positive_pct': round((sum(1 for s in data_dict['scores'] if s > 0.1) / data_dict['count'] * 100), 1),
+                    'negative_pct': round((sum(1 for s in data_dict['scores'] if s < -0.1) / data_dict['count'] * 100), 1)
+                }
+        
+        return {
+            'success': True,
+            'event_type_analysis': analysis,
+            'total_count': len(data),
+            'event_keywords_used': event_keywords
+        }
 
 
 def main():
@@ -5705,10 +7959,40 @@ def main():
     print("58. Generate year-over-year comparison")
     print("59. Analyze sentiment by content type")
     print("60. Generate proactive alerts")
-    print("61. Exit")
+    print("61. Analyze sentiment by user segment")
+    print("62. Analyze sentiment by response time")
+    print("63. Generate sentiment forecast")
+    print("64. Analyze sentiment by topic cluster")
+    print("65. Generate comprehensive health report")
+    print("66. Analyze sentiment by device type")
+    print("67. Analyze sentiment by time period")
+    print("68. Calculate sentiment stability score")
+    print("69. Analyze sentiment by hashtag usage")
+    print("70. Analyze sentiment by mention count")
+    print("71. Analyze sentiment by urgency keywords")
+    print("72. Calculate sentiment correlation matrix")
+    print("73. Generate AI-powered sentiment insights")
+    print("74. Analyze sentiment by intensity level")
+    print("75. Analyze sentiment by question vs statement")
+    print("76. Analyze sentiment by emoji usage")
+    print("77. Calculate sentiment volatility index")
+    print("78. Analyze sentiment by polarity shift")
+    print("79. Detect sentiment anomalies")
+    print("80. Analyze sentiment by reply type")
+    print("81. Calculate sentiment network metrics")
+    print("82. Analyze sentiment consistency")
+    print("83. Analyze sentiment by seasonal hour")
+    print("84. Analyze sentiment by media type")
+    print("85. Analyze sentiment by keyword frequency")
+    print("86. Analyze sentiment by social interaction level")
+    print("87. Analyze sentiment by mention type")
+    print("88. Analyze sentiment by content type (original/retweet/shared)")
+    print("89. Analyze sentiment by hashtag category")
+    print("90. Analyze sentiment by event type")
+    print("91. Exit")
     
     while True:
-        choice = input("\nSelect option (1-61): ").strip()
+        choice = input("\nSelect option (1-91): ").strip()
         
         if choice == '1':
             text = input("Enter text to analyze: ").strip()
@@ -6911,6 +9195,646 @@ def main():
                 print(f"❌ {alerts.get('error')}")
         
         elif choice == '61':
+            product = input("Product/Service name (optional): ").strip()
+            
+            print("\n👥 Analyzing sentiment by user segment...")
+            segments = analyzer.analyze_sentiment_by_user_segment(product)
+            if segments.get('success'):
+                print(f"\n📊 User Segment Analysis:")
+                print(f"   Segment Breakdown:")
+                for segment, data in segments.get('segment_analysis', {}).items():
+                    print(f"     {segment.replace('_', ' ').title()}:")
+                    print(f"       Users: {data['user_count']}")
+                    print(f"       Avg Sentiment: {data['avg_sentiment']:.3f}")
+                    print(f"       Avg Engagement: {data['avg_engagement']:.1f}")
+                if segments.get('insights'):
+                    print(f"\n   Insights:")
+                    for insight in segments['insights']:
+                        print(f"     • {insight}")
+            else:
+                print(f"❌ {segments.get('error')}")
+        
+        elif choice == '62':
+            product = input("Product/Service name (optional): ").strip()
+            
+            print("\n⏱️ Analyzing sentiment by response time...")
+            response = analyzer.analyze_sentiment_by_response_time(product)
+            if response.get('success'):
+                print(f"\n📊 Response Time Analysis:")
+                for category, data in response.get('response_analysis', {}).items():
+                    print(f"     {category.replace('_', ' ').title()}:")
+                    print(f"       Count: {data['count']}")
+                    print(f"       Avg Sentiment: {data['avg_sentiment']:.3f}")
+            else:
+                print(f"❌ {response.get('error')}")
+        
+        elif choice == '63':
+            product = input("Product/Service name (optional): ").strip()
+            days = int(input("Days to forecast (default 30): ").strip() or "30")
+            
+            print(f"\n🔮 Generating sentiment forecast ({days} days ahead)...")
+            forecast = analyzer.generate_sentiment_forecast(product, days)
+            if forecast.get('success'):
+                print(f"\n📊 Sentiment Forecast:")
+                print(f"   Current Sentiment: {forecast['current_sentiment']:.3f}")
+                print(f"   Forecast Sentiment: {forecast['forecast_sentiment']:.3f}")
+                print(f"   Forecast Direction: {forecast['forecast_direction'].upper()}")
+                print(f"   Confidence: {forecast['confidence']:.1f}%")
+                print(f"   Velocity: {forecast['velocity']:+.4f} per day")
+                print(f"   Interpretation: {forecast['interpretation']}")
+            else:
+                print(f"❌ {forecast.get('error')}")
+        
+        elif choice == '64':
+            product = input("Product/Service name (optional): ").strip()
+            n_topics = int(input("Number of topics (default 5): ").strip() or "5")
+            
+            print(f"\n📚 Analyzing sentiment by topic cluster ({n_topics} topics)...")
+            topics = analyzer.analyze_sentiment_by_topic_cluster(product, n_topics)
+            if topics.get('success'):
+                print(f"\n📊 Topic Cluster Analysis:")
+                print(f"   Total Topics: {topics['total_topics']}")
+                print(f"\n   Topic Breakdown:")
+                for topic, data in topics.get('topic_clusters', {}).items():
+                    print(f"     {topic.replace('_', ' ').title()}:")
+                    print(f"       Primary Keyword: {data['primary_keyword']}")
+                    print(f"       Avg Sentiment: {data['avg_sentiment']:.3f}")
+                    print(f"       Mentions: {data['count']}")
+                    print(f"       Avg Engagement: {data['avg_engagement']:.1f}")
+            else:
+                print(f"❌ {topics.get('error')}")
+        
+        elif choice == '65':
+            product = input("Product/Service name (optional): ").strip()
+            
+            print("\n🏥 Generating comprehensive health report...")
+            health_report = analyzer.generate_comprehensive_health_report(product)
+            if health_report.get('success'):
+                print(f"\n📊 Comprehensive Health Report:")
+                print(f"   Product/Service: {health_report['product_service']}")
+                print(f"   Timestamp: {health_report['timestamp']}")
+                
+                if health_report.get('overall_health'):
+                    oh = health_report['overall_health']
+                    print(f"\n   Overall Health:")
+                    print(f"     Health Score: {oh.get('health_score', 0)}/100 ({oh.get('health_level', 'unknown').upper()})")
+                    print(f"     Satisfaction Score: {oh.get('satisfaction_score', 0)}/100")
+                    print(f"     NPS Score: {oh.get('nps_score', 0):+.1f}")
+                
+                if health_report.get('key_metrics'):
+                    km = health_report['key_metrics']
+                    print(f"\n   Key Metrics:")
+                    print(f"     Positive: {km.get('positive_pct', 0)}%")
+                    print(f"     Negative: {km.get('negative_pct', 0)}%")
+                    print(f"     Promoters: {km.get('promoter_pct', 0)}%")
+                    print(f"     Detractors: {km.get('detractor_pct', 0)}%")
+                
+                if health_report.get('risk_assessment'):
+                    ra = health_report['risk_assessment']
+                    print(f"\n   Risk Assessment:")
+                    print(f"     Risk Score: {ra.get('risk_score', 0)}/100 ({ra.get('risk_level', 'unknown').upper()})")
+                    print(f"     Crisis Score: {ra.get('crisis_score', 0)}/100 ({ra.get('crisis_level', 'unknown').upper()})")
+                    print(f"     Churn Risk: {ra.get('churn_risk', 0)}/100 ({ra.get('churn_level', 'unknown').upper()})")
+                
+                if health_report.get('recommendations'):
+                    print(f"\n   Top Recommendations:")
+                    for rec in health_report['recommendations'][:5]:
+                        print(f"     • {rec}")
+                
+                # Save to JSON
+                save = input("\nSave health report to file? (y/n): ").strip().lower()
+                if save == 'y':
+                    filename = analyzer.output_dir / "reports" / f"comprehensive_health_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+                    with open(filename, 'w', encoding='utf-8') as f:
+                        json.dump(health_report, f, indent=2, ensure_ascii=False)
+                    print(f"✅ Health report saved to {filename}")
+            else:
+                print(f"❌ Failed to generate health report")
+        
+        elif choice == '66':
+            product = input("Product/Service name (optional): ").strip()
+            
+            print("\n📱 Analyzing sentiment by device type...")
+            devices = analyzer.analyze_sentiment_by_device_type(product)
+            if devices.get('success'):
+                print(f"\n📊 Device Type Analysis:")
+                for device, data in devices.get('device_analysis', {}).items():
+                    print(f"     {device.title()}:")
+                    print(f"       Sentiment: {data['avg_sentiment']:.3f}")
+                    print(f"       Count: {data['count']}")
+                    print(f"       Positive: {data['positive_pct']}% | Negative: {data['negative_pct']}%")
+                    print(f"       Avg Engagement: {data['avg_engagement']:.1f}")
+            else:
+                print(f"❌ {devices.get('error')}")
+        
+        elif choice == '67':
+            product = input("Product/Service name (optional): ").strip()
+            period = input("Period type (quarter/month/week, default month): ").strip() or "month"
+            
+            print(f"\n📅 Analyzing sentiment by {period}...")
+            periods = analyzer.analyze_sentiment_by_time_period(period, product)
+            if periods.get('success'):
+                print(f"\n📊 {period.title()} Analysis:")
+                for period_key, data in sorted(periods.get('period_analysis', {}).items()):
+                    print(f"     {period_key}:")
+                    print(f"       Sentiment: {data['avg_sentiment']:.3f}")
+                    print(f"       Mentions: {data['count']}")
+                    print(f"       Positive: {data['positive_pct']}% | Negative: {data['negative_pct']}%")
+                    print(f"       Avg Engagement: {data['avg_engagement']:.1f}")
+            else:
+                print(f"❌ {periods.get('error')}")
+        
+        elif choice == '68':
+            product = input("Product/Service name (optional): ").strip()
+            days = int(input("Days to analyze (default 30): ").strip() or "30")
+            
+            print(f"\n📊 Calculating sentiment stability score ({days} days)...")
+            stability = analyzer.calculate_sentiment_stability_score(product, days)
+            if stability.get('success'):
+                print(f"\n📊 Stability Analysis:")
+                print(f"   Stability Score: {stability['stability_score']}/100")
+                print(f"   Stability Level: {stability['stability_level'].replace('_', ' ').upper()}")
+                print(f"   Variance: {stability['variance']:.4f}")
+                print(f"   Standard Deviation: {stability['std_deviation']:.4f}")
+                print(f"   Data Points: {stability['data_points']}")
+            else:
+                print(f"❌ {stability.get('error')}")
+        
+        elif choice == '69':
+            product = input("Product/Service name (optional): ").strip()
+            
+            print("\n#️⃣ Analyzing sentiment by hashtag usage...")
+            hashtags = analyzer.analyze_sentiment_by_hashtag_sentiment(product)
+            if hashtags.get('success'):
+                print(f"\n📊 Hashtag Analysis:")
+                if 'with_hashtags' in hashtags.get('analysis', {}):
+                    wh = hashtags['analysis']['with_hashtags']
+                    print(f"   With Hashtags:")
+                    print(f"     Sentiment: {wh['avg_sentiment']:.3f}")
+                    print(f"     Mentions: {wh['count']}")
+                    print(f"     Positive: {wh['positive_pct']}% | Negative: {wh['negative_pct']}%")
+                    print(f"     Avg Engagement: {wh['avg_engagement']:.1f}")
+                
+                if 'without_hashtags' in hashtags.get('analysis', {}):
+                    woh = hashtags['analysis']['without_hashtags']
+                    print(f"\n   Without Hashtags:")
+                    print(f"     Sentiment: {woh['avg_sentiment']:.3f}")
+                    print(f"     Mentions: {woh['count']}")
+                    print(f"     Positive: {woh['positive_pct']}% | Negative: {woh['negative_pct']}%")
+                    print(f"     Avg Engagement: {woh['avg_engagement']:.1f}")
+                
+                if 'difference' in hashtags:
+                    diff = hashtags['difference']
+                    print(f"\n   Difference: {diff['sentiment_diff']:+.3f} ({diff['interpretation']})")
+            else:
+                print(f"❌ {hashtags.get('error')}")
+        
+        elif choice == '70':
+            product = input("Product/Service name (optional): ").strip()
+            
+            print("\n#️⃣ Analyzing sentiment by mention count...")
+            mentions = analyzer.analyze_sentiment_by_mention_count(product)
+            if mentions.get('success'):
+                print(f"\n📊 Mention Count Analysis:")
+                for cat, data in mentions.get('mention_analysis', {}).items():
+                    print(f"     {cat.replace('_', ' ').title()}:")
+                    print(f"       Count: {data['count']}")
+                    print(f"       Avg Sentiment: {data['avg_sentiment']:.3f}")
+                    print(f"       Avg Engagement: {data['avg_engagement']:.1f}")
+            else:
+                print(f"❌ {mentions.get('error')}")
+        
+        elif choice == '71':
+            product = input("Product/Service name (optional): ").strip()
+            
+            print("\n#️⃣ Analyzing sentiment by urgency keywords...")
+            urgency = analyzer.analyze_sentiment_by_urgency_keywords(product)
+            if urgency.get('success'):
+                print(f"\n📊 Urgency Keyword Analysis:")
+                if 'with_urgency' in urgency.get('analysis', {}):
+                    wu = urgency['analysis']['with_urgency']
+                    print(f"   With Urgency Keywords:")
+                    print(f"     Sentiment: {wu['avg_sentiment']:.3f}")
+                    print(f"     Mentions: {wu['count']}")
+                    print(f"     Positive: {wu['positive_pct']}% | Negative: {wu['negative_pct']}%")
+                    print(f"     Avg Engagement: {wu['avg_engagement']:.1f}")
+                
+                if 'without_urgency' in urgency.get('analysis', {}):
+                    wou = urgency['analysis']['without_urgency']
+                    print(f"\n   Without Urgency Keywords:")
+                    print(f"     Sentiment: {wou['avg_sentiment']:.3f}")
+                    print(f"     Mentions: {wou['count']}")
+                    print(f"     Positive: {wou['positive_pct']}% | Negative: {wou['negative_pct']}%")
+                    print(f"     Avg Engagement: {wou['avg_engagement']:.1f}")
+            else:
+                print(f"❌ {urgency.get('error')}")
+        
+        elif choice == '72':
+            product = input("Product/Service name (optional): ").strip()
+            
+            print("\n📈 Calculating sentiment correlation matrix...")
+            correlation = analyzer.calculate_sentiment_correlation_matrix(product)
+            if correlation.get('success'):
+                print(f"\n📊 Correlation Matrix:")
+                for metric, corr_value in correlation.get('correlations', {}).items():
+                    print(f"     {metric.replace('_', ' ').title()}: {corr_value:+.3f}")
+                print(f"   Data Points: {correlation['data_points']}")
+            else:
+                print(f"❌ {correlation.get('error')}")
+        
+        elif choice == '73':
+            product = input("Product/Service name (optional): ").strip()
+            
+            print("\n🧠 Generating AI-powered insights...")
+            ai_insights = analyzer.generate_sentiment_insights_ai(product)
+            if ai_insights.get('success'):
+                print(f"\n📊 AI Insights Summary:")
+                print(f"   Summary: {ai_insights['summary']}")
+                if ai_insights.get('key_findings'):
+                    print(f"\n   Key Findings:")
+                    for finding in ai_insights['key_findings']:
+                        print(f"     • {finding}")
+                if ai_insights.get('insights'):
+                    print(f"\n   Insights:")
+                    for insight in ai_insights['insights']:
+                        print(f"     • {insight}")
+                if ai_insights.get('recommendations'):
+                    print(f"\n   Recommendations:")
+                    for rec in ai_insights['recommendations']:
+                        print(f"     • {rec}")
+            else:
+                print(f"❌ {ai_insights.get('error')}")
+        
+        elif choice == '74':
+            product = input("Product/Service name (optional): ").strip()
+            
+            print("\n📊 Analyzing sentiment by intensity...")
+            intensity = analyzer.analyze_sentiment_by_sentiment_intensity(product)
+            if intensity.get('success'):
+                print(f"\n📊 Sentiment Intensity Analysis:")
+                print(f"   Total Mentions: {intensity['total_count']}")
+                print(f"\n   Intensity Categories:")
+                for cat, data in intensity.get('intensity_analysis', {}).items():
+                    print(f"     {cat.replace('_', ' ').title()}:")
+                    print(f"       Count: {data['count']} ({data['percentage']}%)")
+                    print(f"       Avg Sentiment: {data['avg_sentiment']:.3f}")
+                    print(f"       Avg Engagement: {data['avg_engagement']:.1f}")
+            else:
+                print(f"❌ {intensity.get('error')}")
+        
+        elif choice == '75':
+            product = input("Product/Service name (optional): ").strip()
+            
+            print("\n❓ Analyzing sentiment by question vs statement...")
+            qs_analysis = analyzer.analyze_sentiment_by_question_vs_statement(product)
+            if qs_analysis.get('success'):
+                print(f"\n📊 Question vs Statement Analysis:")
+                if 'questions' in qs_analysis.get('analysis', {}):
+                    q = qs_analysis['analysis']['questions']
+                    print(f"   Questions:")
+                    print(f"     Count: {q['count']} ({q['percentage']}%)")
+                    print(f"     Avg Sentiment: {q['avg_sentiment']:.3f}")
+                    print(f"     Positive: {q['positive_pct']}% | Negative: {q['negative_pct']}%")
+                    print(f"     Avg Engagement: {q['avg_engagement']:.1f}")
+                
+                if 'statements' in qs_analysis.get('analysis', {}):
+                    s = qs_analysis['analysis']['statements']
+                    print(f"\n   Statements:")
+                    print(f"     Count: {s['count']} ({s['percentage']}%)")
+                    print(f"     Avg Sentiment: {s['avg_sentiment']:.3f}")
+                    print(f"     Positive: {s['positive_pct']}% | Negative: {s['negative_pct']}%")
+                    print(f"     Avg Engagement: {s['avg_engagement']:.1f}")
+                
+                print(f"\n   Difference: {qs_analysis.get('difference', 0):+.3f}")
+                print(f"   Interpretation: {qs_analysis.get('interpretation', 'N/A')}")
+            else:
+                print(f"❌ {qs_analysis.get('error')}")
+        
+        elif choice == '76':
+            product = input("Product/Service name (optional): ").strip()
+            
+            print("\n😊 Analyzing sentiment by emoji usage...")
+            emoji_analysis = analyzer.analyze_sentiment_by_emoji_usage(product)
+            if emoji_analysis.get('success'):
+                print(f"\n📊 Emoji Usage Analysis:")
+                if 'with_emoji' in emoji_analysis.get('analysis', {}):
+                    we = emoji_analysis['analysis']['with_emoji']
+                    print(f"   With Emojis:")
+                    print(f"     Count: {we['count']} ({we['percentage']}%)")
+                    print(f"     Avg Sentiment: {we['avg_sentiment']:.3f}")
+                    print(f"     Positive: {we['positive_pct']}% | Negative: {we['negative_pct']}%")
+                    print(f"     Avg Engagement: {we['avg_engagement']:.1f}")
+                
+                if 'without_emoji' in emoji_analysis.get('analysis', {}):
+                    woe = emoji_analysis['analysis']['without_emoji']
+                    print(f"\n   Without Emojis:")
+                    print(f"     Count: {woe['count']} ({woe['percentage']}%)")
+                    print(f"     Avg Sentiment: {woe['avg_sentiment']:.3f}")
+                    print(f"     Positive: {woe['positive_pct']}% | Negative: {woe['negative_pct']}%")
+                    print(f"     Avg Engagement: {woe['avg_engagement']:.1f}")
+                
+                print(f"\n   Difference: {emoji_analysis.get('difference', 0):+.3f}")
+                print(f"   Interpretation: {emoji_analysis.get('interpretation', 'N/A')}")
+            else:
+                print(f"❌ {emoji_analysis.get('error')}")
+        
+        elif choice == '77':
+            product = input("Product/Service name (optional): ").strip()
+            days = int(input("Days to analyze (default 30): ").strip() or "30")
+            
+            print(f"\n📊 Calculating sentiment volatility index ({days} days)...")
+            volatility = analyzer.calculate_sentiment_volatility_index(product, days)
+            if volatility.get('success'):
+                print(f"\n📊 Volatility Analysis:")
+                print(f"   Volatility Index: {volatility['volatility_index']}/100")
+                print(f"   Volatility Level: {volatility['volatility_level'].replace('_', ' ').upper()}")
+                print(f"   Volatility: {volatility['volatility']:.4f}")
+                print(f"   Avg Daily Change: {volatility['avg_daily_change']:.4f}")
+                print(f"   Days Analyzed: {volatility['days_analyzed']}")
+                print(f"   Data Points: {volatility['data_points']}")
+                print(f"   Interpretation: {volatility['interpretation']}")
+            else:
+                print(f"❌ {volatility.get('error')}")
+        
+        elif choice == '78':
+            product = input("Product/Service name (optional): ").strip()
+            
+            print("\n🔄 Analyzing sentiment by polarity shift...")
+            shift = analyzer.analyze_sentiment_by_polarity_shift(product)
+            if shift.get('success'):
+                print(f"\n📊 Polarity Shift Analysis:")
+                sa = shift.get('shift_analysis', {})
+                print(f"   Positive to Negative: {sa.get('positive_to_negative', 0)}")
+                print(f"   Negative to Positive: {sa.get('negative_to_positive', 0)}")
+                print(f"   Stable Positive: {sa.get('stable_positive', 0)}")
+                print(f"   Stable Negative: {sa.get('stable_negative', 0)}")
+                print(f"   Mixed Patterns: {sa.get('mixed_patterns', 0)}")
+                
+                pct = shift.get('percentages', {})
+                print(f"\n   Percentages:")
+                print(f"     Positive to Negative: {pct.get('positive_to_negative_pct', 0)}%")
+                print(f"     Negative to Positive: {pct.get('negative_to_positive_pct', 0)}%")
+                print(f"     Stable Positive: {pct.get('stable_positive_pct', 0)}%")
+                print(f"     Stable Negative: {pct.get('stable_negative_pct', 0)}%")
+                print(f"     Mixed Patterns: {pct.get('mixed_patterns_pct', 0)}%")
+                
+                print(f"\n   Total Authors Analyzed: {shift.get('total_authors_analyzed', 0)}")
+                print(f"   Net Shift: {shift.get('net_shift', 0):+.1f}%")
+            else:
+                print(f"❌ {shift.get('error')}")
+        
+        elif choice == '79':
+            product = input("Product/Service name (optional): ").strip()
+            threshold = float(input("Z-score threshold (default 2.0): ").strip() or "2.0")
+            
+            print(f"\n🚨 Detecting sentiment anomalies (threshold: {threshold})...")
+            anomalies = analyzer.detect_sentiment_anomalies(product, threshold)
+            if anomalies.get('success'):
+                print(f"\n📊 Anomaly Detection:")
+                print(f"   Total Anomalies: {anomalies['total_anomalies']}")
+                print(f"   Positive Anomalies: {anomalies['positive_anomalies']}")
+                print(f"   Negative Anomalies: {anomalies['negative_anomalies']}")
+                print(f"   Anomaly Rate: {anomalies['anomaly_rate']}%")
+                print(f"   High Severity: {anomalies['high_severity_count']}")
+                print(f"   Mean Sentiment: {anomalies['mean_sentiment']:.3f}")
+                print(f"   Std Deviation: {anomalies['std_sentiment']:.3f}")
+                
+                if anomalies.get('anomalies'):
+                    print(f"\n   Top Anomalies:")
+                    for i, anomaly in enumerate(anomalies['anomalies'][:10], 1):
+                        print(f"     {i}. [{anomaly['severity'].upper()}] Z-score: {anomaly['z_score']:+.3f}")
+                        print(f"        Sentiment: {anomaly['sentiment']:.3f} | Date: {anomaly['date']}")
+                        print(f"        Platform: {anomaly['platform']} | Engagement: {anomaly['engagement']}")
+                        print(f"        Text: {anomaly['text'][:80]}...")
+            else:
+                print(f"❌ {anomalies.get('error')}")
+        
+        elif choice == '80':
+            product = input("Product/Service name (optional): ").strip()
+            
+            print("\n💬 Analyzing sentiment by reply type...")
+            reply_analysis = analyzer.analyze_sentiment_by_reply_type(product)
+            if reply_analysis.get('success'):
+                print(f"\n📊 Reply Type Analysis:")
+                if 'replies' in reply_analysis.get('analysis', {}):
+                    r = reply_analysis['analysis']['replies']
+                    print(f"   Replies:")
+                    print(f"     Count: {r['count']} ({r['percentage']}%)")
+                    print(f"     Avg Sentiment: {r['avg_sentiment']:.3f}")
+                    print(f"     Positive: {r['positive_pct']}% | Negative: {r['negative_pct']}%")
+                    print(f"     Avg Engagement: {r['avg_engagement']:.1f}")
+                
+                if 'original_posts' in reply_analysis.get('analysis', {}):
+                    op = reply_analysis['analysis']['original_posts']
+                    print(f"\n   Original Posts:")
+                    print(f"     Count: {op['count']} ({op['percentage']}%)")
+                    print(f"     Avg Sentiment: {op['avg_sentiment']:.3f}")
+                    print(f"     Positive: {op['positive_pct']}% | Negative: {op['negative_pct']}%")
+                    print(f"     Avg Engagement: {op['avg_engagement']:.1f}")
+                
+                print(f"\n   Difference: {reply_analysis.get('difference', 0):+.3f}")
+                print(f"   Interpretation: {reply_analysis.get('interpretation', 'N/A')}")
+            else:
+                print(f"❌ {reply_analysis.get('error')}")
+        
+        elif choice == '81':
+            product = input("Product/Service name (optional): ").strip()
+            
+            print("\n🌐 Calculating sentiment network metrics...")
+            network = analyzer.calculate_sentiment_network_metrics(product)
+            if network.get('success'):
+                print(f"\n📊 Network Metrics:")
+                nm = network.get('network_metrics', {})
+                print(f"   Total Authors: {nm.get('total_authors', 0)}")
+                print(f"   Total Mentions: {nm.get('total_mentions', 0)}")
+                print(f"   Avg Mentions per Author: {nm.get('avg_mentions_per_author', 0):.2f}")
+                print(f"   Network Density: {nm.get('network_density', 0):.4f}")
+                
+                if network.get('most_connected_authors'):
+                    print(f"\n   Most Connected Authors:")
+                    for i, author in enumerate(network['most_connected_authors'][:5], 1):
+                        print(f"     {i}. {author['author_id']}: {author['mention_count']} mentions")
+                
+                if network.get('top_influencers'):
+                    print(f"\n   Top Influencers:")
+                    for i, influencer in enumerate(network['top_influencers'][:5], 1):
+                        print(f"     {i}. {influencer['author_id']}:")
+                        print(f"        Influence Score: {influencer['influence_score']:.3f}")
+                        print(f"        Avg Sentiment: {influencer['avg_sentiment']:.3f}")
+                        print(f"        Total Engagement: {influencer['total_engagement']}")
+                        print(f"        Mention Count: {influencer['mention_count']}")
+            else:
+                print(f"❌ {network.get('error')}")
+        
+        elif choice == '82':
+            product = input("Product/Service name (optional): ").strip()
+            author_id = input("Author ID (optional, press Enter for all): ").strip()
+            
+            print("\n📊 Analyzing sentiment consistency...")
+            consistency = analyzer.analyze_sentiment_consistency(product, author_id if author_id else "")
+            if consistency.get('success'):
+                print(f"\n📊 Consistency Analysis:")
+                print(f"   Overall Consistency Score: {consistency['overall_consistency_score']}/100")
+                print(f"   Consistency Level: {consistency['consistency_level'].upper()}")
+                print(f"   Total Authors Analyzed: {consistency['total_authors_analyzed']}")
+                
+                if consistency.get('most_consistent_authors'):
+                    print(f"\n   Most Consistent Authors:")
+                    for i, author in enumerate(consistency['most_consistent_authors'][:5], 1):
+                        print(f"     {i}. {author['author_id']}:")
+                        print(f"        Consistency Score: {author['consistency_score']}/100")
+                        print(f"        Std Deviation: {author['std_deviation']:.4f}")
+                        print(f"        Avg Sentiment: {author['avg_sentiment']:.3f}")
+                        print(f"        Post Count: {author['post_count']}")
+                        print(f"        Sentiment Range: {author['sentiment_range']:.3f}")
+            else:
+                print(f"❌ {consistency.get('error')}")
+        
+        elif choice == '83':
+            product = input("Product/Service name (optional): ").strip()
+            
+            print("\n⏰ Analyzing sentiment by seasonal hour...")
+            seasonal = analyzer.analyze_sentiment_by_seasonal_hour(product)
+            if seasonal.get('success'):
+                print(f"\n📊 Seasonal Hour Analysis:")
+                if seasonal.get('best_period'):
+                    bp = seasonal['best_period']
+                    print(f"   Best Period: {bp['period'].title()} (sentiment: {bp['sentiment']:.3f})")
+                print(f"\n   Period Breakdown:")
+                for period, data in seasonal.get('seasonal_analysis', {}).items():
+                    print(f"     {period.title()}:")
+                    print(f"       Sentiment: {data['avg_sentiment']:.3f}")
+                    print(f"       Count: {data['count']} ({data['percentage']}%)")
+                    print(f"       Positive: {data['positive_pct']}% | Negative: {data['negative_pct']}%")
+                    print(f"       Avg Engagement: {data['avg_engagement']:.1f}")
+            else:
+                print(f"❌ {seasonal.get('error')}")
+        
+        elif choice == '84':
+            product = input("Product/Service name (optional): ").strip()
+            
+            print("\n📱 Analyzing sentiment by media type...")
+            media = analyzer.analyze_sentiment_by_media_type(product)
+            if media.get('success'):
+                print(f"\n📊 Media Type Analysis:")
+                for media_type, data in media.get('media_analysis', {}).items():
+                    print(f"     {media_type.replace('_', ' ').title()}:")
+                    print(f"       Sentiment: {data['avg_sentiment']:.3f}")
+                    print(f"       Count: {data['count']} ({data['percentage']}%)")
+                    print(f"       Positive: {data['positive_pct']}% | Negative: {data['negative_pct']}%")
+                    print(f"       Avg Engagement: {data['avg_engagement']:.1f}")
+            else:
+                print(f"❌ {media.get('error')}")
+        
+        elif choice == '85':
+            product = input("Product/Service name (optional): ").strip()
+            keywords_input = input("Keywords (comma-separated, or press Enter for default): ").strip()
+            
+            keywords = None
+            if keywords_input:
+                keywords = [k.strip() for k in keywords_input.split(',') if k.strip()]
+            
+            print("\n🔑 Analyzing sentiment by keyword frequency...")
+            keyword_analysis = analyzer.analyze_sentiment_by_keyword_frequency(product, keywords)
+            if keyword_analysis.get('success'):
+                print(f"\n📊 Keyword Frequency Analysis:")
+                print(f"   Keywords Analyzed: {', '.join(keyword_analysis.get('keywords_analyzed', []))}")
+                print(f"\n   Keyword Breakdown:")
+                for keyword, data in keyword_analysis.get('keyword_analysis', {}).items():
+                    print(f"     {keyword.title()}:")
+                    print(f"       Frequency: {data['frequency']}%")
+                    print(f"       Count: {data['count']}")
+                    print(f"       Avg Sentiment: {data['avg_sentiment']:.3f}")
+                    print(f"       Positive: {data['positive_pct']}% | Negative: {data['negative_pct']}%")
+                    print(f"       Avg Engagement: {data['avg_engagement']:.1f}")
+            else:
+                print(f"❌ {keyword_analysis.get('error')}")
+        
+        elif choice == '86':
+            product = input("Product/Service name (optional): ").strip()
+            
+            print("\n💬 Analyzing sentiment by social interaction level...")
+            interaction = analyzer.analyze_sentiment_by_social_interaction(product)
+            if interaction.get('success'):
+                print(f"\n📊 Social Interaction Analysis:")
+                for level, data in interaction.get('interaction_analysis', {}).items():
+                    print(f"     {level.replace('_', ' ').title()}:")
+                    print(f"       Sentiment: {data['avg_sentiment']:.3f}")
+                    print(f"       Count: {data['count']} ({data['percentage']}%)")
+                    print(f"       Positive: {data['positive_pct']}% | Negative: {data['negative_pct']}%")
+                    print(f"       Avg Engagement: {data['avg_engagement']:.1f}")
+            else:
+                print(f"❌ {interaction.get('error')}")
+        
+        elif choice == '87':
+            product = input("Product/Service name (optional): ").strip()
+            
+            print("\n👥 Analyzing sentiment by mention type...")
+            mention_type = analyzer.analyze_sentiment_by_mention_type(product)
+            if mention_type.get('success'):
+                print(f"\n📊 Mention Type Analysis:")
+                for mtype, data in mention_type.get('mention_type_analysis', {}).items():
+                    print(f"     {mtype.replace('_', ' ').title()}:")
+                    print(f"       Sentiment: {data['avg_sentiment']:.3f}")
+                    print(f"       Count: {data['count']} ({data['percentage']}%)")
+                    print(f"       Positive: {data['positive_pct']}% | Negative: {data['negative_pct']}%")
+                    print(f"       Avg Engagement: {data['avg_engagement']:.1f}")
+            else:
+                print(f"❌ {mention_type.get('error')}")
+        
+        elif choice == '88':
+            product = input("Product/Service name (optional): ").strip()
+            
+            print("\n📄 Analyzing sentiment by content type...")
+            content_type = analyzer.analyze_sentiment_by_content_type(product)
+            if content_type.get('success'):
+                print(f"\n📊 Content Type Analysis:")
+                for ctype, data in content_type.get('content_type_analysis', {}).items():
+                    print(f"     {ctype.title()}:")
+                    print(f"       Sentiment: {data['avg_sentiment']:.3f}")
+                    print(f"       Count: {data['count']} ({data['percentage']}%)")
+                    print(f"       Positive: {data['positive_pct']}% | Negative: {data['negative_pct']}%")
+                    print(f"       Avg Engagement: {data['avg_engagement']:.1f}")
+            else:
+                print(f"❌ {content_type.get('error')}")
+        
+        elif choice == '89':
+            product = input("Product/Service name (optional): ").strip()
+            
+            print("\n#️⃣ Analyzing sentiment by hashtag category...")
+            hashtag_cat = analyzer.analyze_sentiment_by_hashtag_category(product)
+            if hashtag_cat.get('success'):
+                print(f"\n📊 Hashtag Category Analysis:")
+                for category, data in hashtag_cat.get('hashtag_category_analysis', {}).items():
+                    print(f"     {category.replace('_', ' ').title()}:")
+                    print(f"       Sentiment: {data['avg_sentiment']:.3f}")
+                    print(f"       Count: {data['count']} ({data['percentage']}%)")
+                    print(f"       Positive: {data['positive_pct']}% | Negative: {data['negative_pct']}%")
+                    print(f"       Avg Engagement: {data['avg_engagement']:.1f}")
+            else:
+                print(f"❌ {hashtag_cat.get('error')}")
+        
+        elif choice == '90':
+            product = input("Product/Service name (optional): ").strip()
+            
+            print("\n📅 Analyzing sentiment by event type...")
+            event_type = analyzer.analyze_sentiment_by_event_type(product)
+            if event_type.get('success'):
+                print(f"\n📊 Event Type Analysis:")
+                print(f"   Event Keywords Used:")
+                for event, keywords in event_type.get('event_keywords_used', {}).items():
+                    print(f"     {event.title()}: {', '.join(keywords)}")
+                print(f"\n   Event Breakdown:")
+                for etype, data in event_type.get('event_type_analysis', {}).items():
+                    print(f"     {etype.title()}:")
+                    print(f"       Sentiment: {data['avg_sentiment']:.3f}")
+                    print(f"       Count: {data['count']} ({data['percentage']}%)")
+                    print(f"       Positive: {data['positive_pct']}% | Negative: {data['negative_pct']}%")
+                    print(f"       Avg Engagement: {data['avg_engagement']:.1f}")
+            else:
+                print(f"❌ {event_type.get('error')}")
+        
+        elif choice == '91':
             print("👋 Goodbye!")
             break
         

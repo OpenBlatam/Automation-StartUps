@@ -404,3 +404,5 @@ Este documento define la estrategia completa de recursos humanos para IA Bulk, i
 
 *El equipo es el activo más importante. Invertir en talento, cultura y desarrollo es fundamental para el éxito a largo plazo.*
 
+
+

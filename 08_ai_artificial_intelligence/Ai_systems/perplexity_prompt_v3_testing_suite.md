@@ -137,3 +137,5 @@ Automatiza la ejecución vía API (OpenAI, Anthropic, etc.), almacena resultados
 4. Revisar métricas mensualmente y ajustar prompt según hallazgos.
 
 
+
+

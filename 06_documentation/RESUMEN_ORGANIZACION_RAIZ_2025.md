@@ -235,3 +235,5 @@ El script utiliza un sistema de mapeo inteligente que identifica patrones en los
 
 
 
+
+

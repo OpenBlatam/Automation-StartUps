@@ -132,3 +132,5 @@ Imprime o integra este checklist en la herramienta de QA para revisiones rápida
 4. Publicar playbook breve para stakeholders no técnicos.
 
 
+
+

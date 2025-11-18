@@ -447,3 +447,5 @@ Este documento define estrategias específicas de diferenciación para IA Bulk, 
 
 *La diferenciación es clave para el éxito. Estos diferenciadores deben comunicarse consistentemente en todos los canales.*
 
+
+

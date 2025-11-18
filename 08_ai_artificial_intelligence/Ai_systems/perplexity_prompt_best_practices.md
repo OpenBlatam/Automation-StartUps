@@ -568,3 +568,5 @@ class QualityMetrics:
 *Última actualización: Mayo 2025*
 *Versión: 1.0*
 
+
+

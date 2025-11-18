@@ -380,3 +380,5 @@ Este documento define la estrategia de partnerships y construcción de ecosistem
 
 *Los partnerships son fundamentales para el crecimiento. Un ecosistema fuerte multiplica el valor para clientes y acelera el crecimiento del negocio.*
 
+
+

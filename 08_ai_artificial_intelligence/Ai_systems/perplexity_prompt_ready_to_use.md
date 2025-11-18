@@ -215,3 +215,5 @@ Usa la **versión mínima** como referencia rápida o para sistemas con límites
 
 
 
+
+

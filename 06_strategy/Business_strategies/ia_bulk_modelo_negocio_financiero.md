@@ -487,3 +487,5 @@ IA Bulk opera bajo un modelo de negocio SaaS (Software as a Service) con múltip
 
 *Este modelo de negocio debe revisarse y ajustarse mensualmente basado en resultados reales y feedback del mercado.*
 
+
+

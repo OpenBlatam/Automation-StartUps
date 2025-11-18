@@ -572,3 +572,5 @@ Saludos,
 
 *Documento complementario para la guía principal de estrategias de startups. Última actualización: 2024.*
 
+
+

@@ -121,3 +121,5 @@ Definición concisa con cita[1], ejemplo Notion AI describiendo señales → per
 4. Añade nuevos ejemplos conforme surjan casos relevantes.
 
 
+
+

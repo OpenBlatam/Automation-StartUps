@@ -361,3 +361,5 @@ Este documento define la estrategia de innovación e investigación y desarrollo
 
 *La innovación continua es fundamental para mantener liderazgo tecnológico y ventaja competitiva. R&D debe ser una prioridad estratégica.*
 
+
+

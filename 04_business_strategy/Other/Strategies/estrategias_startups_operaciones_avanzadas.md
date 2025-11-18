@@ -682,3 +682,5 @@ Objetivo: >40%
 
 *Documento complementario con sales playbooks, product strategy, operations, talent acquisition, exit strategies y más. Última actualización: 2025-05-13*
 
+
+

@@ -377,3 +377,5 @@ Este documento define la estrategia de expansión internacional de IA Bulk, incl
 
 *La expansión internacional es un paso crítico para el crecimiento. Debe ejecutarse estratégicamente, mercado por mercado, con enfoque en localización y éxito local.*
 
+
+

@@ -341,3 +341,5 @@ Este documento define el roadmap de producto de IA Bulk para los próximos 24 me
 
 *Este roadmap es dinámico y se ajusta basado en feedback del mercado, necesidades de clientes y oportunidades estratégicas.*
 
+
+

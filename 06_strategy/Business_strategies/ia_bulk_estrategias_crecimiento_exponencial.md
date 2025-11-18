@@ -507,3 +507,5 @@ K > 1.5 = Crecimiento exponencial
 
 *Estas estrategias deben implementarse de manera iterativa, midiendo resultados y ajustando continuamente.*
 
+
+

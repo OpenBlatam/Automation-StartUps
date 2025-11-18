@@ -1066,24 +1066,210 @@ ROI para Seed Investors: 67x
 - ✅ Freemium o trial generoso
 - ✅ Self-service onboarding
 - ✅ Valor inmediato sin ventas
+- ✅ El producto demuestra valor en <5 minutos
+- ✅ Funciones diseñadas para adopción, retención y recomendación
 
-**Ejemplos Exitosos:**
-- Dropbox: Referidos integrados → K-factor 2.0+
-- Slack: "Invita a tu equipo" → 15K usuarios en 2 semanas
-- Zoom: Freemium generoso → 300M+ usuarios diarios
-- Notion: Templates compartibles → Crecimiento orgánico
+**🔧 Framework de Implementación PLG:**
 
-**Cómo Implementar:**
+#### **Fase 1: Diseño para Adopción (Time-to-Value)**
+
+**Objetivo:** Usuario ve valor en <5 minutos
+
+**Tácticas:**
+1. **Onboarding Progresivo**
+   - Guía paso a paso sin abrumar
+   - Máximo 3-5 pasos iniciales
+   - Opción de saltar pasos avanzados
+   - Progreso visible (barra, checkmarks)
+
+2. **Primer Momento de Valor (Aha Moment)**
+   - Identificar la acción que hace que el usuario diga "¡wow!"
+   - Ejemplos:
+     - Notion: Crear primera página en 30 segundos
+     - Canva: Diseño terminado en 2 minutos
+     - Figma: Primer diseño exportado
+     - Slack: Primer mensaje enviado
+
+3. **Templates y Ejemplos Pre-hechos**
+   - Reducir fricción de empezar desde cero
+   - Casos de uso claros y visibles
+   - Ejemplos relevantes para cada tipo de usuario
+
+**Checklist de Adopción:**
+- [ ] Usuario puede completar primera acción valiosa en <5 minutos
+- [ ] Onboarding tiene máximo 5 pasos
+- [ ] Progreso visible durante onboarding
+- [ ] Templates/ejemplos disponibles desde inicio
+- [ ] Primer "momento de valor" identificado y optimizado
+
+#### **Fase 2: Diseño para Retención**
+
+**Objetivo:** Usuario regresa regularmente y se convierte en usuario activo
+
+**Tácticas:**
+1. **Hooks de Engagement**
+   - Notificaciones inteligentes (no spam)
+   - Recordatorios de valor no utilizado
+   - Actualizaciones relevantes
+   - Logros y milestones
+
+2. **Gamificación Sutil**
+   - Streaks (Duolingo: días consecutivos)
+   - Logros y badges
+   - Progreso visible
+   - Leaderboards (si aplica)
+
+3. **Personalización y Adaptación**
+   - El producto se adapta al uso del usuario
+   - Recomendaciones inteligentes
+   - Workspaces personalizados
+   - Features que crecen con el usuario
+
+4. **Comunidad Integrada**
+   - Foros, grupos, comunidades
+   - User-generated content
+   - Compartir y colaborar
+
+**Checklist de Retención:**
+- [ ] Sistema de notificaciones inteligente implementado
+- [ ] Elementos de gamificación (streaks, logros)
+- [ ] Personalización basada en uso
+- [ ] Recordatorios de valor no utilizado
+- [ ] Métricas de engagement monitoreadas
+
+#### **Fase 3: Diseño para Recomendación (Viralidad)**
+
+**Objetivo:** Usuario comparte naturalmente y trae nuevos usuarios
+
+**Tácticas:**
+1. **Compartir Nativo en el Flujo**
+   - Compartir es parte del flujo natural, no un add-on
+   - Múltiples puntos de entrada para compartir
+   - Fácil de compartir (1-2 clicks)
+   - Ejemplos:
+     - Dropbox: "Invita amigos" después de usar espacio
+     - Calendly: Link en cada email automáticamente
+     - Loom: Branding en videos compartidos
+     - Notion: Templates compartibles públicamente
+
+2. **Valor Compartido (Win-Win)**
+   - Quien comparte obtiene valor
+   - Quien recibe obtiene valor
+   - Ambos lados ganan
+   - Ejemplos:
+     - Dropbox: Ambos obtienen espacio gratis
+     - PayPal: Ambos obtienen $10
+     - Uber: Viaje gratis para ambos
+
+3. **Tracking y Recompensas Automáticas**
+   - Sistema que trackea sin fricción
+   - Recompensas instantáneas
+   - Dashboard de referidos visible
+   - Múltiples niveles (opcional)
+
+**Checklist de Recomendación:**
+- [ ] Compartir integrado en flujo natural del producto
+- [ ] Incentivo claro para compartir (valor para ambas partes)
+- [ ] Tracking automático de referidos
+- [ ] Recompensas instantáneas
+- [ ] Múltiples puntos de entrada para compartir
+- [ ] Dashboard de referidos visible para usuario
+
+**Ejemplos Exitosos Detallados:**
+
+**Dropbox - Referidos Integrados:**
+- **Mecánica**: "Invita amigos, ambos obtienen 500MB gratis"
+- **Integración**: Botón prominente después de usar espacio
+- **Resultado**: K-factor 2.0+, 4M usuarios en 15 meses
+- **CAC**: $0 (100% orgánico)
+
+**Slack - Invitaciones de Equipo:**
+- **Mecánica**: "Invita a tu equipo" como feature core
+- **Integración**: Parte del onboarding natural
+- **Resultado**: 15K usuarios en 2 semanas, viral orgánico
+- **CAC**: <$10
+
+**Zoom - Freemium Generoso:**
+- **Mecánica**: Plan gratuito (40 min, 100 participantes)
+- **Integración**: Link de reunión compartible automáticamente
+- **Resultado**: 300M+ usuarios diarios, crecimiento masivo
+- **CAC**: <$5
+
+**Notion - Templates Compartibles:**
+- **Mecánica**: Templates públicos y compartibles
+- **Integración**: Cada template lleva branding de Notion
+- **Resultado**: Crecimiento orgánico masivo
+- **CAC**: <$20
+
+**Calendly - Link en Email:**
+- **Mecánica**: Link automático en firma de email
+- **Integración**: Cada reunión programada expone Calendly
+- **Resultado**: Crecimiento sin marketing pagado
+- **CAC**: <$15
+
+**Cómo Implementar (Guía Paso a Paso):**
+
+**Semana 1-2: Análisis y Diseño**
 1. Identifica qué valor puede compartirse naturalmente
-2. Integra la mecánica viral en el flujo del producto
-3. Haz el onboarding self-service (<5 minutos)
-4. Mide y optimiza el K-factor constantemente
+2. Mapea el customer journey actual
+3. Identifica puntos de fricción en onboarding
+4. Diseña primer "momento de valor"
+5. Crea wireframes de funciones virales
 
-**Métricas Objetivo:**
-- K-factor: 1.5+
-- CAC: <$50
-- Organic Growth: 60%+
-- Time to Value: <5 minutos
+**Semana 3-4: Desarrollo MVP**
+1. Implementa onboarding optimizado (<5 min)
+2. Crea sistema de tracking de referidos
+3. Integra primera función viral
+4. Implementa templates/ejemplos
+5. Testing interno
+
+**Semana 5-6: Testing y Optimización**
+1. Beta testing con 20-50 usuarios
+2. Mide Time-to-Value
+3. Mide K-factor inicial
+4. Recolecta feedback
+5. Iteración rápida
+
+**Semana 7-8: Lanzamiento y Escalamiento**
+1. Lanzamiento a usuarios existentes
+2. Monitoreo de métricas diarias
+3. Optimización continua
+4. A/B testing de mensajes
+5. Escalamiento de funciones que funcionan
+
+**Métricas Objetivo y Cómo Medirlas:**
+
+| Métrica | Objetivo | Cómo Medir | Herramientas |
+|---------|----------|------------|--------------|
+| **K-factor (Viral Coefficient)** | 1.5+ | (Invitations sent/user) × (Conversion rate) | Mixpanel, Amplitude |
+| **CAC** | <$50 | Marketing spend / New customers | Google Analytics, CRM |
+| **Organic Growth %** | 60%+ | Organic users / Total users | Analytics, Attribution |
+| **Time to Value** | <5 min | Tiempo hasta primera acción valiosa | Product analytics |
+| **Activation Rate** | >40% | Users que completan onboarding / Total signups | Product analytics |
+| **Retention D30** | >40% | Users activos día 30 / Signups | Cohort analysis |
+| **Referral Rate** | 20-30% | Users que refieren / Total users | Referral tracking |
+
+**🚨 Errores Comunes a Evitar:**
+
+1. **Onboarding Muy Largo**
+   - ❌ Más de 10 pasos
+   - ✅ Máximo 5 pasos, opción de saltar
+
+2. **Funciones Virales Forzadas**
+   - ❌ Compartir como popup molesto
+   - ✅ Compartir como parte del flujo natural
+
+3. **Sin Valor Inmediato**
+   - ❌ Usuario no ve valor hasta después de setup complejo
+   - ✅ Valor visible en primeros 60 segundos
+
+4. **No Medir K-factor**
+   - ❌ Asumir que funciona sin medir
+   - ✅ Medir desde día 1, optimizar constantemente
+
+5. **Freemium Muy Limitado**
+   - ❌ Plan gratuito inútil
+   - ✅ Plan gratuito con valor real pero límites claros
 
 ---
 

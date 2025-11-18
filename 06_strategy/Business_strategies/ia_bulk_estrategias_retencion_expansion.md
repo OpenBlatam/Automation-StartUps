@@ -592,3 +592,5 @@ Este documento define estrategias probadas para retener clientes, expandir relac
 
 *La retención y expansión son críticas para el éxito a largo plazo. Estas estrategias deben implementarse desde el día 1.*
 
+
+

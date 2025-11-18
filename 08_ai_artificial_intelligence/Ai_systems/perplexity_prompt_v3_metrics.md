@@ -357,3 +357,5 @@ class MetricsCollector:
 **Última actualización:** 2025-05-13  
 **Versión:** 1.0
 
+
+

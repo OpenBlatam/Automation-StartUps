@@ -585,3 +585,5 @@ Runway (months)       19        6.5      ...        1
 
 *Documento complementario con modelos financieros detallados, estrategias de fundraising avanzadas, valuation methodologies, gestión financiera y best practices. Última actualización: 2025-05-13*
 
+
+
