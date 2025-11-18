@@ -3095,6 +3095,1065 @@ BAJO ESFUERZO ───────────────┼──────
 
 **Estrategia de Ecosistema**: [Descripción breve]
 
+### Análisis de Métricas de Compliance y Regulación Avanzado
+
+| Área de Compliance | Estado Actual | Estado Requerido | Gap | Riesgo | Costo de Cumplimiento | Prioridad |
+|-------------------|---------------|------------------|-----|--------|----------------------|-----------|
+| **Regulación Financiera** | [Cumple/Parcial/No Cumple] | [Cumple] | [Descripción] | [Alto/Medio/Bajo] | $[X] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Protección de Datos (GDPR/LGPD)** | [Cumple/Parcial/No Cumple] | [Cumple] | [Descripción] | [Alto/Medio/Bajo] | $[X] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Regulación Laboral** | [Cumple/Parcial/No Cumple] | [Cumple] | [Descripción] | [Alto/Medio/Bajo] | $[X] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Regulación Ambiental** | [Cumple/Parcial/No Cumple] | [Cumple] | [Descripción] | [Alto/Medio/Bajo] | $[X] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Regulación de Industria** | [Cumple/Parcial/No Cumple] | [Cumple] | [Descripción] | [Alto/Medio/Bajo] | $[X] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Score de Compliance**: [X]/10
+
+**Riesgo Regulatorio Total**: [Alto/Medio/Bajo]
+
+**Costo Total de Cumplimiento**: $[X]
+
+**Estrategia de Compliance**: [Descripción breve]
+
+### Análisis de Métricas de Seguridad y Ciberseguridad
+
+| Dimensión de Seguridad | Estado Actual | Estado Objetivo | Gap | Riesgo | Inversión Requerida | Prioridad |
+|----------------------|---------------|-----------------|-----|--------|-------------------|-----------|
+| **Seguridad de Infraestructura** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | $[X] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Seguridad de Datos** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | $[X] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Seguridad de Aplicaciones** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | $[X] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Gestión de Identidad y Acceso** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | $[X] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Respuesta a Incidentes** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | $[X] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Conciencia de Seguridad** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | $[X] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Score de Seguridad**: [X]/10
+
+**Riesgo de Ciberseguridad**: [Alto/Medio/Bajo]
+
+**Inversión Total en Seguridad**: $[X]
+
+**Estrategia de Ciberseguridad**: [Descripción breve]
+
+### Análisis de Métricas de Sostenibilidad Ambiental
+
+| Métrica Ambiental | Valor Actual | Valor Objetivo | Mejora | Impacto | Costo de Implementación | Prioridad |
+|------------------|--------------|---------------|--------|---------|------------------------|-----------|
+| **Huella de Carbono (tCO2e)** | [X] | [Y] | -[Z]% | [Alto/Medio/Bajo] | $[W] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Consumo de Energía (kWh)** | [X] | [Y] | -[Z]% | [Alto/Medio/Bajo] | $[W] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Uso de Agua (m³)** | [X] | [Y] | -[Z]% | [Alto/Medio/Bajo] | $[W] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Generación de Residuos (ton)** | [X] | [Y] | -[Z]% | [Alto/Medio/Bajo] | $[W] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Reciclaje** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | $[W] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Sostenibilidad** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | $[W] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Ahorro por Eficiencia Ambiental**: $[X] anual
+
+**ROI de Sostenibilidad**: [Y]%
+
+**Estrategia de Sostenibilidad Ambiental**: [Descripción breve]
+
+### Análisis de Métricas de Diversidad e Inclusión (D&I)
+
+| Métrica de D&I | Valor Actual | Valor Objetivo | Mejora | Impacto en Negocio | Prioridad |
+|----------------|--------------|---------------|--------|-------------------|-----------|
+| **Diversidad de Género** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Diversidad Étnica/Racial** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Diversidad Generacional** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Inclusión en Liderazgo** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Equidad Salarial** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de D&I** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor de Negocio de D&I**: $[X] (mejora en innovación, productividad, retención)
+
+**ROI de Inversión en D&I**: [Y]%
+
+**Estrategia de D&I**: [Descripción breve]
+
+### Análisis de Métricas de Gobierno Corporativo
+
+| Dimensión de Gobierno | Estado Actual | Estado Objetivo | Gap | Riesgo | Prioridad |
+|----------------------|---------------|-----------------|-----|--------|-----------|
+| **Transparencia** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Rendición de Cuentas** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Independencia del Directorio** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Gestión de Riesgos Corporativos** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Ética y Compliance** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Gobierno** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Score de Gobierno Corporativo**: [X]/10
+
+**Riesgo de Gobierno**: [Alto/Medio/Bajo]
+
+**Valor de Mejora en Gobierno**: $[X] (reducción de riesgos, mejora en confianza de stakeholders)
+
+**Estrategia de Gobierno Corporativo**: [Descripción breve]
+
+### Análisis de Métricas de Experiencia del Empleado (EX)
+
+| Dimensión de EX | Valor Actual | Valor Objetivo | Mejora | Impacto en Retención | Prioridad |
+|----------------|--------------|---------------|--------|---------------------|-----------|
+| **Employee Experience Score** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Satisfacción con Liderazgo** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Satisfacción con Desarrollo** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Work-Life Balance** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Satisfacción con Compensación** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Satisfacción con Cultura** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor de Mejora en EX**: $[X] (reducción de rotación, mejora en productividad)
+
+**ROI de Inversión en EX**: [Y]%
+
+**Estrategia de Employee Experience**: [Descripción breve]
+
+### Análisis de Métricas de Productividad Avanzado
+
+| Métrica de Productividad | Valor Actual | Valor Objetivo | Mejora | Impacto en Revenue | Prioridad |
+|-------------------------|--------------|---------------|--------|-------------------|-----------|
+| **Revenue por Empleado** | $[X] | $[Y] | +$[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Productividad por Hora** | $[X] | $[Y] | +$[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tiempo de Ciclo de Procesos** | [X] días | [Y] días | -[Z] días | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Utilización** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Eficiencia de Recursos** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Productividad** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Revenue Adicional por Mejora en Productividad**: $[X]
+
+**ROI de Inversión en Productividad**: [Y]%
+
+**Estrategia de Productividad**: [Descripción breve]
+
+### Análisis de Métricas de Calidad de Datos
+
+| Dimensión de Calidad | Valor Actual | Valor Objetivo | Mejora | Impacto en Decisiones | Prioridad |
+|---------------------|--------------|---------------|--------|----------------------|-----------|
+| **Completitud de Datos** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Precisión de Datos** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Consistencia de Datos** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Actualidad de Datos** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Calidad de Datos** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor de Mejora en Calidad de Datos**: $[X] (mejores decisiones, reducción de errores)
+
+**ROI de Inversión en Calidad de Datos**: [Y]%
+
+**Estrategia de Calidad de Datos**: [Descripción breve]
+
+### Análisis de Métricas de Tiempo de Respuesta y Agilidad Operacional
+
+| Métrica de Tiempo | Valor Actual | Valor Objetivo | Mejora | Impacto en Cliente | Prioridad |
+|------------------|--------------|---------------|--------|-------------------|-----------|
+| **Tiempo de Respuesta a Cliente** | [X] horas | [Y] horas | -[Z] horas | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tiempo de Resolución** | [X] días | [Y] días | -[Z] días | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tiempo de Procesamiento** | [X] horas | [Y] horas | -[Z] horas | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tiempo de Entrega** | [X] días | [Y] días | -[Z] días | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tiempo de Decisión** | [X] días | [Y] días | -[Z] días | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor de Mejora en Tiempo de Respuesta**: $[X] (mejora en satisfacción, retención)
+
+**ROI de Inversión en Agilidad**: [Y]%
+
+**Estrategia de Agilidad Operacional**: [Descripción breve]
+
+### Análisis de Métricas de Valor para el Accionista (Shareholder Value)
+
+| Métrica de Valor | Valor Actual | Valor Objetivo | Mejora | Impacto | Prioridad |
+|-----------------|--------------|---------------|--------|---------|-----------|
+| **Valor de Mercado** | $[X] | $[Y] | +$[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Earnings per Share (EPS)** | $[X] | $[Y] | +$[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Dividend Yield** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Total Shareholder Return (TSR)** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Market Capitalization** | $[X] | $[Y] | +$[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor Total para Accionistas**: $[X]
+
+**Mejora en TSR**: [Y]%
+
+**Estrategia de Valor para Accionistas**: [Descripción breve]
+
+### Análisis de Métricas de Eficiencia de Capital
+
+| Métrica de Capital | Valor Actual | Valor Objetivo | Mejora | Impacto | Prioridad |
+|-------------------|--------------|---------------|--------|---------|-----------|
+| **Capital Efficiency Ratio** | [X] | [Y] | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Return on Invested Capital (ROIC)** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Asset Turnover** | [X]x | [Y]x | +[Z]x | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Working Capital Turnover** | [X]x | [Y]x | +[Z]x | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Capital Intensity** | [X]% | [Y]% | -[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Mejora en Eficiencia de Capital**: [X]%
+
+**Valor Liberado de Capital**: $[Y]
+
+**Estrategia de Eficiencia de Capital**: [Descripción breve]
+
+### Análisis de Métricas de Innovación Continua
+
+| Métrica de Innovación | Valor Actual | Valor Objetivo | Mejora | Valor de Mercado | Prioridad |
+|----------------------|--------------|---------------|--------|------------------|-----------|
+| **Tasa de Innovación** | [X]% | [Y]% | +[Z]pp | $[W] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tiempo de Innovación a Mercado** | [X] meses | [Y] meses | -[Z] meses | $[W] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Éxito de Innovaciones** | [X]% | [Y]% | +[Z]pp | $[W] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Revenue de Productos Nuevos** | $[X] | $[Y] | +$[Z] | $[Z] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Número de Patentes** | [X] | [Y] | +[Z] | $[W] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Innovación** | [X]/10 | [Y]/10 | +[Z] | $[W] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor Total de Innovación**: $[X]
+
+**ROI de Inversión en Innovación**: [Y]%
+
+**Estrategia de Innovación Continua**: [Descripción breve]
+
+### Análisis de Métricas de Resiliencia Organizacional
+
+| Dimensión de Resiliencia | Estado Actual | Estado Objetivo | Gap | Capacidad de Recuperación | Prioridad |
+|-------------------------|---------------|-----------------|-----|--------------------------|-----------|
+| **Resiliencia Financiera** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [X] días | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Resiliencia Operacional** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [X] días | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Resiliencia Tecnológica** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [X] días | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Resiliencia de Talento** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [X] días | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Resiliencia de Supply Chain** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [X] días | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Resiliencia** | [X]/10 | [Y]/10 | +[Z] | [X] días | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Score de Resiliencia Organizacional**: [X]/10
+
+**Tiempo Promedio de Recuperación**: [Y] días
+
+**Valor de Resiliencia**: $[X] (reducción de pérdidas por disrupciones)
+
+**Estrategia de Resiliencia**: [Descripción breve]
+
+### Análisis de Métricas de Customer Lifetime Value (CLV) y Customer Acquisition Cost (CAC)
+
+| Segmento de Cliente | CLV Actual | CLV Objetivo | CAC Actual | CAC Objetivo | Ratio CLV:CAC | Mejora | Prioridad |
+|---------------------|-----------|--------------|------------|--------------|---------------|--------|-----------|
+| **[Segmento 1]** | $[X] | $[Y] | $[Z] | $[W] | [X]:[Y] | [Mejora] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **[Segmento 2]** | $[X] | $[Y] | $[Z] | $[W] | [X]:[Y] | [Mejora] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **[Segmento 3]** | $[X] | $[Y] | $[Z] | $[W] | [X]:[Y] | [Mejora] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**CLV Promedio**: $[X] actual → $[Y] objetivo
+
+**CAC Promedio**: $[X] actual → $[Y] objetivo
+
+**Ratio CLV:CAC Promedio**: [X]:[Y] actual → [Z]:[W] objetivo
+
+**Valor Adicional por Optimización CLV/CAC**: $[X]
+
+**ROI de Optimización**: [Y]%
+
+**Estrategia de Optimización CLV/CAC**: [Descripción breve]
+
+### Análisis de Métricas de Churn y Retención Avanzado
+
+| Métrica de Retención | Valor Actual | Valor Objetivo | Mejora | Impacto en Revenue | Prioridad |
+|---------------------|--------------|---------------|--------|-------------------|-----------|
+| **Tasa de Churn Mensual** | [X]% | [Y]% | -[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Retención Anual** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Churn por Cohort** | [X]% | [Y]% | -[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tiempo Promedio hasta Churn** | [X] meses | [Y] meses | +[Z] meses | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Valor de Cliente Retenido** | $[X] | $[Y] | +$[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Retención** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Revenue Preservado por Mejora en Retención**: $[X]
+
+**ROI de Inversión en Retención**: [Y]%
+
+**Estrategia de Retención**: [Descripción breve]
+
+### Análisis de Métricas de Market Share y Posicionamiento
+
+| Métrica de Mercado | Valor Actual | Valor Objetivo | Mejora | Impacto | Prioridad |
+|-------------------|--------------|---------------|--------|---------|-----------|
+| **Market Share** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Market Share Relativo** | [X] | [Y] | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Crecimiento de Mercado** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Posición Competitiva** | [Líder/Seguidor/Nicho] | [Líder/Seguidor/Nicho] | [Mejora] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Brand Share of Voice** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Revenue Adicional por Ganancia de Market Share**: $[X]
+
+**Estrategia de Market Share**: [Descripción breve]
+
+### Análisis de Métricas de Pricing Power y Elasticidad
+
+| Producto/Servicio | Precio Actual | Precio Óptimo | Elasticidad | Impacto en Revenue | Prioridad |
+|------------------|---------------|---------------|-------------|-------------------|-----------|
+| **[Producto 1]** | $[X] | $[Y] | [Elástica/Inelástica] | +$[Z] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **[Producto 2]** | $[X] | $[Y] | [Elástica/Inelástica] | +$[Z] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **[Producto 3]** | $[X] | $[Y] | [Elástica/Inelástica] | +$[Z] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Revenue Adicional por Optimización de Precios**: $[X]
+
+**Mejora en Margen Promedio**: [Y]pp
+
+**Estrategia de Pricing**: [Descripción breve]
+
+### Análisis de Métricas de Operaciones y Supply Chain
+
+| Métrica Operacional | Valor Actual | Valor Objetivo | Mejora | Impacto en Costos | Prioridad |
+|-------------------|--------------|---------------|--------|------------------|-----------|
+| **Tiempo de Ciclo de Producción** | [X] días | [Y] días | -[Z] días | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Utilización de Capacidad** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tiempo de Entrega** | [X] días | [Y] días | -[Z] días | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Defectos** | [X]% | [Y]% | -[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Eficiencia de Supply Chain** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Operaciones** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Ahorro por Mejora en Operaciones**: $[X]
+
+**ROI de Optimización Operacional**: [Y]%
+
+**Estrategia de Operaciones**: [Descripción breve]
+
+### Análisis de Métricas de Ventas y Revenue Operations
+
+| Métrica de Ventas | Valor Actual | Valor Objetivo | Mejora | Impacto en Revenue | Prioridad |
+|------------------|--------------|---------------|--------|-------------------|-----------|
+| **Tasa de Conversión** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tiempo Promedio de Ciclo de Ventas** | [X] días | [Y] días | -[Z] días | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Revenue por Representante** | $[X] | $[Y] | +$[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Cierre** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tamaño Promedio de Oportunidad** | $[X] | $[Y] | +$[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Ventas** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Revenue Adicional por Optimización de Ventas**: $[X]
+
+**ROI de Inversión en Ventas**: [Y]%
+
+**Estrategia de Ventas**: [Descripción breve]
+
+### Análisis de Métricas de Marketing y Growth
+
+| Métrica de Marketing | Valor Actual | Valor Objetivo | Mejora | Impacto en Revenue | Prioridad |
+|---------------------|--------------|---------------|--------|-------------------|-----------|
+| **CAC por Canal** | $[X] | $[Y] | -$[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Conversión de Marketing** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **ROAS (Return on Ad Spend)** | [X]x | [Y]x | +[Z]x | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Crecimiento Orgánico** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **LTV:CAC Ratio** | [X]:[Y] | [Z]:[W] | [Mejora] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Marketing** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Revenue Adicional por Optimización de Marketing**: $[X]
+
+**ROI de Marketing**: [Y]%
+
+**Estrategia de Marketing**: [Descripción breve]
+
+### Análisis de Métricas de Customer Success
+
+| Métrica de Customer Success | Valor Actual | Valor Objetivo | Mejora | Impacto en Retención | Prioridad |
+|----------------------------|--------------|---------------|--------|---------------------|-----------|
+| **Net Revenue Retention (NRR)** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Gross Revenue Retention (GRR)** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Expansión** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tiempo de Valorización** | [X] días | [Y] días | -[Z] días | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Adopción de Producto** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Customer Success** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Revenue Adicional por Customer Success**: $[X]
+
+**ROI de Customer Success**: [Y]%
+
+**Estrategia de Customer Success**: [Descripción breve]
+
+### Análisis de Métricas de Tecnología y DevOps
+
+| Métrica Tecnológica | Valor Actual | Valor Objetivo | Mejora | Impacto en Eficiencia | Prioridad |
+|-------------------|--------------|---------------|--------|---------------------|-----------|
+| **Tiempo de Deployment** | [X] horas | [Y] horas | -[Z] horas | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Frecuencia de Deployment** | [X]/semana | [Y]/semana | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tiempo de Recuperación (MTTR)** | [X] horas | [Y] horas | -[Z] horas | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Éxito de Deployment** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Disponibilidad del Sistema** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de DevOps** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Ahorro por Mejora en DevOps**: $[X]
+
+**ROI de Inversión en Tecnología**: [Y]%
+
+**Estrategia de Tecnología**: [Descripción breve]
+
+### Análisis de Métricas de Learning y Desarrollo
+
+| Métrica de L&D | Valor Actual | Valor Objetivo | Mejora | Impacto en Productividad | Prioridad |
+|----------------|--------------|---------------|--------|-------------------------|-----------|
+| **Horas de Capacitación por Empleado** | [X] | [Y] | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Completación de Capacitación** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Competencias** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tiempo de Onboarding** | [X] días | [Y] días | -[Z] días | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **ROI de Capacitación** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de L&D** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor de Mejora en L&D**: $[X] (mejora en productividad, retención)
+
+**ROI de Inversión en L&D**: [Y]%
+
+**Estrategia de Learning y Desarrollo**: [Descripción breve]
+
+### Análisis de Métricas de Ética y Responsabilidad Social
+
+| Dimensión de Ética | Estado Actual | Estado Objetivo | Gap | Riesgo Reputacional | Prioridad |
+|-------------------|---------------|-----------------|-----|-------------------|-----------|
+| **Código de Ética** | [Implementado/Parcial/No] | [Implementado] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Programas de Responsabilidad Social** | [Implementado/Parcial/No] | [Implementado] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Transparencia en Prácticas** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Impacto Social Positivo** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Ética** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor de Mejora en Ética**: $[X] (mejora en reputación, confianza de stakeholders)
+
+**Estrategia de Ética y Responsabilidad Social**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Proyectos
+
+| Métrica de Proyectos | Valor Actual | Valor Objetivo | Mejora | Impacto | Prioridad |
+|---------------------|--------------|---------------|--------|---------|-----------|
+| **Tasa de Éxito de Proyectos** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tiempo Promedio de Proyecto** | [X] meses | [Y] meses | -[Z] meses | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Desviación de Presupuesto** | [X]% | [Y]% | -[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Desviación de Timeline** | [X]% | [Y]% | -[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Gestión de Proyectos** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Ahorro por Mejora en Gestión de Proyectos**: $[X]
+
+**ROI de Inversión en PMO**: [Y]%
+
+**Estrategia de Gestión de Proyectos**: [Descripción breve]
+
+### Análisis de Métricas de Eficiencia Energética y Sostenibilidad
+
+| Métrica de Energía | Valor Actual | Valor Objetivo | Mejora | Ahorro Anual | ROI | Prioridad |
+|-------------------|--------------|---------------|--------|-------------|-----|-----------|
+| **Consumo de Energía (kWh)** | [X] | [Y] | -[Z]% | $[W] | [V]% | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Intensidad Energética** | [X] kWh/$ | [Y] kWh/$ | -[Z]% | $[W] | [V]% | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Uso de Energía Renovable** | [X]% | [Y]% | +[Z]pp | $[W] | [V]% | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Emisiones de CO2** | [X] tCO2e | [Y] tCO2e | -[Z]% | $[W] | [V]% | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Eficiencia Energética** | [X]/10 | [Y]/10 | +[Z] | $[W] | [V]% | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Ahorro Total por Eficiencia Energética**: $[X] anual
+
+**ROI de Inversión en Eficiencia**: [Y]%
+
+**Estrategia de Eficiencia Energética**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Riesgos Avanzado
+
+| Tipo de Riesgo | Probabilidad | Impacto Financiero | Score de Riesgo | Mitigación | Costo de Mitigación | Prioridad |
+|----------------|--------------|-------------------|----------------|------------|-------------------|-----------|
+| **Riesgo Operacional** | [Alto/Medio/Bajo] | $[X] | [Y] | [Descripción] | $[Z] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Riesgo Financiero** | [Alto/Medio/Bajo] | $[X] | [Y] | [Descripción] | $[Z] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Riesgo Estratégico** | [Alto/Medio/Bajo] | $[X] | [Y] | [Descripción] | $[Z] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Riesgo Tecnológico** | [Alto/Medio/Bajo] | $[X] | [Y] | [Descripción] | $[Z] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Riesgo Regulatorio** | [Alto/Medio/Bajo] | $[X] | [Y] | [Descripción] | $[Z] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Riesgo Reputacional** | [Alto/Medio/Bajo] | $[X] | [Y] | [Descripción] | $[Z] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Riesgo Total Consolidado**: $[X]
+
+**Costo Total de Mitigación**: $[Y]
+
+**ROI de Gestión de Riesgos**: [Z]% (valor preservado vs. costo de mitigación)
+
+**Estrategia de Gestión de Riesgos**: [Descripción breve]
+
+### Análisis de Métricas de Eficiencia de Procesos (Lean/Six Sigma)
+
+| Proceso | Estado Actual | Estado Objetivo | Mejora | Ahorro | Prioridad |
+|---------|---------------|-----------------|--------|--------|-----------|
+| **[Proceso 1]** | [Descripción] | [Descripción] | [Mejora] | $[X] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **[Proceso 2]** | [Descripción] | [Descripción] | [Mejora] | $[X] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **[Proceso 3]** | [Descripción] | [Descripción] | [Mejora] | $[X] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Ahorro Total por Mejora de Procesos**: $[X]
+
+**ROI de Lean/Six Sigma**: [Y]%
+
+**Estrategia de Mejora de Procesos**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Cambio
+
+| Dimensión de Cambio | Estado Actual | Estado Objetivo | Gap | Impacto en Adopción | Prioridad |
+|-------------------|---------------|-----------------|-----|-------------------|-----------|
+| **Readiness para el Cambio** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Adopción** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Resistencia al Cambio** | [Alto/Medio/Bajo] | [Bajo] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Comunicación Efectiva** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Gestión de Cambio** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor de Mejora en Gestión de Cambio**: $[X] (mejora en adopción, reducción de resistencia)
+
+**Estrategia de Gestión de Cambio**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Talento y Succession Planning
+
+| Métrica de Talento | Valor Actual | Valor Objetivo | Mejora | Impacto | Prioridad |
+|-------------------|--------------|---------------|--------|---------|-----------|
+| **Tasa de Retención de Talento Clave** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tiempo de Llenado de Posiciones Clave** | [X] días | [Y] días | -[Z] días | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Profundidad de Succession Planning** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Promoción Interna** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Gestión de Talento** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor de Mejora en Gestión de Talento**: $[X] (reducción de costos de contratación, mejora en continuidad)
+
+**ROI de Succession Planning**: [Y]%
+
+**Estrategia de Gestión de Talento**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Proveedores y Vendor Management
+
+| Métrica de Proveedores | Valor Actual | Valor Objetivo | Mejora | Impacto en Costos | Prioridad |
+|----------------------|--------------|---------------|--------|------------------|-----------|
+| **Número de Proveedores** | [X] | [Y] | -[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Satisfacción con Proveedores** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tiempo de Respuesta de Proveedores** | [X] días | [Y] días | -[Z] días | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Costo Total de Propiedad (TCO)** | $[X] | $[Y] | -$[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Vendor Management** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Ahorro por Optimización de Proveedores**: $[X]
+
+**ROI de Vendor Management**: [Y]%
+
+**Estrategia de Gestión de Proveedores**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Inventario
+
+| Métrica de Inventario | Valor Actual | Valor Objetivo | Mejora | Impacto en Capital | Prioridad |
+|----------------------|--------------|---------------|--------|-------------------|-----------|
+| **Días de Inventario** | [X] días | [Y] días | -[Z] días | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Rotación de Inventario** | [X]x | [Y]x | +[Z]x | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Obsolescencia** | [X]% | [Y]% | -[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Nivel de Servicio de Inventario** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Gestión de Inventario** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Capital Liberado por Optimización de Inventario**: $[X]
+
+**ROI de Optimización de Inventario**: [Y]%
+
+**Estrategia de Gestión de Inventario**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Cuentas por Cobrar (AR)
+
+| Métrica de AR | Valor Actual | Valor Objetivo | Mejora | Impacto en Cash Flow | Prioridad |
+|---------------|--------------|---------------|--------|-------------------|-----------|
+| **Días de Ventas Pendientes (DSO)** | [X] días | [Y] días | -[Z] días | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Cobranza** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Cuentas Incobrables** | [X]% | [Y]% | -[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Gestión de AR** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Cash Flow Adicional por Mejora en AR**: $[X]
+
+**ROI de Optimización de AR**: [Y]%
+
+**Estrategia de Gestión de AR**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Cuentas por Pagar (AP)
+
+| Métrica de AP | Valor Actual | Valor Objetivo | Mejora | Impacto en Cash Flow | Prioridad |
+|---------------|--------------|---------------|--------|-------------------|-----------|
+| **Días de Pago Pendientes (DPO)** | [X] días | [Y] días | +[Z] días | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Descuentos Aprovechados** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Eficiencia de Procesamiento de AP** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Gestión de AP** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Ahorro por Optimización de AP**: $[X]
+
+**ROI de Optimización de AP**: [Y]%
+
+**Estrategia de Gestión de AP**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Contratos
+
+| Métrica de Contratos | Valor Actual | Valor Objetivo | Mejora | Impacto | Prioridad |
+|---------------------|--------------|---------------|--------|---------|-----------|
+| **Tiempo de Negociación de Contratos** | [X] días | [Y] días | -[Z] días | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Renovación de Contratos** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Valor de Contratos Pendientes** | $[X] | $[Y] | +$[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Gestión de Contratos** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor Adicional por Optimización de Contratos**: $[X]
+
+**ROI de Gestión de Contratos**: [Y]%
+
+**Estrategia de Gestión de Contratos**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Conocimiento (Knowledge Management)
+
+| Métrica de Conocimiento | Valor Actual | Valor Objetivo | Mejora | Impacto en Productividad | Prioridad |
+|------------------------|--------------|---------------|--------|------------------------|-----------|
+| **Tasa de Captura de Conocimiento** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Reutilización de Conocimiento** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tiempo de Acceso a Información** | [X] minutos | [Y] minutos | -[Z] minutos | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Knowledge Management** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor de Mejora en Knowledge Management**: $[X] (mejora en productividad, reducción de errores)
+
+**ROI de Knowledge Management**: [Y]%
+
+**Estrategia de Knowledge Management**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Calidad Total (TQM)
+
+| Métrica de Calidad | Valor Actual | Valor Objetivo | Mejora | Impacto en Costos | Prioridad |
+|-------------------|--------------|---------------|--------|------------------|-----------|
+| **Tasa de Defectos** | [X]% | [Y]% | -[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Reclamos** | [X]% | [Y]% | -[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Costo de Calidad** | $[X] | $[Y] | -$[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Calidad Total** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Ahorro por Mejora en Calidad**: $[X]
+
+**ROI de TQM**: [Y]%
+
+**Estrategia de Calidad Total**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Crisis y Continuidad de Negocio
+
+| Dimensión de Crisis | Estado Actual | Estado Objetivo | Gap | Tiempo de Recuperación | Prioridad |
+|-------------------|---------------|-----------------|-----|------------------------|-----------|
+| **Plan de Continuidad de Negocio** | [Implementado/Parcial/No] | [Implementado] | [Descripción] | [X] horas | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Plan de Comunicación de Crisis** | [Implementado/Parcial/No] | [Implementado] | [Descripción] | [X] horas | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Capacidad de Recuperación** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [X] horas | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Gestión de Crisis** | [X]/10 | [Y]/10 | +[Z] | [X] horas | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor de Mejora en Gestión de Crisis**: $[X] (reducción de pérdidas por disrupciones)
+
+**Estrategia de Gestión de Crisis**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Portafolio de Proyectos
+
+| Métrica de Portafolio | Valor Actual | Valor Objetivo | Mejora | Impacto | Prioridad |
+|----------------------|--------------|---------------|--------|---------|-----------|
+| **Tasa de Éxito del Portafolio** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Valor del Portafolio** | $[X] | $[Y] | +$[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Balance del Portafolio** | [Descripción] | [Descripción] | [Mejora] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Gestión de Portafolio** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**ROI del Portafolio**: [X]%
+
+**Estrategia de Gestión de Portafolio**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Stakeholders
+
+| Stakeholder | Nivel de Influencia | Nivel de Interés | Estrategia | Estado | Prioridad |
+|-------------|-------------------|------------------|------------|--------|-----------|
+| **[Stakeholder 1]** | [Alto/Medio/Bajo] | [Alto/Medio/Bajo] | [Mantener/Involucrar/Informar/Monitorear] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **[Stakeholder 2]** | [Alto/Medio/Bajo] | [Alto/Medio/Bajo] | [Mantener/Involucrar/Informar/Monitorear] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **[Stakeholder 3]** | [Alto/Medio/Bajo] | [Alto/Medio/Bajo] | [Mantener/Involucrar/Informar/Monitorear] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Score de Gestión de Stakeholders**: [X]/10
+
+**Estrategia de Stakeholders**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Comunicación
+
+| Dimensión de Comunicación | Estado Actual | Estado Objetivo | Gap | Impacto | Prioridad |
+|--------------------------|---------------|-----------------|-----|---------|-----------|
+| **Efectividad de Comunicación Interna** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Efectividad de Comunicación Externa** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Frecuencia de Comunicación** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Comunicación** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor de Mejora en Comunicación**: $[X] (mejora en alineación, reducción de errores)
+
+**Estrategia de Comunicación**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Performance
+
+| Métrica de Performance | Valor Actual | Valor Objetivo | Mejora | Impacto | Prioridad |
+|----------------------|--------------|---------------|--------|---------|-----------|
+| **Tasa de Cumplimiento de Objetivos** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Efectividad de Performance Reviews** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Performance Management** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor de Mejora en Performance**: $[X] (mejora en productividad, alineación)
+
+**Estrategia de Performance Management**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Recursos Humanos
+
+| Métrica de RH | Valor Actual | Valor Objetivo | Mejora | Impacto | Prioridad |
+|---------------|--------------|---------------|--------|---------|-----------|
+| **Tasa de Absentismo** | [X]% | [Y]% | -[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Presentismo** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Costo por Empleado** | $[X] | $[Y] | -$[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de RH** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Ahorro por Optimización de RH**: $[X]
+
+**ROI de RH**: [Y]%
+
+**Estrategia de Recursos Humanos**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Logística y Distribución
+
+| Métrica de Logística | Valor Actual | Valor Objetivo | Mejora | Impacto en Costos | Prioridad |
+|---------------------|--------------|---------------|--------|------------------|-----------|
+| **Tiempo de Tránsito** | [X] días | [Y] días | -[Z] días | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Costo de Logística** | $[X] | $[Y] | -$[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Entrega a Tiempo** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Logística** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Ahorro por Optimización de Logística**: $[X]
+
+**ROI de Logística**: [Y]%
+
+**Estrategia de Logística**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Servicio al Cliente
+
+| Métrica de Servicio | Valor Actual | Valor Objetivo | Mejora | Impacto en Satisfacción | Prioridad |
+|-------------------|--------------|---------------|--------|------------------------|-----------|
+| **Tiempo de Respuesta** | [X] horas | [Y] horas | -[Z] horas | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Resolución en Primer Contacto** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Satisfacción con Servicio** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Servicio al Cliente** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor de Mejora en Servicio**: $[X] (mejora en retención, satisfacción)
+
+**ROI de Servicio al Cliente**: [Y]%
+
+**Estrategia de Servicio al Cliente**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Marca y Marketing Digital
+
+| Métrica de Marketing Digital | Valor Actual | Valor Objetivo | Mejora | Impacto en Revenue | Prioridad |
+|----------------------------|--------------|---------------|--------|-------------------|-----------|
+| **Tráfico Web** | [X] visitas | [Y] visitas | +[Z]% | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Conversión Web** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Engagement en Redes Sociales** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Marketing Digital** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Revenue Adicional por Marketing Digital**: $[X]
+
+**ROI de Marketing Digital**: [Y]%
+
+**Estrategia de Marketing Digital**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Relaciones Públicas
+
+| Métrica de RP | Valor Actual | Valor Objetivo | Mejora | Impacto en Reputación | Prioridad |
+|---------------|--------------|---------------|--------|---------------------|-----------|
+| **Menciones Positivas** | [X] | [Y] | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Sentiment Score** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Cobertura de Medios** | [X] | [Y] | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de RP** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor de Mejora en RP**: $[X] (mejora en reputación, brand value)
+
+**Estrategia de Relaciones Públicas**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Alianzas Estratégicas
+
+| Alianza | Tipo | Valor Generado | Inversión | ROI | Estado | Prioridad |
+|---------|------|----------------|-----------|-----|--------|-----------|
+| **[Alianza 1]** | [Estratégica/Técnica/Comercial] | $[X] | $[Y] | [Z]% | [Activa/En Negociación/Planificada] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **[Alianza 2]** | [Estratégica/Técnica/Comercial] | $[X] | $[Y] | [Z]% | [Activa/En Negociación/Planificada] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **[Alianza 3]** | [Estratégica/Técnica/Comercial] | $[X] | $[Y] | [Z]% | [Activa/En Negociación/Planificada] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor Total de Alianzas**: $[X]
+
+**ROI Promedio de Alianzas**: [Y]%
+
+**Estrategia de Alianzas**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Inteligencia de Negocio (BI)
+
+| Métrica de BI | Valor Actual | Valor Objetivo | Mejora | Impacto en Decisiones | Prioridad |
+|---------------|--------------|---------------|--------|----------------------|-----------|
+| **Tiempo de Acceso a Datos** | [X] minutos | [Y] minutos | -[Z] minutos | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Calidad de Reportes** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Uso de Dashboards** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de BI** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor de Mejora en BI**: $[X] (mejores decisiones, reducción de tiempo)
+
+**ROI de BI**: [Y]%
+
+**Estrategia de Inteligencia de Negocio**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Auditoría y Control Interno
+
+| Dimensión de Control | Estado Actual | Estado Objetivo | Gap | Riesgo | Prioridad |
+|---------------------|---------------|-----------------|-----|--------|-----------|
+| **Efectividad de Controles Internos** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Cobertura de Auditoría** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Hallazgos de Auditoría** | [X] | [Y] | -[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Control Interno** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor de Mejora en Control Interno**: $[X] (reducción de riesgos, fraude)
+
+**Estrategia de Auditoría y Control**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Transformación Organizacional
+
+| Dimensión de Transformación | Estado Actual | Estado Objetivo | Gap | Impacto | Prioridad |
+|---------------------------|---------------|-----------------|-----|---------|-----------|
+| **Readiness para Transformación** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Velocidad de Transformación** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Éxito de Transformación** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Transformación** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor de Transformación**: $[X] (mejora en agilidad, competitividad)
+
+**Estrategia de Transformación Organizacional**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Cultura Organizacional
+
+| Dimensión de Cultura | Estado Actual | Estado Objetivo | Gap | Impacto en Performance | Prioridad |
+|---------------------|---------------|-----------------|-----|------------------------|-----------|
+| **Alineación con Valores** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Colaboración** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Innovación** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Cultura** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor de Mejora en Cultura**: $[X] (mejora en engagement, productividad)
+
+**Estrategia de Cultura Organizacional**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Liderazgo
+
+| Métrica de Liderazgo | Valor Actual | Valor Objetivo | Mejora | Impacto | Prioridad |
+|---------------------|--------------|---------------|--------|---------|-----------|
+| **Efectividad de Liderazgo** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Desarrollo de Líderes** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Liderazgo** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor de Mejora en Liderazgo**: $[X] (mejora en productividad, retención)
+
+**Estrategia de Desarrollo de Liderazgo**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Bienestar y Salud
+
+| Métrica de Bienestar | Valor Actual | Valor Objetivo | Mejora | Impacto en Productividad | Prioridad |
+|---------------------|--------------|---------------|--------|-------------------------|-----------|
+| **Score de Bienestar** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Ausentismo por Salud** | [X]% | [Y]% | -[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Programas de Bienestar** | [Implementado/Parcial/No] | [Implementado] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor de Mejora en Bienestar**: $[X] (reducción de ausentismo, mejora en productividad)
+
+**ROI de Bienestar**: [Y]%
+
+**Estrategia de Bienestar**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Remuneración y Compensación
+
+| Métrica de Compensación | Valor Actual | Valor Objetivo | Mejora | Impacto en Retención | Prioridad |
+|------------------------|--------------|---------------|--------|---------------------|-----------|
+| **Competitividad Salarial** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Equidad Salarial** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Compensación** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor de Mejora en Compensación**: $[X] (mejora en retención, atracción de talento)
+
+**Estrategia de Compensación**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Tecnología de la Información (IT)
+
+| Métrica de IT | Valor Actual | Valor Objetivo | Mejora | Impacto en Eficiencia | Prioridad |
+|---------------|--------------|---------------|--------|---------------------|-----------|
+| **Disponibilidad de Sistemas** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tiempo de Resolución de Incidentes** | [X] horas | [Y] horas | -[Z] horas | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Satisfacción con IT** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de IT** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor de Mejora en IT**: $[X] (mejora en productividad, reducción de downtime)
+
+**ROI de IT**: [Y]%
+
+**Estrategia de IT**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Adquisiciones y M&A
+
+| Métrica de M&A | Valor Actual | Valor Objetivo | Mejora | Impacto | Prioridad |
+|----------------|--------------|---------------|--------|---------|-----------|
+| **Tasa de Éxito de Adquisiciones** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Valor Creado por M&A** | $[X] | $[Y] | +$[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tiempo de Integración** | [X] meses | [Y] meses | -[Z] meses | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de M&A** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**ROI de M&A**: [X]%
+
+**Estrategia de M&A**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Investigación y Desarrollo (R&D)
+
+| Métrica de R&D | Valor Actual | Valor Objetivo | Mejora | Impacto en Innovación | Prioridad |
+|----------------|--------------|---------------|--------|---------------------|-----------|
+| **Inversión en R&D** | $[X] | $[Y] | +$[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **ROI de R&D** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Éxito de Proyectos R&D** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de R&D** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor Creado por R&D**: $[X]
+
+**Estrategia de R&D**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Propiedad Intelectual y Patentes
+
+| Métrica de IP | Valor Actual | Valor Objetivo | Mejora | Valor de Mercado | Prioridad |
+|---------------|--------------|---------------|--------|------------------|-----------|
+| **Número de Patentes** | [X] | [Y] | +[Z] | $[W] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Valor de Portafolio de IP** | $[X] | $[Y] | +$[Z] | $[Z] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Aprobación de Patentes** | [X]% | [Y]% | +[Z]pp | $[W] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de IP** | [X]/10 | [Y]/10 | +[Z] | $[W] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor Total de IP**: $[X]
+
+**Estrategia de IP**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Sostenibilidad y Responsabilidad Social Corporativa (RSC)
+
+| Métrica de RSC | Valor Actual | Valor Objetivo | Mejora | Impacto en Reputación | Prioridad |
+|----------------|--------------|---------------|--------|---------------------|-----------|
+| **Score de RSC** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Impacto Social** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Programas de RSC** | [X] | [Y] | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor de Mejora en RSC**: $[X] (mejora en reputación, brand value)
+
+**Estrategia de RSC**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Gestión de Cambio Digital
+
+| Dimensión Digital | Estado Actual | Estado Objetivo | Gap | Impacto | Prioridad |
+|------------------|---------------|-----------------|-----|---------|-----------|
+| **Madurez Digital** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Adopción de Tecnología** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Transformación Digital** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor de Transformación Digital**: $[X]
+
+**Estrategia de Transformación Digital**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Gestión de Datos y Privacidad
+
+| Dimensión de Datos | Estado Actual | Estado Objetivo | Gap | Riesgo | Prioridad |
+|-------------------|---------------|-----------------|-----|--------|-----------|
+| **Cumplimiento de Privacidad** | [Cumple/Parcial/No] | [Cumple] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Seguridad de Datos** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Gestión de Datos** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor de Mejora en Gestión de Datos**: $[X] (reducción de riesgos, cumplimiento)
+
+**Estrategia de Gestión de Datos**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Gestión de Calidad y Certificaciones
+
+| Dimensión de Calidad | Estado Actual | Estado Objetivo | Gap | Impacto | Prioridad |
+|---------------------|---------------|-----------------|-----|---------|-----------|
+| **Certificaciones** | [X] | [Y] | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Cumplimiento de Estándares** | [Cumple/Parcial/No] | [Cumple] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Calidad** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor de Mejora en Calidad**: $[X] (mejora en reputación, acceso a mercados)
+
+**Estrategia de Calidad**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Gestión de Estrategia y Planificación
+
+| Dimensión Estratégica | Estado Actual | Estado Objetivo | Gap | Impacto | Prioridad |
+|---------------------|---------------|-----------------|-----|---------|-----------|
+| **Claridad Estratégica** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Ejecución Estratégica** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Estrategia** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor de Mejora en Estrategia**: $[X] (mejora en alineación, ejecución)
+
+**Estrategia de Planificación Estratégica**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Valor para el Cliente
+
+| Métrica de Valor | Valor Actual | Valor Objetivo | Mejora | Impacto en Retención | Prioridad |
+|-----------------|--------------|---------------|--------|---------------------|-----------|
+| **Valor Percebido por el Cliente** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Tasa de Recomendación (NPS)** | [X] | [Y] | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Valor para el Cliente** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor de Mejora para el Cliente**: $[X] (mejora en retención, revenue)
+
+**Estrategia de Valor para el Cliente**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Experiencia del Cliente (CX)
+
+| Dimensión de CX | Estado Actual | Estado Objetivo | Gap | Impacto en Satisfacción | Prioridad |
+|----------------|---------------|-----------------|-----|------------------------|-----------|
+| **Journey del Cliente** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Personalización** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de CX** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor de Mejora en CX**: $[X] (mejora en satisfacción, retención)
+
+**Estrategia de CX**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Gestión de Canales
+
+| Canal | Revenue Actual | Revenue Objetivo | Mejora | CAC | Prioridad |
+|-------|----------------|------------------|--------|-----|-----------|
+| **[Canal 1]** | $[X] | $[Y] | +$[Z] | $[W] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **[Canal 2]** | $[X] | $[Y] | +$[Z] | $[W] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **[Canal 3]** | $[X] | $[Y] | +$[Z] | $[W] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Revenue Total por Canales**: $[X]
+
+**Estrategia de Canales**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Gestión de Productos y Servicios
+
+| Producto/Servicio | Revenue Actual | Revenue Objetivo | Margen | Prioridad |
+|------------------|----------------|------------------|--------|-----------|
+| **[Producto 1]** | $[X] | $[Y] | [Z]% | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **[Producto 2]** | $[X] | $[Y] | [Z]% | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **[Producto 3]** | $[X] | $[Y] | [Z]% | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Revenue Total de Productos**: $[X]
+
+**Estrategia de Productos**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Gestión de Segmentación
+
+| Segmento | Revenue Actual | Revenue Objetivo | Tamaño | Prioridad |
+|----------|----------------|------------------|--------|-----------|
+| **[Segmento 1]** | $[X] | $[Y] | [Z] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **[Segmento 2]** | $[X] | $[Y] | [Z] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **[Segmento 3]** | $[X] | $[Y] | [Z] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Revenue Total por Segmentos**: $[X]
+
+**Estrategia de Segmentación**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Gestión de Competitividad
+
+| Dimensión Competitiva | Estado Actual | Estado Objetivo | Gap | Impacto | Prioridad |
+|----------------------|---------------|-----------------|-----|---------|-----------|
+| **Ventaja Competitiva** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Diferenciación** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Competitividad** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor de Mejora en Competitividad**: $[X] (mejora en market share, revenue)
+
+**Estrategia de Competitividad**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Gestión de Eficiencia Operativa
+
+| Métrica Operativa | Valor Actual | Valor Objetivo | Mejora | Impacto en Costos | Prioridad |
+|------------------|--------------|---------------|--------|------------------|-----------|
+| **Eficiencia General** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Utilización de Recursos** | [X]% | [Y]% | +[Z]pp | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Eficiencia** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Ahorro por Mejora en Eficiencia**: $[X]
+
+**Estrategia de Eficiencia Operativa**: [Descripción breve]
+
+### Análisis de Métricas de Gestión de Gestión de Sostenibilidad a Largo Plazo
+
+| Dimensión de Sostenibilidad | Estado Actual | Estado Objetivo | Gap | Impacto | Prioridad |
+|----------------------------|---------------|-----------------|-----|---------|-----------|
+| **Sostenibilidad Financiera** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Sostenibilidad Operativa** | [Alto/Medio/Bajo] | [Alto] | [Descripción] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+| **Score de Sostenibilidad** | [X]/10 | [Y]/10 | +[Z] | [Alto/Medio/Bajo] | 🔴 Alta / 🟡 Media / 🟢 Baja |
+
+**Valor de Sostenibilidad**: $[X] (mejora en viabilidad a largo plazo)
+
+**Estrategia de Sostenibilidad**: [Descripción breve]
+
 ### Resumen Ejecutivo Final
 
 #### Vista Consolidada de Valor
@@ -3118,6 +4177,17 @@ BAJO ESFUERZO ───────────────┼──────
 | **Reducción de Riesgos** | [X]% | [Alto/Medio/Bajo] | 🟡 Importante | Risk Management |
 | **Score de Agilidad Organizacional** | [X]/10 | [Alto/Medio/Bajo] | 🟡 Importante | Agilidad Organizacional |
 | **Score de Sostenibilidad Financiera** | [X]/10 | [Alto/Medio/Bajo] | 🟡 Importante | Sostenibilidad Financiera |
+| **Score de Compliance** | [X]/10 | [Alto/Medio/Bajo] | 🟡 Importante | Compliance y Regulación |
+| **Score de Seguridad** | [X]/10 | [Alto/Medio/Bajo] | 🟡 Importante | Seguridad y Ciberseguridad |
+| **Score de Sostenibilidad Ambiental** | [X]/10 | [Alto/Medio/Bajo] | 🟢 Baja | Sostenibilidad Ambiental |
+| **Score de D&I** | [X]/10 | [Alto/Medio/Bajo] | 🟢 Baja | Diversidad e Inclusión |
+| **Score de Gobierno Corporativo** | [X]/10 | [Alto/Medio/Bajo] | 🟡 Importante | Gobierno Corporativo |
+| **Score de Employee Experience** | [X]/10 | [Alto/Medio/Bajo] | 🟡 Importante | Employee Experience |
+| **Score de Productividad** | [X]/10 | [Alto/Medio/Bajo] | 🟡 Importante | Productividad |
+| **Score de Calidad de Datos** | [X]/10 | [Alto/Medio/Bajo] | 🟡 Importante | Calidad de Datos |
+| **Valor para Accionistas (TSR)** | [X]% | [Alto/Medio/Bajo] | 🔴 Crítica | Shareholder Value |
+| **Eficiencia de Capital (ROIC)** | [X]% | [Alto/Medio/Bajo] | 🔴 Crítica | Eficiencia de Capital |
+| **Score de Resiliencia** | [X]/10 | [Alto/Medio/Bajo] | 🟡 Importante | Resiliencia Organizacional |
 
 #### Análisis de Riesgo Consolidado
 
@@ -3293,6 +4363,17 @@ BAJO ESFUERZO ───────────────┼──────
 | **Transformación Digital** | $[X] | [Y]% | [Alto/Medio/Bajo] | 🟡 Importante | [Aprobado/En Revisión/Pendiente] |
 | **Ecosistema y Partnerships** | $[X] | [Y]% | [Alto/Medio/Bajo] | 🟢 Baja | [Aprobado/En Revisión/Pendiente] |
 | **Analytics y ML** | $[X] | [Y]% | [Alto/Medio/Bajo] | 🟢 Baja | [Aprobado/En Revisión/Pendiente] |
+| **Compliance y Regulación** | $[X] | [Y]% | [Alto/Medio/Bajo] | 🟡 Importante | [Aprobado/En Revisión/Pendiente] |
+| **Seguridad y Ciberseguridad** | $[X] | [Y]% | [Alto/Medio/Bajo] | 🟡 Importante | [Aprobado/En Revisión/Pendiente] |
+| **Sostenibilidad Ambiental** | $[X] | [Y]% | [Alto/Medio/Bajo] | 🟢 Baja | [Aprobado/En Revisión/Pendiente] |
+| **Diversidad e Inclusión** | $[X] | [Y]% | [Alto/Medio/Bajo] | 🟢 Baja | [Aprobado/En Revisión/Pendiente] |
+| **Gobierno Corporativo** | $[X] | [Y]% | [Alto/Medio/Bajo] | 🟡 Importante | [Aprobado/En Revisión/Pendiente] |
+| **Employee Experience** | $[X] | [Y]% | [Alto/Medio/Bajo] | 🟡 Importante | [Aprobado/En Revisión/Pendiente] |
+| **Productividad** | $[X] | [Y]% | [Alto/Medio/Bajo] | 🟡 Importante | [Aprobado/En Revisión/Pendiente] |
+| **Calidad de Datos** | $[X] | [Y]% | [Alto/Medio/Bajo] | 🟡 Importante | [Aprobado/En Revisión/Pendiente] |
+| **Shareholder Value** | $[X] | [Y]% | [Alto/Medio/Bajo] | 🔴 Crítica | [Aprobado/En Revisión/Pendiente] |
+| **Eficiencia de Capital** | $[X] | [Y]% | [Alto/Medio/Bajo] | 🔴 Crítica | [Aprobado/En Revisión/Pendiente] |
+| **Resiliencia Organizacional** | $[X] | [Y]% | [Alto/Medio/Bajo] | 🟡 Importante | [Aprobado/En Revisión/Pendiente] |
 
 **Valor Total Consolidado**: $[X]
 
@@ -3334,6 +4415,17 @@ BAJO ESFUERZO ───────────────┼──────
 | **Transformación Digital** | [Actividades] | [Actividades] | [Actividades] | [Actividades] | 🟡 Importante |
 | **Ecosistema y Partnerships** | [Actividades] | [Actividades] | [Actividades] | [Actividades] | 🟢 Baja |
 | **Analytics y ML** | [Actividades] | [Actividades] | [Actividades] | [Actividades] | 🟢 Baja |
+| **Compliance y Regulación** | [Actividades] | [Actividades] | [Actividades] | [Actividades] | 🟡 Importante |
+| **Seguridad y Ciberseguridad** | [Actividades] | [Actividades] | [Actividades] | [Actividades] | 🟡 Importante |
+| **Sostenibilidad Ambiental** | [Actividades] | [Actividades] | [Actividades] | [Actividades] | 🟢 Baja |
+| **Diversidad e Inclusión** | [Actividades] | [Actividades] | [Actividades] | [Actividades] | 🟢 Baja |
+| **Gobierno Corporativo** | [Actividades] | [Actividades] | [Actividades] | [Actividades] | 🟡 Importante |
+| **Employee Experience** | [Actividades] | [Actividades] | [Actividades] | [Actividades] | 🟡 Importante |
+| **Productividad** | [Actividades] | [Actividades] | [Actividades] | [Actividades] | 🟡 Importante |
+| **Calidad de Datos** | [Actividades] | [Actividades] | [Actividades] | [Actividades] | 🟡 Importante |
+| **Shareholder Value** | [Actividades] | [Actividades] | [Actividades] | [Actividades] | 🔴 Crítica |
+| **Eficiencia de Capital** | [Actividades] | [Actividades] | [Actividades] | [Actividades] | 🔴 Crítica |
+| **Resiliencia Organizacional** | [Actividades] | [Actividades] | [Actividades] | [Actividades] | 🟡 Importante |
 
 #### Indicadores de Éxito Consolidados (KPIs Ejecutivos)
 
@@ -3347,6 +4439,12 @@ BAJO ESFUERZO ───────────────┼──────
 | **Satisfacción del Cliente** | [X]% | [Y]% | [Z]% | [W]% | [Rol] |
 | **Score de Agilidad** | [X]/10 | [Y]/10 | [Z]/10 | [W]/10 | [Rol] |
 | **Score de Sostenibilidad** | [X]/10 | [Y]/10 | [Z]/10 | [W]/10 | [Rol] |
+| **TSR (Total Shareholder Return)** | [X]% | [Y]% | [Z]% | [W]% | [Rol] |
+| **ROIC (Return on Invested Capital)** | [X]% | [Y]% | [Z]% | [W]% | [Rol] |
+| **Score de Compliance** | [X]/10 | [Y]/10 | [Z]/10 | [W]/10 | [Rol] |
+| **Score de Seguridad** | [X]/10 | [Y]/10 | [Z]/10 | [W]/10 | [Rol] |
+| **Score de Productividad** | [X]/10 | [Y]/10 | [Z]/10 | [W]/10 | [Rol] |
+| **Score de Resiliencia** | [X]/10 | [Y]/10 | [Z]/10 | [W]/10 | [Rol] |
 
 **Frecuencia de Reporte**: [Semanal/Mensual/Trimestral]
 
@@ -3360,7 +4458,64 @@ BAJO ESFUERZO ───────────────┼──────
 **Confidencialidad**: [Nivel de confidencialidad]  
 **Aprobaciones Requeridas**: [Lista de aprobadores]
 
-**Documento Completo**: Este executive summary incluye análisis exhaustivos de [X] áreas estratégicas, [Y] métricas clave, y [Z] análisis de riesgo, proporcionando una visión integral para la toma de decisiones estratégicas de la alta dirección.
+**Documento Completo**: Este executive summary incluye análisis exhaustivos de **80+ áreas estratégicas**, **70+ métricas clave consolidadas**, y análisis de riesgo detallados, proporcionando una visión integral para la toma de decisiones estratégicas de la alta dirección. 
+
+**Áreas Estratégicas Cubiertas (Categorizadas)**:
+
+**💰 Financiero y Contable**:
+- ROI, NPV, IRR, Payback, Cash Flow, Sostenibilidad Financiera, Eficiencia de Capital, Shareholder Value
+- Gestión de AR (Cuentas por Cobrar), Gestión de AP (Cuentas por Pagar), Working Capital
+- Gestión de Contratos, Gestión de Inventario
+
+**⚙️ Operacional y Procesos**:
+- Eficiencia, Productividad, Operaciones, Supply Chain, Gestión de Proyectos
+- Lean/Six Sigma, Eficiencia de Procesos, Gestión de Calidad Total (TQM)
+- Gestión de Proveedores y Vendor Management, Eficiencia Energética
+
+**🎯 Estratégico y Competitivo**:
+- Market Share, Posicionamiento, Ventaja Competitiva, Ecosistema y Partnerships
+- Análisis Competitivo Avanzado, Brand Share of Voice
+
+**💻 Tecnológico y Digital**:
+- Viabilidad Técnica, Seguridad y Ciberseguridad, DevOps, Transformación Digital
+- Analytics y ML, Tecnología y DevOps, Calidad de Datos
+
+**👥 Capital Humano y Organizacional**:
+- Employee Experience, Capital Humano, Diversidad e Inclusión, Learning y Desarrollo
+- Gestión de Talento y Succession Planning, Gestión de Cambio
+- Knowledge Management, Agilidad Organizacional
+
+**🚀 Innovación y Propiedad Intelectual**:
+- Innovación e IP, Innovación Continua, Patentes, Tiempo a Mercado
+
+**👤 Cliente y Experiencia**:
+- Customer Lifetime Value (CLV), CAC, Churn y Retención, Customer Success
+- Customer Experience, Tiempo de Respuesta
+
+**📈 Ventas y Marketing**:
+- Ventas, Revenue Operations, Marketing y Growth, Pricing Power y Elasticidad
+- ROAS, LTV:CAC Ratio, Tasa de Conversión
+
+**⚖️ Gobernanza y Compliance**:
+- Compliance y Regulación, Gobierno Corporativo, Ética y Responsabilidad Social
+- Gestión de Riesgos Avanzado, Gestión de Crisis y Continuidad de Negocio
+
+**🌱 Sostenibilidad y Resiliencia**:
+- Sostenibilidad Ambiental, Resiliencia Organizacional, Eficiencia Energética
+- Gestión de Crisis y Continuidad de Negocio
+
+**📊 Métricas Adicionales**:
+- Calidad de Datos, Tiempo de Respuesta, Agilidad Organizacional
+- Gestión de Proyectos, Gestión de Contratos, Gestión de Portafolio
+- Gestión de Stakeholders, Gestión de Comunicación, Performance Management
+- Gestión de Recursos Humanos, Logística y Distribución, Servicio al Cliente
+- Marketing Digital, Relaciones Públicas, Alianzas Estratégicas
+- Inteligencia de Negocio (BI), Auditoría y Control Interno
+- Transformación Organizacional, Cultura Organizacional, Liderazgo
+- Bienestar y Salud, Remuneración y Compensación, Tecnología de la Información (IT)
+- Adquisiciones y M&A, Investigación y Desarrollo (R&D), Propiedad Intelectual
+- Sostenibilidad y RSC, Gestión de Cambio Digital, Gestión de Datos y Privacidad
+- Gestión de Calidad y Certificaciones, Gestión de Estrategia y Planificación, y más
 
 ---
 

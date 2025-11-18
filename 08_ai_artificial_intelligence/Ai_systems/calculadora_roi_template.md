@@ -256,3 +256,8 @@ Año 3: $[X] + $[X] = $[X]
 
 *Esta calculadora debe usarse como guía. Ajuste según las necesidades específicas del proyecto.*
 
+
+
+
+
+
