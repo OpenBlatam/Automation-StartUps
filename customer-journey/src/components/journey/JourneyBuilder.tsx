@@ -8,9 +8,10 @@ interface JourneyBuilderProps {
   persona: BuyerPersona | null
   journey: CustomerJourney | null
   onUpdateStage: (stage: JourneyStageType) => void
+  onToast?: (title: string, description?: string) => void
 }
 
-export function JourneyBuilder({ persona, journey, onUpdateStage }: JourneyBuilderProps) {
+export function JourneyBuilder({ persona, journey, onUpdateStage, onToast }: JourneyBuilderProps) {
   if (!persona || !journey) {
     return <EmptyState />
   }
@@ -27,7 +28,7 @@ export function JourneyBuilder({ persona, journey, onUpdateStage }: JourneyBuild
             className="animate-slide-up"
             style={{ animationDelay: `${index * 0.1}s`, animationFillMode: 'both' }}
           >
-            <JourneyStage stage={stage} onUpdateStage={onUpdateStage} />
+            <JourneyStage stage={stage} onUpdateStage={onUpdateStage} onToast={onToast} />
           </div>
         ))}
       </div>

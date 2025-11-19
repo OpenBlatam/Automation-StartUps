@@ -86,6 +86,13 @@ export function useAppState() {
     [deletePersona, deleteJourney, selectedPersonaId]
   )
 
+  const showToast = useCallback(
+    (title: string, description?: string) => {
+      success(title, description)
+    },
+    [success]
+  )
+
   return {
     // State
     selectedPersonaId,
@@ -103,6 +110,7 @@ export function useAppState() {
     handleDuplicatePersona,
     handleDeletePersona,
     dismiss,
+    showToast,
   }
 }
 

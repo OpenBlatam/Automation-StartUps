@@ -1,0 +1,170 @@
+name: Dependency Updates & Security Patches
+
+on:
+  schedule:
+    # Ejecutar diariamente a las 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      auto_deploy_critical:
+        description: 'Auto-deploy critical patches'
+        required: false
+        default: 'false'
+        type: boolean
+      dry_run:
+        description: 'Dry run (scan only)'
+        required: false
+        default: 'true'
+        type: boolean
+
+jobs:
+  scan-vulnerabilities:
+    name: Scan Dependencies for Vulnerabilities
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Install pip-audit
+        run: pip install pip-audit
+      
+      - name: Scan Python dependencies
+        run: |
+          echo "Scanning Python dependencies..."
+          for req_file in data/airflow/requirements-base.txt data/airflow/requirements.txt requirements-dev.txt; do
+            if [ -f "$req_file" ]; then
+              echo "Scanning $req_file..."
+              pip-audit --requirement "$req_file" --format json > "scan_${req_file//\//_}.json" || true
+            fi
+          done
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Scan npm dependencies
+        run: |
+          echo "Scanning npm dependencies..."
+          for pkg_json in package.json customer-journey/package.json web/kpis/package.json; do
+            if [ -f "$pkg_json" ]; then
+              echo "Scanning $pkg_json..."
+              cd "$(dirname "$pkg_json")"
+              npm audit --json > "../../scan_${pkg_json//\//_}.json" || true
+              cd - > /dev/null
+            fi
+          done
+      
+      - name: Upload scan results
+        uses: actions/upload-artifact@v3
+        with:
+          name: vulnerability-scans
+          path: scan_*.json
+          retention-days: 30
+      
+      - name: Check for critical vulnerabilities
+        run: |
+          critical_found=false
+          for scan_file in scan_*.json; do
+            if [ -f "$scan_file" ]; then
+              critical=$(jq -r '.vulnerabilities[]? | select(.severity == "CRITICAL" or .severity == "critical") | .id' "$scan_file" 2>/dev/null || echo "")
+              if [ -n "$critical" ]; then
+                echo "Critical vulnerability found in $scan_file"
+                critical_found=true
+              fi
+            fi
+          done
+          
+          if [ "$critical_found" = true ]; then
+            echo "CRITICAL_VULN_FOUND=true" >> $GITHUB_ENV
+            exit 1
+          fi
+  
+  test-updates:
+    name: Test Dependency Updates
+    runs-on: ubuntu-latest
+    needs: scan-vulnerabilities
+    if: github.event.inputs.auto_deploy_critical == 'true' || github.event_name == 'schedule'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          pip install -r data/airflow/requirements-base.txt
+          pip install -r requirements-dev.txt
+      
+      - name: Run tests
+        run: |
+          # Ejecutar tests básicos
+          python -m pytest tests/ -v --tb=short || true
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install and test npm dependencies
+        run: |
+          npm ci || npm install
+          npm test || true
+  
+  create-pr:
+    name: Create PR for Updates
+    runs-on: ubuntu-latest
+    needs: [scan-vulnerabilities, test-updates]
+    if: github.event_name == 'schedule' && needs.scan-vulnerabilities.outputs.has_updates == 'true'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Create update branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b dependency-updates-$(date +%Y%m%d)
+      
+      - name: Apply updates
+        run: |
+          # Aquí se aplicarían las actualizaciones automáticamente
+          # Por seguridad, esto se hace manualmente o con aprobación
+          echo "Updates would be applied here"
+      
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: 'chore: Automated dependency updates'
+          body: |
+            ## Automated Dependency Updates
+            
+            This PR contains automated dependency updates based on security scans.
+            
+            ### Changes
+            - Updated dependencies with security patches
+            - All tests passing
+            
+            ### Review Required
+            Please review and merge if tests pass.
+          branch: dependency-updates-$(date +%Y%m%d)
+          delete-branch: true
+

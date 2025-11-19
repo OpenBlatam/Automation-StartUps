@@ -24,6 +24,7 @@ function App() {
     handleDuplicatePersona,
     handleDeletePersona,
     dismiss,
+    showToast,
   } = useAppState()
 
   useKeyboardShortcuts({
@@ -56,10 +57,21 @@ function App() {
               persona={selectedPersona}
               journey={journey}
               onUpdateStage={handleUpdateStage}
+              onToast={showToast}
             />
           </div>
         ) : (
-          <JourneyVisualization journey={journey} />
+          <JourneyVisualization
+            journey={journey}
+            onExport={handleExport}
+            onAddPersona={() => {
+              setViewMode('builder')
+              // El formulario se abrirá automáticamente en BuyerPersonaSelector
+            }}
+            onSwitchToBuilder={() => {
+              setViewMode('builder')
+            }}
+          />
         )}
       </main>
       <Footer />

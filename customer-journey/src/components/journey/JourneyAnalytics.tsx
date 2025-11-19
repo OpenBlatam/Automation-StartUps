@@ -35,6 +35,30 @@ export function JourneyAnalytics({ journey }: JourneyAnalyticsProps) {
     const avgTouchpointsPerStage = totalTouchpoints / journey.stages.length
     const avgTriggersPerStage = totalTriggers / journey.stages.length
 
+    // Calculate stage distribution
+    const stageDistribution = journey.stages.map((stage) => ({
+      name: stage.name,
+      touchpoints: stage.touchpoints.length,
+      triggers: stage.automationTriggers.length,
+      contentNeeds: stage.contentNeeds.length,
+      total: stage.touchpoints.length + stage.automationTriggers.length + stage.contentNeeds.length,
+    }))
+
+    // Find most active stage
+    const mostActiveStage = stageDistribution.reduce(
+      (max, stage) => (stage.total > max.total ? stage : max),
+      stageDistribution[0]
+    )
+
+    // Calculate engagement score (weighted)
+    const engagementScore = journey.stages.reduce((score, stage) => {
+      const stageScore =
+        stage.touchpoints.length * 1 +
+        stage.automationTriggers.length * 2 +
+        stage.contentNeeds.length * 1.5
+      return score + stageScore
+    }, 0)
+
     return {
       totalTouchpoints,
       totalTriggers,
@@ -43,6 +67,9 @@ export function JourneyAnalytics({ journey }: JourneyAnalyticsProps) {
       avgTouchpointsPerStage,
       avgTriggersPerStage,
       stagesWithContent,
+      stageDistribution,
+      mostActiveStage,
+      engagementScore,
     }
   }, [journey])
 
@@ -119,13 +146,13 @@ export function JourneyAnalytics({ journey }: JourneyAnalyticsProps) {
         })}
       </div>
 
-      <Card className="bg-gradient-card shadow-soft animate-slide-up">
-        <CardHeader>
-          <CardTitle className="text-lg">Promedios por Etapa</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Card className="bg-gradient-card shadow-soft animate-slide-up">
+          <CardHeader>
+            <CardTitle className="text-lg">Promedios por Etapa</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">Touchpoints promedio</span>
                 <Badge variant="outline">{analytics.avgTouchpointsPerStage.toFixed(1)}</Badge>
@@ -134,8 +161,6 @@ export function JourneyAnalytics({ journey }: JourneyAnalyticsProps) {
                 <span className="text-sm text-muted-foreground">Triggers promedio</span>
                 <Badge variant="outline">{analytics.avgTriggersPerStage.toFixed(1)}</Badge>
               </div>
-            </div>
-            <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">Etapas completadas</span>
                 <Badge variant="outline">
@@ -143,16 +168,58 @@ export function JourneyAnalytics({ journey }: JourneyAnalyticsProps) {
                 </Badge>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Total de etapas</span>
-                <Badge variant="outline">{journey.stages.length}</Badge>
+                <span className="text-sm text-muted-foreground">Puntuación de engagement</span>
+                <Badge variant="secondary" className="bg-primary/20 text-primary">
+                  {Math.round(analytics.engagementScore)}
+                </Badge>
               </div>
             </div>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gradient-card shadow-soft animate-slide-up">
+          <CardHeader>
+            <CardTitle className="text-lg">Etapa Más Activa</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 mb-3">
+                <Target className="h-4 w-4 text-primary" />
+                <span className="font-semibold">{analytics.mostActiveStage.name}</span>
+              </div>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground">Touchpoints</span>
+                  <Badge variant="outline">{analytics.mostActiveStage.touchpoints}</Badge>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground">Triggers</span>
+                  <Badge variant="outline">{analytics.mostActiveStage.triggers}</Badge>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground">Contenidos</span>
+                  <Badge variant="outline">{analytics.mostActiveStage.contentNeeds}</Badge>
+                </div>
+                <div className="pt-2 border-t border-border">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium">Total</span>
+                    <Badge variant="secondary">{analytics.mostActiveStage.total}</Badge>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   )
 }
+
+
+
+
+
+
 
 
 

@@ -1,0 +1,34 @@
+# Archivos de backup
+*.backup
+*.bak
+*.old
+*~
+
+# Archivos temporales
+*.tmp
+*.temp
+*.log
+*.pyc
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Entornos virtuales
+venv/
+env/
+ENV/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Airflow específico
+airflow.cfg
+airflow.db
+logs/
+*.pid
+
+# Documentación generada (opcional, descomentar si no quieres versionar)
+# _documentation/generated/

@@ -1,7 +1,8 @@
 import { Button } from '../ui/button'
-import { Zap, Plus } from 'lucide-react'
+import { Zap, Plus, Clipboard } from 'lucide-react'
 import { AutomationTriggerItem } from './AutomationTriggerItem'
 import { EmptyListState } from './EmptyListState'
+import { Tooltip } from '../ui/tooltip'
 import type { AutomationTrigger } from '@/types/journey'
 
 interface AutomationTriggerListProps {
@@ -32,10 +33,12 @@ export function AutomationTriggerList({
         </h4>
         <div className="flex items-center gap-2">
           {onPaste && hasCopied && (
-            <Button onClick={onPaste} variant="outline" size="sm">
-              <Plus className="h-4 w-4 mr-2" />
-              Pegar
-            </Button>
+            <Tooltip content="Pegar trigger copiado">
+              <Button onClick={onPaste} variant="outline" size="sm">
+                <Clipboard className="h-4 w-4 mr-2" />
+                Pegar
+              </Button>
+            </Tooltip>
           )}
           <Button onClick={onAdd} variant="outline" size="sm">
             <Plus className="h-4 w-4 mr-2" />

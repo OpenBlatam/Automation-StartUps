@@ -5,14 +5,12 @@ import { cn } from '@/lib/utils'
 interface HelpTextProps {
   text: string
   className?: string
-  side?: 'top' | 'bottom' | 'left' | 'right'
 }
 
-export function HelpText({ text, className, side = 'top' }: HelpTextProps) {
+export function HelpText({ text, className }: HelpTextProps) {
   return (
-    <Tooltip content={text} side={side}>
-      <HelpCircle className={cn('h-3.5 w-3.5 text-muted-foreground cursor-help hover:text-primary transition-smooth', className)} />
+    <Tooltip content={text} side="right">
+      <HelpCircle className={cn('h-3.5 w-3.5 text-muted-foreground cursor-help', className)} />
     </Tooltip>
   )
 }
-

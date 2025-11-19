@@ -1,4 +1,5 @@
 import { FormField } from '../ui/form-field'
+import { HelpText } from '../ui/help-text'
 import { User, FileText, Users, AlertCircle, Target, Clock, Globe } from 'lucide-react'
 import { PURCHASE_TIMEFRAMES } from '@/constants/journey'
 import type { BuyerPersona } from '@/types/journey'
@@ -25,27 +26,41 @@ const timeframeOptions = PURCHASE_TIMEFRAMES.map((timeframe) => ({
 export function PersonaFormFields({ formData, errors = {}, onChange }: PersonaFormFieldsProps) {
   return (
     <div className="space-y-4">
-      <FormField
-        id="name"
-        label="Nombre"
-        value={formData.name}
-        onChange={(value) => onChange('name', value)}
-        placeholder="Ej: Director de Marketing"
-        icon={User}
-        required
-        error={errors.name}
-      />
-      <FormField
-        id="description"
-        label="Descripción"
-        value={formData.description}
-        onChange={(value) => onChange('description', value)}
-        placeholder="Describe el perfil del buyer persona..."
-        type="textarea"
-        icon={FileText}
-        required
-        error={errors.description}
-      />
+      <div className="flex items-start gap-2">
+        <div className="flex-1">
+          <FormField
+            id="name"
+            label="Nombre"
+            value={formData.name}
+            onChange={(value) => onChange('name', value)}
+            placeholder="Ej: Director de Marketing"
+            icon={User}
+            required
+            error={errors.name}
+          />
+        </div>
+        <div className="pt-6">
+          <HelpText text="El nombre debe ser único y descriptivo para identificar fácilmente esta persona" />
+        </div>
+      </div>
+      <div className="flex items-start gap-2">
+        <div className="flex-1">
+          <FormField
+            id="description"
+            label="Descripción"
+            value={formData.description}
+            onChange={(value) => onChange('description', value)}
+            placeholder="Describe el perfil del buyer persona..."
+            type="textarea"
+            icon={FileText}
+            required
+            error={errors.description}
+          />
+        </div>
+        <div className="pt-6">
+          <HelpText text="Proporciona una descripción detallada del perfil, incluyendo su rol, responsabilidades y contexto" />
+        </div>
+      </div>
       <FormField
         id="demographics"
         label="Demografía"

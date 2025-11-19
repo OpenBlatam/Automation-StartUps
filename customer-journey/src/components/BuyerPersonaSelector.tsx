@@ -5,6 +5,7 @@ import { PersonaForm } from './persona/PersonaForm'
 import { PersonaList } from './persona/PersonaList'
 import { SearchInput } from './ui/search-input'
 import type { BuyerPersona } from '@/types/journey'
+import type { SortOption } from './persona/PersonaSortOptions'
 
 interface BuyerPersonaSelectorProps {
   personas: BuyerPersona[]
@@ -25,6 +26,7 @@ export function BuyerPersonaSelector({
 }: BuyerPersonaSelectorProps) {
   const [isAdding, setIsAdding] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
+  const [sortBy, setSortBy] = useState<SortOption>('name-asc')
   const searchInputRef = useRef<HTMLInputElement>(null)
 
   const handleSubmit = (persona: Omit<BuyerPersona, 'id'>) => {
@@ -82,6 +84,8 @@ export function BuyerPersonaSelector({
         onDuplicatePersona={onDuplicatePersona}
         onDeletePersona={onDeletePersona}
         searchQuery={searchQuery}
+        sortBy={sortBy}
+        onSortChange={setSortBy}
       />
     </div>
   )

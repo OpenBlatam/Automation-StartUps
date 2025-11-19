@@ -2,6 +2,7 @@ import { Card, CardContent } from '../ui/card'
 import { ArrowRight } from 'lucide-react'
 import { StageBadge } from './StageBadge'
 import { StageMetrics } from './StageMetrics'
+import { StageCompletionIndicator } from './StageCompletionIndicator'
 import { cn } from '@/lib/utils'
 import type { JourneyStage } from '@/types/journey'
 
@@ -32,8 +33,9 @@ export function StageCardVisual({ stage, index, totalStages }: StageCardVisualPr
                 {stage.description}
               </p>
             </div>
-            <div className="w-full flex justify-center">
+            <div className="w-full flex flex-col items-center gap-3">
               <StageMetrics stage={stage} />
+              <StageCompletionIndicator stage={stage} />
             </div>
           </div>
         </CardContent>

@@ -5,9 +5,10 @@ import { generateId } from '@/utils/data'
 interface UseStageActionsProps {
   stage: JourneyStage
   onUpdateStage: (stage: JourneyStage) => void
+  onToast?: (title: string, description?: string) => void
 }
 
-export function useStageActions({ stage, onUpdateStage }: UseStageActionsProps) {
+export function useStageActions({ stage, onUpdateStage, onToast }: UseStageActionsProps) {
   const addTouchpoint = useCallback(() => {
     const newTouchpoint: Touchpoint = {
       id: generateId('touchpoint'),
@@ -97,12 +98,13 @@ export function useStageActions({ stage, onUpdateStage }: UseStageActionsProps) 
       if (touchpoint) {
         try {
           sessionStorage.setItem('copied-touchpoint', JSON.stringify(touchpoint))
+          onToast?.('Touchpoint copiado', `"${touchpoint.name || 'Touchpoint'}" ha sido copiado`)
         } catch (error) {
           console.warn('Failed to copy touchpoint:', error)
         }
       }
     },
-    [stage.touchpoints]
+    [stage.touchpoints, onToast]
   )
 
   const pasteTouchpoint = useCallback(() => {
@@ -120,11 +122,15 @@ export function useStageActions({ stage, onUpdateStage }: UseStageActionsProps) 
           ...stage,
           touchpoints: [...stage.touchpoints, newTouchpoint],
         })
+        onToast?.('Touchpoint pegado', `"${newTouchpoint.name}" ha sido agregado`)
+      } else {
+        onToast?.('No hay nada para pegar', 'Primero copia un touchpoint')
       }
     } catch (error) {
       console.warn('Failed to paste touchpoint:', error)
+      onToast?.('Error al pegar', 'No se pudo pegar el touchpoint')
     }
-  }, [stage, onUpdateStage])
+  }, [stage, onUpdateStage, onToast])
 
   const copyTrigger = useCallback(
     (id: string) => {
@@ -132,12 +138,13 @@ export function useStageActions({ stage, onUpdateStage }: UseStageActionsProps) 
       if (trigger) {
         try {
           sessionStorage.setItem('copied-trigger', JSON.stringify(trigger))
+          onToast?.('Trigger copiado', `"${trigger.name || 'Trigger'}" ha sido copiado`)
         } catch (error) {
           console.warn('Failed to copy trigger:', error)
         }
       }
     },
-    [stage.automationTriggers]
+    [stage.automationTriggers, onToast]
   )
 
   const pasteTrigger = useCallback(() => {
@@ -154,11 +161,15 @@ export function useStageActions({ stage, onUpdateStage }: UseStageActionsProps) 
           ...stage,
           automationTriggers: [...stage.automationTriggers, newTrigger],
         })
+        onToast?.('Trigger pegado', `"${newTrigger.name}" ha sido agregado`)
+      } else {
+        onToast?.('No hay nada para pegar', 'Primero copia un trigger')
       }
     } catch (error) {
       console.warn('Failed to paste trigger:', error)
+      onToast?.('Error al pegar', 'No se pudo pegar el trigger')
     }
-  }, [stage, onUpdateStage])
+  }, [stage, onUpdateStage, onToast])
 
   return {
     addTouchpoint,
@@ -174,6 +185,12 @@ export function useStageActions({ stage, onUpdateStage }: UseStageActionsProps) 
     updateContentNeeds,
   }
 }
+
+
+
+
+
+
 
 
 

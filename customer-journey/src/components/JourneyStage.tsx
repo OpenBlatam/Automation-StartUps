@@ -8,9 +8,10 @@ import type { JourneyStage as JourneyStageType } from '@/types/journey'
 interface JourneyStageProps {
   stage: JourneyStageType
   onUpdateStage: (stage: JourneyStageType) => void
+  onToast?: (title: string, description?: string) => void
 }
 
-export function JourneyStage({ stage, onUpdateStage }: JourneyStageProps) {
+export function JourneyStage({ stage, onUpdateStage, onToast }: JourneyStageProps) {
   const {
     addTouchpoint,
     updateTouchpoint,
@@ -23,7 +24,7 @@ export function JourneyStage({ stage, onUpdateStage }: JourneyStageProps) {
     copyTrigger,
     pasteTrigger,
     updateContentNeeds,
-  } = useStageActions({ stage, onUpdateStage })
+  } = useStageActions({ stage, onUpdateStage, onToast })
 
   return (
     <StageCard stage={stage}>

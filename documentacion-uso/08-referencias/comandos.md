@@ -381,3 +381,9 @@ kubectl logs -n n8n n8n-0 -f
 
 
 
+
+
+
+
+
+
