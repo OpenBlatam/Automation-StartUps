@@ -432,28 +432,55 @@ npm run dm:optimize
 
 ### Comandos de Gestión
 
-Comandos organizados por función operativa:
-- `npm run dm:setup` – Setup inicial (crea carpetas y CSVs)
-- `npm run dm:health` – Health check de archivos
-- `npm run dm:archive` – Archivado de logs
-- `npm run dm:seed` – Generación de datos de prueba
-- `npm run dm:snapshot` – Snapshot de KPIs
-- `npm run dm:anomaly` – Detección de anomalías
-- `npm run dm:check` – Consistency check
-- `npm run dm:suppress` – Gestión de supresiones
-- `npm run dm:linter` – Validación de mensajes
-- `npm run dm:preflight` – Validaciones pre-envío
-- `npm run dm:weekly` – Reporte semanal
-- `npm run dm:queue` – Construcción de cola
-- `npm run dm:queue:smart` – Cola inteligente
-- `npm run dm:queue:validate` – Validación de cola
-- `npm run dm:queue:chunk` – División de cola
-- `npm run dm:queue:retry` – Cola de reintentos
-- `npm run dm:queue:dryrun` – Simulación de envíos
-- `npm run dm:queue:cooldown` – Aplicar cooldown
-- `npm run dm:optout` – Detectar opt-outs
-- `npm run dm:guard` – Guard de campañas/variantes
-- `npm run dm:export:crm` – Exportar a CRM
+Comandos organizados por función operativa con ejemplos de uso:
+
+#### Setup y Mantenimiento
+```bash
+npm run dm:setup      # Setup inicial (crea carpetas y CSVs)
+npm run dm:health    # Health check de archivos y estructura
+npm run dm:archive   # Archivado mensual de logs
+npm run dm:seed      # Generación de datos sintéticos para pruebas
+# Ejemplo: SEED_COUNT=200 npm run dm:seed
+```
+
+#### Análisis y Reportes
+```bash
+npm run dm:snapshot  # Snapshot de KPIs por rango de fechas
+# Ejemplo: npm run dm:snapshot -- --from=2025-01-01 --to=2025-01-31
+npm run dm:weekly    # Reporte semanal con KPIs y recomendaciones
+npm run dm:anomaly   # Detección de anomalías en tasas de respuesta
+npm run dm:check     # Consistency check (variantes/campañas)
+```
+
+#### Calidad y Compliance
+```bash
+npm run dm:linter    # Validación de calidad y compliance de mensajes
+# Ejemplo: LINT_MAX_CHARS=280 npm run dm:linter
+npm run dm:preflight # Validaciones completas antes de enviar
+# Ejemplo: npm run dm:preflight -- --fix
+npm run dm:suppress  # Gestión de listas de supresión
+npm run dm:optout    # Detectar y procesar opt-outs automáticamente
+```
+
+#### Gestión de Cola
+```bash
+npm run dm:queue              # Construcción básica de cola de envíos
+npm run dm:queue:smart        # Cola inteligente con mejores horas
+npm run dm:queue:validate    # Validación de calidad de cola
+npm run dm:queue:chunk        # División de cola en partes manejables
+# Ejemplo: npm run dm:queue:chunk -- --size=200
+npm run dm:queue:retry        # Construcción de cola de reintentos
+# Ejemplo: RETRY_MIN_AGE_DAYS=10 npm run dm:queue:retry
+npm run dm:queue:dryrun       # Simulación de envíos (testing)
+npm run dm:queue:cooldown    # Aplicar cooldown a cola
+# Ejemplo: COOLDOWN_MIN_DAYS=7 npm run dm:queue:cooldown
+```
+
+#### Protección y Export
+```bash
+npm run dm:guard      # Guard automático (pausa campañas/variantes)
+npm run dm:export:crm # Exportar datos a formato CRM
+```
 
 ---
 
