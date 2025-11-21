@@ -6,6 +6,21 @@
 
 ## 🚀 Inicio Rápido
 
+### **[🚀 Getting Started PLG](./getting_started_plg.md)** ⭐⭐ PRIMER PASO
+Guía visual paso a paso para empezar con PLG:
+- Ruta de 5 pasos (entender → evaluar → elegir → definir → planificar)
+- Timeline de implementación semana por semana
+- Objetivos por semana
+- Métricas a trackear desde el inicio
+- Stack mínimo necesario
+- Checklist de inicio
+- Próximos pasos después de 30 días
+- Recursos por necesidad
+
+**Ideal para:** Personas nuevas en PLG que quieren empezar inmediatamente
+
+---
+
 ### **[📊 Resumen Ejecutivo PLG](./resumen_ejecutivo_plg.md)** ⭐ EMPIEZA AQUÍ
 Resumen ejecutivo para toma de decisiones rápida:
 - ¿Qué es PLG? (definición y beneficios)
@@ -362,13 +377,224 @@ Adaptación de Customer Success para modelos PLG:
 
 ---
 
+### **22. [Fundraising con Métricas PLG](./fundraising_metricas_plg.md)**
+Guía de fundraising usando métricas PLG:
+- Por qué inversores valoran PLG (escalabilidad, eficiencia, sostenibilidad)
+- Métricas clave para fundraising (crecimiento, eficiencia, retención, escalabilidad)
+- Valuación y múltiplos (ARR multiples, factores que afectan)
+- Presentación para inversores (estructura de pitch deck, métricas a destacar)
+- Benchmarks por ronda (Seed, Series A, Series B)
+- Checklist de fundraising
+
+**Ideal para:** Founders, CEOs, CFOs que buscan fundraising
+
+---
+
+### **23. [Go-to-Market Strategy PLG](./go_to_market_plg.md)**
+Estrategia go-to-market completa basada en PLG:
+- GTM Strategy en PLG vs tradicional (diferencias clave)
+- Fases de GTM (pre-launch, launch, growth, scale)
+- Canales de adquisición (orgánicos y pagados)
+- Estrategias por etapa (pre-launch, launch, growth, scale)
+- Métricas de GTM (adquisición, eficiencia, crecimiento)
+- Framework de GTM con checklist
+- Timeline de GTM (mes a mes)
+
+**Ideal para:** Founders, CEOs, marketing teams, go-to-market teams
+
+---
+
+### **24. [Comparación de Herramientas PLG](./comparacion_herramientas_plg.md)**
+Comparación detallada de herramientas para PLG:
+- Analytics y tracking (PostHog, Mixpanel, Amplitude, GA4)
+- In-app messaging (Userpilot, Appcues, Pendo, Intercom)
+- A/B testing (Optimizely, VWO, LaunchDarkly)
+- Email y notificaciones (Customer.io, SendGrid, Mailchimp)
+- Billing y pagos (Stripe, Paddle, Chargebee)
+- Dashboards y BI (Tableau, Looker, Metabase)
+- Recomendaciones por caso (early stage, growth, scale, enterprise)
+- Checklist de selección
+
+**Ideal para:** CTOs, product managers, equipos técnicos que seleccionan herramientas
+
+---
+
+### **25. [Troubleshooting PLG](./troubleshooting_plg.md)**
+Guía de diagnóstico y solución de problemas:
+- Problemas comunes (baja activación, baja conversión, alto churn, crecimiento lento, baja retención)
+- Framework de diagnóstico (identificar, analizar, root cause, priorizar)
+- Soluciones específicas para cada problema
+- Métricas de diagnóstico (activation, conversion, churn, retention)
+- Señales de alerta (crítico, atención, saludable)
+- Checklist de troubleshooting
+- Flujo de troubleshooting paso a paso
+
+**Ideal para:** Product managers, growth teams, equipos que resuelven problemas
+
+---
+
+### **26. [Pricing Avanzado PLG](./pricing_avanzado_plg.md)**
+Estrategias avanzadas de pricing para PLG:
+- Principios de pricing PLG (value-based, progression natural, low friction, data-driven)
+- Modelos de pricing (Freemium, Free Trial, Usage-Based, Tiered, Hybrid)
+- Estrategias avanzadas (value metrics, anchor pricing, decoy pricing, psychological pricing, dynamic pricing)
+- Optimización de pricing (proceso, qué optimizar)
+- Métricas de pricing (ARPU, conversion rate, LTV, price elasticity)
+- Framework de pricing con checklist
+- Casos de estudio (Slack, Notion)
+
+**Ideal para:** Founders, product managers, pricing teams
+
+---
+
+### **27. [PLG por Verticales](./plg_por_verticales.md)**
+Adaptaciones de PLG para diferentes verticales:
+- B2B SaaS (decision makers múltiples, ciclos largos, integraciones)
+- B2C Consumer (decisión individual, alto volumen, mobile-first)
+- Healthcare (compliance, seguridad, adoption lenta)
+- EdTech (usuarios múltiples, ciclos académicos, budget limitado)
+- FinTech (trust crítico, regulaciones, network effects)
+- Construction Tech (field workers, project-based, adoption lenta)
+- Creative Tools (creativos individuales, portfolio, tools específicos)
+- Data & Analytics (data scientists, data volume, integrations)
+- Framework de adaptación por vertical
+
+**Ideal para:** Founders, product managers, go-to-market teams en verticales específicas
+
+---
+
+### **28. [Best Practices PLG](./best_practices_plg.md)**
+Mejores prácticas consolidadas de PLG:
+- Principios fundamentales (product-first, time-to-value, self-service, data-driven)
+- Best practices de onboarding (sign-up, empty states, progress, value, personalización)
+- Best practices de conversión (límites, timing, value communication, friction, pricing)
+- Best practices de crecimiento (viralidad, SEO, partnerships, community, organic)
+- Best practices de retención (engagement, value continuo, stickiness, proactive, community)
+- Best practices de métricas (North Star, tracking, dashboards, análisis, benchmarking)
+- Best practices de implementación (planificación, iteración, testing, equipo, cultura)
+- Top 10 best practices consolidadas
+- Checklist de best practices
+
+**Ideal para:** Todos los roles, referencia rápida de mejores prácticas
+
+---
+
+### **29. [Quick Wins PLG](./quick_wins_plg.md)**
+Acciones inmediatas para mejorar PLG:
+- Quick wins de onboarding (empty state, sign-up, checklist, pre-fill, tooltips)
+- Quick wins de conversión (límites, timing, social proof, checkout, pricing)
+- Quick wins de crecimiento (share button, SEO, referral, meta tags, watermark)
+- Quick wins de retención (notificaciones, emails, progress, help center, re-engagement)
+- Quick wins de métricas (tracking, dashboards, alertas)
+- Timeline de implementación (semana 1, 2, 3)
+- Priorización (alto impacto/bajo esfuerzo primero)
+- Checklist de quick wins
+
+**Ideal para:** Equipos que quieren resultados rápidos, implementación inmediata
+
+---
+
+### **30. [PLG para Mobile Apps](./plg_mobile_apps.md)**
+Estrategias PLG adaptadas para aplicaciones móviles:
+- Características únicas de mobile (pantalla pequeña, touch, notificaciones, app stores, offline)
+- Estrategias de onboarding mobile (first launch, permisos, progressive, empty states)
+- Monetización mobile (IAP, freemium, ads, subscriptions)
+- Crecimiento y viralidad (ASO, deep linking, social sharing, referrals)
+- Retención mobile (push notifications, in-app notifications, updates, personalización)
+- Métricas específicas mobile (app store, install, engagement, retention, monetization)
+- Framework mobile PLG con checklist
+- Casos de estudio (Duolingo, Spotify, Uber)
+
+**Ideal para:** Product managers, developers, growth teams trabajando en mobile apps
+
+---
+
+### **31. [Internacionalización PLG](./internacionalizacion_plg.md)**
+Expansión de productos PLG a mercados internacionales:
+- Estrategia de expansión (cuándo expandir, orden de expansión)
+- Localización (idioma, formato, contenido cultural)
+- Pricing internacional (estrategias, currency, payment methods)
+- Go-to-market por región (US, Europa, LatAm, Asia)
+- Adaptaciones culturales (comunicación, UX/UI, marketing)
+- Métricas globales (por región, expansión, localización)
+- Framework de internacionalización con checklist
+- Casos de estudio (Slack, Notion)
+
+**Ideal para:** Founders, CEOs, go-to-market teams expandiendo internacionalmente
+
+---
+
+### **32. [Compliance y Seguridad PLG](./compliance_seguridad_plg.md)**
+Compliance y seguridad en productos PLG:
+- Seguridad de datos (encriptación, autenticación, autorización, data protection)
+- Regulaciones principales (GDPR, CCPA, HIPAA, SOC 2)
+- Certificaciones (ISO 27001, SOC 2 Type II, GDPR compliance)
+- Mejores prácticas (security by design, privacy by design, audits, incident response)
+- Compliance en PLG (onboarding, data collection, user rights, third-party)
+- Framework de compliance con checklist
+- Casos de estudio (Slack, Notion)
+
+**Ideal para:** CTOs, security teams, compliance officers, legal teams
+
+---
+
+### **33. [PLG para Marketplaces](./plg_marketplaces.md)**
+Estrategias PLG adaptadas para marketplaces (dos-sided platforms):
+- Características únicas de marketplaces (chicken-and-egg, dos audiencias, network effects, trust)
+- Estrategias para dos lados (supply-first vs demand-first, estrategias por lado)
+- Onboarding dual (supply, demand, matching temprano)
+- Monetización de marketplaces (transaction fee, commission, listing fee, subscription, hybrid)
+- Crecimiento y network effects (tipos, growth loops, viralidad)
+- Retención en marketplaces (supply, demand, liquidity)
+- Métricas específicas (liquidity, network effects, revenue)
+- Framework marketplace PLG con checklist
+- Casos de estudio (Airbnb, Uber, Etsy)
+
+**Ideal para:** Founders, product managers, growth teams trabajando en marketplaces
+
+---
+
+## 🔄 Comparación de Modelos de Crecimiento
+
+### **PLG vs Sales-Led vs Marketing-Led**
+
+**Product-Led Growth:**
+- ✅ Bajo CAC
+- ✅ Escalable
+- ✅ Self-service
+- ✅ Orgánico
+- ❌ Requiere producto fuerte
+- ❌ Time-to-value crítico
+
+**Sales-Led Growth:**
+- ✅ Personalizado
+- ✅ Enterprise ready
+- ✅ Relaciones fuertes
+- ❌ Alto CAC
+- ❌ No escalable
+- ❌ Requiere sales team
+
+**Marketing-Led Growth:**
+- ✅ Brand awareness
+- ✅ Reach amplio
+- ✅ Control de mensaje
+- ❌ Alto CAC
+- ❌ Menos eficiente
+- ❌ Depende de budget
+
+**Más información:** [Guía Completa PLG - Comparación](./guia_completa_plg.md#-plg-vs-otros-modelos-de-crecimiento)
+
+---
+
 ## 🎯 Guía Rápida por Rol
 
 ### **Para CEOs y Fundadores**
-1. Leer: [Guía Completa - Resumen Ejecutivo](./guia_completa_plg.md#-resumen-ejecutivo)
-2. Revisar: [¿Es PLG Adecuado para Tu Negocio?](./guia_completa_plg.md#-es-plg-adecuado-para-tu-negocio)
-3. Analizar: [Métricas de Salud del Negocio](./metricas_plg.md#-métricas-de-salud-del-negocio)
-4. Estudiar: [Casos de Éxito](./guia_completa_plg.md#-casos-de-éxito-detallados)
+1. Leer: [Getting Started PLG](./getting_started_plg.md) - Ruta paso a paso
+2. Leer: [Resumen Ejecutivo](./resumen_ejecutivo_plg.md) - Visión completa
+3. Revisar: [¿Es PLG Adecuado para Tu Negocio?](./guia_completa_plg.md#-es-plg-adecuado-para-tu-negocio)
+4. Analizar: [Métricas de Salud del Negocio](./metricas_plg.md#-métricas-de-salud-del-negocio)
+5. Estudiar: [Casos de Éxito](./guia_completa_plg.md#-casos-de-éxito-detallados)
+6. Si buscas fundraising: [Fundraising con Métricas PLG](./fundraising_metricas_plg.md)
 
 ### **Para Product Managers**
 1. Leer: [Guía Completa](./guia_completa_plg.md)
@@ -377,11 +603,14 @@ Adaptación de Customer Success para modelos PLG:
 4. Optimizar: [Mejores Prácticas de Onboarding](./estrategias_onboarding_plg.md#-mejores-prácticas)
 
 ### **Para Growth Teams**
-1. Leer: [Métricas de PLG](./metricas_plg.md) (completo)
-2. Implementar: [Estrategias de Conversión](./estrategias_conversion_plg.md)
-3. Optimizar: [Estrategias de Viralidad](./estrategias_viralidad_plg.md)
-4. Medir: [Métricas de Crecimiento](./metricas_plg.md#-métricas-de-crecimiento)
-5. Optimizar: [Dashboards Recomendados](./metricas_plg.md#-dashboards-recomendados)
+1. Leer: [Getting Started PLG](./getting_started_plg.md) - Ruta de inicio
+2. Leer: [Métricas de PLG](./metricas_plg.md) (completo)
+3. Implementar: [Estrategias de Conversión](./estrategias_conversion_plg.md)
+4. Optimizar: [Estrategias de Viralidad](./estrategias_viralidad_plg.md)
+5. Experimentar: [A/B Testing](./ab_testing_optimizacion_plg.md)
+6. Medir: [Métricas de Crecimiento](./metricas_plg.md#-métricas-de-crecimiento)
+7. Optimizar: [Dashboards Recomendados](./metricas_plg.md#-dashboards-recomendados)
+8. Escalar: [Escalamiento Avanzado](./escalamiento_avanzado_plg.md)
 
 ### **Para Diseñadores UX/UI**
 1. Leer: [Estrategias de Onboarding](./estrategias_onboarding_plg.md)
@@ -394,36 +623,57 @@ Adaptación de Customer Success para modelos PLG:
 ## 🚀 Ruta de Aprendizaje Recomendada
 
 ### **Nivel 1: Fundamentos (Semana 1)**
+- [ ] Leer [Getting Started PLG](./getting_started_plg.md) - Ruta completa
+- [ ] Leer [Resumen Ejecutivo](./resumen_ejecutivo_plg.md)
 - [ ] Leer [Guía Completa - Secciones 1-4](./guia_completa_plg.md)
 - [ ] Entender qué es PLG y cómo se diferencia
-- [ ] Evaluar si PLG es adecuado para tu producto
-- [ ] Elegir modelo (Freemium vs Free Trial)
+- [ ] Evaluar si PLG es adecuado para tu producto (usar [framework](./templates_frameworks_plg.md#framework-1-plg-es-adecuado-para-mi-producto))
+- [ ] Elegir modelo (Freemium vs Free Trial) (usar [framework](./templates_frameworks_plg.md#framework-2-elegir-modelo-freemium-vs-trial))
 
 ### **Nivel 2: Implementación (Semanas 2-3)**
+- [ ] Seguir [Guía de Implementación Rápida (30 días)](./guia_implementacion_rapida.md)
 - [ ] Leer [Estrategias de Onboarding](./estrategias_onboarding_plg.md)
+- [ ] Usar [Templates y Frameworks](./templates_frameworks_plg.md)
+- [ ] Configurar [Stack Tecnológico](./stack_tecnologico_plg.md) mínimo
 - [ ] Diseñar flujo de onboarding
 - [ ] Implementar herramientas básicas
 - [ ] Crear primera versión de onboarding
 
 ### **Nivel 3: Optimización (Semanas 4-6)**
 - [ ] Leer [Métricas de PLG](./metricas_plg.md)
+- [ ] Leer [A/B Testing](./ab_testing_optimizacion_plg.md)
+- [ ] Leer [Retención](./retencion_reduccion_churn.md)
 - [ ] Configurar tracking de métricas
+- [ ] Configurar dashboards
 - [ ] Analizar datos iniciales
+- [ ] Empezar A/B testing
 - [ ] Iterar basado en métricas
 
 ### **Nivel 4: Escalamiento (Meses 2+)**
 - [ ] Leer [Estrategias de Conversión](./estrategias_conversion_plg.md)
 - [ ] Implementar [Estrategias de Viralidad](./estrategias_viralidad_plg.md)
+- [ ] Leer [Escalamiento Avanzado](./escalamiento_avanzado_plg.md)
+- [ ] Implementar [Community Building](./community_building_plg.md)
+- [ ] Implementar [Content Marketing](./content_marketing_plg.md)
 - [ ] Revisar [Casos de Éxito](./guia_completa_plg.md#-casos-de-éxito-detallados)
 - [ ] Optimizar continuamente
 - [ ] Expandir estrategias
 - [ ] Medir y mejorar métricas avanzadas
+- [ ] Usar [Forecasting](./forecasting_proyecciones_plg.md) para planificación
 
 ### **Nivel 5: B2B/Enterprise (Si aplica)**
 - [ ] Leer [PLG para B2B Enterprise](./plg_b2b_enterprise.md)
+- [ ] Leer [Customer Success PLG](./customer_success_plg.md)
 - [ ] Implementar modelo híbrido PLG + Sales
 - [ ] Configurar PQL scoring
 - [ ] Optimizar handoff a sales
+- [ ] Implementar health scoring
+
+### **Nivel 6: Fundraising (Si aplica)**
+- [ ] Leer [Fundraising con Métricas PLG](./fundraising_metricas_plg.md)
+- [ ] Preparar [Forecasting](./forecasting_proyecciones_plg.md)
+- [ ] Preparar [Reporting](./reporting_stakeholders_plg.md)
+- [ ] Optimizar métricas clave para fundraising
 
 ---
 
@@ -575,12 +825,22 @@ Adaptación de Customer Success para modelos PLG:
 - ✅ Content marketing (SEO y educación)
 - ✅ Partnerships y colaboraciones estratégicas
 - ✅ Customer Success adaptado a PLG
+- ✅ Getting Started (guía visual de inicio)
+- ✅ Fundraising con métricas PLG
+- ✅ Go-to-Market Strategy completa
+- ✅ Comparación de herramientas PLG
+- ✅ Troubleshooting y solución de problemas
+- ✅ Pricing avanzado para PLG
+- ✅ PLG por verticales e industrias
+- ✅ Best Practices consolidadas
+- ✅ Quick Wins (acciones inmediatas)
+- ✅ PLG para mobile apps
+- ✅ Internacionalización con PLG
+- ✅ Compliance y seguridad en PLG
+- ✅ PLG para marketplaces
 
 **Próximas adiciones planeadas:**
-- PLG para marketplaces
 - PLG para productos físicos/digitales híbridos
-- PLG para mobile apps
-- Guía de herramientas y stack tecnológico
 
 ---
 

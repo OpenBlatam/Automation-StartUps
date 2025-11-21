@@ -1,0 +1,39 @@
+{
+  "name": "dm-linkedin-system",
+  "version": "12.0.0",
+  "description": "Sistema de DMs de LinkedIn - Automatización y análisis",
+  "scripts": {
+    "dm:docs": "node Scripts/dm_linkedin_auto_documentation.js",
+    "dm:realtime": "node Scripts/dm_linkedin_realtime_metrics.js",
+    "dm:optimize": "node Scripts/dm_linkedin_performance_optimizer.js",
+    "dm:weekly": "node Scripts/dm_linkedin_weekly_report.js",
+    "dm:snapshot": "node Scripts/dm_linkedin_kpi_snapshot.js",
+    "dm:health": "node Scripts/dm_linkedin_health_check_cli.js",
+    "dm:archive": "node Scripts/dm_linkedin_archive_logs.js",
+    "dm:seed": "node Scripts/dm_linkedin_seed_data.js",
+    "dm:anomaly": "node Scripts/dm_linkedin_anomaly_detector.js",
+    "dm:check": "node Scripts/dm_linkedin_consistency_check.js",
+    "dm:suppress": "node Scripts/dm_linkedin_suppression_manager.js",
+    "dm:linter": "node Scripts/dm_linkedin_message_linter.js",
+    "dm:preflight": "node Scripts/dm_linkedin_preflight.js",
+    "dm:queue": "node Scripts/dm_linkedin_queue_builder.js",
+    "dm:queue:validate": "node Scripts/dm_linkedin_queue_validator.js",
+    "dm:queue:chunk": "node Scripts/dm_linkedin_queue_chunker.js",
+    "dm:queue:retry": "node Scripts/dm_linkedin_queue_retry.js",
+    "dm:queue:dryrun": "node Scripts/dm_linkedin_queue_dry_run.js",
+    "dm:queue:cooldown": "node Scripts/dm_linkedin_queue_cooldown_guard.js",
+    "dm:optout": "node Scripts/dm_linkedin_optout_catcher.js",
+    "dm:guard": "node Scripts/dm_linkedin_campaign_guard.js",
+    "dm:enrich": "node Scripts/dm_linkedin_enrich_recipients.js",
+    "dm:setup": "node Scripts/dm_linkedin_setup.js"
+  },
+  "keywords": [
+    "linkedin",
+    "dm",
+    "outreach",
+    "automation"
+  ],
+  "author": "",
+  "license": "ISC"
+}
+
