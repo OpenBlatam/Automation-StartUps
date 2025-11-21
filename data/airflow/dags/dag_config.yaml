@@ -1,0 +1,141 @@
+# ⚙️ Configuración Centralizada de DAGs
+# Este archivo contiene configuración compartida para todos los DAGs
+
+# Configuración general
+general:
+  default_owner: "data-team"
+  default_timezone: "UTC"
+  default_retries: 2
+  default_retry_delay_minutes: 5
+  default_email_on_failure: true
+  default_email_on_retry: false
+
+# Configuración por área
+areas:
+  sales_marketing:
+    owner: "sales-team"
+    email_on_failure: true
+    retries: 3
+    tags: ["sales", "marketing"]
+    
+  hr_talent:
+    owner: "hr-team"
+    email_on_failure: true
+    retries: 2
+    tags: ["hr", "talent"]
+    
+  finance_billing:
+    owner: "finance-team"
+    email_on_failure: true
+    retries: 3
+    tags: ["finance", "billing"]
+    priority: "high"
+    
+  product_ecommerce:
+    owner: "product-team"
+    email_on_failure: true
+    retries: 2
+    tags: ["product", "ecommerce"]
+    
+  customer_success:
+    owner: "customer-success-team"
+    email_on_failure: true
+    retries: 2
+    tags: ["customer-success", "support"]
+    
+  data_analytics:
+    owner: "data-team"
+    email_on_failure: true
+    retries: 2
+    tags: ["data", "analytics"]
+    
+  operations:
+    owner: "ops-team"
+    email_on_failure: true
+    retries: 1
+    tags: ["operations", "infrastructure"]
+    
+  integrations:
+    owner: "data-team"
+    email_on_failure: true
+    retries: 3
+    tags: ["integrations", "sync"]
+
+# Configuración de schedules comunes
+schedules:
+  daily: "@daily"
+  hourly: "@hourly"
+  weekly: "@weekly"
+  monthly: "@monthly"
+  business_days: "0 9 * * 1-5"  # 9 AM Monday-Friday
+  end_of_month: "0 0 1 * *"      # First day of month at midnight
+
+# Configuración de recursos
+resources:
+  small:
+    cpu: "0.5"
+    memory: "512Mi"
+    
+  medium:
+    cpu: "1"
+    memory: "1Gi"
+    
+  large:
+    cpu: "2"
+    memory: "2Gi"
+    
+  xlarge:
+    cpu: "4"
+    memory: "4Gi"
+
+# Configuración de notificaciones
+notifications:
+  critical:
+    email: true
+    slack: true
+    pagerduty: true
+    
+  high:
+    email: true
+    slack: true
+    
+  medium:
+    email: true
+    
+  low:
+    email: false
+
+# Configuración de conexiones comunes
+connections:
+  postgres_default:
+    type: "postgres"
+    description: "Base de datos principal"
+    
+  s3_default:
+    type: "s3"
+    description: "Almacenamiento S3"
+    
+  http_default:
+    type: "http"
+    description: "Conexiones HTTP genéricas"
+
+# Configuración de variables de entorno
+environment_variables:
+  development:
+    env: "dev"
+    debug: true
+    
+  production:
+    env: "prod"
+    debug: false
+
+# Configuración de monitoreo
+monitoring:
+  enabled: true
+  metrics_collection: true
+  log_retention_days: 30
+  alert_thresholds:
+    execution_time_minutes: 60
+    failure_rate_percent: 5
+    retry_rate_percent: 10
+

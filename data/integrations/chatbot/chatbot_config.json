@@ -1,0 +1,57 @@
+{
+  "company_name": "[Nombre de la Empresa]",
+  "product": "Software de Contabilidad",
+  "tone": "profesional pero cálido",
+  "use_emojis": true,
+  "auto_escalate_critical": true,
+  "languages": ["es", "en", "pt", "fr"],
+  "channels": ["web", "whatsapp", "email", "telegram", "intercom", "dialogflow"],
+  "settings": {
+    "max_conversation_history": 10,
+    "response_timeout": 30,
+    "confidence_threshold": 0.7,
+    "enable_sentiment_analysis": true,
+    "enable_ab_testing": true,
+    "satisfaction_survey_enabled": true,
+    "auto_satisfaction_request": true
+  },
+  "integrations": {
+    "crm": {
+      "enabled": true,
+      "type": "salesforce",
+      "sync_leads": true,
+      "sync_tickets": true
+    },
+    "zapier": {
+      "enabled": true,
+      "webhook_url": ""
+    },
+    "whatsapp": {
+      "enabled": true,
+      "api_key": "",
+      "phone_number_id": ""
+    },
+    "email": {
+      "enabled": true,
+      "provider": "sendgrid",
+      "api_key": ""
+    },
+    "intercom": {
+      "enabled": false,
+      "app_id": "",
+      "api_key": ""
+    },
+    "dialogflow": {
+      "enabled": false,
+      "project_id": "",
+      "credentials_path": ""
+    }
+  },
+  "metrics": {
+    "target_resolution_rate": 80,
+    "target_response_time": 60,
+    "target_satisfaction": 4.5,
+    "track_conversations": true,
+    "track_sentiment": true
+  }
+}

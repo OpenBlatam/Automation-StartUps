@@ -1,0 +1,145 @@
+# Network Policies para Airbyte
+# Permite comunicación necesaria entre componentes de Airbyte y con Airflow
+
+# Permitir comunicación desde Airflow hacia Airbyte API
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-airflow-to-airbyte
+  namespace: integration
+spec:
+  podSelector:
+    matchLabels:
+      app: airbyte
+      component: server
+  policyTypes:
+    - Ingress
+  ingress:
+    # Permitir desde Airflow workers
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: data
+        - podSelector:
+            matchLabels:
+              app: airflow
+              component: worker
+      ports:
+        - protocol: TCP
+          port: 8000
+    # Permitir desde Ingress Controller
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: ingress-nginx
+      ports:
+        - protocol: TCP
+          port: 8000
+
+---
+# Permitir comunicación desde Ingress hacia WebApp
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-ingress-to-airbyte-webapp
+  namespace: integration
+spec:
+  podSelector:
+    matchLabels:
+      app: airbyte
+      component: webapp
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: ingress-nginx
+      ports:
+        - protocol: TCP
+          port: 80
+
+---
+# Permitir comunicación entre componentes de Airbyte
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-airbyte-internal
+  namespace: integration
+spec:
+  podSelector:
+    matchLabels:
+      app: airbyte
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    # Permitir comunicación entre componentes de Airbyte
+    - from:
+        - podSelector:
+            matchLabels:
+              app: airbyte
+      ports:
+        - protocol: TCP
+          port: 8000  # Server API
+        - protocol: TCP
+          port: 80    # WebApp
+        - protocol: TCP
+          port: 9000  # MinIO (si aplica)
+  egress:
+    # Permitir DNS
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              name: kube-system
+        - podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - protocol: UDP
+          port: 53
+    # Permitir comunicación entre componentes de Airbyte
+    - to:
+        - podSelector:
+            matchLabels:
+              app: airbyte
+      ports:
+        - protocol: TCP
+          port: 8000
+        - protocol: TCP
+          port: 5432  # PostgreSQL
+        - protocol: TCP
+          port: 9000  # MinIO
+    # Permitir acceso a bases de datos externas (Sources)
+    - to: []  # Permitir acceso a cualquier destino para sincronizar datos
+      ports:
+        - protocol: TCP
+        - protocol: UDP
+
+---
+# Permitir acceso de Airbyte workers a PostgreSQL interno
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-airbyte-to-postgres
+  namespace: integration
+spec:
+  podSelector:
+    matchLabels:
+      app: airbyte
+      component: postgresql
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: airbyte
+      ports:
+        - protocol: TCP
+          port: 5432
+
+
+
+
+

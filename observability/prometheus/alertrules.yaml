@@ -1,0 +1,249 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: platform-alerts
+  namespace: observability
+spec:
+  groups:
+    - name: ingress.rules
+      rules:
+        - alert: High5xxRate
+          expr: sum(rate(nginx_ingress_controller_requests{status=~"5.."}[5m])) / sum(rate(nginx_ingress_controller_requests[5m])) > 0.05
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            description: "Más del 5% de respuestas 5xx en los últimos 10m"
+            summary: "Tasa de 5xx elevada en NGINX"
+    - name: pods.rules
+      rules:
+        - alert: PodCrashLooping
+          expr: increase(kube_pod_container_status_restarts_total[10m]) > 3
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            description: "Reinicios repetidos detectados en contenedores"
+            summary: "CrashLoopBackOff potencial"
+    - name: kpi.rules
+      rules:
+        - alert: LowDailyLeads
+          expr: kpi_leads_today < 50
+          for: 15m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Leads diarios bajos"
+            description: "Leads de hoy por debajo de umbral crítico (<50)"
+        - alert: LowRevenueVsAvg7d
+          expr: (kpi_revenue_today / clamp_min(kpi_revenue_avg7d, 1)) < 0.7
+          for: 30m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Ingresos hoy < 70% del promedio 7d"
+            description: "Ingresos actuales por debajo del baseline semanal"
+        - alert: LowPaymentSuccessRate
+          expr: kpi_payments_success_rate < 92
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Éxito de pagos bajo"
+            description: "Tasa de éxito de pagos por debajo de 92%"
+        - alert: LowRevenueBySegment
+          expr: kpi_revenue_by_segment / on(country, source) group_left() kpi_revenue_avg7d_by_segment < 0.7
+          for: 30m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Revenue bajo por segmento {{$labels.country}}/{{$labels.source}}"
+            description: "Revenue del segmento < 70% del promedio 7d"
+        - alert: LowLeadsBySegment
+          expr: kpi_leads_by_segment < 20
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Leads bajos en segmento {{$labels.country}}/{{$labels.source}}"
+            description: "Leads del segmento por debajo de umbral (<20)"
+    - name: airflow.etl.rules
+      rules:
+        - alert: EtlExampleHighDuration
+          expr: (sum(rate(etl_example_total_duration_ms_sum[5m])) / sum(rate(etl_example_total_duration_ms_count[5m]))) > 15 * 60 * 1000
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "etl_example duración alta"
+            description: "Duración media del DAG etl_example > 15m en ventana 5m"
+        - alert: EtlExampleNullRateExceeded
+          expr: increase(etl_example_dq_null_rate_exceeded_total[15m]) > 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "etl_example null_rate excedido"
+            description: "Se detectaron fallos de DQ por null_rate en etl_example en los últimos 15m"
+    - name: mlflow.rules
+      rules:
+        - alert: MLflowServerDown
+          expr: up{job="mlflow"} == 0
+          for: 5m
+          labels:
+            severity: critical
+            component: mlflow
+          annotations:
+            summary: "MLflow server está caído"
+            description: "MLflow tracking server no responde por más de 5 minutos"
+        
+        - alert: MLflowHighErrorRate
+          expr: |
+            sum(rate(mlflow_http_requests_total{status=~"5.."}[5m])) 
+            / sum(rate(mlflow_http_requests_total[5m])) > 0.05
+          for: 10m
+          labels:
+            severity: warning
+            component: mlflow
+          annotations:
+            summary: "MLflow tasa de errores 5xx alta"
+            description: "Más del 5% de requests retornan 5xx en MLflow ({{ $value | humanizePercentage }})"
+        
+        - alert: MLflowHighLatency
+          expr: |
+            histogram_quantile(0.95, 
+              sum(rate(mlflow_http_request_duration_seconds_bucket[5m])) by (le)
+            ) > 2
+          for: 15m
+          labels:
+            severity: warning
+            component: mlflow
+          annotations:
+            summary: "MLflow latencia alta (p95)"
+            description: "Latencia p95 de MLflow > 2s durante 15 minutos ({{ $value }}s)"
+        
+        - alert: MLflowPostgresConnectionPoolExhausted
+          expr: |
+            mlflow_sqlalchemy_connections_checked_out > 
+            mlflow_sqlalchemy_connections_pool_size * 0.9
+          for: 10m
+          labels:
+            severity: warning
+            component: mlflow
+          annotations:
+            summary: "MLflow connection pool casi agotado"
+            description: "Pool de conexiones PostgreSQL > 90% utilizado ({{ $value }})"
+        
+        - alert: MLflowArtifactUploadFailed
+          expr: increase(mlflow_artifact_upload_failed_total[15m]) > 0
+          for: 5m
+          labels:
+            severity: warning
+            component: mlflow
+          annotations:
+            summary: "MLflow fallos en upload de artefactos"
+            description: "{{ $value }} fallos en upload de artefactos en los últimos 15 minutos"
+        
+        - alert: MLflowExperimentCreateRateHigh
+          expr: rate(mlflow_experiments_created_total[5m]) > 10
+          for: 10m
+          labels:
+            severity: info
+            component: mlflow
+          annotations:
+            summary: "MLflow alta tasa de creación de experimentos"
+            description: "Más de 10 experimentos creados por minuto ({{ $value }})"
+        
+        - alert: MLflowRunLoggingRateHigh
+          expr: rate(mlflow_runs_logged_total[5m]) > 100
+          for: 10m
+          labels:
+            severity: info
+            component: mlflow
+          annotations:
+            summary: "MLflow alta tasa de logging de runs"
+            description: "Más de 100 runs logueados por minuto ({{ $value }})"
+    
+    - name: automation.workflows.rules
+      rules:
+        - alert: AirflowDagRunFailed
+          expr: increase(airflow_dagrun_failed_total[10m]) > 0
+          for: 5m
+          labels:
+            severity: critical
+            component: airflow
+          annotations:
+            summary: "DAG run falló en Airflow"
+            description: "DAG {{ $labels.dag_id }} falló en los últimos 10 minutos"
+        - alert: AirflowTaskFailed
+          expr: increase(airflow_task_failed_total[5m]) > 3
+          for: 5m
+          labels:
+            severity: warning
+            component: airflow
+          annotations:
+            summary: "Múltiples tareas fallaron en Airflow"
+            description: "{{ $value }} tareas fallaron en los últimos 5 minutos"
+        - alert: AirflowSchedulerLag
+          expr: airflow_scheduler_heartbeat{state="healthy"} == 0
+          for: 2m
+          labels:
+            severity: critical
+            component: airflow
+          annotations:
+            summary: "Airflow scheduler no saludable"
+            description: "El scheduler de Airflow no está reportando como saludable"
+        - alert: KestraExecutionFailed
+          expr: increase(kestra_executions_failed_total[10m]) > 0
+          for: 5m
+          labels:
+            severity: warning
+            component: kestra
+          annotations:
+            summary: "Ejecución falló en Kestra"
+            description: "Flow {{ $labels.flow_id }} falló en los últimos 10 minutos"
+        - alert: CamundaProcessInstanceFailed
+          expr: increase(camunda_process_instances_failed_total[10m]) > 0
+          for: 5m
+          labels:
+            severity: warning
+            component: camunda
+          annotations:
+            summary: "Proceso falló en Camunda"
+            description: "Proceso {{ $labels.process_definition_key }} falló en los últimos 10 minutos"
+        - alert: HighTaskDuration
+          expr: histogram_quantile(0.95, rate(airflow_task_duration_seconds_bucket[5m])) > 1800
+          for: 10m
+          labels:
+            severity: warning
+            component: airflow
+          annotations:
+            summary: "Duración alta en tareas de Airflow"
+            description: "P95 de duración de tareas > 30 minutos"
+        - alert: AutomationQueueBacklog
+          expr: airflow_dag_run_queue_length > 50
+          for: 10m
+          labels:
+            severity: warning
+            component: airflow
+          annotations:
+            summary: "Cola de automatizaciones con backlog"
+            description: "Hay {{ $value }} DAG runs en cola"
+        - alert: VaultConnectionFailed
+          expr: up{job="vault"} == 0
+          for: 2m
+          labels:
+            severity: critical
+            component: vault
+          annotations:
+            summary: "Vault no accesible"
+            description: "Vault no está respondiendo, las automatizaciones pueden fallar al obtener secretos"
+        - alert: VaultSecretAccessError
+          expr: increase(vault_secret_access_errors_total[5m]) > 5
+          for: 5m
+          labels:
+            severity: warning
+            component: vault
+          annotations:
+            summary: "Errores al acceder a secretos en Vault"
+            description: "{{ $value }} errores al acceder a secretos en los últimos 5 minutos"

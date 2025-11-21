@@ -1,0 +1,265 @@
+{
+  "name": "ML Continuous Optimization Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "cronExpression": "0 2 * * *",
+        "timezone": "UTC",
+        "options": {}
+      },
+      "id": "schedule-daily",
+      "name": "Daily Schedule (2 AM)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [150, 300],
+      "notes": "Ejecuta diariamente a las 2 AM para optimización"
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL }}/analytics/performance",
+        "method": "GET",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "={{ $env.API_KEY }}"
+            }
+          ]
+        },
+        "options": {
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "period",
+                "value": "7d"
+              }
+            ]
+          }
+        }
+      },
+      "id": "fetch-performance-data",
+      "name": "Fetch Performance Data",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [350, 300],
+      "notes": "Obtiene datos de performance de últimos 7 días"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Análisis ML de performance y optimización automática\nconst performanceData = $input.item.json;\n\n// Extraer métricas clave\nconst metrics = {\n  cartAbandonmentRate: performanceData.cartAbandonmentRate || 0,\n  emailOpenRate: performanceData.emailOpenRate || 0,\n  emailClickRate: performanceData.emailClickRate || 0,\n  conversionRate: performanceData.conversionRate || 0,\n  recoveryRate: performanceData.recoveryRate || 0,\n  averageOrderValue: performanceData.averageOrderValue || 0,\n  revenue: performanceData.revenue || 0\n};\n\n// Análisis de tendencias (comparar con semana anterior)\nconst previousWeek = performanceData.previousWeek || {};\nconst trends = {\n  cartAbandonment: metrics.cartAbandonmentRate - (previousWeek.cartAbandonmentRate || 0),\n  emailOpen: metrics.emailOpenRate - (previousWeek.emailOpenRate || 0),\n  emailClick: metrics.emailClickRate - (previousWeek.emailClickRate || 0),\n  conversion: metrics.conversionRate - (previousWeek.conversionRate || 0),\n  recovery: metrics.recoveryRate - (previousWeek.recoveryRate || 0)\n};\n\n// Detectar problemas\nconst issues = [];\nif (metrics.cartAbandonmentRate > 80) {\n  issues.push({\n    type: 'high_abandonment',\n    severity: 'critical',\n    message: 'Tasa de abandono muy alta',\n    recommendation: 'Revisar proceso de checkout'\n  });\n}\n\nif (metrics.emailOpenRate < 20) {\n  issues.push({\n    type: 'low_open_rate',\n    severity: 'warning',\n    message: 'Tasa de apertura baja',\n    recommendation: 'Optimizar asuntos y timing'\n  });\n}\n\nif (metrics.emailClickRate < 5) {\n  issues.push({\n    type: 'low_click_rate',\n    severity: 'warning',\n    message: 'Tasa de clic baja',\n    recommendation: 'Mejorar CTAs y contenido'\n  });\n}\n\n// Calcular optimizaciones sugeridas\nconst optimizations = [];\n\n// Optimización de timing\nif (trends.emailOpen < -5) {\n  optimizations.push({\n    type: 'timing',\n    action: 'adjust_send_times',\n    description: 'Ajustar horarios de envío basado en aperturas',\n    priority: 'high'\n  });\n}\n\n// Optimización de mensajes\nif (trends.emailClick < -2) {\n  optimizations.push({\n    type: 'content',\n    action: 'test_new_ctas',\n    description: 'Probar nuevos CTAs y mensajes',\n    priority: 'high'\n  });\n}\n\n// Optimización de descuentos\nif (trends.recovery < -5) {\n  optimizations.push({\n    type: 'discount',\n    action: 'adjust_discounts',\n    description: 'Ajustar niveles de descuento',\n    priority: 'medium'\n  });\n}\n\n// Calcular score de salud general (0-100)\nlet healthScore = 100;\nif (metrics.cartAbandonmentRate > 75) healthScore -= 20;\nif (metrics.emailOpenRate < 25) healthScore -= 15;\nif (metrics.emailClickRate < 8) healthScore -= 15;\nif (metrics.conversionRate < 15) healthScore -= 20;\nif (metrics.recoveryRate < 30) healthScore -= 15;\nif (trends.cartAbandonment > 5) healthScore -= 10;\nif (trends.emailOpen < -5) healthScore -= 5;\n\nhealthScore = Math.max(0, Math.min(100, healthScore));\n\n// Generar recomendaciones ML\nconst mlRecommendations = [];\n\nif (healthScore < 70) {\n  mlRecommendations.push({\n    priority: 'critical',\n    action: 'comprehensive_review',\n    description: 'Revisión completa del sistema recomendada'\n  });\n}\n\nif (metrics.recoveryRate < 25 && metrics.cartAbandonmentRate > 60) {\n  mlRecommendations.push({\n    priority: 'high',\n    action: 'improve_recovery_sequence',\n    description: 'Mejorar secuencia de recuperación'\n  });\n}\n\nreturn [{\n  json: {\n    timestamp: new Date().toISOString(),\n    period: '7d',\n    metrics: metrics,\n    trends: trends,\n    issues: issues,\n    optimizations: optimizations,\n    mlRecommendations: mlRecommendations,\n    healthScore: healthScore,\n    healthStatus: healthScore > 80 ? 'excellent' : healthScore > 60 ? 'good' : healthScore > 40 ? 'fair' : 'poor'\n  }\n}];"
+      },
+      "id": "ml-analysis",
+      "name": "ML Performance Analysis",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [550, 300],
+      "notes": "Análisis ML de performance y generación de optimizaciones"
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.ML_API_URL }}/optimize",
+        "method": "POST",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json }}",
+        "options": {}
+      },
+      "id": "send-to-ml",
+      "name": "Send to ML Service",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [750, 300],
+      "notes": "Envía datos a servicio ML para optimización",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-001",
+              "leftValue": "={{ $json.healthScore }}",
+              "rightValue": 60,
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-health",
+      "name": "Check Health Score",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [950, 300],
+      "notes": "Verifica si health score requiere acción"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Aplicar optimizaciones automáticas\nconst analysis = $input.item.json;\n\nconst autoOptimizations = [];\n\n// Ajustar timing si open rate bajo\nif (analysis.metrics.emailOpenRate < 25) {\n  autoOptimizations.push({\n    type: 'timing',\n    action: 'shift_send_times',\n    shiftHours: 2,\n    reason: 'Low open rate'\n  });\n}\n\n// Ajustar descuentos si recovery bajo\nif (analysis.metrics.recoveryRate < 30) {\n  autoOptimizations.push({\n    type: 'discount',\n    action: 'increase_discounts',\n    increasePercent: 5,\n    reason: 'Low recovery rate'\n  });\n}\n\n// Ajustar frecuencia si bounce alto\nif (analysis.metrics.bounceRate > 5) {\n  autoOptimizations.push({\n    type: 'frequency',\n    action: 'reduce_frequency',\n    reducePercent: 20,\n    reason: 'High bounce rate'\n  });\n}\n\nreturn [{\n  json: {\n    ...analysis,\n    autoOptimizations: autoOptimizations,\n    appliedAt: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "apply-optimizations",
+      "name": "Apply Auto Optimizations",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1150, 200],
+      "notes": "Aplica optimizaciones automáticas"
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL }}/config/update",
+        "method": "POST",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.autoOptimizations }}",
+        "options": {}
+      },
+      "id": "update-config",
+      "name": "Update Configuration",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1350, 200],
+      "notes": "Actualiza configuración con optimizaciones",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "resource": "email",
+        "operation": "send",
+        "fromEmail": "={{ $env.FROM_EMAIL }}",
+        "toEmail": "={{ $env.OPTIMIZATION_EMAIL || 'team@yourdomain.com' }}",
+        "subject": "Reporte de Optimización ML - Health Score: {{ $json.healthScore }}",
+        "html": "=<h2>Reporte de Optimización ML</h2><p><strong>Health Score:</strong> {{ $json.healthScore }} ({{ $json.healthStatus }})</p><h3>Métricas Actuales:</h3><ul><li>Abandono: {{ $json.metrics.cartAbandonmentRate.toFixed(2) }}%</li><li>Apertura: {{ $json.metrics.emailOpenRate.toFixed(2) }}%</li><li>Clic: {{ $json.metrics.emailClickRate.toFixed(2) }}%</li><li>Conversión: {{ $json.metrics.conversionRate.toFixed(2) }}%</li><li>Recuperación: {{ $json.metrics.recoveryRate.toFixed(2) }}%</li></ul><h3>Optimizaciones Aplicadas:</h3><ul>{{ $json.autoOptimizations.map(o => `<li>${o.action}: ${o.reason}</li>`).join('') }}</ul>",
+        "text": "Health Score: {{ $json.healthScore }}\\n\\nOptimizaciones aplicadas",
+        "options": {}
+      },
+      "id": "send-optimization-report",
+      "name": "Send Optimization Report",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [1550, 200],
+      "credentials": {
+        "smtp": {
+          "id": "smtp-credentials",
+          "name": "SMTP Credentials"
+        }
+      },
+      "notes": "Envía reporte de optimizaciones",
+      "continueOnFail": true
+    }
+  ],
+  "connections": {
+    "Daily Schedule (2 AM)": {
+      "main": [
+        [
+          {
+            "node": "Fetch Performance Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Performance Data": {
+      "main": [
+        [
+          {
+            "node": "ML Performance Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ML Performance Analysis": {
+      "main": [
+        [
+          {
+            "node": "Send to ML Service",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Health Score",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Health Score": {
+      "main": [
+        [
+          {
+            "node": "Apply Auto Optimizations",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Apply Auto Optimizations": {
+      "main": [
+        [
+          {
+            "node": "Update Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Configuration": {
+      "main": [
+        [
+          {
+            "node": "Send Optimization Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "ml-optimization",
+      "name": "ML Optimization"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1.0"
+}
+
+
+
+
+
+
+
+
+
+

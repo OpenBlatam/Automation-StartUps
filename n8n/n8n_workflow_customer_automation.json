@@ -1,0 +1,733 @@
+{
+  "name": "Customer Action Automation Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "cart-abandonment",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-cart",
+      "name": "Cart Abandonment Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [150, 300],
+      "webhookId": "cart-abandonment-trigger",
+      "notes": "Trigger: Se activa cuando un cliente abandona el carrito"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "page-visit",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-page",
+      "name": "Page Visit Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [150, 500],
+      "webhookId": "page-visit-trigger",
+      "notes": "Trigger: Se activa cuando un cliente visita una página específica"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-001",
+              "leftValue": "={{ $json.eventType }}",
+              "rightValue": "cart_abandonment",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "filter-cart",
+      "name": "Filter Cart Event",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [350, 300],
+      "notes": "Filtra eventos de abandono de carrito"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-002",
+              "leftValue": "={{ $json.eventType }}",
+              "rightValue": "page_visit",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "filter-page",
+      "name": "Filter Page Visit",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [350, 500],
+      "notes": "Filtra eventos de visita a página"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Enriquecer datos del evento\nconst event = $input.item.json;\n\n// Validar datos requeridos\nif (!event.customerId && !event.email) {\n  throw new Error('Se requiere customerId o email');\n}\n\n// Preparar datos enriquecidos\nconst enrichedData = {\n  customerId: event.customerId || `guest_${Date.now()}`,\n  email: event.email,\n  firstName: event.firstName || 'Cliente',\n  lastName: event.lastName || '',\n  cartValue: event.cartValue || 0,\n  cartItems: event.cartItems || [],\n  cartId: event.cartId || `cart_${Date.now()}`,\n  timestamp: new Date().toISOString(),\n  eventType: event.eventType,\n  pageUrl: event.pageUrl || '',\n  pageCategory: event.pageCategory || '',\n  sessionId: event.sessionId || `session_${Date.now()}`,\n  // Calcular valor total del carrito\n  totalValue: (event.cartItems || []).reduce((sum, item) => sum + (item.price * item.quantity), 0) || event.cartValue || 0,\n  // Determinar segmento de cliente\n  customerSegment: event.cartValue > 100 ? 'high_value' : event.cartValue > 50 ? 'medium_value' : 'low_value',\n  // Número de items\n  itemCount: (event.cartItems || []).length || 0\n};\n\nreturn [{\n  json: enrichedData\n}];"
+      },
+      "id": "enrich-data",
+      "name": "Enrich Customer Data",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [550, 300],
+      "notes": "Enriquece y valida los datos del cliente"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-003",
+              "leftValue": "={{ $json.totalValue }}",
+              "rightValue": 50,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-cart-value",
+      "name": "Check Cart Value",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [750, 300],
+      "notes": "Verifica si el valor del carrito es significativo (>$50)"
+    },
+    {
+      "parameters": {
+        "amount": 1,
+        "unit": "hours",
+        "options": {}
+      },
+      "id": "wait-1h",
+      "name": "Wait 1 Hour",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [950, 200],
+      "notes": "Espera 1 hora antes del primer mensaje"
+    },
+    {
+      "parameters": {
+        "amount": 24,
+        "unit": "hours",
+        "options": {}
+      },
+      "id": "wait-24h",
+      "name": "Wait 24 Hours",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [950, 300],
+      "notes": "Espera 24 horas antes del segundo mensaje"
+    },
+    {
+      "parameters": {
+        "amount": 72,
+        "unit": "hours",
+        "options": {}
+      },
+      "id": "wait-72h",
+      "name": "Wait 72 Hours",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [950, 400],
+      "notes": "Espera 72 horas antes del mensaje final"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-004",
+              "leftValue": "={{ $json.customerSegment }}",
+              "rightValue": "high_value",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-segment",
+      "name": "Check Customer Segment",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1150, 300],
+      "notes": "Verifica el segmento del cliente para personalizar mensajes"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generar mensaje personalizado según el contexto\nconst data = $input.item.json;\nconst messageType = $json.messageType || 'reminder';\nconst customerName = data.firstName || 'Cliente';\nconst cartValue = data.totalValue || 0;\nconst itemCount = data.itemCount || 0;\nconst items = data.cartItems || [];\n\n// Mensajes según tipo y segmento\nlet subject, body, discountCode;\n\nif (messageType === 'first_reminder') {\n  subject = `¿Olvidaste algo, ${customerName}?`;\n  body = `Hola ${customerName},\n\nNotamos que dejaste algunos artículos en tu carrito:\n\n${items.map(item => `• ${item.name} - $${item.price}`).join('\\n')}\n\nTotal: $${cartValue.toFixed(2)}\n\n¿Te gustaría completar tu compra? Tu carrito está guardado y listo para ti.\n\n[Completar Compra]`;\n  discountCode = null;\n} else if (messageType === 'second_reminder') {\n  subject = `Última oportunidad: Tu carrito te espera`;\n  body = `Hola ${customerName},\n\nTus artículos siguen esperándote:\n\n${items.map(item => `• ${item.name} - $${item.price}`).join('\\n')}\n\nTotal: $${cartValue.toFixed(2)}\n\nComo agradecimiento por tu interés, te ofrecemos un descuento especial del 10%.\n\nCódigo: SAVE10\n\n[Completar Compra con Descuento]`;\n  discountCode = 'SAVE10';\n} else if (messageType === 'final_reminder') {\n  if (data.customerSegment === 'high_value') {\n    subject = `Oferta exclusiva: 15% OFF en tu carrito`;\n    body = `Hola ${customerName},\n\nComo cliente valioso, queremos ofrecerte un descuento especial del 15% en los artículos de tu carrito.\n\n${items.map(item => `• ${item.name} - $${item.price}`).join('\\n')}\n\nTotal original: $${cartValue.toFixed(2)}\nTotal con descuento: $${(cartValue * 0.85).toFixed(2)}\n\nCódigo exclusivo: VIP15\n\nEsta oferta expira en 48 horas.\n\n[Completar Compra Ahora]`;\n    discountCode = 'VIP15';\n  } else {\n    subject = `Última oportunidad: 10% OFF`;\n    body = `Hola ${customerName},\n\nNo queremos que te pierdas estos artículos:\n\n${items.map(item => `• ${item.name} - $${item.price}`).join('\\n')}\n\nTotal: $${cartValue.toFixed(2)}\n\nAprovecha 10% de descuento con el código: SAVE10\n\n[Completar Compra]`;\n    discountCode = 'SAVE10';\n  }\n}\n\nreturn [{\n  json: {\n    ...data,\n    messageSubject: subject,\n    messageBody: body,\n    discountCode: discountCode,\n    messageType: messageType,\n    personalization: {\n      customerName: customerName,\n      cartValue: cartValue,\n      itemCount: itemCount\n    }\n  }\n}];"
+      },
+      "id": "generate-message",
+      "name": "Generate Message Content",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1350, 300],
+      "notes": "Genera contenido de mensaje personalizado"
+    },
+    {
+      "parameters": {
+        "resource": "email",
+        "operation": "send",
+        "fromEmail": "={{ $env.FROM_EMAIL || 'noreply@yourdomain.com' }}",
+        "toEmail": "={{ $json.email }}",
+        "subject": "={{ $json.messageSubject }}",
+        "text": "={{ $json.messageBody }}",
+        "options": {
+          "replyTo": "={{ $env.REPLY_TO_EMAIL || 'support@yourdomain.com' }}"
+        }
+      },
+      "id": "send-email",
+      "name": "Send Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [1550, 300],
+      "credentials": {
+        "smtp": {
+          "id": "smtp-credentials",
+          "name": "SMTP Credentials"
+        }
+      },
+      "notes": "Envía email al cliente"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "to": "={{ $json.phone || $json.mobile }}",
+        "message": "={{ $json.messageBody }}",
+        "options": {}
+      },
+      "id": "send-sms",
+      "name": "Send SMS",
+      "type": "n8n-nodes-base.twilio",
+      "typeVersion": 1.1,
+      "position": [1550, 400],
+      "credentials": {
+        "twilioApi": {
+          "id": "twilio-credentials",
+          "name": "Twilio API"
+        }
+      },
+      "notes": "Envía SMS (opcional, si hay teléfono)"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-005",
+              "leftValue": "={{ $json.pageCategory }}",
+              "rightValue": "product",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-page-type",
+      "name": "Check Page Type",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [550, 500],
+      "notes": "Verifica el tipo de página visitada"
+    },
+    {
+      "parameters": {
+        "amount": 5,
+        "unit": "minutes",
+        "options": {}
+      },
+      "id": "wait-5min",
+      "name": "Wait 5 Minutes",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [750, 500],
+      "notes": "Espera 5 minutos después de la visita"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generar mensaje basado en comportamiento de navegación\nconst data = $input.item.json;\nconst pageUrl = data.pageUrl || '';\nconst pageCategory = data.pageCategory || '';\nconst customerName = data.firstName || 'Cliente';\n\nlet subject, body, ctaText, ctaUrl;\n\nif (pageCategory === 'product') {\n  subject = `¿Interesado en ${data.productName || 'este producto'}?`;\n  body = `Hola ${customerName},\n\nVimos que estuviste viendo ${data.productName || 'un producto'} en nuestra tienda.\n\n¿Tienes alguna pregunta? Estamos aquí para ayudarte.\n\n[Ver Producto]`;\n  ctaText = 'Ver Producto';\n  ctaUrl = pageUrl;\n} else if (pageCategory === 'pricing') {\n  subject = `¿Listo para comenzar?`;\n  body = `Hola ${customerName},\n\nNotamos que revisaste nuestros planes. ¿Te gustaría una demostración personalizada?\n\n[Agendar Demo]`;\n  ctaText = 'Agendar Demo';\n  ctaUrl = 'https://yourdomain.com/demo';\n} else if (pageCategory === 'blog') {\n  subject = `Más contenido que te puede interesar`;\n  body = `Hola ${customerName},\n\nVimos que leíste nuestro artículo. Aquí tienes contenido relacionado que podría interesarte:\n\n[Ver Más Contenido]`;\n  ctaText = 'Ver Más';\n  ctaUrl = 'https://yourdomain.com/blog';\n} else {\n  subject = `Gracias por visitarnos`;\n  body = `Hola ${customerName},\n\nGracias por visitar nuestro sitio. ¿Hay algo en lo que podamos ayudarte?\n\n[Contactarnos]`;\n  ctaText = 'Contactar';\n  ctaUrl = 'https://yourdomain.com/contact';\n}\n\nreturn [{\n  json: {\n    ...data,\n    messageSubject: subject,\n    messageBody: body,\n    ctaText: ctaText,\n    ctaUrl: ctaUrl,\n    messageType: 'browsing_followup'\n  }\n}];"
+      },
+      "id": "generate-browsing-message",
+      "name": "Generate Browsing Message",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [950, 500],
+      "notes": "Genera mensaje basado en comportamiento de navegación"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-006",
+              "leftValue": "={{ $json.email }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "isNotEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-email-exists",
+      "name": "Check Email Exists",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1150, 500],
+      "notes": "Verifica si hay email para enviar mensaje"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-007",
+              "leftValue": "={{ $json.cartId }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "isNotEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-cart-exists",
+      "name": "Check Cart Still Exists",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1350, 200],
+      "notes": "Verifica si el carrito aún existe antes de enviar"
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL || 'https://api.yourdomain.com' }}/carts/{{ $json.cartId }}/status",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "={{ $env.API_KEY }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "check-cart-status",
+      "name": "Check Cart Status",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1350, 100],
+      "notes": "Verifica el estado del carrito en la API"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-008",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "completed",
+              "operator": {
+                "type": "string",
+                "operation": "notEqual"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-not-completed",
+      "name": "Check Not Completed",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1550, 100],
+      "notes": "Verifica que el carrito no haya sido completado"
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL || 'https://api.yourdomain.com' }}/tracking",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"event\": \"automation_triggered\",\n  \"customerId\": \"{{ $json.customerId }}\",\n  \"eventType\": \"{{ $json.eventType }}\",\n  \"messageType\": \"{{ $json.messageType }}\",\n  \"timestamp\": \"{{ $now }}\",\n  \"workflow\": \"customer_automation\"\n}",
+        "options": {}
+      },
+      "id": "track-event",
+      "name": "Track Event",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1750, 300],
+      "notes": "Registra el evento de automatización"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"success\": true,\n  \"message\": \"Workflow iniciado\",\n  \"customerId\": \"{{ $json.customerId }}\"\n}",
+        "options": {}
+      },
+      "id": "webhook-response",
+      "name": "Webhook Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1750, 500],
+      "notes": "Responde al webhook con confirmación"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Merge de ambos triggers\nconst items = $input.all();\nreturn items.map(item => item.json);"
+      },
+      "id": "merge-triggers",
+      "name": "Merge Triggers",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2.1,
+      "position": [350, 400],
+      "notes": "Combina eventos de ambos triggers"
+    }
+  ],
+  "connections": {
+    "Cart Abandonment Webhook": {
+      "main": [
+        [
+          {
+            "node": "Filter Cart Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Page Visit Webhook": {
+      "main": [
+        [
+          {
+            "node": "Filter Page Visit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Cart Event": {
+      "main": [
+        [
+          {
+            "node": "Enrich Customer Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enrich Customer Data": {
+      "main": [
+        [
+          {
+            "node": "Check Cart Value",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Cart Value": {
+      "main": [
+        [
+          {
+            "node": "Wait 1 Hour",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Wait 24 Hours",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Wait 72 Hours",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 1 Hour": {
+      "main": [
+        [
+          {
+            "node": "Check Cart Still Exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 24 Hours": {
+      "main": [
+        [
+          {
+            "node": "Check Cart Still Exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 72 Hours": {
+      "main": [
+        [
+          {
+            "node": "Check Cart Still Exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Cart Still Exists": {
+      "main": [
+        [
+          {
+            "node": "Check Cart Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Cart Status": {
+      "main": [
+        [
+          {
+            "node": "Check Not Completed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Not Completed": {
+      "main": [
+        [
+          {
+            "node": "Check Customer Segment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Customer Segment": {
+      "main": [
+        [
+          {
+            "node": "Generate Message Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Message Content": {
+      "main": [
+        [
+          {
+            "node": "Send Email",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send SMS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Email": {
+      "main": [
+        [
+          {
+            "node": "Track Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send SMS": {
+      "main": [
+        [
+          {
+            "node": "Track Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Page Visit": {
+      "main": [
+        [
+          {
+            "node": "Enrich Customer Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Page Type": {
+      "main": [
+        [
+          {
+            "node": "Wait 5 Minutes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 5 Minutes": {
+      "main": [
+        [
+          {
+            "node": "Generate Browsing Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Browsing Message": {
+      "main": [
+        [
+          {
+            "node": "Check Email Exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Email Exists": {
+      "main": [
+        [
+          {
+            "node": "Send Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "customer-automation",
+      "name": "Customer Automation"
+    }
+  ],
+  "triggerCount": 2,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1"
+}
+
+
+
+
+
+
+
+
+
+

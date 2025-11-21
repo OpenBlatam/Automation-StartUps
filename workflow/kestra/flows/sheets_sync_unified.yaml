@@ -1,0 +1,337 @@
+id: sheets_sync_unified
+namespace: workflows
+
+labels:
+  app: integration
+  source: sheets
+  type: sync
+
+description: |
+  Sincronización unificada de datos entre Google Sheets y otros sistemas (CRM, ERP, DB).
+  Soporta sincronización bidireccional con validación, transformación y resolución de conflictos.
+  
+  Características:
+  - ✅ Sincronización bidireccional (Sheets ↔ CRM/ERP/DB)
+  - ✅ Validación de datos robusta
+  - ✅ Transformación de datos configurable
+  - ✅ Resolución automática de conflictos
+  - ✅ Circuit breaker pattern
+  - ✅ Retry logic con exponential backoff
+  - ✅ Caché inteligente
+  - ✅ Auditoría completa
+  - ✅ Modo dry-run para testing
+  - ✅ Notificaciones Slack opcionales
+
+inputs:
+  - name: source_type
+    type: STRING
+    required: true
+    description: Tipo de sistema fuente (google_sheets, hubspot, quickbooks, database)
+    defaults: google_sheets
+  - name: target_type
+    type: STRING
+    required: true
+    description: Tipo de sistema destino
+    defaults: database
+  - name: direction
+    type: STRING
+    required: false
+    description: Dirección de sincronización (source_to_target, target_to_source, bidirectional)
+    defaults: bidirectional
+    allowedValues: [source_to_target, target_to_source, bidirectional]
+  - name: google_sheets_credentials_json
+    type: STRING
+    required: false
+    description: JSON de credenciales de Google Service Account
+  - name: spreadsheet_id
+    type: STRING
+    required: false
+    description: ID del Google Spreadsheet
+  - name: sheet_name
+    type: STRING
+    required: false
+    description: Nombre de la hoja a sincronizar
+    defaults: Sheet1
+  - name: range
+    type: STRING
+    required: false
+    description: Rango de celdas (ej: A1:Z100)
+  - name: hubspot_token
+    type: STRING
+    required: false
+    description: Token de API de HubSpot
+  - name: quickbooks_access_token
+    type: STRING
+    required: false
+    description: Access token de QuickBooks
+  - name: quickbooks_realm_id
+    type: STRING
+    required: false
+    description: Realm ID de QuickBooks
+  - name: jdbc_url
+    type: STRING
+    required: false
+    description: JDBC URL para conexión a base de datos
+  - name: jdbc_user
+    type: STRING
+    required: false
+    description: Usuario de base de datos
+  - name: jdbc_password
+    type: STRING
+    required: false
+    description: Contraseña de base de datos
+  - name: batch_size
+    type: INT
+    required: false
+    description: Tamaño de batch para procesamiento
+    defaults: 50
+  - name: dry_run
+    type: BOOLEAN
+    required: false
+    description: Ejecutar en modo dry-run (sin escribir cambios)
+    defaults: false
+  - name: conflict_resolution
+    type: STRING
+    required: false
+    description: Estrategia de resolución de conflictos (source_wins, target_wins, latest)
+    defaults: source_wins
+  - name: slack_webhook_url
+    type: STRING
+    required: false
+    description: URL de webhook de Slack para notificaciones
+
+tasks:
+  - id: validate_config
+    type: io.kestra.plugin.scripts.python.Script
+    description: Valida configuración de sincronización
+    inputFiles:
+      validate.py: |
+        import json
+        import os
+        import sys
+        
+        source_type = os.getenv('SOURCE_TYPE')
+        target_type = os.getenv('TARGET_TYPE')
+        
+        errors = []
+        
+        # Validar que al menos uno sea google_sheets
+        if source_type != 'google_sheets' and target_type != 'google_sheets':
+            errors.append("Al menos uno de source_type o target_type debe ser 'google_sheets'")
+        
+        # Validar credenciales según tipo
+        if source_type == 'google_sheets' or target_type == 'google_sheets':
+            if not os.getenv('GOOGLE_SHEETS_CREDENTIALS_JSON'):
+                errors.append("GOOGLE_SHEETS_CREDENTIALS_JSON requerido para Google Sheets")
+            if not os.getenv('SPREADSHEET_ID'):
+                errors.append("SPREADSHEET_ID requerido para Google Sheets")
+        
+        if source_type == 'hubspot' or target_type == 'hubspot':
+            if not os.getenv('HUBSPOT_TOKEN'):
+                errors.append("HUBSPOT_TOKEN requerido para HubSpot")
+        
+        if source_type == 'quickbooks' or target_type == 'quickbooks':
+            if not os.getenv('QUICKBOOKS_ACCESS_TOKEN'):
+                errors.append("QUICKBOOKS_ACCESS_TOKEN requerido para QuickBooks")
+            if not os.getenv('QUICKBOOKS_REALM_ID'):
+                errors.append("QUICKBOOKS_REALM_ID requerido para QuickBooks")
+        
+        if source_type == 'database' or target_type == 'database':
+            if not os.getenv('JDBC_URL'):
+                errors.append("JDBC_URL requerido para base de datos")
+        
+        if errors:
+            print(json.dumps({"valid": False, "errors": errors}, indent=2))
+            sys.exit(1)
+        
+        print(json.dumps({"valid": True}, indent=2))
+    env:
+      SOURCE_TYPE: "{{ inputs.source_type }}"
+      TARGET_TYPE: "{{ inputs.target_type }}"
+      GOOGLE_SHEETS_CREDENTIALS_JSON: "{{ inputs.google_sheets_credentials_json }}"
+      SPREADSHEET_ID: "{{ inputs.spreadsheet_id }}"
+      HUBSPOT_TOKEN: "{{ inputs.hubspot_token }}"
+      QUICKBOOKS_ACCESS_TOKEN: "{{ inputs.quickbooks_access_token }}"
+      QUICKBOOKS_REALM_ID: "{{ inputs.quickbooks_realm_id }}"
+      JDBC_URL: "{{ inputs.jdbc_url }}"
+
+  - id: sync_execution
+    type: io.kestra.plugin.scripts.python.Script
+    description: Ejecuta sincronización usando framework
+    timeout: PT30M
+    inputFiles:
+      sync.py: |
+        import json
+        import os
+        import sys
+        from datetime import datetime
+        
+        # Agregar ruta al framework
+        sys.path.insert(0, '/data/integrations')
+        
+        from sync_framework import SyncFramework, SyncConfig, SyncDirection
+        
+        # Configuración
+        source_type = os.getenv('SOURCE_TYPE')
+        target_type = os.getenv('TARGET_TYPE')
+        direction = os.getenv('DIRECTION', 'bidirectional')
+        batch_size = int(os.getenv('BATCH_SIZE', '50'))
+        dry_run = os.getenv('DRY_RUN', 'false').lower() == 'true'
+        conflict_resolution = os.getenv('CONFLICT_RESOLUTION', 'source_wins')
+        
+        # Construir configuraciones de conectores
+        source_config = {}
+        target_config = {}
+        
+        if source_type == 'google_sheets':
+            source_config = {
+                'name': 'google_sheets',
+                'credentials_json': os.getenv('GOOGLE_SHEETS_CREDENTIALS_JSON'),
+                'spreadsheet_id': os.getenv('SPREADSHEET_ID'),
+                'sheet_name': os.getenv('SHEET_NAME', 'Sheet1'),
+            }
+        elif source_type == 'hubspot':
+            source_config = {
+                'name': 'hubspot',
+                'api_token': os.getenv('HUBSPOT_TOKEN'),
+            }
+        elif source_type == 'quickbooks':
+            source_config = {
+                'name': 'quickbooks',
+                'access_token': os.getenv('QUICKBOOKS_ACCESS_TOKEN'),
+                'realm_id': os.getenv('QUICKBOOKS_REALM_ID'),
+                'base_url': os.getenv('QUICKBOOKS_BASE_URL', 'https://sandbox-quickbooks.api.intuit.com'),
+            }
+        elif source_type == 'database':
+            jdbc = os.getenv('JDBC_URL').replace('jdbc:postgresql://', 'postgresql://')
+            if '@' not in jdbc:
+                jdbc = jdbc.replace('postgresql://', f"postgresql://{os.getenv('JDBC_USER')}:{os.getenv('JDBC_PASSWORD')}@")
+            source_config = {
+                'name': 'database',
+                'connection_string': jdbc,
+            }
+        
+        if target_type == 'google_sheets':
+            target_config = {
+                'name': 'google_sheets',
+                'credentials_json': os.getenv('GOOGLE_SHEETS_CREDENTIALS_JSON'),
+                'spreadsheet_id': os.getenv('SPREADSHEET_ID'),
+                'sheet_name': os.getenv('SHEET_NAME', 'Sheet1'),
+            }
+        elif target_type == 'hubspot':
+            target_config = {
+                'name': 'hubspot',
+                'api_token': os.getenv('HUBSPOT_TOKEN'),
+            }
+        elif target_type == 'quickbooks':
+            target_config = {
+                'name': 'quickbooks',
+                'access_token': os.getenv('QUICKBOOKS_ACCESS_TOKEN'),
+                'realm_id': os.getenv('QUICKBOOKS_REALM_ID'),
+                'base_url': os.getenv('QUICKBOOKS_BASE_URL', 'https://sandbox-quickbooks.api.intuit.com'),
+            }
+        elif target_type == 'database':
+            jdbc = os.getenv('JDBC_URL').replace('jdbc:postgresql://', 'postgresql://')
+            if '@' not in jdbc:
+                jdbc = jdbc.replace('postgresql://', f"postgresql://{os.getenv('JDBC_USER')}:{os.getenv('JDBC_PASSWORD')}@")
+            target_config = {
+                'name': 'database',
+                'connection_string': jdbc,
+            }
+        
+        # Mapear dirección
+        direction_map = {
+            'source_to_target': SyncDirection.SOURCE_TO_TARGET,
+            'target_to_source': SyncDirection.TARGET_TO_SOURCE,
+            'bidirectional': SyncDirection.BIDIRECTIONAL,
+        }
+        sync_direction = direction_map.get(direction, SyncDirection.BIDIRECTIONAL)
+        
+        # Obtener connection string para BD de auditoría
+        db_connection_string = None
+        if os.getenv('JDBC_URL'):
+            jdbc = os.getenv('JDBC_URL').replace('jdbc:postgresql://', 'postgresql://')
+            if '@' not in jdbc:
+                jdbc = jdbc.replace('postgresql://', f"postgresql://{os.getenv('JDBC_USER')}:{os.getenv('JDBC_PASSWORD')}@")
+            db_connection_string = jdbc
+        
+        # Crear framework
+        framework = SyncFramework(db_connection_string=db_connection_string)
+        
+        # Crear configuración
+        config = SyncConfig(
+            sync_id=f"sheets_sync_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+            source_connector_type=source_type,
+            source_config=source_config,
+            target_connector_type=target_type,
+            target_config=target_config,
+            direction=sync_direction,
+            batch_size=batch_size,
+            conflict_resolution=conflict_resolution,
+            enable_circuit_breaker=True,
+            enable_caching=True,
+            enable_validation=True,
+            enable_audit=True,
+        )
+        
+        # Ejecutar sincronización
+        print(f"Iniciando sincronización: {config.sync_id}")
+        result = framework.sync(config, dry_run=dry_run)
+        
+        # Convertir a diccionario para output
+        result_dict = result.to_dict()
+        
+        # Guardar resultado
+        with open('/tmp/sync_result.json', 'w') as f:
+            json.dump(result_dict, f, indent=2, default=str)
+        
+        print(json.dumps(result_dict, indent=2, default=str))
+        
+        # Verificar si hubo errores críticos
+        if result.status.value == 'failed' and result.successful == 0:
+            print("ERROR: Sincronización falló completamente")
+            sys.exit(1)
+    env:
+      SOURCE_TYPE: "{{ inputs.source_type }}"
+      TARGET_TYPE: "{{ inputs.target_type }}"
+      DIRECTION: "{{ inputs.direction | default('bidirectional') }}"
+      BATCH_SIZE: "{{ inputs.batch_size | default(50) }}"
+      DRY_RUN: "{{ inputs.dry_run | default(false) }}"
+      CONFLICT_RESOLUTION: "{{ inputs.conflict_resolution | default('source_wins') }}"
+      GOOGLE_SHEETS_CREDENTIALS_JSON: "{{ inputs.google_sheets_credentials_json }}"
+      SPREADSHEET_ID: "{{ inputs.spreadsheet_id }}"
+      SHEET_NAME: "{{ inputs.sheet_name | default('Sheet1') }}"
+      HUBSPOT_TOKEN: "{{ inputs.hubspot_token }}"
+      QUICKBOOKS_ACCESS_TOKEN: "{{ inputs.quickbooks_access_token }}"
+      QUICKBOOKS_REALM_ID: "{{ inputs.quickbooks_realm_id }}"
+      QUICKBOOKS_BASE_URL: "https://sandbox-quickbooks.api.intuit.com"
+      JDBC_URL: "{{ inputs.jdbc_url }}"
+      JDBC_USER: "{{ inputs.jdbc_user }}"
+      JDBC_PASSWORD: "{{ inputs.jdbc_password }}"
+    outputFiles:
+      - sync_result.json
+
+  - id: send_notification
+    type: io.kestra.plugin.http.Request
+    description: Envía notificación a Slack
+    uri: "{{ inputs.slack_webhook_url }}"
+    method: POST
+    contentType: application/json
+    body: |
+      {
+        "text": "Sincronización completada: {{ taskrun.outputs.sync_execution.files['sync_result.json'] | readFile | fromJson | get('status') }}",
+        "blocks": [
+          {
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": "*Sincronización de Datos*\n\n*Status:* {{ taskrun.outputs.sync_execution.files['sync_result.json'] | readFile | fromJson | get('status') }}\n*Total:* {{ taskrun.outputs.sync_execution.files['sync_result.json'] | readFile | fromJson | get('total_records') }}\n*Exitosos:* {{ taskrun.outputs.sync_execution.files['sync_result.json'] | readFile | fromJson | get('successful') }}\n*Fallidos:* {{ taskrun.outputs.sync_execution.files['sync_result.json'] | readFile | fromJson | get('failed') }}"
+            }
+          }
+        ]
+      }
+    conditions:
+      - type: io.kestra.plugin.core.condition.ExpressionCondition
+        expression: "{{ inputs.slack_webhook_url != null }}"
+
+

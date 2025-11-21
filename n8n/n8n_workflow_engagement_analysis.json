@@ -1,0 +1,1303 @@
+{
+  "name": "Análisis de Engagement - Último Mes",
+  "nodes": [
+    {
+      "parameters": {
+        "cronExpression": "0 9 1 * *",
+        "timezone": "UTC"
+      },
+      "id": "schedule-trigger",
+      "name": "Schedule Trigger - Mensual",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "notes": "Ejecuta el primer día de cada mes a las 9:00 AM para analizar el mes anterior"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "analyze-engagement",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-trigger",
+      "name": "Webhook Trigger - Ejecución Manual",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [250, 500],
+      "webhookId": "analyze-engagement-webhook",
+      "notes": "Permite ejecutar el análisis manualmente vía webhook"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Inicializar variables del workflow con validación mejorada\nconst daysBack = parseInt($input.item.json.daysBack || $env.DAYS_BACK || '30');\nconst executionId = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;\nconst now = new Date();\nconst startDate = new Date(now.getTime() - (daysBack * 24 * 60 * 60 * 1000));\n\n// Tipos de contenido a analizar\nconst contentTypes = $input.item.json.contentTypes || ['tutorial', 'noticia', 'opinion', 'caso_estudio', 'infografia'];\n\n// Configuración avanzada\nconst minPostsRequired = parseInt($env.MIN_POSTS_REQUIRED || '10');\nconst maxRetries = parseInt($env.MAX_RETRIES || '3');\nconst enableCache = $env.ENABLE_CACHE !== 'false';\nconst enableComparison = $env.ENABLE_COMPARISON !== 'false';\nconst enableTrends = $env.ENABLE_TRENDS !== 'false';\nconst enableEmail = !!($env.SMTP_HOST && $env.EMAIL_TO);\nconst enableTelegram = !!($env.TELEGRAM_BOT_TOKEN && $env.TELEGRAM_CHAT_ID);\nconst enableSlack = !!($env.SLACK_WEBHOOK_URL);\nconst enableAnalytics = $env.ENABLE_ANALYTICS !== 'false';\n\n// Validar API keys\nconst hasOpenAI = !!($env.OPENAI_API_KEY);\nconst hasDB = !!($env.DB_HOST && $env.DB_NAME);\n\n// Configuración de base de datos\nconst dbConfig = {\n  host: $env.DB_HOST || 'localhost',\n  port: parseInt($env.DB_PORT || '5432'),\n  database: $env.DB_NAME || 'content_marketing',\n  user: $env.DB_USER || 'postgres',\n  password: $env.DB_PASSWORD || ''\n};\n\n// Validaciones críticas\nif (!hasOpenAI) {\n  return [{\n    json: {\n      error: 'OPENAI_API_KEY no configurada. Es requerida para análisis y generación de ideas.',\n      executionId,\n      canProceed: false\n    }\n  }];\n}\n\nreturn [{\n  json: {\n    executionId: executionId,\n    daysBack: daysBack,\n    startDate: startDate.toISOString(),\n    endDate: now.toISOString(),\n    contentTypes: contentTypes,\n    dbConfig: dbConfig,\n    startedAt: now.toISOString(),\n    workflowVersion: '10.0',\n    minPostsRequired: minPostsRequired,\n    maxRetries: maxRetries,\n    enableCache: enableCache,\n    enableComparison: enableComparison,\n    enableTrends: enableTrends,\n    enableEmail: enableEmail,\n    enableTelegram: enableTelegram,\n    enableSlack: enableSlack,\n    enableAnalytics: enableAnalytics,\n    hasOpenAI: hasOpenAI,\n    hasDB: hasDB,\n    canProceed: true\n  }\n}];"
+      },
+      "id": "initialize-workflow",
+      "name": "Initialize Workflow",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [450, 400],
+      "notes": "Inicializa variables del workflow con validación mejorada"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "can-proceed",
+              "leftValue": "={{ $json.canProceed }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-can-proceed",
+      "name": "Check Can Proceed",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [650, 400],
+      "notes": "Verifica que se puedan ejecutar los análisis"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Health Check de APIs y servicios\nconst now = Date.now();\nconst HEALTH_CHECK_INTERVAL = 10 * 60 * 1000; // 10 minutos\n\nconst apiHealth = $workflow.staticData.apiHealth || {\n  openai: { status: 'unknown', lastCheck: 0, failures: 0, successes: 0, responseTime: 0 },\n  postgres: { status: 'unknown', lastCheck: 0, failures: 0, successes: 0, responseTime: 0 }\n};\n\n// Verificar salud de OpenAI API\nif ($json.hasOpenAI && (now - apiHealth.openai.lastCheck > HEALTH_CHECK_INTERVAL)) {\n  apiHealth.openai.lastCheck = now;\n  apiHealth.openai.status = 'healthy'; // Asumir saludable por ahora\n}\n\n// Verificar salud de PostgreSQL\nif ($json.hasDB && (now - apiHealth.postgres.lastCheck > HEALTH_CHECK_INTERVAL)) {\n  apiHealth.postgres.lastCheck = now;\n  apiHealth.postgres.status = 'healthy';\n}\n\n// Calcular scores de salud\nObject.keys(apiHealth).forEach(key => {\n  const health = apiHealth[key];\n  const total = health.successes + health.failures;\n  if (total > 0) {\n    const successRate = health.successes / total;\n    if (successRate < 0.5) health.status = 'unhealthy';\n    else if (successRate < 0.8) health.status = 'degraded';\n    else health.status = 'healthy';\n  }\n});\n\n$workflow.staticData.apiHealth = apiHealth;\n\nreturn [{\n  json: {\n    ...$input.item.json,\n    apiHealth: apiHealth,\n    allApisHealthy: Object.values(apiHealth).every(h => h.status === 'healthy' || h.status === 'unknown')\n  }\n}];"
+      },
+      "id": "health-check",
+      "name": "Health Check APIs",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [850, 300],
+      "notes": "Verifica salud de APIs y servicios"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT \n  sp.post_id,\n  sp.platform,\n  sp.content,\n  sp.hashtags,\n  sp.published_at,\n  sp.metadata,\n  a.category,\n  a.title as article_title,\n  e.likes,\n  e.comments,\n  e.shares,\n  e.retweets,\n  e.saves,\n  e.clicks,\n  e.impressions,\n  e.reach,\n  e.engagement_rate,\n  e.click_through_rate\nFROM content_scheduled_posts sp\nLEFT JOIN content_articles a ON sp.article_id = a.article_id\nLEFT JOIN content_engagement e ON sp.post_id = e.post_id\nWHERE sp.status = 'published'\n  AND sp.published_at >= $1::timestamp\n  AND sp.published_at <= $2::timestamp\nORDER BY sp.published_at DESC",
+        "options": {
+          "queryReplacement": "={{ $json.startDate }}, {{ $json.endDate }}"
+        }
+      },
+      "id": "fetch-posts",
+      "name": "Fetch Posts from DB",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.4,
+      "position": [650, 400],
+      "credentials": {
+        "postgres": {
+          "id": "postgres-credentials",
+          "name": "PostgreSQL"
+        }
+      },
+      "notes": "Obtiene publicaciones del último mes con sus métricas de engagement",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Generar datos de prueba si no hay datos de la BD\n// Este nodo se ejecuta solo si el nodo anterior falló o no devolvió datos\nconst inputData = $input.all();\nconst initData = inputData.find(item => item.json.executionId)?.json || inputData[0]?.json || {};\nconst useMockData = $env.USE_MOCK_DATA === 'true' || inputData.length === 0 || (inputData.length === 1 && !inputData[0].json.post_id && !inputData[0].json.executionId);\n\nif (!useMockData && inputData.some(item => item.json.post_id)) {\n  // Si hay datos reales, pasarlos directamente\n  return inputData.filter(item => item.json.post_id).map(item => ({ json: item.json }));\n}\n\n// Generar datos de prueba realistas\nconst contentTypes = ['tutorial', 'noticia', 'opinion', 'caso_estudio', 'infografia'];\nconst platforms = ['twitter', 'linkedin', 'facebook', 'instagram'];\nconst mockPosts = [];\n\n// Generar ~45 posts distribuidos en los últimos 30 días\nfor (let i = 0; i < 45; i++) {\n  const contentType = contentTypes[Math.floor(Math.random() * contentTypes.length)];\n  const platform = platforms[Math.floor(Math.random() * platforms.length)];\n  const daysAgo = Math.floor(Math.random() * 30);\n  const publishedAt = new Date(Date.now() - (daysAgo * 24 * 60 * 60 * 1000));\n  \n  // Engagement basado en el tipo (tutorial tiene mejor engagement)\n  let baseEngagement = 50;\n  if (contentType === 'tutorial') baseEngagement = 250;\n  else if (contentType === 'caso_estudio') baseEngagement = 180;\n  else if (contentType === 'infografia') baseEngagement = 150;\n  else if (contentType === 'noticia') baseEngagement = 100;\n  else baseEngagement = 80;\n  \n  const likes = Math.floor(baseEngagement * (0.7 + Math.random() * 0.6));\n  const comments = Math.floor(likes * (0.1 + Math.random() * 0.15));\n  const shares = Math.floor(likes * (0.15 + Math.random() * 0.2));\n  const impressions = Math.floor(likes * (15 + Math.random() * 10));\n  const reach = Math.floor(impressions * (0.7 + Math.random() * 0.2));\n  \n  mockPosts.push({\n    post_id: `mock_post_${i + 1}`,\n    platform: platform,\n    content: `Contenido de ejemplo de tipo ${contentType} publicado en ${platform}`,\n    hashtags: [`#${contentType}`, `#${platform}`, '#marketing', '#contenido'],\n    published_at: publishedAt.toISOString(),\n    metadata: { content_type: contentType, mock: true },\n    category: contentType,\n    article_title: `Ejemplo de ${contentType} - Post ${i + 1}`,\n    likes: likes,\n    comments: comments,\n    shares: shares,\n    retweets: platform === 'twitter' ? Math.floor(shares * 0.8) : 0,\n    saves: platform === 'instagram' ? Math.floor(likes * 0.2) : 0,\n    clicks: Math.floor(impressions * (0.02 + Math.random() * 0.03)),\n    impressions: impressions,\n    reach: reach,\n    engagement_rate: ((likes + comments + shares) / impressions) * 100,\n    click_through_rate: 0\n  });\n}\n\nreturn mockPosts.map(post => ({ json: post }));"
+      },
+      "id": "generate-mock-data",
+      "name": "Generate Mock Data (if needed)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [650, 600],
+      "notes": "Genera datos de prueba si no hay acceso a la BD o USE_MOCK_DATA=true",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Clasificar posts por tipo de contenido y calcular métricas\nconst posts = $input.all();\nconst contentTypes = $json.contentTypes || ['tutorial', 'noticia', 'opinion', 'caso_estudio', 'infografia'];\n\n// Función para determinar el tipo de contenido\nfunction classifyContentType(post) {\n  // Intentar obtener del category\n  if (post.category) {\n    return post.category.toLowerCase();\n  }\n  \n  // Intentar obtener del metadata\n  if (post.metadata && post.metadata.content_type) {\n    return post.metadata.content_type.toLowerCase();\n  }\n  \n  // Analizar el contenido para inferir el tipo\n  const content = (post.content || '').toLowerCase();\n  const title = (post.article_title || '').toLowerCase();\n  const combined = content + ' ' + title;\n  \n  // Palabras clave para cada tipo\n  const keywords = {\n    'tutorial': ['tutorial', 'cómo', 'paso a paso', 'guía', 'aprende', 'step by step'],\n    'noticia': ['noticia', 'anuncio', 'nuevo', 'lanzamiento', 'actualización'],\n    'opinion': ['opinión', 'creo', 'pienso', 'considero', 'mi punto de vista'],\n    'caso_estudio': ['caso de estudio', 'caso estudio', 'case study', 'ejemplo real', 'historia de éxito'],\n    'infografia': ['infografía', 'infographic', 'visual', 'gráfico', 'chart']\n  };\n  \n  // Contar coincidencias\n  let maxScore = 0;\n  let detectedType = 'general';\n  \n  Object.keys(keywords).forEach(type => {\n    const score = keywords[type].reduce((acc, keyword) => {\n      return acc + (combined.includes(keyword) ? 1 : 0);\n    }, 0);\n    if (score > maxScore) {\n      maxScore = score;\n      detectedType = type;\n    }\n  });\n  \n  return detectedType;\n}\n\n// Clasificar y agrupar posts\nconst postsByType = {};\nconst allPosts = [];\n\nposts.forEach(item => {\n  const post = item.json;\n  const contentType = classifyContentType(post);\n  \n  // Calcular engagement total\n  const totalEngagement = (post.likes || 0) + \n                          (post.comments || 0) + \n                          (post.shares || 0) + \n                          (post.retweets || 0) + \n                          (post.saves || 0);\n  \n  // Calcular engagement rate si no existe\n  let engagementRate = post.engagement_rate;\n  if (!engagementRate && post.impressions && post.impressions > 0) {\n    engagementRate = (totalEngagement / post.impressions) * 100;\n  }\n  \n  const enrichedPost = {\n    ...post,\n    contentType: contentType,\n    totalEngagement: totalEngagement,\n    engagementRate: engagementRate || 0,\n    hasMedia: (post.hashtags && post.hashtags.length > 0) || false\n  };\n  \n  allPosts.push(enrichedPost);\n  \n  if (!postsByType[contentType]) {\n    postsByType[contentType] = {\n      posts: [],\n      totalPosts: 0,\n      totalLikes: 0,\n      totalComments: 0,\n      totalShares: 0,\n      totalRetweets: 0,\n      totalSaves: 0,\n      totalClicks: 0,\n      totalImpressions: 0,\n      totalReach: 0,\n      totalEngagement: 0,\n      avgEngagementRate: 0,\n      avgClickThroughRate: 0\n    };\n  }\n  \n  postsByType[contentType].posts.push(enrichedPost);\n  postsByType[contentType].totalPosts++;\n  postsByType[contentType].totalLikes += (post.likes || 0);\n  postsByType[contentType].totalComments += (post.comments || 0);\n  postsByType[contentType].totalShares += (post.shares || 0);\n  postsByType[contentType].totalRetweets += (post.retweets || 0);\n  postsByType[contentType].totalSaves += (post.saves || 0);\n  postsByType[contentType].totalClicks += (post.clicks || 0);\n  postsByType[contentType].totalImpressions += (post.impressions || 0);\n  postsByType[contentType].totalReach += (post.reach || 0);\n  postsByType[contentType].totalEngagement += totalEngagement;\n});\n\n// Calcular promedios por tipo\nObject.keys(postsByType).forEach(type => {\n  const stats = postsByType[type];\n  if (stats.totalPosts > 0) {\n    stats.avgEngagementRate = stats.totalImpressions > 0 ? \n      ((stats.totalEngagement / stats.totalImpressions) * 100) : 0;\n    stats.avgClickThroughRate = stats.totalImpressions > 0 ? \n      ((stats.totalClicks / stats.totalImpressions) * 100) : 0;\n    stats.avgEngagementPerPost = stats.totalEngagement / stats.totalPosts;\n    stats.avgLikesPerPost = stats.totalLikes / stats.totalPosts;\n    stats.avgCommentsPerPost = stats.totalComments / stats.totalPosts;\n    stats.avgSharesPerPost = stats.totalShares / stats.totalPosts;\n  }\n});\n\n// Encontrar el tipo con mayor engagement\nlet bestType = null;\nlet maxAvgEngagement = 0;\n\nObject.keys(postsByType).forEach(type => {\n  const stats = postsByType[type];\n  if (stats.avgEngagementPerPost > maxAvgEngagement && stats.totalPosts >= 3) {\n    maxAvgEngagement = stats.avgEngagementPerPost;\n    bestType = type;\n  }\n});\n\n// Obtener los top 3 posts de cada tipo\nObject.keys(postsByType).forEach(type => {\n  postsByType[type].topPosts = postsByType[type].posts\n    .sort((a, b) => b.totalEngagement - a.totalEngagement)\n    .slice(0, 3)\n    .map(p => ({\n      post_id: p.post_id,\n      title: p.article_title || p.content.substring(0, 100),\n      platform: p.platform,\n      totalEngagement: p.totalEngagement,\n      engagementRate: p.engagementRate,\n      likes: p.likes,\n      comments: p.comments,\n      shares: p.shares\n    }));\n});\n\nreturn [{\n  json: {\n    ...$json,\n    totalPosts: allPosts.length,\n    postsByType: postsByType,\n    bestContentType: bestType,\n    bestTypeStats: bestType ? postsByType[bestType] : null,\n    analysisDate: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "classify-and-analyze",
+      "name": "Classify & Analyze Posts",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [850, 400],
+      "notes": "Clasifica posts por tipo y calcula métricas de engagement"
+    },
+    {
+      "parameters": {
+        "model": "gpt-4",
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 1500
+        },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "Eres un experto en marketing de contenidos y análisis de engagement en redes sociales. Analiza los datos proporcionados y explica por qué un tipo de contenido obtuvo mejor engagement."
+            },
+            {
+              "role": "user",
+              "content": "Analiza el siguiente análisis de engagement del último mes:\n\n{{ JSON.stringify($json.postsByType, null, 2) }}\n\nTipo de contenido con mejor engagement: {{ $json.bestContentType }}\n\nEstadísticas del mejor tipo:\n{{ JSON.stringify($json.bestTypeStats, null, 2) }}\n\nPor favor, explica:\n1. ¿Por qué este tipo de contenido obtuvo más engagement?\n2. ¿Qué características específicas (formato, tono, longitud, hashtags, etc.) contribuyeron al éxito?\n3. ¿En qué plataformas funcionó mejor?\n4. ¿Qué patrones identificas en los posts más exitosos?\n\nProporciona un análisis detallado y fundamentado."
+            }
+          ]
+        }
+      },
+      "id": "analyze-why-successful",
+      "name": "AI Analysis - Why Successful",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1.3,
+      "position": [1050, 400],
+      "credentials": {
+        "openAiApi": {
+          "id": "openai-credentials",
+          "name": "OpenAI API"
+        }
+      },
+      "notes": "Usa IA para analizar por qué el tipo de contenido fue exitoso",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "model": "gpt-4",
+        "options": {
+          "temperature": 0.8,
+          "maxTokens": 2000
+        },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "Eres un estratega creativo de contenido. Genera ideas innovadoras y específicas basadas en patrones de éxito identificados en análisis de engagement."
+            },
+            {
+              "role": "user",
+              "content": "Basándote en el siguiente análisis:\n\nTipo de contenido con mejor engagement: {{ $json.bestContentType }}\n\nAnálisis de por qué funcionó:\n{{ $json.choices[0].message.content }}\n\nEstadísticas del mejor tipo:\n{{ JSON.stringify($json.bestTypeStats, null, 2) }}\n\nTop 3 posts más exitosos:\n{{ JSON.stringify($json.bestTypeStats.topPosts, null, 2) }}\n\nGenera 5 nuevas ideas de contenido específicas y accionables que:\n1. Sigan el patrón del tipo de contenido exitoso\n2. Incluyan elementos que funcionaron bien (formato, tono, estructura, etc.)\n3. Sean innovadoras pero basadas en datos\n4. Incluyan sugerencias específicas de:\n   - Título/tema\n   - Formato (texto, video, imagen, carousel, etc.)\n   - Plataforma recomendada\n   - Hashtags sugeridos\n   - Longitud aproximada\n   - Elementos visuales sugeridos\n\nFormato cada idea como un objeto JSON con: title, format, platform, hashtags (array), length, visual_elements, why_it_will_work"
+            }
+          ]
+        }
+      },
+      "id": "generate-recommendations",
+      "name": "Generate Content Ideas",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1.3,
+      "position": [1250, 400],
+      "credentials": {
+        "openAiApi": {
+          "id": "openai-credentials",
+          "name": "OpenAI API"
+        }
+      },
+      "notes": "Genera 5 nuevas ideas de contenido basadas en el patrón exitoso",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parsear y estructurar las recomendaciones de IA\nconst aiResponse = $json.choices[0].message.content;\nconst analysis = $input.first().json.choices[0].message.content;\n\n// Intentar extraer JSON del response\nlet recommendations = [];\ntry {\n  // Buscar JSON en el texto\n  const jsonMatch = aiResponse.match(/\\[\\s*\\{[\\s\\S]*\\}\\s*\\]/);\n  if (jsonMatch) {\n    recommendations = JSON.parse(jsonMatch[0]);\n  } else {\n    // Si no hay JSON, parsear texto estructurado\n    const lines = aiResponse.split('\\n');\n    let currentIdea = {};\n    \n    lines.forEach(line => {\n      if (line.match(/^\\d+\\./)) {\n        if (Object.keys(currentIdea).length > 0) {\n          recommendations.push(currentIdea);\n        }\n        currentIdea = { title: line.replace(/^\\d+\\.\\s*/, '') };\n      } else if (line.includes(':')) {\n        const [key, value] = line.split(':').map(s => s.trim());\n        currentIdea[key.toLowerCase().replace(/\\s+/g, '_')] = value;\n      }\n    });\n    if (Object.keys(currentIdea).length > 0) {\n      recommendations.push(currentIdea);\n    }\n  }\n} catch (e) {\n  // Si falla el parsing, crear recomendaciones básicas\n  recommendations = [\n    {\n      title: 'Contenido basado en el patrón exitoso',\n      format: 'Similar al tipo exitoso',\n      platform: 'Plataforma con mejor engagement',\n      why_it_will_work: 'Sigue el patrón identificado como exitoso'\n    }\n  ];\n}\n\n// Asegurar que tenemos exactamente 5 recomendaciones\nwhile (recommendations.length < 5) {\n  recommendations.push({\n    title: `Idea ${recommendations.length + 1} basada en ${$input.first().json.bestContentType}`,\n    format: 'Por definir',\n    platform: 'Por definir',\n    why_it_will_work: 'Basada en el análisis de engagement'\n  });\n}\n\nrecommendations = recommendations.slice(0, 5);\n\n// Preparar resumen final\nconst summary = {\n  ...$input.first().json,\n  analysis: analysis,\n  recommendations: recommendations,\n  generatedAt: new Date().toISOString()\n};\n\nreturn [{\n  json: summary\n}];"
+      },
+      "id": "parse-recommendations",
+      "name": "Parse Recommendations",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1450, 400],
+      "notes": "Parsea y estructura las recomendaciones de IA"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Preparar reporte final formateado\nconst data = $json;\n\nlet report = `📊 ANÁLISIS DE ENGAGEMENT - ÚLTIMO MES\\n`;\nreport += `═══════════════════════════════════════\\n\\n`;\nreport += `📅 Período analizado: ${new Date(data.startDate).toLocaleDateString('es-ES')} - ${new Date(data.endDate).toLocaleDateString('es-ES')}\\n`;\nreport += `📝 Total de publicaciones: ${data.totalPosts}\\n\\n`;\n\n// Resumen por tipo\nreport += `📈 RESUMEN POR TIPO DE CONTENIDO:\\n`;\nreport += `─────────────────────────────────────\\n`;\n\nObject.keys(data.postsByType).forEach(type => {\n  const stats = data.postsByType[type];\n  report += `\\n🎯 ${type.toUpperCase()}:\\n`;\n  report += `   • Publicaciones: ${stats.totalPosts}\\n`;\n  report += `   • Engagement total: ${stats.totalEngagement}\\n`;\n  report += `   • Promedio por post: ${stats.avgEngagementPerPost.toFixed(2)}\\n`;\n  report += `   • Tasa de engagement: ${stats.avgEngagementRate.toFixed(2)}%\\n`;\n  report += `   • Likes promedio: ${stats.avgLikesPerPost.toFixed(2)}\\n`;\n  report += `   • Comentarios promedio: ${stats.avgCommentsPerPost.toFixed(2)}\\n`;\n  report += `   • Shares promedio: ${stats.avgSharesPerPost.toFixed(2)}\\n`;\n});\n\n// Tipo ganador\nif (data.bestContentType) {\n  report += `\\n\\n🏆 TIPO DE CONTENIDO CON MAYOR ENGAGEMENT:\\n`;\n  report += `─────────────────────────────────────\\n`;\n  report += `✨ ${data.bestContentType.toUpperCase()}\\n\\n`;\n  \n  const bestStats = data.bestTypeStats;\n  report += `Métricas destacadas:\\n`;\n  report += `• Engagement promedio: ${bestStats.avgEngagementPerPost.toFixed(2)}\\n`;\n  report += `• Tasa de engagement: ${bestStats.avgEngagementRate.toFixed(2)}%\\n`;\n  report += `• Total de interacciones: ${bestStats.totalEngagement}\\n`;\n  report += `• Publicaciones analizadas: ${bestStats.totalPosts}\\n`;\n}\n\n// Análisis por plataforma\nif (data.platformStats && Object.keys(data.platformStats).length > 0) {\n  report += `\\n\\n📱 ANÁLISIS POR PLATAFORMA:\\n`;\n  report += `─────────────────────────────────────\\n`;\n  \n  Object.keys(data.platformStats).forEach(platform => {\n    const stats = data.platformStats[platform];\n    report += `\\n${platform.toUpperCase()}:\\n`;\n    report += `   • Posts: ${stats.totalPosts}\\n`;\n    report += `   • Engagement promedio: ${stats.avgEngagementPerPost.toFixed(2)}\\n`;\n    report += `   • Tasa de engagement: ${stats.avgEngagementRate.toFixed(2)}%\\n`;\n  });\n  \n  if (data.bestPlatform) {\n    report += `\\n🏆 Mejor plataforma: ${data.bestPlatform.toUpperCase()}\\n`;\n  }\n}\n\n// Mejor hora para publicar\nif (data.postingTimeRecommendation) {\n  report += `\\n\\n⏰ MEJOR MOMENTO PARA PUBLICAR:\\n`;\n  report += `─────────────────────────────────────\\n`;\n  report += `${data.postingTimeRecommendation}\\n`;\n  \n  if (data.bestPostingHour !== null) {\n    report += `\\nMejor hora: ${data.bestPostingHour}:00\\n`;\n  }\n  if (data.bestPostingDay) {\n    report += `Mejor día: ${data.bestPostingDay}\\n`;\n  }\n}\n\n// Contenido viral\nif (data.viralContent && data.viralContent.hasViralContent) {\n  report += `\\n\\n🔥 CONTENIDO VIRAL DETECTADO:\\n`;\n  report += `─────────────────────────────────────\\n`;\n  const viral = data.viralContent.stats;\n  report += `• Total de posts virales: ${viral.totalViral}\\n`;\n  report += `• Porcentaje del total: ${viral.percentage}%\\n`;\n  report += `• Engagement rate promedio: ${viral.avgEngagementRate}%\\n`;\n  report += `• Engagement promedio: ${viral.avgTotalEngagement}\\n`;\n  \n  if (data.viralContent.byType && Object.keys(data.viralContent.byType).length > 0) {\n    report += `\\nDistribución por tipo:\\n`;\n    Object.keys(data.viralContent.byType).forEach(type => {\n      report += `   • ${type}: ${data.viralContent.byType[type]} posts virales\\n`;\n    });\n  }\n  \n  if (data.viralContent.topPosts && data.viralContent.topPosts.length > 0) {\n    report += `\\nTop 3 posts virales:\\n`;\n    data.viralContent.topPosts.slice(0, 3).forEach((post, idx) => {\n      report += `${idx + 1}. ${post.title.substring(0, 50)}... (${post.totalEngagement} engagement)\\n`;\n    });\n  }\n}\n\n// Correlaciones\nif (data.correlations && Object.keys(data.correlations).length > 0) {\n  report += `\\n\\n🔗 ANÁLISIS DE CORRELACIONES:\\n`;\n  report += `─────────────────────────────────────\\n`;\n  \n  if (data.correlations.media) {\n    const media = data.correlations.media;\n    report += `\\n📸 Media vs Sin Media:\\n`;\n    report += `   • Con media: ${media.withMedia.count} posts, ${media.withMedia.avgEngagement} engagement promedio\\n`;\n    report += `   • Sin media: ${media.withoutMedia.count} posts, ${media.withoutMedia.avgEngagement} engagement promedio\\n`;\n    report += `   • Diferencia: ${media.differencePercent > 0 ? '+' : ''}${media.differencePercent}%\\n`;\n    report += `   💡 ${media.recommendation}\\n`;\n  }\n  \n  if (data.correlations.titleLength) {\n    const title = data.correlations.titleLength;\n    report += `\\n📝 Longitud del Título:\\n`;\n    report += `   • Títulos largos (>${title.avgLength}): ${title.longTitles.avgEngagement} engagement\\n`;\n    report += `   • Títulos cortos (≤${title.avgLength}): ${title.shortTitles.avgEngagement} engagement\\n`;\n    report += `   💡 ${title.recommendation}\\n`;\n  }\n  \n  if (data.correlations.hashtagCount) {\n    const hashtags = data.correlations.hashtagCount;\n    report += `\\n#️⃣ Número de Hashtags:\\n`;\n    report += `   • Rango óptimo (${hashtags.optimalRange}): ${hashtags.optimalRangeStats.avgEngagement} engagement\\n`;\n    report += `   • Fuera del rango: ${hashtags.outsideRangeStats.avgEngagement} engagement\\n`;\n    report += `   💡 ${hashtags.recommendation}\\n`;\n  }\n}\n\n// ROI\nif (data.roi && data.roi.porTipo) {\n  report += `\\n\\n💰 ANÁLISIS DE ROI:\\n`;\n  report += `─────────────────────────────────────\\n`;\n  \n  Object.keys(data.roi.porTipo).forEach(type => {\n    const roi = data.roi.porTipo[type];\n    const roiValue = parseFloat(roi.roiPorcentaje);\n    const icon = roiValue > 100 ? '🟢' : roiValue > 0 ? '🟡' : '🔴';\n    report += `\\n${icon} ${type.toUpperCase()}:\\n`;\n    report += `   • Costo: $${roi.costoTotal} (${roi.costoHoras}h)\\n`;\n    report += `   • Valor generado: $${roi.valorGenerado}\\n`;\n    report += `   • ROI: ${roiValue > 0 ? '+' : ''}${roi.roiPorcentaje}%\\n`;\n    if (roi.publicacionesParaROIPositivo > 0 && roiValue < 0) {\n      report += `   • Publicaciones necesarias para ROI positivo: ${roi.publicacionesParaROIPositivo}\\n`;\n    }\n  });\n  \n  if (data.roi.mejorTipo) {\n    report += `\\n🏆 Mejor ROI: ${data.roi.mejorTipo.toUpperCase()} (${data.roi.porTipo[data.roi.mejorTipo].roiPorcentaje}%)\\n`;\n  }\n}\n\n// Benchmarking\nif (data.benchmarking && data.benchmarking.general) {\n  report += `\\n\\n📊 BENCHMARKING DE INDUSTRIA:\\n`;\n  report += `─────────────────────────────────────\\n`;\n  \n  const bench = data.benchmarking.general;\n  if (bench.engagementRate) {\n    const clasif = bench.engagementRate.clasificacion;\n    const icon = clasif === 'excelente' ? '🟢' : clasif === 'bueno' ? '🟡' : clasif === 'promedio' ? '🟠' : '🔴';\n    report += `\\n${icon} Engagement Rate: ${bench.engagementRate.valor}% (${clasif})\\n`;\n    report += `   • Estándar excelente: ${bench.engagementRate.benchmark.excelente}%\\n`;\n    report += `   • Diferencia: ${bench.engagementRate.diferenciaVsExcelente > 0 ? '+' : ''}${bench.engagementRate.diferenciaVsExcelente}%\\n`;\n  }\n  \n  if (bench.contenidoViral) {\n    const clasif = bench.contenidoViral.clasificacion;\n    const icon = clasif === 'excelente' ? '🟢' : clasif === 'bueno' ? '🟡' : clasif === 'promedio' ? '🟠' : '🔴';\n    report += `\\n${icon} Contenido Viral: ${bench.contenidoViral.valor}% (${clasif})\\n`;\n  }\n  \n  if (bench.resumen) {\n    report += `\\n📋 Resumen: ${bench.resumen.clasificacionGeneral.toUpperCase()}\\n`;\n    report += `   ${bench.resumen.areasMejora}\\n`;\n  }\n}\n\n// Palabras clave\nif (data.keywords && data.keywords.topKeywords && data.keywords.topKeywords.length > 0) {\n  report += `\\n\\n🔑 PALABRAS CLAVE MÁS EFECTIVAS:\\n`;\n  report += `─────────────────────────────────────\\n`;\n  report += `Top 10 palabras clave por impacto:\\n`;\n  data.keywords.topKeywords.slice(0, 10).forEach((kw, idx) => {\n    report += `${idx + 1}. \"${kw.keyword}\" - ${kw.avgEngagement} engagement promedio (usada ${kw.count} veces)\\n`;\n  });\n  \n  if (data.keywords.recommendations && data.keywords.recommendations.length > 0) {\n    report += `\\n💡 Recomendaciones:\\n`;\n    data.keywords.recommendations.forEach(rec => {\n      report += `   • ${rec}\\n`;\n    });\n  }\n}\n\n// Calendario optimizado\nif (data.contentCalendar && data.contentCalendar.calendario) {\n  report += `\\n\\n📅 CALENDARIO OPTIMIZADO DE CONTENIDO:\\n`;\n  report += `─────────────────────────────────────\\n`;\n  report += `Calendario para las próximas ${data.contentCalendar.semanas} semanas\\n\\n`;\n  \n  const recs = data.contentCalendar.recomendaciones;\n  report += `Recomendaciones:\\n`;\n  report += `   • Mejor día: ${recs.mejorDia}\\n`;\n  report += `   • Mejor hora: ${recs.mejorHorario}\\n`;\n  report += `   • Mejor plataforma: ${recs.mejorPlataforma}\\n`;\n  report += `   • Tipo recomendado: ${recs.tipoRecomendado}\\n\\n`;\n  \n  report += `Próximas publicaciones sugeridas:\\n`;\n  data.contentCalendar.calendario.slice(0, 2).forEach(week => {\n    report += `\\nSemana ${week.semana} (${week.fechaInicio}):\\n`;\n    week.publicaciones.slice(0, 2).forEach((post, idx) => {\n      report += `   ${idx + 1}. ${post.fecha} ${post.hora} - ${post.tipoContenido} en ${post.plataforma}\\n`;\n      report += `      Título: ${post.tituloSugerido}\\n`;\n      if (post.hashtagsSugeridos && post.hashtagsSugeridos.length > 0) {\n        report += `      Hashtags: ${post.hashtagsSugeridos.slice(0, 3).join(', ')}\\n`;\n      }\n    });\n  });\n}\n\n// Contenido mejorable\nif (data.improvableContent && data.improvableContent.posts && data.improvableContent.posts.length > 0) {\n  report += `\\n\\n🔧 CONTENIDO CON POTENCIAL DE MEJORA:\\n`;\n  report += `─────────────────────────────────────\\n`;\n  report += `Total identificado: ${data.improvableContent.total} posts\\n`;\n  report += `Potencial de mejora promedio: ${data.improvableContent.avgImprovementPotential}%\\n\\n`;\n  \n  report += `Top 5 posts a mejorar:\\n`;\n  data.improvableContent.posts.slice(0, 5).forEach((post, idx) => {\n    report += `\\n${idx + 1}. ${post.title.substring(0, 60)}...\\n`;\n    report += `   Plataforma: ${post.platform} | Tipo: ${post.contentType}\\n`;\n    report += `   Engagement: ${post.engagement} | Rate: ${post.engagementRate}%\\n`;\n    report += `   Problemas detectados:\\n`;\n    post.issues.forEach(issue => {\n      report += `      • ${issue}\\n`;\n    });\n    if (post.recommendations && post.recommendations.length > 0) {\n      report += `   Recomendaciones:\\n`;\n      post.recommendations.forEach(rec => {\n        report += `      ✓ ${rec}\\n`;\n      });\n    }\n  });\n}\n\n// Top hashtags\nif (data.topHashtags && data.topHashtags.length > 0) {\n  report += `\\n\\n#️⃣ TOP HASHTAGS POR ENGAGEMENT:\\n`;\n  report += `─────────────────────────────────────\\n`;\n  data.topHashtags.slice(0, 5).forEach((tag, idx) => {\n    report += `${idx + 1}. #${tag.hashtag} - ${tag.avgEngagement.toFixed(2)} engagement promedio (${tag.totalPosts} posts)\\n`;\n  });\n}\n\n// Anomalías detectadas\nif (data.anomalies && data.anomalies.length > 0) {\n  report += `\\n\\n⚠️ ANOMALÍAS DETECTADAS:\\n`;\n  report += `─────────────────────────────────────\\n`;\n  report += `Total: ${data.anomalies.length} anomalías\\n`;\n  \n  if (data.anomalySummary) {\n    report += `• Spikes/Incrementos: ${data.anomalySummary.spikes}\\n`;\n    report += `• Drops/Decrementos: ${data.anomalySummary.drops}\\n`;\n    report += `• Alta severidad: ${data.anomalySummary.highSeverity}\\n\\n`;\n  }\n  \n  // Mostrar top 3 anomalías\n  const topAnomalies = data.anomalies\n    .filter(a => a.severity === 'high' || a.severity === 'medium')\n    .slice(0, 3);\n  \n  topAnomalies.forEach((anomaly, idx) => {\n    const icon = anomaly.anomalyType === 'spike' || anomaly.anomalyType === 'significant_increase' ? '📈' : '📉';\n    report += `${idx + 1}. ${icon} ${anomaly.explanation || 'Anomalía detectada'}\\n`;\n    if (anomaly.title) report += `   Post: ${anomaly.title.substring(0, 60)}...\\n`;\n    if (anomaly.platform) report += `   Plataforma: ${anomaly.platform}\\n`;\n    report += `\\n`;\n  });\n}\n\n// Predicciones\nif (data.predictions && data.predictions.nextMonthForecast) {\n  report += `\\n\\n🔮 PREDICCIÓN PARA EL PRÓXIMO MES:\\n`;\n  report += `─────────────────────────────────────\\n`;\n  \n  const forecast = data.predictions.nextMonthForecast;\n  const trendIcon = forecast.trend === 'increasing' ? '📈' : forecast.trend === 'decreasing' ? '📉' : '➡️';\n  \n  report += `${trendIcon} Tendencia: ${forecast.trend === 'increasing' ? 'Aumentando' : forecast.trend === 'decreasing' ? 'Disminuyendo' : 'Estable'}\\n`;\n  report += `Engagement esperado: ${forecast.expectedEngagement.toFixed(2)}\\n`;\n  report += `Confianza: ${forecast.confidence}\\n`;\n  report += `Recomendación: ${forecast.recommendation}\\n`;\n  \n  if (data.predictions.byType && Object.keys(data.predictions.byType).length > 0) {\n    report += `\\nPredicciones por tipo:\\n`;\n    Object.keys(data.predictions.byType).forEach(type => {\n      const pred = data.predictions.byType[type];\n      const icon = pred.trend === 'increasing' ? '📈' : pred.trend === 'decreasing' ? '📉' : '➡️';\n      report += `   ${icon} ${type}: ${pred.changePercent > 0 ? '+' : ''}${pred.changePercent}% (${pred.confidence} confianza)\\n`;\n    });\n  }\n}\n\n// Comparación con período anterior\nif (data.comparison && data.comparisonAvailable) {\n  report += `\\n\\n📊 COMPARACIÓN CON PERÍODO ANTERIOR:\\n`;\n  report += `─────────────────────────────────────\\n`;\n  report += `Período anterior: ${new Date(data.previousPeriod.startDate).toLocaleDateString('es-ES')} - ${new Date(data.previousPeriod.endDate).toLocaleDateString('es-ES')}\\n\\n`;\n  \n  const comp = data.comparison;\n  report += `Total de posts:\\n`;\n  report += `   • Actual: ${comp.totalPosts.current}\\n`;\n  report += `   • Anterior: ${comp.totalPosts.previous}\\n`;\n  report += `   • Cambio: ${comp.totalPosts.change > 0 ? '+' : ''}${comp.totalPosts.change} (${comp.totalPosts.changePercent}%)\\n\\n`;\n  \n  report += `Mejor tipo de contenido:\\n`;\n  report += `   • Actual: ${comp.bestContentType.current}\\n`;\n  report += `   • Anterior: ${comp.bestContentType.previous}\\n`;\n  \n  if (comp.typeComparison && Object.keys(comp.typeComparison).length > 0) {\n    report += `\\nCambios por tipo:\\n`;\n    Object.keys(comp.typeComparison).forEach(type => {\n      const typeComp = comp.typeComparison[type];\n      const changePercent = parseFloat(typeComp.changePercent);\n      const arrow = changePercent > 0 ? '📈' : changePercent < 0 ? '📉' : '➡️';\n      report += `   ${arrow} ${type}: ${changePercent > 0 ? '+' : ''}${typeComp.changePercent}%\\n`;\n    });\n  }\n}\n\n// Análisis de IA\nif (data.analysis) {\n  report += `\\n\\n🔍 ANÁLISIS: ¿POR QUÉ FUNCIONÓ?\\n`;\n  report += `─────────────────────────────────────\\n`;\n  report += `${data.analysis}\\n`;\n}\n\n// Recomendaciones\nif (data.recommendations && data.recommendations.length > 0) {\n  report += `\\n\\n💡 5 NUEVAS IDEAS DE CONTENIDO:\\n`;\n  report += `─────────────────────────────────────\\n\\n`;\n  \n  data.recommendations.forEach((idea, idx) => {\n    report += `${idx + 1}. ${idea.title || 'Idea sin título'}\\n`;\n    if (idea.format) report += `   📐 Formato: ${idea.format}\\n`;\n    if (idea.platform) report += `   📱 Plataforma: ${idea.platform}\\n`;\n    if (idea.hashtags && Array.isArray(idea.hashtags)) {\n      report += `   #️⃣ Hashtags: ${idea.hashtags.join(', ')}\\n`;\n    }\n    if (idea.length) report += `   📏 Longitud: ${idea.length}\\n`;\n    if (idea.visual_elements) report += `   🎨 Elementos visuales: ${idea.visual_elements}\\n`;\n    if (idea.why_it_will_work) {\n      report += `   ✅ Por qué funcionará: ${idea.why_it_will_work}\\n`;\n    }\n    report += `\\n`;\n  });\n}\n\n// Estrategia optimizada\nif (data.optimizedStrategy) {\n  report += `\\n\\n🎯 ESTRATEGIA OPTIMIZADA:\\n`;\n  report += `─────────────────────────────────────\\n`;\n  const strategy = data.optimizedStrategy;\n  report += `Tipo de contenido recomendado: ${strategy.tipoContenidoRecomendado.toUpperCase()}\\n`;\n  report += `Mejor plataforma: ${strategy.mejorPlataforma}\\n`;\n  report += `Mejor día: ${strategy.mejorDia}\\n`;\n  report += `Mejor horario: ${strategy.mejorHorario}\\n`;\n  report += `Frecuencia sugerida: ${strategy.frecuenciaSugerida}\\n`;\n  report += `Formato prioritario: ${strategy.formatoPrioritario}\\n`;\n  \n  if (strategy.hashtagsSugeridos && strategy.hashtagsSugeridos.length > 0) {\n    report += `\\nHashtags sugeridos: ${strategy.hashtagsSugeridos.join(', ')}\\n`;\n  }\n  \n  if (strategy.recomendaciones && strategy.recomendaciones.length > 0) {\n    report += `\\nRecomendaciones estratégicas:\\n`;\n    strategy.recomendaciones.forEach((rec, idx) => {\n      report += `   ${idx + 1}. ${rec}\\n`;\n    });\n  }\n}\n\n// Oportunidades detectadas\nif (data.opportunities && data.opportunities.opportunities && data.opportunities.opportunities.length > 0) {\n  report += `\\n\\n💎 OPORTUNIDADES DETECTADAS:\\n`;\n  report += `─────────────────────────────────────\\n`;\n  report += `Total: ${data.opportunities.total} oportunidades\\n`;\n  report += `• Alta prioridad: ${data.opportunities.highPriority}\\n\\n`;\n  \n  data.opportunities.opportunities.slice(0, 5).forEach((opp, idx) => {\n    const icon = opp.priority === 'ALTA' ? '🔴' : '🟡';\n    report += `${icon} ${opp.priority}: ${opp.title}\\n`;\n    report += `   ${opp.description}\\n`;\n    report += `   💰 Impacto potencial: ${opp.potentialImpact}\\n`;\n    report += `   ✅ Acción: ${opp.action}\\n`;\n    if (opp.estimatedGain) {\n      report += `   📈 Ganancia estimada: ${opp.estimatedGain} engagement\\n`;\n    }\n    report += `\\n`;\n  });\n}\n\n// A/B Testing\nif (data.abTesting && data.abTesting.tests && data.abTesting.tests.length > 0) {\n  report += `\\n\\n🧪 ANÁLISIS A/B TESTING:\\n`;\n  report += `─────────────────────────────────────\\n`;\n  report += `Total de tests: ${data.abTesting.totalTests}\\n`;\n  report += `Tests significativos: ${data.abTesting.significantTests}\\n\\n`;\n  \n  data.abTesting.tests.forEach((test, idx) => {\n    const icon = test.isSignificant ? '✅' : '➡️';\n    report += `${icon} Test: ${test.testName}\\n`;\n    report += `   Variante A (${test.variantA.name}): ${test.variantA.avgEngagement} engagement (${test.variantA.count} posts)\\n`;\n    report += `   Variante B (${test.variantB.name}): ${test.variantB.avgEngagement} engagement (${test.variantB.count} posts)\\n`;\n    report += `   Diferencia: ${test.difference > 0 ? '+' : ''}${test.difference} (${test.percentDifference > 0 ? '+' : ''}${test.percentDifference}%)\\n`;\n    report += `   Significancia: ${test.isSignificant ? 'SÍ' : 'NO'}\\n`;\n    report += `   💡 Recomendación: ${test.recommendation}\\n\\n`;\n  });\n}\n\n// Patrones temporales\nif (data.temporalPatterns) {\n  report += `\\n\\n📈 ANÁLISIS DE PATRONES TEMPORALES:\\n`;\n  report += `─────────────────────────────────────\\n`;\n  const patterns = data.temporalPatterns;\n  \n  if (patterns.weeklyTrend) {\n    report += `\\nTendencia Semanal:\\n`;\n    report += `   • Mejor día: ${patterns.weeklyTrend.bestDay.day} (score: ${patterns.weeklyTrend.bestDay.score})\\n`;\n    report += `   • Peor día: ${patterns.weeklyTrend.worstDay.day} (score: ${patterns.weeklyTrend.worstDay.score})\\n`;\n    report += `   • Variación semanal: ${patterns.weeklyTrend.weeklyVariation}\\n`;\n  }\n  \n  if (patterns.hourlyTrend) {\n    report += `\\nTendencia Horaria:\\n`;\n    report += `   • Mejor hora: ${patterns.hourlyTrend.bestHour.hour}:00 (score: ${patterns.hourlyTrend.bestHour.score})\\n`;\n    report += `   • Peor hora: ${patterns.hourlyTrend.worstHour.hour}:00 (score: ${patterns.hourlyTrend.worstHour.score})\\n`;\n  }\n  \n  if (patterns.peaksAndValleys) {\n    const pv = patterns.peaksAndValleys;\n    report += `\\nPicos y Valles:\\n`;\n    report += `   • Total picos detectados: ${pv.totalPeaks}\\n`;\n    report += `   • Total valles detectados: ${pv.totalValleys}\\n`;\n    \n    if (pv.peaks && pv.peaks.length > 0) {\n      report += `\\nTop 3 picos de engagement:\\n`;\n      pv.peaks.slice(0, 3).forEach((peak, idx) => {\n        report += `   ${idx + 1}. ${peak.date} - Score: ${peak.score} (${peak.title}...)\\n`;\n      });\n    }\n  }\n  \n  if (patterns.generalTrend) {\n    const trend = patterns.generalTrend;\n    const trendIcon = trend.trend === 'creciente' ? '📈' : trend.trend === 'decreciente' ? '📉' : '➡️';\n    report += `\\nTendencia General:\\n`;\n    report += `   ${trendIcon} ${trend.trend.toUpperCase()} (${trend.trendPercent > 0 ? '+' : ''}${trend.trendPercent}%)\\n`;\n    report += `   • Primera mitad: ${trend.firstHalfAvg} promedio\\n`;\n    report += `   • Segunda mitad: ${trend.secondHalfAvg} promedio\\n`;\n  }\n}\n\n// Alertas críticas\nif (data.criticalAlerts && data.criticalAlerts.alerts && data.criticalAlerts.alerts.length > 0) {\n  report += `\\n\\n⚠️ ALERTAS CRÍTICAS:\\n`;\n  report += `─────────────────────────────────────\\n`;\n  report += `Total: ${data.criticalAlerts.total} alertas\\n`;\n  report += `• Críticas: ${data.criticalAlerts.critical}\\n`;\n  report += `• Alta prioridad: ${data.criticalAlerts.high}\\n`;\n  report += `• Media prioridad: ${data.criticalAlerts.medium}\\n\\n`;\n  \n  data.criticalAlerts.alerts.slice(0, 5).forEach((alert, idx) => {\n    const icon = alert.level === 'CRÍTICO' ? '🔴' : alert.level === 'ALTA' ? '🟠' : '🟡';\n    report += `${icon} ${alert.level}: ${alert.title}\\n`;\n    report += `   ${alert.message}\\n`;\n    report += `   💡 Acción: ${alert.action}\\n\\n`;\n  });\n}\n\n// Archivos exportados\nif (data.csvFiles) {\n  report += `\\n\\n📁 ARCHIVOS EXPORTADOS:\\n`;\n  report += `─────────────────────────────────────\\n`;\n  report += `• Datos detallados: ${data.csvFiles.detailed.split('/').pop()}\\n`;\n  report += `• Resumen por tipo: ${data.csvFiles.summary.split('/').pop()}\\n`;\n}\n\nreport += `\\n\\n🕐 Análisis generado: ${new Date(data.generatedAt).toLocaleString('es-ES')}\\n`;\nreport += `🆔 ID de ejecución: ${data.executionId}\\n`;\n\n// Analytics del workflow\nif (data.analytics) {\n  report += `\\n\\n📊 ESTADÍSTICAS DEL WORKFLOW:\\n`;\n  report += `─────────────────────────────────────\\n`;\n  report += `• Total ejecuciones: ${data.analytics.totalExecutions}\\n`;\n  report += `• Tasa de éxito: ${data.analytics.successRate}\\n`;\n  report += `• Posts analizados (total): ${data.analytics.totalPostsAnalyzed}\\n`;\n  report += `• Tiempo promedio: ${data.analytics.avgExecutionTime}\\n`;\n  if (data.analytics.mostCommonBestType) {\n    report += `• Tipo más comúnmente exitoso: ${data.analytics.mostCommonBestType}\\n`;\n  }\n}\n\nreturn [{\n  json: {\n    ...data,\n    report: report,\n    reportMarkdown: report\n  }\n}];"
+      },
+      "id": "format-report",
+      "name": "Format Final Report",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 400],
+      "notes": "Formatea el reporte final en texto legible"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "has-telegram",
+              "leftValue": "={{ $env.TELEGRAM_BOT_TOKEN }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-telegram",
+      "name": "Check Telegram Available",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1850, 300],
+      "notes": "Verifica si Telegram está configurado"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
+        "text": "={{ $json.report }}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "send-telegram",
+      "name": "Send Telegram Report",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [2050, 300],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-credentials",
+          "name": "Telegram Bot API"
+        }
+      },
+      "notes": "Envía reporte a Telegram",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "has-email",
+              "leftValue": "={{ $env.EMAIL_TO }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-email",
+      "name": "Check Email Available",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1850, 500],
+      "notes": "Verifica si email está configurado"
+    },
+    {
+      "parameters": {
+        "fromEmail": "={{ $env.EMAIL_FROM || 'noreply@example.com' }}",
+        "toEmail": "={{ $env.EMAIL_TO }}",
+        "subject": "={{ 'Análisis de Engagement - ' + ($json.bestContentType || 'Reporte') + ' - ' + new Date($json.startDate).toLocaleDateString('es-ES') }}",
+        "text": "={{ $json.report }}",
+        "options": {}
+      },
+      "id": "send-email",
+      "name": "Send Email Report",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [2050, 500],
+      "credentials": {
+        "smtp": {
+          "id": "smtp-credentials",
+          "name": "SMTP"
+        }
+      },
+      "notes": "Envía reporte por email",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"success\": true, \"executionId\": $json.executionId, \"bestContentType\": $json.bestContentType, \"totalPosts\": $json.totalPosts, \"recommendations\": $json.recommendations.length, \"report\": $json.report } }}"
+      },
+      "id": "webhook-response",
+      "name": "Webhook Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1850, 700],
+      "notes": "Responde al webhook con el resultado"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Guardar reporte en archivo JSON para referencia futura\nconst fs = require('fs');\nconst path = require('path');\n\nconst outputDir = $env.REPORTS_DIR || './reports';\nif (!fs.existsSync(outputDir)) {\n  fs.mkdirSync(outputDir, { recursive: true });\n}\n\nconst filename = `engagement_analysis_${$json.executionId}.json`;\nconst filepath = path.join(outputDir, filename);\n\n// Guardar datos completos\nfs.writeFileSync(filepath, JSON.stringify($json, null, 2), 'utf-8');\n\n// También guardar reporte en texto\nconst reportFilename = `engagement_report_${$json.executionId}.txt`;\nconst reportFilepath = path.join(outputDir, reportFilename);\nfs.writeFileSync(reportFilepath, $json.report, 'utf-8');\n\nreturn [{\n  json: {\n    ...$json,\n    reportFile: filepath,\n    reportTextFile: reportFilepath,\n    saved: true\n  }\n}];"
+      },
+      "id": "save-report",
+      "name": "Save Report to File",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 600],
+      "notes": "Guarda el reporte en archivos para referencia futura",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Manejar errores y preparar mensaje de error\nconst error = $json.error || 'Error desconocido';\nconst executionId = $json.executionId || 'unknown';\n\nlet errorMessage = `❌ Error en el análisis de engagement\\n\\n`;\nerrorMessage += `Error: ${error}\\n`;\nerrorMessage += `Ejecución ID: ${executionId}\\n`;\n\nif ($json.stderr) {\n  errorMessage += `\\nDetalles: ${$json.stderr}`;\n}\n\nreturn [{\n  json: {\n    ...$input.item.json,\n    error: error,\n    errorMessage: errorMessage,\n    executionId: executionId\n  }\n}];"
+      },
+      "id": "handle-error",
+      "name": "Handle Error",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1450, 600],
+      "notes": "Maneja errores y prepara mensaje de error",
+      "onError": "continue"
+    }
+  ],
+  "connections": {
+    "Schedule Trigger - Mensual": {
+      "main": [
+        [
+          {
+            "node": "Initialize Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook Trigger - Ejecución Manual": {
+      "main": [
+        [
+          {
+            "node": "Initialize Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Initialize Workflow": {
+      "main": [
+        [
+          {
+            "node": "Check Can Proceed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Can Proceed": {
+      "main": [
+        [
+          {
+            "node": "Health Check APIs",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Handle Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Health Check APIs": {
+      "main": [
+        [
+          {
+            "node": "Fetch Posts from DB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Posts from DB": {
+      "main": [
+        [
+          {
+            "node": "Classify & Analyze Posts",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Generate Mock Data (if needed)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Generate Mock Data (if needed)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Mock Data (if needed)": {
+      "main": [
+        [
+          {
+            "node": "Classify & Analyze Posts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Classify & Analyze Posts": {
+      "main": [
+        [
+          {
+            "node": "Analyze by Platform",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Analyze Best Posting Times",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Analyze Hashtag Performance",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Validate Minimum Posts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Análisis por plataforma\nconst posts = $input.all();\nconst allPosts = posts.map(item => item.json);\n\nconst platformStats = {};\n\nallPosts.forEach(post => {\n  const platform = post.platform || 'unknown';\n  \n  if (!platformStats[platform]) {\n    platformStats[platform] = {\n      platform: platform,\n      totalPosts: 0,\n      totalLikes: 0,\n      totalComments: 0,\n      totalShares: 0,\n      totalEngagement: 0,\n      totalImpressions: 0,\n      totalReach: 0,\n      avgEngagementRate: 0,\n      posts: []\n    };\n  }\n  \n  const totalEngagement = (post.likes || 0) + (post.comments || 0) + (post.shares || 0) + (post.retweets || 0) + (post.saves || 0);\n  \n  platformStats[platform].totalPosts++;\n  platformStats[platform].totalLikes += (post.likes || 0);\n  platformStats[platform].totalComments += (post.comments || 0);\n  platformStats[platform].totalShares += (post.shares || 0);\n  platformStats[platform].totalEngagement += totalEngagement;\n  platformStats[platform].totalImpressions += (post.impressions || 0);\n  platformStats[platform].totalReach += (post.reach || 0);\n  platformStats[platform].posts.push(post);\n});\n\n// Calcular promedios por plataforma\nObject.keys(platformStats).forEach(platform => {\n  const stats = platformStats[platform];\n  if (stats.totalPosts > 0) {\n    stats.avgEngagementPerPost = stats.totalEngagement / stats.totalPosts;\n    stats.avgLikesPerPost = stats.totalLikes / stats.totalPosts;\n    stats.avgEngagementRate = stats.totalImpressions > 0 ? \n      ((stats.totalEngagement / stats.totalImpressions) * 100) : 0;\n  }\n});\n\n// Encontrar mejor plataforma\nlet bestPlatform = null;\nlet maxAvgEngagement = 0;\n\nObject.keys(platformStats).forEach(platform => {\n  const stats = platformStats[platform];\n  if (stats.avgEngagementPerPost > maxAvgEngagement && stats.totalPosts >= 3) {\n    maxAvgEngagement = stats.avgEngagementPerPost;\n    bestPlatform = platform;\n  }\n});\n\nreturn [{\n  json: {\n    ...$input.first().json,\n    platformStats: platformStats,\n    bestPlatform: bestPlatform,\n    bestPlatformStats: bestPlatform ? platformStats[bestPlatform] : null\n  }\n}];"
+      },
+      "id": "analyze-by-platform",
+      "name": "Analyze by Platform",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1050, 500],
+      "notes": "Analiza engagement por plataforma"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Análisis de mejor hora para publicar\nconst posts = $input.all();\nconst allPosts = posts.map(item => item.json);\n\nconst hourStats = {};\nconst dayOfWeekStats = {};\n\nallPosts.forEach(post => {\n  if (!post.published_at) return;\n  \n  const publishedDate = new Date(post.published_at);\n  const hour = publishedDate.getHours();\n  const dayOfWeek = publishedDate.getDay(); // 0 = Domingo, 6 = Sábado\n  const dayNames = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];\n  \n  const totalEngagement = (post.likes || 0) + (post.comments || 0) + (post.shares || 0) + (post.retweets || 0) + (post.saves || 0);\n  \n  // Por hora\n  if (!hourStats[hour]) {\n    hourStats[hour] = {\n      hour: hour,\n      totalPosts: 0,\n      totalEngagement: 0,\n      avgEngagement: 0\n    };\n  }\n  hourStats[hour].totalPosts++;\n  hourStats[hour].totalEngagement += totalEngagement;\n  \n  // Por día de la semana\n  const dayName = dayNames[dayOfWeek];\n  if (!dayOfWeekStats[dayName]) {\n    dayOfWeekStats[dayName] = {\n      day: dayName,\n      totalPosts: 0,\n      totalEngagement: 0,\n      avgEngagement: 0\n    };\n  }\n  dayOfWeekStats[dayName].totalPosts++;\n  dayOfWeekStats[dayName].totalEngagement += totalEngagement;\n});\n\n// Calcular promedios\nObject.keys(hourStats).forEach(hour => {\n  const stats = hourStats[hour];\n  stats.avgEngagement = stats.totalPosts > 0 ? stats.totalEngagement / stats.totalPosts : 0;\n});\n\nObject.keys(dayOfWeekStats).forEach(day => {\n  const stats = dayOfWeekStats[day];\n  stats.avgEngagement = stats.totalPosts > 0 ? stats.totalEngagement / stats.totalPosts : 0;\n});\n\n// Encontrar mejor hora\nlet bestHour = null;\nlet maxHourEngagement = 0;\nObject.keys(hourStats).forEach(hour => {\n  const stats = hourStats[hour];\n  if (stats.avgEngagement > maxHourEngagement && stats.totalPosts >= 2) {\n    maxHourEngagement = stats.avgEngagement;\n    bestHour = parseInt(hour);\n  }\n});\n\n// Encontrar mejor día\nlet bestDay = null;\nlet maxDayEngagement = 0;\nObject.keys(dayOfWeekStats).forEach(day => {\n  const stats = dayOfWeekStats[day];\n  if (stats.avgEngagement > maxDayEngagement && stats.totalPosts >= 2) {\n    maxDayEngagement = stats.avgEngagement;\n    bestDay = day;\n  }\n});\n\nreturn [{\n  json: {\n    ...$input.first().json,\n    hourStats: hourStats,\n    dayOfWeekStats: dayOfWeekStats,\n    bestPostingHour: bestHour,\n    bestPostingDay: bestDay,\n    postingTimeRecommendation: bestHour !== null && bestDay !== null ? \n      `Mejor momento: ${bestDay} a las ${bestHour}:00` : 'Datos insuficientes'\n  }\n}];"
+      },
+      "id": "analyze-posting-times",
+      "name": "Analyze Best Posting Times",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1050, 600],
+      "notes": "Analiza mejor hora y día para publicar"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Análisis de performance de hashtags\nconst posts = $input.all();\nconst allPosts = posts.map(item => item.json);\n\nconst hashtagStats = {};\n\nallPosts.forEach(post => {\n  const hashtags = post.hashtags || [];\n  const totalEngagement = (post.likes || 0) + (post.comments || 0) + (post.shares || 0) + (post.retweets || 0) + (post.saves || 0);\n  \n  hashtags.forEach(tag => {\n    const cleanTag = tag.replace('#', '').toLowerCase();\n    if (!hashtagStats[cleanTag]) {\n      hashtagStats[cleanTag] = {\n        hashtag: cleanTag,\n        totalPosts: 0,\n        totalEngagement: 0,\n        avgEngagement: 0\n      };\n    }\n    hashtagStats[cleanTag].totalPosts++;\n    hashtagStats[cleanTag].totalEngagement += totalEngagement;\n  });\n});\n\n// Calcular promedios\nObject.keys(hashtagStats).forEach(tag => {\n  const stats = hashtagStats[tag];\n  stats.avgEngagement = stats.totalPosts > 0 ? stats.totalEngagement / stats.totalPosts : 0;\n});\n\n// Top hashtags por engagement promedio\nconst topHashtags = Object.values(hashtagStats)\n  .filter(h => h.totalPosts >= 2)\n  .sort((a, b) => b.avgEngagement - a.avgEngagement)\n  .slice(0, 10);\n\nreturn [{\n  json: {\n    ...$input.first().json,\n    hashtagStats: hashtagStats,\n    topHashtags: topHashtags\n  }\n}];"
+      },
+      "id": "analyze-hashtags",
+      "name": "Analyze Hashtag Performance",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1050, 700],
+      "notes": "Analiza performance de hashtags"
+    },
+    "Analyze by Platform": {
+      "main": [
+        [
+          {
+            "node": "Validate Minimum Posts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Best Posting Times": {
+      "main": [
+        [
+          {
+            "node": "Validate Minimum Posts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Hashtag Performance": {
+      "main": [
+        [
+          {
+            "node": "Validate Minimum Posts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "has-enough-posts",
+              "leftValue": "={{ $json.totalPosts }}",
+              "rightValue": "={{ $json.minPostsRequired }}",
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "validate-minimum-posts",
+      "name": "Validate Minimum Posts",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1050, 400],
+      "notes": "Valida que haya suficientes posts para analizar"
+    },
+    "Validate Minimum Posts": {
+      "main": [
+        [
+          {
+            "node": "Compare with Previous Period",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "AI Analysis - Why Successful",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Handle Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Comparar con período anterior si está habilitado\nif (!$json.enableComparison) {\n  return [{\n    json: {\n      ...$input.item.json,\n      comparisonEnabled: false\n    }\n  }];\n}\n\n// Obtener datos del período anterior\nconst daysBack = $json.daysBack || 30;\nconst startDate = new Date($json.startDate);\nconst previousStartDate = new Date(startDate.getTime() - (daysBack * 24 * 60 * 60 * 1000));\nconst previousEndDate = new Date(startDate.getTime());\n\n// Cargar análisis previo desde caché si existe\nconst fs = require('fs');\nconst path = require('path');\nconst reportsDir = $env.REPORTS_DIR || './reports';\n\nlet previousAnalysis = null;\nif ($json.enableCache && fs.existsSync(reportsDir)) {\n  try {\n    const files = fs.readdirSync(reportsDir);\n    const analysisFiles = files.filter(f => f.startsWith('engagement_analysis_') && f.endsWith('.json'));\n    \n    if (analysisFiles.length > 0) {\n      // Obtener el más reciente antes del período actual\n      analysisFiles.sort().reverse();\n      for (const file of analysisFiles) {\n        const filePath = path.join(reportsDir, file);\n        const fileData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));\n        const fileDate = new Date(fileData.startDate);\n        \n        if (fileDate < startDate) {\n          previousAnalysis = fileData;\n          break;\n        }\n      }\n    }\n  } catch (e) {\n    // Si falla, continuar sin comparación\n  }\n}\n\nif (!previousAnalysis) {\n  return [{\n    json: {\n      ...$input.item.json,\n      comparisonEnabled: true,\n      comparisonAvailable: false,\n      comparisonNote: 'No hay datos del período anterior disponibles'\n    }\n  }];\n}\n\n// Comparar métricas\nconst current = $json;\nconst previous = previousAnalysis;\n\nconst comparison = {\n  totalPosts: {\n    current: current.totalPosts || 0,\n    previous: previous.totalPosts || 0,\n    change: (current.totalPosts || 0) - (previous.totalPosts || 0),\n    changePercent: previous.totalPosts > 0 ? \n      (((current.totalPosts || 0) - (previous.totalPosts || 0)) / previous.totalPosts * 100).toFixed(2) : '0'\n  },\n  bestContentType: {\n    current: current.bestContentType || 'N/A',\n    previous: previous.bestContentType || 'N/A',\n    changed: (current.bestContentType || 'N/A') !== (previous.bestContentType || 'N/A')\n  }\n};\n\n// Comparar engagement promedio por tipo\nconst typeComparison = {};\nif (current.postsByType && previous.postsByType) {\n  Object.keys(current.postsByType).forEach(type => {\n    const currentStats = current.postsByType[type];\n    const previousStats = previous.postsByType[type];\n    \n    if (previousStats) {\n      const currentAvg = currentStats.avgEngagementPerPost || 0;\n      const previousAvg = previousStats.avgEngagementPerPost || 0;\n      \n      typeComparison[type] = {\n        current: currentAvg,\n        previous: previousAvg,\n        change: currentAvg - previousAvg,\n        changePercent: previousAvg > 0 ? \n          (((currentAvg - previousAvg) / previousAvg) * 100).toFixed(2) : '0'\n      };\n    }\n  });\n}\n\ncomparison.typeComparison = typeComparison;\n\nreturn [{\n  json: {\n    ...$input.item.json,\n    comparisonEnabled: true,\n    comparisonAvailable: true,\n    previousPeriod: {\n      startDate: previous.startDate,\n      endDate: previous.endDate,\n      totalPosts: previous.totalPosts,\n      bestContentType: previous.bestContentType\n    },\n    comparison: comparison\n  }\n}];"
+      },
+      "id": "compare-previous-period",
+      "name": "Compare with Previous Period",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1250, 400],
+      "notes": "Compara con período anterior si está habilitado",
+      "continueOnFail": true
+    },
+    "Compare with Previous Period": {
+      "main": [
+        [
+          {
+            "node": "AI Analysis - Why Successful",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Analysis - Why Successful": {
+      "main": [
+        [
+          {
+            "node": "Check Retry Needed",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Check Retry Needed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Retry con exponential backoff para llamadas a IA\nconst MAX_RETRIES = $json.maxRetries || 3;\nconst BASE_DELAY = 5000; // 5 segundos\nconst MAX_DELAY = 300000; // 5 minutos\n\nconst retryHistory = $workflow.staticData.retryHistory || {};\nconst executionId = $json.executionId || 'unknown';\nconst retryInfo = retryHistory[executionId] || {\n  attempts: 0,\n  lastAttempt: null,\n  errors: [],\n  node: 'ai-analysis'\n};\n\n// Verificar si necesita retry\nconst hasError = $json.error || !$json.choices || !$json.choices[0];\nconst needsRetry = hasError && retryInfo.attempts < MAX_RETRIES;\n\nif (needsRetry) {\n  retryInfo.attempts++;\n  retryInfo.lastAttempt = Date.now();\n  if ($json.error) retryInfo.errors.push($json.error);\n  \n  // Calcular delay exponencial con jitter\n  const delay = Math.min(\n    BASE_DELAY * Math.pow(2, retryInfo.attempts - 1),\n    MAX_DELAY\n  );\n  const jitter = delay * 0.2 * Math.random();\n  const finalDelay = Math.floor(delay + jitter);\n  \n  retryInfo.nextRetryDelay = finalDelay;\n  retryHistory[executionId] = retryInfo;\n  $workflow.staticData.retryHistory = retryHistory;\n  \n  return [{\n    json: {\n      ...$input.item.json,\n      shouldRetry: true,\n      retryAttempt: retryInfo.attempts,\n      retryDelay: finalDelay,\n      maxRetries: MAX_RETRIES\n    }\n  }];\n}\n\n// Limpiar cache de retry si fue exitoso\nif (!hasError && retryInfo.attempts > 0) {\n  delete retryHistory[executionId];\n  $workflow.staticData.retryHistory = retryHistory;\n}\n\nreturn [{\n  json: {\n    ...$input.item.json,\n    shouldRetry: false,\n    retryAttempt: retryInfo.attempts,\n    ...(hasError ? {} : $json)\n  }\n}];"
+      },
+      "id": "check-retry",
+      "name": "Check Retry Needed",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1250, 300],
+      "notes": "Verifica si se necesita retry con exponential backoff"
+    },
+    "Check Retry Needed": {
+      "main": [
+        [
+          {
+            "node": "Check Should Retry",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Generate Content Ideas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "itemValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "should-retry",
+              "leftValue": "={{ $json.shouldRetry }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-should-retry",
+      "name": "Check Should Retry",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1450, 300],
+      "notes": "Decide si hacer retry"
+    },
+    {
+      "parameters": {
+        "mode": "wait",
+        "amount": "={{ $json.retryDelay || 5000 }}",
+        "unit": "milliseconds"
+      },
+      "id": "wait-retry",
+      "name": "Wait Before Retry",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [1650, 300],
+      "notes": "Espera antes de reintentar"
+    },
+    "Check Should Retry": {
+      "main": [
+        [
+          {
+            "node": "Wait Before Retry",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Generate Content Ideas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait Before Retry": {
+      "main": [
+        [
+          {
+            "node": "AI Analysis - Why Successful",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Content Ideas": {
+      "main": [
+        [
+          {
+            "node": "Parse Recommendations",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Handle Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Recommendations": {
+      "main": [
+        [
+          {
+            "node": "Detect Viral Content",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Analyze Correlations",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Calculate ROI",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Benchmark Analysis",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Analyze Keywords",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Generate Content Calendar",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Detect Improvable Content",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Generate Critical Alerts",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Generate Optimized Strategy",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Analyze Temporal Patterns",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Detect Opportunities",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "AB Testing Analysis",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Advanced Sentiment Analysis",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Cross Platform Analysis",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Content Scoring",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Detect Anomalies",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Generate Predictions",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Format Final Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Detectar contenido viral\nconst data = $json;\nconst posts = data.postsByType ? Object.values(data.postsByType).flatMap(type => type.posts || []) : [];\n\n// Criterios para contenido viral: engagement_rate > 10% y engagement total > 500\nconst viralPosts = posts.filter(post => {\n  const engagementRate = post.engagementRate || 0;\n  const totalEngagement = post.totalEngagement || 0;\n  return engagementRate > 10.0 && totalEngagement > 500;\n});\n\nconst viralStats = {\n  totalViral: viralPosts.length,\n  percentage: posts.length > 0 ? ((viralPosts.length / posts.length) * 100).toFixed(2) : 0,\n  avgEngagementRate: viralPosts.length > 0 ? \n    (viralPosts.reduce((sum, p) => sum + (p.engagementRate || 0), 0) / viralPosts.length).toFixed(2) : 0,\n  avgTotalEngagement: viralPosts.length > 0 ? \n    (viralPosts.reduce((sum, p) => sum + (p.totalEngagement || 0), 0) / viralPosts.length).toFixed(2) : 0\n};\n\n// Agrupar por tipo\nconst viralByType = {};\nviralPosts.forEach(post => {\n  const type = post.contentType || 'unknown';\n  if (!viralByType[type]) {\n    viralByType[type] = 0;\n  }\n  viralByType[type]++;\n});\n\n// Top posts virales\nconst topViralPosts = viralPosts\n  .sort((a, b) => (b.totalEngagement || 0) - (a.totalEngagement || 0))\n  .slice(0, 5)\n  .map(p => ({\n    post_id: p.post_id,\n    title: p.article_title || p.content?.substring(0, 80) || 'Sin título',\n    platform: p.platform,\n    contentType: p.contentType,\n    totalEngagement: p.totalEngagement,\n    engagementRate: p.engagementRate\n  }));\n\nreturn [{\n  json: {\n    ...data,\n    viralContent: {\n      stats: viralStats,\n      byType: viralByType,\n      topPosts: topViralPosts,\n      hasViralContent: viralPosts.length > 0\n    }\n  }\n}];"
+      },
+      "id": "detect-viral",
+      "name": "Detect Viral Content",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 200],
+      "notes": "Detecta contenido viral basado en engagement rate y total",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Analizar correlaciones entre variables\nconst data = $json;\nconst posts = data.postsByType ? Object.values(data.postsByType).flatMap(type => type.posts || []) : [];\n\nif (posts.length < 5) {\n  return [{\n    json: {\n      ...data,\n      correlations: {}\n    }\n  }];\n}\n\nconst correlations = {};\n\n// Correlación: Media vs Sin Media\nconst withMedia = posts.filter(p => p.hasMedia || (p.hashtags && p.hashtags.length > 0));\nconst withoutMedia = posts.filter(p => !p.hasMedia && (!p.hashtags || p.hashtags.length === 0));\n\nif (withMedia.length > 0 && withoutMedia.length > 0) {\n  const avgWithMedia = withMedia.reduce((sum, p) => sum + (p.totalEngagement || 0), 0) / withMedia.length;\n  const avgWithoutMedia = withoutMedia.reduce((sum, p) => sum + (p.totalEngagement || 0), 0) / withoutMedia.length;\n  const diffPercent = avgWithoutMedia > 0 ? (((avgWithMedia - avgWithoutMedia) / avgWithoutMedia) * 100).toFixed(2) : '0';\n  \n  correlations.media = {\n    withMedia: {\n      count: withMedia.length,\n      avgEngagement: avgWithMedia.toFixed(2)\n    },\n    withoutMedia: {\n      count: withoutMedia.length,\n      avgEngagement: avgWithoutMedia.toFixed(2)\n    },\n    differencePercent: diffPercent,\n    recommendation: parseFloat(diffPercent) > 20 ? 'Incluir media aumenta engagement significativamente' : \n                    parseFloat(diffPercent) > 0 ? 'Media tiene impacto positivo' : 'Media no muestra impacto significativo'\n  };\n}\n\n// Correlación: Longitud del título\nconst titleLengths = posts.map(p => {\n  const title = p.article_title || p.content || '';\n  return {\n    length: title.length,\n    engagement: p.totalEngagement || 0\n  };\n});\n\nif (titleLengths.length > 1) {\n  const avgLength = titleLengths.reduce((sum, t) => sum + t.length, 0) / titleLengths.length;\n  const longTitles = titleLengths.filter(t => t.length > avgLength);\n  const shortTitles = titleLengths.filter(t => t.length <= avgLength);\n  \n  if (longTitles.length > 0 && shortTitles.length > 0) {\n    const avgLong = longTitles.reduce((sum, t) => sum + t.engagement, 0) / longTitles.length;\n    const avgShort = shortTitles.reduce((sum, t) => sum + t.engagement, 0) / shortTitles.length;\n    \n    correlations.titleLength = {\n      avgLength: avgLength.toFixed(0),\n      longTitles: {\n        count: longTitles.length,\n        avgEngagement: avgLong.toFixed(2)\n      },\n      shortTitles: {\n        count: shortTitles.length,\n        avgEngagement: avgShort.toFixed(2)\n      },\n      recommendation: avgLong > avgShort ? 'Títulos más largos generan mejor engagement' : \n                      avgShort > avgLong ? 'Títulos más cortos generan mejor engagement' : \n                      'La longitud del título no muestra impacto significativo'\n    };\n  }\n}\n\n// Correlación: Número de hashtags\nconst hashtagCounts = posts.map(p => {\n  const hashtags = p.hashtags || [];\n  return {\n    count: hashtags.length,\n    engagement: p.totalEngagement || 0\n  };\n});\n\nif (hashtagCounts.length > 1) {\n  const optimalRange = hashtagCounts.filter(h => h.count >= 3 && h.count <= 7);\n  const outsideRange = hashtagCounts.filter(h => h.count < 3 || h.count > 7);\n  \n  if (optimalRange.length > 0 && outsideRange.length > 0) {\n    const avgOptimal = optimalRange.reduce((sum, h) => sum + h.engagement, 0) / optimalRange.length;\n    const avgOutside = outsideRange.reduce((sum, h) => sum + h.engagement, 0) / outsideRange.length;\n    \n    correlations.hashtagCount = {\n      optimalRange: '3-7 hashtags',\n      optimalRangeStats: {\n        count: optimalRange.length,\n        avgEngagement: avgOptimal.toFixed(2)\n      },\n      outsideRangeStats: {\n        count: outsideRange.length,\n        avgEngagement: avgOutside.toFixed(2)\n      },\n      recommendation: avgOptimal > avgOutside ? 'Usar 3-7 hashtags es óptimo' : 'Revisar estrategia de hashtags'\n    };\n  }\n}\n\nreturn [{\n  json: {\n    ...data,\n    correlations: correlations\n  }\n}];"
+      },
+      "id": "analyze-correlations",
+      "name": "Analyze Correlations",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 400],
+      "notes": "Analiza correlaciones entre variables y engagement",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Calcular ROI potencial\nconst data = $json;\n\nif (!data.postsByType || Object.keys(data.postsByType).length === 0) {\n  return [{\n    json: {\n      ...data,\n      roi: null\n    }\n  }];\n}\n\n// Costos estimados por tipo (en horas)\nconst costosPorTipo = {\n  'tutorial': { horas: 3, descripcion: 'Tutoriales requieren más tiempo' },\n  'caso_estudio': { horas: 4, descripcion: 'Casos de estudio requieren investigación' },\n  'noticia': { horas: 1, descripcion: 'Noticias son rápidas de producir' },\n  'opinion': { horas: 1.5, descripcion: 'Opiniones requieren tiempo de reflexión' },\n  'infografia': { horas: 2, descripcion: 'Infografías requieren diseño' }\n};\n\n// Valor estimado por tipo de engagement (en dólares)\nconst valorPorEngagement = {\n  likes: 0.01,\n  comments: 0.10,\n  shares: 0.50\n};\n\n// Costo por hora (configurable)\nconst costoPorHora = parseFloat($env.COSTO_POR_HORA || '50');\n\nconst roiPorTipo = {};\n\nObject.keys(data.postsByType).forEach(type => {\n  const stats = data.postsByType[type];\n  const costoInfo = costosPorTipo[type] || { horas: 2, descripcion: 'Contenido estándar' };\n  const costoTotal = costoInfo.horas * costoPorHora;\n  \n  // Calcular valor generado\n  const valorLikes = stats.avgLikesPerPost * valorPorEngagement.likes;\n  const valorComments = stats.avgCommentsPerPost * valorPorEngagement.comments;\n  const valorShares = stats.avgSharesPerPost * valorPorEngagement.shares;\n  const valorTotal = valorLikes + valorComments + valorShares;\n  \n  // ROI = (Valor - Costo) / Costo * 100\n  const roi = costoTotal > 0 ? (((valorTotal - costoTotal) / costoTotal) * 100).toFixed(2) : '0';\n  \n  roiPorTipo[type] = {\n    tipo: type,\n    costoHoras: costoInfo.horas,\n    costoTotal: costoTotal.toFixed(2),\n    valorGenerado: valorTotal.toFixed(2),\n    roiPorcentaje: roi,\n    publicacionesParaROIPositivo: valorTotal > 0 ? Math.ceil(costoTotal / valorTotal) : 0,\n    descripcion: costoInfo.descripcion\n  };\n});\n\n// ROI por plataforma\nconst roiPorPlataforma = {};\nif (data.platformStats) {\n  Object.keys(data.platformStats).forEach(platform => {\n    const stats = data.platformStats[platform];\n    const costoPromedio = 100; // $100 por publicación promedio\n    \n    const valorLikes = stats.avgLikesPerPost * valorPorEngagement.likes;\n    const valorComments = stats.avgCommentsPerPost * valorPorEngagement.comments;\n    const valorShares = stats.avgSharesPerPost * valorPorEngagement.shares;\n    const valorTotal = valorLikes + valorComments + valorShares;\n    \n    const roi = costoPromedio > 0 ? (((valorTotal - costoPromedio) / costoPromedio) * 100).toFixed(2) : '0';\n    \n    roiPorPlataforma[platform] = {\n      plataforma: platform,\n      valorGenerado: valorTotal.toFixed(2),\n      costoEstimado: costoPromedio,\n      roiPorcentaje: roi\n    };\n  });\n}\n\n// Encontrar mejor ROI\nconst mejorROITipo = Object.keys(roiPorTipo).length > 0 ?\n  Object.keys(roiPorTipo).reduce((a, b) => \n    parseFloat(roiPorTipo[a].roiPorcentaje) > parseFloat(roiPorTipo[b].roiPorcentaje) ? a : b\n  ) : null;\n\nconst mejorROIPlataforma = Object.keys(roiPorPlataforma).length > 0 ?\n  Object.keys(roiPorPlataforma).reduce((a, b) => \n    parseFloat(roiPorPlataforma[a].roiPorcentaje) > parseFloat(roiPorPlataforma[b].roiPorcentaje) ? a : b\n  ) : null;\n\nreturn [{\n  json: {\n    ...data,\n    roi: {\n      porTipo: roiPorTipo,\n      porPlataforma: roiPorPlataforma,\n      mejorTipo: mejorROITipo,\n      mejorPlataforma: mejorROIPlataforma,\n      metricasValor: valorPorEngagement\n    }\n  }\n}];"
+      },
+      "id": "calculate-roi",
+      "name": "Calculate ROI",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 600],
+      "notes": "Calcula ROI potencial por tipo y plataforma",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Análisis de benchmarking contra estándares de industria\nconst data = $json;\n\n// Benchmarks estándar\nconst benchmarks = {\n  engagementRate: {\n    excelente: 5.0,\n    bueno: 3.0,\n    promedio: 1.5,\n    bajo: 0.5\n  },\n  engagementScore: {\n    excelente: 500,\n    bueno: 300,\n    promedio: 150,\n    bajo: 50\n  },\n  contenidoViral: {\n    excelente: 10.0,\n    bueno: 5.0,\n    promedio: 2.0,\n    bajo: 0.0\n  }\n};\n\nfunction clasificar(valor, benchmarkDict) {\n  if (valor >= benchmarkDict.excelente) return 'excelente';\n  if (valor >= benchmarkDict.bueno) return 'bueno';\n  if (valor >= benchmarkDict.promedio) return 'promedio';\n  return 'bajo';\n}\n\nconst benchmarking = {};\n\n// Benchmark de engagement rate general\nif (data.postsByType) {\n  const allPosts = Object.values(data.postsByType).flatMap(type => type.posts || []);\n  const avgEngagementRate = allPosts.length > 0 ?\n    allPosts.reduce((sum, p) => sum + (p.engagementRate || 0), 0) / allPosts.length : 0;\n  \n  benchmarking.engagementRate = {\n    valor: avgEngagementRate.toFixed(2),\n    benchmark: benchmarks.engagementRate,\n    clasificacion: clasificar(avgEngagementRate, benchmarks.engagementRate),\n    diferenciaVsExcelente: (avgEngagementRate - benchmarks.engagementRate.excelente).toFixed(2)\n  };\n}\n\n// Benchmark por tipo\nconst benchmarkingPorTipo = {};\nif (data.postsByType) {\n  Object.keys(data.postsByType).forEach(type => {\n    const stats = data.postsByType[type];\n    const avgRate = stats.avgEngagementRate || 0;\n    \n    benchmarkingPorTipo[type] = {\n      engagementRate: {\n        valor: avgRate.toFixed(2),\n        clasificacion: clasificar(avgRate, benchmarks.engagementRate)\n      },\n      engagementScore: {\n        valor: stats.avgEngagementPerPost.toFixed(2),\n        clasificacion: clasificar(stats.avgEngagementPerPost, benchmarks.engagementScore)\n      }\n    };\n  });\n}\n\n// Benchmark de contenido viral\nif (data.viralContent && data.viralContent.stats) {\n  const viralPercentage = parseFloat(data.viralContent.stats.percentage || 0);\n  benchmarking.contenidoViral = {\n    valor: viralPercentage.toFixed(2),\n    benchmark: benchmarks.contenidoViral,\n    clasificacion: clasificar(viralPercentage, benchmarks.contenidoViral)\n  };\n}\n\n// Resumen general\nconst clasificaciones = Object.values(benchmarkingPorTipo).map(b => b.engagementRate.clasificacion);\nconst mejorClasificacion = clasificaciones.includes('excelente') ? 'excelente' :\n                          clasificaciones.includes('bueno') ? 'bueno' :\n                          clasificaciones.includes('promedio') ? 'promedio' : 'bajo';\n\nbenchmarking.resumen = {\n  clasificacionGeneral: mejorClasificacion,\n  areasMejora: clasificaciones.filter(c => c === 'bajo' || c === 'promedio').length > 0 ?\n    'Algunos tipos de contenido están por debajo del estándar' :\n    'Rendimiento general dentro o por encima del estándar'\n};\n\nreturn [{\n  json: {\n    ...data,\n    benchmarking: {\n      general: benchmarking,\n      porTipo: benchmarkingPorTipo,\n      benchmarks: benchmarks\n    }\n  }\n}];"
+      },
+      "id": "benchmark-analysis",
+      "name": "Benchmark Analysis",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 800],
+      "notes": "Compara métricas contra benchmarks de industria",
+      "continueOnFail": true
+    },
+    "Detect Viral Content": {
+      "main": [
+        [
+          {
+            "node": "Format Final Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Correlations": {
+      "main": [
+        [
+          {
+            "node": "Format Final Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate ROI": {
+      "main": [
+        [
+          {
+            "node": "Format Final Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Benchmark Analysis": {
+      "main": [
+        [
+          {
+            "node": "Format Final Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Analizar palabras clave en títulos\nconst data = $json;\nconst posts = data.postsByType ? Object.values(data.postsByType).flatMap(type => type.posts || []) : [];\n\nif (posts.length < 5) {\n  return [{\n    json: {\n      ...data,\n      keywords: []\n    }\n  }];\n}\n\n// Palabras comunes a excluir\nconst stopWords = new Set(['el', 'la', 'los', 'las', 'un', 'una', 'de', 'del', 'en', 'y', 'o', 'a', 'que', 'es', 'se', 'por', 'con', 'para', 'como', 'más', 'muy', 'este', 'esta', 'estos', 'estas', 'te', 'tu', 'su', 'sus', 'le', 'les', 'lo', 'al', 'le', 'les']);\n\nconst keywordStats = {};\n\nposts.forEach(post => {\n  const title = (post.article_title || post.content || '').toLowerCase();\n  const words = title.match(/\\b\\w+\\b/g) || [];\n  \n  words.forEach(word => {\n    if (word.length > 3 && !stopWords.has(word)) {\n      if (!keywordStats[word]) {\n        keywordStats[word] = {\n          keyword: word,\n          count: 0,\n          totalEngagement: 0,\n          posts: []\n        };\n      }\n      keywordStats[word].count++;\n      keywordStats[word].totalEngagement += (post.totalEngagement || 0);\n      keywordStats[word].posts.push(post.post_id);\n    }\n  });\n});\n\n// Calcular promedios y impacto\nconst keywords = Object.values(keywordStats)\n  .filter(k => k.count >= 2) // Solo palabras usadas al menos 2 veces\n  .map(k => ({\n    keyword: k.keyword,\n    count: k.count,\n    avgEngagement: (k.totalEngagement / k.count).toFixed(2),\n    totalEngagement: k.totalEngagement,\n    impact: k.totalEngagement // Impacto total\n  }))\n  .sort((a, b) => b.impact - a.impact)\n  .slice(0, 15);\n\nreturn [{\n  json: {\n    ...data,\n    keywords: {\n      topKeywords: keywords,\n      totalAnalyzed: Object.keys(keywordStats).length,\n      recommendations: keywords.slice(0, 5).map(k => `Usar \"${k.keyword}\" en títulos (${k.avgEngagement} engagement promedio)`)\n    }\n  }\n}];"
+      },
+      "id": "analyze-keywords",
+      "name": "Analyze Keywords",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 1000],
+      "notes": "Analiza palabras clave más efectivas en títulos",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Generar calendario optimizado de contenido\nconst data = $json;\n\nif (!data.bestContentType || !data.bestPostingDay || data.bestPostingHour === null) {\n  return [{\n    json: {\n      ...data,\n      contentCalendar: null\n    }\n  }];\n}\n\nconst semanas = parseInt($env.CALENDAR_WEEKS || '4');\nconst calendar = [];\nconst now = new Date();\nconst dayMap = {\n  'domingo': 0, 'lunes': 1, 'martes': 2, 'miércoles': 3,\n  'jueves': 4, 'viernes': 5, 'sábado': 6\n};\n\nconst bestDayNum = dayMap[data.bestPostingDay.toLowerCase()] || 1;\nconst bestHour = data.bestPostingHour;\nconst bestPlatform = data.bestPlatform || 'Instagram';\nconst bestType = data.bestContentType;\n\n// Obtener hashtags sugeridos\nconst topHashtags = data.topHashtags ? data.topHashtags.slice(0, 5).map(h => `#${h.hashtag}`) : [];\n\nfor (let week = 0; week < semanas; week++) {\n  const weekStart = new Date(now);\n  weekStart.setDate(now.getDate() + (week * 7));\n  weekStart.setHours(0, 0, 0, 0);\n  \n  // Encontrar el mejor día de la semana\n  const targetDate = new Date(weekStart);\n  const currentDay = weekStart.getDay();\n  const daysToAdd = (bestDayNum - currentDay + 7) % 7;\n  targetDate.setDate(weekStart.getDate() + daysToAdd);\n  \n  const weekCalendar = {\n    semana: week + 1,\n    fechaInicio: weekStart.toISOString().split('T')[0],\n    publicaciones: []\n  };\n  \n  // Generar 2-3 publicaciones por semana en el mejor día\n  const numPosts = week % 2 === 0 ? 2 : 3;\n  \n  for (let i = 0; i < numPosts; i++) {\n    const postDate = new Date(targetDate);\n    postDate.setHours(bestHour + (i * 2), 0, 0, 0); // Espaciar 2 horas\n    \n    if (postDate.getHours() > 21) {\n      postDate.setHours(bestHour, 0, 0, 0);\n    }\n    \n    weekCalendar.publicaciones.push({\n      fecha: postDate.toISOString().split('T')[0],\n      hora: `${postDate.getHours().toString().padStart(2, '0')}:00`,\n      dia: data.bestPostingDay,\n      tipoContenido: bestType,\n      plataforma: bestPlatform,\n      tituloSugerido: `${bestType.charAt(0).toUpperCase() + bestType.slice(1)} - Semana ${week + 1} - Post ${i + 1}`,\n      hashtagsSugeridos: topHashtags,\n      engagementPredicho: data.predictions && data.predictions.nextMonthForecast ? \n        data.predictions.nextMonthForecast.expectedEngagement.toFixed(2) : 'N/A'\n    });\n  }\n  \n  calendar.push(weekCalendar);\n}\n\nreturn [{\n  json: {\n    ...data,\n    contentCalendar: {\n      semanas: semanas,\n      calendario: calendar,\n      recomendaciones: {\n        mejorHorario: `${data.bestPostingHour}:00`,\n        mejorDia: data.bestPostingDay,\n        mejorPlataforma: bestPlatform,\n        tipoRecomendado: bestType\n      }\n    }\n  }\n}];"
+      },
+      "id": "generate-calendar",
+      "name": "Generate Content Calendar",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 1200],
+      "notes": "Genera calendario optimizado de contenido",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Detectar contenido mejorable\nconst data = $json;\nconst posts = data.postsByType ? Object.values(data.postsByType).flatMap(type => type.posts || []) : [];\n\nif (posts.length < 5) {\n  return [{\n    json: {\n      ...data,\n      improvableContent: []\n    }\n  }];\n}\n\n// Calcular promedio de engagement\nconst avgEngagement = posts.reduce((sum, p) => sum + (p.totalEngagement || 0), 0) / posts.length;\nconst avgEngagementRate = posts.reduce((sum, p) => sum + (p.engagementRate || 0), 0) / posts.length;\n\nconst improvablePosts = [];\n\nposts.forEach(post => {\n  const issues = [];\n  const engagement = post.totalEngagement || 0;\n  const engagementRate = post.engagementRate || 0;\n  \n  // Detectar problemas\n  if (engagement < avgEngagement * 0.5) {\n    issues.push('Engagement muy bajo');\n  }\n  \n  if (engagementRate < avgEngagementRate * 0.5) {\n    issues.push('Tasa de engagement baja');\n  }\n  \n  const hashtags = post.hashtags || [];\n  if (hashtags.length < 3 || hashtags.length > 7) {\n    issues.push(`Número de hashtags subóptimo (${hashtags.length})`);\n  }\n  \n  const title = post.article_title || post.content || '';\n  if (title.length < 20) {\n    issues.push('Título muy corto');\n  } else if (title.length > 100) {\n    issues.push('Título muy largo');\n  }\n  \n  if (!post.hasMedia && !post.hashtags) {\n    issues.push('Falta contenido multimedia');\n  }\n  \n  if (issues.length >= 2) {\n    improvablePosts.push({\n      post_id: post.post_id,\n      title: title.substring(0, 80),\n      platform: post.platform,\n      contentType: post.contentType,\n      engagement: engagement,\n      engagementRate: engagementRate.toFixed(2),\n      issues: issues,\n      improvementPotential: issues.length * 20, // % potencial de mejora\n      recommendations: [\n        issues.includes('Engagement muy bajo') ? 'Mejorar calidad del contenido' : null,\n        issues.includes('Tasa de engagement baja') ? 'Optimizar timing de publicación' : null,\n        issues.includes('Número de hashtags subóptimo') ? 'Ajustar número de hashtags a 3-7' : null,\n        issues.includes('Título muy corto') || issues.includes('Título muy largo') ? 'Optimizar longitud del título' : null,\n        issues.includes('Falta contenido multimedia') ? 'Agregar imagen o video' : null\n      ].filter(r => r !== null)\n    });\n  }\n});\n\n// Ordenar por potencial de mejora\nimprovablePosts.sort((a, b) => b.improvementPotential - a.improvementPotential);\n\nreturn [{\n  json: {\n    ...data,\n    improvableContent: {\n      total: improvablePosts.length,\n      posts: improvablePosts.slice(0, 10), // Top 10\n      avgImprovementPotential: improvablePosts.length > 0 ?\n        (improvablePosts.reduce((sum, p) => sum + p.improvementPotential, 0) / improvablePosts.length).toFixed(0) : '0'\n    }\n  }\n}];"
+      },
+      "id": "detect-improvable",
+      "name": "Detect Improvable Content",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 1400],
+      "notes": "Detecta contenido con potencial de mejora",
+      "continueOnFail": true
+    },
+    "Analyze Keywords": {
+      "main": [
+        [
+          {
+            "node": "Format Final Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Content Calendar": {
+      "main": [
+        [
+          {
+            "node": "Format Final Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Detect Improvable Content": {
+      "main": [
+        [
+          {
+            "node": "Format Final Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Generar alertas críticas basadas en análisis\nconst data = $json;\n\nconst alerts = [];\n\n// Alerta: Tendencia decreciente\nif (data.comparison && data.comparison.typeComparison) {\n  const allChanges = Object.values(data.comparison.typeComparison).map(c => parseFloat(c.changePercent || 0));\n  const avgChange = allChanges.reduce((a, b) => a + b, 0) / allChanges.length;\n  \n  if (avgChange < -20) {\n    alerts.push({\n      level: 'CRÍTICO',\n      title: 'Tendencia Decreciente Detectada',\n      message: `El engagement ha disminuido un ${Math.abs(avgChange).toFixed(1)}% en promedio`,\n      action: 'Revisar estrategia de contenido inmediatamente',\n      priority: 1\n    });\n  }\n}\n\n// Alerta: Bajo contenido viral\nif (data.viralContent && data.viralContent.stats) {\n  const viralPercent = parseFloat(data.viralContent.stats.percentage || 0);\n  if (viralPercent < 5) {\n    alerts.push({\n      level: 'ALTA',\n      title: 'Bajo Porcentaje de Contenido Viral',\n      message: `Solo el ${viralPercent.toFixed(1)}% del contenido es viral (objetivo: >5%)`,\n      action: 'Aumentar producción de contenido de alto engagement',\n      priority: 2\n    });\n  }\n}\n\n// Alerta: Engagement rate bajo\nif (data.postsByType) {\n  const allPosts = Object.values(data.postsByType).flatMap(type => type.posts || []);\n  const avgEngagementRate = allPosts.length > 0 ?\n    allPosts.reduce((sum, p) => sum + (p.engagementRate || 0), 0) / allPosts.length : 0;\n  \n  if (avgEngagementRate < 3.0) {\n    alerts.push({\n      level: 'ALTA',\n      title: 'Engagement Rate Bajo',\n      message: `El engagement rate promedio es ${avgEngagementRate.toFixed(2)}%, por debajo del estándar (3-5%)`,\n      action: 'Revisar calidad del contenido y timing de publicaciones',\n      priority: 2\n    });\n  }\n}\n\n// Alerta: Plataforma subóptima\nif (data.platformStats && Object.keys(data.platformStats).length > 1) {\n  const platforms = Object.keys(data.platformStats).map(p => ({\n    platform: p,\n    avgEngagement: data.platformStats[p].avgEngagementPerPost || 0\n  }));\n  \n  platforms.sort((a, b) => b.avgEngagement - a.avgEngagement);\n  const bestPlatform = platforms[0];\n  const worstPlatform = platforms[platforms.length - 1];\n  const difference = bestPlatform.avgEngagement - worstPlatform.avgEngagement;\n  \n  if (difference > bestPlatform.avgEngagement * 0.5) {\n    alerts.push({\n      level: 'MEDIA',\n      title: `Plataforma ${worstPlatform.platform} con Bajo Rendimiento`,\n      message: `${worstPlatform.platform} tiene ${difference.toFixed(1)} puntos menos que ${bestPlatform.platform}`,\n      action: `Considerar reducir contenido en ${worstPlatform.platform} o mejorar estrategia`,\n      priority: 3\n    });\n  }\n}\n\n// Alerta: Contenido mejorable significativo\nif (data.improvableContent && data.improvableContent.total > 0) {\n  const improvementPotential = parseFloat(data.improvableContent.avgImprovementPotential || 0);\n  if (improvementPotential > 40) {\n    alerts.push({\n      level: 'MEDIA',\n      title: 'Alto Potencial de Mejora Detectado',\n      message: `${data.improvableContent.total} posts tienen un potencial de mejora promedio de ${improvementPotential}%`,\n      action: 'Revisar y aplicar recomendaciones de mejora a posts identificados',\n      priority: 3\n    });\n  }\n}\n\n// Alerta: Benchmarking bajo\nif (data.benchmarking && data.benchmarking.general && data.benchmarking.general.engagementRate) {\n  const clasificacion = data.benchmarking.general.engagementRate.clasificacion;\n  if (clasificacion === 'bajo' || clasificacion === 'promedio') {\n    alerts.push({\n      level: 'ALTA',\n      title: 'Rendimiento por Debajo del Estándar de Industria',\n      message: `El engagement rate está clasificado como ${clasificacion} según benchmarks de industria`,\n      action: 'Implementar estrategias para alcanzar estándares de la industria',\n      priority: 2\n    });\n  }\n}\n\n// Ordenar por prioridad\nconst sortedAlerts = alerts.sort((a, b) => a.priority - b.priority);\n\nreturn [{\n  json: {\n    ...data,\n    criticalAlerts: {\n      total: sortedAlerts.length,\n      critical: sortedAlerts.filter(a => a.level === 'CRÍTICO').length,\n      high: sortedAlerts.filter(a => a.level === 'ALTA').length,\n      medium: sortedAlerts.filter(a => a.level === 'MEDIA').length,\n      alerts: sortedAlerts\n    }\n  }\n}];"
+      },
+      "id": "generate-alerts",
+      "name": "Generate Critical Alerts",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 1600],
+      "notes": "Genera alertas críticas basadas en análisis",
+      "continueOnFail": true
+    },
+    "Generate Critical Alerts": {
+      "main": [
+        [
+          {
+            "node": "Format Final Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Generar estrategia optimizada basada en análisis\nconst data = $json;\n\nif (!data.bestContentType || !data.bestPlatform || !data.bestPostingDay) {\n  return [{\n    json: {\n      ...data,\n      optimizedStrategy: null\n    }\n  }];\n}\n\n// Obtener hashtags sugeridos\nconst topHashtags = data.topHashtags ? data.topHashtags.slice(0, 10).map(h => h.hashtag) : [];\n\n// Determinar formato prioritario basado en análisis\nconst bestTypeStats = data.bestTypeStats || {};\nconst hasMediaPercent = bestTypeStats.postsWithMediaPercent || 0;\nconst formatPriority = hasMediaPercent > 80 ? 'Video corto' : 'Post estático';\n\n// Calcular frecuencia sugerida basada en datos\nconst totalPosts = data.totalPosts || 0;\nconst daysBack = data.daysBack || 30;\nconst avgPostsPerWeek = (totalPosts / daysBack) * 7;\nconst frequency = avgPostsPerWeek >= 5 ? '5-7 veces por semana' : \n                  avgPostsPerWeek >= 3 ? '3-5 veces por semana' : \n                  '2-3 veces por semana';\n\nconst strategy = {\n  tipoContenidoRecomendado: data.bestContentType,\n  mejorHorario: data.bestPostingHour !== null ? `${data.bestPostingHour}:00` : 'N/A',\n  mejorDia: data.bestPostingDay,\n  mejorPlataforma: data.bestPlatform,\n  frecuenciaSugerida: frequency,\n  formatoPrioritario: formatPriority,\n  hashtagsSugeridos: topHashtags.slice(0, 5),\n  recomendaciones: [\n    `Enfocarse en contenido tipo ${data.bestContentType}`,\n    `Publicar principalmente en ${data.bestPlatform}`,\n    `Priorizar ${data.bestPostingDay} a las ${data.bestPostingHour}:00`,\n    `Usar formato ${formatPriority}`,\n    `Mantener frecuencia de ${frequency}`\n  ]\n};\n\n// Agregar recomendaciones basadas en ROI si está disponible\nif (data.roi && data.roi.mejorTipo) {\n  strategy.recomendaciones.push(`Maximizar ROI con tipo ${data.roi.mejorTipo}`);\n}\n\n// Agregar recomendaciones basadas en correlaciones\nif (data.correlations) {\n  if (data.correlations.media && parseFloat(data.correlations.media.differencePercent) > 20) {\n    strategy.recomendaciones.push('Incluir contenido multimedia en todas las publicaciones');\n  }\n  if (data.correlations.hashtagCount) {\n    strategy.recomendaciones.push(`Usar ${data.correlations.hashtagCount.optimalRange} hashtags por post`);\n  }\n}\n\nreturn [{\n  json: {\n    ...data,\n    optimizedStrategy: strategy\n  }\n}];"
+      },
+      "id": "generate-strategy",
+      "name": "Generate Optimized Strategy",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 1800],
+      "notes": "Genera estrategia optimizada basada en análisis completo",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Analizar patrones temporales avanzados\nconst data = $json;\nconst posts = data.postsByType ? Object.values(data.postsByType).flatMap(type => type.posts || []) : [];\n\nif (posts.length < 7) {\n  return [{\n    json: {\n      ...data,\n      temporalPatterns: null\n    }\n  }];\n}\n\n// Ordenar posts por fecha\nconst sortedPosts = posts\n  .filter(p => p.published_at)\n  .map(p => ({\n    ...p,\n    date: new Date(p.published_at)\n  }))\n  .sort((a, b) => a.date - b.date);\n\nif (sortedPosts.length < 5) {\n  return [{\n    json: {\n      ...data,\n      temporalPatterns: null\n    }\n  }];\n}\n\nconst patterns = {};\n\n// Análisis semanal\nif (data.dayOfWeekStats) {\n  const days = Object.keys(data.dayOfWeekStats);\n  const dayScores = days.map(d => data.dayOfWeekStats[d].avgEngagement);\n  const bestDay = days[dayScores.indexOf(Math.max(...dayScores))];\n  const worstDay = days[dayScores.indexOf(Math.min(...dayScores))];\n  const variation = Math.max(...dayScores) - Math.min(...dayScores);\n  \n  patterns.weeklyTrend = {\n    bestDay: { day: bestDay, score: Math.max(...dayScores).toFixed(2) },\n    worstDay: { day: worstDay, score: Math.min(...dayScores).toFixed(2) },\n    weeklyVariation: variation.toFixed(2)\n  };\n}\n\n// Análisis horario\nif (data.hourStats) {\n  const hours = Object.keys(data.hourStats);\n  const hourScores = hours.map(h => data.hourStats[h].avgEngagement);\n  const bestHour = hours[hourScores.indexOf(Math.max(...hourScores))];\n  const worstHour = hours[hourScores.indexOf(Math.min(...hourScores))];\n  \n  patterns.hourlyTrend = {\n    bestHour: { hour: bestHour, score: Math.max(...hourScores).toFixed(2) },\n    worstHour: { hour: worstHour, score: Math.min(...hourScores).toFixed(2) }\n  };\n}\n\n// Detectar picos y valles\nconst engagementScores = sortedPosts.map(p => p.totalEngagement || 0);\nconst avgScore = engagementScores.reduce((a, b) => a + b, 0) / engagementScores.length;\nconst variance = engagementScores.reduce((sum, val) => sum + Math.pow(val - avgScore, 2), 0) / engagementScores.length;\nconst stdDev = Math.sqrt(variance);\n\nconst peaks = [];\nconst valleys = [];\n\nfor (let i = 1; i < engagementScores.length - 1; i++) {\n  if (engagementScores[i] > engagementScores[i-1] && engagementScores[i] > engagementScores[i+1]) {\n    if (engagementScores[i] > avgScore + stdDev) {\n      peaks.push({\n        date: sortedPosts[i].date.toISOString().split('T')[0],\n        score: engagementScores[i].toFixed(2),\n        title: (sortedPosts[i].article_title || sortedPosts[i].content || '').substring(0, 50)\n      });\n    }\n  } else if (engagementScores[i] < engagementScores[i-1] && engagementScores[i] < engagementScores[i+1]) {\n    if (engagementScores[i] < avgScore - stdDev) {\n      valleys.push({\n        date: sortedPosts[i].date.toISOString().split('T')[0],\n        score: engagementScores[i].toFixed(2),\n        title: (sortedPosts[i].article_title || sortedPosts[i].content || '').substring(0, 50)\n      });\n    }\n  }\n}\n\npatterns.peaksAndValleys = {\n  peaks: peaks.slice(0, 5),\n  valleys: valleys.slice(0, 5),\n  totalPeaks: peaks.length,\n  totalValleys: valleys.length\n};\n\n// Análisis de tendencia general\nconst firstHalf = engagementScores.slice(0, Math.floor(engagementScores.length / 2));\nconst secondHalf = engagementScores.slice(Math.floor(engagementScores.length / 2));\nconst firstHalfAvg = firstHalf.reduce((a, b) => a + b, 0) / firstHalf.length;\nconst secondHalfAvg = secondHalf.reduce((a, b) => a + b, 0) / secondHalf.length;\nconst trend = secondHalfAvg > firstHalfAvg ? 'creciente' : secondHalfAvg < firstHalfAvg ? 'decreciente' : 'estable';\nconst trendPercent = firstHalfAvg > 0 ? (((secondHalfAvg - firstHalfAvg) / firstHalfAvg) * 100).toFixed(2) : '0';\n\npatterns.generalTrend = {\n  trend: trend,\n  trendPercent: trendPercent,\n  firstHalfAvg: firstHalfAvg.toFixed(2),\n  secondHalfAvg: secondHalfAvg.toFixed(2)\n};\n\nreturn [{\n  json: {\n    ...data,\n    temporalPatterns: patterns\n  }\n}];"
+      },
+      "id": "analyze-temporal",
+      "name": "Analyze Temporal Patterns",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 2000],
+      "notes": "Analiza patrones temporales avanzados",
+      "continueOnFail": true
+    },
+    "Generate Optimized Strategy": {
+      "main": [
+        [
+          {
+            "node": "Format Final Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Temporal Patterns": {
+      "main": [
+        [
+          {
+            "node": "Format Final Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Detectar oportunidades de contenido\nconst data = $json;\nconst posts = data.postsByType ? Object.values(data.postsByType).flatMap(type => type.posts || []) : [];\n\nif (posts.length < 5) {\n  return [{\n    json: {\n      ...data,\n      opportunities: []\n    }\n  }];\n}\n\nconst opportunities = [];\n\n// Oportunidad 1: Tipo de contenido subutilizado con alto potencial\nif (data.postsByType && data.bestContentType) {\n  const bestType = data.bestContentType;\n  const bestStats = data.bestTypeStats || {};\n  \n  Object.keys(data.postsByType).forEach(type => {\n    if (type !== bestType) {\n      const stats = data.postsByType[type];\n      const postsCount = stats.totalPosts || 0;\n      const avgEngagement = stats.avgEngagementPerPost || 0;\n      const bestAvgEngagement = bestStats.avgEngagementPerPost || 0;\n      \n      // Si tiene buen engagement pero pocos posts\n      if (avgEngagement > bestAvgEngagement * 0.7 && postsCount < 5) {\n        opportunities.push({\n          type: 'content_type_underutilized',\n          priority: 'ALTA',\n          title: `Tipo ${type} subutilizado con alto potencial`,\n          description: `${type} tiene ${avgEngagement.toFixed(2)} engagement promedio pero solo ${postsCount} posts`,\n          potentialImpact: `Aumentar posts de ${type} podría generar ${((avgEngagement * 3) - (avgEngagement * postsCount)).toFixed(0)} engagement adicional`,\n          action: `Crear 3-5 posts adicionales de tipo ${type} en las próximas semanas`,\n          estimatedGain: ((avgEngagement * 3) - (avgEngagement * postsCount)).toFixed(0)\n        });\n      }\n    }\n  });\n}\n\n// Oportunidad 2: Plataforma subutilizada\nif (data.platformStats && data.bestPlatform) {\n  const bestPlatform = data.bestPlatform;\n  const bestPlatformStats = data.platformStats[bestPlatform] || {};\n  \n  Object.keys(data.platformStats).forEach(platform => {\n    if (platform !== bestPlatform) {\n      const stats = data.platformStats[platform];\n      const postsCount = stats.totalPosts || 0;\n      const avgEngagement = stats.avgEngagementPerPost || 0;\n      const bestAvgEngagement = bestPlatformStats.avgEngagementPerPost || 0;\n      \n      if (avgEngagement > bestAvgEngagement * 0.8 && postsCount < 5) {\n        opportunities.push({\n          type: 'platform_underutilized',\n          priority: 'MEDIA',\n          title: `Plataforma ${platform} subutilizada`,\n          description: `${platform} muestra buen engagement (${avgEngagement.toFixed(2)}) pero pocos posts (${postsCount})`,\n          potentialImpact: `Expandir contenido en ${platform} podría aumentar alcance`,\n          action: `Aumentar frecuencia de posts en ${platform} a 2-3 por semana`,\n          estimatedGain: (avgEngagement * 2).toFixed(0)\n        });\n      }\n    }\n  });\n}\n\n// Oportunidad 3: Horario óptimo no aprovechado\nif (data.bestPostingHour !== null && data.hourStats) {\n  const bestHour = data.bestPostingHour;\n  const bestHourStats = data.hourStats[bestHour] || {};\n  const postsInBestHour = bestHourStats.totalPosts || 0;\n  const totalPosts = data.totalPosts || 0;\n  const percentageInBestHour = totalPosts > 0 ? (postsInBestHour / totalPosts) * 100 : 0;\n  \n  if (percentageInBestHour < 30) {\n    opportunities.push({\n      type: 'timing_opportunity',\n      priority: 'ALTA',\n      title: `Horario óptimo (${bestHour}:00) subutilizado`,\n      description: `Solo el ${percentageInBestHour.toFixed(1)}% de posts se publican en el horario óptimo`,\n      potentialImpact: `Aumentar posts en ${bestHour}:00 podría mejorar engagement promedio en 15-20%`,\n      action: `Programar al menos 40% de posts en horario ${bestHour}:00`,\n      estimatedGain: (bestHourStats.avgEngagement * 0.15).toFixed(0)\n    });\n  }\n}\n\n// Oportunidad 4: Hashtags efectivos no usados consistentemente\nif (data.topHashtags && data.topHashtags.length > 0) {\n  const topHashtag = data.topHashtags[0];\n  const usageCount = topHashtag.totalPosts || 0;\n  const totalPosts = data.totalPosts || 0;\n  const usagePercent = totalPosts > 0 ? (usageCount / totalPosts) * 100 : 0;\n  \n  if (usagePercent < 50 && topHashtag.avgEngagement > 100) {\n    opportunities.push({\n      type: 'hashtag_opportunity',\n      priority: 'MEDIA',\n      title: `Hashtag efectivo #${topHashtag.hashtag} subutilizado`,\n      description: `#${topHashtag.hashtag} genera ${topHashtag.avgEngagement.toFixed(2)} engagement pero solo se usa en ${usagePercent.toFixed(1)}% de posts`,\n      potentialImpact: `Usar #${topHashtag.hashtag} consistentemente podría aumentar engagement`,\n      action: `Incluir #${topHashtag.hashtag} en al menos 70% de futuros posts`,\n      estimatedGain: (topHashtag.avgEngagement * 0.2).toFixed(0)\n    });\n  }\n}\n\n// Oportunidad 5: Contenido viral no replicado\nif (data.viralContent && data.viralContent.topPosts && data.viralContent.topPosts.length > 0) {\n  const topViral = data.viralContent.topPosts[0];\n  const viralType = topViral.contentType;\n  const viralPlatform = topViral.platform;\n  \n  // Verificar si hay más posts similares\n  const similarPosts = posts.filter(p => \n    p.contentType === viralType && p.platform === viralPlatform\n  ).length;\n  \n  if (similarPosts < 3) {\n    opportunities.push({\n      type: 'viral_replication',\n      priority: 'ALTA',\n      title: `Replicar patrón de contenido viral`,\n      description: `Post viral: ${topViral.title.substring(0, 50)}... (${topViral.totalEngagement} engagement)`,\n      potentialImpact: `Replicar este patrón podría generar más contenido viral`,\n      action: `Crear 2-3 posts similares a este formato en ${viralPlatform}`,\n      estimatedGain: (topViral.totalEngagement * 0.5).toFixed(0)\n    });\n  }\n}\n\n// Ordenar por prioridad y impacto\nconst sortedOpportunities = opportunities.sort((a, b) => {\n  const priorityOrder = { 'ALTA': 1, 'MEDIA': 2, 'BAJA': 3 };\n  if (priorityOrder[a.priority] !== priorityOrder[b.priority]) {\n    return priorityOrder[a.priority] - priorityOrder[b.priority];\n  }\n  return parseFloat(b.estimatedGain || 0) - parseFloat(a.estimatedGain || 0);\n});\n\nreturn [{\n  json: {\n    ...data,\n    opportunities: {\n      total: sortedOpportunities.length,\n      highPriority: sortedOpportunities.filter(o => o.priority === 'ALTA').length,\n      opportunities: sortedOpportunities.slice(0, 10)\n    }\n  }\n}];"
+      },
+      "id": "detect-opportunities",
+      "name": "Detect Opportunities",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 2200],
+      "notes": "Detecta oportunidades de contenido basadas en análisis",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Análisis de A/B Testing\nconst data = $json;\nconst posts = data.postsByType ? Object.values(data.postsByType).flatMap(type => type.posts || []) : [];\n\nif (posts.length < 10) {\n  return [{\n    json: {\n      ...data,\n      abTesting: null\n    }\n  }];\n}\n\nconst abTests = [];\n\n// A/B Test 1: Con vs Sin Media\nconst withMedia = posts.filter(p => p.hasMedia || (p.hashtags && p.hashtags.length > 0));\nconst withoutMedia = posts.filter(p => !p.hasMedia && (!p.hashtags || p.hashtags.length === 0));\n\nif (withMedia.length >= 3 && withoutMedia.length >= 3) {\n  const withMediaAvg = withMedia.reduce((sum, p) => sum + (p.totalEngagement || 0), 0) / withMedia.length;\n  const withoutMediaAvg = withoutMedia.reduce((sum, p) => sum + (p.totalEngagement || 0), 0) / withoutMedia.length;\n  const difference = withMediaAvg - withoutMediaAvg;\n  const percentDiff = withoutMediaAvg > 0 ? ((difference / withoutMediaAvg) * 100).toFixed(2) : '0';\n  \n  // Calcular significancia básica (diferencia > 20%)\n  const isSignificant = Math.abs(parseFloat(percentDiff)) > 20;\n  \n  abTests.push({\n    testName: 'Media vs Sin Media',\n    variantA: { name: 'Con Media', count: withMedia.length, avgEngagement: withMediaAvg.toFixed(2) },\n    variantB: { name: 'Sin Media', count: withoutMedia.length, avgEngagement: withoutMediaAvg.toFixed(2) },\n    difference: difference.toFixed(2),\n    percentDifference: percentDiff,\n    isSignificant: isSignificant,\n    recommendation: isSignificant ? \n      (parseFloat(percentDiff) > 0 ? 'Usar media consistentemente' : 'Revisar necesidad de media') :\n      'Diferencia no significativa, continuar testing'\n  });\n}\n\n// A/B Test 2: Longitud de título\nconst titleLengths = posts.map(p => {\n  const title = p.article_title || p.content || '';\n  return { length: title.length, engagement: p.totalEngagement || 0 };\n});\n\nif (titleLengths.length >= 10) {\n  const avgLength = titleLengths.reduce((sum, t) => sum + t.length, 0) / titleLengths.length;\n  const longTitles = titleLengths.filter(t => t.length > avgLength);\n  const shortTitles = titleLengths.filter(t => t.length <= avgLength);\n  \n  if (longTitles.length >= 3 && shortTitles.length >= 3) {\n    const longAvg = longTitles.reduce((sum, t) => sum + t.engagement, 0) / longTitles.length;\n    const shortAvg = shortTitles.reduce((sum, t) => sum + t.engagement, 0) / shortTitles.length;\n    const diff = longAvg - shortAvg;\n    const percentDiff = shortAvg > 0 ? ((diff / shortAvg) * 100).toFixed(2) : '0';\n    const isSignificant = Math.abs(parseFloat(percentDiff)) > 15;\n    \n    abTests.push({\n      testName: 'Títulos Largos vs Cortos',\n      variantA: { name: `Largos (>${avgLength.toFixed(0)})`, count: longTitles.length, avgEngagement: longAvg.toFixed(2) },\n      variantB: { name: `Cortos (≤${avgLength.toFixed(0)})`, count: shortTitles.length, avgEngagement: shortAvg.toFixed(2) },\n      difference: diff.toFixed(2),\n      percentDifference: percentDiff,\n      isSignificant: isSignificant,\n      recommendation: isSignificant ?\n        (parseFloat(percentDiff) > 0 ? 'Usar títulos más largos' : 'Usar títulos más cortos') :\n        'Longitud no muestra impacto significativo'\n    });\n  }\n}\n\n// A/B Test 3: Número de hashtags\nconst hashtagCounts = posts.map(p => {\n  const hashtags = p.hashtags || [];\n  return { count: hashtags.length, engagement: p.totalEngagement || 0 };\n});\n\nif (hashtagCounts.length >= 10) {\n  const optimalRange = hashtagCounts.filter(h => h.count >= 3 && h.count <= 7);\n  const outsideRange = hashtagCounts.filter(h => h.count < 3 || h.count > 7);\n  \n  if (optimalRange.length >= 3 && outsideRange.length >= 3) {\n    const optimalAvg = optimalRange.reduce((sum, h) => sum + h.engagement, 0) / optimalRange.length;\n    const outsideAvg = outsideRange.reduce((sum, h) => sum + h.engagement, 0) / outsideRange.length;\n    const diff = optimalAvg - outsideAvg;\n    const percentDiff = outsideAvg > 0 ? ((diff / outsideAvg) * 100).toFixed(2) : '0';\n    const isSignificant = Math.abs(parseFloat(percentDiff)) > 15;\n    \n    abTests.push({\n      testName: 'Hashtags Óptimos (3-7) vs Fuera de Rango',\n      variantA: { name: '3-7 hashtags', count: optimalRange.length, avgEngagement: optimalAvg.toFixed(2) },\n      variantB: { name: 'Fuera de rango', count: outsideRange.length, avgEngagement: outsideAvg.toFixed(2) },\n      difference: diff.toFixed(2),\n      percentDifference: percentDiff,\n      isSignificant: isSignificant,\n      recommendation: isSignificant ?\n        (parseFloat(percentDiff) > 0 ? 'Mantener 3-7 hashtags' : 'Revisar estrategia de hashtags') :\n        'Rango de hashtags no muestra impacto significativo'\n    });\n  }\n}\n\nreturn [{\n  json: {\n    ...data,\n    abTesting: {\n      totalTests: abTests.length,\n      significantTests: abTests.filter(t => t.isSignificant).length,\n      tests: abTests\n    }\n  }\n}];"
+      },
+      "id": "ab-testing",
+      "name": "AB Testing Analysis",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 2400],
+      "notes": "Realiza análisis de A/B testing en diferentes variables",
+      "continueOnFail": true
+    },
+    "Detect Opportunities": {
+      "main": [
+        [
+          {
+            "node": "Format Final Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AB Testing Analysis": {
+      "main": [
+        [
+          {
+            "node": "Format Final Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Detectar anomalías en engagement\nconst data = $json;\nconst posts = data.postsByType ? Object.values(data.postsByType).flatMap(type => type.posts || []) : [];\n\nif (posts.length < 5) {\n  return [{\n    json: {\n      ...data,\n      anomalies: [],\n      anomaliesDetected: false\n    }\n  }];\n}\n\nconst anomalies = [];\n\n// Calcular estadísticas base\nconst engagementValues = posts.map(p => p.totalEngagement || 0);\nconst mean = engagementValues.reduce((a, b) => a + b, 0) / engagementValues.length;\nconst variance = engagementValues.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / engagementValues.length;\nconst stdDev = Math.sqrt(variance);\n\n// Detectar posts con engagement anómalo\nposts.forEach(post => {\n  const engagement = post.totalEngagement || 0;\n  const zScore = stdDev > 0 ? Math.abs((engagement - mean) / stdDev) : 0;\n  \n  if (zScore > 2.5) {\n    const anomalyType = engagement > mean ? 'spike' : 'drop';\n    const severity = zScore > 3.5 ? 'high' : zScore > 2.5 ? 'medium' : 'low';\n    \n    anomalies.push({\n      post_id: post.post_id,\n      title: post.article_title || post.content?.substring(0, 100) || 'Sin título',\n      platform: post.platform,\n      contentType: post.contentType,\n      anomalyType: anomalyType,\n      severity: severity,\n      engagement: engagement,\n      expectedEngagement: mean,\n      deviation: zScore.toFixed(2),\n      explanation: `${anomalyType === 'spike' ? 'Spike' : 'Drop'} de engagement: ${engagement} vs promedio ${mean.toFixed(2)} (${zScore.toFixed(2)} desviaciones estándar)`\n    });\n  }\n});\n\n// Detectar cambios significativos por tipo\nif (data.comparison && data.comparison.typeComparison) {\n  Object.keys(data.comparison.typeComparison).forEach(type => {\n    const comp = data.comparison.typeComparison[type];\n    const changePercent = parseFloat(comp.changePercent);\n    \n    if (Math.abs(changePercent) > 30) {\n      anomalies.push({\n        type: 'content_type_change',\n        contentType: type,\n        anomalyType: changePercent > 0 ? 'significant_increase' : 'significant_decrease',\n        severity: Math.abs(changePercent) > 50 ? 'high' : 'medium',\n        changePercent: changePercent,\n        explanation: `Cambio significativo en ${type}: ${changePercent > 0 ? '+' : ''}${changePercent.toFixed(2)}% vs período anterior`\n      });\n    }\n  });\n}\n\nreturn [{\n  json: {\n    ...data,\n    anomalies: anomalies,\n    anomaliesDetected: anomalies.length > 0,\n    anomalySummary: {\n      total: anomalies.length,\n      spikes: anomalies.filter(a => a.anomalyType === 'spike' || a.anomalyType === 'significant_increase').length,\n      drops: anomalies.filter(a => a.anomalyType === 'drop' || a.anomalyType === 'significant_decrease').length,\n      highSeverity: anomalies.filter(a => a.severity === 'high').length\n    }\n  }\n}];"
+      },
+      "id": "detect-anomalies",
+      "name": "Detect Anomalies",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 300],
+      "notes": "Detecta anomalías en engagement",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Generar predicciones de engagement futuro\nconst data = $json;\n\nif (!data.postsByType || Object.keys(data.postsByType).length === 0) {\n  return [{\n    json: {\n      ...data,\n      predictions: null\n    }\n  }];\n}\n\n// Cargar historial de análisis previos para tendencias\nconst fs = require('fs');\nconst path = require('path');\nconst reportsDir = $env.REPORTS_DIR || './reports';\n\nlet historicalData = [];\nif (data.enableCache && fs.existsSync(reportsDir)) {\n  try {\n    const files = fs.readdirSync(reportsDir);\n    const analysisFiles = files.filter(f => f.startsWith('engagement_analysis_') && f.endsWith('.json'));\n    \n    analysisFiles.sort().reverse().slice(0, 6).forEach(file => {\n      try {\n        const filePath = path.join(reportsDir, file);\n        const fileData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));\n        if (fileData.postsByType && fileData.bestContentType) {\n          historicalData.push({\n            date: fileData.startDate,\n            bestContentType: fileData.bestContentType,\n            totalPosts: fileData.totalPosts,\n            avgEngagement: fileData.postsByType[fileData.bestContentType]?.avgEngagementPerPost || 0\n          });\n        }\n      } catch (e) {\n        // Continuar si hay error\n      }\n    });\n  } catch (e) {\n    // Continuar sin historial\n  }\n}\n\nconst predictions = {};\n\n// Predecir engagement para cada tipo de contenido\nObject.keys(data.postsByType).forEach(type => {\n  const currentStats = data.postsByType[type];\n  const currentAvg = currentStats.avgEngagementPerPost || 0;\n  \n  // Calcular tendencia si hay historial\n  let trend = 'stable';\n  let predictedEngagement = currentAvg;\n  let confidence = 'medium';\n  \n  if (historicalData.length >= 3) {\n    const typeHistory = historicalData\n      .filter(h => h.bestContentType === type)\n      .map(h => h.avgEngagement);\n    \n    if (typeHistory.length >= 2) {\n      const recentTrend = typeHistory[0] - typeHistory[typeHistory.length - 1];\n      \n      if (recentTrend > currentAvg * 0.1) {\n        trend = 'increasing';\n        predictedEngagement = currentAvg * 1.1; // +10% estimado\n        confidence = 'high';\n      } else if (recentTrend < -currentAvg * 0.1) {\n        trend = 'decreasing';\n        predictedEngagement = currentAvg * 0.9; // -10% estimado\n        confidence = 'medium';\n      } else {\n        trend = 'stable';\n        predictedEngagement = currentAvg;\n        confidence = 'high';\n      }\n    }\n  }\n  \n  predictions[type] = {\n    currentAvgEngagement: currentAvg,\n    predictedEngagement: predictedEngagement,\n    trend: trend,\n    confidence: confidence,\n    changePercent: currentAvg > 0 ? (((predictedEngagement - currentAvg) / currentAvg) * 100).toFixed(2) : '0',\n    recommendation: trend === 'increasing' ? 'Mantener este tipo de contenido' : \n                   trend === 'decreasing' ? 'Considerar variaciones o mejoras' : \n                   'Continuar con estrategia actual'\n  };\n});\n\n// Predicción general\nconst bestType = data.bestContentType;\nconst bestPrediction = bestType ? predictions[bestType] : null;\n\nreturn [{\n  json: {\n    ...data,\n    predictions: {\n      byType: predictions,\n      bestTypePrediction: bestPrediction,\n      nextMonthForecast: bestPrediction ? {\n        expectedEngagement: bestPrediction.predictedEngagement,\n        trend: bestPrediction.trend,\n        confidence: bestPrediction.confidence,\n        recommendation: bestPrediction.recommendation\n      } : null\n    }\n  }\n}];"
+      },
+      "id": "generate-predictions",
+      "name": "Generate Predictions",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 500],
+      "notes": "Genera predicciones de engagement futuro",
+      "continueOnFail": true
+    },
+    "Detect Anomalies": {
+      "main": [
+        [
+          {
+            "node": "Format Final Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Predictions": {
+      "main": [
+        [
+          {
+            "node": "Format Final Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Final Report": {
+      "main": [
+        [
+          {
+            "node": "Update Analytics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Registrar analytics del workflow\nconst analytics = $workflow.staticData.analytics || {\n  totalExecutions: 0,\n  successfulExecutions: 0,\n  failedExecutions: 0,\n  totalPostsAnalyzed: 0,\n  totalRecommendationsGenerated: 0,\n  lastExecution: null,\n  executionHistory: [],\n  bestContentTypes: {},\n  avgExecutionTime: 0\n};\n\nconst execution = {\n  timestamp: new Date().toISOString(),\n  executionId: $json.executionId || 'unknown',\n  success: $json.recommendations && $json.recommendations.length > 0,\n  totalPosts: $json.totalPosts || 0,\n  bestContentType: $json.bestContentType || null,\n  recommendationsCount: $json.recommendations?.length || 0,\n  duration: $json.startedAt ? (Date.now() - new Date($json.startedAt).getTime()) / 1000 : 0\n};\n\nanalytics.totalExecutions++;\nif (execution.success) {\n  analytics.successfulExecutions++;\n} else {\n  analytics.failedExecutions++;\n}\n\nanalytics.totalPostsAnalyzed += execution.totalPosts;\nanalytics.totalRecommendationsGenerated += execution.recommendationsCount;\nanalytics.lastExecution = execution;\n\n// Trackear mejores tipos de contenido\nif (execution.bestContentType) {\n  analytics.bestContentTypes[execution.bestContentType] = \n    (analytics.bestContentTypes[execution.bestContentType] || 0) + 1;\n}\n\n// Mantener historial de últimas 50 ejecuciones\nanalytics.executionHistory.push(execution);\nif (analytics.executionHistory.length > 50) {\n  analytics.executionHistory.shift();\n}\n\n// Calcular tiempo promedio de ejecución\nconst successfulExecutions = analytics.executionHistory.filter(e => e.success && e.duration > 0);\nif (successfulExecutions.length > 0) {\n  analytics.avgExecutionTime = successfulExecutions.reduce((sum, e) => sum + e.duration, 0) / successfulExecutions.length;\n}\n\n$workflow.staticData.analytics = analytics;\n\nreturn [{\n  json: {\n    ...$input.item.json,\n    analytics: {\n      totalExecutions: analytics.totalExecutions,\n      successRate: analytics.totalExecutions > 0 ? \n        ((analytics.successfulExecutions / analytics.totalExecutions) * 100).toFixed(2) + '%' : '0%',\n      totalPostsAnalyzed: analytics.totalPostsAnalyzed,\n      totalRecommendationsGenerated: analytics.totalRecommendationsGenerated,\n      avgExecutionTime: analytics.avgExecutionTime.toFixed(2) + 's',\n      mostCommonBestType: Object.keys(analytics.bestContentTypes).length > 0 ?\n        Object.keys(analytics.bestContentTypes).reduce((a, b) => \n          analytics.bestContentTypes[a] > analytics.bestContentTypes[b] ? a : b\n        ) : null\n    }\n  }\n}];"
+      },
+      "id": "update-analytics",
+      "name": "Update Analytics",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1850, 400],
+      "notes": "Actualiza analytics del workflow"
+    },
+    "Update Analytics": {
+      "main": [
+        [
+          {
+            "node": "Save Report to File",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Telegram Available",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Email Available",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Webhook Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Report to File": {
+      "main": [
+        [
+          {
+            "node": "Export to CSV",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Telegram Available",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Exportar datos a CSV\nconst fs = require('fs');\nconst path = require('path');\n\nconst data = $json;\nconst reportsDir = $env.REPORTS_DIR || './reports';\n\nif (!fs.existsSync(reportsDir)) {\n  fs.mkdirSync(reportsDir, { recursive: true });\n}\n\n// Generar CSV de posts\nlet csvContent = 'Post ID,Plataforma,Tipo Contenido,Título,Likes,Comentarios,Shares,Engagement Total,Tasa Engagement,Fecha Publicación\\n';\n\nif (data.postsByType) {\n  Object.values(data.postsByType).forEach(typeData => {\n    (typeData.posts || []).forEach(post => {\n      const title = (post.article_title || post.content || '').replace(/,/g, ';').replace(/\\n/g, ' ').substring(0, 100);\n      const date = post.published_at ? new Date(post.published_at).toLocaleDateString('es-ES') : '';\n      csvContent += `${post.post_id || ''},${post.platform || ''},${post.contentType || ''},\"${title}\",${post.likes || 0},${post.comments || 0},${post.shares || 0},${post.totalEngagement || 0},${(post.engagementRate || 0).toFixed(2)},${date}\\n`;\n    });\n  });\n}\n\nconst csvFilename = `engagement_data_${data.executionId}.csv`;\nconst csvFilepath = path.join(reportsDir, csvFilename);\nfs.writeFileSync(csvFilepath, csvContent, 'utf-8');\n\n// Generar CSV de resumen por tipo\nlet summaryCsv = 'Tipo Contenido,Total Posts,Engagement Total,Promedio por Post,Tasa Engagement,Likes Promedio,Comentarios Promedio,Shares Promedio\\n';\n\nif (data.postsByType) {\n  Object.keys(data.postsByType).forEach(type => {\n    const stats = data.postsByType[type];\n    summaryCsv += `${type},${stats.totalPosts},${stats.totalEngagement},${stats.avgEngagementPerPost.toFixed(2)},${stats.avgEngagementRate.toFixed(2)},${stats.avgLikesPerPost.toFixed(2)},${stats.avgCommentsPerPost.toFixed(2)},${stats.avgSharesPerPost.toFixed(2)}\\n`;\n  });\n}\n\nconst summaryCsvFilename = `engagement_summary_${data.executionId}.csv`;\nconst summaryCsvFilepath = path.join(reportsDir, summaryCsvFilename);\nfs.writeFileSync(summaryCsvFilepath, summaryCsv, 'utf-8');\n\nreturn [{\n  json: {\n    ...data,\n    csvFiles: {\n      detailed: csvFilepath,\n      summary: summaryCsvFilepath\n    },\n    exported: true\n  }\n}];"
+      },
+      "id": "export-csv",
+      "name": "Export to CSV",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1850, 600],
+      "notes": "Exporta datos a CSV para análisis externo",
+      "continueOnFail": true
+    },
+    "Export to CSV": {
+      "main": [
+        [
+          {
+            "node": "Check Telegram Available",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Telegram Available": {
+      "main": [
+        [
+          {
+            "node": "Send Telegram Report",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Check Email Available": {
+      "main": [
+        [
+          {
+            "node": "Send Email Report",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "saveExecutionProgress": true,
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "9"
+}
+

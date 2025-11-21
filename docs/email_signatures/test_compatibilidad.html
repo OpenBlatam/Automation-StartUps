@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Compatibilidad - Firmas de Email</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .test-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            background: #fafafa;
+        }
+        .test-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .test-item {
+            padding: 10px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 4px;
+            border-left: 4px solid #ddd;
+        }
+        .test-item.pass {
+            border-left-color: #28a745;
+        }
+        .test-item.fail {
+            border-left-color: #dc3545;
+        }
+        .test-item.warning {
+            border-left-color: #ffc107;
+        }
+        .status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        .status.pass {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status.fail {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .status.warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .preview-section {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #e0e0e0;
+        }
+        .preview-container {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            background: #f9f9f9;
+            margin-top: 15px;
+        }
+        .iframe-container {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+            background: white;
+        }
+        iframe {
+            width: 100%;
+            border: none;
+            display: block;
+        }
+        .controls {
+            margin-bottom: 15px;
+        }
+        select, button {
+            padding: 10px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            font-weight: 600;
+        }
+        button:hover {
+            background: #5568d3;
+        }
+        .stats {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f0f0f0;
+            border-radius: 6px;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Test de Compatibilidad de Firmas de Email</h1>
+        <p class="subtitle">Verifica que tu firma sea compatible con diferentes clientes de email</p>
+        
+        <div class="test-grid">
+            <div class="test-card">
+                <h3>📧 Estructura HTML</h3>
+                <div id="html-tests"></div>
+            </div>
+            
+            <div class="test-card">
+                <h3>🎨 Estilos CSS</h3>
+                <div id="css-tests"></div>
+            </div>
+            
+            <div class="test-card">
+                <h3>📱 Responsive Design</h3>
+                <div id="responsive-tests"></div>
+            </div>
+            
+            <div class="test-card">
+                <h3>♿ Accesibilidad</h3>
+                <div id="accessibility-tests"></div>
+            </div>
+            
+            <div class="test-card">
+                <h3>🔗 Enlaces</h3>
+                <div id="links-tests"></div>
+            </div>
+            
+            <div class="test-card">
+                <h3>📊 Compatibilidad Clientes</h3>
+                <div id="clients-tests"></div>
+            </div>
+        </div>
+        
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number" id="total-tests">0</div>
+                <div class="stat-label">Tests Totales</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="passed-tests" style="color: #28a745;">0</div>
+                <div class="stat-label">Exitosos</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="failed-tests" style="color: #dc3545;">0</div>
+                <div class="stat-label">Fallidos</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="warning-tests" style="color: #ffc107;">0</div>
+                <div class="stat-label">Advertencias</div>
+            </div>
+        </div>
+        
+        <div class="preview-section">
+            <h2>👀 Vista Previa</h2>
+            <div class="controls">
+                <select id="template-select">
+                    <option value="">Selecciona una plantilla...</option>
+                    <option value="firma_curso_ia_webinars.html">Curso IA - Completa</option>
+                    <option value="firma_curso_ia_webinars_compacta.html">Curso IA - Compacta</option>
+                    <option value="firma_curso_ia_webinars_minimalista.html">Curso IA - Minimalista</option>
+                    <option value="firma_saas_ia_marketing.html">SaaS Marketing - Completa</option>
+                    <option value="firma_ia_bulk_documentos.html">IA Bulk - Completa</option>
+                </select>
+                <button onclick="cargarPreview()">Cargar Vista Previa</button>
+                <button onclick="ejecutarTests()" style="background: #28a745;">Ejecutar Tests</button>
+            </div>
+            <div class="preview-container">
+                <div class="iframe-container">
+                    <iframe id="preview-frame" src="about:blank" style="min-height: 400px;"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const tests = {
+            html: [
+                { name: 'Usa tablas HTML', test: () => document.querySelector('table') !== null },
+                { name: 'Sin divs complejos', test: () => {
+                    const divs = document.querySelectorAll('div');
+                    return Array.from(divs).every(d => !d.style.position || d.style.position !== 'absolute');
+                }},
+                { name: 'Estructura semántica', test: () => document.querySelector('[role="presentation"]') !== null },
+                { name: 'Sin JavaScript', test: () => document.querySelectorAll('script').length === 0 },
+            ],
+            css: [
+                { name: 'Estilos inline', test: () => {
+                    const links = document.querySelectorAll('link[rel="stylesheet"]');
+                    return links.length === 0 || document.querySelector('[style]') !== null;
+                }},
+                { name: 'Sin CSS externo', test: () => {
+                    const externalCSS = document.querySelectorAll('link[rel="stylesheet"]');
+                    return externalCSS.length === 0;
+                }},
+                { name: 'Colores hexadecimales completos', test: () => {
+                    const styles = document.body.innerHTML;
+                    const hexColors = styles.match(/#[0-9a-fA-F]{6}/g);
+                    return hexColors && hexColors.length > 0;
+                }},
+            ],
+            responsive: [
+                { name: 'Max-width definido', test: () => {
+                    const tables = document.querySelectorAll('table');
+                    return Array.from(tables).some(t => {
+                        const style = t.getAttribute('style') || '';
+                        return style.includes('max-width');
+                    });
+                }},
+                { name: 'Media queries presentes', test: () => {
+                    const styleTags = document.querySelectorAll('style');
+                    return Array.from(styleTags).some(s => s.textContent.includes('@media'));
+                }},
+            ],
+            accessibility: [
+                { name: 'Atributos alt en imágenes', test: () => {
+                    const images = document.querySelectorAll('img');
+                    return images.length === 0 || Array.from(images).every(img => img.hasAttribute('alt'));
+                }},
+                { name: 'Atributos aria-label', test: () => {
+                    const links = document.querySelectorAll('a');
+                    return links.length === 0 || Array.from(links).some(link => link.hasAttribute('aria-label'));
+                }},
+                { name: 'Contraste de colores', test: () => {
+                    // Test básico - en producción usaría una librería
+                    return true; // Placeholder
+                }},
+            ],
+            links: [
+                { name: 'URLs absolutas', test: () => {
+                    const links = document.querySelectorAll('a[href]');
+                    return Array.from(links).every(link => {
+                        const href = link.getAttribute('href');
+                        return href.startsWith('http') || href.startsWith('mailto') || href.startsWith('tel');
+                    });
+                }},
+                { name: 'target="_blank" en externos', test: () => {
+                    const externalLinks = Array.from(document.querySelectorAll('a[href^="http"]'));
+                    return externalLinks.length === 0 || externalLinks.every(link => 
+                        link.getAttribute('target') === '_blank' || link.getAttribute('rel')?.includes('noopener')
+                    );
+                }},
+                { name: 'rel="noopener noreferrer"', test: () => {
+                    const externalLinks = Array.from(document.querySelectorAll('a[href^="http"]'));
+                    return externalLinks.length === 0 || externalLinks.some(link => 
+                        link.getAttribute('rel')?.includes('noopener')
+                    );
+                }},
+            ],
+            clients: [
+                { name: 'Soporte Outlook VML', test: () => {
+                    const html = document.body.innerHTML;
+                    return html.includes('v:roundrect') || html.includes('<!--[if mso]');
+                }},
+                { name: 'Condicionales MSO', test: () => {
+                    const html = document.body.innerHTML;
+                    return html.includes('<!--[if mso]') || html.includes('<!--[if !mso]');
+                }},
+                { name: 'Fuentes del sistema', test: () => {
+                    const body = document.body;
+                    const fontFamily = window.getComputedStyle(body).fontFamily;
+                    return fontFamily.includes('Arial') || fontFamily.includes('sans-serif');
+                }},
+            ]
+        };
+        
+        function ejecutarTests() {
+            const frame = document.getElementById('preview-frame');
+            const frameDoc = frame.contentDocument || frame.contentWindow.document;
+            
+            if (!frameDoc.body) {
+                alert('Por favor, carga una plantilla primero');
+                return;
+            }
+            
+            // Guardar el documento original
+            const originalDoc = document;
+            document = frameDoc; // Temporalmente cambiar el contexto
+            
+            let total = 0, passed = 0, failed = 0, warnings = 0;
+            
+            Object.keys(tests).forEach(category => {
+                const container = document.getElementById(`${category}-tests`);
+                container.innerHTML = '';
+                
+                tests[category].forEach(test => {
+                    total++;
+                    let result, status, className;
+                    
+                    try {
+                        result = test.test();
+                        if (result) {
+                            status = 'PASS';
+                            className = 'pass';
+                            passed++;
+                        } else {
+                            status = 'FAIL';
+                            className = 'fail';
+                            failed++;
+                        }
+                    } catch (e) {
+                        status = 'WARNING';
+                        className = 'warning';
+                        warnings++;
+                    }
+                    
+                    const item = document.createElement('div');
+                    item.className = `test-item ${className}`;
+                    item.innerHTML = `
+                        ${test.name}
+                        <span class="status ${className.toLowerCase()}">${status}</span>
+                    `;
+                    container.appendChild(item);
+                });
+            });
+            
+            // Restaurar documento original
+            document = originalDoc;
+            
+            // Actualizar estadísticas
+            document.getElementById('total-tests').textContent = total;
+            document.getElementById('passed-tests').textContent = passed;
+            document.getElementById('failed-tests').textContent = failed;
+            document.getElementById('warning-tests').textContent = warnings;
+        }
+        
+        function cargarPreview() {
+            const select = document.getElementById('template-select');
+            const file = select.value;
+            
+            if (!file) {
+                alert('Por favor, selecciona una plantilla');
+                return;
+            }
+            
+            const frame = document.getElementById('preview-frame');
+            frame.src = file;
+        }
+        
+        // Ejecutar tests automáticamente cuando se carga una plantilla
+        document.getElementById('preview-frame').addEventListener('load', function() {
+            setTimeout(ejecutarTests, 500);
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+

@@ -1,0 +1,277 @@
+id: approval_reminder_notifications
+namespace: workflows
+
+labels:
+  app: approvals
+  type: reminder
+  category: automation
+
+description: |
+  🔔 Envío de Recordatorios de Aprobaciones Pendientes
+  
+  Este flujo se ejecuta periódicamente para enviar recordatorios a aprobadores
+  que tienen solicitudes pendientes próximas a vencer.
+
+schedule:
+  - id: daily_reminders
+    type: io.kestra.core.models.triggers.types.Schedule
+    cron: "0 9 * * *"  # Todos los días a las 9 AM
+    timezone: "America/Mexico_City"
+
+inputs:
+  - name: jdbc_url
+    type: STRING
+    required: true
+    description: URL JDBC de PostgreSQL
+  - name: jdbc_user
+    type: STRING
+    required: true
+    description: Usuario de PostgreSQL
+  - name: jdbc_password
+    type: SECRET
+    required: true
+    description: Contraseña de PostgreSQL
+  - name: slack_webhook_url
+    type: SECRET
+    required: false
+    description: URL del webhook de Slack
+  - name: email_enabled
+    type: BOOLEAN
+    required: false
+    default: true
+    description: Habilitar notificaciones por email
+
+tasks:
+  - id: get_pending_approvals_near_timeout
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    sql: |
+      SELECT 
+        ac.id AS chain_id,
+        ar.id AS request_id,
+        ar.request_type,
+        ar.title,
+        ar.requester_email,
+        au.user_name AS requester_name,
+        ac.approver_email,
+        approver.user_name AS approver_name,
+        ac.level,
+        ac.timeout_date,
+        EXTRACT(EPOCH FROM (ac.timeout_date - NOW())) / 86400 AS days_until_timeout,
+        ar.priority,
+        ar.created_at AS request_created_at,
+        COUNT(*) OVER (PARTITION BY ac.approver_email) AS total_pending_for_approver
+      FROM approval_chains ac
+      JOIN approval_requests ar ON ac.request_id = ar.id
+      JOIN approval_users au ON ar.requester_email = au.user_email
+      LEFT JOIN approval_users approver ON ac.approver_email = approver.user_email
+      WHERE ac.status = 'pending' 
+        AND ar.status = 'pending'
+        AND ac.timeout_date IS NOT NULL
+        AND ac.timeout_date <= NOW() + INTERVAL '2 days'
+        AND (
+          -- No enviar recordatorio si ya se notificó en las últimas 24 horas
+          ac.notified_at IS NULL 
+          OR ac.notified_at < NOW() - INTERVAL '24 hours'
+        )
+      ORDER BY 
+        days_until_timeout ASC,
+        ar.priority DESC,
+        ar.created_at ASC
+
+  - id: send_reminders
+    type: io.kestra.plugin.core.flow.ForEach
+    value: "{{ taskrun.outputs['get_pending_approvals_near_timeout'] }}"
+    tasks:
+      - id: determine_urgency
+        type: io.kestra.plugin.scripts.javascript.Script
+        script: |
+          const item = taskrun.value;
+          const daysLeft = item.days_until_timeout;
+          
+          let urgency = 'normal';
+          let emoji = '⏰';
+          let message = '';
+          
+          if (daysLeft < 0) {
+            urgency = 'critical';
+            emoji = '🚨';
+            message = `CRÍTICO: Esta aprobación venció hace ${Math.abs(Math.round(daysLeft))} días`;
+          } else if (daysLeft <= 1) {
+            urgency = 'urgent';
+            emoji = '⚠️';
+            message = `URGENTE: Esta aprobación vence en ${Math.round(daysLeft * 24)} horas`;
+          } else if (daysLeft <= 2) {
+            urgency = 'high';
+            emoji = '⏳';
+            message = `Esta aprobación vence en ${Math.round(daysLeft)} días`;
+          } else {
+            urgency = 'normal';
+            message = `Esta aprobación vence en ${Math.round(daysLeft)} días`;
+          }
+          
+          return {
+            urgency,
+            emoji,
+            message,
+            item: item
+          };
+
+      - id: send_slack_reminder
+        type: io.kestra.plugin.core.http.Request
+        disabled: "{{ not inputs.slack_webhook_url }}"
+        allowFailure: true
+        uri: "{{ inputs.slack_webhook_url }}"
+        method: POST
+        headers:
+          Content-Type: application/json
+        body: |
+          {
+            "text": "{{ taskrun.outputs['determine_urgency'].emoji }} Recordatorio de Aprobación",
+            "blocks": [
+              {
+                "type": "header",
+                "text": {
+                  "type": "plain_text",
+                  "text": "{{ taskrun.outputs['determine_urgency'].emoji }} Recordatorio de Aprobación"
+                }
+              },
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*{{ taskrun.outputs['determine_urgency'].message }}*"
+                }
+              },
+              {
+                "type": "section",
+                "fields": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Tipo:*\n{{ taskrun.outputs['determine_urgency'].item.request_type }}"
+                  },
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Título:*\n{{ taskrun.outputs['determine_urgency'].item.title }}"
+                  },
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Solicitante:*\n{{ taskrun.outputs['determine_urgency'].item.requester_name }}"
+                  },
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Prioridad:*\n{{ taskrun.outputs['determine_urgency'].item.priority }}"
+                  },
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Vence:*\n{{ taskrun.outputs['determine_urgency'].item.timeout_date }}"
+                  },
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Nivel:*\n{{ taskrun.outputs['determine_urgency'].item.level }}"
+                  }
+                ]
+              },
+              {
+                "type": "actions",
+                "elements": [
+                  {
+                    "type": "button",
+                    "text": {
+                      "type": "plain_text",
+                      "text": "Ver Solicitud"
+                    },
+                    "url": "https://approvals.example.com/requests/{{ taskrun.outputs['determine_urgency'].item.request_id }}"
+                  }
+                ]
+              }
+            ]
+          }
+        timeout: PT10S
+
+      - id: update_notification_timestamp
+        type: io.kestra.plugin.jdbc.postgresql.Query
+        url: "{{ inputs.jdbc_url }}"
+        username: "{{ inputs.jdbc_user }}"
+        password: "{{ inputs.jdbc_password }}"
+        sql: |
+          UPDATE approval_chains
+          SET notified_at = NOW(),
+              updated_at = NOW()
+          WHERE id = '{{ taskrun.outputs['determine_urgency'].item.chain_id }}'::uuid
+
+      - id: log_notification
+        type: io.kestra.plugin.jdbc.postgresql.Query
+        url: "{{ inputs.jdbc_url }}"
+        username: "{{ inputs.jdbc_user }}"
+        password: "{{ inputs.jdbc_password }}"
+        sql: |
+          INSERT INTO approval_notifications (
+            request_id,
+            chain_id,
+            recipient_email,
+            notification_type,
+            channel,
+            status
+          ) VALUES (
+            '{{ taskrun.outputs['determine_urgency'].item.request_id }}'::uuid,
+            '{{ taskrun.outputs['determine_urgency'].item.chain_id }}'::uuid,
+            '{{ taskrun.outputs['determine_urgency'].item.approver_email }}',
+            'reminder',
+            'slack',
+            'sent'
+          )
+        allowFailure: true
+
+  - id: send_summary_report
+    type: io.kestra.plugin.core.http.Request
+    disabled: "{{ not inputs.slack_webhook_url or taskrun.outputs['get_pending_approvals_near_timeout'] | length == 0 }}"
+    allowFailure: true
+    uri: "{{ inputs.slack_webhook_url }}"
+    method: POST
+    headers:
+      Content-Type: application/json
+    body: |
+      {
+        "text": "📊 Resumen de Recordatorios Enviados",
+        "blocks": [
+          {
+            "type": "header",
+            "text": {
+              "type": "plain_text",
+              "text": "📊 Resumen de Recordatorios Enviados"
+            }
+          },
+          {
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": "Se enviaron recordatorios para *{{ taskrun.outputs['get_pending_approvals_near_timeout'] | length }}* aprobaciones pendientes próximas a vencer."
+            }
+          }
+        ]
+      }
+    timeout: PT10S
+
+  - id: finalize
+    type: io.kestra.plugin.scripts.javascript.Script
+    script: |
+      const pendingCount = taskrun.outputs['get_pending_approvals_near_timeout']?.length || 0;
+      
+      logger.info(`Reminder notifications completed`, {
+        pending_approvals_found: pendingCount,
+        reminders_sent: pendingCount
+      });
+      
+      return {
+        reminders_sent: pendingCount,
+        execution_time: new Date().toISOString()
+      };
+
+outputs:
+  reminders_sent:
+    type: INTEGER
+    value: "{{ taskrun.outputs['finalize'].reminders_sent }}"
+

@@ -1,0 +1,136 @@
+name: CI/CD - Sistema de Troubleshooting
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'data/integrations/support_troubleshooting*.py'
+      - 'data/integrations/troubleshooting*.json'
+      - 'data/db/support_troubleshooting*.sql'
+      - 'web/kpis-next/app/api/support/troubleshooting/**'
+      - 'tests/test_troubleshooting*.py'
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test_db
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+        pip install pytest pytest-cov
+    
+    - name: Set up database
+      env:
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
+      run: |
+        psql $DATABASE_URL < data/db/support_troubleshooting_schema.sql || true
+        psql $DATABASE_URL < data/db/support_troubleshooting_feedback_schema.sql || true
+        psql $DATABASE_URL < data/db/support_webhooks_schema.sql || true
+        psql $DATABASE_URL < data/db/support_troubleshooting_advanced_schema.sql || true
+        psql $DATABASE_URL < data/db/support_troubleshooting_performance_schema.sql || true
+    
+    - name: Run tests
+      env:
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
+      run: |
+        pytest tests/test_troubleshooting_system.py -v --cov=data.integrations --cov-report=xml
+    
+    - name: Upload coverage
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+
+  lint:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install linting tools
+      run: |
+        pip install flake8 black isort mypy
+    
+    - name: Run flake8
+      run: |
+        flake8 data/integrations/support_troubleshooting*.py --max-line-length=120 --ignore=E501,W503
+    
+    - name: Check formatting with black
+      run: |
+        black --check data/integrations/support_troubleshooting*.py
+    
+    - name: Check imports with isort
+      run: |
+        isort --check-only data/integrations/support_troubleshooting*.py
+
+  security:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install security tools
+      run: |
+        pip install bandit safety
+    
+    - name: Run bandit
+      run: |
+        bandit -r data/integrations/support_troubleshooting*.py -f json -o bandit-report.json || true
+    
+    - name: Check dependencies
+      run: |
+        safety check --json || true
+
+  deploy:
+    needs: [test, lint, security]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Deploy to production
+      env:
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      run: |
+        chmod +x scripts/deploy_troubleshooting.sh
+        ./scripts/deploy_troubleshooting.sh prod
+
+
+

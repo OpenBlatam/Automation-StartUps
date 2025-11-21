@@ -1,0 +1,184 @@
+{
+  "name": "Campaign Post Generator - Generador Avanzado de Posts",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "generate-campaign-post",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-trigger",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [250, 300],
+      "webhookId": "campaign-post-generator-webhook",
+      "notes": "Recibe solicitud para generar post de campaña"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Validar y preparar datos del webhook\nconst input = $input.item.json;\n\n// Validar campos requeridos\nconst requiredFields = ['platform', 'post_type', 'product', 'audience'];\nconst missingFields = requiredFields.filter(field => !input[field]);\n\nif (missingFields.length > 0) {\n  return [{\n    json: {\n      error: `Campos requeridos faltantes: ${missingFields.join(', ')}`,\n      received: input,\n      canProceed: false\n    }\n  }];\n}\n\n// Validar valores\nconst validPlatforms = ['instagram', 'linkedin', 'tiktok', 'facebook', 'twitter', 'youtube'];\nconst validPostTypes = ['teaser', 'demo', 'offer'];\nconst validTones = ['profesional', 'amigable', 'urgente', 'emocional', 'casual'];\n\nif (!validPlatforms.includes(input.platform.toLowerCase())) {\n  return [{\n    json: {\n      error: `Plataforma inválida. Válidas: ${validPlatforms.join(', ')}`,\n      received: input.platform,\n      canProceed: false\n    }\n  }];\n}\n\nif (!validPostTypes.includes(input.post_type.toLowerCase())) {\n  return [{\n    json: {\n      error: `Tipo de post inválido. Válidos: ${validPostTypes.join(', ')}`,\n      received: input.post_type,\n      canProceed: false\n    }\n  }];\n}\n\n// Preparar comando para el script\nconst scriptPath = '/Users/adan/IA/scripts/campaign_post_generator.py';\nconst cmd = [\n  'python3',\n  scriptPath,\n  '--platform', input.platform.toLowerCase(),\n  '--post-type', input.post_type.toLowerCase(),\n  '--product', `\"${input.product}\"`,\n  '--audience', `\"${input.audience}\"`,\n  '--tone', input.tone || 'amigable',\n  '--variation', input.variation || 1,\n  '--output', 'json'\n];\n\n// Agregar promoción si existe\nif (input.promotion && typeof input.promotion === 'object') {\n  cmd.push('--promotion', JSON.stringify(input.promotion));\n}\n\n// Agregar datos personalizados si existen\nif (input.custom_data && typeof input.custom_data === 'object') {\n  cmd.push('--custom-data', JSON.stringify(input.custom_data));\n}\n\n// Flags opcionales\nif (input.include_hashtags === false) {\n  cmd.push('--no-hashtags');\n}\n\nif (input.include_cta === false) {\n  cmd.push('--no-cta');\n}\n\nreturn [{\n  json: {\n    ...input,\n    scriptPath: scriptPath,\n    command: cmd.join(' '),\n    canProceed: true,\n    timestamp: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "validate-and-prepare",
+      "name": "Validate and Prepare",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [450, 300],
+      "notes": "Valida datos y prepara comando para el script"
+    },
+    {
+      "parameters": {
+        "command": "={{ $json.command }}",
+        "options": {}
+      },
+      "id": "execute-script",
+      "name": "Execute Script",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [650, 300],
+      "notes": "Ejecuta el script Python para generar el post"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Procesar resultado del script\nconst input = $input.item.json;\n\n// El script devuelve JSON en stdout\nlet result;\ntry {\n  // El output del comando está en stdout\n  const stdout = input.stdout || '';\n  \n  // Intentar parsear JSON del stdout\n  if (stdout) {\n    // Limpiar el output (puede tener logs antes del JSON)\n    const jsonMatch = stdout.match(/\\{[\\s\\S]*\\}/);\n    if (jsonMatch) {\n      result = JSON.parse(jsonMatch[0]);\n    } else {\n      // Si no hay JSON, intentar parsear todo el stdout\n      result = JSON.parse(stdout.trim());\n    }\n  } else {\n    throw new Error('No se recibió output del script');\n  }\n} catch (error) {\n  // Si hay error, devolver información del error\n  return [{\n    json: {\n      error: `Error procesando resultado: ${error.message}`,\n      stdout: input.stdout || '',\n      stderr: input.stderr || '',\n      canProceed: false\n    }\n  }];\n}\n\n// Enriquecer resultado con metadata adicional\nreturn [{\n  json: {\n    success: true,\n    post: result,\n    metadata: {\n      generated_at: new Date().toISOString(),\n      platform: result.platform,\n      post_type: result.post_type,\n      length: result.length,\n      max_length: result.max_length,\n      has_hashtags: result.hashtags && result.hashtags.length > 0,\n      has_cta: !!result.call_to_action,\n      hashtags_count: result.hashtags ? result.hashtags.length : 0\n    },\n    ready_to_publish: result.length <= result.max_length\n  }\n}];"
+      },
+      "id": "process-result",
+      "name": "Process Result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [850, 300],
+      "notes": "Procesa y enriquece el resultado del script"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {}
+      },
+      "id": "respond",
+      "name": "Respond",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1050, 300],
+      "notes": "Responde con el post generado"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "error-check",
+              "leftValue": "={{ $json.canProceed }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "check-errors",
+      "name": "Check for Errors",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [650, 500],
+      "notes": "Verifica si hay errores en la validación"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { error: $json.error, received: $json.received } }}",
+        "options": {}
+      },
+      "id": "respond-error",
+      "name": "Respond Error",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [850, 500],
+      "notes": "Responde con error de validación"
+    }
+  ],
+  "connections": {
+    "Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Validate and Prepare",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate and Prepare": {
+      "main": [
+        [
+          {
+            "node": "Check for Errors",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check for Errors": {
+      "main": [
+        [
+          {
+            "node": "Respond Error",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Execute Script",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Script": {
+      "main": [
+        [
+          {
+            "node": "Process Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Result": {
+      "main": [
+        [
+          {
+            "node": "Respond",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-01-15T10:00:00.000Z",
+  "versionId": "1"
+}
+

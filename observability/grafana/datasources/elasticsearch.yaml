@@ -1,0 +1,29 @@
+# Datasource de Elasticsearch para Grafana
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-datasource-elasticsearch
+  namespace: observability
+  labels:
+    grafana_datasource: "1"
+data:
+  elasticsearch.yaml: |
+    apiVersion: 1
+    datasources:
+      - name: Elasticsearch
+        type: elasticsearch
+        access: proxy
+        url: http://elasticsearch.observability.svc.cluster.local:9200
+        database: "logs-*"
+        jsonData:
+          index: "logs-*"
+          timeField: "@timestamp"
+          esVersion: "8.0.0"
+          logMessageField: "message"
+          logLevelField: "level"
+          maxConcurrentShardRequests: 5
+        secureJsonData:
+          # Para producción, usar secretos desde Vault
+          basicAuthPassword: ""
+
+

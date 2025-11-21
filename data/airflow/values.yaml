@@ -1,0 +1,169 @@
+flower:
+  enabled: true
+web:
+  port: 8080
+redis:
+  enabled: true
+executor: CeleryExecutor
+config:
+  AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+  AIRFLOW__WEBSERVER__RBAC: "True"
+  AIRFLOW__CORE__PARALLELISM: "64"
+  AIRFLOW__CORE__DAG_CONCURRENCY: "32"
+  AIRFLOW__CORE__MAX_ACTIVE_TASKS_PER_DAG: "32"
+  AIRFLOW__CELERY__WORKER_CONCURRENCY: "16"
+logs:
+  persistence:
+    enabled: false
+workers:
+  replicas: 2
+  env:
+    - name: ENABLE_SLACK
+      value: "true"
+    - name: ENABLE_EMAIL
+      value: "false"
+    - name: SLACK_WEBHOOK_URL
+      valueFrom:
+        secretKeyRef:
+          name: airflow-secrets
+          key: slack-webhook-url
+    - name: ALERT_EMAILS
+      valueFrom:
+        secretKeyRef:
+          name: airflow-secrets
+          key: alert-emails
+    - name: ENABLE_SENTRY
+      value: "false"
+    - name: SENTRY_DSN
+      valueFrom:
+        secretKeyRef:
+          name: airflow-secrets
+          key: sentry-dsn
+    - name: ENABLE_OTEL
+      value: "false"
+    - name: OTEL_EXPORTER_OTLP_ENDPOINT
+      value: "http://otel-collector:4318"
+    - name: OTEL_SERVICE_NAME
+      value: "airflow-etl"
+    - name: ETL_POOL
+      value: "etl_pool"
+    - name: DQ_POOL
+      value: "dq_pool"
+    - name: MLFLOW_TRACKING_URI
+      valueFrom:
+        secretKeyRef:
+          name: airflow-secrets
+          key: mlflow-tracking-uri
+    - name: MLFLOW_EXPERIMENT_NAME
+      value: "etl_example"
+    - name: MAX_ACTIVE_TASKS
+      value: "32"
+    - name: CHUNK_PARALLELISM
+      value: "16"
+    # Onboarding integrations
+    - name: ONBOARDING_POOL
+      value: "etl_pool"
+    - name: HRIS_API_URL
+      valueFrom:
+        secretKeyRef:
+          name: airflow-secrets
+          key: hris-api-url
+    - name: IDP_API_URL
+      valueFrom:
+        secretKeyRef:
+          name: airflow-secrets
+          key: idp-api-url
+    - name: WORKSPACE_API_URL
+      valueFrom:
+        secretKeyRef:
+          name: airflow-secrets
+          key: workspace-api-url
+    - name: ISSUE_TRACKER_URL
+      valueFrom:
+        secretKeyRef:
+          name: airflow-secrets
+          key: issue-tracker-url
+    - name: ISSUE_TRACKER_PROJECT
+      value: "ONB"
+    - name: ONBOARDING_DOCS_BASE_URL
+      value: "https://docs.example.com/onboarding"
+    - name: ONBOARDING_EMAIL_FROM
+      value: "hr@example.com"
+    # Gmail processor integration
+    - name: GMAIL_CREDENTIALS_JSON
+      valueFrom:
+        secretKeyRef:
+          name: gmail-secrets
+          key: gmail-credentials-json
+    - name: GMAIL_TOKEN_JSON
+      valueFrom:
+        secretKeyRef:
+          name: gmail-secrets
+          key: gmail-token-json
+    - name: GMAIL_LOG_WEBHOOK_URL
+      valueFrom:
+        secretKeyRef:
+          name: gmail-secrets
+          key: gmail-log-webhook-url
+    - name: GMAIL_MAX_EMAILS
+      value: "50"
+    - name: GMAIL_LABEL_SIN_REVISAR
+      value: "SinRevisar"
+    - name: GMAIL_LABEL_PROCESADO
+      value: "Procesado"
+    # HubSpot integration
+    - name: HUBSPOT_TOKEN
+      valueFrom:
+        secretKeyRef:
+          name: hubspot-token
+          key: HUBSPOT_TOKEN
+    - name: HUBSPOT_BASE_URL
+      value: "https://api.hubapi.com"
+    # Gmail classify integration (additional credentials)
+    - name: GMAIL_USER_ID
+      valueFrom:
+        secretKeyRef:
+          name: gmail-credentials
+          key: GMAIL_USER_ID
+    # Stripe + QuickBooks integration
+    - name: STRIPE_API_KEY
+      valueFrom:
+        secretKeyRef:
+          name: stripe-quickbooks-creds
+          key: STRIPE_API_KEY
+    - name: QUICKBOOKS_ACCESS_TOKEN
+      valueFrom:
+        secretKeyRef:
+          name: stripe-quickbooks-creds
+          key: QUICKBOOKS_ACCESS_TOKEN
+    - name: QUICKBOOKS_REALM_ID
+      valueFrom:
+        secretKeyRef:
+          name: stripe-quickbooks-creds
+          key: QUICKBOOKS_REALM_ID
+    # Airbyte integration
+    - name: AIRBYTE_API_URL
+      valueFrom:
+        secretKeyRef:
+          name: airbyte-airflow-secrets
+          key: AIRBYTE_API_URL
+          optional: true
+    - name: AIRBYTE_API_USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: airbyte-airflow-secrets
+          key: AIRBYTE_API_USERNAME
+          optional: true
+    - name: AIRBYTE_API_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: airbyte-airflow-secrets
+          key: AIRBYTE_API_PASSWORD
+          optional: true
+pools:
+  - name: etl_pool
+    slots: 24
+    description: Pool for ETL tasks
+  - name: dq_pool
+    slots: 8
+    description: Pool for DQ/validation tasks

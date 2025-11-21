@@ -1,0 +1,132 @@
+[
+  {
+    "name": "LowDailyLeads (Postgres Backup)",
+    "uid": "kpi-leads-low-backup",
+    "type": "postgres",
+    "frequency": "1m",
+    "conditions": [
+      {
+        "query": {
+          "datasourceUid": "KPIs-Postgres",
+          "model": {
+            "rawSql": "SELECT leads FROM mv_kpi_daily WHERE day = CURRENT_DATE",
+            "format": "table"
+          }
+        },
+        "reducer": {
+          "type": "last"
+        },
+        "evaluator": {
+          "params": [50],
+          "type": "lt"
+        }
+      }
+    ],
+    "noDataState": "alerting",
+    "executionErrorState": "alerting",
+    "for": "15m",
+    "annotations": {
+      "description": "Leads de hoy por debajo de umbral crítico (<50) - Backup alert desde Postgres",
+      "summary": "Leads diarios bajos (backup)"
+    },
+    "notifications": []
+  },
+  {
+    "name": "LowRevenueVsAvg7d (Postgres Backup)",
+    "uid": "kpi-revenue-low-backup",
+    "type": "postgres",
+    "frequency": "1m",
+    "conditions": [
+      {
+        "query": {
+          "datasourceUid": "KPIs-Postgres",
+          "model": {
+            "rawSql": "WITH today AS (SELECT revenue FROM mv_kpi_daily WHERE day = CURRENT_DATE), avg7 AS (SELECT COALESCE(AVG(revenue),1) AS avg_rev FROM mv_kpi_daily WHERE day >= CURRENT_DATE - interval '7 days' AND day < CURRENT_DATE) SELECT CASE WHEN avg7.avg_rev = 0 THEN 1 ELSE (today.revenue / avg7.avg_rev) END AS ratio FROM today, avg7",
+            "format": "table"
+          }
+        },
+        "reducer": {
+          "type": "last"
+        },
+        "evaluator": {
+          "params": [0.7],
+          "type": "lt"
+        }
+      }
+    ],
+    "noDataState": "ok",
+    "executionErrorState": "alerting",
+    "for": "30m",
+    "annotations": {
+      "description": "Ingresos hoy < 70% del promedio 7d - Backup alert desde Postgres",
+      "summary": "Revenue bajo vs promedio 7d (backup)"
+    },
+    "notifications": []
+  },
+  {
+    "name": "LowPaymentSuccessRate (Postgres Backup)",
+    "uid": "kpi-payment-success-backup",
+    "type": "postgres",
+    "frequency": "1m",
+    "conditions": [
+      {
+        "query": {
+          "datasourceUid": "KPIs-Postgres",
+          "model": {
+            "rawSql": "SELECT payments_success_rate FROM mv_kpi_daily WHERE day = CURRENT_DATE",
+            "format": "table"
+          }
+        },
+        "reducer": {
+          "type": "last"
+        },
+        "evaluator": {
+          "params": [92],
+          "type": "lt"
+        }
+      }
+    ],
+    "noDataState": "ok",
+    "executionErrorState": "alerting",
+    "for": "15m",
+      "annotations": {
+        "description": "Tasa de éxito de pagos por debajo de 92% - Backup alert desde Postgres",
+        "summary": "Éxito de pagos bajo (backup)"
+      },
+      "notifications": []
+    },
+    {
+      "name": "LowRevenueBySegment (Postgres Backup)",
+      "uid": "kpi-revenue-segment-backup",
+      "type": "postgres",
+      "frequency": "1m",
+      "conditions": [
+        {
+          "query": {
+            "datasourceUid": "KPIs-Postgres",
+            "model": {
+              "rawSql": "SELECT country, source, revenue, (SELECT COALESCE(AVG(revenue),1) FROM mv_kpi_daily_segment s2 WHERE s2.country = s1.country AND s2.source = s1.source AND s2.day >= CURRENT_DATE - interval '7 days' AND s2.day < CURRENT_DATE) AS avg7d FROM mv_kpi_daily_segment s1 WHERE day = CURRENT_DATE AND revenue > 0 AND country != 'unknown' AND source != 'unknown'",
+              "format": "table"
+            }
+          },
+          "reducer": {
+            "type": "last",
+            "params": []
+          },
+          "evaluator": {
+            "params": [0.7],
+            "type": "lt"
+          }
+        }
+      ],
+      "noDataState": "ok",
+      "executionErrorState": "alerting",
+      "for": "30m",
+      "annotations": {
+        "description": "Revenue del segmento {{country}}/{{source}} < 70% del promedio 7d - Backup alert desde Postgres",
+        "summary": "Revenue bajo por segmento (backup)"
+      },
+      "notifications": []
+    }
+]
+

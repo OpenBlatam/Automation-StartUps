@@ -1,0 +1,38 @@
+=== PUBLICACIONES ===
+ID,Tipo,Título,Plataforma,Fecha,Likes,Comentarios,Shares,Impresiones,Reach,Engagement Rate,Engagement Score,Hashtags
+post_001,Y,Viral: Situación increíble,Twitter,2025-10-26 09:51,115,2,9,1820,1438,6.92%,166.0,"#entretenimiento, #trending, #diversion, #viral"
+post_002,Y,Esto te va a sorprender,TikTok,2025-10-21 09:51,160,14,23,1845,1651,10.68%,317.0,"#trending, #diversion, #viral, #entretenimiento"
+post_003,Y,Viral: Momento increíble,LinkedIn,2025-11-07 09:51,333,51,39,4554,3389,9.29%,681.0,"#viral, #trending, #entretenimiento, #diversion"
+post_004,Z,Lanzamiento: Servicio,Facebook,2025-10-21 09:51,49,15,12,3833,2562,1.98%,154.0,"#promocion, #oferta, #nuevo"
+post_005,X,Tutorial completo: Guía,Instagram,2025-11-11 09:51,57,21,13,850,665,10.71%,185.0,"#educacion, #tutorial, #tips, #aprende"
+post_006,Z,Nuevo producto disponible,Instagram,2025-11-12 09:51,186,18,8,3314,2317,6.40%,280.0,"#nuevo, #producto, #oferta, #promocion"
+post_007,Y,No vas a creer lo que pasó,LinkedIn,2025-10-20 09:51,412,68,45,4130,2489,12.71%,841.0,"#diversion, #entretenimiento, #trending"
+post_008,Z,Oferta especial: 46% descuento,Twitter,2025-11-10 09:51,71,9,0,986,646,8.11%,98.0,"#oferta, #nuevo, #producto"
+post_009,X,Tutorial completo: Técnica,TikTok,2025-10-29 09:51,708,121,117,3955,2485,23.92%,1656.0,"#aprende, #tutorial, #tips, #educacion"
+post_010,Y,No vas a creer lo que pasó,LinkedIn,2025-10-26 09:51,300,56,26,3822,2996,9.99%,598.0,"#viral, #trending, #diversion, #entretenimiento"
+post_011,X,5 tips para mejorar tu resultado,LinkedIn,2025-11-03 09:51,254,70,41,4002,3031,9.12%,669.0,"#educacion, #tutorial, #aprende, #tips"
+post_012,X,Aprende esto en minutos,Instagram,2025-11-12 09:51,359,74,42,3582,2358,13.26%,791.0,"#tutorial, #tips, #educacion, #aprende"
+post_013,Y,No vas a creer lo que pasó,LinkedIn,2025-11-09 09:51,103,13,1,1080,666,10.83%,147.0,"#viral, #trending, #entretenimiento, #diversion"
+post_014,X,Tutorial completo: Técnica,Facebook,2025-11-10 09:51,377,60,60,4003,2910,12.42%,857.0,"#tips, #educacion, #tutorial, #aprende"
+post_015,X,Aprende esto en minutos,Instagram,2025-10-21 09:51,91,24,18,1234,1103,10.78%,253.0,"#tutorial, #tips, #aprende, #educacion"
+post_016,X,5 tips para mejorar tu habilidad,Instagram,2025-10-20 09:51,140,23,15,992,815,17.94%,284.0,"#aprende, #educacion, #tips, #tutorial"
+post_017,Y,Trending: Lo último,Facebook,2025-11-09 09:51,159,23,19,2378,1790,8.45%,323.0,"#trending, #entretenimiento, #diversion, #viral"
+post_018,X,Cómo hacer X en 5 pasos,Twitter,2025-10-22 09:51,431,99,64,3239,2538,18.34%,1048.0,"#tips, #aprende, #tutorial, #educacion"
+post_019,Z,Oferta especial: 29% descuento,TikTok,2025-11-01 09:51,84,0,6,1106,954,8.14%,114.0,"#oferta, #nuevo, #promocion, #producto"
+post_020,Y,No vas a creer lo que pasó,Instagram,2025-10-29 09:51,181,37,25,4296,3418,5.66%,417.0,"#diversion, #entretenimiento, #trending, #viral"
+post_021,Y,No vas a creer lo que pasó,Facebook,2025-10-19 09:51,227,32,31,4341,2758,6.68%,478.0,"#viral, #entretenimiento, #diversion, #trending"
+post_022,X,5 tips para mejorar tu resultado,TikTok,2025-10-16 09:51,586,117,111,3868,3130,21.04%,1492.0,"#tutorial, #aprende, #educacion"
+post_023,X,5 tips para mejorar tu habilidad,Facebook,2025-11-01 09:51,147,27,16,1469,1007,12.93%,308.0,"#tips, #educacion, #tutorial, #aprende"
+post_024,X,Tutorial completo: Método,TikTok,2025-11-10 09:51,156,23,27,1429,896,14.42%,360.0,"#educacion, #aprende, #tutorial, #tips"
+post_025,Y,Esto te va a sorprender,Facebook,2025-11-10 09:51,268,39,26,3111,2660,10.70%,515.0,"#entretenimiento, #viral, #trending, #diversion"
+post_026,Y,No vas a creer lo que pasó,Instagram,2025-11-11 09:51,224,29,24,4492,3554,6.17%,431.0,"#entretenimiento, #trending, #viral"
+post_027,X,Tutorial completo: Método,Instagram,2025-10-21 09:51,307,52,25,2326,1789,16.51%,588.0,"#tutorial, #educacion, #aprende, #tips"
+post_028,Z,Oferta especial: 12% descuento,Instagram,2025-10-31 09:51,103,6,7,4774,3643,2.43%,156.0,"#nuevo, #promocion, #oferta, #producto"
+post_029,X,Cómo hacer Y en 5 pasos,Twitter,2025-10-15 09:51,420,96,43,2219,1815,25.19%,923.0,"#educacion, #tutorial, #aprende, #tips"
+post_030,X,Cómo hacer Y en 5 pasos,Facebook,2025-11-03 09:51,270,53,41,3217,2380,11.31%,634.0,"#tutorial, #educacion, #aprende, #tips"
+
+=== ANÁLISIS POR TIPO ===
+Tipo,Nombre,Cantidad,Engagement Total,Engagement Promedio,Engagement Rate,Likes Promedio,Comentarios Promedio,Shares Promedio
+Y,Entretenimiento/Viral,11,3114,283.09090909090907,8.92%,225.63636363636363,33.09090909090909,24.363636363636363
+Z,Promocional/Producto,5,574,114.8,5.41%,98.6,9.6,6.6
+X,Tutoriales/Educativos,14,5796,414.0,15.56%,307.35714285714283,61.42857142857143,45.214285714285715

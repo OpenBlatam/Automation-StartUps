@@ -1,0 +1,11 @@
+PORT=3001
+KPIS_PG_HOST=localhost
+KPIS_PG_DB=analytics
+KPIS_PG_USER=analytics
+KPIS_PG_PASSWORD=
+
+# Optional API key protection for /api routes
+API_KEY=
+ENABLE_RATE_LIMIT=true
+
+

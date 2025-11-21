@@ -1,0 +1,202 @@
+{
+  "description": "Nodos adicionales para tracking de engagement y optimización automática",
+  "nodes": [
+    {
+      "id": "save-upload-ids",
+      "name": "Save Upload IDs for Tracking",
+      "type": "n8n-nodes-base.code",
+      "parameters": {
+        "jsCode": "// Guardar IDs de publicación para tracking posterior\nconst uploadResults = $input.item.json;\n\nconst trackingData = {\n  videoId: uploadResults.videoId,\n  title: uploadResults.title,\n  hashtags: uploadResults.hashtags,\n  caption: uploadResults.caption,\n  publishedAt: new Date().toISOString(),\n  platforms: {}\n};\n\n// Extraer IDs de cada plataforma\nif (uploadResults.instagramResponse?.id) {\n  trackingData.platforms.instagram = {\n    postId: uploadResults.instagramResponse.id,\n    url: uploadResults.instagramResponse.permalink_url || null,\n    publishedAt: new Date().toISOString()\n  };\n}\n\nif (uploadResults.tiktokResponse?.data?.publish_id) {\n  trackingData.platforms.tiktok = {\n    postId: uploadResults.tiktokResponse.data.publish_id,\n    url: uploadResults.tiktokResponse.data.share_url || null,\n    publishedAt: new Date().toISOString()\n  };\n}\n\nif (uploadResults.youtubeResponse?.id) {\n  trackingData.platforms.youtube = {\n    videoId: uploadResults.youtubeResponse.id,\n    url: `https://youtube.com/watch?v=${uploadResults.youtubeResponse.id}`,\n    publishedAt: new Date().toISOString()\n  };\n}\n\n// Agregar a cola de tracking\nconst engagementQueue = $workflow.staticData.engagementQueue || [];\nengagementQueue.push({\n  ...trackingData,\n  scheduledChecks: {\n    after6h: new Date(Date.now() + 6 * 60 * 60 * 1000).toISOString(),\n    after24h: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),\n    after48h: new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString(),\n    after7d: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()\n  },\n  status: 'pending'\n});\n\n// Mantener solo últimos 1000\nif (engagementQueue.length > 1000) {\n  engagementQueue.shift();\n}\n\n$workflow.staticData.engagementQueue = engagementQueue;\n\nreturn {\n  json: {\n    ...uploadResults,\n    trackingData: trackingData,\n    trackingScheduled: true\n  }\n};"
+      },
+      "position": [4650, 400],
+      "notes": "Guarda IDs de publicación para tracking posterior"
+    },
+    {
+      "id": "schedule-engagement-check",
+      "name": "Schedule Engagement Check",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 6
+            }
+          ]
+        }
+      },
+      "position": [4850, 200],
+      "notes": "Trigger para verificar engagement cada 6 horas"
+    },
+    {
+      "id": "get-pending-engagement-checks",
+      "name": "Get Pending Engagement Checks",
+      "type": "n8n-nodes-base.code",
+      "parameters": {
+        "jsCode": "// Obtener videos que necesitan verificación de engagement\nconst now = Date.now();\nconst engagementQueue = $workflow.staticData.engagementQueue || [];\n\nconst pendingChecks = engagementQueue.filter(item => {\n  if (item.status === 'completed') return false;\n  \n  const checks = item.scheduledChecks || {};\n  const nextCheck = checks.after6h || checks.after24h || checks.after48h || checks.after7d;\n  \n  if (!nextCheck) return false;\n  \n  return new Date(nextCheck).getTime() <= now;\n});\n\nreturn pendingChecks.map(item => ({\n  json: {\n    ...item,\n    needsCheck: true\n  }\n}));"
+      },
+      "position": [5050, 200],
+      "notes": "Obtiene videos pendientes de verificación"
+    },
+    {
+      "id": "fetch-instagram-metrics",
+      "name": "Fetch Instagram Metrics",
+      "type": "n8n-nodes-base.httpRequest",
+      "parameters": {
+        "url": "=https://graph.facebook.com/v18.0/{{ $json.platforms.instagram.postId }}/insights?metric=impressions,reach,likes,comments,shares,saved&access_token={{ $env.INSTAGRAM_ACCESS_TOKEN }}",
+        "method": "GET",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "position": [5250, 200],
+      "continueOnFail": true,
+      "notes": "Obtiene métricas de Instagram"
+    },
+    {
+      "id": "fetch-tiktok-metrics",
+      "name": "Fetch TikTok Metrics",
+      "type": "n8n-nodes-base.httpRequest",
+      "parameters": {
+        "url": "=https://open.tiktokapis.com/v2/research/video/query/?video_id={{ $json.platforms.tiktok.postId }}",
+        "method": "GET",
+        "authentication": "genericCredentialType",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "position": [5250, 300],
+      "continueOnFail": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "tiktok-api",
+          "name": "TikTok API"
+        }
+      },
+      "notes": "Obtiene métricas de TikTok"
+    },
+    {
+      "id": "fetch-youtube-metrics",
+      "name": "Fetch YouTube Metrics",
+      "type": "n8n-nodes-base.httpRequest",
+      "parameters": {
+        "url": "=https://www.googleapis.com/youtube/v3/videos?part=statistics&id={{ $json.platforms.youtube.videoId }}&key={{ $env.YOUTUBE_API_KEY }}",
+        "method": "GET",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "position": [5250, 400],
+      "continueOnFail": true,
+      "notes": "Obtiene métricas de YouTube"
+    },
+    {
+      "id": "calculate-engagement-metrics",
+      "name": "Calculate Engagement Metrics",
+      "type": "n8n-nodes-base.code",
+      "parameters": {
+        "jsCode": "// Calcular métricas de engagement\nconst video = $json;\nconst platformMetrics = {};\n\n// Procesar métricas de Instagram\nif ($input.item.json.data) {\n  const instagramData = $input.item.json.data.find(d => d.name === 'likes');\n  if (instagramData) {\n    const metrics = {};\n    $input.item.json.data.forEach(m => {\n      metrics[m.name] = parseInt(m.values[0]?.value || 0);\n    });\n    \n    const engagementTotal = (metrics.likes || 0) + (metrics.comments || 0) + (metrics.shares || 0);\n    const engagementRate = metrics.impressions > 0 ? \n      (engagementTotal / metrics.impressions) * 100 : 0;\n    const engagementScore = (metrics.likes || 0) + \n      ((metrics.comments || 0) * 3) + \n      ((metrics.shares || 0) * 5);\n    \n    platformMetrics.instagram = {\n      ...metrics,\n      engagementTotal: engagementTotal,\n      engagementRate: engagementRate,\n      engagementScore: engagementScore,\n      isViral: engagementRate > 10.0 && engagementTotal > 500\n    };\n  }\n}\n\n// Procesar métricas de TikTok\nif ($input.item.json.data?.video_list) {\n  const tiktokData = $input.item.json.data.video_list[0];\n  if (tiktokData) {\n    const metrics = {\n      views: parseInt(tiktokData.statistics?.play_count || 0),\n      likes: parseInt(tiktokData.statistics?.like_count || 0),\n      comments: parseInt(tiktokData.statistics?.comment_count || 0),\n      shares: parseInt(tiktokData.statistics?.share_count || 0)\n    };\n    \n    const engagementTotal = metrics.likes + metrics.comments + metrics.shares;\n    const engagementRate = metrics.views > 0 ? (engagementTotal / metrics.views) * 100 : 0;\n    const engagementScore = metrics.likes + (metrics.comments * 3) + (metrics.shares * 5);\n    \n    platformMetrics.tiktok = {\n      ...metrics,\n      engagementTotal: engagementTotal,\n      engagementRate: engagementRate,\n      engagementScore: engagementScore,\n      isViral: engagementRate > 5.0 && engagementTotal > 1000\n    };\n  }\n}\n\n// Procesar métricas de YouTube\nif ($input.item.json.items?.[0]?.statistics) {\n  const ytStats = $input.item.json.items[0].statistics;\n  const metrics = {\n    views: parseInt(ytStats.viewCount || 0),\n    likes: parseInt(ytStats.likeCount || 0),\n    comments: parseInt(ytStats.commentCount || 0)\n  };\n  \n  const engagementTotal = metrics.likes + metrics.comments;\n  const engagementRate = metrics.views > 0 ? (engagementTotal / metrics.views) * 100 : 0;\n  const engagementScore = metrics.likes + (metrics.comments * 3);\n  \n  platformMetrics.youtube = {\n    ...metrics,\n    engagementTotal: engagementTotal,\n    engagementRate: engagementRate,\n    engagementScore: engagementScore,\n    isViral: engagementRate > 3.0 && engagementTotal > 500\n  };\n}\n\n// Calcular métricas generales\nconst overallMetrics = {\n  totalEngagement: Object.values(platformMetrics).reduce((sum, p) => sum + (p.engagementTotal || 0), 0),\n  avgEngagementRate: Object.values(platformMetrics).reduce((sum, p) => sum + (p.engagementRate || 0), 0) / Object.keys(platformMetrics).length || 0,\n  totalEngagementScore: Object.values(platformMetrics).reduce((sum, p) => sum + (p.engagementScore || 0), 0),\n  bestPlatform: Object.entries(platformMetrics)\n    .sort((a, b) => (b[1].engagementRate || 0) - (a[1].engagementRate || 0))[0]?.[0] || null,\n  viralOn: Object.entries(platformMetrics)\n    .filter(([_, p]) => p.isViral)\n    .map(([platform]) => platform)\n};\n\nreturn {\n  json: {\n    ...video,\n    platformMetrics: platformMetrics,\n    overallMetrics: overallMetrics,\n    trackedAt: new Date().toISOString()\n  }\n};"
+      },
+      "position": [5450, 300],
+      "notes": "Calcula métricas de engagement"
+    },
+    {
+      "id": "save-engagement-data",
+      "name": "Save Engagement Data",
+      "type": "n8n-nodes-base.code",
+      "parameters": {
+        "jsCode": "// Guardar datos de engagement\nconst engagementData = $json;\n\n// Agregar a historial\nconst engagementHistory = $workflow.staticData.engagementHistory || [];\nengagementHistory.push({\n  videoId: engagementData.videoId,\n  title: engagementData.title,\n  hashtags: engagementData.hashtags,\n  caption: engagementData.caption,\n  platformMetrics: engagementData.platformMetrics,\n  overallMetrics: engagementData.overallMetrics,\n  publishedAt: engagementData.publishedAt,\n  trackedAt: engagementData.trackedAt\n});\n\n// Mantener solo últimos 500\nif (engagementHistory.length > 500) {\n  engagementHistory.shift();\n}\n\n$workflow.staticData.engagementHistory = engagementHistory;\n\n// Actualizar cola de tracking\nconst engagementQueue = $workflow.staticData.engagementQueue || [];\nconst queueItem = engagementQueue.find(q => q.videoId === engagementData.videoId);\nif (queueItem) {\n  // Marcar como verificado, pero mantener para próximas verificaciones\n  queueItem.lastChecked = new Date().toISOString();\n  queueItem.metrics = engagementData.overallMetrics;\n  \n  // Si ya pasaron 7 días, marcar como completado\n  const daysSincePublish = (Date.now() - new Date(queueItem.publishedAt).getTime()) / (24 * 60 * 60 * 1000);\n  if (daysSincePublish >= 7) {\n    queueItem.status = 'completed';\n  }\n  \n  $workflow.staticData.engagementQueue = engagementQueue;\n}\n\n// Actualizar estadísticas del workflow\nconst stats = $workflow.staticData.workflowStats || {};\nstats.totalEngagement = (stats.totalEngagement || 0) + engagementData.overallMetrics.totalEngagement;\nstats.avgEngagementRate = engagementHistory.length > 0 ?\n  engagementHistory.reduce((sum, h) => sum + h.overallMetrics.avgEngagementRate, 0) / engagementHistory.length :\n  0;\nstats.viralVideos = engagementHistory.filter(h => h.overallMetrics.viralOn.length > 0).length;\n\n$workflow.staticData.workflowStats = stats;\n\nreturn {\n  json: {\n    ...engagementData,\n    saved: true,\n    stats: stats\n  }\n};"
+      },
+      "position": [5650, 300],
+      "notes": "Guarda datos de engagement en historial"
+    },
+    {
+      "id": "analyze-top-hashtags",
+      "name": "Analyze Top Hashtags",
+      "type": "n8n-nodes-base.code",
+      "parameters": {
+        "jsCode": "// Analizar hashtags más exitosos\nconst engagementHistory = $workflow.staticData.engagementHistory || [];\n\nif (engagementHistory.length < 5) {\n  return {\n    json: {\n      ...$input.item.json,\n      topHashtags: [],\n      analysis: 'insufficient_data'\n    }\n  };\n}\n\n// Filtrar videos exitosos (engagement rate > 5%)\nconst successfulVideos = engagementHistory.filter(\n  v => v.overallMetrics.avgEngagementRate > 5.0\n);\n\nif (successfulVideos.length === 0) {\n  return {\n    json: {\n      ...$input.item.json,\n      topHashtags: [],\n      analysis: 'no_successful_videos'\n    }\n  };\n}\n\n// Analizar hashtags\nconst hashtagPerformance = {};\n\nsuccessfulVideos.forEach(video => {\n  const hashtags = typeof video.hashtags === 'string' ? \n    video.hashtags.split(/\\s+/).filter(h => h.startsWith('#')) :\n    (Array.isArray(video.hashtags) ? video.hashtags : []);\n  \n  hashtags.forEach(tag => {\n    const cleanTag = tag.trim().toLowerCase();\n    if (!hashtagPerformance[cleanTag]) {\n      hashtagPerformance[cleanTag] = {\n        count: 0,\n        totalEngagement: 0,\n        totalEngagementRate: 0,\n        videos: []\n      };\n    }\n    \n    hashtagPerformance[cleanTag].count++;\n    hashtagPerformance[cleanTag].totalEngagement += video.overallMetrics.totalEngagement;\n    hashtagPerformance[cleanTag].totalEngagementRate += video.overallMetrics.avgEngagementRate;\n    hashtagPerformance[cleanTag].videos.push(video.videoId);\n  });\n});\n\n// Calcular promedios y rankear\nconst topHashtags = Object.entries(hashtagPerformance)\n  .map(([tag, data]) => ({\n    tag: tag,\n    count: data.count,\n    avgEngagement: data.totalEngagement / data.count,\n    avgEngagementRate: data.totalEngagementRate / data.count,\n    usageFrequency: data.count / successfulVideos.length\n  }))\n  .sort((a, b) => b.avgEngagementRate - a.avgEngagementRate)\n  .slice(0, 30);\n\n// Guardar análisis\n$workflow.staticData.topHashtags = topHashtags;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    topHashtags: topHashtags,\n    analysis: {\n      totalVideosAnalyzed: successfulVideos.length,\n      totalHashtagsFound: Object.keys(hashtagPerformance).length,\n      topHashtagsCount: topHashtags.length\n    }\n  }\n};"
+      },
+      "position": [5850, 300],
+      "notes": "Analiza hashtags más exitosos"
+    },
+    {
+      "id": "analyze-best-hours",
+      "name": "Analyze Best Posting Hours",
+      "type": "n8n-nodes-base.code",
+      "parameters": {
+        "jsCode": "// Analizar mejores horarios de publicación\nconst engagementHistory = $workflow.staticData.engagementHistory || [];\n\nif (engagementHistory.length < 10) {\n  return {\n    json: {\n      ...$input.item.json,\n      bestHours: [],\n      analysis: 'insufficient_data'\n    }\n  };\n}\n\n// Analizar por hora\nconst hourPerformance = {};\n\nengagementHistory.forEach(video => {\n  const publishDate = new Date(video.publishedAt);\n  const hour = publishDate.getHours();\n  \n  if (!hourPerformance[hour]) {\n    hourPerformance[hour] = {\n      count: 0,\n      totalEngagementRate: 0,\n      totalEngagement: 0\n    };\n  }\n  \n  hourPerformance[hour].count++;\n  hourPerformance[hour].totalEngagementRate += video.overallMetrics.avgEngagementRate;\n  hourPerformance[hour].totalEngagement += video.overallMetrics.totalEngagement;\n});\n\n// Calcular promedios\nconst bestHours = Object.entries(hourPerformance)\n  .map(([hour, data]) => ({\n    hour: parseInt(hour),\n    count: data.count,\n    avgEngagementRate: data.totalEngagementRate / data.count,\n    avgEngagement: data.totalEngagement / data.count\n  }))\n  .sort((a, b) => b.avgEngagementRate - a.avgEngagementRate)\n  .slice(0, 5);\n\n// Analizar por día de la semana\nconst dayPerformance = {};\n\nengagementHistory.forEach(video => {\n  const publishDate = new Date(video.publishedAt);\n  const dayOfWeek = publishDate.getDay(); // 0 = Domingo, 6 = Sábado\n  const dayNames = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];\n  const dayName = dayNames[dayOfWeek];\n  \n  if (!dayPerformance[dayName]) {\n    dayPerformance[dayName] = {\n      count: 0,\n      totalEngagementRate: 0\n    };\n  }\n  \n  dayPerformance[dayName].count++;\n  dayPerformance[dayName].totalEngagementRate += video.overallMetrics.avgEngagementRate;\n});\n\nconst bestDays = Object.entries(dayPerformance)\n  .map(([day, data]) => ({\n    day: day,\n    count: data.count,\n    avgEngagementRate: data.totalEngagementRate / data.count\n  }))\n  .sort((a, b) => b.avgEngagementRate - a.avgEngagementRate);\n\n// Guardar análisis\n$workflow.staticData.bestHours = bestHours;\n$workflow.staticData.bestDays = bestDays;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    bestHours: bestHours,\n    bestDays: bestDays,\n    analysis: {\n      totalVideosAnalyzed: engagementHistory.length,\n      hoursAnalyzed: Object.keys(hourPerformance).length\n    }\n  }\n};"
+      },
+      "position": [6050, 300],
+      "notes": "Analiza mejores horarios y días"
+    },
+    {
+      "id": "optimize-hashtags-with-learning",
+      "name": "Optimize Hashtags with Learning",
+      "type": "n8n-nodes-base.code",
+      "parameters": {
+        "jsCode": "// Optimizar hashtags usando aprendizaje\nconst generatedHashtags = $json.generatedContent?.hashtags || [];\nconst topHashtags = $workflow.staticData.topHashtags || [];\n\nif (topHashtags.length === 0) {\n  // No hay datos de aprendizaje aún, usar hashtags generados\n  return {\n    json: {\n      ...$input.item.json,\n      optimizedHashtags: generatedHashtags,\n      optimizationApplied: false\n    }\n  };\n}\n\n// Combinar hashtags generados (70%) con hashtags probados (30%)\nconst topHashtagsTags = topHashtags.slice(0, 10).map(h => h.tag);\nconst generatedCount = Math.ceil(generatedHashtags.length * 0.7);\nconst learnedCount = Math.ceil(topHashtagsTags.length * 0.3);\n\nconst optimizedHashtags = [\n  ...generatedHashtags.slice(0, generatedCount),\n  ...topHashtagsTags.slice(0, learnedCount)\n];\n\n// Remover duplicados y limitar\nconst uniqueHashtags = [...new Set(optimizedHashtags)]\n  .slice(0, 15)\n  .map(tag => tag.startsWith('#') ? tag : '#' + tag);\n\nreturn {\n  json: {\n    ...$input.item.json,\n    optimizedHashtags: uniqueHashtags,\n    optimizationApplied: true,\n    optimizationSource: {\n      generated: generatedCount,\n      learned: learnedCount,\n      topHashtagsUsed: topHashtagsTags.slice(0, learnedCount)\n    }\n  }\n};"
+      },
+      "position": [3850, 400],
+      "notes": "Optimiza hashtags usando aprendizaje automático"
+    },
+    {
+      "id": "generate-recommendations",
+      "name": "Generate AI Recommendations",
+      "type": "n8n-nodes-base.httpRequest",
+      "parameters": {
+        "url": "=https://api.openai.com/v1/chat/completions",
+        "method": "POST",
+        "authentication": "genericCredentialType",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"gpt-4-turbo-preview\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"Eres un experto en análisis de engagement y optimización de contenido en redes sociales. Analiza datos históricos y genera recomendaciones específicas y accionables.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"Analiza estos datos de engagement y genera recomendaciones:\\n\\nTop Hashtags: {{ JSON.stringify($json.topHashtags?.slice(0, 10) || []) }}\\nMejores Horas: {{ JSON.stringify($json.bestHours || []) }}\\nMejores Días: {{ JSON.stringify($json.bestDays || []) }}\\n\\nGenera recomendaciones en JSON: {\\\"strategic_recommendations\\\": [\\\"...\\\"], \\\"content_ideas\\\": [\\\"...\\\"], \\\"optimization_tips\\\": [\\\"...\\\"]}\"\n    }\n  ],\n  \"max_tokens\": 1000,\n  \"temperature\": 0.7,\n  \"response_format\": { \"type\": \"json_object\" }\n}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "position": [6250, 300],
+      "continueOnFail": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "openai-api",
+          "name": "OpenAI API"
+        }
+      },
+      "notes": "Genera recomendaciones basadas en análisis"
+    },
+    {
+      "id": "detect-viral-content",
+      "name": "Detect Viral Content",
+      "type": "n8n-nodes-base.code",
+      "parameters": {
+        "jsCode": "// Detectar contenido viral y notificar\nconst engagementData = $json;\nconst overallMetrics = engagementData.overallMetrics || {};\n\nconst isViral = overallMetrics.viralOn && overallMetrics.viralOn.length > 0;\n\nif (isViral) {\n  // Agregar a lista de contenido viral\n  const viralContent = $workflow.staticData.viralContent || [];\n  viralContent.push({\n    videoId: engagementData.videoId,\n    title: engagementData.title,\n    platforms: overallMetrics.viralOn,\n    engagementRate: overallMetrics.avgEngagementRate,\n    totalEngagement: overallMetrics.totalEngagement,\n    detectedAt: new Date().toISOString()\n  });\n  \n  // Mantener solo últimos 50\n  if (viralContent.length > 50) {\n    viralContent.shift();\n  }\n  \n  $workflow.staticData.viralContent = viralContent;\n  \n  // Preparar notificación\n  return {\n    json: {\n      ...engagementData,\n      isViral: true,\n      viralNotification: {\n        message: `🔥 CONTENIDO VIRAL DETECTADO!\\n\\n📹 ${engagementData.title}\\n\\n📊 Métricas:\\n• Engagement Rate: ${overallMetrics.avgEngagementRate.toFixed(2)}%\\n• Total Engagement: ${overallMetrics.totalEngagement}\\n• Plataformas: ${overallMetrics.viralOn.join(', ')}\\n\\n🎯 Este contenido está funcionando excepcionalmente bien!`,\n        priority: 'high'\n      }\n    }\n  };\n}\n\nreturn {\n  json: {\n    ...engagementData,\n    isViral: false\n  }\n};"
+      },
+      "position": [5650, 400],
+      "notes": "Detecta contenido viral y prepara notificación"
+    },
+    {
+      "id": "update-learning-model",
+      "name": "Update Learning Model",
+      "type": "n8n-nodes-base.code",
+      "parameters": {
+        "jsCode": "// Actualizar modelo de aprendizaje con nuevos datos\nconst engagementHistory = $workflow.staticData.engagementHistory || [];\n\nif (engagementHistory.length < 5) {\n  return {\n    json: {\n      ...$input.item.json,\n      learningModel: null,\n      reason: 'insufficient_data'\n    }\n  };\n}\n\n// Analizar patrones exitosos\nconst successfulVideos = engagementHistory.filter(\n  v => v.overallMetrics.avgEngagementRate > 5.0\n);\n\nconst learningModel = {\n  updatedAt: new Date().toISOString(),\n  totalVideosAnalyzed: engagementHistory.length,\n  successfulVideos: successfulVideos.length,\n  successRate: (successfulVideos.length / engagementHistory.length) * 100,\n  \n  // Patrones identificados\n  patterns: {\n    avgCaptionLength: calculateAvg(successfulVideos, v => v.caption?.length || 0),\n    avgHashtagCount: calculateAvg(successfulVideos, v => {\n      const hashtags = typeof v.hashtags === 'string' ? v.hashtags.split(/\\s+/) : v.hashtags || [];\n      return hashtags.filter(h => h.startsWith('#')).length;\n    }),\n    bestPlatforms: analyzeBestPlatforms(successfulVideos),\n    bestContentTypes: analyzeContentTypes(successfulVideos)\n  },\n  \n  // Recomendaciones\n  recommendations: {\n    targetCaptionLength: Math.round(calculateAvg(successfulVideos, v => v.caption?.length || 0)),\n    targetHashtagCount: Math.round(calculateAvg(successfulVideos, v => {\n      const hashtags = typeof v.hashtags === 'string' ? v.hashtags.split(/\\s+/) : v.hashtags || [];\n      return hashtags.filter(h => h.startsWith('#')).length;\n    })),\n    preferredPlatforms: analyzeBestPlatforms(successfulVideos).slice(0, 2)\n  }\n};\n\nfunction calculateAvg(array, fn) {\n  if (array.length === 0) return 0;\n  return array.reduce((sum, item) => sum + fn(item), 0) / array.length;\n}\n\nfunction analyzeBestPlatforms(videos) {\n  const platformPerformance = {};\n  videos.forEach(v => {\n    Object.keys(v.platformMetrics || {}).forEach(platform => {\n      if (!platformPerformance[platform]) {\n        platformPerformance[platform] = { count: 0, totalRate: 0 };\n      }\n      platformPerformance[platform].count++;\n      platformPerformance[platform].totalRate += v.platformMetrics[platform].engagementRate || 0;\n    });\n  });\n  \n  return Object.entries(platformPerformance)\n    .map(([platform, data]) => ({\n      platform: platform,\n      avgEngagementRate: data.totalRate / data.count\n    }))\n    .sort((a, b) => b.avgEngagementRate - a.avgEngagementRate);\n}\n\nfunction analyzeContentTypes(videos) {\n  // Analizar tipos de contenido exitosos\n  const contentTypes = {};\n  videos.forEach(v => {\n    const type = v.title?.toLowerCase().includes('tutorial') ? 'tutorial' :\n                v.title?.toLowerCase().includes('review') ? 'review' :\n                v.title?.toLowerCase().includes('tips') ? 'tips' :\n                'general';\n    \n    if (!contentTypes[type]) {\n      contentTypes[type] = { count: 0, totalRate: 0 };\n    }\n    contentTypes[type].count++;\n    contentTypes[type].totalRate += v.overallMetrics.avgEngagementRate;\n  });\n  \n  return Object.entries(contentTypes)\n    .map(([type, data]) => ({\n      type: type,\n      avgEngagementRate: data.totalRate / data.count\n    }))\n    .sort((a, b) => b.avgEngagementRate - a.avgEngagementRate);\n}\n\n// Guardar modelo\n$workflow.staticData.learningModel = learningModel;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    learningModel: learningModel\n  }\n};"
+      },
+      "position": [6450, 300],
+      "notes": "Actualiza modelo de aprendizaje"
+    }
+  ],
+  "integration_points": {
+    "save_upload_ids": "Agregar después de 'Save Processing Results'",
+    "schedule_engagement_check": "Trigger separado que corre cada 6 horas",
+    "optimize_hashtags_with_learning": "Agregar antes de 'Process AI Generated Content'",
+    "detect_viral_content": "Agregar después de 'Calculate Engagement Metrics'"
+  },
+  "usage": {
+    "description": "Estos nodos extienden el workflow de Sora con tracking de engagement y optimización automática",
+    "setup": "1. Agregar nodos al workflow existente según integration_points\n2. Configurar ENABLE_ENGAGEMENT_TRACKING=true\n3. El sistema aprenderá automáticamente de los resultados"
+  }
+}
+
+
+

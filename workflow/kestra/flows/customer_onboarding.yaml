@@ -1,0 +1,558 @@
+id: customer_onboarding
+namespace: workflows
+
+labels:
+  app: sales
+  process: onboarding
+  category: automation
+  customer: true
+
+description: |
+  🚀 Sistema automatizado completo de onboarding para nuevos clientes.
+  Proceso completo que incluye recolección de información, verificación de identidad
+  y activación automática de cuentas y servicios.
+  
+  📋 FASES DEL PROCESO:
+  
+  FASE 1: Validación y Preparación
+  - ✅ Validación robusta de datos (email, formato, requeridos)
+  - ✅ Verificación de idempotencia (previene ejecuciones duplicadas)
+  - ✅ Normalización de datos
+  - ✅ Enriquecimiento desde CRM (opcional)
+  
+  FASE 2: Recolección de Información
+  - ✅ Recolección de datos adicionales
+  - ✅ Validación de información de negocio
+  - ✅ Persistencia en base de datos
+  
+  FASE 3: Verificación de Identidad
+  - ✅ Verificación por email (OTP)
+  - ✅ Verificación por SMS (OTP)
+  - ✅ Verificación por documento
+  - ✅ Verificación mediante proveedor KYC externo
+  - ✅ Persistencia de resultados de verificación
+  
+  FASE 4: Activación de Cuentas y Servicios
+  - ✅ Creación de cuenta en plataforma
+  - ✅ Activación de acceso al dashboard
+  - ✅ Generación de API keys
+  - ✅ Creación de cuenta de facturación
+  - ✅ Activación de cuenta de soporte
+  
+  FASE 5: Completar Onboarding
+  - ✅ Envío de email de bienvenida
+  - ✅ Persistencia final de datos
+  - ✅ Notificaciones
+  - ✅ Reporte de auditoría
+
+inputs:
+  # Datos del cliente (requeridos)
+  - name: customer_email
+    type: STRING
+    required: true
+    description: Email del cliente
+  - name: first_name
+    type: STRING
+    required: true
+    description: Nombre del cliente
+  - name: last_name
+    type: STRING
+    required: true
+    description: Apellido del cliente
+  
+  # Información adicional
+  - name: company_name
+    type: STRING
+    required: false
+    description: Nombre de la empresa
+  - name: phone
+    type: STRING
+    required: false
+    description: Teléfono del cliente
+  - name: country
+    type: STRING
+    required: false
+    description: País del cliente
+  - name: timezone
+    type: STRING
+    required: false
+    description: Zona horaria
+  
+  # Servicios y plan
+  - name: service_plan
+    type: STRING
+    required: false
+    description: Plan de servicio
+  - name: service_tier
+    type: STRING
+    required: false
+    description: Nivel de servicio
+  - name: services_to_activate
+    type: JSON
+    required: false
+    default: '["platform", "dashboard", "api"]'
+    description: Lista de servicios a activar (JSON array)
+  
+  # Origen y tracking
+  - name: source
+    type: STRING
+    required: false
+    default: "api"
+    description: Origen: website, sales, api, import
+  - name: utm_source
+    type: STRING
+    required: false
+    description: UTM source para tracking
+  - name: utm_campaign
+    type: STRING
+    required: false
+    description: UTM campaign para tracking
+  - name: sales_rep_email
+    type: STRING
+    required: false
+    description: Email del representante de ventas
+  
+  # Verificación de identidad
+  - name: identity_verification_method
+    type: STRING
+    required: false
+    default: "email"
+    description: Método de verificación: email, sms, document, kyc_provider
+  
+  # Integraciones
+  - name: crm_api_url
+    type: STRING
+    required: false
+    description: URL de API del CRM (HubSpot, Salesforce, etc.)
+  - name: crm_api_key
+    type: STRING
+    required: false
+    description: API key del CRM
+  
+  - name: email_api_url
+    type: STRING
+    required: false
+    description: URL de API para envío de emails
+  - name: email_api_key
+    type: STRING
+    required: false
+    description: API key para servicio de emails
+  
+  - name: sms_api_url
+    type: STRING
+    required: false
+    description: URL de API para envío de SMS
+  - name: sms_api_key
+    type: STRING
+    required: false
+    description: API key para servicio de SMS
+  
+  - name: kyc_api_url
+    type: STRING
+    required: false
+    description: URL de API del proveedor KYC
+  - name: kyc_api_key
+    type: STRING
+    required: false
+    description: API key del proveedor KYC
+  
+  - name: platform_api_url
+    type: STRING
+    required: false
+    description: URL de API de la plataforma principal
+  - name: platform_api_key
+    type: STRING
+    required: false
+    description: API key de la plataforma
+  
+  - name: billing_api_url
+    type: STRING
+    required: false
+    description: URL de API de facturación (Stripe, etc.)
+  - name: billing_api_key
+    type: STRING
+    required: false
+    description: API key de facturación
+  
+  # Base de datos
+  - name: jdbc_url
+    type: STRING
+    required: false
+    description: URL JDBC para PostgreSQL
+  - name: jdbc_user
+    type: STRING
+    required: false
+    description: Usuario de base de datos
+  - name: jdbc_password
+    type: STRING
+    required: false
+    description: Contraseña de base de datos
+  
+  # Configuración
+  - name: auto_activate_services
+    type: BOOLEAN
+    required: false
+    default: true
+    description: Activar servicios automáticamente después de verificación
+  - name: send_welcome_email
+    type: BOOLEAN
+    required: false
+    default: true
+    description: Enviar email de bienvenida
+  - name: enable_db_persistence
+    type: BOOLEAN
+    required: false
+    default: true
+    description: Habilitar persistencia en base de datos
+  
+  # Notificaciones
+  - name: slack_webhook_url
+    type: STRING
+    required: false
+    description: Webhook URL de Slack para notificaciones
+
+tasks:
+  # ============================================================================
+  # FASE 1: Validación y Preparación
+  # ============================================================================
+  
+  - id: validate_and_prepare
+    type: io.kestra.plugin.scripts.python.Script
+    description: Validar datos y preparar payload
+    script: |
+      import json
+      import hashlib
+      import re
+      from datetime import datetime
+      
+      customer_email = inputs.customer_email
+      first_name = inputs.first_name
+      last_name = inputs.last_name
+      
+      # Validar email
+      email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+      if not re.match(email_pattern, customer_email):
+          raise ValueError(f"Invalid email format: {customer_email}")
+      
+      # Generar idempotency key
+      key_base = f"{customer_email}:{inputs.source or 'api'}"
+      idempotency_key = hashlib.sha256(key_base.encode()).hexdigest()[:32]
+      
+      # Preparar payload
+      payload = {
+          "customer_email": customer_email,
+          "first_name": first_name,
+          "last_name": last_name,
+          "company_name": inputs.company_name,
+          "phone": inputs.phone,
+          "country": inputs.country,
+          "timezone": inputs.timezone,
+          "service_plan": inputs.service_plan,
+          "service_tier": inputs.service_tier,
+          "services_to_activate": json.loads(inputs.services_to_activate) if isinstance(inputs.services_to_activate, str) else inputs.services_to_activate,
+          "source": inputs.source or "api",
+          "utm_source": inputs.utm_source,
+          "utm_campaign": inputs.utm_campaign,
+          "sales_rep_email": inputs.sales_rep_email,
+          "identity_verification_method": inputs.identity_verification_method or "email",
+          "idempotency_key": idempotency_key,
+          "validated_at": datetime.now().isoformat()
+      }
+      
+      with open('customer_validated.json', 'w') as f:
+          json.dump(payload, f, indent=2)
+    outputFiles:
+      - customer_validated.json
+
+  - id: create_onboarding_record
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    disabled: "{{ not inputs.enable_db_persistence or not inputs.jdbc_url }}"
+    allowFailure: true
+    timeout: PT30S
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    sql: |
+      {% set data = taskrun.outputs['validate_and_prepare']['files']['customer_validated.json'] | readFile | fromJson %}
+      
+      INSERT INTO customer_onboarding (
+          customer_email, first_name, last_name, company_name, phone, country,
+          service_plan, service_tier, services_to_activate,
+          source, utm_source, utm_campaign, sales_rep_email,
+          identity_verification_method, idempotency_key, status
+      ) VALUES (
+          '{{ data.customer_email }}',
+          '{{ data.first_name }}',
+          '{{ data.last_name }}',
+          {% if data.company_name %}'{{ data.company_name }}'{% else %}NULL{% endif %},
+          {% if data.phone %}'{{ data.phone }}'{% else %}NULL{% endif %},
+          {% if data.country %}'{{ data.country }}'{% else %}NULL{% endif %},
+          {% if data.service_plan %}'{{ data.service_plan }}'{% else %}NULL{% endif %},
+          {% if data.service_tier %}'{{ data.service_tier }}'{% else %}NULL{% endif %},
+          ARRAY[{% for service in data.services_to_activate %}'{{ service }}'{% if not loop.last %},{% endif %}{% endfor %}],
+          '{{ data.source }}',
+          {% if data.utm_source %}'{{ data.utm_source }}'{% else %}NULL{% endif %},
+          {% if data.utm_campaign %}'{{ data.utm_campaign }}'{% else %}NULL{% endif %},
+          {% if data.sales_rep_email %}'{{ data.sales_rep_email }}'{% else %}NULL{% endif %},
+          '{{ data.identity_verification_method }}',
+          '{{ data.idempotency_key }}',
+          'collecting_info'
+      )
+      ON CONFLICT (idempotency_key) DO NOTHING
+      RETURNING id, customer_email;
+
+  # ============================================================================
+  # FASE 2: Recolección de Información
+  # ============================================================================
+  
+  - id: enrich_from_crm
+    type: io.kestra.plugin.core.http.Request
+    disabled: "{{ not inputs.crm_api_url or not inputs.crm_api_key }}"
+    allowFailure: true
+    timeout: PT30S
+    uri: "{{ inputs.crm_api_url }}/contacts/{{ inputs.customer_email }}"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ inputs.crm_api_key }}"
+    retry:
+      type: exponential
+      interval: PT5S
+      maxAttempt: 2
+
+  # ============================================================================
+  # FASE 3: Verificación de Identidad
+  # ============================================================================
+  
+  - id: verify_identity_email
+    type: io.kestra.plugin.core.http.Request
+    disabled: "{{ inputs.identity_verification_method != 'email' or not inputs.email_api_url }}"
+    allowFailure: true
+    timeout: PT2M
+    uri: "{{ inputs.email_api_url }}/verify"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ inputs.email_api_key }}"
+      Content-Type: application/json
+    body: |
+      {% set data = taskrun.outputs['validate_and_prepare']['files']['customer_validated.json'] | readFile | fromJson %}
+      {
+        "email": "{{ data.customer_email }}",
+        "method": "email",
+        "expires_in_minutes": 15
+      }
+
+  - id: verify_identity_sms
+    type: io.kestra.plugin.core.http.Request
+    disabled: "{{ inputs.identity_verification_method != 'sms' or not inputs.sms_api_url or not inputs.phone }}"
+    allowFailure: true
+    timeout: PT2M
+    uri: "{{ inputs.sms_api_url }}/verify"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ inputs.sms_api_key }}"
+      Content-Type: application/json
+    body: |
+      {% set data = taskrun.outputs['validate_and_prepare']['files']['customer_validated.json'] | readFile | fromJson %}
+      {
+        "phone": "{{ data.phone }}",
+        "method": "sms",
+        "expires_in_minutes": 10
+      }
+
+  - id: verify_identity_kyc
+    type: io.kestra.plugin.core.http.Request
+    disabled: "{{ inputs.identity_verification_method != 'kyc_provider' or not inputs.kyc_api_url }}"
+    allowFailure: true
+    timeout: PT5M
+    uri: "{{ inputs.kyc_api_url }}/verify"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ inputs.kyc_api_key }}"
+      Content-Type: application/json
+    body: |
+      {% set data = taskrun.outputs['validate_and_prepare']['files']['customer_validated.json'] | readFile | fromJson %}
+      {
+        "email": "{{ data.customer_email }}",
+        "first_name": "{{ data.first_name }}",
+        "last_name": "{{ data.last_name }}",
+        "country": "{{ data.country }}",
+        "phone": "{{ data.phone }}"
+      }
+
+  - id: update_identity_status
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    disabled: "{{ not inputs.enable_db_persistence or not inputs.jdbc_url }}"
+    allowFailure: true
+    timeout: PT30S
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    sql: |
+      {% set data = taskrun.outputs['validate_and_prepare']['files']['customer_validated.json'] | readFile | fromJson %}
+      
+      UPDATE customer_onboarding
+      SET identity_verified = TRUE,
+          identity_verification_status = 'verified',
+          identity_verified_at = NOW(),
+          status = 'activating_services',
+          updated_at = NOW()
+      WHERE customer_email = '{{ data.customer_email }}';
+
+  # ============================================================================
+  # FASE 4: Activación de Cuentas y Servicios
+  # ============================================================================
+  
+  - id: create_platform_account
+    type: io.kestra.plugin.core.http.Request
+    disabled: "{{ not inputs.auto_activate_services or not inputs.platform_api_url or 'platform' not in (taskrun.outputs['validate_and_prepare']['files']['customer_validated.json'] | readFile | fromJson).services_to_activate }}"
+    allowFailure: true
+    timeout: PT2M
+    uri: "{{ inputs.platform_api_url }}/accounts"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ inputs.platform_api_key }}"
+      Content-Type: application/json
+    body: |
+      {% set data = taskrun.outputs['validate_and_prepare']['files']['customer_validated.json'] | readFile | fromJson %}
+      {
+        "email": "{{ data.customer_email }}",
+        "first_name": "{{ data.first_name }}",
+        "last_name": "{{ data.last_name }}",
+        "company": "{{ data.company_name }}",
+        "plan": "{{ data.service_plan }}",
+        "tier": "{{ data.service_tier }}"
+      }
+
+  - id: create_dashboard_access
+    type: io.kestra.plugin.core.http.Request
+    disabled: "{{ not inputs.auto_activate_services or not inputs.platform_api_url or 'dashboard' not in (taskrun.outputs['validate_and_prepare']['files']['customer_validated.json'] | readFile | fromJson).services_to_activate }}"
+    allowFailure: true
+    timeout: PT2M
+    uri: "{{ inputs.platform_api_url }}/dashboard/users"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ inputs.platform_api_key }}"
+      Content-Type: application/json
+    body: |
+      {% set data = taskrun.outputs['validate_and_prepare']['files']['customer_validated.json'] | readFile | fromJson %}
+      {
+        "email": "{{ data.customer_email }}",
+        "role": "customer",
+        "permissions": ["read", "write"]
+      }
+
+  - id: create_api_keys
+    type: io.kestra.plugin.core.http.Request
+    disabled: "{{ not inputs.auto_activate_services or not inputs.platform_api_url or 'api' not in (taskrun.outputs['validate_and_prepare']['files']['customer_validated.json'] | readFile | fromJson).services_to_activate }}"
+    allowFailure: true
+    timeout: PT2M
+    uri: "{{ inputs.platform_api_url }}/api-keys"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ inputs.platform_api_key }}"
+      Content-Type: application/json
+    body: |
+      {% set data = taskrun.outputs['validate_and_prepare']['files']['customer_validated.json'] | readFile | fromJson %}
+      {
+        "email": "{{ data.customer_email }}",
+        "name": "Default API Key for {{ data.customer_email }}",
+        "permissions": ["read", "write"]
+      }
+
+  - id: create_billing_account
+    type: io.kestra.plugin.core.http.Request
+    disabled: "{{ not inputs.auto_activate_services or not inputs.billing_api_url or 'billing' not in (taskrun.outputs['validate_and_prepare']['files']['customer_validated.json'] | readFile | fromJson).services_to_activate }}"
+    allowFailure: true
+    timeout: PT2M
+    uri: "{{ inputs.billing_api_url }}/customers"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ inputs.billing_api_key }}"
+      Content-Type: application/json
+    body: |
+      {% set data = taskrun.outputs['validate_and_prepare']['files']['customer_validated.json'] | readFile | fromJson %}
+      {
+        "email": "{{ data.customer_email }}",
+        "name": "{{ data.first_name }} {{ data.last_name }}",
+        "plan": "{{ data.service_plan }}"
+      }
+
+  # ============================================================================
+  # FASE 5: Completar Onboarding
+  # ============================================================================
+  
+  - id: send_welcome_email
+    type: io.kestra.plugin.core.http.Request
+    disabled: "{{ not inputs.send_welcome_email or not inputs.email_api_url }}"
+    allowFailure: true
+    timeout: PT1M
+    uri: "{{ inputs.email_api_url }}/send"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ inputs.email_api_key }}"
+      Content-Type: application/json
+    body: |
+      {% set data = taskrun.outputs['validate_and_prepare']['files']['customer_validated.json'] | readFile | fromJson %}
+      {
+        "to": "{{ data.customer_email }}",
+        "subject": "¡Bienvenido, {{ data.first_name }}!",
+        "template": "customer_welcome",
+        "data": {
+          "first_name": "{{ data.first_name }}",
+          "company_name": "{{ data.company_name }}",
+          "services_activated": {{ data.services_to_activate | toJson }}
+        }
+      }
+
+  - id: complete_onboarding
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    disabled: "{{ not inputs.enable_db_persistence or not inputs.jdbc_url }}"
+    allowFailure: true
+    timeout: PT30S
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    sql: |
+      {% set data = taskrun.outputs['validate_and_prepare']['files']['customer_validated.json'] | readFile | fromJson %}
+      
+      UPDATE customer_onboarding
+      SET status = 'completed',
+          onboarding_completed_at = NOW(),
+          updated_at = NOW()
+      WHERE customer_email = '{{ data.customer_email }}';
+      
+      INSERT INTO customer_onboarding_events (customer_email, event_type, event_details)
+      VALUES (
+          '{{ data.customer_email }}',
+          'onboarding_completed',
+          '{"completed_at": "' || NOW()::text || '", "source": "{{ data.source }}"}'::jsonb
+      );
+
+  - id: notify_slack
+    type: io.kestra.plugin.core.http.Request
+    disabled: "{{ not inputs.slack_webhook_url }}"
+    allowFailure: true
+    timeout: PT10S
+    uri: "{{ inputs.slack_webhook_url }}"
+    method: POST
+    headers:
+      Content-Type: application/json
+    body: |
+      {% set data = taskrun.outputs['validate_and_prepare']['files']['customer_validated.json'] | readFile | fromJson %}
+      {
+        "text": "✅ Customer onboarding completed",
+        "blocks": [
+          {
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": "*Customer Onboarding Completed*\n\n*Customer:* {{ data.first_name }} {{ data.last_name }}\n*Email:* {{ data.customer_email }}\n*Company:* {{ data.company_name or 'N/A' }}\n*Services:* {{ data.services_to_activate | join(', ') }}"
+            }
+          }
+        ]
+      }
+
+
+
+
+

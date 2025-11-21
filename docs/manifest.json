@@ -1,0 +1,45 @@
+{
+  "name": "Política de Devoluciones - [Empresa]",
+  "short_name": "Devoluciones",
+  "description": "Política de devoluciones clara y transparente",
+  "start_url": "/politica-devoluciones.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3498db",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "finance"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Solicitar Reembolso",
+      "short_name": "Reembolso",
+      "description": "Solicitar un reembolso",
+      "url": "/politica-devoluciones.html#refundForm",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Ver Estado",
+      "short_name": "Estado",
+      "description": "Ver estado de solicitud",
+      "url": "/politica-devoluciones.html#statusTracker",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
+
+
+

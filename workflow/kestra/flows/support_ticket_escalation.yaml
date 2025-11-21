@@ -1,0 +1,265 @@
+id: support_ticket_escalation
+namespace: workflows
+
+labels:
+  app: support
+  process: escalation
+  category: automation
+
+description: |
+  🔼 Sistema de Escalación Automática de Tickets
+  
+  Escala tickets automáticamente cuando:
+  - Tickets críticos/urgentes sin respuesta por más de X minutos
+  - Tickets abiertos más de 24/48 horas
+  - Múltiples intentos de respuesta sin éxito
+  - Cliente VIP con ticket sin resolver
+  
+  Acciones:
+  - Notificar a supervisores
+  - Reasignar a agente senior
+  - Aumentar prioridad
+  - Notificar al cliente sobre el estado
+
+inputs:
+  - name: jdbc_url
+    type: STRING
+    required: true
+    description: URL JDBC para conexión a PostgreSQL
+  - name: jdbc_user
+    type: STRING
+    required: true
+    description: Usuario de base de datos
+  - name: jdbc_password
+    type: STRING
+    required: true
+    description: Contraseña de base de datos
+  - name: escalation_rules
+    type: STRING
+    required: false
+    description: JSON con reglas de escalación personalizadas
+  - name: supervisor_email
+    type: STRING
+    required: false
+    description: Email de supervisor para notificaciones
+  - name: slack_webhook_url
+    type: STRING
+    required: false
+    description: Webhook URL de Slack para notificaciones
+  - name: email_api_url
+    type: STRING
+    required: false
+    description: URL de API para envío de emails
+  - name: email_api_key
+    type: STRING
+    required: false
+    description: API key para servicio de emails
+
+triggers:
+  - id: schedule_escalation_check
+    type: io.kestra.plugin.core.trigger.Schedule
+    cron: "*/10 * * * *"  # Cada 10 minutos
+    description: Verificar tickets que necesitan escalación
+
+tasks:
+  # ========================================================================
+  # FASE 1: Identificar Tickets para Escalar
+  # ========================================================================
+  - id: find_tickets_to_escalate
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    description: Encuentra tickets que necesitan escalación
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    fetch: true
+    sql: |
+      WITH ticket_status AS (
+        SELECT 
+          t.ticket_id,
+          t.subject,
+          t.customer_email,
+          t.customer_name,
+          t.priority,
+          t.status,
+          t.assigned_agent_id,
+          t.assigned_agent_name,
+          t.created_at,
+          t.first_response_at,
+          t.updated_at,
+          EXTRACT(EPOCH FROM (NOW() - t.created_at))/60 as minutes_since_creation,
+          EXTRACT(EPOCH FROM (NOW() - COALESCE(t.first_response_at, t.created_at)))/60 as minutes_without_response,
+          CASE 
+            WHEN t.priority IN ('critical', 'urgent') AND t.first_response_at IS NULL 
+              AND t.created_at < NOW() - INTERVAL '15 minutes' THEN 'no_response_critical'
+            WHEN t.priority IN ('critical', 'urgent') AND t.first_response_at IS NULL 
+              AND t.created_at < NOW() - INTERVAL '30 minutes' THEN 'no_response_urgent'
+            WHEN t.status IN ('open', 'assigned') AND t.created_at < NOW() - INTERVAL '24 hours' THEN 'stale_24h'
+            WHEN t.status IN ('open', 'assigned') AND t.created_at < NOW() - INTERVAL '48 hours' THEN 'stale_48h'
+            WHEN t.priority = 'critical' AND t.status != 'resolved' 
+              AND t.created_at < NOW() - INTERVAL '4 hours' THEN 'critical_unresolved'
+            WHEN t.assigned_agent_id IS NOT NULL AND t.status = 'in_progress' 
+              AND t.updated_at < NOW() - INTERVAL '2 hours' THEN 'stale_in_progress'
+            ELSE NULL
+          END as escalation_reason
+        FROM support_tickets t
+        WHERE t.status NOT IN ('resolved', 'closed', 'chatbot_handled')
+      )
+      SELECT 
+        ticket_id,
+        subject,
+        customer_email,
+        customer_name,
+        priority,
+        status,
+        assigned_agent_id,
+        assigned_agent_name,
+        created_at,
+        first_response_at,
+        minutes_since_creation,
+        minutes_without_response,
+        escalation_reason
+      FROM ticket_status
+      WHERE escalation_reason IS NOT NULL
+      ORDER BY 
+        CASE priority
+          WHEN 'critical' THEN 1
+          WHEN 'urgent' THEN 2
+          WHEN 'high' THEN 3
+          ELSE 4
+        END,
+        minutes_without_response DESC
+      LIMIT 50
+
+  # ========================================================================
+  # FASE 2: Procesar Cada Ticket para Escalación
+  # ========================================================================
+  - id: process_escalations
+    type: io.kestra.core.tasks.scripts.Python
+    description: Procesa tickets y aplica acciones de escalación
+    inputFiles:
+      support_escalation.py: |
+        {{ read('workflow/kestra/flows/lib/support_escalation.py') }}
+    runner: DOCKER
+    docker:
+      image: python:3.11-slim
+    env:
+      DB_HOST: "{{ vars.db_host }}"
+      DB_NAME: "{{ vars.db_name }}"
+      DB_USER: "{{ vars.db_user }}"
+      DB_PASSWORD: "{{ vars.db_password }}"
+    script: |
+      import sys
+      import json
+      import os
+      import psycopg2
+      from support_escalation import SupportEscalation
+      
+      # Cargar tickets desde output anterior
+      tickets_json = '''{{ outputs.find_tickets_to_escalate | json }}'''
+      tickets = json.loads(tickets_json) if tickets_json else []
+      
+      if not tickets:
+          print("No hay tickets para escalar")
+          sys.exit(0)
+      
+      # Conectar a BD
+      try:
+          db_conn = psycopg2.connect(
+              host=os.getenv("DB_HOST"),
+              database=os.getenv("DB_NAME"),
+              user=os.getenv("DB_USER"),
+              password=os.getenv("DB_PASSWORD")
+          )
+      except Exception as e:
+          print(f"Error conectando a BD: {e}")
+          sys.exit(1)
+      
+      # Procesar escalaciones
+      escalator = SupportEscalation(db_connection=db_conn)
+      results = []
+      
+      for ticket in tickets:
+          result = escalator.escalate_ticket(
+              ticket_id=ticket["ticket_id"],
+              reason=ticket["escalation_reason"],
+              priority=ticket["priority"],
+              current_agent_id=ticket.get("assigned_agent_id")
+          )
+          results.append({
+              "ticket_id": ticket["ticket_id"],
+              "escalation_applied": result["escalated"],
+              "actions": result["actions"],
+              "new_priority": result.get("new_priority"),
+              "new_agent": result.get("new_agent_id")
+          })
+      
+      db_conn.close()
+      
+      print(json.dumps(results))
+      {{ outputs.process_escalations.results = results | json }}
+
+  # ========================================================================
+  # FASE 3: Notificar Supervisores
+  # ========================================================================
+  - id: notify_supervisors
+    type: io.kestra.core.tasks.flows.Http
+    description: Notifica a supervisores sobre escalaciones
+    uri: "{{ inputs.slack_webhook_url }}"
+    method: POST
+    headers:
+      Content-Type: "application/json"
+    body: |
+      {
+        "text": "🔼 Escalaciones de Tickets",
+        "blocks": [
+          {
+            "type": "header",
+            "text": {
+              "type": "plain_text",
+              "text": "Tickets Escalados"
+            }
+          },
+          {
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": "{{ outputs.process_escalations.results | length }} tickets fueron escalados automáticamente."
+            }
+          }
+        ]
+      }
+    disabled: "{{ not inputs.slack_webhook_url }}"
+
+  # ========================================================================
+  # FASE 4: Registrar Escalaciones en Historial
+  # ========================================================================
+  - id: log_escalations
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    description: Registra escalaciones en historial
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    sql: |
+      {% for result in outputs.process_escalations.results %}
+      {% if result.escalation_applied %}
+      INSERT INTO support_ticket_history (
+        ticket_id,
+        field_changed,
+        old_value,
+        new_value,
+        changed_by,
+        change_reason,
+        metadata
+      ) VALUES (
+        '{{ result.ticket_id }}',
+        'escalation',
+        'not_escalated',
+        'escalated',
+        'system',
+        'Escalación automática: {{ result.actions | join(", ") }}',
+        '{{ result | json }}'::jsonb
+      );
+      {% endif %}
+      {% endfor %}
+    disabled: "{{ outputs.process_escalations.results | length == 0 }}"
+

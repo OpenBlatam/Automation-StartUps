@@ -1,0 +1,86 @@
+{
+  "bamboohr_webhook_example": {
+    "description": "Ejemplo de payload desde BambooHR",
+    "url": "POST /api/v1/executions/trigger/workflows.employee_onboarding",
+    "headers": {
+      "Content-Type": "application/json",
+      "X-BambooHR-Signature": "sha256=..." // Opcional: verificación HMAC
+    },
+    "body": {
+      "email": "nuevo.empleado@empresa.com",
+      "firstName": "Nuevo",
+      "lastName": "Empleado",
+      "startDate": "2025-02-01",
+      "department": "Engineering",
+      "position": "Senior Developer",
+      "managerEmail": "manager@empresa.com",
+      "managerName": "Manager Name",
+      "officeLocation": "Madrid",
+      "phone": "+34 123 456 789",
+      "employeeId": "EMP-12345",
+      "contractSignedDate": "2025-01-15T10:00:00Z"
+    }
+  },
+  "workday_webhook_example": {
+    "description": "Ejemplo de payload desde Workday",
+    "url": "POST /api/v1/executions/trigger/workflows.employee_onboarding",
+    "body": {
+      "email": "nuevo.empleado@empresa.com",
+      "first_name": "Nuevo",
+      "last_name": "Empleado",
+      "startDate": "2025-02-01",
+      "dept": "Engineering",
+      "job_title": "Senior Developer",
+      "managerEmail": "manager@empresa.com",
+      "location": "Madrid"
+    }
+  },
+  "bizneo_webhook_example": {
+    "description": "Ejemplo de payload desde Bizneo HR",
+    "url": "POST /api/v1/executions/trigger/workflows.employee_onboarding",
+    "body": {
+      "email_address": "nuevo.empleado@empresa.com",
+      "firstname": "Nuevo",
+      "lastname": "Empleado",
+      "employment_start_date": "2025-02-01",
+      "department": "Engineering",
+      "role": "Senior Developer",
+      "supervisor_email": "manager@empresa.com",
+      "supervisor_name": "Manager Name",
+      "office_location": "Madrid"
+    }
+  },
+  "manual_trigger_example": {
+    "description": "Ejemplo para disparar onboarding manualmente",
+    "url": "POST /api/v1/executions/trigger/workflows.employee_onboarding",
+    "headers": {
+      "Authorization": "Bearer YOUR_KESTRA_TOKEN",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "inputs": {
+        "employee_email": "nuevo.empleado@empresa.com",
+        "full_name": "Nuevo Empleado",
+        "start_date": "2025-02-01",
+        "manager_email": "manager@empresa.com",
+        "department": "Engineering",
+        "role": "Senior Developer",
+        "location": "Madrid",
+        "slack_webhook_url": "https://hooks.slack.com/services/...",
+        "email_api_url": "https://api.sendgrid.com/v3/mail/send",
+        "enable_account_creation": true,
+        "enable_welcome_email": true,
+        "enable_manager_tasks": true
+      }
+    }
+  },
+  "curl_example": {
+    "description": "Ejemplo usando curl",
+    "command": "curl -X POST 'https://kestra.example.com/api/v1/executions/trigger/workflows.employee_onboarding' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Authorization: Bearer YOUR_TOKEN' \\\n  -d '{\n    \"inputs\": {\n      \"employee_email\": \"nuevo@empresa.com\",\n      \"full_name\": \"Nuevo Empleado\",\n      \"start_date\": \"2025-02-01\",\n      \"manager_email\": \"manager@empresa.com\"\n    }\n  }'"
+  },
+  "python_example": {
+    "description": "Ejemplo usando Python requests",
+    "code": "import requests\n\nurl = 'https://kestra.example.com/api/v1/executions/trigger/workflows.employee_onboarding'\nheaders = {\n    'Content-Type': 'application/json',\n    'Authorization': 'Bearer YOUR_TOKEN'\n}\npayload = {\n    'inputs': {\n        'employee_email': 'nuevo@empresa.com',\n        'full_name': 'Nuevo Empleado',\n        'start_date': '2025-02-01',\n        'manager_email': 'manager@empresa.com',\n        'department': 'Engineering'\n    }\n}\n\nresponse = requests.post(url, json=payload, headers=headers)\nprint(response.json())"
+  }
+}
+

@@ -1,0 +1,311 @@
+{
+  "name": "Customer Feedback & Reviews Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "purchase-completed",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-purchase",
+      "name": "Purchase Completed Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [150, 300],
+      "webhookId": "purchase-completed-trigger",
+      "notes": "Trigger cuando se completa una compra"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Analizar compra y determinar timing para feedback\nconst purchase = $input.item.json;\n\nconst purchaseData = {\n  customerId: purchase.customerId,\n  email: purchase.email,\n  firstName: purchase.firstName || 'Cliente',\n  orderId: purchase.orderId,\n  orderValue: purchase.orderValue || 0,\n  items: purchase.items || [],\n  purchaseDate: purchase.purchaseDate || new Date().toISOString(),\n  shippingMethod: purchase.shippingMethod || 'standard',\n  estimatedDelivery: purchase.estimatedDelivery\n};\n\n// Calcular timing para solicitar feedback\n// Esperar 2-3 días después de entrega estimada\nconst deliveryDate = new Date(purchaseData.estimatedDelivery || purchaseData.purchaseDate);\ndeliveryDate.setDate(deliveryDate.getDate() + 2); // 2 días después de entrega\n\nconst feedbackDate = deliveryDate.toISOString();\nconst daysUntilFeedback = Math.ceil((new Date(feedbackDate).getTime() - Date.now()) / (1000 * 60 * 60 * 24));\n\n// Determinar tipo de feedback según valor\nlet feedbackType = 'review';\nif (purchaseData.orderValue > 200) {\n  feedbackType = 'detailed_review';\n} else if (purchaseData.orderValue > 100) {\n  feedbackType = 'review';\n} else {\n  feedbackType = 'quick_feedback';\n}\n\nreturn [{\n  json: {\n    ...purchaseData,\n    feedbackType: feedbackType,\n    feedbackDate: feedbackDate,\n    daysUntilFeedback: daysUntilFeedback\n  }\n}];"
+      },
+      "id": "analyze-purchase",
+      "name": "Analyze Purchase",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [350, 300],
+      "notes": "Analiza compra y determina timing para feedback"
+    },
+    {
+      "parameters": {
+        "amount": "={{ $json.daysUntilFeedback }}",
+        "unit": "days",
+        "options": {}
+      },
+      "id": "wait-for-delivery",
+      "name": "Wait for Delivery",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [550, 300],
+      "notes": "Espera hasta después de entrega estimada"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generar mensaje de solicitud de feedback personalizado\nconst data = $input.item.json;\nconst feedbackType = data.feedbackType;\nconst customerName = data.firstName || 'Cliente';\nconst orderValue = data.orderValue || 0;\nconst items = data.items || [];\nconst language = data.language || 'es';\n\nlet subject, body, ctaText, ctaUrl, incentive;\n\nif (feedbackType === 'detailed_review') {\n  subject = language === 'es' ? `¿Cómo fue tu experiencia, ${customerName}?` : `How was your experience, ${customerName}?`;\n  body = language === 'es' ?\n    `Hola ${customerName},\n\nEsperamos que hayas recibido tu pedido y estés disfrutando de:\n\n${items.map(item => `• ${item.name}`).join('\\n')}\n\nTu opinión es muy valiosa para nosotros. ¿Podrías compartir tu experiencia?\n\nComo agradecimiento, te regalamos un código de descuento del 15% para tu próxima compra.\n\n[Dejar Reseña]` :\n    `Hi ${customerName},\n\nWe hope you've received your order and are enjoying:\n\n${items.map(item => `• ${item.name}`).join('\\n')}\n\nYour opinion is very valuable to us. Could you share your experience?\n\nAs a thank you, we're giving you a 15% discount code for your next purchase.\n\n[Leave Review]`;\n  ctaText = language === 'es' ? 'Dejar Reseña' : 'Leave Review';\n  incentive = '15% discount';\n} else if (feedbackType === 'review') {\n  subject = language === 'es' ? `¡Gracias por tu compra, ${customerName}!` : `Thanks for your purchase, ${customerName}!`;\n  body = language === 'es' ?\n    `Hola ${customerName},\n\nGracias por tu compra. ¿Cómo fue tu experiencia?\n\nTu feedback nos ayuda a mejorar. Como agradecimiento, aquí tienes 10% de descuento.\n\n[Dejar Reseña]` :\n    `Hi ${customerName},\n\nThanks for your purchase. How was your experience?\n\nYour feedback helps us improve. As a thank you, here's 10% off.\n\n[Leave Review]`;\n  ctaText = language === 'es' ? 'Dejar Reseña' : 'Leave Review';\n  incentive = '10% discount';\n} else {\n  subject = language === 'es' ? `¿Todo bien con tu pedido, ${customerName}?` : `Everything OK with your order, ${customerName}?`;\n  body = language === 'es' ?\n    `Hola ${customerName},\n\nSolo queríamos asegurarnos de que todo esté bien con tu pedido.\n\n¿Podrías darnos tu opinión rápida?\n\n[Dar Feedback]` :\n    `Hi ${customerName},\n\nWe just wanted to make sure everything is OK with your order.\n\nCould you give us your quick feedback?\n\n[Give Feedback]`;\n  ctaText = language === 'es' ? 'Dar Feedback' : 'Give Feedback';\n  incentive = null;\n}\n\nctaUrl = `${data.baseUrl || 'https://yourdomain.com'}/review/${data.orderId}?token=${data.feedbackToken || 'token'}`;\n\nreturn [{\n  json: {\n    ...data,\n    messageSubject: subject,\n    messageBody: body,\n    ctaText: ctaText,\n    ctaUrl: ctaUrl,\n    incentive: incentive\n  }\n}];"
+      },
+      "id": "generate-feedback-request",
+      "name": "Generate Feedback Request",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [750, 300],
+      "notes": "Genera mensaje de solicitud de feedback"
+    },
+    {
+      "parameters": {
+        "resource": "email",
+        "operation": "send",
+        "fromEmail": "={{ $env.FROM_EMAIL }}",
+        "toEmail": "={{ $json.email }}",
+        "subject": "={{ $json.messageSubject }}",
+        "html": "={{ $json.messageBody.replace(/\\n/g, '<br>') + '<br><br><a href=\"' + $json.ctaUrl + '\">' + $json.ctaText + '</a>' }}",
+        "text": "={{ $json.messageBody }}",
+        "options": {}
+      },
+      "id": "send-feedback-email",
+      "name": "Send Feedback Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [950, 300],
+      "credentials": {
+        "smtp": {
+          "id": "smtp-credentials",
+          "name": "SMTP Credentials"
+        }
+      },
+      "notes": "Envía email solicitando feedback",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "amount": 7,
+        "unit": "days",
+        "options": {}
+      },
+      "id": "wait-reminder",
+      "name": "Wait 7 Days",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [1150, 300],
+      "notes": "Espera 7 días para recordatorio"
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL }}/reviews/{{ $json.orderId }}/status",
+        "method": "GET",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "={{ $env.API_KEY }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "check-review-status",
+      "name": "Check Review Status",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1350, 300],
+      "notes": "Verifica si ya dejó reseña",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-001",
+              "leftValue": "={{ $json.reviewed }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "false"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-not-reviewed",
+      "name": "Check Not Reviewed",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1550, 300],
+      "notes": "Verifica si no ha dejado reseña"
+    },
+    {
+      "parameters": {
+        "resource": "email",
+        "operation": "send",
+        "fromEmail": "={{ $env.FROM_EMAIL }}",
+        "toEmail": "={{ $json.email }}",
+        "subject": "Recordatorio: Tu opinión es importante",
+        "html": "={{ 'Hola ' + $json.firstName + ',\\n\\nSolo un recordatorio amigable: tu opinión sobre tu compra nos ayuda mucho.\\n\\n' + ($json.incentive ? 'Aún puedes obtener ' + $json.incentive + '.\\n\\n' : '') + '[Dejar Reseña]' }}",
+        "text": "Recordatorio: Tu opinión es importante",
+        "options": {}
+      },
+      "id": "send-reminder",
+      "name": "Send Reminder",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [1750, 300],
+      "credentials": {
+        "smtp": {
+          "id": "smtp-credentials",
+          "name": "SMTP Credentials"
+        }
+      },
+      "notes": "Envía recordatorio si no ha dejado reseña",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL }}/analytics/track",
+        "method": "POST",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"event\": \"feedback_requested\",\n  \"customerId\": \"{{ $json.customerId }}\",\n  \"orderId\": \"{{ $json.orderId }}\",\n  \"feedbackType\": \"{{ $json.feedbackType }}\",\n  \"timestamp\": \"{{ $now }}\"\n}",
+        "options": {}
+      },
+      "id": "track-feedback",
+      "name": "Track Feedback Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1950, 300],
+      "notes": "Registra solicitud de feedback",
+      "continueOnFail": true
+    }
+  ],
+  "connections": {
+    "Purchase Completed Webhook": {
+      "main": [
+        [
+          {
+            "node": "Analyze Purchase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Purchase": {
+      "main": [
+        [
+          {
+            "node": "Wait for Delivery",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait for Delivery": {
+      "main": [
+        [
+          {
+            "node": "Generate Feedback Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Feedback Request": {
+      "main": [
+        [
+          {
+            "node": "Send Feedback Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Feedback Email": {
+      "main": [
+        [
+          {
+            "node": "Track Feedback Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Wait 7 Days",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 7 Days": {
+      "main": [
+        [
+          {
+            "node": "Check Review Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Review Status": {
+      "main": [
+        [
+          {
+            "node": "Check Not Reviewed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Not Reviewed": {
+      "main": [
+        [
+          {
+            "node": "Send Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "feedback-automation",
+      "name": "Feedback Automation"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1.0"
+}
+
+
+
+
+
+
+
+
+
+

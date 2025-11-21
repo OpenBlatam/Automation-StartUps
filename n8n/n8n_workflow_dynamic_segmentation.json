@@ -1,0 +1,202 @@
+{
+  "name": "Dynamic Customer Segmentation Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "cronExpression": "0 3 * * *",
+        "timezone": "UTC",
+        "options": {}
+      },
+      "id": "schedule-daily",
+      "name": "Daily Schedule (3 AM)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [150, 300],
+      "notes": "Ejecuta diariamente para re-segmentar clientes"
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL }}/customers/all",
+        "method": "GET",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "={{ $env.API_KEY }}"
+            }
+          ]
+        },
+        "options": {
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "limit",
+                "value": "1000"
+              },
+              {
+                "name": "includeHistory",
+                "value": "true"
+              }
+            ]
+          }
+        }
+      },
+      "id": "fetch-all-customers",
+      "name": "Fetch All Customers",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [350, 300],
+      "notes": "Obtiene todos los clientes con historial",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "functionCode": "// Segmentación dinámica avanzada usando múltiples factores\nconst customers = $input.all();\n\nconst segments = {\n  vip: [],\n  premium: [],\n  high_value: [],\n  medium_value: [],\n  low_value: [],\n  at_risk: [],\n  churned: [],\n  new: [],\n  loyal: [],\n  price_sensitive: [],\n  quality_focused: []\n};\n\nfor (const customer of customers) {\n  const data = customer.json;\n  \n  // Calcular métricas clave\n  const totalSpent = data.totalSpent || 0;\n  const orderCount = data.orderCount || 0;\n  const avgOrderValue = totalSpent / (orderCount || 1);\n  const daysSinceLastPurchase = data.daysSinceLastPurchase || 999;\n  const lifetimeValue = data.lifetimeValue || totalSpent;\n  const engagementScore = data.engagementScore || 0;\n  const productCategories = data.favoriteCategories || [];\n  \n  // Segmentación por valor\n  let valueSegment = 'low_value';\n  if (lifetimeValue > 1000) valueSegment = 'vip';\n  else if (lifetimeValue > 500) valueSegment = 'premium';\n  else if (lifetimeValue > 200) valueSegment = 'high_value';\n  else if (lifetimeValue > 100) valueSegment = 'medium_value';\n  \n  // Segmentación por comportamiento\n  let behaviorSegment = null;\n  \n  // Churned\n  if (daysSinceLastPurchase > 180 && orderCount > 0) {\n    behaviorSegment = 'churned';\n  }\n  // At Risk\n  else if (daysSinceLastPurchase > 90 && orderCount > 0) {\n    behaviorSegment = 'at_risk';\n  }\n  // New\n  else if (orderCount === 0 || daysSinceLastPurchase < 30) {\n    behaviorSegment = 'new';\n  }\n  // Loyal\n  else if (orderCount > 5 && daysSinceLastPurchase < 60) {\n    behaviorSegment = 'loyal';\n  }\n  \n  // Segmentación por preferencias\n  let preferenceSegment = null;\n  \n  // Price Sensitive (compran principalmente en ofertas)\n  if (data.discountUsageRate > 0.7) {\n    preferenceSegment = 'price_sensitive';\n  }\n  // Quality Focused (compran productos premium)\n  else if (avgOrderValue > 150 && productCategories.includes('premium')) {\n    preferenceSegment = 'quality_focused';\n  }\n  \n  // Calcular score de segmentación (0-100)\n  let segmentScore = 50;\n  segmentScore += Math.min(30, (lifetimeValue / 50));\n  segmentScore += Math.min(20, orderCount * 2);\n  segmentScore += Math.min(15, engagementScore / 10);\n  segmentScore -= Math.min(20, daysSinceLastPurchase / 10);\n  segmentScore = Math.max(0, Math.min(100, segmentScore));\n  \n  // Asignar segmentos\n  const customerSegments = [valueSegment];\n  if (behaviorSegment) customerSegments.push(behaviorSegment);\n  if (preferenceSegment) customerSegments.push(preferenceSegment);\n  \n  // Agregar a segmentos\n  segments[valueSegment].push({...data, segments: customerSegments, segmentScore});\n  if (behaviorSegment) segments[behaviorSegment].push({...data, segments: customerSegments, segmentScore});\n  if (preferenceSegment) segments[preferenceSegment].push({...data, segments: customerSegments, segmentScore});\n}\n\n// Retornar todos segmentados\nconst allSegmented = [];\nfor (const [segmentName, segmentCustomers] of Object.entries(segments)) {\n  for (const customer of segmentCustomers) {\n    allSegmented.push({\n      json: {\n        ...customer,\n        primarySegment: segmentName,\n        allSegments: customer.segments || [segmentName]\n      }\n    });\n  }\n}\n\nreturn allSegmented;"
+      },
+      "id": "dynamic-segmentation",
+      "name": "Dynamic Segmentation",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [550, 300],
+      "notes": "Segmenta clientes dinámicamente usando múltiples factores"
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL }}/customers/{{ $json.customerId }}/segments",
+        "method": "PUT",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"segments\": {{ JSON.stringify($json.allSegments) }},\n  \"primarySegment\": \"{{ $json.primarySegment }}\",\n  \"segmentScore\": {{ $json.segmentScore }},\n  \"updatedAt\": \"{{ $now }}\"\n}",
+        "options": {}
+      },
+      "id": "update-segments",
+      "name": "Update Customer Segments",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [750, 300],
+      "notes": "Actualiza segmentos del cliente en CRM",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generar reporte de segmentación\nconst allCustomers = $input.all();\n\nconst report = {\n  date: new Date().toISOString(),\n  totalCustomers: allCustomers.length,\n  segments: {},\n  changes: {\n    upgraded: 0,\n    downgraded: 0,\n    new: 0\n  }\n};\n\n// Contar por segmento\nfor (const customer of allCustomers) {\n  const segment = customer.json.primarySegment;\n  report.segments[segment] = (report.segments[segment] || 0) + 1;\n}\n\n// Calcular estadísticas\nreport.statistics = {\n  averageSegmentScore: allCustomers.reduce((sum, c) => sum + (c.json.segmentScore || 0), 0) / allCustomers.length,\n  topSegment: Object.entries(report.segments).sort((a, b) => b[1] - a[1])[0]?.[0] || 'unknown',\n  segmentDistribution: Object.fromEntries(\n    Object.entries(report.segments).map(([k, v]) => [k, ((v / allCustomers.length) * 100).toFixed(2) + '%'])\n  )\n};\n\nreturn [{\n  json: report\n}];"
+      },
+      "id": "generate-segmentation-report",
+      "name": "Generate Segmentation Report",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [950, 300],
+      "notes": "Genera reporte de segmentación"
+    },
+    {
+      "parameters": {
+        "resource": "email",
+        "operation": "send",
+        "fromEmail": "={{ $env.FROM_EMAIL }}",
+        "toEmail": "={{ $env.REPORT_RECIPIENTS || 'team@yourdomain.com' }}",
+        "subject": "Reporte Diario de Segmentación",
+        "html": "=<h2>Reporte de Segmentación</h2><p><strong>Total Clientes:</strong> {{ $json.totalCustomers }}</p><h3>Distribución por Segmento:</h3><ul>{{ Object.entries($json.segments).map(([k, v]) => `<li>${k}: ${v}</li>`).join('') }}</ul><h3>Estadísticas:</h3><ul><li>Score Promedio: {{ $json.statistics.averageSegmentScore.toFixed(2) }}</li><li>Segmento Principal: {{ $json.statistics.topSegment }}</li></ul>",
+        "text": "Reporte de Segmentación\\nTotal: {{ $json.totalCustomers }}",
+        "options": {}
+      },
+      "id": "send-segmentation-report",
+      "name": "Send Segmentation Report",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [1150, 300],
+      "credentials": {
+        "smtp": {
+          "id": "smtp-credentials",
+          "name": "SMTP Credentials"
+        }
+      },
+      "notes": "Envía reporte de segmentación",
+      "continueOnFail": true
+    }
+  ],
+  "connections": {
+    "Daily Schedule (3 AM)": {
+      "main": [
+        [
+          {
+            "node": "Fetch All Customers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch All Customers": {
+      "main": [
+        [
+          {
+            "node": "Dynamic Segmentation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dynamic Segmentation": {
+      "main": [
+        [
+          {
+            "node": "Update Customer Segments",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Generate Segmentation Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Customer Segments": {
+      "main": []
+    },
+    "Generate Segmentation Report": {
+      "main": [
+        [
+          {
+            "node": "Send Segmentation Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "dynamic-segmentation",
+      "name": "Dynamic Segmentation"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1.0"
+}
+
+
+
+
+
+
+
+
+
+

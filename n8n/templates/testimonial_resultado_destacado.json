@@ -1,0 +1,19 @@
+{
+  "name": "Resultado Destacado",
+  "description": "Template que enfatiza el resultado principal obtenido",
+  "structure": [
+    "Hook: Menciona el resultado principal de forma impactante",
+    "Cuerpo: Detalla cómo se logró el resultado con contexto",
+    "Cierre: Conecta el resultado con el público objetivo"
+  ],
+  "hook_examples": [
+    "De {problema} a {resultado} en solo {tiempo}",
+    "{Resultado} que cambió todo",
+    "El resultado que {persona} estaba buscando"
+  ],
+  "focus": "resultados_medibles",
+  "tone_suggestions": ["profesional", "convincente", "directo"]
+}
+
+
+

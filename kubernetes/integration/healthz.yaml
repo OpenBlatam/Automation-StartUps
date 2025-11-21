@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: healthz
+  namespace: integration
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: healthz
+  template:
+    metadata:
+      labels:
+        app: healthz
+    spec:
+      containers:
+        - name: healthz
+          image: ghcr.io/umccr/healthcheck:latest
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: healthz
+  namespace: integration
+spec:
+  type: ClusterIP
+  selector:
+    app: healthz
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+
+

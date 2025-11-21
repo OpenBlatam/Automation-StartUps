@@ -1,0 +1,128 @@
+id: subflow_flowable_start
+namespace: workflows
+
+description: |
+  Reusable subflow to start a Flowable process instance.
+  
+  Features:
+  - Automatic retry on transient failures
+  - Response validation
+  - Business key generation if not provided
+  - Error handling with detailed logging
+
+inputs:
+  - name: flowable_base_url
+    type: STRING
+    required: true
+    description: Base URL of Flowable REST API (e.g., https://flowable.example.com/flowable-rest)
+  - name: flowable_token
+    type: STRING
+    required: true
+    description: Bearer token for Flowable API authentication
+  - name: processDefinitionKey
+    type: STRING
+    required: true
+    description: Key of the process definition to start
+  - name: businessKey
+    type: STRING
+    required: false
+    description: Optional business key; auto-generated if not provided
+  - name: variables
+    type: JSON
+    required: false
+    description: Process variables as JSON object
+    default: {}
+  - name: timeout
+    type: DURATION
+    required: false
+    description: Request timeout (default: PT30S)
+    default: PT30S
+
+tasks:
+  - id: validate_inputs
+    type: io.kestra.plugin.scripts.javascript.Script
+    script: |
+      const errors = [];
+      
+      if (!inputs.flowable_base_url || !inputs.flowable_base_url.trim()) {
+        errors.push("flowable_base_url is required");
+      }
+      
+      if (!inputs.flowable_token || !inputs.flowable_token.trim()) {
+        errors.push("flowable_token is required");
+      }
+      
+      if (!inputs.processDefinitionKey || !inputs.processDefinitionKey.trim()) {
+        errors.push("processDefinitionKey is required");
+      }
+      
+      // Validate URL format
+      if (inputs.flowable_base_url && !inputs.flowable_base_url.match(/^https?:\/\/.+/)) {
+        errors.push("flowable_base_url must be a valid HTTP(S) URL");
+      }
+      
+      if (errors.length > 0) {
+        throw new Error("Validation failed: " + errors.join(", "));
+      }
+      
+      logger.info("Input validation passed");
+
+  - id: start_process
+    type: io.kestra.plugin.core.http.Request
+    uri: "{{ inputs.flowable_base_url }}/runtime/process-instances"
+    method: POST
+    headers:
+      Content-Type: application/json
+      Authorization: "Bearer {{ inputs.flowable_token }}"
+    body: |
+      {
+        "processDefinitionKey": "{{ inputs.processDefinitionKey }}",
+        "businessKey": "{{ inputs.businessKey or uuid() }}",
+        "variables": {{ (inputs.variables or {}) | toJson }}
+      }
+    timeout: "{{ inputs.timeout or 'PT30S' }}"
+    retry:
+      type: exponential
+      interval: PT2S
+      maxAttempt: 3
+      multiplier: 2.0
+    response:
+      status:
+        - 200
+        - 201
+    allowFailure: false
+
+  - id: validate_response
+    type: io.kestra.plugin.scripts.javascript.Script
+    script: |
+      const response = taskrun.outputs['start_process'].body;
+      
+      if (!response) {
+        throw new Error("Empty response from Flowable API");
+      }
+      
+      const body = typeof response === 'string' ? JSON.parse(response) : response;
+      
+      if (!body.id) {
+        throw new Error("Response missing required field: id");
+      }
+      
+      if (!body.processDefinitionId) {
+        throw new Error("Response missing required field: processDefinitionId");
+      }
+      
+      logger.info("Process instance started", {
+        processInstanceId: body.id,
+        processDefinitionId: body.processDefinitionId,
+        businessKey: body.businessKey
+      });
+      
+      return {
+        processInstanceId: body.id,
+        processDefinitionId: body.processDefinitionId,
+        businessKey: body.businessKey,
+        started: true
+      };
+    inputs:
+      start_process_output: "{{ taskrun.outputs['start_process'] }}"
+

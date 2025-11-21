@@ -1,0 +1,162 @@
+{
+  "description": "Ejemplo de configuración para integración de fusiones/adquisiciones",
+  "scenario": "Fusión de dos empresas de e-commerce",
+  
+  "company_a_config": {
+    "systems": [
+      {
+        "type": "postgres",
+        "name": "crm_company_a",
+        "conn_id": "postgres_company_a",
+        "tables": ["customers", "orders", "products"],
+        "where_clause": "created_at >= '2020-01-01'"
+      },
+      {
+        "type": "mysql",
+        "name": "erp_company_a",
+        "conn_id": "mysql_company_a",
+        "tables": ["inventory", "suppliers"],
+        "where_clause": "status = 'active'"
+      },
+      {
+        "type": "api",
+        "name": "salesforce_company_a",
+        "conn_id": "http_salesforce_a",
+        "endpoint": "/services/data/v52.0/query/?q=SELECT+Id,Name,Email,Phone+FROM+Contact",
+        "headers": {
+          "Authorization": "Bearer {{token}}"
+        },
+        "data_key": "records"
+      }
+    ]
+  },
+  
+  "company_b_config": {
+    "systems": [
+      {
+        "type": "postgres",
+        "name": "crm_company_b",
+        "conn_id": "postgres_company_b",
+        "tables": ["clients", "transactions", "items"],
+        "where_clause": "created_at >= '2020-01-01'"
+      },
+      {
+        "type": "api",
+        "name": "inventory_api_company_b",
+        "conn_id": "http_inventory_b",
+        "endpoint": "/api/v1/inventory/items",
+        "headers": {
+          "Content-Type": "application/json",
+          "X-API-Key": "{{api_key}}"
+        },
+        "data_key": "items"
+      },
+      {
+        "type": "csv",
+        "name": "legacy_data_company_b",
+        "file_path": "s3://bucket/legacy-data/products.csv",
+        "conn_id": "aws_default"
+      }
+    ]
+  },
+  
+  "unified_system_config": {
+    "type": "postgres",
+    "conn_id": "postgres_unified",
+    "schema": "unified",
+    "description": "Sistema unificado PostgreSQL donde se cargarán todos los datos"
+  },
+  
+  "transformation_rules": {
+    "mappings": {
+      "customers": {
+        "company_a": ["customers", "customer_data"],
+        "company_b": ["clients", "customers"],
+        "field_mapping": {
+          "email": ["email", "e_mail", "email_address", "Email"],
+          "name": ["name", "full_name", "customer_name", "Name"],
+          "phone": ["phone", "phone_number", "telephone", "Phone"],
+          "address": ["address", "street_address", "location", "Address"],
+          "city": ["city", "City"],
+          "country": ["country", "Country"],
+          "postal_code": ["postal_code", "zip_code", "postcode", "PostalCode"]
+        }
+      },
+      "orders": {
+        "company_a": ["orders", "order_data"],
+        "company_b": ["transactions", "orders"],
+        "field_mapping": {
+          "order_id": ["order_id", "id", "transaction_id", "OrderId"],
+          "customer_id": ["customer_id", "client_id", "customer", "CustomerId"],
+          "amount": ["amount", "total", "order_total", "Amount", "Total"],
+          "date": ["date", "order_date", "created_at", "OrderDate", "Date"],
+          "status": ["status", "order_status", "Status"],
+          "currency": ["currency", "Currency"]
+        }
+      },
+      "products": {
+        "company_a": ["products", "items", "product_data"],
+        "company_b": ["items", "products", "product_data"],
+        "field_mapping": {
+          "product_id": ["product_id", "id", "item_id", "ProductId"],
+          "name": ["name", "product_name", "item_name", "Name"],
+          "price": ["price", "unit_price", "cost", "Price"],
+          "category": ["category", "product_category", "type", "Category"],
+          "description": ["description", "Description"],
+          "sku": ["sku", "SKU", "product_sku"]
+        }
+      }
+    },
+    "transformations": [
+      {
+        "type": "deduplicate",
+        "description": "Eliminar duplicados basados en email para clientes",
+        "key_fields": ["email"]
+      },
+      {
+        "type": "deduplicate",
+        "description": "Eliminar duplicados basados en order_id para órdenes",
+        "key_fields": ["order_id"]
+      },
+      {
+        "type": "enrich",
+        "description": "Agregar metadatos de integración",
+        "rules": {
+          "integration_date": "{{current_date}}",
+          "integration_source": "merger_acquisition",
+          "integration_version": "1.0"
+        }
+      }
+    ]
+  },
+  
+  "dry_run": false,
+  "validation_strict": true,
+  "generate_detailed_report": true,
+  
+  "notes": [
+    "Asegúrese de que todas las conexiones estén configuradas en Airflow antes de ejecutar",
+    "Para probar primero, ejecute con 'dry_run': true",
+    "Revise los logs de cada task para detalles de la ejecución",
+    "El reporte final se genera en el último task y se puede ver en los logs"
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

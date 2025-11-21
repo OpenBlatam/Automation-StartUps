@@ -1,0 +1,51 @@
+# Development Environment Configuration
+# Copy this file to dev.tfvars and customize as needed
+
+project_name = "biz-automation"
+environment  = "dev"
+
+# AWS Configuration
+aws_region   = "us-east-1"
+cluster_name = "biz-automation-dev"
+
+# Networking
+vpc_cidr = "10.20.0.0/16"
+private_subnets = ["10.20.1.0/24", "10.20.2.0/24"]
+public_subnets  = ["10.20.11.0/24", "10.20.12.0/24"]
+
+# NAT Gateway (use single NAT for cost savings in dev)
+enable_nat_gateway = true
+single_nat_gateway = true
+
+# Data Lake
+datalake_bucket = "biz-datalake-dev"
+
+# EKS Configuration
+kubernetes_version = "1.29"
+
+eks_node_groups = {
+  default = {
+    min_size      = 1
+    max_size      = 3
+    desired_size  = 2
+    instance_types = ["m5.large"]
+    disk_size     = 50
+    capacity_type = "ON_DEMAND"
+    labels        = {}
+    taints        = []
+  }
+}
+
+# Features
+enable_vpc_flow_logs = false
+enable_encryption    = true
+
+# Additional Tags
+additional_tags = {
+  Team        = "platform"
+  CostCenter  = "engineering"
+  Backup      = "daily"
+}
+
+
+

@@ -1,0 +1,174 @@
+# Example CI/CD Pipeline for Terraform
+# GitHub Actions workflow example
+#
+# Place this file in: .github/workflows/terraform-ci.yml
+
+name: Terraform CI/CD
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'infra/terraform/**'
+  pull_request:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'infra/terraform/**'
+
+env:
+  TF_VERSION: "1.6.6"
+  AWS_REGION: "us-east-1"
+
+jobs:
+  validate:
+    name: Validate Terraform
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+      
+      - name: Check Dependencies
+        run: |
+          cd infra/terraform/scripts
+          chmod +x *.sh
+          ./check-dependencies.sh
+      
+      - name: Terraform Format Check
+        run: |
+          cd infra/terraform
+          terraform fmt -check -recursive
+      
+      - name: Terraform Validate
+        run: |
+          cd infra/terraform
+          terraform init -backend=false
+          terraform validate
+      
+      - name: Run Security Audit
+        run: |
+          cd infra/terraform/scripts
+          ./audit-security.sh || true  # Don't fail on warnings
+      
+      - name: Auto-generate Documentation
+        run: |
+          cd infra/terraform/scripts
+          ./auto-document.sh AUTO_DOC.md
+          # Optionally commit documentation updates
+
+  plan:
+    name: Terraform Plan
+    runs-on: ubuntu-latest
+    needs: validate
+    if: github.event_name == 'pull_request'
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+      
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      
+      - name: Terraform Init
+        run: |
+          cd infra/terraform
+          terraform init \
+            -backend-config=backend-configs/backend-dev-aws.hcl
+      
+      - name: Terraform Plan
+        run: |
+          cd infra/terraform
+          terraform plan -no-color -out=tfplan
+      
+      - name: Generate Plan Report
+        run: |
+          cd infra/terraform/scripts
+          ./generate-plan-report.sh ../tfplan
+      
+      - name: Upload Plan Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-plan
+          path: infra/terraform/tfplan
+
+  apply:
+    name: Terraform Apply
+    runs-on: ubuntu-latest
+    needs: [validate, plan]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment:
+      name: production
+      # Require manual approval for production
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+      
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      
+      - name: Pre-apply Safety Checks
+        run: |
+          cd infra/terraform/scripts
+          ./pre-apply-check.sh prod
+      
+      - name: Backup State
+        run: |
+          cd infra/terraform/scripts
+          ./backup-state.sh aws prod
+      
+      - name: Terraform Init
+        run: |
+          cd infra/terraform
+          terraform init \
+            -backend-config=backend-configs/backend-prod-aws.hcl
+      
+      - name: Terraform Apply
+        run: |
+          cd infra/terraform
+          terraform apply -auto-approve -no-color
+      
+      - name: Health Check
+        run: |
+          cd infra/terraform/scripts
+          ./health-check.sh aws prod
+      
+      - name: Export Outputs
+        run: |
+          cd infra/terraform/scripts
+          ./export-outputs.sh json outputs.json
+      
+      - name: Upload Outputs
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: terraform-outputs
+          path: infra/terraform/outputs.json
+

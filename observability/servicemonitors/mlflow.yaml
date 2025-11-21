@@ -1,0 +1,46 @@
+# ServiceMonitor para MLflow - Métricas de tracking y experimentos
+# Versión: 2.0 - Mejoras en observabilidad
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: mlflow
+  namespace: ml
+  labels:
+    app: mlflow
+    component: tracking
+    release: prometheus
+  annotations:
+    description: "ServiceMonitor para MLflow tracking server con métricas completas"
+spec:
+  selector:
+    matchLabels:
+      app: mlflow
+  endpoints:
+    # Métricas principales de MLflow
+    - port: http
+      path: /metrics  # MLflow expone métricas en /metrics si está habilitado
+      interval: 30s
+      scrapeTimeout: 10s
+      relabelings:
+        # Agregar labels adicionales para mejor organización
+        - sourceLabels: [__meta_kubernetes_pod_name]
+          targetLabel: pod_name
+        - sourceLabels: [__meta_kubernetes_namespace]
+          targetLabel: namespace
+        - sourceLabels: [__meta_kubernetes_pod_node_name]
+          targetLabel: node_name
+      metricRelabelings:
+        # Mantener solo métricas relevantes
+        - sourceLabels: [__name__]
+          regex: 'mlflow_.*|http_.*|process_.*'
+          action: keep
+    
+    # Health check endpoint (para alertas)
+    - port: http
+      path: /health
+      interval: 60s
+      scrapeTimeout: 5s
+      relabelings:
+        - sourceLabels: [__meta_kubernetes_pod_name]
+          targetLabel: pod_name
+

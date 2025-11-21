@@ -1,0 +1,7 @@
+---
+k8s_version: "1.29.0-00"
+airflow_version: "2.8.0"
+cluster_name: "biz-automation-dev"
+environment: "dev"
+
+

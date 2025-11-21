@@ -1,0 +1,33 @@
+# Example Prometheus scrape configuration for ETL metrics
+# Add this to prometheus.yml or use as ServiceMonitor (see servicemonitors/etl-metrics.yaml)
+#
+# If using raw Prometheus config:
+scrape_configs:
+  - job_name: 'etl-metrics'
+    scrape_interval: 30s
+    scrape_timeout: 10s
+    metrics_path: '/api/etl/metrics'
+    static_configs:
+      - targets:
+          - 'kpis-next.integration.svc.cluster.local:3000'  # Adjust to your service
+        labels:
+          service: 'etl'
+          component: 'etl-improved'
+
+# Metrics exported:
+# - etl_latest_total_rows: Latest ETL total rows processed
+# - etl_latest_expected_rows: Latest ETL expected rows
+# - etl_latest_ratio: Latest ETL ratio (total/expected)
+# - etl_latest_num_chunks: Latest ETL number of chunks
+# - etl_latest_run_age_seconds: Seconds since last ETL run
+# - etl_latest_dry_run: Whether latest run was dry-run (1=yes, 0=no)
+# - etl_daily_runs{day="YYYY-MM-DD"}: Number of ETL runs per day
+# - etl_daily_total_rows{day="YYYY-MM-DD"}: Total rows processed per day
+# - etl_daily_ratio_avg{day="YYYY-MM-DD"}: Average ratio per day
+# - etl_daily_low_ratio_count{day="YYYY-MM-DD"}: Low ratio runs count per day
+# - etl_alerts_24h_count{kind="..."}: Alert count in last 24h by type
+# - etl_total_runs_all_time: Total ETL runs since inception
+# - etl_low_ratio_runs_all_time: Total low ratio runs
+# - etl_avg_ratio_all_time: Average ratio across all runs
+
+

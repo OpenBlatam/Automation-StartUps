@@ -1,0 +1,110 @@
+id: subflow_openrpa_trigger
+namespace: workflows
+
+description: |
+  Reusable subflow to trigger an OpenRPA bot via webhook.
+  
+  Features:
+  - Input validation
+  - Automatic retry on transient failures
+  - Response validation
+  - Error handling with detailed logging
+
+inputs:
+  - name: openrpa_webhook_url
+    type: STRING
+    required: true
+    description: Webhook URL for OpenRPA bot trigger endpoint
+  - name: bot
+    type: STRING
+    required: true
+    description: Name/ID of the bot to trigger
+  - name: context
+    type: JSON
+    required: false
+    description: Context data to pass to the bot (default: empty object)
+    default: {}
+  - name: timeout
+    type: DURATION
+    required: false
+    description: Request timeout (default: PT60S)
+    default: PT60S
+
+tasks:
+  - id: validate_inputs
+    type: io.kestra.plugin.scripts.javascript.Script
+    script: |
+      const errors = [];
+      
+      if (!inputs.openrpa_webhook_url || !inputs.openrpa_webhook_url.trim()) {
+        errors.push("openrpa_webhook_url is required");
+      }
+      
+      if (!inputs.bot || !inputs.bot.trim()) {
+        errors.push("bot is required");
+      }
+      
+      // Validate URL format
+      if (inputs.openrpa_webhook_url && !inputs.openrpa_webhook_url.match(/^https?:\/\/.+/)) {
+        errors.push("openrpa_webhook_url must be a valid HTTP(S) URL");
+      }
+      
+      if (errors.length > 0) {
+        throw new Error("Validation failed: " + errors.join(", "));
+      }
+      
+      logger.info("Input validation passed", {
+        bot: inputs.bot,
+        hasContext: !!inputs.context && Object.keys(inputs.context || {}).length > 0
+      });
+
+  - id: trigger_bot
+    type: io.kestra.plugin.core.http.Request
+    uri: "{{ inputs.openrpa_webhook_url }}"
+    method: POST
+    headers:
+      Content-Type: application/json
+    body: |
+      {
+        "bot": "{{ inputs.bot }}",
+        "context": {{ (inputs.context or {}) | toJson }}
+      }
+    timeout: "{{ inputs.timeout or 'PT60S' }}"
+    retry:
+      type: exponential
+      interval: PT5S
+      maxAttempt: 3
+      multiplier: 2.0
+    response:
+      status:
+        - 200
+        - 201
+        - 202
+    allowFailure: false
+
+  - id: validate_response
+    type: io.kestra.plugin.scripts.javascript.Script
+    script: |
+      const response = taskrun.outputs['trigger_bot'].body;
+      
+      if (!response) {
+        throw new Error("Empty response from OpenRPA webhook");
+      }
+      
+      const body = typeof response === 'string' ? JSON.parse(response) : response;
+      
+      logger.info("Bot triggered successfully", {
+        bot: inputs.bot,
+        status: body.status || 'unknown',
+        executionId: body.executionId || body.id || 'unknown'
+      });
+      
+      return {
+        triggered: true,
+        bot: inputs.bot,
+        executionId: body.executionId || body.id || null,
+        status: body.status || 'triggered'
+      };
+    inputs:
+      trigger_bot_output: "{{ taskrun.outputs['trigger_bot'] }}"
+

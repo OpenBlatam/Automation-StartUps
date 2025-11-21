@@ -1,0 +1,255 @@
+# Configuración de Automatización de Precios
+# Copia este archivo a price_automation_config.yaml y ajusta según tus necesidades
+
+# Estrategia de precios
+# Opciones: competitive, price_leader, premium, dynamic, minimum, custom
+pricing_strategy: competitive
+
+# Parámetros de estrategia
+price_leader_margin: 0.05      # 5% más barato que competencia
+premium_margin: 0.10            # 10% más caro que competencia
+dynamic_adjustment_factor: 0.1 # Factor de ajuste dinámico (10%)
+min_margin: 0.20               # Margen mínimo de ganancia (20%)
+
+# Límites de cambio
+max_price_change_percent: 20   # Cambio máximo permitido (20%)
+min_price: 0                   # Precio mínimo
+max_price: 999999              # Precio máximo
+
+# Redondeo de precios
+# Opciones: cent, dollar, five_cents, ten_cents
+price_rounding: cent
+
+# Fuente de catálogo actual
+catalog_source:
+  type: api  # api, database, file
+  url: http://localhost:8000/api/catalog
+  # Para tipo 'file':
+  # path: /data/catalog.json
+  # format: json  # json, csv, excel
+
+# APIs de competidores
+competitor_apis:
+  - name: Competitor A API
+    url: https://api.competitor-a.com/v1/products
+    headers:
+      Authorization: Bearer YOUR_TOKEN
+      Content-Type: application/json
+    params:
+      status: active
+    parser_config:
+      data_path: data.products
+      name_field: name
+      price_field: price
+      id_field: id
+      source_name: competitor_a
+
+  - name: Competitor B API
+    url: https://api.competitor-b.com/products
+    headers:
+      X-API-Key: YOUR_API_KEY
+    parser_config:
+      data_path: results
+      name_field: product_name
+      price_field: current_price
+      id_field: product_id
+      source_name: competitor_b
+
+# Fuentes de scraping web
+scraping_sources:
+  - name: Competitor C Website
+    url: https://www.competitor-c.com/products
+    selectors:
+      product_container: .product-item
+      name: .product-name
+      price: .product-price
+    headers:
+      User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+
+# Bases de datos de mercado (opcional)
+market_databases:
+  # - name: Market Database
+  #   type: postgresql
+  #   connection_string: postgresql://user:pass@host:5432/dbname
+  #   query: SELECT product_name, price FROM market_prices WHERE date = CURRENT_DATE
+
+# Configuración de scraping
+scraping_delay: 2  # Segundos entre requests (rate limiting)
+
+# Destino de publicación
+publish_target:
+  type: api  # api, database, file, multiple
+  url: http://localhost:8000/api/catalog/update
+  method: POST
+  data_format: full_catalog  # full_catalog, products_only, price_updates_only
+  headers:
+    Authorization: Bearer YOUR_TOKEN
+  # Para tipo 'file':
+  # path: /data/catalog_updated.json
+  # format: json
+  # backup: true
+
+# Ejemplo de publicación múltiple
+# publish_target:
+#   type: multiple
+#   targets:
+#     - name: API Principal
+#       type: api
+#       url: http://localhost:8000/api/catalog/update
+#       method: POST
+#     - name: Backup File
+#       type: file
+#       path: /data/catalog_backup.json
+#       format: json
+#       backup: true
+
+# Auditoría
+audit_log_file: /tmp/price_automation_audit.log
+
+# ============================================
+# MEJORAS: Alertas, Caché, Historial, Métricas
+# ============================================
+
+# Sistema de Alertas
+slack_webhook_url: https://hooks.slack.com/services/YOUR/WEBHOOK/URL  # Opcional
+email_recipients:  # Opcional
+  - admin@example.com
+  - team@example.com
+
+# Umbrales de alertas
+extreme_change_threshold: 30  # Porcentaje de cambio para alerta crítica
+max_extraction_failures: 3     # Máximo de fallos antes de alertar
+max_market_discrepancy: 50    # Discrepancia máxima con mercado (%)
+
+# Sistema de Caché
+cache_enabled: true
+cache_dir: /tmp/price_cache
+cache_ttl_seconds: 3600  # 1 hora
+
+# Historial de Cambios
+history_dir: /tmp/price_history
+history_retention_days: 90  # Días de retención
+
+# Métricas
+metrics_enabled: true
+
+# ============================================
+# MEJORAS AVANZADAS
+# ============================================
+
+# Circuit Breaker (Protección de APIs)
+circuit_breaker_failures: 5      # Fallos antes de abrir
+circuit_breaker_timeout: 60      # Segundos antes de intentar recuperación
+
+# Conversión de Monedas
+enable_currency_conversion: false
+base_currency: USD
+target_currency: USD
+exchange_rate_api_url: https://api.exchangerate-api.com/v4/latest/
+exchange_rate_api_key: # Opcional, para APIs premium
+exchange_rate_cache_ttl: 3600  # 1 hora
+
+# Optimización de Precios
+enable_price_optimization: false
+optimization_strategy: balanced  # balanced, revenue_maximization, profit_maximization, market_share
+price_elasticity: -1.5  # Elasticidad de precio (negativo = demanda disminuye con precio)
+min_margin: 0.20
+max_margin: 0.50
+
+# Reportes
+reports_dir: /tmp/price_reports
+
+# ============================================
+# MEJORAS ADICIONALES
+# ============================================
+
+# Validación Avanzada
+anomaly_threshold: 3.0  # Desviaciones estándar para detectar anomalías
+
+# Machine Learning
+enable_ml_predictions: false
+ml_model_type: linear_regression  # linear_regression, moving_average, weighted_average, simple_average
+
+# A/B Testing
+enable_ab_testing: false
+ab_tests_dir: /tmp/price_ab_tests
+
+# ============================================
+# MEJORAS ADICIONALES FINALES
+# ============================================
+
+# API REST
+enable_api: false
+api_host: 0.0.0.0
+api_port: 5000
+
+# Análisis de Competencia Avanzado
+# (Siempre activo, no requiere configuración adicional)
+
+# Exportación de Datos
+export_dir: /tmp/price_exports
+
+# ============================================
+# MEJORAS FINALES AVANZADAS
+# ============================================
+
+# Versionado de Precios
+enable_versioning: false
+versions_dir: /tmp/price_versions
+max_versions_per_product: 50
+
+# Webhooks
+enable_webhooks: false
+webhooks:
+  - url: https://example.com/webhook/prices
+    events: [price_changed, price_published, alert_triggered]
+  - url: https://another.com/webhook
+    events: [all]
+webhook_timeout: 10
+webhook_retry_attempts: 3
+
+# Reglas de Negocio
+enable_business_rules: false
+# Las reglas se pueden agregar programáticamente o desde configuración
+
+# Integración con Base de Datos
+enable_database: false
+database_type: postgres  # postgres, mysql
+database_conn_id: postgres_default
+prices_table: product_prices
+price_history_table: price_history
+
+# ============================================
+# MEJORAS INTELIGENTES AVANZADAS
+# ============================================
+
+# Análisis de Sentimiento
+enable_sentiment_analysis: false
+# Analiza reviews y feedback para optimizar precios
+
+# Predicción de Demanda
+enable_demand_forecast: false
+price_elasticity: -1.5  # Elasticidad de precio
+
+# Motor de Recomendaciones
+enable_recommendations: false
+recommendation_factors:
+  market_position: 0.3
+  profit_margin: 0.25
+  demand_forecast: 0.2
+  sentiment: 0.15
+  competition: 0.1
+
+# Optimización Multi-Objetivo
+enable_multi_objective: false
+optimization_objectives:
+  revenue: 0.4
+  profit: 0.3
+  market_share: 0.2
+  customer_satisfaction: 0.1
+optimal_margin: 0.30  # Margen óptimo objetivo
+
+
+
+
+

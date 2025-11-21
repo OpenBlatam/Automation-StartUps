@@ -1,0 +1,20 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: kpis-api
+  namespace: observability
+spec:
+  selector:
+    matchLabels:
+      app: kpis-api
+  namespaceSelector:
+    matchNames:
+      - integration
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 30s
+
+
+
+

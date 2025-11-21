@@ -1,0 +1,1505 @@
+id: invoice_payment_reminders
+namespace: workflows
+
+labels:
+  app: finance
+  department: finanzas-admin
+  category: cobranza
+
+description: |
+  Sistema automatizado de recordatorios de cobranza para facturas vencidas.
+  Reduce morosidad y mejora el flujo de caja mediante:
+  - Recordatorios escalonados según días de vencimiento
+  - Seguimiento completo de historial de recordatorios
+  - Notificaciones por múltiples canales
+  - Reportes de morosidad en tiempo real
+  - Validaciones robustas y manejo de errores
+
+inputs:
+  - name: jdbc_url
+    type: STRING
+    required: true
+    description: JDBC URL de conexión a PostgreSQL
+  - name: jdbc_user
+    type: STRING
+    required: true
+    description: Usuario de base de datos
+  - name: jdbc_password
+    type: STRING
+    required: true
+    description: Contraseña de base de datos
+  - name: email_webhook_url
+    type: STRING
+    required: false
+    description: Webhook para enviar emails (opcional)
+  - name: slack_webhook_url
+    type: STRING
+    required: false
+    description: Webhook de Slack para notificaciones (opcional)
+  - name: whatsapp_webhook_url
+    type: STRING
+    required: false
+    description: Webhook de WhatsApp para notificaciones urgentes (opcional)
+  - name: reminder_days
+    type: STRING
+    required: false
+    defaults: "-3,0,7,14,30,60"
+    description: Días para enviar recordatorios (separados por coma, negativos = vencidas)
+  - name: payment_terms_days
+    type: STRING
+    required: false
+    defaults: "30"
+    description: Términos de pago por defecto en días
+  - name: min_amount
+    type: STRING
+    required: false
+    defaults: "0"
+    description: Monto mínimo para enviar recordatorios
+  - name: max_daily_reminders_per_invoice
+    type: STRING
+    required: false
+    defaults: "1"
+    description: Máximo de recordatorios por factura por día
+  - name: payment_portal_url
+    type: STRING
+    required: false
+    description: URL del portal de pagos para incluir en recordatorios
+  - name: finance_team_email
+    type: STRING
+    required: false
+    description: Email del equipo de finanzas para escalaciones críticas
+  - name: critical_amount_threshold
+    type: STRING
+    required: false
+    defaults: "10000"
+    description: Monto mínimo para considerar factura crítica independientemente de días
+  - name: enable_whatsapp_critical
+    type: BOOLEAN
+    required: false
+    defaults: true
+    description: Habilitar WhatsApp para facturas críticas (60+ días)
+  - name: enable_effectiveness_tracking
+    type: BOOLEAN
+    required: false
+    defaults: true
+    description: Habilitar tracking de efectividad de recordatorios
+  - name: enable_performance_metrics
+    type: BOOLEAN
+    required: false
+    defaults: true
+    description: Habilitar métricas de performance del workflow
+  - name: rate_limit_per_minute
+    type: STRING
+    required: false
+    defaults: "60"
+    description: Límite de recordatorios por minuto para evitar rate limiting
+  - name: enable_export_reports
+    type: BOOLEAN
+    required: false
+    defaults: false
+    description: Exportar reportes a formato CSV/Excel
+  - name: export_webhook_url
+    type: STRING
+    required: false
+    description: Webhook para exportar reportes (opcional)
+  - name: enable_payment_prediction
+    type: BOOLEAN
+    required: false
+    defaults: false
+    description: Habilitar predicción de probabilidad de pago (ML)
+  - name: enable_customer_scoring
+    type: BOOLEAN
+    required: false
+    defaults: false
+    description: Habilitar scoring de riesgo por cliente
+  - name: webhook_notifications_url
+    type: STRING
+    required: false
+    description: Webhook para notificaciones externas del sistema
+
+triggers:
+  - id: daily_schedule
+    type: io.kestra.plugin.core.trigger.Schedule
+    cron: "0 9 * * *"  # Diario a las 9:00 AM UTC
+    timezone: "UTC"
+    description: Ejecución diaria para enviar recordatorios de cobranza
+
+variables:
+  reminder_config:
+    -60: {urgency: critical, template: vencida_60_dias, escalation: true}
+    -30: {urgency: error, template: vencida_30_dias, escalation: true}
+    -14: {urgency: error, template: vencida_14_dias, escalation: false}
+    -7: {urgency: warning, template: vencida_7_dias, escalation: false}
+    0: {urgency: warning, template: vence_hoy, escalation: false}
+    -3: {urgency: info, template: primer_recordatorio, escalation: false}
+
+tasks:
+  # Paso 0: Validación de inputs
+  - id: validate_inputs
+    type: io.kestra.plugin.scripts.javascript.Script
+    timeout: PT30S
+    script: |
+      const errors = [];
+      const warnings = [];
+      
+      // Validar inputs requeridos
+      if (!inputs.jdbc_url || !inputs.jdbc_url.trim()) {
+        errors.push("jdbc_url es requerido");
+      } else if (!inputs.jdbc_url.match(/^jdbc:postgresql:\/\//)) {
+        errors.push("jdbc_url debe ser una URL JDBC válida para PostgreSQL");
+      }
+      
+      if (!inputs.jdbc_user || !inputs.jdbc_user.trim()) {
+        errors.push("jdbc_user es requerido");
+      }
+      
+      if (!inputs.jdbc_password || !inputs.jdbc_password.trim()) {
+        errors.push("jdbc_password es requerido");
+      }
+      
+      // Validar reminder_days
+      if (inputs.reminder_days) {
+        const days = inputs.reminder_days.split(',').map(d => d.trim());
+        for (const day of days) {
+          if (isNaN(parseInt(day))) {
+            errors.push(`reminder_days contiene valor inválido: ${day}`);
+          }
+        }
+      }
+      
+      // Validar payment_terms_days
+      if (inputs.payment_terms_days && isNaN(parseInt(inputs.payment_terms_days))) {
+        errors.push("payment_terms_days debe ser un número");
+      }
+      
+      // Validar min_amount
+      if (inputs.min_amount && isNaN(parseFloat(inputs.min_amount))) {
+        errors.push("min_amount debe ser un número");
+      }
+      
+      // Warnings para webhooks opcionales
+      if (!inputs.email_webhook_url && !inputs.slack_webhook_url) {
+        warnings.push("No hay canales de notificación configurados. Solo se registrará en BD.");
+      }
+      
+      if (errors.length > 0) {
+        throw new Error("Validación falló: " + errors.join(", "));
+      }
+      
+      if (warnings.length > 0) {
+        logger.warn("Advertencias: " + warnings.join(", "));
+      }
+      
+      logger.info("Validación de inputs completada exitosamente");
+
+  # Paso 1: Asegurar estructura de tablas necesaria
+  - id: ensure_schema
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    timeout: PT60S
+    sql: |
+      -- Crear tabla de facturas si no existe
+      CREATE TABLE IF NOT EXISTS invoices (
+        id SERIAL PRIMARY KEY,
+        serie VARCHAR(128) UNIQUE,
+        total NUMERIC(12,2) NOT NULL,
+        subtotal NUMERIC(12,2),
+        taxes NUMERIC(12,2),
+        currency VARCHAR(8) DEFAULT 'USD',
+        customer VARCHAR(256),
+        customer_email VARCHAR(256),
+        customer_phone VARCHAR(64),
+        status VARCHAR(64) DEFAULT 'issued',
+        due_date DATE,
+        payment_reminder_count INTEGER DEFAULT 0,
+        last_reminder_date DATE,
+        last_reminder_type VARCHAR(64),
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP
+      );
+      
+      -- Crear tabla de historial de recordatorios
+      CREATE TABLE IF NOT EXISTS invoice_reminder_history (
+        id SERIAL PRIMARY KEY,
+        invoice_id INTEGER REFERENCES invoices(id) ON DELETE CASCADE,
+        reminder_date DATE NOT NULL,
+        days_overdue INTEGER,
+        reminder_type VARCHAR(64),
+        sent_via VARCHAR(64),
+        status VARCHAR(32) DEFAULT 'sent',
+        error_message TEXT,
+        metadata JSONB,
+        created_at TIMESTAMP DEFAULT NOW()
+      );
+      
+      -- Índices para mejor performance
+      CREATE INDEX IF NOT EXISTS idx_invoices_due_date ON invoices(due_date) WHERE status = 'issued';
+      CREATE INDEX IF NOT EXISTS idx_invoices_status ON invoices(status);
+      CREATE INDEX IF NOT EXISTS idx_invoices_last_reminder ON invoices(last_reminder_date) WHERE status = 'issued';
+      CREATE INDEX IF NOT EXISTS idx_reminder_history_invoice ON invoice_reminder_history(invoice_id);
+      CREATE INDEX IF NOT EXISTS idx_reminder_history_date ON invoice_reminder_history(reminder_date);
+      CREATE INDEX IF NOT EXISTS idx_reminder_history_type ON invoice_reminder_history(reminder_type);
+      
+      -- Crear vista materializada para reportes de morosidad (opcional, se actualiza manualmente)
+      CREATE MATERIALIZED VIEW IF NOT EXISTS mv_delinquency_summary AS
+      SELECT 
+        DATE_TRUNC('day', CURRENT_DATE) AS report_date,
+        COUNT(*) AS total_overdue,
+        COUNT(CASE WHEN CURRENT_DATE - due_date >= 60 THEN 1 END) AS critical_count,
+        COUNT(CASE WHEN CURRENT_DATE - due_date >= 30 AND CURRENT_DATE - due_date < 60 THEN 1 END) AS error_count,
+        COUNT(CASE WHEN CURRENT_DATE - due_date >= 14 AND CURRENT_DATE - due_date < 30 THEN 1 END) AS warning_count,
+        SUM(total) AS total_amount_overdue,
+        AVG(CURRENT_DATE - due_date) AS avg_days_overdue,
+        MAX(CURRENT_DATE - due_date) AS max_days_overdue
+      FROM invoices
+      WHERE status = 'issued' AND due_date IS NOT NULL AND due_date < CURRENT_DATE
+      WITH NO DATA;
+
+  # Paso 2: Actualizar fechas de vencimiento para facturas sin due_date
+  - id: update_due_dates
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    timeout: PT60S
+    sql: |
+      UPDATE invoices 
+      SET due_date = created_at + INTERVAL '{{ inputs.payment_terms_days | default('30') }} days',
+          updated_at = NOW()
+      WHERE due_date IS NULL 
+        AND status = 'issued'
+        AND created_at IS NOT NULL;
+
+  # Paso 3: Buscar facturas que necesitan recordatorios (optimizado)
+  - id: find_overdue_invoices
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    fetch: true
+    timeout: PT120S
+    sql: |
+      WITH reminder_days_array AS (
+        SELECT unnest(string_to_array('{{ inputs.reminder_days | default('-3,0,7,14,30,60') }}', ','))::int AS day_offset
+      ),
+      today AS (
+        SELECT CURRENT_DATE AS today_date
+      ),
+      max_reminders AS (
+        SELECT {{ inputs.max_daily_reminders_per_invoice | default('1') }}::int AS max_per_day
+      ),
+      candidates AS (
+        SELECT DISTINCT
+          i.id,
+          i.serie,
+          i.total,
+          i.currency,
+          i.customer,
+          i.customer_email,
+          i.customer_phone,
+          i.due_date,
+          i.payment_reminder_count,
+          i.last_reminder_date,
+          i.last_reminder_type,
+          (t.today_date - i.due_date) AS days_overdue,
+          rd.day_offset,
+          CASE 
+            WHEN (t.today_date - i.due_date) < 0 THEN -rd.day_offset  -- Factura vence en el futuro
+            WHEN (t.today_date - i.due_date) = 0 THEN 0                 -- Factura vence hoy
+            ELSE (t.today_date - i.due_date)                            -- Factura vencida
+          END AS reminder_category
+        FROM invoices i
+        CROSS JOIN reminder_days_array rd
+        CROSS JOIN today t
+        CROSS JOIN max_reminders mr
+        WHERE i.status = 'issued'
+          AND i.due_date IS NOT NULL
+          AND i.total >= {{ inputs.min_amount | default('0') }}
+          AND (
+            -- Factura vence en el futuro (valores positivos en reminder_days)
+            (rd.day_offset < 0 AND i.due_date - t.today_date = ABS(rd.day_offset))
+            OR
+            -- Factura vence hoy (day_offset = 0)
+            (rd.day_offset = 0 AND i.due_date = t.today_date)
+            OR
+            -- Factura está vencida (valores negativos en reminder_days)
+            (rd.day_offset > 0 AND t.today_date - i.due_date = rd.day_offset)
+          )
+          AND (
+            -- No se ha enviado recordatorio hoy
+            i.last_reminder_date IS NULL
+            OR i.last_reminder_date < t.today_date
+            OR
+            -- Permitir múltiples recordatorios solo para facturas críticas (60+ días)
+            (t.today_date - i.due_date >= 60 AND 
+             (SELECT COUNT(*) FROM invoice_reminder_history 
+              WHERE invoice_id = i.id AND reminder_date = t.today_date) < mr.max_per_day)
+          )
+          AND (
+            -- Evitar enviar el mismo tipo de recordatorio dos veces el mismo día
+            i.last_reminder_type IS NULL
+            OR i.last_reminder_type != CASE 
+              WHEN (t.today_date - i.due_date) <= -60 THEN 'vencida_60_dias'
+              WHEN (t.today_date - i.due_date) <= -30 THEN 'vencida_30_dias'
+              WHEN (t.today_date - i.due_date) <= -14 THEN 'vencida_14_dias'
+              WHEN (t.today_date - i.due_date) <= -7 THEN 'vencida_7_dias'
+              WHEN (t.today_date - i.due_date) = 0 THEN 'vence_hoy'
+              WHEN rd.day_offset = -3 THEN 'primer_recordatorio'
+              ELSE 'recordatorio_general'
+            END
+            OR i.last_reminder_date < t.today_date
+          )
+      )
+      SELECT 
+        id,
+        serie,
+        total,
+        currency,
+        customer,
+        customer_email,
+        customer_phone,
+        due_date,
+        payment_reminder_count,
+        days_overdue,
+        reminder_category,
+        CASE 
+          WHEN days_overdue <= -60 THEN -60
+          WHEN days_overdue <= -30 THEN -30
+          WHEN days_overdue <= -14 THEN -14
+          WHEN days_overdue <= -7 THEN -7
+          WHEN days_overdue = 0 THEN 0
+          WHEN reminder_category = -3 THEN -3
+          ELSE reminder_category
+        END AS reminder_type_key
+      FROM candidates
+      ORDER BY days_overdue ASC, total DESC
+      LIMIT 1000;  -- Limitar para evitar procesar demasiadas facturas de una vez
+
+  # Paso 4: Validar y procesar facturas
+  - id: validate_and_process_invoices
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT120S
+    inputFiles:
+      invoices.json: "{{ taskrun.outputs['find_overdue_invoices']['rows'] | toJson }}"
+      process.py: |
+        import json
+        import sys
+        import re
+        from datetime import datetime, date
+        
+        def build_message(inv, days_overdue, urgency_text, config, payment_portal_url=None):
+            """Construye mensaje HTML personalizado según urgencia"""
+            serie = inv.get('serie', 'N/A')
+            total = float(inv.get('total', 0))
+            currency = inv.get('currency', 'USD')
+            customer = inv.get('customer', 'Estimado Cliente')
+            
+            # Formatear monto según moneda
+            if currency == 'USD':
+                amount_str = f"${total:,.2f}"
+            elif currency == 'EUR':
+                amount_str = f"€{total:,.2f}"
+            else:
+                amount_str = f"{total:,.2f} {currency}"
+            
+            msg = """<html>
+        <head>
+          <meta charset="UTF-8">
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .header { background-color: #f8f9fa; padding: 20px; border-radius: 5px; margin-bottom: 20px; }
+            .alert { padding: 15px; border-radius: 5px; margin: 15px 0; }
+            .critical { background-color: #ffebee; border-left: 4px solid #d32f2f; }
+            .error { background-color: #fff3e0; border-left: 4px solid #f57c00; }
+            .warning { background-color: #fff9c4; border-left: 4px solid #fbc02d; }
+            .info { background-color: #e3f2fd; border-left: 4px solid #2196f3; }
+            .button { display: inline-block; padding: 12px 24px; background-color: #1976d2; color: white; text-decoration: none; border-radius: 4px; margin: 20px 0; }
+            .footer { font-size: 12px; color: #666; margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; }
+          </style>
+        </head>
+        <body>"""
+            
+            msg += f"""<div class="header">
+          <h2 style="margin: 0; color: #1976d2;">Recordatorio de Pago de Factura</h2>
+        </div>"""
+            
+            msg += f"<p>Estimado/a <strong>{customer}</strong>,</p>"
+            
+            # Mensaje según urgencia
+            alert_class = config.get('urgency', 'info')
+            if days_overdue < 0:
+                msg += f"""<div class="alert {alert_class}">
+          <p style="margin: 0; font-weight: bold; font-size: 16px;">
+            La factura <strong>{serie}</strong> por un monto de <strong>{amount_str}</strong> 
+            está vencida {urgency_text}.
+          </p>
+        </div>"""
+            elif days_overdue == 0:
+                msg += f"""<div class="alert {alert_class}">
+          <p style="margin: 0; font-weight: bold; font-size: 16px;">
+            La factura <strong>{serie}</strong> por un monto de <strong>{amount_str}</strong> 
+            vence {urgency_text}.
+          </p>
+        </div>"""
+            else:
+                msg += f"<p>Le recordamos que la factura <strong>{serie}</strong> por un monto de "
+                msg += f"<strong>{amount_str}</strong> vencerá {urgency_text}.</p>"
+            
+            # Alertas especiales para facturas críticas
+            if abs(days_overdue) >= 30:
+                msg += f"""<div class="alert critical">
+          <p style="margin: 0;"><strong>⚠️ Importante:</strong> Esta factura tiene más de 30 días de vencimiento. 
+          Le agradecemos contactarnos inmediatamente para coordinar el pago y evitar inconvenientes adicionales.</p>
+        </div>"""
+            
+            if abs(days_overdue) >= 60:
+                msg += f"""<div class="alert critical">
+          <p style="margin: 0;"><strong>🚨 URGENTE:</strong> Esta factura tiene más de 60 días de vencimiento. 
+          Requerimos atención inmediata para resolver esta situación.</p>
+        </div>"""
+            
+            # Botón de pago si está disponible
+            if payment_portal_url:
+                payment_link = f"{payment_portal_url}?invoice={serie}"
+                msg += f'<p><a href="{payment_link}" class="button">Realizar Pago Ahora</a></p>'
+            
+            msg += "<p>Por favor, realice el pago a la brevedad posible para mantener su cuenta al día.</p>"
+            
+            msg += f"""<div class="footer">
+          <p><strong>Detalles de la factura:</strong></p>
+          <ul>
+            <li>Número: {serie}</li>
+            <li>Monto: {amount_str}</li>
+            <li>Fecha de vencimiento: {inv.get('due_date', 'N/A')}</li>
+            <li>Días vencidos: {abs(days_overdue) if days_overdue <= 0 else 'No vencida'}</li>
+          </ul>
+          <p>Este es un mensaje automático. Si ya realizó el pago, puede ignorar este mensaje.</p>
+          <p>Para consultas, por favor contacte a nuestro equipo de finanzas.</p>
+        </div>"""
+            
+            msg += "</body></html>"
+            return msg
+        
+        try:
+            with open('invoices.json', 'r', encoding='utf-8') as f:
+                invoices_data = json.load(f)
+        except Exception as e:
+            print(f'ERROR: Failed to load invoices: {e}')
+            sys.exit(1)
+        
+        if not isinstance(invoices_data, list):
+            print(f'ERROR: Expected list of invoices, got {type(invoices_data).__name__}')
+            sys.exit(1)
+        
+        # Configuración de recordatorios
+        reminder_config = {
+            -60: {'urgency': 'critical', 'template': 'vencida_60_dias', 'escalation': True},
+            -30: {'urgency': 'error', 'template': 'vencida_30_dias', 'escalation': True},
+            -14: {'urgency': 'error', 'template': 'vencida_14_dias', 'escalation': False},
+            -7: {'urgency': 'warning', 'template': 'vencida_7_dias', 'escalation': False},
+            0: {'urgency': 'warning', 'template': 'vence_hoy', 'escalation': False},
+            -3: {'urgency': 'info', 'template': 'primer_recordatorio', 'escalation': False},
+        }
+        
+        processed = []
+        skipped = []
+        
+        for inv in invoices_data:
+            # Validar datos requeridos
+            if not inv.get('id'):
+                skipped.append({'invoice': inv, 'reason': 'missing_id'})
+                continue
+            
+            if not inv.get('serie'):
+                skipped.append({'invoice': inv, 'reason': 'missing_serie'})
+                continue
+            
+            if not inv.get('customer_email'):
+                skipped.append({'invoice': inv, 'reason': 'missing_email'})
+                continue
+            
+            # Validar email
+            email = inv.get('customer_email', '').strip()
+            email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+            if not re.match(email_pattern, email):
+                skipped.append({'invoice': inv, 'reason': 'invalid_email'})
+                continue
+            
+            days_overdue = int(inv.get('days_overdue', 0) or 0)
+            reminder_type_key = inv.get('reminder_type_key', 0) or 0
+            
+            # Determinar tipo de recordatorio
+            if days_overdue <= -60:
+                config = reminder_config[-60]
+            elif days_overdue <= -30:
+                config = reminder_config[-30]
+            elif days_overdue <= -14:
+                config = reminder_config[-14]
+            elif days_overdue <= -7:
+                config = reminder_config[-7]
+            elif days_overdue == 0:
+                config = reminder_config[0]
+            elif reminder_type_key == -3:
+                config = reminder_config[-3]
+            else:
+                config = {'urgency': 'info', 'template': 'recordatorio_general', 'escalation': False}
+            
+            # Generar mensajes personalizados
+            if days_overdue < 0:
+                subject = f"Recordatorio de Pago - Factura {inv.get('serie', 'N/A')} Vencida"
+                if abs(days_overdue) == 1:
+                    urgency_text = "hace 1 día"
+                else:
+                    urgency_text = f"hace {abs(days_overdue)} días"
+            elif days_overdue == 0:
+                subject = f"Recordatorio de Pago - Factura {inv.get('serie', 'N/A')} Vence Hoy"
+                urgency_text = "hoy"
+            else:
+                subject = f"Recordatorio de Pago - Factura {inv.get('serie', 'N/A')} Vence en {days_overdue} días"
+                urgency_text = f"en {days_overdue} días"
+            
+            currency = inv.get('currency', 'USD')
+            total = float(inv.get('total', 0))
+            
+            # Obtener payment_portal_url si está disponible (de inputs)
+            payment_portal_url = None  # Se pasará desde el template
+            
+            processed.append({
+                'invoice_id': inv.get('id'),
+                'serie': inv.get('serie', ''),
+                'total': total,
+                'currency': currency,
+                'customer': inv.get('customer', ''),
+                'customer_email': email,
+                'customer_phone': inv.get('customer_phone', ''),
+                'due_date': str(inv.get('due_date', '')),
+                'days_overdue': days_overdue,
+                'reminder_count': inv.get('payment_reminder_count', 0),
+                'subject': subject,
+                'urgency': config['urgency'],
+                'template': config['template'],
+                'urgency_text': urgency_text,
+                'escalation': config.get('escalation', False),
+                'message': build_message(inv, days_overdue, urgency_text, config, payment_portal_url),
+            })
+        
+        with open('processed.json', 'w', encoding='utf-8') as f:
+            json.dump(processed, f, ensure_ascii=False, indent=2)
+        
+        if skipped:
+            with open('skipped.json', 'w', encoding='utf-8') as f:
+                json.dump(skipped, f, ensure_ascii=False, indent=2)
+        
+        print(f'INFO: Processed {len(processed)} invoices for reminders')
+        if skipped:
+            print(f'WARNING: Skipped {len(skipped)} invoices (verificar skipped.json)')
+        
+        # Estadísticas
+        stats = {
+            'total_processed': len(processed),
+            'total_skipped': len(skipped),
+            'by_urgency': {
+                'critical': len([p for p in processed if p.get('urgency') == 'critical']),
+                'error': len([p for p in processed if p.get('urgency') == 'error']),
+                'warning': len([p for p in processed if p.get('urgency') == 'warning']),
+                'info': len([p for p in processed if p.get('urgency') == 'info']),
+            },
+            'total_amount': sum(p.get('total', 0) for p in processed)
+        }
+        
+        with open('stats.json', 'w', encoding='utf-8') as f:
+            json.dump(stats, f, indent=2)
+        
+        print(f'STATS: {json.dumps(stats, indent=2)}')
+    outputFiles:
+      - processed.json
+      - skipped.json
+      - stats.json
+
+  # Paso 5: Aplicar rate limiting inteligente
+  - id: apply_rate_limiting
+    type: io.kestra.plugin.scripts.python.Script
+    disabled: "{{ inputs.email_webhook_url is not defined }}"
+    timeout: PT30S
+    inputFiles:
+      invoices.json: "{{ taskrun.outputs['validate_and_process_invoices']['files']['processed.json'] | readFile }}"
+      rate_limit.py: |
+        import json
+        import time
+        
+        with open('invoices.json', 'r') as f:
+            invoices = json.load(f)
+        
+        rate_limit = int('{{ inputs.rate_limit_per_minute | default("60") }}')
+        
+        # Agrupar por urgencia y ordenar para priorizar críticas
+        critical = [inv for inv in invoices if inv.get('urgency') == 'critical']
+        error = [inv for inv in invoices if inv.get('urgency') == 'error']
+        warning = [inv for inv in invoices if inv.get('urgency') == 'warning']
+        info = [inv for inv in invoices if inv.get('urgency') == 'info']
+        
+        # Ordenar por urgencia y monto (mayores primero)
+        prioritized = (
+            sorted(critical, key=lambda x: x.get('total', 0), reverse=True) +
+            sorted(error, key=lambda x: x.get('total', 0), reverse=True) +
+            sorted(warning, key=lambda x: x.get('total', 0), reverse=True) +
+            sorted(info, key=lambda x: x.get('total', 0), reverse=True)
+        )
+        
+        # Calcular delays para rate limiting
+        if len(prioritized) > rate_limit:
+            delay_between_batches = 60.0 / rate_limit  # Segundos entre envíos
+            batches = []
+            for i in range(0, len(prioritized), rate_limit):
+                batch = prioritized[i:i+rate_limit]
+                batches.append({
+                    'batch': batch,
+                    'delay_after': delay_between_batches if i + rate_limit < len(prioritized) else 0
+                })
+        else:
+            batches = [{'batch': prioritized, 'delay_after': 0}]
+        
+        with open('batched_invoices.json', 'w') as f:
+            json.dump(batches, f, indent=2)
+        
+        print(f'INFO: Organized {len(prioritized)} invoices into {len(batches)} batch(es) with rate limiting')
+    outputFiles:
+      - batched_invoices.json
+
+  # Paso 5.5: Enviar recordatorios por email (si está configurado) con rate limiting
+  - id: send_email_reminders
+    type: io.kestra.plugin.core.flow.ForEach
+    disabled: "{{ inputs.email_webhook_url is not defined }}"
+    value: "{{ taskrun.outputs['apply_rate_limiting']['files']['batched_invoices.json'] | readFile | fromJson }}"
+    maxConcurrent: 1
+    timeout: PT15M
+    tasks:
+      - id: send_batch_emails
+        type: io.kestra.plugin.core.flow.ForEach
+        value: "{{ items.batch }}"
+        maxConcurrent: 5
+        timeout: PT5M
+        tasks:
+          - id: send_email
+            type: io.kestra.plugin.core.http.Request
+            uri: "{{ inputs.email_webhook_url }}"
+            method: POST
+            headers:
+              Content-Type: application/json
+            body: |
+              {
+                "to": "{{ items.customer_email }}",
+                "subject": "{{ items.subject }}",
+                "html_body": {{ items.message | toJson }},
+                "metadata": {
+                  "invoice_id": {{ items.invoice_id }},
+                  "serie": "{{ items.serie }}",
+                  "template": "{{ items.template }}",
+                  "urgency": "{{ items.urgency }}",
+                  "days_overdue": {{ items.days_overdue }},
+                  "escalation": {{ items.escalation | lower }}
+                }
+              }
+            timeout: PT30S
+            retry:
+              type: exponential
+              interval: PT5S
+              maxAttempt: 3
+              maxInterval: PT20S
+              multiplier: 2.0
+            allowFailure: true
+            response:
+              status:
+                - 200
+                - 201
+                - 202
+      
+      - id: rate_limit_delay
+        type: io.kestra.plugin.scripts.python.Script
+        disabled: "{{ items.delay_after == 0 or items.delay_after == '0' }}"
+        timeout: PT5M
+        script: |
+          import time
+          delay = float('{{ items.delay_after }}')
+          if delay > 0:
+              print(f'Rate limiting: waiting {delay} seconds before next batch')
+              time.sleep(delay)
+              print('Rate limit delay completed')
+
+  # Paso 6: Enviar notificaciones a Slack (resumen)
+  - id: send_slack_summary
+    type: io.kestra.plugin.core.http.Request
+    disabled: "{{ inputs.slack_webhook_url is not defined }}"
+    uri: "{{ inputs.slack_webhook_url }}"
+    method: POST
+    timeout: PT10S
+    headers:
+      Content-Type: application/json
+    body: |
+      {% set invoices = (taskrun.outputs['validate_and_process_invoices']['files']['processed.json'] | readFile | fromJson) %}
+      {% set stats = (taskrun.outputs['validate_and_process_invoices']['files']['stats.json'] | readFile | fromJson) %}
+      {% set total_overdue = stats.total_amount | default(0) %}
+      {% set count = stats.total_processed | default(0) %}
+      {% set critical_count = stats.by_urgency.critical | default(0) %}
+      {% set error_count = stats.by_urgency.error | default(0) %}
+      {
+        "text": "📧 Recordatorios de Cobranza Enviados",
+        "blocks": [
+          {
+            "type": "header",
+            "text": {
+              "type": "plain_text",
+              "text": "📧 Recordatorios de Cobranza - Resumen Diario"
+            }
+          },
+          {
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": "*Estadísticas del día:*\n• *Total enviados:* {{ count }}\n• *Monto total pendiente:* ${{ total_overdue | round(2) }}\n• *Críticas (60+ días):* {{ critical_count }}\n• *Error (30+ días):* {{ error_count }}"
+            }
+          }
+          {% if invoices | length > 0 %}
+          ,
+          {
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": "*Top 5 Facturas Vencidas:*\n{% for inv in invoices[:5] %}• *{{ inv.serie }}*: ${{ inv.total | round(2) }} {{ inv.currency }} ({{ inv.days_overdue }} días) {% if inv.escalation %}🚨{% endif %}\n{% endfor %}"
+            }
+          }
+          {% endif %}
+        ]
+      }
+    retry:
+      type: constant
+      interval: PT2S
+      maxAttempt: 2
+
+  # Paso 6.5: Enviar WhatsApp para facturas críticas (60+ días)
+  - id: filter_critical_for_whatsapp
+    type: io.kestra.plugin.scripts.python.Script
+    disabled: "{{ inputs.whatsapp_webhook_url is not defined or inputs.enable_whatsapp_critical == false }}"
+    timeout: PT30S
+    inputFiles:
+      invoices.json: "{{ taskrun.outputs['validate_and_process_invoices']['files']['processed.json'] | readFile }}"
+      filter.py: |
+        import json
+        
+        with open('invoices.json', 'r') as f:
+            all_invoices = json.load(f)
+        
+        critical = [inv for inv in all_invoices 
+                    if inv.get('urgency') == 'critical' and inv.get('customer_phone')]
+        
+        with open('critical_whatsapp.json', 'w') as f:
+            json.dump(critical, f, indent=2)
+        
+        print(f'Found {len(critical)} critical invoices with phone numbers for WhatsApp')
+    outputFiles:
+      - critical_whatsapp.json
+
+  - id: send_whatsapp_critical
+    type: io.kestra.plugin.core.flow.ForEach
+    disabled: "{{ inputs.whatsapp_webhook_url is not defined or inputs.enable_whatsapp_critical == false }}"
+    value: "{{ taskrun.outputs['filter_critical_for_whatsapp']['files']['critical_whatsapp.json'] | readFile | fromJson }}"
+    maxConcurrent: 3
+    timeout: PT5M
+    tasks:
+      - id: send_whatsapp
+        type: io.kestra.plugin.core.http.Request
+        uri: "{{ inputs.whatsapp_webhook_url }}"
+        method: POST
+        headers:
+          Content-Type: application/json
+        body: |
+          {
+            "to": "{{ items.customer_phone }}",
+            "message": "🚨 *ALERTA URGENTE - Factura Vencida*%0A%0AEstimado/a {{ items.customer }},%0A%0ALa factura *{{ items.serie }}* por *{{ items.total | round(2) }} {{ items.currency }}* está vencida hace *{{ items.days_overdue | abs }} días*.%0A%0A⚠️ Requerimos atención inmediata para resolver esta situación.%0A%0APor favor contacte a nuestro equipo de finanzas a la brevedad.%0A%0A{% if inputs.payment_portal_url %}Pagar ahora: {{ inputs.payment_portal_url }}?invoice={{ items.serie }}{% endif %}",
+            "metadata": {
+              "invoice_id": {{ items.invoice_id }},
+              "serie": "{{ items.serie }}",
+              "urgency": "critical",
+              "days_overdue": {{ items.days_overdue }}
+            }
+          }
+        timeout: PT30S
+        retry:
+          type: exponential
+          interval: PT5S
+          maxAttempt: 2
+          maxInterval: PT15S
+        allowFailure: true
+
+  # Paso 6.6: Escalación automática a gerencia/finanzas
+  - id: escalation_to_finance_team
+    type: io.kestra.plugin.core.http.Request
+    disabled: "{{ inputs.finance_team_email is not defined or inputs.email_webhook_url is not defined }}"
+    uri: "{{ inputs.email_webhook_url }}"
+    method: POST
+    timeout: PT30S
+    headers:
+      Content-Type: application/json
+    body: |
+      {% set invoices = (taskrun.outputs['validate_and_process_invoices']['files']['processed.json'] | readFile | fromJson) %}
+      {% set critical_invoices = invoices | selectattr('urgency', 'equalto', 'critical') | list %}
+      {% set high_amount_invoices = invoices | selectattr('total', '>=', (inputs.critical_amount_threshold | default('10000') | int)) | list %}
+      {% set escalation_list = [] %}
+      {% for inv in invoices %}
+        {% if inv.urgency == 'critical' or inv.total >= (inputs.critical_amount_threshold | default('10000') | int) %}
+          {% set _ = escalation_list.append(inv) %}
+        {% endif %}
+      {% endfor %}
+      {
+        "to": "{{ inputs.finance_team_email }}",
+        "subject": "🚨 ESCALACIÓN: Facturas Críticas Requieren Atención - {{ escalation_list | length }} factura(s)",
+        "html_body": "<html><body style='font-family: Arial, sans-serif;'><h2 style='color: #d32f2f;'>⚠️ ALERTA DE ESCALACIÓN - Facturas Críticas</h2><p>Se identificaron <strong>{{ escalation_list | length }}</strong> factura(s) que requieren atención inmediata del equipo de finanzas:</p><table border='1' cellpadding='10' cellspacing='0' style='border-collapse: collapse; width: 100%;'><tr style='background-color: #f8f9fa;'><th>Serie</th><th>Cliente</th><th>Monto</th><th>Días Vencidos</th><th>Urgencia</th></tr>{% for inv in escalation_list %}<tr><td>{{ inv.serie }}</td><td>{{ inv.customer }}</td><td>${{ inv.total | round(2) }} {{ inv.currency }}</td><td>{{ inv.days_overdue | abs }} días</td><td style='color: {% if inv.urgency == 'critical' %}#d32f2f{% else %}#f57c00{% endif %}; font-weight: bold;'>{{ inv.urgency | upper }}</td></tr>{% endfor %}</table><p style='margin-top: 20px;'><strong>Acción requerida:</strong> Contactar clientes inmediatamente para coordinar pagos.</p><hr><p style='font-size: 12px; color: #666;'>Este es un mensaje automático del sistema de recordatorios de cobranza.</p></body></html>"
+      }
+    retry:
+      type: exponential
+      interval: PT5S
+      maxAttempt: 2
+      maxInterval: PT15S
+
+  # Paso 6.7: Análisis de efectividad (tracking de pagos post-recordatorio)
+  - id: analyze_reminder_effectiveness
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    disabled: "{{ inputs.enable_effectiveness_tracking == false }}"
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    fetch: true
+    timeout: PT60S
+    sql: |
+      WITH reminder_stats AS (
+        SELECT 
+          reminder_type,
+          COUNT(DISTINCT invoice_id) AS invoices_reminded,
+          AVG(days_overdue) AS avg_days_overdue_at_reminder,
+          DATE_TRUNC('day', reminder_date) AS reminder_day
+        FROM invoice_reminder_history
+        WHERE reminder_date >= CURRENT_DATE - INTERVAL '30 days'
+          AND status = 'sent'
+        GROUP BY reminder_type, DATE_TRUNC('day', reminder_date)
+      ),
+      payment_stats AS (
+        SELECT 
+          i.id AS invoice_id,
+          i.serie,
+          i.total,
+          i.last_reminder_date,
+          i.last_reminder_type,
+          CASE 
+            WHEN i.status = 'paid' AND i.updated_at > i.last_reminder_date 
+            THEN EXTRACT(EPOCH FROM (i.updated_at - i.last_reminder_date)) / 86400.0
+            ELSE NULL
+          END AS days_to_payment_after_reminder,
+          CASE WHEN i.status = 'paid' AND i.updated_at > i.last_reminder_date THEN 1 ELSE 0 END AS paid_after_reminder
+        FROM invoices i
+        WHERE i.last_reminder_date IS NOT NULL
+          AND i.last_reminder_date >= CURRENT_DATE - INTERVAL '30 days'
+      )
+      SELECT 
+        ps.last_reminder_type AS reminder_type,
+        COUNT(*) AS total_reminded,
+        SUM(ps.paid_after_reminder) AS paid_after_reminder,
+        ROUND(100.0 * SUM(ps.paid_after_reminder) / COUNT(*), 2) AS effectiveness_rate_pct,
+        AVG(ps.days_to_payment_after_reminder) AS avg_days_to_payment,
+        SUM(CASE WHEN ps.paid_after_reminder = 1 THEN ps.total ELSE 0 END) AS total_collected_amount,
+        COUNT(DISTINCT DATE_TRUNC('day', CURRENT_DATE - ps.days_to_payment_after_reminder)) AS avg_response_time_days
+      FROM payment_stats ps
+      GROUP BY ps.last_reminder_type
+      ORDER BY effectiveness_rate_pct DESC;
+
+  # Paso 6.8: Análisis de tendencias (comparar con días anteriores)
+  - id: analyze_trends
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    fetch: true
+    timeout: PT60S
+    sql: |
+      WITH daily_stats AS (
+        SELECT 
+          DATE_TRUNC('day', reminder_date) AS stat_date,
+          COUNT(DISTINCT invoice_id) AS reminders_sent,
+          COUNT(DISTINCT invoice_id) FILTER (WHERE days_overdue >= 60) AS critical_count,
+          COUNT(DISTINCT invoice_id) FILTER (WHERE days_overdue >= 30 AND days_overdue < 60) AS error_count,
+          SUM((SELECT total FROM invoices WHERE id = invoice_id)) FILTER (WHERE days_overdue >= 60) AS critical_amount
+        FROM invoice_reminder_history
+        WHERE reminder_date >= CURRENT_DATE - INTERVAL '7 days'
+          AND status = 'sent'
+        GROUP BY DATE_TRUNC('day', reminder_date)
+      ),
+      today_stats AS (
+        SELECT * FROM daily_stats WHERE stat_date = CURRENT_DATE
+      ),
+      yesterday_stats AS (
+        SELECT * FROM daily_stats WHERE stat_date = CURRENT_DATE - INTERVAL '1 day'
+      ),
+      week_ago_stats AS (
+        SELECT * FROM daily_stats WHERE stat_date = CURRENT_DATE - INTERVAL '7 days'
+      )
+      SELECT 
+        (SELECT reminders_sent FROM today_stats) AS today_reminders,
+        (SELECT reminders_sent FROM yesterday_stats) AS yesterday_reminders,
+        (SELECT reminders_sent FROM week_ago_stats) AS week_ago_reminders,
+        (SELECT reminders_sent FROM today_stats) - (SELECT reminders_sent FROM yesterday_stats) AS change_vs_yesterday,
+        (SELECT reminders_sent FROM today_stats) - (SELECT reminders_sent FROM week_ago_stats) AS change_vs_week_ago,
+        (SELECT critical_count FROM today_stats) AS today_critical,
+        (SELECT critical_count FROM yesterday_stats) AS yesterday_critical,
+        (SELECT critical_amount FROM today_stats) AS today_critical_amount,
+        (SELECT critical_amount FROM yesterday_stats) AS yesterday_critical_amount,
+        CASE 
+          WHEN (SELECT reminders_sent FROM yesterday_stats) > 0 
+          THEN ROUND(100.0 * ((SELECT reminders_sent FROM today_stats) - (SELECT reminders_sent FROM yesterday_stats)) / (SELECT reminders_sent FROM yesterday_stats), 2)
+          ELSE 0
+        END AS pct_change_vs_yesterday;
+
+  # Paso 7: Registrar historial de recordatorios en BD (optimizado con batch)
+  - id: log_reminder_history
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    timeout: PT120S
+    sql: |
+      {% set invoices = (taskrun.outputs['validate_and_process_invoices']['files']['processed.json'] | readFile | fromJson) %}
+      {% if invoices | length > 0 %}
+      -- Batch insert optimizado
+      INSERT INTO invoice_reminder_history (
+        invoice_id, reminder_date, days_overdue, reminder_type, sent_via, status, metadata
+      ) VALUES 
+      {% for inv in invoices %}
+      (
+        {{ inv.invoice_id }},
+        CURRENT_DATE,
+        {{ inv.days_overdue }},
+        '{{ inv.template }}',
+        'email',
+        'sent',
+        '{"urgency": "{{ inv.urgency }}", "escalation": {{ inv.escalation | lower }}}'::jsonb
+      ){% if not loop.last %},{% endif %}
+      {% endfor %};
+      
+      -- Batch update optimizado
+      UPDATE invoices 
+      SET payment_reminder_count = payment_reminder_count + 1,
+          last_reminder_date = CURRENT_DATE,
+          last_reminder_type = (
+            CASE id
+              {% for inv in invoices %}
+              WHEN {{ inv.invoice_id }} THEN '{{ inv.template }}'
+              {% endfor %}
+              ELSE last_reminder_type
+            END
+          ),
+          updated_at = NOW()
+      WHERE id IN (
+        {% for inv in invoices %}
+        {{ inv.invoice_id }}{% if not loop.last %},{% endif %}
+        {% endfor %}
+      );
+      {% endif %}
+
+  # Paso 8: Generar reporte de morosidad
+  - id: generate_delinquency_report
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    fetch: true
+    timeout: PT60S
+    sql: |
+      SELECT 
+        COUNT(*) AS total_overdue,
+        COUNT(CASE WHEN CURRENT_DATE - due_date >= 60 THEN 1 END) AS critical_count,
+        COUNT(CASE WHEN CURRENT_DATE - due_date >= 30 AND CURRENT_DATE - due_date < 60 THEN 1 END) AS error_count,
+        COUNT(CASE WHEN CURRENT_DATE - due_date >= 14 AND CURRENT_DATE - due_date < 30 THEN 1 END) AS warning_count,
+        COUNT(CASE WHEN CURRENT_DATE - due_date < 14 AND CURRENT_DATE - due_date >= 0 THEN 1 END) AS recent_count,
+        COALESCE(SUM(total), 0) AS total_amount_overdue,
+        COALESCE(AVG(CURRENT_DATE - due_date), 0) AS avg_days_overdue,
+        COALESCE(MAX(CURRENT_DATE - due_date), 0) AS max_days_overdue,
+        COUNT(DISTINCT customer) AS unique_customers_overdue
+      FROM invoices
+      WHERE status = 'issued'
+        AND due_date IS NOT NULL
+        AND due_date < CURRENT_DATE;
+
+  # Paso 9: Log final y métricas
+  - id: log_metrics
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    inputFiles:
+      invoices.json: "{{ taskrun.outputs['validate_and_process_invoices']['files']['processed.json'] | readFile }}"
+      stats.json: "{{ taskrun.outputs['validate_and_process_invoices']['files']['stats.json'] | readFile }}"
+      report.json: "{{ taskrun.outputs['generate_delinquency_report']['rows'] | toJson }}"
+      effectiveness.json: |
+        {% if inputs.enable_effectiveness_tracking != false %}
+        {{ taskrun.outputs['analyze_reminder_effectiveness']['rows'] | toJson }}
+        {% else %}
+        []
+        {% endif %}
+      trends.json: "{{ taskrun.outputs['analyze_trends']['rows'] | toJson }}"
+      log.py: |
+        import json
+        from datetime import datetime
+        
+        with open('invoices.json', 'r') as f:
+            invoices = json.load(f)
+        
+        with open('stats.json', 'r') as f:
+            stats = json.load(f)
+        
+        with open('report.json', 'r') as f:
+            report_data = json.load(f)
+            report = report_data[0] if report_data else {}
+        
+        # Cargar efectividad si existe
+        effectiveness = []
+        try:
+            with open('effectiveness.json', 'r') as f:
+                effectiveness_data = json.load(f)
+                effectiveness = effectiveness_data if isinstance(effectiveness_data, list) else []
+        except FileNotFoundError:
+            pass
+        
+        # Cargar tendencias si existe
+        trends = {}
+        try:
+            with open('trends.json', 'r') as f:
+                trends_data = json.load(f)
+                trends = trends_data[0] if trends_data and len(trends_data) > 0 else {}
+        except FileNotFoundError:
+            pass
+        
+        metrics = {
+            'timestamp': datetime.now().isoformat(),
+            'execution_summary': {
+                'reminders_sent': stats.get('total_processed', 0),
+                'reminders_skipped': stats.get('total_skipped', 0),
+                'total_amount': stats.get('total_amount', 0),
+                'by_urgency': stats.get('by_urgency', {})
+            },
+            'delinquency_report': {
+                'total_overdue': report.get('total_overdue', 0),
+                'total_amount_overdue': float(report.get('total_amount_overdue', 0) or 0),
+                'avg_days_overdue': float(report.get('avg_days_overdue', 0) or 0),
+                'max_days_overdue': int(report.get('max_days_overdue', 0) or 0),
+                'critical_count': int(report.get('critical_count', 0) or 0),
+                'error_count': int(report.get('error_count', 0) or 0),
+                'warning_count': int(report.get('warning_count', 0) or 0),
+                'recent_count': int(report.get('recent_count', 0) or 0),
+                'unique_customers': int(report.get('unique_customers_overdue', 0) or 0)
+            },
+            'effectiveness_analysis': effectiveness,
+            'trends': trends
+        }
+        
+        print("=" * 60)
+        print("✅ RECORDATORIOS DE COBRANZA COMPLETADOS")
+        print("=" * 60)
+        print(f"📊 Ejecución:")
+        print(f"   • Enviados: {metrics['execution_summary']['reminders_sent']}")
+        print(f"   • Omitidos: {metrics['execution_summary']['reminders_skipped']}")
+        print(f"   • Monto total: ${metrics['execution_summary']['total_amount']:,.2f}")
+        print(f"   • Por urgencia: {json.dumps(metrics['execution_summary']['by_urgency'], indent=2)}")
+        print()
+        print(f"📈 Reporte de Morosidad:")
+        print(f"   • Total facturas vencidas: {metrics['delinquency_report']['total_overdue']}")
+        print(f"   • Monto total vencido: ${metrics['delinquency_report']['total_amount_overdue']:,.2f}")
+        print(f"   • Promedio días vencidos: {metrics['delinquency_report']['avg_days_overdue']:.1f}")
+        print(f"   • Máximo días vencidos: {metrics['delinquency_report']['max_days_overdue']}")
+        print(f"   • Clientes únicos: {metrics['delinquency_report']['unique_customers']}")
+        print(f"   • Críticas (60+): {metrics['delinquency_report']['critical_count']}")
+        print(f"   • Error (30+): {metrics['delinquency_report']['error_count']}")
+        print(f"   • Warning (14+): {metrics['delinquency_report']['warning_count']}")
+        print("=" * 60)
+        
+        # Agregar datos de efectividad si están disponibles
+        try:
+            effectiveness_file = 'effectiveness.json'
+            with open(effectiveness_file, 'r') as f:
+                effectiveness = json.load(f)
+                metrics['effectiveness'] = effectiveness
+                print()
+                print("📊 Análisis de Efectividad:")
+                for eff in effectiveness:
+                    print(f"   • {eff.get('reminder_type', 'N/A')}: {eff.get('effectiveness_rate_pct', 0):.1f}% efectividad")
+                    print(f"     - Pagadas: {eff.get('paid_after_reminder', 0)}/{eff.get('total_reminded', 0)}")
+                    print(f"     - Monto cobrado: ${eff.get('total_collected_amount', 0):,.2f}")
+        except FileNotFoundError:
+            pass
+        
+        # Agregar datos de tendencias si están disponibles
+        try:
+            trends_file = 'trends.json'
+            with open(trends_file, 'r') as f:
+                trends_data = json.load(f)
+                trends = trends_data[0] if trends_data else {}
+                metrics['trends'] = trends
+                print()
+                print("📈 Tendencias:")
+                print(f"   • Recordatorios hoy: {trends.get('today_reminders', 0)}")
+                print(f"   • Cambio vs ayer: {trends.get('change_vs_yesterday', 0):+d} ({trends.get('pct_change_vs_yesterday', 0):+.1f}%)")
+                print(f"   • Facturas críticas hoy: {trends.get('today_critical', 0)}")
+                if trends.get('today_critical_amount', 0) > 0:
+                    print(f"   • Monto crítico: ${trends.get('today_critical_amount', 0):,.2f}")
+        except FileNotFoundError:
+            pass
+        
+        with open('metrics.json', 'w') as f:
+            json.dump(metrics, f, indent=2)
+    outputFiles:
+      - metrics.json
+
+  # Paso 10: Métricas de performance del workflow
+  - id: performance_metrics
+    type: io.kestra.plugin.scripts.python.Script
+    disabled: "{{ inputs.enable_performance_metrics == false }}"
+    timeout: PT30S
+    inputFiles:
+      log_metrics.json: "{{ taskrun.outputs['log_metrics']['files']['metrics.json'] | readFile }}"
+      perf.py: |
+        import json
+        import sys
+        from datetime import datetime
+        
+        try:
+            with open('log_metrics.json', 'r') as f:
+                metrics = json.load(f)
+        except FileNotFoundError:
+            print('WARNING: Metrics file not found, skipping performance analysis')
+            sys.exit(0)
+        
+        # Calcular métricas de performance basadas en la ejecución
+        execution_summary = metrics.get('execution_summary', {})
+        delinquency = metrics.get('delinquency_report', {})
+        
+        performance = {
+            'timestamp': datetime.now().isoformat(),
+            'throughput': {
+                'reminders_per_execution': execution_summary.get('reminders_sent', 0),
+                'amount_per_reminder': (
+                    execution_summary.get('total_amount', 0) / 
+                    max(execution_summary.get('reminders_sent', 1), 1)
+                ),
+                'critical_rate': (
+                    execution_summary.get('by_urgency', {}).get('critical', 0) /
+                    max(execution_summary.get('reminders_sent', 1), 1) * 100
+                )
+            },
+            'efficiency': {
+                'total_overdue_invoices': delinquency.get('total_overdue', 0),
+                'collection_potential': delinquency.get('total_amount_overdue', 0),
+                'avg_days_overdue': delinquency.get('avg_days_overdue', 0),
+                'critical_percentage': (
+                    delinquency.get('critical_count', 0) /
+                    max(delinquency.get('total_overdue', 1), 1) * 100
+                )
+            },
+            'recommendations': []
+        }
+        
+        # Generar recomendaciones basadas en métricas
+        if performance['efficiency']['critical_percentage'] > 20:
+            performance['recommendations'].append({
+                'type': 'urgent',
+                'message': 'Más del 20% de facturas vencidas son críticas (60+ días). Considerar escalación inmediata.'
+            })
+        
+        if performance['throughput']['critical_rate'] > 15:
+            performance['recommendations'].append({
+                'type': 'warning',
+                'message': 'Alta proporción de recordatorios críticos. Revisar políticas de crédito.'
+            })
+        
+        if delinquency.get('avg_days_overdue', 0) > 45:
+            performance['recommendations'].append({
+                'type': 'warning',
+                'message': f'Promedio de días vencidos ({delinquency.get("avg_days_overdue", 0):.1f}) muy alto. Mejorar seguimiento temprano.'
+            })
+        
+        if execution_summary.get('reminders_sent', 0) == 0:
+            performance['recommendations'].append({
+                'type': 'info',
+                'message': 'No se enviaron recordatorios. Verificar configuración y datos.'
+            })
+        
+        with open('performance.json', 'w') as f:
+            json.dump(performance, f, indent=2)
+        
+        print("=" * 60)
+        print("⚡ MÉTRICAS DE PERFORMANCE")
+        print("=" * 60)
+        print(f"📊 Throughput:")
+        print(f"   • Recordatorios por ejecución: {performance['throughput']['reminders_per_execution']}")
+        print(f"   • Monto promedio por recordatorio: ${performance['throughput']['amount_per_reminder']:,.2f}")
+        print(f"   • Tasa de críticas: {performance['throughput']['critical_rate']:.1f}%")
+        print()
+        print(f"📈 Eficiencia:")
+        print(f"   • Facturas vencidas totales: {performance['efficiency']['total_overdue_invoices']}")
+        print(f"   • Potencial de cobro: ${performance['efficiency']['collection_potential']:,.2f}")
+        print(f"   • Promedio días vencidos: {performance['efficiency']['avg_days_overdue']:.1f}")
+        print(f"   • % Críticas: {performance['efficiency']['critical_percentage']:.1f}%")
+        
+        if performance['recommendations']:
+            print()
+            print("💡 Recomendaciones:")
+            for rec in performance['recommendations']:
+                print(f"   • [{rec['type'].upper()}] {rec['message']}")
+        
+        print("=" * 60)
+    outputFiles:
+      - performance.json
+
+  # Paso 10.5: Logging estructurado de métricas clave
+  - id: log_key_metrics
+    type: io.kestra.plugin.core.flow.Subflow
+    namespace: workflows
+    flowId: subflow_metrics_logger
+    inputs:
+      metric_name: "invoice_reminders_execution"
+      value: "{{ (taskrun.outputs['log_metrics']['files']['metrics.json'] | readFile | fromJson).execution_summary.reminders_sent | default(0) }}"
+      labels: |
+        {
+          "workflow": "invoice_payment_reminders",
+          "urgency_critical": "{{ (taskrun.outputs['validate_and_process_invoices']['files']['stats.json'] | readFile | fromJson).by_urgency.critical | default(0) }}",
+          "urgency_error": "{{ (taskrun.outputs['validate_and_process_invoices']['files']['stats.json'] | readFile | fromJson).by_urgency.error | default(0) }}",
+          "total_amount": "{{ (taskrun.outputs['validate_and_process_invoices']['files']['stats.json'] | readFile | fromJson).total_amount | default(0) }}"
+        }
+      log_level: INFO
+      message: "Invoice reminders execution completed"
+
+  - id: log_delinquency_metric
+    type: io.kestra.plugin.core.flow.Subflow
+    namespace: workflows
+    flowId: subflow_metrics_logger
+    inputs:
+      metric_name: "delinquency_total_amount"
+      value: "{{ (taskrun.outputs['log_metrics']['files']['metrics.json'] | readFile | fromJson).delinquency_report.total_amount_overdue | default(0) }}"
+      labels: |
+        {
+          "workflow": "invoice_payment_reminders",
+          "total_overdue": "{{ (taskrun.outputs['log_metrics']['files']['metrics.json'] | readFile | fromJson).delinquency_report.total_overdue | default(0) }}",
+          "critical_count": "{{ (taskrun.outputs['log_metrics']['files']['metrics.json'] | readFile | fromJson).delinquency_report.critical_count | default(0) }}"
+        }
+      log_level: INFO
+      message: "Current delinquency metrics"
+
+  # Paso 11: Exportar reportes (opcional)
+  - id: export_reports
+    type: io.kestra.plugin.scripts.python.Script
+    disabled: "{{ inputs.enable_export_reports == false }}"
+    timeout: PT120S
+    inputFiles:
+      metrics.json: "{{ taskrun.outputs['log_metrics']['files']['metrics.json'] | readFile }}"
+      delinquency_report.json: "{{ taskrun.outputs['generate_delinquency_report']['rows'] | toJson }}"
+      invoices.json: "{{ taskrun.outputs['validate_and_process_invoices']['files']['processed.json'] | readFile }}"
+      export.py: |
+        import json
+        import csv
+        from datetime import datetime
+        
+        # Cargar datos
+        with open('metrics.json', 'r') as f:
+            metrics = json.load(f)
+        
+        with open('delinquency_report.json', 'r') as f:
+            report_data = json.load(f)
+            report = report_data[0] if report_data else {}
+        
+        with open('invoices.json', 'r') as f:
+            invoices = json.load(f)
+        
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        
+        # Exportar CSV de facturas procesadas
+        if invoices:
+            csv_filename = f'invoices_processed_{timestamp}.csv'
+            with open(csv_filename, 'w', newline='', encoding='utf-8') as f:
+                writer = csv.DictWriter(f, fieldnames=[
+                    'invoice_id', 'serie', 'customer', 'customer_email', 'total', 
+                    'currency', 'days_overdue', 'urgency', 'template', 'due_date'
+                ])
+                writer.writeheader()
+                for inv in invoices:
+                    writer.writerow({
+                        'invoice_id': inv.get('invoice_id', ''),
+                        'serie': inv.get('serie', ''),
+                        'customer': inv.get('customer', ''),
+                        'customer_email': inv.get('customer_email', ''),
+                        'total': inv.get('total', 0),
+                        'currency': inv.get('currency', 'USD'),
+                        'days_overdue': inv.get('days_overdue', 0),
+                        'urgency': inv.get('urgency', ''),
+                        'template': inv.get('template', ''),
+                        'due_date': inv.get('due_date', '')
+                    })
+            print(f'✓ Exported {len(invoices)} invoices to {csv_filename}')
+        
+        # Exportar resumen ejecutivo
+        summary_filename = f'execution_summary_{timestamp}.json'
+        summary = {
+            'execution_date': datetime.now().isoformat(),
+            'execution_summary': metrics.get('execution_summary', {}),
+            'delinquency_report': metrics.get('delinquency_report', {}),
+            'trends': metrics.get('trends', {}),
+            'effectiveness': metrics.get('effectiveness_analysis', [])
+        }
+        
+        with open(summary_filename, 'w', encoding='utf-8') as f:
+            json.dump(summary, f, indent=2, ensure_ascii=False)
+        
+        print(f'✓ Exported execution summary to {summary_filename}')
+        
+        # Generar reporte de morosidad detallado
+        if report:
+            delinquency_filename = f'delinquency_report_{timestamp}.csv'
+            with open(delinquency_filename, 'w', newline='', encoding='utf-8') as f:
+                writer = csv.writer(f)
+                writer.writerow(['Métrica', 'Valor'])
+                writer.writerow(['Total Facturas Vencidas', report.get('total_overdue', 0)])
+                writer.writerow(['Críticas (60+ días)', report.get('critical_count', 0)])
+                writer.writerow(['Error (30+ días)', report.get('error_count', 0)])
+                writer.writerow(['Warning (14+ días)', report.get('warning_count', 0)])
+                writer.writerow(['Recientes (<14 días)', report.get('recent_count', 0)])
+                writer.writerow(['Monto Total Vencido', f"${report.get('total_amount_overdue', 0):,.2f}"])
+                writer.writerow(['Promedio Días Vencidos', f"{report.get('avg_days_overdue', 0):.1f}"])
+                writer.writerow(['Máximo Días Vencidos', report.get('max_days_overdue', 0)])
+                writer.writerow(['Clientes Únicos', report.get('unique_customers_overdue', 0)])
+            print(f'✓ Exported delinquency report to {delinquency_filename}')
+        
+        print('=' * 60)
+        print('📊 REPORTES EXPORTADOS EXITOSAMENTE')
+        print('=' * 60)
+    outputFiles:
+      - "*.csv"
+      - "*.json"
+
+  # Paso 12: Health check final y notificaciones de errores críticos
+  - id: final_health_check
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    inputFiles:
+      metrics.json: "{{ taskrun.outputs['log_metrics']['files']['metrics.json'] | readFile }}"
+      health.py: |
+        import json
+        import sys
+        
+        try:
+            with open('metrics.json', 'r') as f:
+                metrics = json.load(f)
+        except FileNotFoundError:
+            print('ERROR: Failed to load metrics for health check')
+            sys.exit(1)
+        
+        execution = metrics.get('execution_summary', {})
+        delinquency = metrics.get('delinquency_report', {})
+        
+        health_status = {
+            'status': 'healthy',
+            'warnings': [],
+            'errors': []
+        }
+        
+        # Verificar si hay problemas críticos
+        if delinquency.get('critical_count', 0) > 50:
+            health_status['warnings'].append(
+                f"Alto número de facturas críticas: {delinquency.get('critical_count', 0)}"
+            )
+            health_status['status'] = 'warning'
+        
+        if delinquency.get('total_amount_overdue', 0) > 100000:
+            health_status['warnings'].append(
+                f"Monto total vencido muy alto: ${delinquency.get('total_amount_overdue', 0):,.2f}"
+            )
+            health_status['status'] = 'warning'
+        
+        if delinquency.get('avg_days_overdue', 0) > 60:
+            health_status['errors'].append(
+                f"Promedio de días vencidos crítico: {delinquency.get('avg_days_overdue', 0):.1f} días"
+            )
+            health_status['status'] = 'error'
+        
+        if execution.get('reminders_sent', 0) == 0 and delinquency.get('total_overdue', 0) > 0:
+            health_status['errors'].append(
+                'No se enviaron recordatorios a pesar de haber facturas vencidas'
+            )
+            health_status['status'] = 'error'
+        
+        with open('health_status.json', 'w') as f:
+            json.dump(health_status, f, indent=2)
+        
+        print('=' * 60)
+        print(f"🏥 HEALTH CHECK: {health_status['status'].upper()}")
+        print('=' * 60)
+        
+        if health_status['warnings']:
+            print('\n⚠️ WARNINGS:')
+            for warning in health_status['warnings']:
+                print(f'   • {warning}')
+        
+        if health_status['errors']:
+            print('\n❌ ERRORS:')
+            for error in health_status['errors']:
+                print(f'   • {error}')
+            print('\n⚠️ Se recomienda revisar la configuración y datos del sistema.')
+        else:
+            print('\n✅ Sistema funcionando correctamente')
+        
+        print('=' * 60)
+    outputFiles:
+      - health_status.json
+
+  # Paso 13: Notificación de errores críticos (si hay problemas)
+  - id: notify_critical_errors
+    type: io.kestra.plugin.core.http.Request
+    disabled: |
+      {{ 
+        (inputs.slack_webhook_url is not defined) or
+        ((taskrun.outputs['final_health_check']['files']['health_status.json'] | readFile | fromJson).status != 'error')
+      }}
+    uri: "{{ inputs.slack_webhook_url }}"
+    method: POST
+    timeout: PT10S
+    headers:
+      Content-Type: application/json
+    body: |
+      {% set health = (taskrun.outputs['final_health_check']['files']['health_status.json'] | readFile | fromJson) %}
+      {
+        "text": "🚨 ALERTA: Problemas Críticos en Sistema de Recordatorios",
+        "blocks": [
+          {
+            "type": "header",
+            "text": {
+              "type": "plain_text",
+              "text": "🚨 ALERTA CRÍTICA - Sistema de Recordatorios"
+            }
+          },
+          {
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": "*Estado:* ERROR\n\n*Problemas detectados:*\n{% for error in health.errors %}• {{ error }}\n{% endfor %}"
+            }
+          },
+          {
+            "type": "context",
+            "elements": [
+              {
+                "type": "mrkdwn",
+                "text": "Revisar configuración y datos del sistema inmediatamente"
+              }
+            ]
+          }
+        ]
+      }
+    retry:
+      type: constant
+      interval: PT2S
+      maxAttempt: 2
+

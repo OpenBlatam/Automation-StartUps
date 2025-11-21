@@ -1,0 +1,62 @@
+{
+  "description": "Nodos para integración completa con script Python de análisis de engagement",
+  "nodes": [
+    {
+      "id": "export-for-python",
+      "name": "Export Data for Python Analysis",
+      "type": "n8n-nodes-base.code",
+      "parameters": {
+        "jsCode": "// Exportar datos para análisis Python\nconst engagementHistory = $workflow.staticData.engagementHistory || [];\n\nif (engagementHistory.length < 5) {\n  return {\n    json: {\n      ...$input.item.json,\n      pythonExport: {\n        available: false,\n        reason: 'insufficient_data',\n        minRequired: 5,\n        current: engagementHistory.length\n      }\n    }\n  };\n}\n\nconst exportData = {\n  publicaciones: engagementHistory.map(video => ({\n    id: video.videoId,\n    tipo_contenido: 'sora_video',\n    titulo: video.title || 'Video sin título',\n    plataforma: Object.keys(video.platformMetrics || {})[0] || 'unknown',\n    fecha_publicacion: video.publishedAt,\n    likes: video.platformMetrics?.instagram?.likes || \n           video.platformMetrics?.tiktok?.likes || \n           video.platformMetrics?.youtube?.likes || 0,\n    comentarios: video.platformMetrics?.instagram?.comments || \n                video.platformMetrics?.tiktok?.comments || \n                video.platformMetrics?.youtube?.comments || 0,\n    shares: video.platformMetrics?.instagram?.shares || \n           video.platformMetrics?.tiktok?.shares || \n           video.platformMetrics?.youtube?.shares || 0,\n    impresiones: video.platformMetrics?.instagram?.impressions || 0,\n    reach: video.platformMetrics?.instagram?.reach || 0,\n    hashtags: typeof video.hashtags === 'string' ? \n      video.hashtags.split(/\\s+/).filter(h => h.trim()) : \n      (Array.isArray(video.hashtags) ? video.hashtags : []),\n    tiene_media: true,\n    duracion_video: video.duration || 0,\n    metadata: {\n      engagement_rate: video.overallMetrics?.avgEngagementRate || 0,\n      engagement_score: video.overallMetrics?.totalEngagementScore || 0,\n      viral: video.overallMetrics?.viralOn?.length > 0 || false,\n      platforms: Object.keys(video.platformMetrics || {})\n    }\n  }))\n};\n\n// Guardar en archivo temporal\nconst fs = require('fs');\nconst exportPath = '/tmp/engagement_export.json';\nfs.writeFileSync(exportPath, JSON.stringify(exportData, null, 2));\n\nreturn {\n  json: {\n    ...$input.item.json,\n    pythonExport: {\n      available: true,\n      exported: true,\n      videoCount: engagementHistory.length,\n      exportPath: exportPath,\n      exportData: exportData,\n      timestamp: new Date().toISOString()\n    }\n  }\n};"
+      },
+      "position": [6450, 500],
+      "notes": "Exporta datos para análisis Python"
+    },
+    {
+      "id": "execute-python-analysis",
+      "name": "Execute Python Analysis Script",
+      "type": "n8n-nodes-base.executeCommand",
+      "parameters": {
+        "command": "cd /Users/adan/IA/scripts && python3 analisis_engagement_contenido.py /tmp/engagement_export.json --format json --output /tmp/python_analysis_output.json",
+        "options": {}
+      },
+      "position": [6650, 500],
+      "continueOnFail": true,
+      "notes": "Ejecuta script Python de análisis"
+    },
+    {
+      "id": "import-python-results",
+      "name": "Import Python Analysis Results",
+      "type": "n8n-nodes-base.code",
+      "parameters": {
+        "jsCode": "// Importar resultados del análisis Python\nconst fs = require('fs');\nconst outputPath = '/tmp/python_analysis_output.json';\n\nlet pythonResults = {};\nlet insights = {};\n\n// Intentar leer resultados\nif (fs.existsSync(outputPath)) {\n  try {\n    pythonResults = JSON.parse(fs.readFileSync(outputPath, 'utf8'));\n  } catch (e) {\n    return {\n      json: {\n        ...$input.item.json,\n        pythonImport: {\n          available: false,\n          error: 'Error parsing JSON: ' + e.message\n        }\n      }\n    };\n  }\n} else {\n  return {\n    json: {\n      ...$input.item.json,\n      pythonImport: {\n        available: false,\n        error: 'Output file not found'\n      }\n    }\n  };\n}\n\n// Extraer insights\ninsights = {\n  mejorHorario: pythonResults.resumen_ejecutivo?.mejor_horario,\n  mejorDia: pythonResults.resumen_ejecutivo?.mejor_dia,\n  mejorPlataforma: pythonResults.resumen_ejecutivo?.mejor_plataforma,\n  engagementRatePromedio: pythonResults.resumen_ejecutivo?.engagement_rate_promedio,\n  engagementScorePromedio: pythonResults.resumen_ejecutivo?.engagement_score_promedio,\n  mejorTipoContenido: pythonResults.analisis_por_tipo?.mejor_tipo,\n  hashtagsEfectivos: pythonResults.analisis_por_hashtag?.top_hashtags || [],\n  horariosOptimos: pythonResults.analisis_por_horario?.mejores_horarios || [],\n  diasOptimos: pythonResults.analisis_por_dia?.mejores_dias || [],\n  recomendacionesEstrategicas: pythonResults.recomendaciones_ia?.recomendaciones_estrategicas || [],\n  ideasContenido: pythonResults.recomendaciones_ia?.ideas_contenido || [],\n  mejorasPrioritarias: pythonResults.recomendaciones_ia?.mejoras_prioritarias || []\n};\n\n// Aplicar insights al workflow\nif (insights.hashtagsEfectivos.length > 0) {\n  const topHashtags = insights.hashtagsEfectivos.map(h => ({\n    tag: typeof h === 'string' ? h.toLowerCase().replace('#', '') : \n         (h.hashtag || h.tag || '').toLowerCase().replace('#', ''),\n    avgEngagementRate: typeof h === 'object' ? (h.engagement_rate || h.avgEngagementRate || 0) : 0,\n    count: typeof h === 'object' ? (h.count || h.usage_count || 0) : 0\n  })).filter(h => h.tag);\n  \n  if (topHashtags.length > 0) {\n    $workflow.staticData.topHashtags = topHashtags;\n  }\n}\n\nif (insights.horariosOptimos.length > 0) {\n  const bestHours = insights.horariosOptimos.map(h => ({\n    hour: typeof h === 'number' ? h : (h.hora || h.hour),\n    avgEngagementRate: typeof h === 'object' ? (h.engagement_rate || h.avgEngagementRate || 0) : 0,\n    count: typeof h === 'object' ? (h.count || 0) : 0\n  })).filter(h => typeof h.hour === 'number');\n  \n  if (bestHours.length > 0) {\n    $workflow.staticData.bestHours = bestHours;\n  }\n}\n\nif (insights.diasOptimos.length > 0) {\n  const bestDays = insights.diasOptimos.map(d => ({\n    day: typeof d === 'string' ? d : (d.dia || d.day),\n    avgEngagementRate: typeof d === 'object' ? (d.engagement_rate || d.avgEngagementRate || 0) : 0,\n    count: typeof d === 'object' ? (d.count || 0) : 0\n  }));\n  \n  if (bestDays.length > 0) {\n    $workflow.staticData.bestDays = bestDays;\n  }\n}\n\n// Guardar recomendaciones\nif (insights.recomendacionesEstrategicas.length > 0) {\n  $workflow.staticData.strategicRecommendations = insights.recomendacionesEstrategicas;\n}\n\nif (insights.ideasContenido.length > 0) {\n  $workflow.staticData.contentIdeas = insights.ideasContenido;\n}\n\nif (insights.mejorasPrioritarias.length > 0) {\n  $workflow.staticData.priorityImprovements = insights.mejorasPrioritarias;\n}\n\n// Guardar insights completos\n$workflow.staticData.pythonInsights = insights;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    pythonImport: {\n      available: true,\n      imported: true,\n      insights: insights,\n      pythonResults: pythonResults,\n      applied: true,\n      timestamp: new Date().toISOString()\n    }\n  }\n};"
+      },
+      "position": [6850, 500],
+      "notes": "Importa y aplica resultados del análisis Python"
+    },
+    {
+      "id": "generate-python-report",
+      "name": "Generate Python HTML Report",
+      "type": "n8n-nodes-base.executeCommand",
+      "parameters": {
+        "command": "cd /Users/adan/IA/scripts && python3 analisis_engagement_contenido.py /tmp/engagement_export.json --format html --output /tmp/reporte_engagement.html",
+        "options": {}
+      },
+      "position": [7050, 500],
+      "continueOnFail": true,
+      "notes": "Genera reporte HTML del análisis Python"
+    }
+  ],
+  "integration_points": {
+    "export_for_python": "Agregar en workflow de tracking, después de acumular datos",
+    "execute_python_analysis": "Después de export_for_python",
+    "import_python_results": "Después de execute_python_analysis",
+    "generate_python_report": "Opcional, después de import_python_results"
+  },
+  "usage": {
+    "description": "Integración completa con script Python de análisis de engagement",
+    "setup": "1. Asegurar que el script Python está instalado y funciona\n2. Agregar nodos según integration_points\n3. Configurar ENABLE_PYTHON_INTEGRATION=true\n4. El sistema exportará, ejecutará e importará automáticamente"
+  }
+}
+
+
+

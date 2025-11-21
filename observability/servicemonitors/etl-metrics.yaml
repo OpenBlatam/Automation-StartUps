@@ -1,0 +1,21 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: etl-metrics
+  namespace: observability
+  labels:
+    app: kpis-next
+spec:
+  selector:
+    matchLabels:
+      app: kpis-next
+  namespaceSelector:
+    matchNames:
+      - integration
+  endpoints:
+    - port: http
+      path: /api/etl/metrics
+      interval: 30s
+      scrapeTimeout: 10s
+
+

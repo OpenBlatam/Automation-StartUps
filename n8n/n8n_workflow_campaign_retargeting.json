@@ -1,0 +1,188 @@
+{
+  "name": "Campaign Intelligent Retargeting",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "retarget",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-retarget",
+      "name": "Webhook: Retarget Request",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [150, 300],
+      "webhookId": "campaign-retarget"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Analizar comportamiento del usuario para retargeting\nconst userData = $input.item.json;\nconst userId = userData.userId;\nconst campaignId = userData.campaignId;\n\n// Obtener historial del usuario (en producción vendría de DB)\nconst userHistory = {\n  viewedPosts: userData.viewedPosts || [],\n  clickedLinks: userData.clickedLinks || [],\n  engagementLevel: userData.engagementLevel || 'low',\n  lastInteraction: userData.lastInteraction || null,\n  segment: userData.segment || 'cold'\n};\n\n// Calcular score de interés\nconst interestScore = calculateInterestScore(userHistory);\n\n// Determinar estrategia de retargeting\nconst retargetingStrategy = determineRetargetingStrategy(userHistory, interestScore);\n\nfunction calculateInterestScore(history) {\n  let score = 0;\n  \n  // Puntos por visualizaciones\n  score += history.viewedPosts.length * 5;\n  \n  // Puntos por clics\n  score += history.clickedLinks.length * 20;\n  \n  // Puntos por engagement\n  const engagementPoints = {\n    'high': 30,\n    'medium': 15,\n    'low': 5\n  };\n  score += engagementPoints[history.engagementLevel] || 0;\n  \n  // Penalización por tiempo sin interacción\n  if (history.lastInteraction) {\n    const daysSince = (Date.now() - new Date(history.lastInteraction).getTime()) / (1000 * 60 * 60 * 24);\n    if (daysSince > 7) score -= 20;\n    if (daysSince > 14) score -= 30;\n  }\n  \n  return Math.max(0, Math.min(100, score));\n}\n\nfunction determineRetargetingStrategy(history, score) {\n  const strategy = {\n    segment: history.segment,\n    interestScore: score,\n    recommendedActions: [],\n    messageType: 'reminder',\n    urgency: 'low',\n    discount: 0\n  };\n  \n  // Estrategia basada en score\n  if (score >= 70) {\n    strategy.segment = 'hot';\n    strategy.messageType = 'offer';\n    strategy.urgency = 'high';\n    strategy.discount = 15;\n    strategy.recommendedActions = [\n      'Enviar oferta personalizada',\n      'Llamada a acción directa',\n      'Seguimiento inmediato'\n    ];\n  } else if (score >= 40) {\n    strategy.segment = 'warm';\n    strategy.messageType = 'nurture';\n    strategy.urgency = 'medium';\n    strategy.discount = 10;\n    strategy.recommendedActions = [\n      'Enviar contenido educativo',\n      'Recordar beneficios del producto',\n      'Oferta moderada'\n    ];\n  } else {\n    strategy.segment = 'cold';\n    strategy.messageType = 'awareness';\n    strategy.urgency = 'low';\n    strategy.discount = 5;\n    strategy.recommendedActions = [\n      'Re-engagement básico',\n      'Contenido de valor',\n      'Oferta suave'\n    ];\n  }\n  \n  // Ajustes basados en comportamiento específico\n  if (history.clickedLinks.length > 0) {\n    strategy.messageType = 'offer';\n    strategy.urgency = 'high';\n    strategy.discount = Math.max(strategy.discount, 15);\n  }\n  \n  return strategy;\n}\n\nreturn [{\n  json: {\n    userId,\n    campaignId,\n    userHistory,\n    interestScore,\n    retargetingStrategy,\n    timestamp: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "analyze-user",
+      "name": "Analyze User Behavior",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [350, 300],
+      "notes": "Analiza comportamiento y determina estrategia"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "type": "string"
+          },
+          "conditions": [
+            {
+              "id": "check-segment",
+              "leftValue": "={{ $json.retargetingStrategy.segment }}",
+              "rightValue": "hot",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-segment",
+      "name": "Check Segment",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [550, 300],
+      "notes": "Verifica segmento del usuario"
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.EMAIL_SERVICE_URL }}/send",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "to",
+              "value": "={{ $json.userId }}"
+            },
+            {
+              "name": "subject",
+              "value": "={{ $json.retargetingStrategy.segment === 'hot' ? '🔥 Oferta Especial Para Ti' : 'Recordatorio: Producto Disponible' }}"
+            },
+            {
+              "name": "body",
+              "value": "={{ `Hola, vimos tu interés en nuestro producto. ${$json.retargetingStrategy.discount > 0 ? 'Te ofrecemos un ' + $json.retargetingStrategy.discount + '% de descuento especial.' : 'Queremos recordarte los beneficios.'}` }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "send-email",
+      "name": "Send Retargeting Email",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [750, 200],
+      "notes": "Envía email de retargeting"
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.N8N_BASE_URL }}/webhook/social-engagement",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "action",
+              "value": "retarget"
+            },
+            {
+              "name": "userId",
+              "value": "={{ $json.userId }}"
+            },
+            {
+              "name": "strategy",
+              "value": "={{ JSON.stringify($json.retargetingStrategy) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "track-retargeting",
+      "name": "Track Retargeting",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [750, 400],
+      "notes": "Track retargeting event"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ success: true, strategy: $json.retargetingStrategy }) }}"
+      },
+      "id": "respond",
+      "name": "Respond",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [950, 300],
+      "notes": "Responde con estrategia"
+    }
+  ],
+  "connections": {
+    "Webhook: Retarget Request": {
+      "main": [[
+        { "node": "Analyze User Behavior", "type": "main", "index": 0 }
+      ]]
+    },
+    "Analyze User Behavior": {
+      "main": [[
+        { "node": "Check Segment", "type": "main", "index": 0 }
+      ]]
+    },
+    "Check Segment": {
+      "main": [[
+        { "node": "Send Retargeting Email", "type": "main", "index": 0 }
+      ], [
+        { "node": "Track Retargeting", "type": "main", "index": 0 }
+      ]]
+    },
+    "Send Retargeting Email": {
+      "main": [[
+        { "node": "Respond", "type": "main", "index": 0 }
+      ]]
+    },
+    "Track Retargeting": {
+      "main": [[
+        { "node": "Respond", "type": "main", "index": 0 }
+      ]]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1"
+}

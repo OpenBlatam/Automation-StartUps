@@ -1,0 +1,27 @@
+name: infra-terraform
+on:
+  pull_request:
+    paths:
+      - 'infra/terraform/**'
+      - 'infra/terraform/azure/**'
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.6
+      - name: Terraform Fmt
+        run: terraform -chdir=infra/terraform fmt -check
+      - name: Terraform Init
+        run: terraform -chdir=infra/terraform init -input=false
+      - name: Terraform Validate
+        run: terraform -chdir=infra/terraform validate
+      - name: Terraform Plan
+        if: github.event_name == 'pull_request'
+        env:
+          TF_VAR_environment: dev
+        run: terraform -chdir=infra/terraform plan -input=false
+
+

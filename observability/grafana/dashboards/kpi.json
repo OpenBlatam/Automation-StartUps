@@ -1,0 +1,380 @@
+{
+	"id": null,
+	"uid": "kpi-main",
+	"title": "KPIs en Tiempo Real",
+	"tags": ["kpi", "realtime"],
+	"timezone": "browser",
+	"schemaVersion": 38,
+	"version": 1,
+	"refresh": "10s",
+	"templating": {
+		"list": [
+			{
+				"name": "__interval",
+				"type": "interval",
+				"query": "10s,30s,1m,5m"
+			},
+			{
+				"name": "country",
+				"type": "query",
+				"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+				"query": "SELECT DISTINCT country FROM mv_kpi_daily_segment ORDER BY 1",
+				"includeAll": true,
+				"refresh": 2
+			},
+			{
+				"name": "source",
+				"type": "query",
+				"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+				"query": "SELECT DISTINCT source FROM mv_kpi_daily_segment ORDER BY 1",
+				"includeAll": true,
+				"refresh": 2
+			}
+		]
+	},
+	"panels": [
+		{
+			"type": "stat",
+			"title": "Ingresos (última hora)",
+			"gridPos": {"x":0,"y":0,"w":6,"h":4},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "table",
+					"rawSql": "SELECT COALESCE(SUM(amount),0) AS revenue FROM payments WHERE created_at >= NOW() - interval '1 hour' AND status IN ('succeeded','paid','payment_intent.succeeded');",
+					"refId": "A"
+				}
+			]
+		},
+		{
+			"type": "stat",
+			"title": "Ingresos (24h)",
+			"gridPos": {"x":6,"y":0,"w":6,"h":4},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "table",
+					"rawSql": "SELECT COALESCE(SUM(amount),0) AS revenue FROM payments WHERE created_at >= NOW() - interval '24 hours' AND status IN ('succeeded','paid','payment_intent.succeeded');",
+					"refId": "A"
+				}
+			]
+		},
+		{
+			"type": "timeseries",
+			"title": "Ingresos por hora (24h)",
+			"gridPos": {"x":12,"y":0,"w":12,"h":8},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "time_series",
+					"rawSql": "SELECT date_trunc('hour', created_at) AS time, SUM(amount) AS revenue FROM payments WHERE created_at >= NOW() - interval '24 hours' AND status IN ('succeeded','paid','payment_intent.succeeded') GROUP BY 1 ORDER BY 1;",
+					"refId": "A"
+				}
+			]
+		},
+		{
+			"type": "piechart",
+			"title": "Leads por prioridad (hoy)",
+			"gridPos": {"x":0,"y":4,"w":8,"h":8},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "table",
+					"rawSql": "SELECT priority, COUNT(*)::int AS count FROM leads WHERE created_at::date = CURRENT_DATE GROUP BY 1;",
+					"refId": "A"
+				}
+			]
+		},
+		{
+			"type": "stat",
+			"title": "Conversión (leads→pagos, 7d)",
+			"gridPos": {"x":8,"y":4,"w":4,"h":4},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "table",
+					"rawSql": "WITH l AS (SELECT COUNT(*)::numeric AS c FROM leads WHERE created_at >= NOW() - interval '7 days'), p AS (SELECT COUNT(DISTINCT customer)::numeric AS c FROM payments WHERE created_at >= NOW() - interval '7 days' AND status IN ('succeeded','paid','payment_intent.succeeded')) SELECT CASE WHEN l.c=0 THEN 0 ELSE ROUND((p.c/l.c)*100,2) END AS conversion_pct FROM l,p;",
+					"refId": "A"
+				}
+			]
+		},
+		{
+			"type": "table",
+			"title": "Pagos recientes",
+			"gridPos": {"x":12,"y":8,"w":12,"h":8},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "table",
+					"rawSql": "SELECT created_at, payment_id, amount, currency, customer, status, method FROM payments ORDER BY created_at DESC LIMIT 50;",
+					"refId": "A"
+				}
+			]
+		},
+		{
+			"type": "table",
+			"title": "Leads recientes",
+			"gridPos": {"x":0,"y":12,"w":12,"h":8},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "table",
+					"rawSql": "SELECT created_at, ext_id, first_name, last_name, email, score, priority FROM leads ORDER BY created_at DESC LIMIT 50;",
+					"refId": "A"
+				}
+			]
+		},
+		{
+			"type": "timeseries",
+			"title": "Tasa 5xx (NGINX Ingress)",
+			"gridPos": {"x":0,"y":20,"w":12,"h":8},
+			"datasource": {"type":"prometheus","uid":"prometheus"},
+			"targets": [
+				{
+					"expr": "sum(rate(nginx_ingress_controller_requests{status=~\"5..\"}[5m])) / sum(rate(nginx_ingress_controller_requests[5m]))",
+					"refId": "A"
+				}
+			]
+		},
+		{
+			"type": "timeseries",
+			"title": "Reinicios de pods (10m)",
+			"gridPos": {"x":12,"y":20,"w":12,"h":8},
+			"datasource": {"type":"prometheus","uid":"prometheus"},
+			"targets": [
+				{
+					"expr": "increase(kube_pod_container_status_restarts_total[10m])",
+					"refId": "A"
+				}
+			]
+		}
+	,
+		{
+			"type": "stat",
+			"title": "Éxito pagos (hoy)",
+			"gridPos": {"x":0,"y":28,"w":6,"h":4},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "table",
+					"rawSql": "SELECT COALESCE(payments_success_rate,0) FROM mv_kpi_daily WHERE day = CURRENT_DATE;",
+					"refId": "A"
+				}
+			]
+		},
+		{
+			"type": "timeseries",
+			"title": "Revenue diario (90d)",
+			"gridPos": {"x":6,"y":28,"w":18,"h":8},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "time_series",
+					"rawSql": "SELECT day AS time, revenue FROM mv_kpi_timeseries_90d ORDER BY day;",
+					"refId": "A"
+				}
+			]
+		},
+		{
+			"type": "timeseries",
+			"title": "Revenue diario (90d) por segmento",
+			"gridPos": {"x":0,"y":36,"w":24,"h":10},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "time_series",
+					"rawSql": "SELECT day as time, (country || '/' || source) as metric, revenue as value FROM mv_kpi_daily_segment WHERE day >= CURRENT_DATE - interval '90 days' AND (('$country' = 'All') OR (country = '$country')) AND (('$source' = 'All') OR (source = '$source')) ORDER BY 1;",
+					"refId": "A"
+				}
+			]
+		},
+		{
+			"type": "stat",
+			"title": "Frescura datos (días atrás)",
+			"gridPos": {"x":0,"y":46,"w":6,"h":4},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "table",
+					"rawSql": "SELECT COALESCE((CURRENT_DATE - MAX(day)), 999) AS days_behind FROM mv_kpi_daily;",
+					"refId": "A"
+				}
+			],
+			"thresholds": {
+				"mode": "absolute",
+				"steps": [
+					{"value": 0, "color": "green"},
+					{"value": 1, "color": "yellow"},
+					{"value": 2, "color": "red"}
+				]
+			}
+		},
+		{
+			"type": "stat",
+			"title": "Nulls revenue (7d %)",
+			"gridPos": {"x":6,"y":46,"w":6,"h":4},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "table",
+					"rawSql": "SELECT CASE WHEN COUNT(*) = 0 THEN 0 ELSE ROUND((COUNT(*) FILTER (WHERE revenue IS NULL)::numeric / COUNT(*)::numeric) * 100, 1) END AS null_pct FROM mv_kpi_daily WHERE day >= CURRENT_DATE - interval '7 days';",
+					"refId": "A"
+				}
+			],
+			"thresholds": {
+				"mode": "absolute",
+				"steps": [
+					{"value": 0, "color": "green"},
+					{"value": 5, "color": "yellow"},
+					{"value": 10, "color": "red"}
+				]
+			}
+		},
+		{
+			"type": "table",
+			"title": "Calidad de datos",
+			"gridPos": {"x":12,"y":46,"w":12,"h":8},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "table",
+					"rawSql": "SELECT 'mv_kpi_daily' AS vista, COUNT(*) AS rows, MAX(day) AS max_day, CURRENT_DATE - MAX(day) AS days_behind FROM mv_kpi_daily UNION ALL SELECT 'mv_kpi_daily_segment', COUNT(*), MAX(day), CURRENT_DATE - MAX(day) FROM mv_kpi_daily_segment UNION ALL SELECT 'mv_kpi_timeseries_90d', COUNT(*), MAX(day), CURRENT_DATE - MAX(day) FROM mv_kpi_timeseries_90d;",
+					"refId": "A"
+				}
+			]
+		},
+		{
+			"type": "stat",
+			"title": "Query latency (ms) - Daily View",
+			"gridPos": {"x":0,"y":54,"w":6,"h":4},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "table",
+					"rawSql": "SELECT EXTRACT(EPOCH FROM (clock_timestamp() - statement_timestamp())) * 1000 AS latency_ms FROM (SELECT * FROM mv_kpi_daily WHERE day = CURRENT_DATE LIMIT 1) t;",
+					"refId": "A"
+				}
+			],
+			"thresholds": {
+				"mode": "absolute",
+				"steps": [
+					{"value": 0, "color": "green"},
+					{"value": 100, "color": "yellow"},
+					{"value": 500, "color": "red"}
+				]
+			}
+		},
+		{
+			"type": "stat",
+			"title": "Query latency (ms) - Segment View",
+			"gridPos": {"x":6,"y":54,"w":6,"h":4},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "table",
+					"rawSql": "SELECT EXTRACT(EPOCH FROM (clock_timestamp() - statement_timestamp())) * 1000 AS latency_ms FROM (SELECT * FROM mv_kpi_daily_segment WHERE day = CURRENT_DATE LIMIT 1) t;",
+					"refId": "A"
+				}
+			],
+			"thresholds": {
+				"mode": "absolute",
+				"steps": [
+					{"value": 0, "color": "green"},
+					{"value": 200, "color": "yellow"},
+					{"value": 1000, "color": "red"}
+				]
+			}
+		},
+		{
+			"type": "timeseries",
+			"title": "Query Latency Trends (24h)",
+			"gridPos": {"x":12,"y":54,"w":12,"h":8},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "time_series",
+					"rawSql": "WITH daily_latency AS (SELECT EXTRACT(EPOCH FROM (clock_timestamp() - statement_timestamp())) * 1000 AS ms FROM (SELECT * FROM mv_kpi_daily ORDER BY day DESC LIMIT 100) t), segment_latency AS (SELECT EXTRACT(EPOCH FROM (clock_timestamp() - statement_timestamp())) * 1000 AS ms FROM (SELECT * FROM mv_kpi_daily_segment ORDER BY day DESC LIMIT 100) t) SELECT NOW() AS time, (SELECT ms FROM daily_latency) AS daily_ms, (SELECT ms FROM segment_latency) AS segment_ms;",
+					"refId": "A"
+				}
+			]
+		},
+		{
+			"type": "bargauge",
+			"title": "A/R Aging (Cuentas por cobrar)",
+			"gridPos": {"x":0,"y":46,"w":12,"h":8},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "table",
+					"rawSql": "SELECT bucket, total_amount AS value FROM mv_ar_aging ORDER BY CASE bucket WHEN 'current' THEN 1 WHEN '1-30' THEN 2 WHEN '31-60' THEN 3 WHEN '61-90' THEN 4 WHEN '90+' THEN 5 END;",
+					"refId": "A"
+				}
+			]
+		},
+		{
+			"type": "stat",
+			"title": "Facturas pendientes",
+			"gridPos": {"x":12,"y":46,"w":6,"h":4},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "table",
+					"rawSql": "SELECT COUNT(*)::int AS count FROM invoices WHERE status = 'issued' AND (due_date IS NULL OR due_date < CURRENT_DATE);",
+					"refId": "A"
+				}
+			]
+		},
+		{
+			"type": "stat",
+			"title": "Revenue facturas (30d)",
+			"gridPos": {"x":18,"y":46,"w":6,"h":4},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "table",
+					"rawSql": "SELECT COALESCE(SUM(total),0) AS revenue FROM invoices WHERE created_at >= CURRENT_DATE - INTERVAL '30 days';",
+					"refId": "A"
+				}
+			]
+		},
+		{
+			"type": "timeseries",
+			"title": "Revenue facturas diario (90d)",
+			"gridPos": {"x":0,"y":54,"w":12,"h":8},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "time_series",
+					"rawSql": "SELECT period AS time, revenue AS value FROM mv_revenue_daily ORDER BY period;",
+					"refId": "A"
+				}
+			]
+		},
+		{
+			"type": "timeseries",
+			"title": "Revenue facturas mensual (12m)",
+			"gridPos": {"x":12,"y":54,"w":12,"h":8},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "time_series",
+					"rawSql": "SELECT period AS time, revenue AS value FROM mv_revenue_monthly ORDER BY period;",
+					"refId": "A"
+				}
+			]
+		},
+		{
+			"type": "table",
+			"title": "Facturas vencidas",
+			"gridPos": {"x":0,"y":62,"w":24,"h":8},
+			"datasource": {"type":"postgres","uid":"KPIs-Postgres"},
+			"targets": [
+				{
+					"format": "table",
+					"rawSql": "SELECT id, serie, total, due_date, payment_reminder_count, created_at FROM invoices WHERE status = 'issued' AND due_date < CURRENT_DATE ORDER BY due_date ASC LIMIT 50;",
+					"refId": "A"
+				}
+			]
+		}
+	]
+}

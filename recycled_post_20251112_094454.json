@@ -1,0 +1,360 @@
+{
+  "original_post": "La automatización puede ahorrarte hasta 10 horas semanales. ¿Qué proceso de tu negocio te gustaría automatizar primero? #Productividad #IA",
+  "timestamp": "2025-11-12 09:44:54",
+  "elements_extracted": {
+    "hashtags": [
+      "#Productividad",
+      "#IA"
+    ],
+    "mentions": [],
+    "urls": [],
+    "clean_text": "La automatización puede ahorrarte hasta 10 horas semanales. ¿Qué proceso de tu negocio te gustaría automatizar primero?",
+    "word_count": 17,
+    "char_count": 119,
+    "content_type": "question",
+    "tone": "curious",
+    "main_topic": "negocios",
+    "keywords": [
+      "automatización",
+      "ahorrarte",
+      "horas",
+      "semanales",
+      "proceso"
+    ],
+    "has_question": true,
+    "has_exclamation": false,
+    "has_emoji": true,
+    "has_numbers": true
+  },
+  "versions": {
+    "static_post": {
+      "type": "Post Estático",
+      "platform": "Instagram Feed / LinkedIn",
+      "captions": [
+        "✨ **¿Sabías que...?**\n\nLa automatización puede ahorrarte hasta 10 horas semanales. ¿Qué proceso de tu negocio te gustaría automatizar primero?\n\n💭 Reflexión: ¿Cómo aplicas esto hoy en día?\n\nComparte tu opinión ⬇️",
+        "📚 **Contenido de valor:**\n\nLa automatización puede ahorrarte hasta 10 horas semanales. ¿Qué proceso de tu negocio te gustaría automatizar primero?\n\n💬 ¿Qué opinas de esto?\n👇 Comparte tu perspectiva",
+        "👋 Hola! \n\nLa automatización puede ahorrarte hasta 10 horas semanales. ¿Qué proceso de tu negocio te gustaría automatizar primero?\n\n🤔 ¿Has experimentado algo similar?\nCuéntame en los comentarios 👇"
+      ],
+      "recommended_caption": "✨ **¿Sabías que...?**\n\nLa automatización puede ahorrarte hasta 10 horas semanales. ¿Qué proceso de tu negocio te gustaría automatizar primero?\n\n💭 Reflexión: ¿Cómo aplicas esto hoy en día?\n\nComparte tu opinión ⬇️",
+      "hashtags": "#Pregunta #Debate #Discusion #Negocios #Emprendimiento #Marketing #Empresas #Curiosidad #Aprendizaje #Descubrimiento #ContenidoDeValor #Sabiduria",
+      "hashtag_list": [
+        "#Pregunta",
+        "#Debate",
+        "#Discusion",
+        "#Negocios",
+        "#Emprendimiento",
+        "#Marketing",
+        "#Empresas",
+        "#Curiosidad",
+        "#Aprendizaje",
+        "#Descubrimiento",
+        "#ContenidoDeValor",
+        "#Sabiduria"
+      ],
+      "visual_suggestions": [
+        "📈 Gráficos de crecimiento o métricas",
+        "💼 Imágenes profesionales de oficina/equipo",
+        "🎨 Diseño tipo quote con tipografía moderna y fondo degradado",
+        "📸 Screenshot de la publicación original con overlay moderno",
+        "✨ Collage de imágenes relacionadas con el contenido"
+      ],
+      "best_posting_time": "8am-10am o 5pm-7pm (horarios laborales)",
+      "content_analysis": {
+        "type": "question",
+        "tone": "curious",
+        "topic": "negocios",
+        "keywords": [
+          "automatización",
+          "ahorrarte",
+          "horas",
+          "semanales",
+          "proceso"
+        ]
+      },
+      "best_practices": [
+        "Usa una imagen de alta calidad (1080x1080px para Instagram, 1200x627px para LinkedIn)",
+        "Incluye texto legible en la imagen para mejor engagement (máx. 20% del área)",
+        "Publica en 8am-10am o 5pm-7pm (horarios laborales) para máximo alcance según tu audiencia",
+        "Responde a los primeros 5-10 comentarios rápidamente (primeras 2 horas)",
+        "Usa emojis estratégicamente (2-3 por caption)",
+        "Incluye un CTA claro y específico"
+      ],
+      "engagement_metrics": {
+        "engagement_score": 80,
+        "estimated_likes": 800,
+        "estimated_comments": 120,
+        "estimated_shares": 40,
+        "estimated_reach": 2400,
+        "confidence": "high"
+      },
+      "image_prompts": [
+        {
+          "number": 1,
+          "prompt": "Professional business meeting scene, modern office, diverse team collaborating, professional photography style",
+          "style": "professional",
+          "use_case": "Para question sobre negocios",
+          "suggested_tools": [
+            "DALL-E",
+            "Midjourney",
+            "Stable Diffusion",
+            "Canva AI"
+          ]
+        },
+        {
+          "number": 2,
+          "prompt": "Business growth chart visualization, modern infographic style, professional colors, clean design",
+          "style": "professional",
+          "use_case": "Para question sobre negocios",
+          "suggested_tools": [
+            "DALL-E",
+            "Midjourney",
+            "Stable Diffusion",
+            "Canva AI"
+          ]
+        },
+        {
+          "number": 3,
+          "prompt": "Corporate success concept, handshake, growth arrows, professional business illustration, high quality",
+          "style": "professional",
+          "use_case": "Para question sobre negocios",
+          "suggested_tools": [
+            "DALL-E",
+            "Midjourney",
+            "Stable Diffusion",
+            "Canva AI"
+          ]
+        }
+      ]
+    },
+    "short_video": {
+      "type": "Video Corto",
+      "platform": "Instagram Reels / TikTok / YouTube Shorts",
+      "duration": "15 segundos (estimado)",
+      "scripts": [
+        "¿Sabías que...?\n\nLa automatización puede ahorrarte hasta 10 horas semanales. ¿Qué proceso de tu negocio te gustaría automatizar primero?\n\n¿Qué opinas? Comenta 👇",
+        "Te cuento algo que aprendí...\n\nLa automatización puede ahorrarte hasta 10 horas semanales. ¿Qué proceso de tu negocio te gustaría automatizar primero?\n\n¿Has experimentado esto también? Cuéntame ⬇️",
+        "¿Sabías que...?\n\nLa automatización puede ahorrarte hasta 10 horas semanales. ¿Qué proceso de tu negocio te gustaría automatizar primero?\n\n¿Qué opinas? Déjame saber en los comentarios 👇"
+      ],
+      "recommended_script": "¿Sabías que...?\n\nLa automatización puede ahorrarte hasta 10 horas semanales. ¿Qué proceso de tu negocio te gustaría automatizar primero?\n\n¿Qué opinas? Comenta 👇",
+      "captions": [
+        "🎬 ¿Sabías que...?\n\nLa automatización puede ahorrarte hasta 10 horas semanales. ¿Qué proceso de tu negocio te gustaría automatizar primero?\n\n¿Qué opinas? Comenta 👇\n\n#VideoCorto #Contenido #Educacion #Aprendizaje",
+        "🎬 Te cuento algo que aprendí...\n\nLa automatización puede ahorrarte hasta 10 horas semanales. ¿Qué proceso de tu negocio te gustaría automatizar primero?\n\n¿Has experimentado esto también? Cuéntame ⬇️\n\n#VideoCorto #Contenido #Educacion #Aprendizaje",
+        "🎬 ¿Sabías que...?\n\nLa automatización puede ahorrarte hasta 10 horas semanales. ¿Qué proceso de tu negocio te gustaría automatizar primero?\n\n¿Qué opinas? Déjame saber en los comentarios 👇\n\n#VideoCorto #Contenido #Educacion #Aprendizaje"
+      ],
+      "recommended_caption": "🎬 ¿Sabías que...?\n\nLa automatización puede ahorrarte hasta 10 horas semanales. ¿Qué proceso de tu negocio te gustaría automatizar primero?\n\n¿Qué opinas? Comenta 👇\n\n#VideoCorto #Contenido #Educacion #Aprendizaje",
+      "hashtags": "#VideoCorto #Contenido #Educacion #Aprendizaje #Negocios #Emprendimiento #Marketing #Tips #Consejos #Motivacion #Viral #Trending",
+      "hashtag_list": [
+        "#VideoCorto",
+        "#Contenido",
+        "#Educacion",
+        "#Aprendizaje",
+        "#Negocios",
+        "#Emprendimiento",
+        "#Marketing",
+        "#Tips",
+        "#Consejos",
+        "#Motivacion",
+        "#Viral",
+        "#Trending"
+      ],
+      "visual_suggestions": [
+        "🎥 Video tipo talking head con el texto como subtítulos",
+        "📱 Screen recording mostrando la publicación original + narración",
+        "✂️ Video con transiciones rápidas y texto animado",
+        "🎬 B-roll relacionado con el tema + voz en off",
+        "📊 Video con gráficos animados y texto superpuesto"
+      ],
+      "music_suggestions": [
+        "misteriosa pero ligera",
+        "intrigante",
+        "ambiental"
+      ],
+      "best_posting_time": "8am-12pm o 6pm-9pm",
+      "content_analysis": {
+        "type": "question",
+        "tone": "curious",
+        "topic": "negocios"
+      },
+      "best_practices": [
+        "Mantén el hook en los primeros 2 segundos",
+        "Usa subtítulos grandes y legibles (fuente mínima 48px)",
+        "Añade música misteriosa pero ligera pero que no compita con el audio",
+        "Incluye CTA visual (texto animado) además del caption",
+        "Publica en 8am-12pm o 6pm-9pm para máximo alcance",
+        "Usa transiciones rápidas (cada 2-3 segundos) para mantener atención",
+        "Añade efectos visuales sutiles (zoom, pan) para dinamismo"
+      ],
+      "engagement_metrics": {
+        "engagement_score": 100,
+        "estimated_likes": 1000,
+        "estimated_comments": 150,
+        "estimated_shares": 50,
+        "estimated_reach": 3000,
+        "confidence": "high"
+      }
+    },
+    "story": {
+      "type": "Historia",
+      "platform": "Instagram Stories / Facebook Stories",
+      "slides": [
+        {
+          "number": 1,
+          "type": "Hook",
+          "content": "❓ Pregunta rápida...",
+          "visual": "Fondo sólido vibrante + emoji grande + texto bold",
+          "duration": "3 segundos",
+          "interactive": "Ninguno"
+        },
+        {
+          "number": 2,
+          "type": "Main Content",
+          "content": "La automatización puede ahorrarte hasta 10 horas semanales",
+          "visual": "Fondo degradado relacionado con el tema + texto destacado",
+          "duration": "4-5 segundos",
+          "interactive": "Ninguno"
+        },
+        {
+          "number": 3,
+          "type": "Content",
+          "content": "¿Qué proceso de tu negocio te gustaría automatizar primero?",
+          "visual": "Imagen relacionada con el contenido + texto superpuesto",
+          "duration": "4-5 segundos",
+          "interactive": "Sticker de pregunta"
+        },
+        {
+          "number": 4,
+          "type": "CTA",
+          "content": "¿Qué opinas? 👇 Desliza para responder",
+          "visual": "Fondo llamativo + CTA destacado con emoji + botón visual",
+          "duration": "3-4 segundos",
+          "interactive": "Sticker de pregunta o encuesta"
+        }
+      ],
+      "total_slides": 4,
+      "hashtags": "#Stories #Contenido #Negocios #Emprendimiento #Tips #Sabiduria #Aprendizaje #Productividad",
+      "hashtag_list": [
+        "#Stories",
+        "#Contenido",
+        "#Negocios",
+        "#Emprendimiento",
+        "#Tips",
+        "#Sabiduria",
+        "#Aprendizaje",
+        "#Productividad"
+      ],
+      "visual_suggestions": [
+        "📱 Slide 1: Fondo sólido vibrante + emoji grande + texto bold",
+        "🎨 Slides de contenido: Fondo degradado o imagen relacionada + texto legible",
+        "✨ Slide final: Fondo llamativo + CTA destacado con emoji",
+        "🎭 Usa stickers interactivos (encuestas, preguntas, quizzes) en slides intermedios",
+        "📊 Considera añadir GIFs relacionados con el tema para dinamismo",
+        "🎨 Usa colores contrastantes para mejor legibilidad"
+      ],
+      "best_posting_time": "8am-12pm o 6pm-10pm",
+      "content_analysis": {
+        "type": "question",
+        "tone": "curious",
+        "topic": "negocios"
+      },
+      "best_practices": [
+        "Mantén cada slide visible por 3-5 segundos (total: ~16 segundos)",
+        "Usa máximo 4 slides para mantener engagement",
+        "Añade stickers interactivos en slides intermedios (encuestas, preguntas, quizzes)",
+        "Usa la función de highlights para guardar historias importantes",
+        "Publica entre 8am-12pm o 6pm-10pm para máximo alcance",
+        "Considera usar la función de 'En vivo' para engagement en tiempo real",
+        "Usa GIFs relacionados con el tema para dinamismo",
+        "Asegúrate de que el texto sea legible (fuente mínima 24px)"
+      ],
+      "engagement_metrics": {
+        "engagement_score": 72,
+        "estimated_likes": 720,
+        "estimated_comments": 108,
+        "estimated_shares": 36,
+        "estimated_reach": 2160,
+        "confidence": "high"
+      }
+    }
+  },
+  "related_content_suggestions": [
+    {
+      "number": 1,
+      "topic": "estrategia",
+      "content_ideas": [
+        "5 formas de mejorar estrategia",
+        "Guía completa de estrategia",
+        "Errores comunes en estrategia",
+        "Casos de éxito en estrategia"
+      ],
+      "format_suggestions": [
+        "Post estático",
+        "Video corto",
+        "Carrusel",
+        "Historia"
+      ]
+    },
+    {
+      "number": 2,
+      "topic": "crecimiento",
+      "content_ideas": [
+        "5 formas de mejorar crecimiento",
+        "Guía completa de crecimiento",
+        "Errores comunes en crecimiento",
+        "Casos de éxito en crecimiento"
+      ],
+      "format_suggestions": [
+        "Post estático",
+        "Video corto",
+        "Carrusel",
+        "Historia"
+      ]
+    },
+    {
+      "number": 3,
+      "topic": "marketing",
+      "content_ideas": [
+        "5 formas de mejorar marketing",
+        "Guía completa de marketing",
+        "Errores comunes en marketing",
+        "Casos de éxito en marketing"
+      ],
+      "format_suggestions": [
+        "Post estático",
+        "Video corto",
+        "Carrusel",
+        "Historia"
+      ]
+    },
+    {
+      "number": 4,
+      "topic": "ventas",
+      "content_ideas": [
+        "5 formas de mejorar ventas",
+        "Guía completa de ventas",
+        "Errores comunes en ventas",
+        "Casos de éxito en ventas"
+      ],
+      "format_suggestions": [
+        "Post estático",
+        "Video corto",
+        "Carrusel",
+        "Historia"
+      ]
+    }
+  ],
+  "trending_hashtags": [
+    "#Negocios",
+    "#Emprendimiento",
+    "#Marketing",
+    "#Exito",
+    "#Empresas",
+    "#Viral",
+    "#Trending",
+    "#Popular",
+    "#Top"
+  ],
+  "summary": {
+    "best_version": "short_video",
+    "recommended_action": "Usa historia con sticker de pregunta para mayor interacción"
+  }
+}

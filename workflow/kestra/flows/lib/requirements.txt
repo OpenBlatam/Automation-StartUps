@@ -1,0 +1,44 @@
+# Requirements para las librerías de workflows
+# Instalar en el contenedor de Kestra o como dependencias del flow
+
+# HTTP requests con retry y connection pooling
+requests>=2.31.0
+
+# Retry automático con exponential backoff
+tenacity>=8.2.3
+
+# Base de datos PostgreSQL
+psycopg2-binary>=2.9.9
+
+# Validación de datos (opcional pero recomendado)
+# pydantic>=2.0.0
+
+# HTTP cliente avanzado (opcional pero recomendado para mejor performance)
+# httpx>=0.24.0
+# Nota: httpx proporciona mejor connection pooling que requests
+# Si está disponible, los clientes lo usarán automáticamente
+
+# Cache tools (opcional, mejor performance)
+# cachetools>=5.3.0
+
+# Logging estructurado ya viene con Python estándar
+# logging
+
+# Para rate limiting y manejo de tiempo
+# time, hashlib, json (built-in)
+
+# Traducción (opcional)
+# googletrans==4.0.0rc1  # Para traducción con Google Translate
+
+# OpenAI (opcional, para resúmenes y traducción avanzada)
+# openai>=1.0.0
+
+# Anthropic Claude (opcional, para resúmenes alternativos)
+# anthropic>=0.18.0
+
+# Prometheus (opcional, para métricas)
+# prometheus_client>=0.19.0
+
+# iCalendar (opcional, para integración con calendarios)
+# icalendar>=5.0.0
+

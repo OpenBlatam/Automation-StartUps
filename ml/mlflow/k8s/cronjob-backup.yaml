@@ -1,0 +1,138 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: mlflow-backup
+  namespace: ml
+  labels:
+    app: mlflow
+    component: backup
+spec:
+  # Ejecutar diariamente a las 2 AM
+  schedule: "0 2 * * *"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: mlflow-backup
+          containers:
+          - name: backup
+            image: postgres:15
+            command:
+            - /bin/sh
+            - -c
+            - |
+              set -e
+              echo "Starting MLflow database backup..."
+              
+              # Variables de conexión
+              PGHOST="${PGHOST:-postgres.ml.svc.cluster.local}"
+              PGPORT="${PGPORT:-5432}"
+              PGDATABASE="${PGDATABASE:-mlflow}"
+              PGUSER="${PGUSER:-mlflow}"
+              
+              # Timestamp para nombre de archivo
+              TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+              BACKUP_FILE="/backups/mlflow_backup_${TIMESTAMP}.dump"
+              
+              # Crear backup
+              pg_dump -h "$PGHOST" \
+                      -p "$PGPORT" \
+                      -U "$PGUSER" \
+                      -d "$PGDATABASE" \
+                      -F c \
+                      -f "$BACKUP_FILE"
+              
+              echo "Backup created: $BACKUP_FILE"
+              echo "Size: $(du -h $BACKUP_FILE | cut -f1)"
+              
+              # Subir a S3 si está configurado
+              if [ -n "$S3_BUCKET" ]; then
+                echo "Uploading to S3: s3://${S3_BUCKET}/mlflow-backups/"
+                
+                # Usar aws cli si está disponible, o boto3
+                if command -v aws &> /dev/null; then
+                  aws s3 cp "$BACKUP_FILE" \
+                    "s3://${S3_BUCKET}/mlflow-backups/$(basename $BACKUP_FILE)" \
+                    --storage-class STANDARD_IA \
+                    --server-side-encryption AES256
+                else
+                  echo "WARNING: aws cli not available, backup not uploaded to S3"
+                fi
+              fi
+              
+              # Limpiar backups locales más antiguos de 7 días
+              find /backups -name "*.dump" -mtime +7 -delete
+              
+              echo "Backup completed successfully"
+            env:
+            - name: PGHOST
+              value: postgres.ml.svc.cluster.local
+            - name: PGPORT
+              value: "5432"
+            - name: PGDATABASE
+              value: mlflow
+            - name: PGUSER
+              value: mlflow
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mlflow-postgres-secret
+                  key: password
+            - name: S3_BUCKET
+              value: biz-datalake-prod  # Cambiar según entorno
+            - name: AWS_REGION
+              value: us-east-1
+            - name: AWS_DEFAULT_REGION
+              value: us-east-1
+            volumeMounts:
+            - name: backups
+              mountPath: /backups
+            # IRSA para acceso a S3 (si está en AWS EKS)
+            # resources necesarios según el tamaño de la base de datos
+            resources:
+              requests:
+                cpu: 500m
+                memory: 512Mi
+              limits:
+                cpu: 2000m
+                memory: 2Gi
+          volumes:
+          - name: backups
+            persistentVolumeClaim:
+              claimName: mlflow-backup-pvc
+          restartPolicy: OnFailure
+          # Tolerations para nodes específicos si es necesario
+          # tolerations:
+          #   - key: workload-type
+          #     operator: Equal
+          #     value: backup
+          #     effect: NoSchedule
+
+---
+# Service Account para el CronJob
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: mlflow-backup
+  namespace: ml
+  annotations:
+    # Para AWS IRSA
+    # eks.amazonaws.com/role-arn: arn:aws:iam::ACCOUNT:role/mlflow-backup-role
+
+---
+# PVC para almacenar backups locales temporalmente
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mlflow-backup-pvc
+  namespace: ml
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: gp3  # Ajustar según tu storage class
+  resources:
+    requests:
+      storage: 50Gi  # Ajustar según tamaño de backups esperados
+

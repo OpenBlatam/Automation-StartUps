@@ -1,0 +1,544 @@
+id: whatsapp_ticket_to_sheet_doc
+namespace: workflows
+
+labels:
+  app: expenses
+  source: whatsapp
+  category: automation
+
+description: |
+  Procesa fotos de tickets/recibos recibidos vía WhatsApp, extrae datos estructurados con IA (OpenAI GPT-4),
+  valida el esquema, agrega a Google Sheets y genera documento markdown/PDF para contabilidad.
+  
+  Características:
+  - Verificación HMAC opcional de firmas WhatsApp
+  - Extracción inteligente de campos (proveedor, fecha, total, items, etc.)
+  - Validación robusta de esquema y tipos
+  - Integración con Google Sheets vía webhook
+  - Generación automática de documentos para contabilidad
+  - Notificaciones opcionales a Slack
+  - Retry automático con backoff exponencial
+
+inputs:
+  - name: openai_api_key
+    type: STRING
+    required: true
+    description: API key de OpenAI para extracción de datos de imágenes
+  - name: sheets_webhook_url
+    type: STRING
+    required: true
+    description: Webhook URL para agregar datos a Google Sheets
+  - name: docs_webhook_url
+    type: STRING
+    required: true
+    description: Webhook URL para generar documentos (markdown/PDF)
+  - name: whatsapp_app_secret
+    type: STRING
+    required: false
+    description: Secret para verificación HMAC de firmas WhatsApp (opcional pero recomendado)
+  - name: files_webhook_url
+    type: STRING
+    required: false
+    description: Webhook URL opcional para almacenar archivos en data lake
+  - name: slack_webhook_url
+    type: STRING
+    required: false
+    description: Webhook URL opcional para notificaciones Slack
+
+triggers:
+  - id: whatsapp_webhook
+    type: io.kestra.plugin.core.trigger.Webhook
+    key: whatsapp
+    description: Trigger webhook para recibir mensajes de WhatsApp con imágenes de tickets
+
+variables:
+  openai_endpoint: "https://api.openai.com/v1/chat/completions"
+  openai_model: "gpt-4o-mini"
+  max_retry_attempts: 3
+
+tasks:
+  # Verificación de firma HMAC (opcional pero recomendado para seguridad)
+  - id: verify_signature
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    description: Verifica la firma HMAC del payload de WhatsApp si está configurado el secret
+    inputFiles:
+      raw.bin: "{{ trigger.rawBody }}"
+      headers.json: "{{ trigger.headers | toJson }}"
+      verify.py: |
+        import os, hmac, hashlib, json, sys
+        
+        secret = os.getenv('WA_APP_SECRET')
+        if not secret:
+            print('INFO: WhatsApp app secret not configured; skipping signature verification')
+            sys.exit(0)
+        
+        try:
+            with open('headers.json', 'r') as f:
+                headers = json.load(f)
+        except Exception as e:
+            print(f'ERROR: Failed to load headers: {e}')
+            sys.exit(1)
+        
+        # Buscar signature en diferentes formatos de header
+        sig = (headers.get('X-Hub-Signature-256') or 
+               headers.get('x-hub-signature-256') or
+               headers.get('X-Hub-Signature') or
+               headers.get('x-hub-signature'))
+        
+        if not sig:
+            print('WARNING: No signature header found - proceeding without verification')
+            sys.exit(0)
+        
+        if not sig.startswith('sha256='):
+            print(f'ERROR: Invalid signature header format (expected sha256=..., got: {sig[:20]}...)')
+            sys.exit(1)
+        
+        try:
+            provided = sig.split('=')[1]
+            with open('raw.bin', 'rb') as f:
+                body = f.read()
+            
+            # Calcular HMAC SHA256
+            calc = hmac.new(secret.encode('utf-8'), body, hashlib.sha256).hexdigest()
+            
+            # Comparación segura de strings
+            if not hmac.compare_digest(calc, provided):
+                print('ERROR: HMAC signature mismatch - request may be tampered or secret incorrect')
+                sys.exit(1)
+            
+            print('INFO: Signature verification successful')
+        except Exception as e:
+            print(f'ERROR: Signature verification failed: {e}')
+            sys.exit(1)
+    env:
+      WA_APP_SECRET: "{{ inputs.whatsapp_app_secret }}"
+
+  # Parseo del payload entrante
+  - id: parse_incoming
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    description: Parsea el payload de WhatsApp y extrae la URL de la imagen y notas adicionales
+    inputFiles:
+      payload.json: "{{ trigger.body | toJson }}"
+      parse.py: |
+        import json, sys
+        from urllib.parse import urlparse
+        
+        try:
+            with open('payload.json', 'r', encoding='utf-8') as f:
+                p = json.load(f)
+        except json.JSONDecodeError as e:
+            print(f'ERROR: Invalid JSON payload: {e}')
+            sys.exit(1)
+        except Exception as e:
+            print(f'ERROR: Failed to parse payload: {e}')
+            sys.exit(1)
+        
+        if not isinstance(p, dict):
+            print(f'ERROR: Expected dict payload, got {type(p).__name__}')
+            sys.exit(1)
+        
+        # Intentar múltiples formatos comunes de WhatsApp webhooks
+        url = None
+        formats_tried = []
+        
+        # Formato 1: MediaUrl0 (Twilio/WhatsApp Business API)
+        if p.get('MediaUrl0'):
+            url = p['MediaUrl0']
+            formats_tried.append('MediaUrl0')
+        # Formato 2: nested media object
+        elif p.get('media', {}).get('url'):
+            url = p['media']['url']
+            formats_tried.append('media.url')
+        # Formato 3: image_url directo
+        elif p.get('image_url'):
+            url = p['image_url']
+            formats_tried.append('image_url')
+        # Formato 4: media_url directo
+        elif p.get('media_url'):
+            url = p['media_url']
+            formats_tried.append('media_url')
+        # Formato 5: message.media (WhatsApp Cloud API)
+        elif p.get('entry', [{}])[0].get('changes', [{}])[0].get('value', {}).get('messages', [{}])[0].get('image', {}).get('url'):
+            url = p['entry'][0]['changes'][0]['value']['messages'][0]['image']['url']
+            formats_tried.append('entry.changes.value.messages.image.url')
+        
+        if not url:
+            available_keys = list(p.keys())
+            if 'entry' in p:
+                available_keys.append('entry[*]...')
+            print(f'ERROR: No media URL found in payload. Tried: {", ".join(formats_tried) if formats_tried else "none"}. Available top-level keys: {available_keys[:10]}')
+            sys.exit(1)
+        
+        # Validar que sea una URL válida
+        try:
+            parsed = urlparse(url.strip())
+            if not parsed.scheme or not parsed.netloc:
+                print(f'ERROR: Invalid URL format: {url[:50]}...')
+                sys.exit(1)
+        except Exception as e:
+            print(f'ERROR: URL validation failed: {e}')
+            sys.exit(1)
+        
+        # Extraer nota/mensaje adicional
+        note = (p.get('Body') or 
+                p.get('message') or 
+                p.get('text') or
+                p.get('entry', [{}])[0].get('changes', [{}])[0].get('value', {}).get('messages', [{}])[0].get('text', {}).get('body', '') or
+                '').strip()
+        
+        out = {
+            'media_url': url.strip(),
+            'note': note,
+            'source_number': p.get('From') or p.get('from') or p.get('WaId') or '',
+            'message_id': p.get('MessageSid') or p.get('id') or ''
+        }
+        
+        try:
+            with open('incoming.json', 'w', encoding='utf-8') as f:
+                json.dump(out, f, ensure_ascii=False, indent=2)
+            print(f'INFO: Parsed incoming message - media_url extracted ({len(out["media_url"])} chars), note length: {len(out["note"])}, source: {out["source_number"][:10] if out["source_number"] else "unknown"}')
+        except Exception as e:
+            print(f'ERROR: Failed to write parsed data: {e}')
+            sys.exit(1)
+    outputFiles:
+      - incoming.json
+
+  # Subir a data lake (opcional)
+  - id: upload_media
+    type: io.kestra.plugin.core.http.Request
+    disabled: "{{ inputs.files_webhook_url is not defined }}"
+    description: Sube la imagen del ticket a un data lake o sistema de almacenamiento
+    uri: "{{ inputs.files_webhook_url }}"
+    method: POST
+    headers:
+      Content-Type: application/json
+    body: |
+      {% set inc = (taskrun.outputs['parse_incoming']['files']['incoming.json'] | readFile | fromJson) %}
+      {"source_url": "{{ inc.media_url }}", "type": "ticket", "tags": ["whatsapp", "expense", "automated"], "metadata": {"source_number": "{{ inc.source_number }}", "message_id": "{{ inc.message_id }}", "note": {{ inc.note | toJson }}, "processed_at": "{{ execution.startDate }}"}}
+    timeout: PT60S
+    retry:
+      type: exponential
+      interval: PT5S
+      maxAttempt: 2
+      maxInterval: PT20S
+
+  # Extracción de campos usando IA
+  - id: extract_fields
+    type: io.kestra.plugin.core.http.Request
+    description: Extrae campos estructurados del ticket usando OpenAI Vision API
+    uri: "{{ vars.openai_endpoint }}"
+    method: POST
+    headers:
+      Content-Type: application/json
+      Authorization: "Bearer {{ inputs.openai_api_key }}"
+    body: |
+      {% set inc = (taskrun.outputs['parse_incoming']['files']['incoming.json'] | readFile | fromJson) %}
+      {"model": "{{ vars.openai_model }}", "response_format": {"type": "json_object"}, "temperature": 0.1, "max_tokens": 2000, "messages": [{"role": "system", "content": "Eres un extractor experto de datos de tickets/recibos/facturas. Extrae todos los campos posibles de manera estructurada. Si un campo no está presente o no es legible, usa null. Devuelve siempre JSON válido."}, {"role": "user", "content": [{"type": "text", "text": "Extrae los siguientes campos del ticket/recibo en la imagen:\n- proveedor (nombre del negocio/vendedor)\n- fecha (formato YYYY-MM-DD)\n- total (número, puede incluir decimales)\n- moneda (código ISO como USD, EUR, ARS)\n- impuestos (monto de impuestos si está separado)\n- items (array de objetos con: descripcion, cantidad, precio)\n- metodo_pago (efectivo, tarjeta, transferencia, etc.)\n- nro_ticket (número de ticket/factura si existe)\n- direccion (dirección del establecimiento si es visible)\n\nResponde SOLO con un JSON válido con estas claves."}, {"type": "image_url", "image_url": {"url": "{{ inc.media_url }}", "detail": "high"}}]}]}
+    timeout: PT120S
+    retry:
+      type: exponential
+      interval: PT10S
+      maxAttempt: "{{ vars.max_retry_attempts }}"
+      maxInterval: PT60S
+
+  # Validación de esquema y tipos
+  - id: validate_schema
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    description: Valida el esquema de datos extraído y normaliza tipos
+    inputFiles:
+      data.json: "{{ taskrun.outputs['extract_fields']['body'] }}"
+      validate.py: |
+        import json, sys, re
+        from datetime import datetime
+        
+        def normalize_date(date_str):
+            """Intenta normalizar fechas en diferentes formatos."""
+            if not date_str or not isinstance(date_str, str):
+                return None
+            
+            date_str = date_str.strip()
+            # Formato ISO YYYY-MM-DD
+            if re.match(r'^\d{4}-\d{2}-\d{2}', date_str):
+                return date_str
+            
+            # Intentar parsear otros formatos comunes
+            formats = [
+                '%d/%m/%Y', '%d-%m-%Y', '%Y/%m/%d',
+                '%d/%m/%y', '%d-%m-%y',
+                '%m/%d/%Y', '%m-%d-%Y'
+            ]
+            
+            for fmt in formats:
+                try:
+                    dt = datetime.strptime(date_str, fmt)
+                    return dt.strftime('%Y-%m-%d')
+                except ValueError:
+                    continue
+            
+            return date_str
+        
+        def normalize_currency(currency_str):
+            """Normaliza códigos de moneda."""
+            if not currency_str:
+                return ''
+            
+            currency_str = str(currency_str).strip().upper()
+            symbol_map = {
+                '$': 'USD', '€': 'EUR', '£': 'GBP',
+                'ARS': 'ARS', 'PESOS': 'ARS', 'PESO': 'ARS'
+            }
+            
+            if currency_str in symbol_map:
+                return symbol_map[currency_str]
+            
+            if re.match(r'^[A-Z]{3}$', currency_str):
+                return currency_str
+            
+            for symbol, code in symbol_map.items():
+                if symbol in currency_str:
+                    return code
+            
+            return currency_str
+        
+        try:
+            response = json.load(open('data.json', 'r', encoding='utf-8'))
+            
+            # Extraer contenido de respuesta OpenAI
+            if 'choices' in response and response['choices']:
+                content = response['choices'][0].get('message', {}).get('content', '{}')
+                d = json.loads(content) if isinstance(content, str) else content
+            else:
+                d = response
+        except json.JSONDecodeError as e:
+            print(f'ERROR: Invalid JSON in OpenAI response: {e}')
+            sys.exit(1)
+        except Exception as e:
+            print(f'ERROR: Failed to parse OpenAI response: {e}')
+            sys.exit(1)
+        
+        # Validar campos requeridos
+        required = ['proveedor', 'fecha', 'total', 'moneda']
+        missing = [k for k in required if not d.get(k) or (isinstance(d.get(k), str) and not d[k].strip())]
+        
+        if missing:
+            print(f'ERROR: Missing required fields: {", ".join(missing)}')
+            sys.exit(1)
+        
+        # Normalizar fecha
+        fecha_raw = str(d.get('fecha', '')).strip()
+        fecha = normalize_date(fecha_raw)
+        if not fecha or not re.match(r'^\d{4}-\d{2}-\d{2}', fecha):
+            print(f'WARNING: Date format may be invalid (was: {fecha_raw}, normalized: {fecha})')
+        
+        d['fecha'] = fecha or fecha_raw
+        
+        # Normalizar moneda
+        d['moneda'] = normalize_currency(d.get('moneda', ''))
+        
+        # Validar y normalizar total
+        try:
+            total_raw = d.get('total', '0')
+            total_str = str(total_raw).replace(',', '').replace(' ', '')
+            total = float(total_str)
+            
+            if total < 0:
+                print(f'WARNING: Total is negative: {total}')
+            
+            d['total'] = round(total, 2)
+        except (ValueError, TypeError) as e:
+            print(f'ERROR: Invalid total value: {d.get("total")} ({e})')
+            sys.exit(1)
+        
+        # Normalizar impuestos si existe
+        if 'impuestos' in d and d['impuestos']:
+            try:
+                impuestos_raw = str(d['impuestos']).replace(',', '').replace(' ', '')
+                d['impuestos'] = round(float(impuestos_raw), 2)
+            except (ValueError, TypeError):
+                print(f'WARNING: Invalid impuestos value, setting to null')
+                d['impuestos'] = None
+        
+        # Validar items si existe
+        items = d.get('items', [])
+        if items and isinstance(items, list):
+            validated_items = []
+            for i, item in enumerate(items):
+                if isinstance(item, dict):
+                    validated_item = {
+                        'descripcion': str(item.get('descripcion', f'Item {i+1}')).strip(),
+                        'cantidad': float(item.get('cantidad', 1)) if item.get('cantidad') else 1.0,
+                        'precio': round(float(str(item.get('precio', '0')).replace(',', '')), 2)
+                    }
+                    validated_items.append(validated_item)
+                else:
+                    print(f'WARNING: Invalid item format at index {i}, skipping')
+            
+            d['items'] = validated_items
+        else:
+            d['items'] = []
+        
+        # Validar otros campos opcionales
+        d['metodo_pago'] = str(d.get('metodo_pago', '')).strip() or None
+        d['nro_ticket'] = str(d.get('nro_ticket', '')).strip() or None
+        d['direccion'] = str(d.get('direccion', '')).strip() or None
+        
+        try:
+            with open('validated.json', 'w', encoding='utf-8') as f:
+                json.dump(d, f, ensure_ascii=False, indent=2)
+            
+            print(f'INFO: Validation successful - proveedor={d.get("proveedor")}, total={d.get("total")} {d.get("moneda")}, fecha={d.get("fecha")}, items={len(d.get("items", []))}')
+        except Exception as e:
+            print(f'ERROR: Failed to write validated data: {e}')
+            sys.exit(1)
+    outputFiles:
+      - validated.json
+
+  # Escribir a Google Sheets
+  - id: to_sheet
+    type: io.kestra.plugin.core.http.Request
+    description: Agrega los datos validados a Google Sheets vía webhook
+    uri: "{{ inputs.sheets_webhook_url }}"
+    method: POST
+    timeout: PT30S
+    headers:
+      Content-Type: application/json
+    body: |
+      {% set data = (taskrun.outputs['validate_schema']['files']['validated.json'] | readFile | fromJson) %}
+      {"proveedor": {{ data.proveedor | toJson }}, "fecha": {{ data.fecha | toJson }}, "total": {{ data.total | toJson }}, "moneda": {{ data.moneda | toJson }}, "impuestos": {{ data.impuestos | toJson if data.impuestos is defined else 'null' }}, "metodo_pago": {{ data.metodo_pago | toJson if data.metodo_pago else 'null' }}, "nro_ticket": {{ data.nro_ticket | toJson if data.nro_ticket else 'null' }}, "direccion": {{ data.direccion | toJson if data.direccion else 'null' }}, "items_count": {{ data.items | length }}, "source": "whatsapp", "processed_at": "{{ execution.startDate }}", "execution_id": "{{ execution.id }}"}
+    retry:
+      type: exponential
+      interval: PT5S
+      maxDuration: PT2M
+      maxAttempt: "{{ vars.max_retry_attempts }}"
+
+  # Construcción del documento markdown
+  - id: build_markdown
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    description: Genera documento markdown formateado con los datos del ticket
+    inputFiles:
+      data.json: "{{ taskrun.outputs['validate_schema']['files']['validated.json'] | readFile }}"
+      build.py: |
+        import json
+        
+        def escape_md(text):
+            """Escape markdown special characters."""
+            if not text:
+                return ''
+            text_str = str(text)
+            special_chars = ['*', '_', '#', '[', ']', '(', ')', '`', '|']
+            for char in special_chars:
+                text_str = text_str.replace(char, f'\\{char}')
+            return text_str
+        
+        def format_currency(amount, currency):
+            """Formatea cantidad con moneda."""
+            if not amount:
+                return 'N/A'
+            currency_symbol = {
+                'USD': '$', 'EUR': '€', 'GBP': '£', 'ARS': '$'
+            }.get(currency.upper(), currency)
+            return f"{currency_symbol} {amount:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
+        
+        try:
+            with open('data.json', 'r', encoding='utf-8') as f:
+                d = json.load(f)
+        except Exception as e:
+            print(f'ERROR: Failed to load validated data: {e}')
+            sys.exit(1)
+        
+        # Construir documento markdown bien formateado
+        md = f"# Comprobante de Gasto\n\n"
+        md += f"**Proveedor:** {escape_md(d.get('proveedor', 'N/A'))}\n\n"
+        md += f"**Fecha:** {escape_md(d.get('fecha', 'N/A'))}\n\n"
+        md += f"**Total:** {format_currency(d.get('total', 0), d.get('moneda', ''))}\n\n"
+        
+        if d.get('impuestos'):
+            md += f"**Impuestos:** {format_currency(d.get('impuestos'), d.get('moneda', ''))}\n\n"
+        
+        if d.get('metodo_pago'):
+            md += f"**Método de pago:** {escape_md(d.get('metodo_pago'))}\n\n"
+        
+        if d.get('nro_ticket'):
+            md += f"**Nº Ticket:** {escape_md(d.get('nro_ticket'))}\n\n"
+        
+        if d.get('direccion'):
+            md += f"**Dirección:** {escape_md(d.get('direccion'))}\n\n"
+        
+        items = d.get('items', []) or []
+        if items:
+            md += f"## Ítems ({len(items)})\n\n"
+            md += "| # | Descripción | Cantidad | Precio Unit. | Subtotal |\n"
+            md += "|---|-------------|----------|--------------|----------|\n"
+            
+            total_items = 0.0
+            for i, it in enumerate(items, 1):
+                desc = escape_md(it.get('descripcion', 'N/A'))
+                cant = it.get('cantidad', 1)
+                precio = it.get('precio', 0)
+                subtotal = cant * precio
+                total_items += subtotal
+                
+                md += f"| {i} | {desc} | {cant} | {format_currency(precio, d.get('moneda', ''))} | {format_currency(subtotal, d.get('moneda', ''))} |\n"
+            
+            if len(items) > 1:
+                md += f"\n**Subtotal ítems:** {format_currency(total_items, d.get('moneda', ''))}\n\n"
+        else:
+            md += "## Ítems\n\n*No se encontraron ítems detallados en el ticket*\n\n"
+        
+        md += f"---\n\n"
+        md += f"*Documento generado automáticamente desde WhatsApp*\n"
+        md += f"*Procesado el: {d.get('processed_at', 'N/A')}*\n"
+        
+        try:
+            with open('doc.md', 'w', encoding='utf-8') as f:
+                f.write(md)
+            print(f'INFO: Markdown document built successfully ({len(md)} characters, {md.count(chr(10))} lines)')
+        except Exception as e:
+            print(f'ERROR: Failed to write markdown document: {e}')
+            sys.exit(1)
+    outputFiles:
+      - doc.md
+
+  # Generar documento final
+  - id: build_doc
+    type: io.kestra.plugin.core.http.Request
+    description: Envía el markdown al servicio de documentos para generar PDF/HTML
+    uri: "{{ inputs.docs_webhook_url }}"
+    method: POST
+    timeout: PT60S
+    headers:
+      Content-Type: application/json
+    body: |
+      {% set md = (taskrun.outputs['build_markdown']['files']['doc.md'] | readFile) %}
+      {% set data = (taskrun.outputs['validate_schema']['files']['validated.json'] | readFile | fromJson) %}
+      {"title": "Comprobante de Gasto - {{ data.proveedor | default('N/A') }}", "content_type": "text/markdown", "content": {{ md | toJson }}, "render_pdf": true, "metadata": {"categoria": "gasto", "fuente": "whatsapp", "proveedor": {{ data.proveedor | toJson }}, "fecha": {{ data.fecha | toJson }}, "total": {{ data.total | toJson }}, "moneda": {{ data.moneda | toJson }}, "metodo_pago": {{ data.metodo_pago | toJson if data.metodo_pago else 'null' }}, "nro_ticket": {{ data.nro_ticket | toJson if data.nro_ticket else 'null' }}, "items_count": {{ data.items | length }}, "processed_at": "{{ execution.startDate }}", "execution_id": "{{ execution.id }}"}}
+    retry:
+      type: exponential
+      interval: PT5S
+      maxDuration: PT2M
+      maxAttempt: "{{ vars.max_retry_attempts }}"
+
+  # Notificación a Slack (opcional)
+  - id: notify_slack
+    type: io.kestra.plugin.core.http.Request
+    disabled: "{{ inputs.slack_webhook_url is not defined }}"
+    description: Envía notificación a Slack con resumen del gasto procesado
+    uri: "{{ inputs.slack_webhook_url }}"
+    method: POST
+    timeout: PT10S
+    headers:
+      Content-Type: application/json
+    body: |
+      {% set data = (taskrun.outputs['validate_schema']['files']['validated.json'] | readFile | fromJson) %}
+      {% set inc = (taskrun.outputs['parse_incoming']['files']['incoming.json'] | readFile | fromJson) %}
+      {"text": "✅ Gasto procesado desde WhatsApp", "blocks": [{"type": "header", "text": {"type": "plain_text", "text": "💰 Gasto Procesado"}}, {"type": "section", "fields": [{"type": "mrkdwn", "text": "*Proveedor:*\n{{ data.proveedor | default('N/A') }}"}, {"type": "mrkdwn", "text": "*Total:*\n{{ data.total | default('0') }} {{ data.moneda | default('') }}"}, {"type": "mrkdwn", "text": "*Fecha:*\n{{ data.fecha | default('N/A') }}"}, {"type": "mrkdwn", "text": "*Método:*\n{{ data.metodo_pago | default('N/A') }}"}]}, {% if data.items | length > 0 %}{"type": "section", "text": {"type": "mrkdwn", "text": "*Ítems:* {{ data.items | length }}"}}, {% endif %}{"type": "context", "elements": [{"type": "mrkdwn", "text": "Procesado desde WhatsApp • {{ execution.startDate }}"}]}]}
+    retry:
+      type: exponential
+      interval: PT2S
+      maxDuration: PT30S
+      maxAttempt: 2
+

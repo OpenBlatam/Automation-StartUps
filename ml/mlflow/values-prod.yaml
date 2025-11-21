@@ -1,0 +1,103 @@
+# MLflow Values - Production Environment
+# Override para producción con máxima seguridad y performance
+#
+# Uso:
+#   helm install mlflow mlflow/mlflow \
+#     --namespace ml \
+#     -f ml/mlflow/values.yaml \
+#     -f ml/mlflow/values-prod.yaml
+
+mlflow:
+  workers: 4
+  resources:
+    requests:
+      cpu: 2000m
+      memory: 4Gi
+    limits:
+      cpu: 8000m
+      memory: 16Gi
+
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 20
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
+    # Métrica personalizada basada en requests
+    - type: Pods
+      pods:
+        metric:
+          name: mlflow_requests_per_second
+        target:
+          type: AverageValue
+          averageValue: "50"
+
+ingress:
+  annotations:
+    # TLS obligatorio
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # Rate limiting más estricto
+    nginx.ingress.kubernetes.io/limit-rps: "200"
+    nginx.ingress.kubernetes.io/limit-connections: "100"
+    # OAuth2-proxy para autenticación
+    nginx.ingress.kubernetes.io/auth-url: "https://oauth2-proxy.oauth.svc.cluster.local/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://oauth2-proxy.oauth.svc.cluster.local/oauth2/start"
+
+monitoring:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    interval: 15s
+    scrapeTimeout: 5s
+
+security:
+  runAsNonRoot: true
+  runAsUser: 1000
+  fsGroup: 1000
+  seccompProfile: RuntimeDefault
+  networkPolicy:
+    enabled: true  # Requiere Network Policies aplicadas
+
+backendStore:
+  postgres:
+    passwordFromSecret:
+      enabled: true  # OBLIGATORIO usar External Secrets
+    password: ""  # NO configurar en producción
+    sslMode: require  # SSL obligatorio
+    cleanupRunsEnabled: true
+    cleanupRunsDays: 90
+    cleanupExperimentsEnabled: true
+    cleanupExperimentsDays: 365
+
+artifactStore:
+  s3:
+    # OBLIGATORIO usar IRSA en producción
+    awsIamRole: arn:aws:iam::ACCOUNT:role/mlflow-s3-role  # Configurar
+    accessKeyFromSecret:
+      enabled: false  # NO usar access keys
+    secretKeyFromSecret:
+      enabled: false  # NO usar secret keys
+    useServerSideEncryption: true
+    sseAlgorithm: aws:kms  # KMS en producción
+
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 2  # Al menos 2 pods disponibles
+
+# Backup automático habilitado
+backup:
+  enabled: true
+  schedule: "0 2 * * *"  # Diario a las 2 AM
+  retention: 30  # Retener 30 días

@@ -1,0 +1,810 @@
+{
+  "name": "Sora Videos Auto Download Edit Upload",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 6
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Schedule Trigger - Every 6 Hours",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Search for Most Viewed Sora Videos\n// This searches for trending Sora videos from various sources\n\nconst searchSources = [\n  {\n    name: 'sora_showcase',\n    url: 'https://openai.com/research/video-generation-models-as-world-simulators',\n    type: 'api'\n  },\n  {\n    name: 'reddit_sora',\n    url: 'https://www.reddit.com/r/soraai/top.json?limit=10&t=day',\n    type: 'reddit'\n  },\n  {\n    name: 'twitter_sora',\n    url: 'https://api.twitter.com/2/tweets/search/recent?query=sora%20video&max_results=10',\n    type: 'twitter'\n  },\n  {\n    name: 'youtube_sora',\n    url: 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=sora+ai+video&order=viewCount&maxResults=10&type=video',\n    type: 'youtube'\n  }\n];\n\n// Get already processed videos from workflow static data\nconst processedVideos = $workflow.staticData.processedVideos || [];\nconst maxProcessedHistory = 1000;\n\n// Clean old processed videos (older than 30 days)\nconst thirtyDaysAgo = Date.now() - (30 * 24 * 60 * 60 * 1000);\nconst cleanedProcessed = processedVideos.filter(v => v.timestamp > thirtyDaysAgo);\n$workflow.staticData.processedVideos = cleanedProcessed.slice(-maxProcessedHistory);\n\nreturn {\n  json: {\n    searchSources: searchSources,\n    processedVideosCount: cleanedProcessed.length,\n    timestamp: new Date().toISOString()\n  }\n};"
+      },
+      "id": "prepare-search",
+      "name": "Prepare Search Sources",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "url": "=https://www.reddit.com/r/soraai/top.json?limit=20&t=day",
+        "authentication": "none",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "id": "search-reddit",
+      "name": "Search Reddit Sora",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [650, 200],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "=https://www.googleapis.com/youtube/v3/search?part=snippet&q=sora+ai+video+most+viewed&order=viewCount&maxResults=20&type=video&key={{ $env.YOUTUBE_API_KEY }}",
+        "authentication": "none",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "id": "search-youtube",
+      "name": "Search YouTube Sora",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [650, 300],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "=https://api.twitter.com/2/tweets/search/recent?query=sora%20video%20has:media&max_results=20&tweet.fields=public_metrics,created_at",
+        "authentication": "oAuth2",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "id": "search-twitter",
+      "name": "Search Twitter Sora",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [650, 400],
+      "continueOnFail": true,
+      "credentials": {
+        "oAuth2Api": {
+          "id": "twitter-oauth",
+          "name": "Twitter OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process Search Results and Extract Video URLs\nconst crypto = require('crypto');\n\nconst processedVideos = $workflow.staticData.processedVideos || [];\nconst processedUrls = new Set(processedVideos.map(v => v.url || v.videoId));\n\nlet allVideos = [];\n\n// Process Reddit results\nif ($input.item.json.data && $input.item.json.data.children) {\n  $input.item.json.data.children.forEach(post => {\n    const postData = post.data;\n    if (postData.url && (postData.url.includes('youtube.com') || postData.url.includes('youtu.be') || postData.url.includes('v.redd.it'))) {\n      const videoId = crypto.createHash('md5').update(postData.url).digest('hex');\n      if (!processedUrls.has(postData.url) && !processedUrls.has(videoId)) {\n        allVideos.push({\n          source: 'reddit',\n          url: postData.url,\n          title: postData.title,\n          views: postData.score || 0,\n          videoId: videoId,\n          thumbnail: postData.thumbnail || null,\n          author: postData.author,\n          timestamp: new Date(postData.created_utc * 1000).toISOString()\n        });\n      }\n    }\n  });\n}\n\n// Process YouTube results\nif ($input.item.json.items) {\n  $input.item.json.items.forEach(item => {\n    const videoId = item.id.videoId;\n    const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;\n    if (!processedUrls.has(videoUrl) && !processedUrls.has(videoId)) {\n      allVideos.push({\n        source: 'youtube',\n        url: videoUrl,\n        videoId: videoId,\n        title: item.snippet.title,\n        views: parseInt(item.statistics?.viewCount || 0),\n        thumbnail: item.snippet.thumbnails?.high?.url || null,\n        author: item.snippet.channelTitle,\n        description: item.snippet.description,\n        timestamp: item.snippet.publishedAt\n      });\n    }\n  });\n}\n\n// Process Twitter results\nif ($input.item.json.data && $input.item.json.data) {\n  const tweets = Array.isArray($input.item.json.data) ? $input.item.json.data : [$input.item.json.data];\n  tweets.forEach(tweet => {\n    if (tweet.attachments && tweet.attachments.media_keys) {\n      const views = tweet.public_metrics?.view_count || tweet.public_metrics?.like_count || 0;\n      const tweetId = tweet.id;\n      const tweetUrl = `https://twitter.com/i/status/${tweetId}`;\n      if (!processedUrls.has(tweetUrl) && !processedUrls.has(tweetId)) {\n        allVideos.push({\n          source: 'twitter',\n          url: tweetUrl,\n          videoId: tweetId,\n          title: tweet.text?.substring(0, 100) || 'Sora Video',\n          views: views,\n          thumbnail: null,\n          author: tweet.author_id,\n          timestamp: tweet.created_at\n        });\n      }\n    }\n  });\n}\n\n// Sort by views (most viewed first)\nallVideos.sort((a, b) => b.views - a.views);\n\n// Take top 5 most viewed videos\nconst topVideos = allVideos.slice(0, 5);\n\nreturn topVideos.map(video => ({\n  json: video\n}));"
+      },
+      "id": "extract-videos",
+      "name": "Extract Video URLs",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Filter and Select Best Videos\nconst video = $json;\nconst processedVideos = $workflow.staticData.processedVideos || [];\n\n// Check if already processed\nconst alreadyProcessed = processedVideos.some(pv => \n  pv.url === video.url || pv.videoId === video.videoId\n);\n\nif (alreadyProcessed) {\n  return null; // Skip already processed videos\n}\n\n// Minimum views threshold\nconst minViews = parseInt($env.MIN_VIEWS || '1000');\nif (video.views < minViews) {\n  return null; // Skip videos with low views\n}\n\n// Check video quality indicators\nlet qualityScore = 0;\nif (video.thumbnail) qualityScore += 10;\nif (video.title && video.title.length > 10) qualityScore += 10;\nif (video.views > 10000) qualityScore += 20;\nif (video.source === 'youtube') qualityScore += 10;\n\n// Only process videos with good quality score\nif (qualityScore < 20) {\n  return null;\n}\n\nreturn {\n  json: {\n    ...video,\n    qualityScore: qualityScore,\n    selected: true\n  }\n};"
+      },
+      "id": "filter-videos",
+      "name": "Filter Best Videos",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "is-youtube",
+              "leftValue": "={{ $json.source }}",
+              "rightValue": "youtube",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-source",
+      "name": "Check Video Source",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [1250, 300],
+      "rules": {
+        "values": [
+          {
+            "conditions": {
+              "options": {
+                "caseSensitive": true,
+                "leftValue": "",
+                "typeValidation": "strict"
+              },
+              "conditions": [
+                {
+                  "id": "is-youtube",
+                  "leftValue": "={{ $json.source }}",
+                  "rightValue": "youtube",
+                  "operator": {
+                    "type": "string",
+                    "operation": "equals"
+                  }
+                }
+              ],
+              "combinator": "and"
+            },
+            "renameOutput": true,
+            "outputKey": "youtube"
+          },
+          {
+            "conditions": {
+              "options": {
+                "caseSensitive": true,
+                "leftValue": "",
+                "typeValidation": "strict"
+              },
+              "conditions": [
+                {
+                  "id": "is-reddit",
+                  "leftValue": "={{ $json.source }}",
+                  "rightValue": "reddit",
+                  "operator": {
+                    "type": "string",
+                    "operation": "equals"
+                  }
+                }
+              ],
+              "combinator": "and"
+            },
+            "renameOutput": true,
+            "outputKey": "reddit"
+          },
+          {
+            "conditions": {
+              "options": {
+                "caseSensitive": true,
+                "leftValue": "",
+                "typeValidation": "strict"
+              },
+              "conditions": [
+                {
+                  "id": "is-twitter",
+                  "leftValue": "={{ $json.source }}",
+                  "rightValue": "twitter",
+                  "operator": {
+                    "type": "string",
+                    "operation": "equals"
+                  }
+                }
+              ],
+              "combinator": "and"
+            },
+            "renameOutput": true,
+            "outputKey": "twitter"
+          }
+        ]
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://www.youtube.com/watch?v={{ $json.videoId }}",
+        "authentication": "none",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "id": "download-youtube",
+      "name": "Download YouTube Video",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1450, 200],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "authentication": "none",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "id": "download-reddit",
+      "name": "Download Reddit Video",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1450, 300],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "authentication": "none",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "id": "download-twitter",
+      "name": "Download Twitter Video",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1450, 400],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "command": "=yt-dlp \"{{ $json.url }}\" -f \"best[ext=mp4]\" -o \"/tmp/sora_video_{{ $json.videoId }}.%(ext)s\" --no-playlist",
+        "options": {}
+      },
+      "id": "download-with-ytdlp",
+      "name": "Download with yt-dlp",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [1650, 300],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Prepare Video for Editing\nconst videoPath = `/tmp/sora_video_${$json.videoId}.mp4`;\nconst outputPath = `/tmp/sora_edited_${$json.videoId}.mp4`;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    videoPath: videoPath,\n    outputPath: outputPath,\n    editConfig: {\n      speedChange: Math.random() * 0.1 + 0.95, // Random speed between 0.95x and 1.05x\n      rotation: Math.floor(Math.random() * 4) * 90, // 0, 90, 180, or 270 degrees\n      cropX: Math.floor(Math.random() * 10), // Random crop offset\n      cropY: Math.floor(Math.random() * 10),\n      brightness: Math.random() * 0.1 - 0.05, // Random brightness adjustment\n      contrast: Math.random() * 0.1 + 1.0, // Random contrast\n      saturation: Math.random() * 0.1 + 1.0, // Random saturation\n      addWatermark: false,\n      addFilters: true,\n      addTransitions: true\n    }\n  }\n};"
+      },
+      "id": "prepare-editing",
+      "name": "Prepare Video Editing",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1850, 300]
+    },
+    {
+      "parameters": {
+        "command": "=ffmpeg -i \"{{ $json.videoPath }}\" \\\n  -vf \"scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2,rotate={{ $json.editConfig.rotation }}*PI/180,eq=brightness={{ $json.editConfig.brightness }}:contrast={{ $json.editConfig.contrast }}:saturation={{ $json.editConfig.saturation }}\" \\\n  -filter_complex \"[0:v]setpts={{ $json.editConfig.speedChange }}*PTS[v]\" -map \"[v]\" -map 0:a? \\\n  -c:v libx264 -preset medium -crf 23 -c:a aac -b:a 128k \\\n  -movflags +faststart \\\n  \"{{ $json.outputPath }}\" -y",
+        "options": {}
+      },
+      "id": "edit-video-ffmpeg",
+      "name": "Edit Video with FFmpeg",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [2050, 300],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Advanced Video Editing to Avoid Detection\n// This applies multiple transformations to make the video unique\n\nconst videoPath = $json.videoPath;\nconst outputPath = $json.outputPath;\nconst editConfig = $json.editConfig;\n\n// Generate unique editing parameters\nconst uniqueParams = {\n  // Speed variations (slight changes to avoid detection)\n  speed1: 0.98 + Math.random() * 0.04, // 0.98x to 1.02x\n  speed2: 0.99 + Math.random() * 0.02,\n  \n  // Color grading (subtle changes)\n  brightness: -0.02 + Math.random() * 0.04,\n  contrast: 0.98 + Math.random() * 0.04,\n  saturation: 0.97 + Math.random() * 0.06,\n  gamma: 0.95 + Math.random() * 0.1,\n  \n  // Crop (slight crop to change aspect ratio slightly)\n  cropW: Math.floor(Math.random() * 20) + 1060, // 1060-1080\n  cropH: Math.floor(Math.random() * 20) + 1900, // 1900-1920\n  cropX: Math.floor(Math.random() * 10),\n  cropY: Math.floor(Math.random() * 10),\n  \n  // Rotation (very slight rotation)\n  rotation: (Math.random() - 0.5) * 2, // -1 to 1 degree\n  \n  // Noise (add subtle noise)\n  noiseAmount: Math.floor(Math.random() * 3),\n  \n  // Sharpening\n  sharpen: Math.random() * 0.3,\n  \n  // Fade in/out\n  fadeIn: Math.random() * 0.3,\n  fadeOut: Math.random() * 0.3\n};\n\n// Build FFmpeg command with all transformations\nconst ffmpegCommand = `ffmpeg -i \"${videoPath}\" \\\n  -vf \"scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2,\\\n  crop=${uniqueParams.cropW}:${uniqueParams.cropH}:${uniqueParams.cropX}:${uniqueParams.cropY},\\\n  rotate=${uniqueParams.rotation}*PI/180,\\\n  eq=brightness=${uniqueParams.brightness}:contrast=${uniqueParams.contrast}:saturation=${uniqueParams.saturation}:gamma=${uniqueParams.gamma},\\\n  noise=alls=${uniqueParams.noiseAmount}:allf=t+u,\\\n  unsharp=5:5:${uniqueParams.sharpen}:5:5:0.0,\\\n  fade=t=in:st=0:d=${uniqueParams.fadeIn},fade=t=out:st=0:d=${uniqueParams.fadeOut}\" \\\n  -filter_complex \"[0:v]setpts=${uniqueParams.speed1}*PTS[v1];[v1]setpts=${uniqueParams.speed2}*PTS[v]\" -map \"[v]\" -map 0:a? \\\n  -c:v libx264 -preset medium -crf 23 -c:a aac -b:a 128k -ar 44100 \\\n  -movflags +faststart -pix_fmt yuv420p \\\n  \"${outputPath}\" -y`;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    ffmpegCommand: ffmpegCommand,\n    uniqueParams: uniqueParams,\n    editedVideoPath: outputPath\n  }\n};"
+      },
+      "id": "advanced-editing",
+      "name": "Advanced Video Editing",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2250, 300]
+    },
+    {
+      "parameters": {
+        "command": "={{ $json.ffmpegCommand }}",
+        "options": {}
+      },
+      "id": "execute-editing",
+      "name": "Execute FFmpeg Editing",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [2450, 300],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "=https://api.openai.com/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"gpt-4-vision-preview\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"Eres un experto en marketing de redes sociales. Genera descripciones atractivas y hashtags relevantes para videos de IA generados con Sora. Las descripciones deben ser creativas, llamativas y optimizadas para Instagram, TikTok y YouTube.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"Genera una descripción super atractiva y hashtags relevantes para este video de Sora AI. Título del video: {{ $json.title }}. Descripción: {{ $json.description || 'Video generado con IA' }}. Genera:\\n1. Una descripción creativa y llamativa (máximo 2200 caracteres)\\n2. 10-15 hashtags relevantes y populares\\n3. Un título optimizado para SEO\\n4. Frases de captura para cada plataforma (Instagram, TikTok, YouTube)\"\n        }\n      ]\n    }\n  ],\n  \"max_tokens\": 1000,\n  \"temperature\": 0.8\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "id": "generate-content-chatgpt",
+      "name": "Generate Content with ChatGPT",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [2650, 200],
+      "continueOnFail": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "openai-api",
+          "name": "OpenAI API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={{ $env.GEMINI_API_KEY }}",
+        "authentication": "none",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"contents\": [\n    {\n      \"parts\": [\n        {\n          \"text\": \"Eres un experto en marketing de redes sociales. Genera descripciones atractivas y hashtags relevantes para videos de IA generados con Sora.\\n\\nTítulo del video: {{ $json.title }}\\nDescripción: {{ $json.description || 'Video generado con IA' }}\\n\\nGenera:\\n1. Una descripción creativa y llamativa (máximo 2200 caracteres)\\n2. 10-15 hashtags relevantes y populares\\n3. Un título optimizado para SEO\\n4. Frases de captura para cada plataforma (Instagram, TikTok, YouTube)\\n\\nResponde en formato JSON con las claves: description, hashtags (array), title, instagramCaption, tiktokCaption, youtubeTitle.\"\n        }\n      ]\n    }\n  ],\n  \"generationConfig\": {\n    \"temperature\": 0.8,\n    \"maxOutputTokens\": 2000\n  }\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "id": "generate-content-gemini",
+      "name": "Generate Content with Gemini",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [2650, 400],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process AI Generated Content\nlet content = null;\n\n// Try to get from ChatGPT first\nif ($input.item.json.choices && $input.item.json.choices[0]) {\n  const chatgptResponse = $input.item.json.choices[0].message.content;\n  try {\n    // Try to parse as JSON\n    const jsonMatch = chatgptResponse.match(/\\{[\\s\\S]*\\}/);\n    if (jsonMatch) {\n      content = JSON.parse(jsonMatch[0]);\n    } else {\n      // Parse text response\n      const lines = chatgptResponse.split('\\n');\n      const hashtagsMatch = chatgptResponse.match(/#\\w+/g);\n      content = {\n        description: chatgptResponse.split('Hashtags:')[0].trim(),\n        hashtags: hashtagsMatch || [],\n        title: lines.find(l => l.includes('Título')) || $json.title,\n        instagramCaption: chatgptResponse,\n        tiktokCaption: chatgptResponse.substring(0, 150),\n        youtubeTitle: lines.find(l => l.includes('Título')) || $json.title\n      };\n    }\n  } catch (e) {\n    // Fallback parsing\n    const hashtagsMatch = chatgptResponse.match(/#\\w+/g);\n    content = {\n      description: chatgptResponse,\n      hashtags: hashtagsMatch || ['#AI', '#Sora', '#Video', '#Viral'],\n      title: $json.title,\n      instagramCaption: chatgptResponse,\n      tiktokCaption: chatgptResponse.substring(0, 150),\n      youtubeTitle: $json.title\n    };\n  }\n}\n\n// Try Gemini if ChatGPT failed\nif (!content && $input.item.json.candidates && $input.item.json.candidates[0]) {\n  const geminiResponse = $input.item.json.candidates[0].content.parts[0].text;\n  try {\n    const jsonMatch = geminiResponse.match(/\\{[\\s\\S]*\\}/);\n    if (jsonMatch) {\n      content = JSON.parse(jsonMatch[0]);\n    } else {\n      const hashtagsMatch = geminiResponse.match(/#\\w+/g);\n      content = {\n        description: geminiResponse,\n        hashtags: hashtagsMatch || ['#AI', '#Sora', '#Video', '#Viral'],\n        title: $json.title,\n        instagramCaption: geminiResponse,\n        tiktokCaption: geminiResponse.substring(0, 150),\n        youtubeTitle: $json.title\n      };\n    }\n  } catch (e) {\n    const hashtagsMatch = geminiResponse.match(/#\\w+/g);\n    content = {\n      description: geminiResponse,\n      hashtags: hashtagsMatch || ['#AI', '#Sora', '#Video', '#Viral'],\n      title: $json.title,\n      instagramCaption: geminiResponse,\n      tiktokCaption: geminiResponse.substring(0, 150),\n      youtubeTitle: $json.title\n    };\n  }\n}\n\n// Fallback if both fail\nif (!content) {\n  content = {\n    description: `🎬 ${$json.title}\\n\\n✨ Video generado con IA usando Sora\\n\\n🔥 Contenido único y creativo\\n\\n#AI #Sora #VideoGenerado #IA #Creatividad #Tecnologia #Viral #Trending #Innovacion #Futuro #DigitalArt #ArtificialIntelligence`,\n    hashtags: ['#AI', '#Sora', '#VideoGenerado', '#IA', '#Creatividad', '#Tecnologia', '#Viral', '#Trending', '#Innovacion', '#Futuro', '#DigitalArt', '#ArtificialIntelligence'],\n    title: $json.title,\n    instagramCaption: `🎬 ${$json.title}\\n\\n✨ Video generado con IA usando Sora\\n\\n🔥 Contenido único y creativo\\n\\n#AI #Sora #VideoGenerado #IA #Creatividad #Tecnologia #Viral #Trending #Innovacion #Futuro #DigitalArt #ArtificialIntelligence`,\n    tiktokCaption: `🎬 ${$json.title} ✨ Video generado con IA #AI #Sora #Viral`,\n    youtubeTitle: `${$json.title} - Sora AI Generated Video`\n  };\n}\n\n// Ensure hashtags array\nif (!Array.isArray(content.hashtags)) {\n  content.hashtags = content.hashtags.split(/[,\\s]+/).filter(h => h.trim());\n}\n\n// Format hashtags\ncontent.hashtags = content.hashtags.map(tag => {\n  tag = tag.trim();\n  if (!tag.startsWith('#')) tag = '#' + tag;\n  return tag;\n}).filter(tag => tag.length > 1);\n\n// Ensure we have at least some hashtags\nif (content.hashtags.length < 5) {\n  content.hashtags.push('#AI', '#Sora', '#Video', '#Viral', '#Trending');\n}\n\nreturn {\n  json: {\n    ...$input.item.json,\n    generatedContent: content,\n    caption: content.instagramCaption || content.description,\n    hashtags: content.hashtags.join(' '),\n    instagramCaption: content.instagramCaption || content.description,\n    tiktokCaption: content.tiktokCaption || content.description.substring(0, 150),\n    youtubeTitle: content.youtubeTitle || content.title,\n    youtubeDescription: content.description\n  }\n};"
+      },
+      "id": "process-ai-content",
+      "name": "Process AI Generated Content",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2850, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Check Rate Limits for Each Platform\nconst now = Date.now();\nconst rateLimits = {\n  instagram: { max: 25, window: 3600000 }, // 25 per hour\n  tiktok: { max: 10, window: 3600000 }, // 10 per hour\n  youtube: { max: 6, window: 3600000 } // 6 per hour\n};\n\nconst rateLimitHistory = $workflow.staticData.rateLimitHistory || {};\nconst canUpload = {};\n\nfor (const platform of ['instagram', 'tiktok', 'youtube']) {\n  const limit = rateLimits[platform];\n  const history = rateLimitHistory[platform] || [];\n  const recentRequests = history.filter(timestamp => now - timestamp < limit.window);\n  \n  canUpload[platform] = recentRequests.length < limit.max;\n  \n  if (canUpload[platform]) {\n    recentRequests.push(now);\n    rateLimitHistory[platform] = recentRequests;\n  }\n}\n\n$workflow.staticData.rateLimitHistory = rateLimitHistory;\n\nreturn {\n  json: {\n    ...$input.item.json,\n    canUpload: canUpload,\n    rateLimits: rateLimits\n  }\n};"
+      },
+      "id": "check-upload-limits",
+      "name": "Check Upload Rate Limits",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3050, 300]
+    },
+    {
+      "parameters": {
+        "url": "=https://graph.facebook.com/v18.0/{{ $env.INSTAGRAM_ACCOUNT_ID }}/media",
+        "authentication": "oAuth2",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"image_url\": \"{{ $json.thumbnail || '' }}\",\n  \"caption\": \"{{ $json.instagramCaption }}\",\n  \"media_type\": \"REELS\"\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "id": "upload-instagram",
+      "name": "Upload to Instagram",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [3250, 200],
+      "continueOnFail": true,
+      "credentials": {
+        "oAuth2Api": {
+          "id": "instagram-oauth",
+          "name": "Instagram OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://open.tiktokapis.com/v2/post/publish/inbox/",
+        "authentication": "genericCredentialType",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"post_info\": {\n    \"title\": \"{{ $json.tiktokCaption }}\",\n    \"privacy_level\": \"PUBLIC_TO_EVERYONE\",\n    \"disable_duet\": false,\n    \"disable_comment\": false,\n    \"disable_stitch\": false,\n    \"video_cover_timestamp_ms\": 1000\n  },\n  \"source_info\": {\n    \"source\": \"FILE_UPLOAD\"\n  }\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "id": "upload-tiktok",
+      "name": "Upload to TikTok",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [3250, 300],
+      "continueOnFail": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "tiktok-api",
+          "name": "TikTok API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://www.googleapis.com/upload/youtube/v3/videos?uploadType=resumable&part=snippet,status",
+        "authentication": "oAuth2",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"snippet\": {\n    \"title\": \"{{ $json.youtubeTitle }}\",\n    \"description\": \"{{ $json.youtubeDescription }}\",\n    \"tags\": {{ JSON.stringify($json.generatedContent.hashtags || []) }},\n    \"categoryId\": \"22\"\n  },\n  \"status\": {\n    \"privacyStatus\": \"public\"\n  }\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "id": "upload-youtube",
+      "name": "Upload to YouTube",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [3250, 400],
+      "continueOnFail": true,
+      "credentials": {
+        "oAuth2Api": {
+          "id": "youtube-oauth",
+          "name": "YouTube OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Mark Video as Processed and Save Results\nconst video = $input.item.json;\n\n// Add to processed videos\nconst processedVideos = $workflow.staticData.processedVideos || [];\nprocessedVideos.push({\n  videoId: video.videoId,\n  url: video.url,\n  title: video.title,\n  source: video.source,\n  timestamp: Date.now(),\n  uploadedTo: {\n    instagram: video.canUpload?.instagram || false,\n    tiktok: video.canUpload?.tiktok || false,\n    youtube: video.canUpload?.youtube || false\n  },\n  caption: video.caption,\n  hashtags: video.hashtags\n});\n\n// Keep only last 1000 processed videos\nif (processedVideos.length > 1000) {\n  processedVideos.shift();\n}\n\n$workflow.staticData.processedVideos = processedVideos;\n\n// Save upload results\nconst uploadResults = $workflow.staticData.uploadResults || [];\nuploadResults.push({\n  videoId: video.videoId,\n  timestamp: new Date().toISOString(),\n  platforms: {\n    instagram: video.canUpload?.instagram ? 'success' : 'skipped',\n    tiktok: video.canUpload?.tiktok ? 'success' : 'skipped',\n    youtube: video.canUpload?.youtube ? 'success' : 'skipped'\n  },\n  caption: video.caption,\n  hashtags: video.hashtags\n});\n\n// Keep only last 500 upload results\nif (uploadResults.length > 500) {\n  uploadResults.shift();\n}\n\n$workflow.staticData.uploadResults = uploadResults;\n\nreturn {\n  json: {\n    ...video,\n    processed: true,\n    processedAt: new Date().toISOString()\n  }\n};"
+      },
+      "id": "save-results",
+      "name": "Save Processing Results",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3450, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Cleanup Temporary Files\nconst videoPath = $json.videoPath;\nconst outputPath = $json.outputPath || $json.editedVideoPath;\n\n// Note: In n8n, we can't directly delete files, but we can log them for cleanup\n// You would need to set up a cron job or use executeCommand to delete old files\n\nconst filesToCleanup = [videoPath, outputPath].filter(f => f);\n\nreturn {\n  json: {\n    ...$input.item.json,\n    filesToCleanup: filesToCleanup,\n    cleanupNote: 'Files marked for cleanup. Set up cron job to delete files older than 24 hours from /tmp/sora_*'\n  }\n};"
+      },
+      "id": "cleanup-files",
+      "name": "Cleanup Temporary Files",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3650, 300]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger - Every 6 Hours": {
+      "main": [
+        [
+          {
+            "node": "Prepare Search Sources",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Search Sources": {
+      "main": [
+        [
+          {
+            "node": "Search Reddit Sora",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Search YouTube Sora",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Search Twitter Sora",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Reddit Sora": {
+      "main": [
+        [
+          {
+            "node": "Extract Video URLs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search YouTube Sora": {
+      "main": [
+        [
+          {
+            "node": "Extract Video URLs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Twitter Sora": {
+      "main": [
+        [
+          {
+            "node": "Extract Video URLs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Video URLs": {
+      "main": [
+        [
+          {
+            "node": "Filter Best Videos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Best Videos": {
+      "main": [
+        [
+          {
+            "node": "Check Video Source",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Video Source": {
+      "main": [
+        [
+          {
+            "node": "Download YouTube Video",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Download Reddit Video",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Download Twitter Video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download YouTube Video": {
+      "main": [
+        [
+          {
+            "node": "Download with yt-dlp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Reddit Video": {
+      "main": [
+        [
+          {
+            "node": "Download with yt-dlp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Twitter Video": {
+      "main": [
+        [
+          {
+            "node": "Download with yt-dlp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download with yt-dlp": {
+      "main": [
+        [
+          {
+            "node": "Prepare Video Editing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Video Editing": {
+      "main": [
+        [
+          {
+            "node": "Advanced Video Editing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Advanced Video Editing": {
+      "main": [
+        [
+          {
+            "node": "Execute FFmpeg Editing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute FFmpeg Editing": {
+      "main": [
+        [
+          {
+            "node": "Generate Content with ChatGPT",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Generate Content with Gemini",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Content with ChatGPT": {
+      "main": [
+        [
+          {
+            "node": "Process AI Generated Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Content with Gemini": {
+      "main": [
+        [
+          {
+            "node": "Process AI Generated Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process AI Generated Content": {
+      "main": [
+        [
+          {
+            "node": "Check Upload Rate Limits",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Upload Rate Limits": {
+      "main": [
+        [
+          {
+            "node": "Upload to Instagram",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Upload to TikTok",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Upload to YouTube",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload to Instagram": {
+      "main": [
+        [
+          {
+            "node": "Save Processing Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload to TikTok": {
+      "main": [
+        [
+          {
+            "node": "Save Processing Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload to YouTube": {
+      "main": [
+        [
+          {
+            "node": "Save Processing Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Processing Results": {
+      "main": [
+        [
+          {
+            "node": "Cleanup Temporary Files",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1"
+}
+
+
+

@@ -1,0 +1,78 @@
+# MLflow Values - Staging Environment
+# Configuración intermedia entre dev y prod para testing de integración
+#
+# Uso:
+#   helm install mlflow mlflow/mlflow \
+#     --namespace ml-staging \
+#     -f ml/mlflow/values.yaml \
+#     -f ml/mlflow/values-staging.yaml
+
+mlflow:
+  workers: 2
+  resources:
+    requests:
+      cpu: 1000m
+      memory: 2Gi
+    limits:
+      cpu: 4000m
+      memory: 8Gi
+  
+  extraEnv:
+    # Logging detallado para debugging
+    - name: MLFLOW_TRACKING_LOGGING_LEVEL
+      value: "DEBUG"
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+
+ingress:
+  annotations:
+    # Certificados de staging (Let's Encrypt staging para evitar rate limits)
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # Rate limiting intermedio
+    nginx.ingress.kubernetes.io/limit-rps: "300"
+    nginx.ingress.kubernetes.io/limit-connections: "75"
+
+backendStore:
+  postgres:
+    # SSL preferido pero no obligatorio
+    sslMode: prefer
+    poolSize: 15
+    maxOverflow: 30
+    # Cleanup más agresivo en staging
+    cleanupRunsEnabled: true
+    cleanupRunsDays: 30  # Solo 30 días en staging
+    cleanupExperimentsEnabled: true
+    cleanupExperimentsDays: 90
+
+artifactStore:
+  s3:
+    bucket: biz-datalake-staging
+    # Puede usar IRSA o access keys en staging para testing
+    awsIamRole: ""  # Configurar si se usa IRSA
+    accessKeyFromSecret:
+      enabled: true  # Permitido en staging para testing
+    useServerSideEncryption: true
+    sseAlgorithm: AES256  # AES en lugar de KMS para staging
+
+monitoring:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    interval: 30s
+
+security:
+  networkPolicy:
+    enabled: false  # Más permisivo en staging para testing
+
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1  # Solo 1 pod mínimo en staging
+
+environment: staging
+

@@ -1,0 +1,133 @@
+{
+  "dashboard": {
+    "title": "Sincronización de Datos",
+    "tags": ["sync", "integration"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Sincronizaciones por Estado",
+        "type": "piechart",
+        "targets": [
+          {
+            "expr": "SELECT status, COUNT(*) FROM sync_history WHERE started_at >= NOW() - INTERVAL '24 hours' GROUP BY status",
+            "rawSql": true,
+            "format": "table"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Tasa de Éxito (Últimas 24 horas)",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "SELECT ROUND(COUNT(CASE WHEN status = 'completed' THEN 1 END)::numeric / NULLIF(COUNT(*), 0) * 100, 2) as success_rate FROM sync_history WHERE started_at >= NOW() - INTERVAL '24 hours'",
+            "rawSql": true,
+            "format": "table"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "thresholds": {
+              "steps": [
+                {"value": 0, "color": "red"},
+                {"value": 80, "color": "yellow"},
+                {"value": 95, "color": "green"}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 3,
+        "title": "Registros Procesados (Últimas 24 horas)",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "SELECT SUM(total_records) as total FROM sync_history WHERE started_at >= NOW() - INTERVAL '24 hours'",
+            "rawSql": true,
+            "format": "table"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Duración Promedio por Tipo",
+        "type": "bargraph",
+        "targets": [
+          {
+            "expr": "SELECT source_type || ' → ' || target_type as sync_type, AVG(duration_seconds) as avg_duration FROM sync_history WHERE started_at >= NOW() - INTERVAL '7 days' GROUP BY source_type, target_type ORDER BY avg_duration DESC",
+            "rawSql": true,
+            "format": "table"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Sincronizaciones por Hora",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "SELECT DATE_TRUNC('hour', started_at) as hour, COUNT(*) as count FROM sync_history WHERE started_at >= NOW() - INTERVAL '24 hours' GROUP BY hour ORDER BY hour",
+            "rawSql": true,
+            "format": "time_series"
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Errores por Tipo",
+        "type": "table",
+        "targets": [
+          {
+            "expr": "SELECT error_message, COUNT(*) as count FROM sync_records WHERE status = 'failed' AND synced_at >= NOW() - INTERVAL '24 hours' GROUP BY error_message ORDER BY count DESC LIMIT 10",
+            "rawSql": true,
+            "format": "table"
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Conflictos Pendientes",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "SELECT COUNT(*) as pending FROM sync_conflicts WHERE resolved_at IS NULL",
+            "rawSql": true,
+            "format": "table"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "steps": [
+                {"value": 0, "color": "green"},
+                {"value": 1, "color": "yellow"},
+                {"value": 10, "color": "red"}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 8,
+        "title": "Throughput (Registros/Segundo)",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "SELECT DATE_TRUNC('hour', started_at) as hour, ROUND(SUM(total_records) / NULLIF(SUM(duration_seconds), 0), 2) as throughput FROM sync_history WHERE started_at >= NOW() - INTERVAL '24 hours' AND duration_seconds > 0 GROUP BY hour ORDER BY hour",
+            "rawSql": true,
+            "format": "time_series"
+          }
+        ]
+      }
+    ],
+    "refresh": "30s",
+    "schemaVersion": 27,
+    "version": 1
+  }
+}
+
+

@@ -1,0 +1,20 @@
+{
+  "name": "Historia Narrativa",
+  "description": "Template que cuenta una historia completa con inicio, desarrollo y resultado",
+  "structure": [
+    "Situación inicial: Describe el problema o situación antes",
+    "Punto de inflexión: Menciona qué cambió o qué solución se encontró",
+    "Resultado final: Detalla el éxito o mejora obtenida",
+    "Llamada a la acción: Invita al público a tomar acción"
+  ],
+  "hook_examples": [
+    "Antes de esto, {problema}",
+    "Todo cambió cuando...",
+    "La historia de cómo {persona} logró {resultado}"
+  ],
+  "focus": "narrativa_emocional",
+  "tone_suggestions": ["cálido", "inspirador", "empático"]
+}
+
+
+

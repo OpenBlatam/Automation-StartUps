@@ -1,0 +1,41 @@
+# ServiceMonitor para Airflow - Métricas de DAGs y tareas
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: airflow
+  namespace: data
+  labels:
+    app: airflow
+    component: scheduler
+spec:
+  selector:
+    matchLabels:
+      app: airflow
+      component: scheduler
+  endpoints:
+    - port: metrics
+      path: /metrics
+      interval: 30s
+      scrapeTimeout: 10s
+---
+# ServiceMonitor para Airflow Workers
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: airflow-workers
+  namespace: data
+  labels:
+    app: airflow
+    component: worker
+spec:
+  selector:
+    matchLabels:
+      app: airflow
+      component: worker
+  endpoints:
+    - port: metrics
+      path: /metrics
+      interval: 30s
+      scrapeTimeout: 10s
+
+

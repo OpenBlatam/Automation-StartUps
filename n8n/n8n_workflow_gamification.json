@@ -1,0 +1,254 @@
+{
+  "name": "Customer Gamification & Rewards Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "customer-action",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-action",
+      "name": "Customer Action Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [150, 400],
+      "webhookId": "customer-action-trigger",
+      "notes": "Trigger para acciones del cliente (compra, review, share, etc.)"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Sistema de puntos y gamificación\nconst action = $input.item.json;\n\nconst actionTypes = {\n  purchase: { points: 10, multiplier: 1.5 }, // 10 puntos base, x1.5 por cada $10\n  review: { points: 50, multiplier: 1 },\n  share_social: { points: 25, multiplier: 1 },\n  referral: { points: 100, multiplier: 1 },\n  birthday: { points: 200, multiplier: 1 },\n  anniversary: { points: 150, multiplier: 1 },\n  first_purchase: { points: 50, multiplier: 1 },\n  milestone_purchase: { points: 100, multiplier: 1 } // 5ta, 10ma, etc.\n};\n\nconst actionType = action.actionType || 'purchase';\nconst customerId = action.customerId;\nconst actionConfig = actionTypes[actionType] || actionTypes.purchase;\n\n// Calcular puntos base\nlet pointsEarned = actionConfig.points;\n\n// Aplicar multiplicador si aplica\nif (actionType === 'purchase' && action.orderValue) {\n  const valueMultiplier = Math.floor(action.orderValue / 10);\n  pointsEarned = Math.floor(pointsEarned * actionConfig.multiplier * valueMultiplier);\n}\n\n// Obtener puntos actuales del cliente (simulado, en producción desde DB)\nconst currentPoints = action.currentPoints || 0;\nconst newTotalPoints = currentPoints + pointsEarned;\n\n// Determinar nivel actual\nlet currentLevel = 'bronze';\nif (newTotalPoints >= 5000) currentLevel = 'platinum';\nelse if (newTotalPoints >= 2000) currentLevel = 'gold';\nelse if (newTotalPoints >= 1000) currentLevel = 'silver';\nelse if (newTotalPoints >= 500) currentLevel = 'bronze';\n\n// Verificar si subió de nivel\nconst previousLevel = action.previousLevel || 'bronze';\nconst levelUp = currentLevel !== previousLevel && \n  ['bronze', 'silver', 'gold', 'platinum'].indexOf(currentLevel) > \n  ['bronze', 'silver', 'gold', 'platinum'].indexOf(previousLevel);\n\n// Calcular puntos hasta siguiente nivel\nlet pointsToNextLevel = 0;\nif (currentLevel === 'bronze') pointsToNextLevel = 500 - newTotalPoints;\nelse if (currentLevel === 'silver') pointsToNextLevel = 2000 - newTotalPoints;\nelse if (currentLevel === 'gold') pointsToNextLevel = 5000 - newTotalPoints;\nelse pointsToNextLevel = 0; // Ya en máximo nivel\n\n// Badges disponibles\nconst badges = [];\nif (action.orderCount >= 1) badges.push('first_purchase');\nif (action.orderCount >= 5) badges.push('loyal_customer');\nif (action.orderCount >= 10) badges.push('super_fan');\nif (action.reviewCount >= 5) badges.push('reviewer');\nif (action.referralCount >= 3) badges.push('ambassador');\nif (newTotalPoints >= 1000) badges.push('points_master');\n\nreturn [{\n  json: {\n    ...action,\n    pointsEarned: pointsEarned,\n    currentPoints: newTotalPoints,\n    previousPoints: currentPoints,\n    currentLevel: currentLevel,\n    previousLevel: previousLevel,\n    levelUp: levelUp,\n    pointsToNextLevel: pointsToNextLevel,\n    badges: badges,\n    timestamp: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "calculate-points",
+      "name": "Calculate Points & Levels",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [350, 400],
+      "notes": "Calcula puntos, niveles y badges"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-001",
+              "leftValue": "={{ $json.levelUp }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-level-up",
+      "name": "Check Level Up",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [550, 400],
+      "notes": "Verifica si el cliente subió de nivel"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generar mensaje de celebración por level up\nconst data = $input.item.json;\nconst customerName = data.firstName || 'Cliente';\nconst newLevel = data.currentLevel;\nconst language = data.language || 'es';\n\nconst levelNames = {\n  es: {\n    bronze: 'Bronce',\n    silver: 'Plata',\n    gold: 'Oro',\n    platinum: 'Platino'\n  },\n  en: {\n    bronze: 'Bronze',\n    silver: 'Silver',\n    gold: 'Gold',\n    platinum: 'Platinum'\n  }\n};\n\nconst levelName = levelNames[language]?.[newLevel] || newLevel;\n\nlet subject, body, reward;\n\nif (language === 'es') {\n  subject = `🎉 ¡Felicidades! Has alcanzado el nivel ${levelName}`;\n  body = `¡Hola ${customerName}!\n\n🎊 ¡Felicidades! Has alcanzado el nivel ${levelName}.\n\nComo recompensa, te regalamos:\n\n✨ Descuento exclusivo del ${newLevel === 'platinum' ? '25' : newLevel === 'gold' ? '20' : '15'}%\n🎁 Producto gratis con tu próxima compra\n💎 Acceso anticipado a nuevas colecciones\n\n¡Sigue acumulando puntos para mantener tu nivel!\n\n[Ver Beneficios]`;\n  reward = `${newLevel === 'platinum' ? '25' : newLevel === 'gold' ? '20' : '15'}% descuento + producto gratis`;\n} else {\n  subject = `🎉 Congratulations! You've reached ${levelName} level`;\n  body = `Hi ${customerName}!\n\n🎊 Congratulations! You've reached ${levelName} level.\n\nAs a reward, we're giving you:\n\n✨ Exclusive ${newLevel === 'platinum' ? '25' : newLevel === 'gold' ? '20' : '15'}% discount\n🎁 Free product with your next purchase\n💎 Early access to new collections\n\nKeep earning points to maintain your level!\n\n[View Benefits]`;\n  reward = `${newLevel === 'platinum' ? '25' : newLevel === 'gold' ? '20' : '15'}% discount + free product`;\n}\n\nreturn [{\n  json: {\n    ...data,\n    messageSubject: subject,\n    messageBody: body,\n    reward: reward,\n    messageType: 'level_up'\n  }\n}];"
+      },
+      "id": "generate-level-up-message",
+      "name": "Generate Level Up Message",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [750, 300],
+      "notes": "Genera mensaje de celebración por level up"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generar mensaje de puntos ganados\nconst data = $input.item.json;\nconst customerName = data.firstName || 'Cliente';\nconst pointsEarned = data.pointsEarned;\nconst currentPoints = data.currentPoints;\nconst currentLevel = data.currentLevel;\nconst pointsToNextLevel = data.pointsToNextLevel;\nconst language = data.language || 'es';\n\nlet subject, body;\n\nif (language === 'es') {\n  subject = `✨ Has ganado ${pointsEarned} puntos`;\n  body = `¡Hola ${customerName}!\n\n¡Buenas noticias! Has ganado ${pointsEarned} puntos.\n\n📊 Tu progreso:\n• Puntos totales: ${currentPoints}\n• Nivel actual: ${currentLevel}\n${pointsToNextLevel > 0 ? `• Puntos hasta siguiente nivel: ${pointsToNextLevel}` : '• ¡Estás en el nivel máximo!'}\n\n💡 Recuerda: Puedes canjear tus puntos por descuentos y productos.\n\n[Ver Mis Puntos]`;\n} else {\n  subject = `✨ You've earned ${pointsEarned} points`;\n  body = `Hi ${customerName}!\n\nGreat news! You've earned ${pointsEarned} points.\n\n📊 Your progress:\n• Total points: ${currentPoints}\n• Current level: ${currentLevel}\n${pointsToNextLevel > 0 ? `• Points to next level: ${pointsToNextLevel}` : '• You're at max level!'}\n\n💡 Remember: You can redeem your points for discounts and products.\n\n[View My Points]`;\n}\n\nreturn [{\n  json: {\n    ...data,\n    messageSubject: subject,\n    messageBody: body,\n    messageType: 'points_earned'\n  }\n}];"
+      },
+      "id": "generate-points-message",
+      "name": "Generate Points Message",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [750, 500],
+      "notes": "Genera mensaje de puntos ganados"
+    },
+    {
+      "parameters": {
+        "resource": "email",
+        "operation": "send",
+        "fromEmail": "={{ $env.FROM_EMAIL }}",
+        "toEmail": "={{ $json.email }}",
+        "subject": "={{ $json.messageSubject }}",
+        "html": "={{ $json.messageBody.replace(/\\n/g, '<br>') }}",
+        "text": "={{ $json.messageBody }}",
+        "options": {}
+      },
+      "id": "send-gamification-email",
+      "name": "Send Gamification Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [950, 400],
+      "credentials": {
+        "smtp": {
+          "id": "smtp-credentials",
+          "name": "SMTP Credentials"
+        }
+      },
+      "notes": "Envía email de gamificación",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL }}/customers/{{ $json.customerId }}/points",
+        "method": "PUT",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"points\": {{ $json.currentPoints }},\n  \"level\": \"{{ $json.currentLevel }}\",\n  \"badges\": {{ JSON.stringify($json.badges) }},\n  \"lastAction\": \"{{ $json.actionType }}\",\n  \"pointsEarned\": {{ $json.pointsEarned }},\n  \"updatedAt\": \"{{ $now }}\"\n}",
+        "options": {}
+      },
+      "id": "update-points",
+      "name": "Update Points in DB",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1150, 400],
+      "notes": "Actualiza puntos en base de datos",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL }}/analytics/track",
+        "method": "POST",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"event\": \"gamification_action\",\n  \"customerId\": \"{{ $json.customerId }}\",\n  \"actionType\": \"{{ $json.actionType }}\",\n  \"pointsEarned\": {{ $json.pointsEarned }},\n  \"currentLevel\": \"{{ $json.currentLevel }}\",\n  \"levelUp\": {{ $json.levelUp }},\n  \"timestamp\": \"{{ $now }}\"\n}",
+        "options": {}
+      },
+      "id": "track-gamification",
+      "name": "Track Gamification",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1350, 400],
+      "notes": "Registra evento de gamificación",
+      "continueOnFail": true
+    }
+  ],
+  "connections": {
+    "Customer Action Webhook": {
+      "main": [
+        [
+          {
+            "node": "Calculate Points & Levels",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate Points & Levels": {
+      "main": [
+        [
+          {
+            "node": "Check Level Up",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Level Up": {
+      "main": [
+        [
+          {
+            "node": "Generate Level Up Message",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Generate Points Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Level Up Message": {
+      "main": [
+        [
+          {
+            "node": "Send Gamification Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Points Message": {
+      "main": [
+        [
+          {
+            "node": "Send Gamification Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Gamification Email": {
+      "main": [
+        [
+          {
+            "node": "Update Points in DB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Points in DB": {
+      "main": [
+        [
+          {
+            "node": "Track Gamification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "gamification",
+      "name": "Gamification"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1.0"
+}
+
+
+
+
+
+
+
+
+
+

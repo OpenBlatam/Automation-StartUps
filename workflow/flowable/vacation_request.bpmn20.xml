@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL"
+                   xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+                   xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+                   xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+                   xmlns:flowable="http://flowable.org/bpmn"
+                   id="Definitions_VacationRequest"
+                   targetNamespace="http://flowable.org/bpmn">
+  
+  <bpmn2:process id="vacationRequest" name="Vacation Request Approval" isExecutable="true">
+    
+    <!-- Variables del proceso -->
+    <bpmn2:property id="requestId" name="requestId" itemSubjectRef="String"/>
+    <bpmn2:property id="requesterEmail" name="requesterEmail" itemSubjectRef="String"/>
+    <bpmn2:property id="startDate" name="startDate" itemSubjectRef="Date"/>
+    <bpmn2:property id="endDate" name="endDate" itemSubjectRef="Date"/>
+    <bpmn2:property id="days" name="days" itemSubjectRef="Integer"/>
+    <bpmn2:property id="vacationType" name="vacationType" itemSubjectRef="String"/>
+    <bpmn2:property id="autoApproved" name="autoApproved" itemSubjectRef="Boolean"/>
+    <bpmn2:property id="managerEmail" name="managerEmail" itemSubjectRef="String"/>
+    <bpmn2:property id="approved" name="approved" itemSubjectRef="Boolean"/>
+    <bpmn2:property id="rejectionReason" name="rejectionReason" itemSubjectRef="String"/>
+    
+    <!-- Inicio del proceso -->
+    <bpmn2:startEvent id="StartEvent_VacationRequest" name="Vacation Request Submitted">
+      <bpmn2:outgoing>Flow_Start_EvaluateRules</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    
+    <!-- Evaluación automática de reglas (Service Task que llama a Kestra) -->
+    <bpmn2:serviceTask id="Task_EvaluateAutoRules" name="Evaluate Auto-Approval Rules">
+      <bpmn2:extensionElements>
+        <flowable:class>org.flowable.engine.impl.bpmn.behavior.WebServiceActivityBehavior</flowable:class>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>Flow_Start_EvaluateRules</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_Evaluate_Gateway</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    
+    <bpmn2:sequenceFlow id="Flow_Start_EvaluateRules" sourceRef="StartEvent_VacationRequest" targetRef="Task_EvaluateAutoRules"/>
+    
+    <!-- Gateway: ¿Auto-aprobado? -->
+    <bpmn2:exclusiveGateway id="Gateway_AutoApproval" name="Auto-Approved?">
+      <bpmn2:incoming>Flow_Evaluate_Gateway</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_AutoApproved_Notify</bpmn2:outgoing>
+      <bpmn2:outgoing>Flow_NeedsApproval_Manager</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    
+    <bpmn2:sequenceFlow id="Flow_Evaluate_Gateway" sourceRef="Task_EvaluateAutoRules" targetRef="Gateway_AutoApproval">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${autoApproved == true}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <bpmn2:sequenceFlow id="Flow_NeedsApproval_Manager" sourceRef="Gateway_AutoApproval" targetRef="Task_ManagerApproval"/>
+    
+    <!-- Auto-aprobado: Notificar y finalizar -->
+    <bpmn2:serviceTask id="Task_AutoApprovedNotify" name="Notify Auto-Approval">
+      <bpmn2:incoming>Flow_AutoApproved_Notify</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_AutoApproved_End</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    
+    <bpmn2:sequenceFlow id="Flow_AutoApproved_Notify" sourceRef="Gateway_AutoApproval" targetRef="Task_AutoApprovedNotify"/>
+    <bpmn2:sequenceFlow id="Flow_AutoApproved_End" sourceRef="Task_AutoApprovedNotify" targetRef="EndEvent_AutoApproved"/>
+    
+    <bpmn2:endEvent id="EndEvent_AutoApproved" name="Auto-Approved"/>
+    
+    <!-- Aprobación del Manager -->
+    <bpmn2:userTask id="Task_ManagerApproval" name="Manager Approval" flowable:assignee="${managerEmail}">
+      <bpmn2:extensionElements>
+        <flowable:taskListener event="create" class="org.flowable.engine.impl.bpmn.listener.ScriptTaskListener">
+          <flowable:script>
+            // Enviar notificación al manager
+          </flowable:script>
+        </flowable:taskListener>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>Flow_NeedsApproval_Manager</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_Manager_Gateway</bpmn2:outgoing>
+    </bpmn2:userTask>
+    
+    <!-- Timer para timeout si no se aprueba en 3 días -->
+    <bpmn2:boundaryEvent id="BoundaryEvent_ManagerTimeout" name="Manager Timeout" attachedToRef="Task_ManagerApproval">
+      <bpmn2:outgoing>Flow_Timeout_Escalate</bpmn2:outgoing>
+      <bpmn2:timerEventDefinition>
+        <bpmn2:timeDuration>PT72H</bpmn2:timeDuration>
+      </bpmn2:timerEventDefinition>
+    </bpmn2:boundaryEvent>
+    
+    <bpmn2:sequenceFlow id="Flow_Timeout_Escalate" sourceRef="BoundaryEvent_ManagerTimeout" targetRef="Task_EscalateToHR"/>
+    
+    <!-- Escalación a HR si hay timeout -->
+    <bpmn2:serviceTask id="Task_EscalateToHR" name="Escalate to HR">
+      <bpmn2:incoming>Flow_Timeout_Escalate</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_Escalate_HRApproval</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    
+    <bpmn2:sequenceFlow id="Flow_Manager_Gateway" sourceRef="Task_ManagerApproval" targetRef="Gateway_ManagerDecision"/>
+    
+    <!-- Gateway: ¿Aprobado por Manager? -->
+    <bpmn2:exclusiveGateway id="Gateway_ManagerDecision" name="Manager Approved?">
+      <bpmn2:incoming>Flow_Manager_Gateway</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_ManagerApproved_CheckDays</bpmn2:outgoing>
+      <bpmn2:outgoing>Flow_ManagerRejected_Notify</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    
+    <bpmn2:sequenceFlow id="Flow_ManagerApproved_CheckDays" sourceRef="Gateway_ManagerDecision" targetRef="Gateway_DaysCheck">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${approved == true}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <bpmn2:sequenceFlow id="Flow_ManagerRejected_Notify" sourceRef="Gateway_ManagerDecision" targetRef="Task_NotifyRejection">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${approved == false}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <!-- Gateway: ¿Necesita aprobación HR? (si son más de 10 días) -->
+    <bpmn2:exclusiveGateway id="Gateway_DaysCheck" name="More than 10 days?">
+      <bpmn2:incoming>Flow_ManagerApproved_CheckDays</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_NeedsHR_Approval</bpmn2:outgoing>
+      <bpmn2:outgoing>Flow_FinalApproval</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    
+    <bpmn2:sequenceFlow id="Flow_NeedsHR_Approval" sourceRef="Gateway_DaysCheck" targetRef="Task_HRApproval">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${days > 10}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <bpmn2:sequenceFlow id="Flow_FinalApproval" sourceRef="Gateway_DaysCheck" targetRef="Task_FinalizeApproval">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${days &lt;= 10}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <bpmn2:sequenceFlow id="Flow_Escalate_HRApproval" sourceRef="Task_EscalateToHR" targetRef="Task_HRApproval"/>
+    
+    <!-- Aprobación HR (si aplica) -->
+    <bpmn2:userTask id="Task_HRApproval" name="HR Approval" flowable:candidateGroups="hr_manager">
+      <bpmn2:incoming>Flow_NeedsHR_Approval</bpmn2:incoming>
+      <bpmn2:incoming>Flow_Escalate_HRApproval</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_HR_Gateway</bpmn2:outgoing>
+    </bpmn2:userTask>
+    
+    <bpmn2:boundaryEvent id="BoundaryEvent_HRTimeout" name="HR Timeout" attachedToRef="Task_HRApproval">
+      <bpmn2:outgoing>Flow_HRTimeout_Finalize</bpmn2:outgoing>
+      <bpmn2:timerEventDefinition>
+        <bpmn2:timeDuration>PT120H</bpmn2:timeDuration>
+      </bpmn2:timerEventDefinition>
+    </bpmn2:boundaryEvent>
+    
+    <bpmn2:sequenceFlow id="Flow_HR_Gateway" sourceRef="Task_HRApproval" targetRef="Gateway_HRDecision"/>
+    
+    <!-- Gateway: ¿Aprobado por HR? -->
+    <bpmn2:exclusiveGateway id="Gateway_HRDecision" name="HR Approved?">
+      <bpmn2:incoming>Flow_HR_Gateway</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_HRApproved_Finalize</bpmn2:outgoing>
+      <bpmn2:outgoing>Flow_HRRejected_Notify</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    
+    <bpmn2:sequenceFlow id="Flow_HRApproved_Finalize" sourceRef="Gateway_HRDecision" targetRef="Task_FinalizeApproval">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${approved == true}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <bpmn2:sequenceFlow id="Flow_HRRejected_Notify" sourceRef="Gateway_HRDecision" targetRef="Task_NotifyRejection">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${approved == false}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <bpmn2:sequenceFlow id="Flow_HRTimeout_Finalize" sourceRef="BoundaryEvent_HRTimeout" targetRef="Task_FinalizeApproval"/>
+    
+    <!-- Finalizar aprobación -->
+    <bpmn2:serviceTask id="Task_FinalizeApproval" name="Finalize Approval">
+      <bpmn2:incoming>Flow_FinalApproval</bpmn2:incoming>
+      <bpmn2:incoming>Flow_HRApproved_Finalize</bpmn2:incoming>
+      <bpmn2:incoming>Flow_HRTimeout_Finalize</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_Finalize_Notify</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    
+    <bpmn2:sequenceFlow id="Flow_Finalize_Notify" sourceRef="Task_FinalizeApproval" targetRef="Task_NotifyApproval"/>
+    
+    <!-- Notificar aprobación -->
+    <bpmn2:serviceTask id="Task_NotifyApproval" name="Notify Approval">
+      <bpmn2:incoming>Flow_Finalize_Notify</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_Notify_End</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    
+    <!-- Notificar rechazo -->
+    <bpmn2:serviceTask id="Task_NotifyRejection" name="Notify Rejection">
+      <bpmn2:incoming>Flow_ManagerRejected_Notify</bpmn2:incoming>
+      <bpmn2:incoming>Flow_HRRejected_Notify</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_Reject_End</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    
+    <bpmn2:sequenceFlow id="Flow_Notify_End" sourceRef="Task_NotifyApproval" targetRef="EndEvent_Approved"/>
+    <bpmn2:sequenceFlow id="Flow_Reject_End" sourceRef="Task_NotifyRejection" targetRef="EndEvent_Rejected"/>
+    
+    <bpmn2:endEvent id="EndEvent_Approved" name="Approved"/>
+    <bpmn2:endEvent id="EndEvent_Rejected" name="Rejected"/>
+    
+  </bpmn2:process>
+  
+  <bpmndi:BPMNDiagram id="BPMNDiagram_VacationRequest">
+    <bpmndi:BPMNPlane id="BPMNPlane_VacationRequest" bpmnElement="vacationRequest">
+      <!-- Shapes y edges para visualización en el modeler -->
+      <!-- Se pueden generar automáticamente con Flowable Modeler -->
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+  
+</bpmn2:definitions>
+
+
+
+
+

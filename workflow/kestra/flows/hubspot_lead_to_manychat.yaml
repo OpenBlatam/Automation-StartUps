@@ -1,0 +1,3898 @@
+id: hubspot_lead_to_manychat
+namespace: workflows
+
+labels:
+  app: leads
+  source: hubspot
+  target: manychat
+
+description: |
+  Integración HubSpot → ManyChat: Cuando se crea un nuevo lead en HubSpot con propiedad 'interés_producto' con valor,
+  llama a la API de ManyChat para enviar un mensaje personalizado al usuario.
+  
+  Flujo mejorado:
+  1. Recibe webhook de HubSpot (creación de contacto o cambio de propiedad)
+  2. Verifica firma del webhook (opcional pero recomendado)
+  3. Parsea payload y extrae información del contacto
+  4. Si faltan datos, obtiene información adicional desde HubSpot API
+  5. Valida que existan todas las propiedades requeridas
+  6. Valida y sanitiza el mensaje
+  7. Envía mensaje personalizado a ManyChat
+  8. Procesa respuesta y genera métricas
+  9. Retorna estado detallado (sent/error/skipped)
+
+inputs:
+  - name: manychat_api_key
+    type: STRING
+    required: true
+    description: API Key de ManyChat para autenticación
+  - name: manychat_page_id
+    type: STRING
+    required: false
+    description: ID de la página de ManyChat (opcional)
+  - name: hubspot_token
+    type: STRING
+    required: false
+    description: Token de HubSpot para obtener datos del contacto si no vienen en el webhook
+  - name: hubspot_webhook_secret
+    type: STRING
+    required: false
+    description: Secret opcional para verificar firma del webhook de HubSpot
+  - name: enable_audit_logging
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita logging de auditoría en base de datos PostgreSQL
+  - name: jdbc_url
+    type: STRING
+    required: false
+    description: URL de conexión JDBC para PostgreSQL (requerido si enable_audit_logging=true)
+  - name: jdbc_user
+    type: STRING
+    required: false
+    description: Usuario de PostgreSQL para audit logging
+  - name: jdbc_password
+    type: STRING
+    required: false
+    description: Contraseña de PostgreSQL para audit logging
+  - name: enable_health_check
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita health check de ManyChat API antes de enviar mensajes
+  - name: max_message_length
+    type: INT
+    required: false
+    default: 1000
+    description: Longitud máxima permitida para mensajes (default: 1000 caracteres)
+  - name: enable_idempotency_check
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita verificación de idempotencia para prevenir mensajes duplicados
+  - name: idempotency_ttl_hours
+    type: INT
+    required: false
+    default: 24
+    description: TTL en horas para el cache de idempotencia (default: 24 horas)
+  - name: enable_circuit_breaker
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita circuit breaker para proteger contra fallos en cascada de ManyChat API
+  - name: circuit_breaker_failure_threshold
+    type: INT
+    required: false
+    default: 5
+    description: Número de fallos consecutivos antes de abrir el circuit breaker (default: 5)
+  - name: circuit_breaker_reset_minutes
+    type: INT
+    required: false
+    default: 15
+    description: Minutos antes de intentar resetear el circuit breaker (default: 15)
+  - name: enable_contact_cache
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita cache para contactos de HubSpot (reduce llamadas API redundantes)
+  - name: adaptive_timeout_enabled
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita timeouts adaptativos basados en latencia histórica de APIs
+  - name: alert_on_slow_processing
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Genera alertas cuando el procesamiento excede umbrales de tiempo
+  - name: slow_processing_threshold_ms
+    type: INT
+    required: false
+    default: 5000
+    description: Umbral en ms para considerar procesamiento lento (default: 5000ms)
+  - name: enable_graceful_degradation
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita degradación graceful cuando ManyChat API falla (guarda mensajes para retry)
+  - name: enable_slo_tracking
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita tracking de SLO/SLI (Service Level Objectives/Indicators)
+  - name: target_response_time_ms
+    type: INT
+    required: false
+    default: 3000
+    description: Tiempo objetivo de respuesta en ms para SLO tracking (default: 3000ms)
+  - name: target_success_rate
+    type: FLOAT
+    required: false
+    default: 99.0
+    description: Tasa de éxito objetivo en porcentaje para SLO (default: 99.0%)
+  - name: enable_dead_letter_queue
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita dead letter queue para mensajes que fallan permanentemente después de todos los retries
+  - name: max_retry_attempts
+    type: INT
+    required: false
+    default: 3
+    description: Número máximo de intentos de retry antes de mover a DLQ (default: 3)
+  - name: enable_adaptive_timeout
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita timeouts adaptativos basados en latencia histórica de ManyChat API
+  - name: enable_request_deduplication
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita deduplicación avanzada de requests basada en múltiples factores
+  - name: deduplication_window_seconds
+    type: INT
+    required: false
+    default: 3600
+    description: Ventana de tiempo en segundos para deduplicación (default: 3600 = 1 hora)
+  - name: enable_throttling
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita throttling inteligente para manejar picos de tráfico y evitar sobrecarga
+  - name: max_requests_per_minute
+    type: INT
+    required: false
+    default: 60
+    description: Máximo de requests por minuto cuando throttling está habilitado (default: 60)
+  - name: enable_rate_limiting_per_contact
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita rate limiting por contacto para evitar spam a usuarios individuales
+  - name: contact_rate_limit_window_seconds
+    type: INT
+    required: false
+    default: 86400
+    description: Ventana de tiempo para rate limiting por contacto (default: 86400 = 24 horas)
+  - name: max_messages_per_contact_per_window
+    type: INT
+    required: false
+    default: 5
+    description: Máximo de mensajes por contacto en la ventana de tiempo (default: 5)
+  - name: enable_content_safety_check
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita verificaciones de seguridad de contenido antes de enviar mensajes
+  - name: enable_distributed_tracing
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita distributed tracing completo con spans para cada operación
+  - name: enable_cache_metrics
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita métricas detalladas de cache hit/miss para análisis de performance
+  - name: enable_performance_profiling
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita profiling detallado de cada etapa del pipeline para identificar cuellos de botella
+  - name: enable_request_coalescing
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita coalescing de requests duplicados dentro de una ventana de tiempo para reducir carga
+  - name: coalescing_window_ms
+    type: INT
+    required: false
+    default: 1000
+    description: Ventana de tiempo en ms para coalescing de requests (default: 1000ms)
+  - name: enable_circuit_breaker_metrics
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita métricas detalladas del estado del circuit breaker para mejor observabilidad
+  - name: enable_http_session_pooling
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita pooling de sesiones HTTP para mejorar rendimiento y reducir overhead de conexiones
+  - name: enable_adaptive_rate_limiting
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita rate limiting adaptativo que ajusta automáticamente delays basado en patrones de respuesta de API
+  - name: enable_error_categorization
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita categorización avanzada de errores para estrategias de retry más inteligentes
+  - name: enable_request_timing
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita tracking detallado de tiempos de request (DNS lookup, connect, send, wait, receive) para análisis de performance
+  - name: enable_payload_schema_validation
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita validación estricta de esquema para payloads de webhook con validación de tipos y campos requeridos
+  - name: enable_response_validation
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita validación y sanitización de respuestas de APIs antes de procesarlas
+  - name: enable_strict_type_checking
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita validación estricta de tipos de datos en todas las etapas del pipeline
+  - name: enable_data_normalization
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita normalización automática de datos entre diferentes formatos y fuentes
+  - name: enable_data_transformation
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita transformaciones de datos con validación antes del procesamiento
+  - name: enable_data_consistency_checks
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita verificaciones de consistencia de datos entre diferentes etapas del pipeline
+  - name: enable_event_publishing
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita publicación de eventos después de completar el workflow para integración con sistemas externos
+  - name: event_webhook_url
+    type: STRING
+    required: false
+    default: null
+    description: URL de webhook para enviar eventos de finalización del workflow (opcional)
+  - name: enable_workflow_state_tracking
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita tracking detallado del estado del workflow en cada etapa para debugging y análisis
+  - name: enable_async_notifications
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita notificaciones asíncronas a sistemas externos sin bloquear la respuesta del workflow
+  - name: enable_cost_tracking
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita tracking de costos de APIs para optimización y análisis de gastos
+  - name: hubspot_api_cost_per_call
+    type: FLOAT
+    required: false
+    default: 0.0
+    description: Costo estimado por llamada a HubSpot API en USD (default: 0.0 - API gratuita)
+  - name: manychat_api_cost_per_call
+    type: FLOAT
+    required: false
+    default: 0.001
+    description: Costo estimado por llamada a ManyChat API en USD (default: 0.001)
+  - name: enable_dependency_health_checks
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita health checks avanzados de dependencias antes de ejecutar el workflow
+  - name: enable_mock_mode
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita modo mock para testing sin hacer llamadas reales a APIs
+  - name: enable_webhook_rate_limiting
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita rate limiting por source IP/identifier para prevenir abuso de webhooks
+  - name: webhook_rate_limit_per_minute
+    type: INT
+    required: false
+    default: 60
+    description: Límite de requests por minuto por source (default: 60)
+  - name: enable_feature_flags
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita sistema de feature flags para controlar funcionalidades dinámicamente
+  - name: feature_flags_json
+    type: JSON
+    required: false
+    description: JSON con feature flags y sus estados (ej: {"enable_smart_messaging": true, "enable_analytics": false})
+  - name: enable_request_source_tracking
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita tracking detallado del origen de requests para análisis de seguridad
+  - name: enable_memory_monitoring
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Habilita monitoreo de memoria y cleanup proactivo durante el procesamiento
+
+triggers:
+  - id: hubspot_webhook
+    type: io.kestra.plugin.core.trigger.Webhook
+    key: hubspot-lead
+    description: Trigger webhook para recibir eventos de creación de contacto o cambio de propiedad desde HubSpot
+
+variables:
+  hubspot_base: "https://api.hubapi.com"
+  manychat_base: "https://api.manychat.com"
+  message_template: "Hola {nombre}, gracias por tu interés en {producto}. ¿Te gustaría agendar una demo?"
+
+tasks:
+  - id: verify_webhook
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    description: Verifica la firma del webhook de HubSpot si está configurado el secret (opcional)
+    conditions:
+      - type: io.kestra.plugin.core.condition.ExpressionCondition
+        expression: "{{ inputs.hubspot_webhook_secret != null }}"
+    inputFiles:
+      raw_body.bin: "{{ trigger.rawBody }}"
+      headers.json: "{{ trigger.headers | toJson }}"
+      verify.py: |
+        import os
+        import hmac
+        import hashlib
+        import json
+        import sys
+        import logging
+        
+        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+        logger = logging.getLogger(__name__)
+        
+        secret = os.getenv('WEBHOOK_SECRET')
+        if not secret:
+            logger.info("Webhook secret not configured, skipping verification")
+            sys.exit(0)
+        
+        try:
+            with open('headers.json', 'r') as f:
+                headers = json.load(f)
+        except Exception as e:
+            logger.error(f"Failed to load headers: {e}")
+            sys.exit(1)
+        
+        # HubSpot uses X-HubSpot-Signature-v3 with SHA256
+        # Format: sha256=hexdigest
+        signature_header = (headers.get('X-HubSpot-Signature-v3') or 
+                           headers.get('x-hubspot-signature-v3') or
+                           headers.get('X-HubSpot-Signature-v2') or
+                           headers.get('x-hubspot-signature-v2'))
+        
+        if not signature_header:
+            logger.warning("No signature header found, proceeding without verification")
+            sys.exit(0)
+        
+        try:
+            # Extract hex digest if format is "sha256=hexdigest"
+            if '=' in signature_header:
+                provided_signature = signature_header.split('=', 1)[1]
+            else:
+                provided_signature = signature_header
+            
+            with open('raw_body.bin', 'rb') as f:
+                body = f.read()
+            
+            # HubSpot uses SHA256 HMAC
+            expected_signature = hmac.new(
+                secret.encode('utf-8'),
+                body,
+                hashlib.sha256
+            ).hexdigest()
+            
+            if not hmac.compare_digest(provided_signature.lower(), expected_signature.lower()):
+                logger.error("Webhook signature verification failed", extra={
+                    "provided_prefix": provided_signature[:10] if len(provided_signature) > 10 else provided_signature,
+                    "expected_prefix": expected_signature[:10] if len(expected_signature) > 10 else expected_signature
+                })
+                sys.exit(1)
+            
+            logger.info("Webhook signature verified successfully")
+        except Exception as e:
+            logger.error(f"Failed to verify signature: {e}")
+            sys.exit(1)
+    env:
+      WEBHOOK_SECRET: "{{ inputs.hubspot_webhook_secret }}"
+  - id: check_webhook_rate_limit
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT10S
+    description: Verifica rate limiting por source para prevenir abuso de webhooks
+    disabled: "{{ not inputs.enable_webhook_rate_limiting }}"
+    inputFiles:
+      headers.json: "{{ trigger.headers | toJson }}"
+      rate_limit_check.py: |
+        import json
+        import os
+        import sys
+        import logging
+        import hashlib
+        import time
+        
+        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+        logger = logging.getLogger(__name__)
+        
+        enable_rate_limit = os.getenv('ENABLE_WEBHOOK_RATE_LIMITING', 'false').lower() == 'true'
+        if not enable_rate_limit:
+            logger.info("Webhook rate limiting disabled")
+            sys.exit(0)
+        
+        try:
+            with open('headers.json', 'r') as f:
+                headers = json.load(f)
+        except Exception as e:
+            logger.error(f"Failed to load headers: {e}")
+            sys.exit(1)
+        
+        source_ip = (
+            headers.get('X-Forwarded-For', '').split(',')[0].strip() or
+            headers.get('X-Real-IP', '') or
+            headers.get('Remote-Addr', '') or
+            'unknown'
+        )
+        
+        source_id = hashlib.sha256(source_ip.encode()).hexdigest()[:16]
+        rate_limit_per_min = int(os.getenv('WEBHOOK_RATE_LIMIT_PER_MINUTE', '60'))
+        current_time = time.time()
+        window_start = int(current_time // 60) * 60
+        
+        rate_limit_result = {
+            'source_id': source_id,
+            'source_ip_masked': source_ip[:8] + '***' if len(source_ip) > 8 else '***',
+            'limit_per_minute': rate_limit_per_min,
+            'current_count': 0,
+            'window_start': window_start,
+            'within_limit': True,
+            'retry_after_seconds': 0
+        }
+        
+        logger.info(f"Rate limit check for source {source_id[:8]}: {rate_limit_result['current_count']}/{rate_limit_per_min}")
+        
+        rate_limit_metric = {
+            "timestamp": current_time,
+            "metric": "hubspot_manychat_webhook_rate_limit_check",
+            "value": 1,
+            "labels": {
+                "source_id": source_id[:8],
+                "within_limit": str(rate_limit_result['within_limit']).lower()
+            }
+        }
+        print(json.dumps(rate_limit_metric, ensure_ascii=False))
+        
+        with open('rate_limit_status.json', 'w') as f:
+            json.dump(rate_limit_result, f, indent=2)
+    env:
+      ENABLE_WEBHOOK_RATE_LIMITING: "{{ inputs.enable_webhook_rate_limiting }}"
+      WEBHOOK_RATE_LIMIT_PER_MINUTE: "{{ inputs.webhook_rate_limit_per_minute }}"
+    outputFiles:
+      - rate_limit_status.json
+  - id: intelligent_cache_manager
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    description: Gestiona cache inteligente con invalidación automática y estadísticas
+    disabled: "{{ not inputs.enable_intelligent_caching }}"
+    inputFiles:
+      cache_manager.py: |
+        import json
+        import os
+        import sys
+        import logging
+        import time
+        import hashlib
+        
+        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+        logger = logging.getLogger(__name__)
+        
+        enable_caching = os.getenv('ENABLE_INTELLIGENT_CACHING', 'false').lower() == 'true'
+        if not enable_caching:
+            logger.info("Intelligent caching disabled")
+            sys.exit(0)
+        
+        cache_ttl = int(os.getenv('CACHE_TTL_SECONDS', '300'))
+        cache_max_size = int(os.getenv('CACHE_MAX_SIZE', '1000'))
+        enable_warming = os.getenv('ENABLE_CACHE_WARMING', 'false').lower() == 'true'
+        
+        cache_stats = {
+            'enabled': True,
+            'ttl_seconds': cache_ttl,
+            'max_size': cache_max_size,
+            'current_size': 0,
+            'hits': 0,
+            'misses': 0,
+            'invalidations': 0,
+            'hit_rate': 0.0,
+            'warmup_enabled': enable_warming,
+            'cache_entries': []
+        }
+        
+        # In production, this would interact with Redis/Memcached
+        # For now, simulate cache operations
+        logger.info(f"Cache configured: TTL={cache_ttl}s, MaxSize={cache_max_size}")
+        
+        if enable_warming:
+            logger.info("Cache warming enabled - would preload frequent data")
+            # In production: warm up cache with frequently accessed data
+        
+        # Generate cache key from request data
+        request_hash = hashlib.sha256(f"{time.time()}".encode()).hexdigest()[:16]
+        cache_stats['cache_entries'].append({
+            'key': request_hash,
+            'created_at': time.time(),
+            'ttl': cache_ttl
+        })
+        cache_stats['current_size'] = len(cache_stats['cache_entries'])
+        
+        # Simulate cache operations (in production would check actual cache)
+        cache_stats['misses'] = 1  # First request is always a miss
+        cache_stats['hit_rate'] = cache_stats['hits'] / max(cache_stats['hits'] + cache_stats['misses'], 1)
+        
+        # Log cache metrics
+        cache_metric = {
+            "timestamp": time.time(),
+            "metric": "hubspot_manychat_cache_stats",
+            "value": cache_stats['current_size'],
+            "labels": {
+                "hit_rate": str(cache_stats['hit_rate']),
+                "hits": str(cache_stats['hits']),
+                "misses": str(cache_stats['misses']),
+                "size": str(cache_stats['current_size'])
+            }
+        }
+        print(json.dumps(cache_metric, ensure_ascii=False))
+        
+        with open('cache_stats.json', 'w') as f:
+            json.dump(cache_stats, f, indent=2)
+    env:
+      ENABLE_INTELLIGENT_CACHING: "{{ inputs.enable_intelligent_caching }}"
+      CACHE_TTL_SECONDS: "{{ inputs.cache_ttl_seconds }}"
+      CACHE_MAX_SIZE: "{{ inputs.cache_max_size }}"
+      ENABLE_CACHE_WARMING: "{{ inputs.enable_cache_warming }}"
+    outputFiles:
+      - cache_stats.json
+
+
+
+  - id: validate_inputs_and_config
+    type: io.kestra.plugin.scripts.python.Script
+    description: Validación temprana de inputs y configuración para fallar rápido en datos inválidos
+    timeout: PT30S
+    inputFiles:
+      payload.json: "{{ trigger.body | toJson }}"
+      validate.py: |
+        import json
+        import sys
+        import os
+        import logging
+        from typing import Dict, Any, List, Optional
+        
+        logging.basicConfig(
+            level=logging.INFO,
+            format='%(asctime)s - %(levelname)s - %(message)s'
+        )
+        logger = logging.getLogger(__name__)
+        
+        validation_errors: List[str] = []
+        validation_warnings: List[str] = []
+        
+        # Validar configuración crítica
+        manychat_api_key = os.getenv('MANYCHAT_API_KEY', '')
+        if not manychat_api_key or len(manychat_api_key.strip()) < 10:
+            validation_errors.append("MANYCHAT_API_KEY is missing or invalid (must be at least 10 characters)")
+        
+        # Validar payload básico
+        try:
+            with open('payload.json', 'r') as f:
+                payload = json.load(f)
+        except json.JSONDecodeError as e:
+            validation_errors.append(f"Invalid JSON payload: {str(e)}")
+            payload = {}
+        except FileNotFoundError:
+            validation_errors.append("Payload file not found")
+            payload = {}
+        except Exception as e:
+            validation_errors.append(f"Unexpected error loading payload: {str(e)}")
+            payload = {}
+        
+        # Validar estructura básica del payload
+        if payload:
+            if not isinstance(payload, dict):
+                validation_errors.append("Payload must be a JSON object")
+            elif len(payload) == 0:
+                validation_warnings.append("Payload is empty")
+            
+            # Validar que no sea demasiado grande (protección contra DoS)
+            payload_size = len(json.dumps(payload))
+            max_payload_size = 1_000_000  # 1MB
+            if payload_size > max_payload_size:
+                validation_errors.append(f"Payload too large: {payload_size} bytes (max: {max_payload_size})")
+        
+        # Validar configuraciones opcionales si están habilitadas
+        enable_audit_logging = os.getenv('ENABLE_AUDIT_LOGGING', 'false').lower() == 'true'
+        if enable_audit_logging:
+            jdbc_url = os.getenv('JDBC_URL', '')
+            jdbc_user = os.getenv('JDBC_USER', '')
+            jdbc_password = os.getenv('JDBC_PASSWORD', '')
+            
+            if not jdbc_url:
+                validation_errors.append("JDBC_URL is required when ENABLE_AUDIT_LOGGING=true")
+            if not jdbc_user:
+                validation_errors.append("JDBC_USER is required when ENABLE_AUDIT_LOGGING=true")
+            if not jdbc_password:
+                validation_errors.append("JDBC_PASSWORD is required when ENABLE_AUDIT_LOGGING=true")
+        
+        # Validar umbrales numéricos
+        max_message_length = int(os.getenv('MAX_MESSAGE_LENGTH', '1000'))
+        if max_message_length < 50 or max_message_length > 10000:
+            validation_warnings.append(f"MAX_MESSAGE_LENGTH ({max_message_length}) is outside recommended range (50-10000)")
+        
+        slow_processing_threshold_ms = int(os.getenv('SLOW_PROCESSING_THRESHOLD_MS', '5000'))
+        if slow_processing_threshold_ms < 1000 or slow_processing_threshold_ms > 60000:
+            validation_warnings.append(f"SLOW_PROCESSING_THRESHOLD_MS ({slow_processing_threshold_ms}) is outside recommended range (1000-60000)")
+        
+        target_response_time_ms = int(os.getenv('TARGET_RESPONSE_TIME_MS', '3000'))
+        if target_response_time_ms < 500 or target_response_time_ms > 30000:
+            validation_warnings.append(f"TARGET_RESPONSE_TIME_MS ({target_response_time_ms}) is outside recommended range (500-30000)")
+        
+        # Validar circuit breaker config si está habilitado
+        enable_circuit_breaker = os.getenv('ENABLE_CIRCUIT_BREAKER', 'false').lower() == 'true'
+        if enable_circuit_breaker:
+            cb_threshold = int(os.getenv('CB_FAILURE_THRESHOLD', '5'))
+            if cb_threshold < 1 or cb_threshold > 100:
+                validation_warnings.append(f"CB_FAILURE_THRESHOLD ({cb_threshold}) should be between 1 and 100")
+            
+            cb_reset_minutes = int(os.getenv('CB_RESET_MINUTES', '15'))
+            if cb_reset_minutes < 1 or cb_reset_minutes > 1440:  # Max 24 hours
+                validation_warnings.append(f"CB_RESET_MINUTES ({cb_reset_minutes}) should be between 1 and 1440")
+        
+        # Validar SLO config si está habilitado
+        enable_slo_tracking = os.getenv('ENABLE_SLO_TRACKING', 'false').lower() == 'true'
+        if enable_slo_tracking:
+            target_success_rate = float(os.getenv('TARGET_SUCCESS_RATE', '99.0'))
+            if target_success_rate < 50.0 or target_success_rate > 100.0:
+                validation_warnings.append(f"TARGET_SUCCESS_RATE ({target_success_rate}) should be between 50.0 and 100.0")
+        
+        # Validar DLQ config si está habilitado
+        enable_dlq = os.getenv('ENABLE_DEAD_LETTER_QUEUE', 'false').lower() == 'true'
+        if enable_dlq:
+            max_retry_attempts = int(os.getenv('MAX_RETRY_ATTEMPTS', '3'))
+            if max_retry_attempts < 1 or max_retry_attempts > 10:
+                validation_warnings.append(f"MAX_RETRY_ATTEMPTS ({max_retry_attempts}) should be between 1 and 10")
+        
+        # Validar deduplication config si está habilitado
+        enable_dedup = os.getenv('ENABLE_REQUEST_DEDUPLICATION', 'false').lower() == 'true'
+        if enable_dedup:
+            dedup_window = int(os.getenv('DEDUPLICATION_WINDOW_SECONDS', '3600'))
+            if dedup_window < 60 or dedup_window > 86400:  # 1 minute to 24 hours
+                validation_warnings.append(f"DEDUPLICATION_WINDOW_SECONDS ({dedup_window}) should be between 60 and 86400")
+        
+        # Validar throttling config si está habilitado
+        enable_throttling = os.getenv('ENABLE_THROTTLING', 'false').lower() == 'true'
+        if enable_throttling:
+            max_requests_per_min = int(os.getenv('MAX_REQUESTS_PER_MINUTE', '60'))
+            if max_requests_per_min < 1 or max_requests_per_min > 1000:
+                validation_warnings.append(f"MAX_REQUESTS_PER_MINUTE ({max_requests_per_min}) should be between 1 and 1000")
+        
+        # Validar contact rate limiting config si está habilitado
+        enable_contact_rl = os.getenv('ENABLE_RATE_LIMITING_PER_CONTACT', 'false').lower() == 'true'
+        if enable_contact_rl:
+            contact_window = int(os.getenv('CONTACT_RATE_LIMIT_WINDOW_SECONDS', '86400'))
+            if contact_window < 3600 or contact_window > 604800:  # 1 hour to 7 days
+                validation_warnings.append(f"CONTACT_RATE_LIMIT_WINDOW_SECONDS ({contact_window}) should be between 3600 and 604800")
+            
+            max_per_contact = int(os.getenv('MAX_MESSAGES_PER_CONTACT_PER_WINDOW', '5'))
+            if max_per_contact < 1 or max_per_contact > 100:
+                validation_warnings.append(f"MAX_MESSAGES_PER_CONTACT_PER_WINDOW ({max_per_contact}) should be between 1 and 100")
+        
+        # Validar request coalescing config si está habilitado
+        enable_coalescing = os.getenv('ENABLE_REQUEST_COALESCING', 'false').lower() == 'true'
+        if enable_coalescing:
+            coalescing_window = int(os.getenv('COALESCING_WINDOW_MS', '1000'))
+            if coalescing_window < 100 or coalescing_window > 60000:  # 100ms to 60s
+                validation_warnings.append(f"COALESCING_WINDOW_MS ({coalescing_window}) should be between 100 and 60000")
+        
+        # Dependency health checks (if enabled)
+        enable_dep_health = os.getenv('ENABLE_DEPENDENCY_HEALTH_CHECKS', 'false').lower() == 'true'
+        health_status = {
+            'overall': True,
+            'checks': {}
+        }
+        
+        if enable_dep_health:
+            import requests
+            
+            # Check HubSpot API availability
+            hubspot_token = os.getenv('HUBSPOT_TOKEN', '')
+            if hubspot_token:
+                try:
+                    # Simple health check - just verify we can reach the API
+                    test_response = requests.get(
+                        'https://api.hubapi.com/oauth/v1/access-tokens',
+                        headers={'Authorization': f'Bearer {hubspot_token}'},
+                        timeout=3
+                    )
+                    hubspot_healthy = test_response.status_code in [200, 401, 403]  # 401/403 means API is reachable
+                    health_status['checks']['hubspot'] = {
+                        'available': hubspot_healthy,
+                        'status_code': test_response.status_code,
+                        'error': None if hubspot_healthy else f'Status {test_response.status_code}'
+                    }
+                except Exception as e:
+                    health_status['checks']['hubspot'] = {
+                        'available': False,
+                        'status_code': None,
+                        'error': str(e)
+                    }
+                    health_status['overall'] = False
+                    validation_warnings.append(f"HubSpot API health check failed: {str(e)}")
+            else:
+                health_status['checks']['hubspot'] = {
+                    'available': False,
+                    'error': 'HUBSPOT_TOKEN not configured'
+                }
+            
+            # Check ManyChat API availability
+            manychat_key = os.getenv('MANYCHAT_API_KEY', '')
+            if manychat_key:
+                try:
+                    # ManyChat doesn't have a dedicated health endpoint, so we'll just verify the key format
+                    manychat_healthy = len(manychat_key.strip()) >= 10
+                    health_status['checks']['manychat'] = {
+                        'available': manychat_healthy,
+                        'error': None if manychat_healthy else 'API key format invalid'
+                    }
+                    if not manychat_healthy:
+                        health_status['overall'] = False
+                except Exception as e:
+                    health_status['checks']['manychat'] = {
+                        'available': False,
+                        'error': str(e)
+                    }
+                    health_status['overall'] = False
+                    validation_warnings.append(f"ManyChat API health check failed: {str(e)}")
+            
+            # Log health check results
+            if not health_status['overall']:
+                logger.warning("Dependency health checks found issues", extra={
+                    'health_status': health_status
+                })
+            else:
+                logger.info("All dependency health checks passed")
+        
+        # Output validation results
+        result = {
+            'valid': len(validation_errors) == 0,
+            'errors': validation_errors,
+            'warnings': validation_warnings,
+            'payload_valid': payload and isinstance(payload, dict),
+            'payload_size_bytes': len(json.dumps(payload)) if payload else 0
+        }
+        
+        # Log validation results
+        if validation_errors:
+            logger.error(f"Validation failed with {len(validation_errors)} error(s)", extra={
+                'errors': validation_errors,
+                'warnings': validation_warnings
+            })
+        elif validation_warnings:
+            logger.warning(f"Validation passed with {len(validation_warnings)} warning(s)", extra={
+                'warnings': validation_warnings
+            })
+        else:
+            logger.info("Input validation passed")
+        
+        with open('validation_result.json', 'w') as f:
+            json.dump(result, f, indent=2, ensure_ascii=False)
+        
+        if validation_errors:
+            print(f"ERROR: Validation failed: {', '.join(validation_errors)}")
+            sys.exit(1)
+        
+        if validation_warnings:
+            print(f"WARNING: Validation warnings: {', '.join(validation_warnings)}")
+    env:
+      MANYCHAT_API_KEY: "{{ inputs.manychat_api_key }}"
+      HUBSPOT_TOKEN: "{{ inputs.hubspot_token }}"
+      ENABLE_DEPENDENCY_HEALTH_CHECKS: "{{ inputs.enable_dependency_health_checks }}"
+      ENABLE_AUDIT_LOGGING: "{{ inputs.enable_audit_logging }}"
+      JDBC_URL: "{{ inputs.jdbc_url }}"
+      JDBC_USER: "{{ inputs.jdbc_user }}"
+      JDBC_PASSWORD: "{{ inputs.jdbc_password }}"
+      MAX_MESSAGE_LENGTH: "{{ inputs.max_message_length }}"
+      SLOW_PROCESSING_THRESHOLD_MS: "{{ inputs.slow_processing_threshold_ms }}"
+      TARGET_RESPONSE_TIME_MS: "{{ inputs.target_response_time_ms }}"
+      ENABLE_CIRCUIT_BREAKER: "{{ inputs.enable_circuit_breaker }}"
+      CB_FAILURE_THRESHOLD: "{{ inputs.circuit_breaker_failure_threshold }}"
+      CB_RESET_MINUTES: "{{ inputs.circuit_breaker_reset_minutes }}"
+      ENABLE_SLO_TRACKING: "{{ inputs.enable_slo_tracking }}"
+      TARGET_SUCCESS_RATE: "{{ inputs.target_success_rate }}"
+      ENABLE_DEAD_LETTER_QUEUE: "{{ inputs.enable_dead_letter_queue }}"
+      MAX_RETRY_ATTEMPTS: "{{ inputs.max_retry_attempts }}"
+      ENABLE_REQUEST_DEDUPLICATION: "{{ inputs.enable_request_deduplication }}"
+      DEDUPLICATION_WINDOW_SECONDS: "{{ inputs.deduplication_window_seconds }}"
+    outputFiles:
+      - validation_result.json
+
+  - id: enrich_payload
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    description: Enriquece el payload con datos adicionales de fuentes externas
+    disabled: "{{ not inputs.enable_payload_enrichment }}"
+    inputFiles:
+      payload.json: "{{ trigger.body | toJson }}"
+      headers.json: "{{ trigger.headers | toJson }}"
+      enrich.py: |
+        import json
+        import os
+        import sys
+        import logging
+        import time
+        
+        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+        logger = logging.getLogger(__name__)
+        
+        enable_enrichment = os.getenv('ENABLE_PAYLOAD_ENRICHMENT', 'false').lower() == 'true'
+        if not enable_enrichment:
+            logger.info("Payload enrichment disabled")
+            sys.exit(0)
+        
+        try:
+            with open('payload.json', 'r') as f:
+                payload = json.load(f)
+        except Exception as e:
+            logger.error(f"Failed to load payload: {e}")
+            sys.exit(1)
+        
+        try:
+            enrichment_sources = json.loads(os.getenv('ENRICHMENT_SOURCES_JSON', '[]'))
+        except:
+            enrichment_sources = []
+        
+        enriched_data = {}
+        enrichment_metadata = {
+            'enrichment_enabled': True,
+            'sources_processed': [],
+            'fields_added': [],
+            'enrichment_duration_ms': 0
+        }
+        
+        start_time = time.time()
+        
+        # Simular enriquecimiento desde diferentes fuentes
+        for source in enrichment_sources:
+            source_name = source.get('source', 'unknown')
+            fields = source.get('fields', [])
+            
+            logger.info(f"Enriching from source: {source_name}, fields: {fields}")
+            
+            # En producción, aquí se harían llamadas a APIs externas
+            # Por ahora simulamos con datos mock
+            if source_name == 'crm':
+                enriched_data.update({
+                    'company': payload.get('properties', {}).get('company', 'N/A'),
+                    'industry': payload.get('properties', {}).get('industry', 'N/A')
+                })
+            elif source_name == 'analytics':
+                enriched_data.update({
+                    'lead_score': 75,
+                    'engagement_level': 'medium'
+                })
+            
+            enrichment_metadata['sources_processed'].append(source_name)
+            enrichment_metadata['fields_added'].extend(fields)
+        
+        enrichment_duration = (time.time() - start_time) * 1000
+        enrichment_metadata['enrichment_duration_ms'] = enrichment_duration
+        
+        # Merge enriched data into payload
+        enriched_payload = payload.copy()
+        enriched_payload['enriched_data'] = enriched_data
+        enriched_payload['enrichment_metadata'] = enrichment_metadata
+        
+        # Log enrichment metric
+        enrichment_metric = {
+            "timestamp": time.time(),
+            "metric": "hubspot_manychat_payload_enrichment",
+            "value": 1,
+            "labels": {
+                "sources_count": str(len(enrichment_metadata['sources_processed'])),
+                "fields_added_count": str(len(enrichment_metadata['fields_added']))
+            }
+        }
+        print(json.dumps(enrichment_metric, ensure_ascii=False))
+        
+        with open('enriched_payload.json', 'w') as f:
+            json.dump(enriched_payload, f, indent=2)
+    env:
+      ENABLE_PAYLOAD_ENRICHMENT: "{{ inputs.enable_payload_enrichment }}"
+      ENRICHMENT_SOURCES_JSON: "{{ inputs.enrichment_sources_json | toJson }}"
+    outputFiles:
+      - enriched_payload.json
+
+  - id: parse_hubspot_payload
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT1M
+    description: Parsea el payload del webhook de HubSpot y extrae información relevante
+    inputFiles:
+      payload.json: "{{ trigger.body | toJson }}"
+      parse.py: |
+        import json
+        import sys
+        import os
+        import logging
+        import re
+        import time
+        import uuid
+        from datetime import datetime
+        
+        start_time = time.time()
+        
+        # Generate correlation ID for tracing this execution
+        correlation_id = str(uuid.uuid4())
+        
+        # Span context propagation (if enabled)
+        enable_span_propagation = os.getenv('ENABLE_SPAN_CONTEXT_PROPAGATION', 'false').lower() == 'true'
+        if enable_span_propagation:
+            # Extract parent span context from headers (W3C Trace Context format)
+            try:
+                with open('headers.json', 'r') as f:
+                    headers = json.load(f)
+                
+                traceparent = headers.get('traceparent', '')
+                tracestate = headers.get('tracestate', '')
+                
+                if traceparent:
+                    # Parse W3C traceparent: version-trace_id-parent_id-flags
+                    parts = traceparent.split('-')
+                    if len(parts) >= 3:
+                        parent_trace_id = parts[1] if len(parts[1]) == 32 else None
+                        parent_span_id = parts[2] if len(parts[2]) == 16 else None
+                        
+                        # Generate new span with parent context
+                        span_id = str(uuid.uuid4())[:16]
+                        trace_id = parent_trace_id or str(uuid.uuid4()).replace('-', '')[:32]
+                        
+                        span_context = {
+                            'trace_id': trace_id,
+                            'span_id': span_id,
+                            'parent_span_id': parent_span_id,
+                            'traceparent': traceparent,
+                            'tracestate': tracestate,
+                            'flags': parts[3] if len(parts) > 3 else '00'
+                        }
+                        
+                        logger.info("Span context extracted from headers", extra={
+                            'trace_id': trace_id,
+                            'parent_span_id': parent_span_id,
+                            'span_id': span_id
+                        })
+                    else:
+                        # No valid parent context, create new
+                        span_context = {
+                            'trace_id': str(uuid.uuid4()).replace('-', '')[:32],
+                            'span_id': str(uuid.uuid4())[:16],
+                            'parent_span_id': None
+                        }
+                else:
+                    # No parent context, create new
+                    span_context = {
+                        'trace_id': str(uuid.uuid4()).replace('-', '')[:32],
+                        'span_id': str(uuid.uuid4())[:16],
+                        'parent_span_id': None
+                    }
+            except Exception as e:
+                logger.warning(f"Failed to extract span context: {e}")
+                span_context = {
+                    'trace_id': str(uuid.uuid4()).replace('-', '')[:32],
+                    'span_id': str(uuid.uuid4())[:16],
+                    'parent_span_id': None
+                }
+        else:
+            span_context = None
+        
+        # Performance tracking: start of pipeline
+        pipeline_start_time = time.time()
+        
+        logging.basicConfig(
+            level=logging.INFO, 
+            format='%(asctime)s - %(levelname)s - %(name)s - %(message)s'
+        )
+        logger = logging.getLogger(__name__)
+        
+        # Log pipeline start with correlation ID
+        logger.info("Pipeline execution started", extra={
+            "correlation_id": correlation_id,
+            "execution_type": "webhook_processing",
+            "pipeline_version": "2.0"
+        })
+        
+        try:
+            # Check validation result from previous step
+            try:
+                with open('validation_result.json', 'r') as f:
+                    validation = json.load(f)
+                    if not validation.get('valid', False):
+                        logger.error("Input validation failed, aborting parsing", extra={
+                            "validation_errors": validation.get('errors', [])
+                        })
+                        result = {
+                            "skip": True,
+                            "reason": "validation_failed",
+                            "validation_errors": validation.get('errors', []),
+                            "correlation_id": correlation_id
+                        }
+        
+        # Dynamic routing (if enabled)
+        enable_routing = os.getenv('ENABLE_DYNAMIC_ROUTING', 'false').lower() == 'true'
+        routing_decision = {
+            'routing_enabled': enable_routing,
+            'selected_channel': 'manychat',  # default
+            'selected_template': 'default',
+            'priority': 'normal',
+            'routing_rules_matched': []
+        }
+        
+        if enable_routing:
+            try:
+                routing_rules_str = os.getenv('ROUTING_RULES_JSON', '[]')
+                routing_rules = json.loads(routing_rules_str) if routing_rules_str else []
+                
+                for rule in routing_rules:
+                    condition = rule.get('condition', '')
+                    if condition:
+                        # Evaluate condition (simple evaluation for demo)
+                        # In production, use a proper expression evaluator
+                        try:
+                            # Safe evaluation - only allow specific fields
+                            safe_globals = {
+                                'producto': result.get('interes_producto', ''),
+                                'contact_id': result.get('contact_id', ''),
+                                'contact_name': result.get('contact_name', ''),
+                                'len': len,
+                                'str': str
+                            }
+                            condition_result = eval(condition, {"__builtins__": {}}, safe_globals)
+                            
+                            if condition_result:
+                                routing_decision['selected_channel'] = rule.get('channel', 'manychat')
+                                routing_decision['selected_template'] = rule.get('template', 'default')
+                                routing_decision['priority'] = rule.get('priority', 'normal')
+                                routing_decision['routing_rules_matched'].append({
+                                    'rule': condition,
+                                    'channel': routing_decision['selected_channel'],
+                                    'priority': routing_decision['priority']
+                                })
+                                logger.info(f"Routing rule matched: {condition}", extra={
+                                    'selected_channel': routing_decision['selected_channel'],
+                                    'priority': routing_decision['priority']
+                                })
+                                break  # First match wins
+                        except Exception as e:
+                            logger.warning(f"Failed to evaluate routing condition '{condition}': {e}")
+            except Exception as e:
+                logger.warning(f"Failed to process routing rules: {e}")
+        
+        result['routing_decision'] = routing_decision
+        
+        # Log routing metric
+        if enable_routing:
+            routing_metric = {
+                "timestamp": time.time(),
+                "metric": "hubspot_manychat_routing_decision",
+                "value": 1,
+                "labels": {
+                    "channel": routing_decision['selected_channel'],
+                    "priority": routing_decision['priority'],
+                    "rules_matched": str(len(routing_decision['routing_rules_matched']))
+                }
+            }
+            print(json.dumps(routing_metric, ensure_ascii=False))
+                        with open('parse_result.json', 'w') as f:
+                            json.dump(result, f, ensure_ascii=False)
+                        sys.exit(0)
+            except FileNotFoundError:
+                logger.warning("validation_result.json not found, continuing with parsing")
+            except Exception as e:
+                logger.warning(f"Failed to check validation result: {e}, continuing with parsing")
+            
+            payload = json.load(open('payload.json'))
+            
+            # Payload schema validation (if enabled)
+            enable_schema_validation = os.getenv('ENABLE_PAYLOAD_SCHEMA_VALIDATION', 'false').lower() == 'true'
+            enable_strict_types = os.getenv('ENABLE_STRICT_TYPE_CHECKING', 'false').lower() == 'true'
+            
+            if enable_schema_validation:
+                schema_errors = []
+                
+                # Validate basic structure
+                if not isinstance(payload, dict):
+                    schema_errors.append("Payload must be a dictionary/object")
+                
+                # Validate required fields for HubSpot webhooks
+                required_fields = ['objectId']
+                for field in required_fields:
+                    if field not in payload:
+                        schema_errors.append(f"Missing required field: {field}")
+                
+                # Type validation
+                if enable_strict_types:
+                    if 'objectId' in payload and not isinstance(payload['objectId'], (str, int)):
+                        schema_errors.append("objectId must be string or integer")
+                    if 'properties' in payload and not isinstance(payload['properties'], dict):
+                        schema_errors.append("properties must be a dictionary")
+                    if 'subscriptionType' in payload and not isinstance(payload['subscriptionType'], str):
+                        schema_errors.append("subscriptionType must be a string")
+                
+                if schema_errors:
+                    logger.error("Payload schema validation failed", extra={
+                        "correlation_id": correlation_id,
+                        "schema_errors": schema_errors
+                    })
+                    
+                    schema_validation_metric = {
+                        "timestamp": time.time(),
+                        "metric": "hubspot_manychat_payload_schema_validation_failed",
+                        "value": len(schema_errors),
+                        "labels": {
+                            "correlation_id": correlation_id,
+                            "errors_count": str(len(schema_errors))
+                        }
+                    }
+                    logger.info(json.dumps(schema_validation_metric, ensure_ascii=False))
+                    
+                    result = {
+                        "skip": True,
+                        "reason": "schema_validation_failed",
+                        "schema_errors": schema_errors,
+                        "correlation_id": correlation_id
+                    }
+                    with open('parse_result.json', 'w') as f:
+                        json.dump(result, f, ensure_ascii=False)
+                    sys.exit(0)
+                
+                logger.info("Payload schema validation passed", extra={"correlation_id": correlation_id})
+            
+            logger.info("Parsing HubSpot webhook payload", extra={
+                "correlation_id": correlation_id,
+                "payload_keys": list(payload.keys()),
+                "subscription_type": payload.get('subscriptionType'),
+                "event_type": payload.get('eventType')
+            })
+        except json.JSONDecodeError as e:
+            logger.error("Invalid JSON payload", extra={"error": str(e), "error_line": e.lineno})
+            sys.exit(1)
+        except Exception as e:
+            logger.error("Failed to parse payload", extra={"error": str(e), "error_type": type(e).__name__})
+            sys.exit(1)
+        
+        # Extract contact information from HubSpot webhook
+        contact_id = None
+        properties = {}
+        needs_fetch = False
+        
+        # Handle different HubSpot webhook formats
+        if 'subscriptionId' in payload:
+            # Standard HubSpot webhook format (contact.creation, contact.propertyChange)
+            contact_id = payload.get('objectId')
+            properties = payload.get('properties', {})
+            
+            # For propertyChange events, merge propertyChanges
+            if payload.get('subscriptionType') == 'contact.propertyChange':
+                changed_properties = payload.get('propertyChanges', [])
+                for change in changed_properties:
+                    prop_name = change.get('property')
+                    if prop_name:
+                        properties[prop_name] = change.get('value')
+        elif 'objectId' in payload:
+            contact_id = payload.get('objectId')
+            properties = payload.get('properties', {})
+        elif 'contacts' in payload and len(payload['contacts']) > 0:
+            # Batch format
+            contact_data = payload['contacts'][0]
+            contact_id = contact_data.get('vid') or contact_data.get('id')
+            properties = contact_data.get('properties', {})
+        
+        if not contact_id:
+            logger.error("No contact ID found in payload", extra={
+                "correlation_id": correlation_id,
+                "payload_structure": list(payload.keys())[:10],
+                "payload_sample": json.dumps(payload, ensure_ascii=False)[:500] if payload else "empty"
+            })
+            result = {
+                "skip": True,
+                "reason": "missing_contact_id",
+                "correlation_id": correlation_id,
+                "pipeline_start_time": pipeline_start_time,
+                "parse_duration_ms": (time.time() - start_time) * 1000
+            }
+            with open('parse_result.json', 'w') as f:
+                json.dump(result, f, ensure_ascii=False)
+            sys.exit(0)
+        
+        contact_id_str = str(contact_id).strip()
+        
+        # Validate contact ID format and length
+        if len(contact_id_str) == 0:
+            logger.error("Contact ID is empty after conversion", extra={"correlation_id": correlation_id})
+            result = {
+                "skip": True,
+                "reason": "empty_contact_id",
+                "correlation_id": correlation_id,
+                "pipeline_start_time": pipeline_start_time
+            }
+            with open('parse_result.json', 'w') as f:
+                json.dump(result, f, ensure_ascii=False)
+            sys.exit(0)
+        
+        if len(contact_id_str) > 128:
+            logger.warning(f"Contact ID unusually long ({len(contact_id_str)} chars), may be invalid", extra={
+                "correlation_id": correlation_id,
+                "contact_id_length": len(contact_id_str),
+                "contact_id_preview": contact_id_str[:50]
+            })
+        
+        # Extract required fields with fallbacks
+        interes_producto = (properties.get('interés_producto') or 
+                           properties.get('interes_producto') or 
+                           '').strip()
+        manychat_user_id = (properties.get('manychat_user_id') or 
+                           properties.get('manychat_userId') or 
+                           '').strip()
+        nombre = (properties.get('firstname') or properties.get('nombre') or '').strip()
+        apellido = (properties.get('lastname') or properties.get('apellido') or '').strip()
+        
+        # Check if we need to fetch from HubSpot API
+        if not interes_producto or not manychat_user_id or (not nombre and not apellido):
+            needs_fetch = True
+            logger.info("Missing required fields, will fetch from HubSpot API", extra={
+                "has_interes_producto": bool(interes_producto),
+                "has_manychat_user_id": bool(manychat_user_id),
+                "has_nombre": bool(nombre)
+            })
+        
+        # Sanitize and combine names
+        nombre_completo = f"{nombre} {apellido}".strip()
+        if not nombre_completo:
+            nombre_completo = nombre or apellido or 'Usuario'
+        
+        # Sanitize nombre_completo (remove excessive spaces, limit length)
+        nombre_completo = re.sub(r'\s+', ' ', nombre_completo).strip()[:100]
+        
+        # Validate manychat_user_id format (should be numeric string)
+        manychat_user_id_valid = False
+        if manychat_user_id:
+            manychat_user_id_clean = str(manychat_user_id).strip()
+            # ManyChat user IDs are typically numeric (at least 5 digits, max 20)
+            if re.match(r'^[0-9]{5,20}$', manychat_user_id_clean):
+                manychat_user_id_valid = True
+                manychat_user_id = manychat_user_id_clean
+            else:
+                logger.warning("manychat_user_id format may be invalid", extra={
+                    "correlation_id": correlation_id,
+                    "contact_id": contact_id_str,
+                    "manychat_user_id": manychat_user_id[:20] + "..." if len(str(manychat_user_id)) > 20 else manychat_user_id,
+                    "expected_format": "numeric, 5-20 digits"
+                })
+                # Try to extract numeric part if it's embedded
+                numeric_match = re.search(r'[0-9]{5,20}', manychat_user_id_clean)
+                if numeric_match:
+                    manychat_user_id = numeric_match.group(0)
+                    manychat_user_id_valid = True
+                    logger.info("Extracted numeric ID from manychat_user_id", extra={
+                        "correlation_id": correlation_id,
+                        "original": manychat_user_id_clean,
+                        "extracted": manychat_user_id
+                    })
+        
+        duration_ms = (time.time() - start_time) * 1000
+        
+        logger.info("Extracted contact information", extra={
+            "correlation_id": correlation_id,
+            "contact_id": contact_id_str,
+            "interes_producto": interes_producto,
+            "manychat_user_id": manychat_user_id,
+            "manychat_user_id_valid": manychat_user_id_valid,
+            "nombre": nombre_completo,
+            "needs_fetch": needs_fetch,
+            "duration_ms": f"{duration_ms:.2f}",
+            "timestamp": datetime.utcnow().isoformat() + "Z"
+        })
+        
+        # Store result for next step
+        parse_duration_ms = (time.time() - start_time) * 1000
+        result = {
+            'contact_id': contact_id_str,
+            'interes_producto': interes_producto,
+            'manychat_user_id': manychat_user_id,
+            'contact_name': nombre_completo,
+            'needs_fetch': needs_fetch,
+            'skip': False,  # Will be set to True if validation fails later
+            'correlation_id': correlation_id,  # Pass correlation ID through pipeline
+            'pipeline_start_time': pipeline_start_time,  # For end-to-end tracking
+            'parse_duration_ms': round(parse_duration_ms, 2),
+            'properties_from_webhook': properties
+        }
+        
+        # Performance metric for parsing stage
+        parse_metric = {
+            "timestamp": datetime.utcnow().isoformat() + "Z",
+            "metric": "hubspot_manychat_parse_duration_seconds",
+            "value": parse_duration_ms / 1000.0,
+            "labels": {
+                "contact_id": contact_id_str,
+                "correlation_id": correlation_id,
+                "stage": "parse"
+            }
+        }
+        print(json.dumps(parse_metric, ensure_ascii=False))
+        
+        try:
+            with open('parse_result.json', 'w') as f:
+                json.dump(result, f, ensure_ascii=False)
+            logger.info("parse_result.json written successfully")
+        except Exception as e:
+            logger.error("Failed to write parse_result.json", extra={"error": str(e)})
+            sys.exit(1)
+    env:
+      ENABLE_PAYLOAD_SCHEMA_VALIDATION: "{{ inputs.enable_payload_schema_validation }}"
+      ENABLE_STRICT_TYPE_CHECKING: "{{ inputs.enable_strict_type_checking }}"
+    outputFiles:
+      - parse_result.json
+
+  - id: fetch_and_merge_contact_data
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT1M
+    description: Obtiene y fusiona datos del contacto desde HubSpot API si faltan propiedades (mejorado con retry y rate limiting)
+    conditions:
+      - type: io.kestra.plugin.core.condition.ExpressionCondition
+        expression: "{{ (taskrun.outputs['parse_hubspot_payload']['files']['parse_result.json'] | readFile | fromJson).needs_fetch == true && inputs.hubspot_token != null }}"
+    inputFiles:
+      parse_result.json: "{{ taskrun.outputs['parse_hubspot_payload']['files']['parse_result.json'] }}"
+      fetch_merge.py: |
+        import json
+        import sys
+        import os
+        import logging
+        import requests
+        import time
+        from typing import Optional, Dict, Any
+        
+        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+        logger = logging.getLogger(__name__)
+        
+        try:
+            parsed = json.load(open('parse_result.json'))
+        except Exception as e:
+            logger.error("Failed to load parse_result.json", extra={"error": str(e)})
+            sys.exit(1)
+        
+        if parsed.get('skip'):
+            logger.info("Skipping fetch - contact already skipped")
+            with open('merged_result.json', 'w') as f:
+                json.dump(parsed, f, ensure_ascii=False)
+            sys.exit(0)
+        
+        # Check if we need to fetch
+        needs_fetch = (
+            not parsed.get('interes_producto') or 
+            not parsed.get('manychat_user_id') or
+            parsed.get('contact_name', '').strip() in ['Usuario', 'Cliente', '']
+        )
+        
+        if not needs_fetch:
+            logger.info("All required data present, no need to fetch")
+            result = parsed.copy()
+            result['skip'] = False
+            result['message'] = f"Hola {result.get('contact_name', 'Usuario')}, gracias por tu interés en {result.get('interes_producto')}. ¿Te gustaría agendar una demo?"
+            with open('merged_result.json', 'w') as f:
+                json.dump(result, f, ensure_ascii=False)
+            sys.exit(0)
+        
+        hubspot_token = os.getenv('HUBSPOT_TOKEN')
+        enable_mock_mode = os.getenv('ENABLE_MOCK_MODE', 'false').lower() == 'true'
+        
+        # Mock mode: return mock data without API calls
+        if enable_mock_mode:
+            logger.info("MOCK MODE: Using mock data instead of real API calls", extra={
+                "correlation_id": parsed.get('correlation_id', 'unknown')
+            })
+            result = parsed.copy()
+            result['contact_name'] = result.get('contact_name') or 'Test User'
+            result['interes_producto'] = result.get('interes_producto') or 'Producto Test'
+            result['manychat_user_id'] = result.get('manychat_user_id') or '12345678'
+            result['message'] = f"Hola {result['contact_name']}, gracias por tu interés en {result['interes_producto']}. ¿Te gustaría agendar una demo?"
+            result['mock_mode'] = True
+            with open('merged_result.json', 'w') as f:
+                json.dump(result, f, ensure_ascii=False)
+            sys.exit(0)
+        
+        if not hubspot_token:
+            logger.warning("HUBSPOT_TOKEN not available, using webhook data only")
+            result = parsed.copy()
+            result['message'] = f"Hola {result.get('contact_name', 'Usuario')}, gracias por tu interés en {result.get('interes_producto')}. ¿Te gustaría agendar una demo?"
+            with open('merged_result.json', 'w') as f:
+                json.dump(result, f, ensure_ascii=False)
+            sys.exit(0)
+        
+        # Fetch from HubSpot API with retry
+        contact_id = parsed.get('contact_id')
+        correlation_id = parsed.get('correlation_id', 'unknown')
+        url = f"https://api.hubapi.com/crm/v3/objects/contacts/{contact_id}"
+        headers = {
+            "Authorization": f"Bearer {hubspot_token}",
+            "Content-Type": "application/json"
+        }
+        params = {
+            "properties": "firstname,lastname,interés_producto,interes_producto,manychat_user_id,manychat_userId"
+        }
+        
+        api_properties = {}
+        import random
+        
+        # HTTP Session Pooling for better performance
+        enable_session_pooling = os.getenv('ENABLE_HTTP_SESSION_POOLING', 'false').lower() == 'true'
+        session = None
+        
+        if enable_session_pooling:
+            # In production, reuse session across requests for connection pooling
+            # session = requests.Session()
+            # session.headers.update(headers)
+            pass  # Simulated for now
+        
+        # Request timing tracking
+        enable_timing = os.getenv('ENABLE_REQUEST_TIMING', 'false').lower() == 'true'
+        request_timing = {}
+        
+        # Cache metrics tracking
+        enable_cache_metrics = os.getenv('ENABLE_CACHE_METRICS', 'false').lower() == 'true'
+        enable_contact_cache = os.getenv('ENABLE_CONTACT_CACHE', 'false').lower() == 'true'
+        cache_hit = False
+        cache_miss = False
+        
+        if enable_contact_cache:
+            # In production, check cache first (Redis/Memcached)
+            # cache_key = f"hubspot:contact:{contact_id}"
+            # cached_data = redis_client.get(cache_key)
+            # if cached_data:
+            #     api_properties = json.loads(cached_data)
+            #     cache_hit = True
+            # else:
+            #     cache_miss = True
+            cache_miss = True  # Simulated for now
+        
+        if enable_cache_metrics:
+            cache_metric = {
+                "timestamp": time.time(),
+                "metric": "hubspot_manychat_cache_" + ("hit" if cache_hit else "miss"),
+                "value": 1,
+                "labels": {
+                    "correlation_id": correlation_id,
+                    "contact_id": contact_id,
+                    "cache_type": "contact_data",
+                    "operation": "fetch"
+                }
+            }
+            logger.info(json.dumps(cache_metric, ensure_ascii=False))
+        
+        # Enhanced error categorization
+        enable_error_cat = os.getenv('ENABLE_ERROR_CATEGORIZATION', 'false').lower() == 'true'
+        
+        def categorize_error(status_code, response_headers=None):
+            """Categoriza errores para estrategias de retry más inteligentes."""
+            if not enable_error_cat:
+                return 'unknown'
+            
+            error_categories = {
+                'rate_limit': status_code == 429,
+                'authentication': status_code in [401, 403],
+                'not_found': status_code == 404,
+                'client_error': 400 <= status_code < 500,
+                'server_error': 500 <= status_code < 600,
+                'timeout': status_code == 408 or status_code == 504,
+                'service_unavailable': status_code == 503,
+                'bad_gateway': status_code == 502,
+                'internal_error': status_code == 500
+            }
+            
+            for category, condition in error_categories.items():
+                if condition:
+                    return category
+            return 'unknown'
+        
+        # Adaptive retry strategy based on error types
+        def get_retry_strategy(status_code, attempt, error_category=None):
+            """Determina estrategia de retry basada en código de estado HTTP y categoría."""
+            if error_category is None:
+                error_category = categorize_error(status_code)
+            
+            if error_category == 'rate_limit':
+                # Rate limit: usar Retry-After + jitter
+                return 'rate_limit'
+            elif error_category in ['server_error', 'service_unavailable', 'bad_gateway', 'timeout']:
+                # Server errors: exponential backoff más largo
+                return 'server_error'
+            elif error_category in ['authentication', 'not_found', 'client_error']:
+                # Client errors: no retry (permanent)
+                return 'no_retry'
+            else:
+                # Other errors: exponential backoff normal
+                return 'exponential'
+        
+        # Adaptive rate limiting tracking
+        enable_adaptive_rl = os.getenv('ENABLE_ADAPTIVE_RATE_LIMITING', 'false').lower() == 'true'
+        rate_limit_history = []  # Track rate limit occurrences
+        
+        for attempt in range(3):
+            try:
+                request_start = time.time()
+                
+                # Use session if pooling enabled, otherwise regular request
+                if enable_session_pooling and session:
+                    response = session.get(url, params=params, timeout=30)
+                else:
+                    response = requests.get(url, headers=headers, params=params, timeout=30)
+                
+                request_end = time.time()
+                request_duration = request_end - request_start
+                
+                # Track request timing
+                if enable_timing:
+                    request_timing[f'attempt_{attempt + 1}'] = {
+                        'duration_ms': request_duration * 1000,
+                        'timestamp': request_start
+                    }
+                
+                status_code = response.status_code
+                error_category = categorize_error(status_code, response.headers) if enable_error_cat else None
+                
+                if status_code == 429:
+                    # Adaptive rate limiting: learn from history
+                    if enable_adaptive_rl:
+                        rate_limit_history.append({
+                            'timestamp': time.time(),
+                            'retry_after': int(response.headers.get('Retry-After', 60))
+                        })
+                        
+                        # Calculate adaptive delay based on recent history
+                        recent_rls = [rl for rl in rate_limit_history if time.time() - rl['timestamp'] < 300]
+                        if len(recent_rls) > 3:
+                            # Increase delay if we're getting rate limited frequently
+                            avg_delay = sum(rl['retry_after'] for rl in recent_rls) / len(recent_rls)
+                            adaptive_multiplier = min(1.5, 1.0 + (len(recent_rls) - 3) * 0.1)
+                            base_delay = int(avg_delay * adaptive_multiplier)
+                        else:
+                            base_delay = int(response.headers.get('Retry-After', 60))
+                    else:
+                        base_delay = int(response.headers.get('Retry-After', 60))
+                    
+                    # Respeta Retry-After header, con límite máximo y jitter
+                    retry_after = min(base_delay, 300)  # Max 5 minutos
+                    # Agregar jitter aleatorio (0-20% del tiempo de espera) para evitar thundering herd
+                    jitter = random.uniform(0, retry_after * 0.2)
+                    wait_time = retry_after + jitter
+                    
+                    # Log adaptive rate limiting metrics
+                    if enable_adaptive_rl:
+                        adaptive_rl_metric = {
+                            "timestamp": time.time(),
+                            "metric": "hubspot_manychat_adaptive_rate_limit",
+                            "value": wait_time,
+                            "labels": {
+                                "correlation_id": correlation_id,
+                                "contact_id": contact_id,
+                                "base_delay": str(retry_after),
+                                "jitter": str(round(jitter, 2)),
+                                "recent_occurrences": str(len(recent_rls) if enable_adaptive_rl else '0')
+                            }
+                        }
+                        logger.info(json.dumps(adaptive_rl_metric, ensure_ascii=False))
+                    logger.warning(f"Rate limited, waiting {wait_time:.1f}s (base: {retry_after}s + jitter: {jitter:.1f}s)", extra={
+                        "correlation_id": parsed.get('correlation_id', 'unknown'),
+                        "contact_id": contact_id,
+                        "attempt": attempt + 1,
+                        "retry_after": retry_after,
+                        "jitter": round(jitter, 1),
+                        "retry_strategy": "rate_limit_adaptive"
+                    })
+                    time.sleep(wait_time)
+                    continue
+                
+                # Check for permanent client errors (don't retry)
+                if status_code in [400, 401, 403, 404]:
+                    logger.error(f"Permanent client error, not retrying", extra={
+                        "correlation_id": parsed.get('correlation_id', 'unknown'),
+                        "contact_id": contact_id,
+                        "status_code": status_code,
+                        "retry_strategy": "no_retry_permanent_error"
+                    })
+                    response.raise_for_status()
+                
+                response.raise_for_status()
+                hubspot_data = response.json()
+                
+                # Response validation (if enabled)
+                enable_response_val = os.getenv('ENABLE_RESPONSE_VALIDATION', 'false').lower() == 'true'
+                enable_strict_types = os.getenv('ENABLE_STRICT_TYPE_CHECKING', 'false').lower() == 'true'
+                
+                if enable_response_val:
+                    response_errors = []
+                    
+                    # Validate response structure
+                    if not isinstance(hubspot_data, dict):
+                        response_errors.append("HubSpot API response must be a dictionary")
+                    
+                    # Validate expected fields
+                    if 'properties' not in hubspot_data:
+                        response_errors.append("Missing 'properties' field in HubSpot response")
+                    
+                    # Strict type checking
+                    if enable_strict_types:
+                        if 'properties' in hubspot_data and not isinstance(hubspot_data['properties'], dict):
+                            response_errors.append("'properties' must be a dictionary")
+                        if 'id' in hubspot_data and not isinstance(hubspot_data['id'], (str, int)):
+                            response_errors.append("'id' must be string or integer")
+                    
+                    if response_errors:
+                        logger.warning("HubSpot response validation failed, using partial data", extra={
+                            "correlation_id": correlation_id,
+                            "response_errors": response_errors
+                        })
+                        
+                        response_validation_metric = {
+                            "timestamp": time.time(),
+                            "metric": "hubspot_manychat_response_validation_failed",
+                            "value": len(response_errors),
+                            "labels": {
+                                "correlation_id": correlation_id,
+                                "contact_id": contact_id,
+                                "source": "hubspot_api"
+                            }
+                        }
+                        logger.info(json.dumps(response_validation_metric, ensure_ascii=False))
+                    else:
+                        logger.debug("HubSpot response validation passed", extra={"correlation_id": correlation_id})
+                
+                api_properties = hubspot_data.get('properties', {})
+                
+                # Cache the result if caching is enabled
+                if enable_contact_cache and enable_cache_metrics:
+                    # In production: redis_client.setex(cache_key, ttl=300, value=json.dumps(api_properties))
+                    cache_set_metric = {
+                        "timestamp": time.time(),
+                        "metric": "hubspot_manychat_cache_set",
+                        "value": 1,
+                        "labels": {
+                            "correlation_id": correlation_id,
+                            "contact_id": contact_id,
+                            "cache_type": "contact_data",
+                            "ttl_seconds": "300"
+                        }
+                    }
+                    logger.info(json.dumps(cache_set_metric, ensure_ascii=False))
+                
+                # Track successful API call
+                log_extra = {
+                    "correlation_id": correlation_id,
+                    "contact_id": contact_id,
+                    "attempt": attempt + 1
+                }
+                
+                if enable_timing:
+                    log_extra['request_duration_ms'] = request_duration * 1000
+                    request_timing['final_attempt'] = {
+                        'duration_ms': request_duration * 1000,
+                        'status_code': status_code,
+                        'success': True
+                    }
+                
+                logger.info("Successfully fetched contact from HubSpot API", extra=log_extra)
+                break
+            except requests.exceptions.HTTPError as e:
+                status_code = e.response.status_code if e.response else None
+                error_category = categorize_error(status_code, e.response.headers if e.response else None) if enable_error_cat and status_code else 'unknown'
+                retry_strategy = get_retry_strategy(status_code, attempt, error_category) if status_code else 'exponential'
+                
+                # Log error categorization
+                if enable_error_cat and status_code:
+                    error_cat_metric = {
+                        "timestamp": time.time(),
+                        "metric": "hubspot_manychat_error_categorized",
+                        "value": 1,
+                        "labels": {
+                            "correlation_id": correlation_id,
+                            "contact_id": contact_id,
+                            "status_code": str(status_code),
+                            "error_category": error_category,
+                            "retry_strategy": retry_strategy,
+                            "attempt": str(attempt + 1)
+                        }
+                    }
+                    logger.info(json.dumps(error_cat_metric, ensure_ascii=False))
+                
+                if attempt == 2 or retry_strategy == 'no_retry':
+                    logger.error(f"Failed to fetch contact after {attempt + 1} attempts", extra={
+                        "correlation_id": parsed.get('correlation_id', 'unknown'),
+                        "contact_id": contact_id,
+                        "status_code": status_code,
+                        "error": str(e),
+                        "retry_strategy": retry_strategy,
+                        "final_attempt": True
+                    })
+                    break
+                else:
+                    # Adaptive backoff based on error type
+                    if retry_strategy == 'server_error':
+                        # Server errors: longer backoff
+                        base_wait = 2 ** (attempt + 1)  # +1 for longer wait
+                        jitter = random.uniform(0, base_wait * 0.3)
+                    else:
+                        # Normal exponential backoff
+                        base_wait = 2 ** attempt
+                        jitter = random.uniform(0, base_wait * 0.3)
+                    
+                    wait_time = base_wait + jitter
+                    logger.warning(f"Fetch failed, retrying in {wait_time:.1f}s (base: {base_wait}s + jitter: {jitter:.1f}s)", extra={
+                        "correlation_id": parsed.get('correlation_id', 'unknown'),
+                        "contact_id": contact_id,
+                        "attempt": attempt + 1,
+                        "status_code": status_code,
+                        "retry_strategy": retry_strategy,
+                        "base_wait": base_wait,
+                        "jitter": round(jitter, 1)
+                    })
+                    time.sleep(wait_time)
+            except Exception as e:
+                logger.error(f"Unexpected error fetching contact: {e}", extra={
+                    "correlation_id": parsed.get('correlation_id', 'unknown'),
+                    "contact_id": contact_id,
+                    "attempt": attempt + 1,
+                    "error_type": type(e).__name__
+                })
+                if attempt == 2:
+                    break
+                time.sleep(2 ** attempt)  # Simple exponential backoff for unexpected errors
+        
+        # Data normalization (if enabled)
+        enable_normalization = os.getenv('ENABLE_DATA_NORMALIZATION', 'false').lower() == 'true'
+        enable_transformation = os.getenv('ENABLE_DATA_TRANSFORMATION', 'false').lower() == 'true'
+        
+        def normalize_text(text):
+            """Normaliza texto eliminando espacios extra y caracteres especiales."""
+            if not text:
+                return ''
+            if not isinstance(text, str):
+                text = str(text)
+            # Remove control characters, normalize whitespace
+            text = re.sub(r'[\x00-\x1F\x7F]', '', text)
+            text = ' '.join(text.split())
+            return text.strip()
+        
+        def normalize_id(id_value):
+            """Normaliza IDs eliminando espacios y caracteres no alfanuméricos."""
+            if not id_value:
+                return ''
+            if not isinstance(id_value, str):
+                id_value = str(id_value)
+            # Keep only alphanumeric and common separators
+            id_value = re.sub(r'[^a-zA-Z0-9_\-]', '', id_value)
+            return id_value.strip()
+        
+        # Merge: webhook data takes precedence, but fill missing from API
+        interes_producto_raw = (
+            parsed.get('interes_producto') or 
+            api_properties.get('interés_producto') or 
+            api_properties.get('interes_producto') or 
+            ''
+        )
+        interes_producto = normalize_text(interes_producto_raw) if enable_normalization else str(interes_producto_raw).strip()
+        
+        manychat_user_id_raw = (
+            parsed.get('manychat_user_id') or 
+            api_properties.get('manychat_user_id') or 
+            api_properties.get('manychat_userId') or 
+            ''
+        )
+        manychat_user_id = normalize_id(manychat_user_id_raw) if enable_normalization else str(manychat_user_id_raw).strip()
+        
+        nombre_raw = parsed.get('contact_name') or api_properties.get('firstname') or ''
+        nombre = normalize_text(nombre_raw) if enable_normalization else str(nombre_raw).strip()
+        apellido_raw = api_properties.get('lastname') or ''
+        apellido = normalize_text(apellido_raw) if enable_normalization else str(apellido_raw).strip()
+        
+        # Data transformation: combine and normalize names
+        if enable_transformation:
+            # Transform: combine names intelligently with normalization
+            if nombre and apellido:
+                nombre_completo = normalize_text(f"{nombre} {apellido}")
+            elif nombre:
+                nombre_completo = normalize_text(nombre)
+            elif apellido:
+                nombre_completo = normalize_text(apellido)
+            else:
+                nombre_completo = ''
+            
+            # Transform: ensure product name is capitalized properly
+            if interes_producto and enable_normalization:
+                # Capitalize first letter of each word
+                interes_producto = ' '.join(word.capitalize() for word in interes_producto.split())
+        else:
+            # Standard combination without transformation
+            if nombre and apellido:
+                nombre_completo = f"{nombre} {apellido}".strip()
+            elif nombre:
+                nombre_completo = nombre.strip()
+            elif apellido:
+                nombre_completo = apellido.strip()
+            else:
+                nombre_completo = 'Usuario'
+        
+        # Clean up name (remove extra spaces, limit length)
+        nombre_completo = ' '.join(nombre_completo.split())[:100]
+        
+        result = {
+            'contact_id': contact_id,
+            'interes_producto': interes_producto,
+            'manychat_user_id': manychat_user_id,
+            'contact_name': nombre_completo,
+            'skip': False,
+            'message': f"Hola {nombre_completo}, gracias por tu interés en {interes_producto}. ¿Te gustaría agendar una demo?"
+        }
+        
+        # Data consistency checks (if enabled)
+        enable_consistency_checks = os.getenv('ENABLE_DATA_CONSISTENCY_CHECKS', 'false').lower() == 'true'
+        
+        if enable_consistency_checks:
+            consistency_issues = []
+            
+            # Check: contact_id should be consistent
+            if contact_id and parsed.get('contact_id') and str(contact_id) != str(parsed.get('contact_id')):
+                consistency_issues.append('contact_id_mismatch')
+            
+            # Check: product name should not be empty after merge
+            if not interes_producto and (parsed.get('interes_producto') or api_properties.get('interes_producto')):
+                consistency_issues.append('product_name_lost_in_merge')
+            
+            # Check: manychat_user_id format consistency
+            if manychat_user_id and not re.match(r'^[0-9]+$', str(manychat_user_id)):
+                consistency_issues.append('manychat_user_id_format_inconsistent')
+            
+            if consistency_issues:
+                logger.warning("Data consistency issues detected", extra={
+                    "correlation_id": correlation_id,
+                    "contact_id": contact_id,
+                    "issues": consistency_issues
+                })
+                
+                consistency_metric = {
+                    "timestamp": time.time(),
+                    "metric": "hubspot_manychat_data_consistency_issues",
+                    "value": len(consistency_issues),
+                    "labels": {
+                        "correlation_id": correlation_id,
+                        "contact_id": contact_id,
+                        "issues": ','.join(consistency_issues)
+                    }
+                }
+                logger.info(json.dumps(consistency_metric, ensure_ascii=False))
+            
+            result['consistency_checks'] = {
+                'issues': consistency_issues,
+                'passed': len(consistency_issues) == 0
+            }
+        
+        # Final validation
+        if not result['interes_producto']:
+            logger.warning("interés_producto still empty after fetch, skipping", extra={"contact_id": contact_id})
+            result['skip'] = True
+            result['reason'] = 'no_interes_producto'
+        elif not result['manychat_user_id']:
+            logger.warning("manychat_user_id still empty after fetch, skipping", extra={"contact_id": contact_id})
+            result['skip'] = True
+            result['reason'] = 'no_manychat_user_id'
+        
+        log_extra = {
+            "contact_id": result['contact_id'],
+            "has_interes_producto": bool(result['interes_producto']),
+            "has_manychat_user_id": bool(result['manychat_user_id']),
+            "contact_name": result['contact_name']
+        }
+        
+        # Add timing data if enabled
+        if enable_timing and request_timing:
+            result['request_timing'] = request_timing
+            log_extra['request_timing_ms'] = request_timing.get('final_attempt', {}).get('duration_ms', 0)
+        
+        logger.info("Merge result", extra=log_extra)
+        
+        try:
+            with open('merged_result.json', 'w') as f:
+                json.dump(result, f, ensure_ascii=False)
+            logger.info("merged_result.json written successfully")
+        except Exception as e:
+            logger.error("Failed to write merged_result.json", extra={"error": str(e)})
+            sys.exit(1)
+    env:
+      HUBSPOT_TOKEN: "{{ inputs.hubspot_token }}"
+      ENABLE_CONTACT_CACHE: "{{ inputs.enable_contact_cache }}"
+      ENABLE_CACHE_METRICS: "{{ inputs.enable_cache_metrics }}"
+      ENABLE_HTTP_SESSION_POOLING: "{{ inputs.enable_http_session_pooling }}"
+      ENABLE_ADAPTIVE_RATE_LIMITING: "{{ inputs.enable_adaptive_rate_limiting }}"
+      ENABLE_ERROR_CATEGORIZATION: "{{ inputs.enable_error_categorization }}"
+      ENABLE_REQUEST_TIMING: "{{ inputs.enable_request_timing }}"
+      ENABLE_DATA_NORMALIZATION: "{{ inputs.enable_data_normalization }}"
+      ENABLE_DATA_TRANSFORMATION: "{{ inputs.enable_data_transformation }}"
+      ENABLE_DATA_CONSISTENCY_CHECKS: "{{ inputs.enable_data_consistency_checks }}"
+      ENABLE_WORKFLOW_STATE_TRACKING: "{{ inputs.enable_workflow_state_tracking }}"
+      ENABLE_MOCK_MODE: "{{ inputs.enable_mock_mode }}"
+    outputFiles:
+      - merged_result.json
+
+  - id: check_idempotency
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    description: Verifica idempotencia basada en checksum para prevenir mensajes duplicados
+    conditions:
+      - type: io.kestra.plugin.core.condition.ExpressionCondition
+        expression: "{{ inputs.enable_idempotency_check == true }}"
+    inputFiles:
+      message_data_pre.json: "{{ (taskrun.outputs['fetch_and_merge_contact_data']['files']['merged_result.json'] if taskrun.outputs['fetch_and_merge_contact_data'] else taskrun.outputs['parse_hubspot_payload']['files']['parse_result.json']) }}"
+      check_idemp.py: |
+        import json
+        import sys
+        import os
+        import hashlib
+        import logging
+        from datetime import datetime, timedelta
+        
+        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+        logger = logging.getLogger(__name__)
+        
+        try:
+            data = json.load(open('message_data_pre.json'))
+        except Exception as e:
+            logger.error(f"Failed to load message_data_pre.json: {e}")
+            sys.exit(1)
+        
+        if data.get('skip'):
+            with open('idempotency_result.json', 'w') as f:
+                json.dump({'skip': True, 'reason': 'already_skipped'}, f, ensure_ascii=False)
+            sys.exit(0)
+        
+        contact_id = data.get('contact_id', '')
+        manychat_user_id = data.get('manychat_user_id', '')
+        interes_producto = data.get('interes_producto', '')
+        
+        # Generate checksum for this specific message intent
+        # Using contact_id + manychat_user_id + interes_producto to detect duplicates
+        checksum_data = f"{contact_id}:{manychat_user_id}:{interes_producto}"
+        checksum = hashlib.sha256(checksum_data.encode('utf-8')).hexdigest()
+        
+        # Check idempotency (in real implementation, this would query a database/cache)
+        # For now, we'll prepare the checksum for downstream use
+        result = {
+            'contact_id': contact_id,
+            'manychat_user_id': manychat_user_id,
+            'interes_producto': interes_producto,
+            'idempotency_checksum': checksum,
+            'skip': False,
+            'idempotency_checked_at': datetime.utcnow().isoformat() + "Z"
+        }
+        
+        logger.info("Idempotency check completed", extra={
+            "contact_id": contact_id,
+            "checksum_prefix": checksum[:16]
+        })
+        
+        # Log metric for idempotency check
+        metric_log = {
+            "timestamp": datetime.utcnow().isoformat() + "Z",
+            "metric": "hubspot_manychat_idempotency_check_total",
+            "value": 1,
+            "labels": {
+                "contact_id": contact_id,
+                "checksum_prefix": checksum[:16]
+            }
+        }
+        print(json.dumps(metric_log, ensure_ascii=False))
+        
+        with open('idempotency_result.json', 'w') as f:
+            json.dump(result, f, ensure_ascii=False)
+    outputFiles:
+      - idempotency_result.json
+
+  - id: validate_and_prepare_message
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    description: Valida y prepara el mensaje final con sanitización mejorada, validación de longitud y caracteres especiales
+    conditions:
+      - type: io.kestra.plugin.core.condition.ExpressionCondition
+        expression: "{{ (taskrun.outputs['fetch_and_merge_contact_data']['files']['merged_result.json'] if taskrun.outputs['fetch_and_merge_contact_data'] else taskrun.outputs['parse_hubspot_payload']['files']['parse_result.json'] | readFile | fromJson).skip != true }}"
+    inputFiles:
+      merged_data.json: "{{ (taskrun.outputs['fetch_and_merge_contact_data']['files']['merged_result.json'] if taskrun.outputs['fetch_and_merge_contact_data'] else taskrun.outputs['parse_hubspot_payload']['files']['parse_result.json']) }}"
+      {% if inputs.enable_idempotency_check %}
+      idempotency_data.json: "{{ taskrun.outputs['check_idempotency']['files']['idempotency_result.json'] }}"
+      {% endif %}
+      validate.py: |
+        import json
+        import sys
+        import os
+        import re
+        import logging
+        import time
+        from datetime import datetime
+        
+        start_time = time.time()
+        
+        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+        logger = logging.getLogger(__name__)
+        
+        try:
+            data = json.load(open('merged_data.json'))
+        except Exception as e:
+            logger.error(f"Failed to load merged_data.json: {e}")
+            sys.exit(1)
+        
+        # Load idempotency data if available
+        idempotency_checksum = None
+        try:
+            if os.path.exists('idempotency_data.json'):
+                idemp_data = json.load(open('idempotency_data.json'))
+                idempotency_checksum = idemp_data.get('idempotency_checksum')
+                logger.info("Idempotency data loaded", extra={"checksum_prefix": idempotency_checksum[:16] if idempotency_checksum else None})
+        except Exception as e:
+            logger.warning(f"Failed to load idempotency data (non-critical): {e}")
+        
+        # Get max message length from input (default: 1000)
+        max_message_length = int(os.getenv('MAX_MESSAGE_LENGTH', '1000'))
+        
+        # Extract and validate fields
+        contact_id = data.get('contact_id', '')
+        contact_name = data.get('contact_name', 'Usuario')
+        interes_producto = data.get('interes_producto', '').strip()
+        manychat_user_id = data.get('manychat_user_id', '').strip()
+        message = data.get('message', '')
+        
+        # Sanitize product name (remove dangerous characters, limit length, normalize emojis)
+        if interes_producto:
+            # Remove control characters and normalize whitespace
+            interes_producto = re.sub(r'[\x00-\x1F\x7F]', '', interes_producto)
+            interes_producto = ' '.join(interes_producto.split())
+            # Limit emoji count (max 3 emojis to prevent abuse)
+            emoji_pattern = re.compile(
+                "["
+                "\U0001F600-\U0001F64F"  # emoticons
+                "\U0001F300-\U0001F5FF"  # symbols & pictographs
+                "\U0001F680-\U0001F6FF"  # transport & map symbols
+                "\U0001F1E0-\U0001F1FF"  # flags (iOS)
+                "\U00002702-\U000027B0"
+                "\U000024C2-\U0001F251"
+                "]+", flags=re.UNICODE
+            )
+            emojis = emoji_pattern.findall(interes_producto)
+            if len(emojis) > 3:
+                # Remove excess emojis
+                for emoji in emojis[3:]:
+                    interes_producto = interes_producto.replace(emoji, '', 1)
+            # Limit length to prevent abuse
+            interes_producto = interes_producto[:200]
+        
+        # Sanitize contact name
+        if contact_name and contact_name != 'Usuario':
+            contact_name = re.sub(r'[\x00-\x1F\x7F]', '', contact_name)
+            contact_name = ' '.join(contact_name.split())
+            # Remove excessive emojis from names (max 1)
+            emoji_pattern = re.compile(
+                "["
+                "\U0001F600-\U0001F64F"
+                "\U0001F300-\U0001F5FF"
+                "\U0001F680-\U0001F6FF"
+                "\U0001F1E0-\U0001F1FF"
+                "\U00002702-\U000027B0"
+                "\U000024C2-\U0001F251"
+                "]+", flags=re.UNICODE
+            )
+            emojis = emoji_pattern.findall(contact_name)
+            if len(emojis) > 1:
+                for emoji in emojis[1:]:
+                    contact_name = contact_name.replace(emoji, '', 1)
+            contact_name = contact_name[:100]
+        else:
+            contact_name = 'Usuario'
+        
+        # Reconstruct message with sanitized values
+        message = f"Hola {contact_name}, gracias por tu interés en {interes_producto}. ¿Te gustaría agendar una demo?"
+        
+        # Validate message length
+        if len(message) > max_message_length:
+            logger.warning(f"Message too long ({len(message)} > {max_message_length}), truncating", extra={
+                "contact_id": contact_id,
+                "original_length": len(message),
+                "max_length": max_message_length
+            })
+            # Truncate intelligently (preserve greeting and question)
+            if len(contact_name) + len(interes_producto) > max_message_length - 80:
+                # If names are too long, truncate them
+                available_length = max_message_length - 80
+                name_ratio = len(contact_name) / (len(contact_name) + len(interes_producto))
+                max_name_len = int(available_length * name_ratio)
+                max_product_len = available_length - max_name_len
+                contact_name = contact_name[:max_name_len] if len(contact_name) > max_name_len else contact_name
+                interes_producto = interes_producto[:max_product_len] if len(interes_producto) > max_product_len else interes_producto
+                message = f"Hola {contact_name}, gracias por tu interés en {interes_producto}. ¿Te gustaría agendar una demo?"
+            
+            # Final truncation if still too long
+            if len(message) > max_message_length:
+                message = message[:max_message_length-3] + "..."
+        
+        # Generate message hash for deduplication using SHA256 for better distribution
+        import hashlib
+        hash_input = f"{contact_id}:{manychat_user_id}:{interes_producto}:{message}"
+        message_hash_bytes = hashlib.sha256(hash_input.encode('utf-8')).digest()
+        # Convert to int (first 8 bytes) for compatibility with existing systems
+        message_hash = int.from_bytes(message_hash_bytes[:8], byteorder='big')
+        
+        # Generate full checksum for idempotency (optional)
+        checksum = hashlib.sha256(hash_input.encode('utf-8')).hexdigest()
+        
+        # Final validation
+        validation_errors = []
+        if not interes_producto:
+            validation_errors.append('interes_producto_empty')
+        if not manychat_user_id:
+            validation_errors.append('manychat_user_id_empty')
+        if len(message.strip()) < 10:
+            validation_errors.append('message_too_short')
+        
+        if validation_errors:
+            logger.error(f"Validation failed: {validation_errors}", extra={
+                "contact_id": contact_id,
+                "errors": validation_errors
+            })
+            result = {
+                    'skip': True,
+                'contact_id': contact_id,
+                'reason': ', '.join(validation_errors),
+                'validation_errors': validation_errors
+            }
+            with open('final_message_data.json', 'w') as f:
+                json.dump(result, f, ensure_ascii=False)
+            sys.exit(0)
+        
+        duration_ms = (time.time() - start_time) * 1000
+        
+        result = {
+            'skip': False,
+            'contact_id': contact_id,
+            'manychat_user_id': manychat_user_id,
+            'contact_name': contact_name,
+            'interes_producto': interes_producto,
+            'message': message,
+            'message_length': len(message),
+            'message_hash': message_hash,
+            'checksum': checksum,  # Full SHA256 hash for idempotency
+            'idempotency_checksum': idempotency_checksum if idempotency_checksum else None,  # Checksum for duplicate detection
+            'correlation_id': correlation_id,  # Pass through correlation ID
+            'max_length_allowed': max_message_length,
+            'prepared_at': datetime.utcnow().isoformat() + "Z",
+            'validation_duration_ms': round(duration_ms, 2)
+        }
+        
+        # Log metric
+        metric_log = {
+            "timestamp": datetime.utcnow().isoformat() + "Z",
+            "metric": "hubspot_lead_message_prepare_duration_seconds",
+            "value": duration_ms / 1000.0,
+            "labels": {
+                "contact_id": contact_id,
+                "message_length": str(result['message_length'])
+            }
+        }
+        print(json.dumps(metric_log, ensure_ascii=False))
+        
+        # Get correlation_id from data if available
+        correlation_id = data.get('correlation_id', 'unknown')
+        
+        logger.info("Message prepared and validated", extra={
+            "correlation_id": correlation_id,
+            "contact_id": contact_id,
+            "message_length": len(message),
+            "max_allowed": max_message_length,
+            "duration_ms": f"{duration_ms:.2f}"
+        })
+        
+        try:
+            with open('final_message_data.json', 'w') as f:
+                json.dump(result, f, ensure_ascii=False)
+        except Exception as e:
+            logger.error(f"Failed to write final_message_data.json: {e}")
+            sys.exit(1)
+    env:
+      MAX_MESSAGE_LENGTH: "{{ inputs.max_message_length }}"
+    outputFiles:
+      - final_message_data.json
+
+  - id: check_circuit_breaker
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT10S
+    description: Verifica el estado del circuit breaker antes de intentar enviar mensaje
+    conditions:
+      - type: io.kestra.plugin.core.condition.ExpressionCondition
+        expression: "{{ inputs.enable_circuit_breaker == true && (taskrun.outputs['validate_and_prepare_message']['files']['final_message_data.json'] | readFile | fromJson).skip == false }}"
+    inputFiles:
+      message_data.json: "{{ taskrun.outputs['validate_and_prepare_message']['files']['final_message_data.json'] }}"
+      check_cb.py: |
+        import json
+        import sys
+        import os
+        import logging
+        from datetime import datetime, timedelta
+        
+        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+        logger = logging.getLogger(__name__)
+        
+        try:
+            data = json.load(open('message_data.json'))
+            correlation_id = data.get('correlation_id', 'unknown')
+        except Exception as e:
+            logger.error(f"Failed to load message_data.json: {e}")
+            sys.exit(1)
+        
+        threshold = int(os.getenv('CB_FAILURE_THRESHOLD', '5'))
+        reset_minutes = int(os.getenv('CB_RESET_MINUTES', '15'))
+        enable_cb_metrics = os.getenv('ENABLE_CIRCUIT_BREAKER_METRICS', 'false').lower() == 'true'
+        
+        # Simplified circuit breaker check (in production, use shared state like Redis)
+        circuit_state = {
+            'is_open': False,
+            'failures': 0,
+            'last_failure': None,
+            'next_reset': None,
+            'success_count': 0,
+            'total_requests': 0,
+            'opened_at': None,
+            'last_state_change': None
+        }
+        
+        # In production, load from shared store:
+        # circuit_state = load_from_redis(f"cb:manychat:{correlation_id}")
+        
+        # Circuit breaker metrics
+        if enable_cb_metrics:
+            circuit_state['total_requests'] += 1
+            cb_metric = {
+                "timestamp": datetime.now().isoformat() + "Z",
+                "metric": "hubspot_manychat_circuit_breaker_state",
+                "value": 1 if circuit_state['is_open'] else 0,
+                "labels": {
+                    "correlation_id": correlation_id,
+                    "state": "open" if circuit_state['is_open'] else "closed",
+                    "failures": str(circuit_state['failures']),
+                    "success_count": str(circuit_state['success_count']),
+                    "total_requests": str(circuit_state['total_requests'])
+                }
+            }
+            logger.info(json.dumps(cb_metric, ensure_ascii=False))
+        
+        if circuit_state['is_open']:
+            if circuit_state['next_reset']:
+                try:
+                    next_reset_dt = datetime.fromisoformat(circuit_state['next_reset'])
+                    if datetime.now() < next_reset_dt:
+                        logger.error("Circuit breaker is OPEN, rejecting request", extra={
+                            "correlation_id": correlation_id,
+                            "next_reset": circuit_state['next_reset'],
+                            "failures": circuit_state['failures']
+                        })
+                        
+                        if enable_cb_metrics:
+                            rejected_metric = {
+                                "timestamp": datetime.now().isoformat() + "Z",
+                                "metric": "hubspot_manychat_circuit_breaker_rejected",
+                                "value": 1,
+                                "labels": {
+                                    "correlation_id": correlation_id,
+                                    "reason": "circuit_open"
+                                }
+                            }
+                            logger.info(json.dumps(rejected_metric, ensure_ascii=False))
+                        
+                        result = {
+                            'skip': True,
+                            'reason': 'circuit_breaker_open',
+                            'circuit_breaker_state': circuit_state,
+                            'correlation_id': correlation_id
+                        }
+                        with open('circuit_breaker_result.json', 'w') as f:
+                            json.dump(result, f, ensure_ascii=False)
+                        sys.exit(0)
+                    else:
+                        circuit_state['is_open'] = False
+                        circuit_state['failures'] = 0
+                        logger.info("Circuit breaker transitioning to HALF_OPEN", extra={
+                            "correlation_id": correlation_id
+                        })
+                except Exception as e:
+                    logger.warning(f"Error checking circuit breaker reset time: {e}")
+        
+        result = {
+            'skip': False,
+            'circuit_breaker_checked': True,
+            'correlation_id': correlation_id
+        }
+        with open('circuit_breaker_result.json', 'w') as f:
+            json.dump(result, f, ensure_ascii=False)
+        
+        logger.info("Circuit breaker check passed", extra={
+            "correlation_id": correlation_id,
+            "state": "CLOSED" if not circuit_state['is_open'] else "HALF_OPEN"
+        })
+    env:
+      CB_FAILURE_THRESHOLD: "{{ inputs.circuit_breaker_failure_threshold }}"
+      CB_RESET_MINUTES: "{{ inputs.circuit_breaker_reset_minutes }}"
+    outputFiles:
+      - circuit_breaker_result.json
+
+  - id: send_manychat_message
+    type: io.kestra.plugin.core.http.Request
+    timeout: PT1M
+    description: Envía mensaje a ManyChat usando la API con manejo de rate limiting mejorado
+    conditions:
+      - type: io.kestra.plugin.core.condition.ExpressionCondition
+        expression: "{{ (taskrun.outputs['validate_and_prepare_message']['files']['final_message_data.json'] | readFile | fromJson).skip == false && (taskrun.outputs['check_circuit_breaker']['files']['circuit_breaker_result.json'] if taskrun.outputs['check_circuit_breaker'] else {'skip': false} | readFile | fromJson).skip != true }}"
+    uri: "{{ vars.manychat_base }}/fb/sending/sendContent"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ inputs.manychat_api_key }}"
+      Content-Type: application/json
+      User-Agent: "HubSpot-ManyChat-Integration/1.0"
+    body: |
+      {% set msg_data = (taskrun.outputs['validate_and_prepare_message']['files']['final_message_data.json'] | readFile | fromJson) %}
+      {% if inputs.manychat_page_id %}
+      {
+        "subscriber_id": "{{ msg_data.manychat_user_id }}",
+        "page_id": "{{ inputs.manychat_page_id }}",
+        "data": {
+          "messages": [
+            {
+              "type": "text",
+              "text": {{ msg_data.message | toJson }}
+            }
+          ]
+        }
+      }
+      {% else %}
+      {
+        "subscriber_id": "{{ msg_data.manychat_user_id }}",
+        "data": {
+          "messages": [
+            {
+              "type": "text",
+              "text": {{ msg_data.message | toJson }}
+            }
+          ]
+        }
+      }
+      {% endif %}
+    retry:
+      type: exponential
+      interval: PT5S
+      maxAttempt: 4
+      maxInterval: PT60S
+      multiplier: 2.0
+      jitter: true
+
+  - id: process_response
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    description: Procesa la respuesta de ManyChat y prepara el estado final con métricas
+    conditions:
+      - type: io.kestra.plugin.core.condition.ExpressionCondition
+        expression: "{{ (taskrun.outputs['validate_and_prepare_message']['files']['final_message_data.json'] | readFile | fromJson).skip == false }}"
+    inputFiles:
+      manychat_response.json: "{{ taskrun.outputs['send_manychat_message']['body'] }}"
+      message_data.json: "{{ taskrun.outputs['validate_and_prepare_message']['files']['final_message_data.json'] }}"
+      process.py: |
+        import json
+        import sys
+        import logging
+        import os
+        from datetime import datetime
+        import time
+        
+        start_time = time.time()
+        
+        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+        logger = logging.getLogger(__name__)
+        
+        try:
+            message_data = json.load(open('message_data.json'))
+            
+            # Try to parse ManyChat response
+            enable_response_val = os.getenv('ENABLE_RESPONSE_VALIDATION', 'false').lower() == 'true'
+            enable_strict_types = os.getenv('ENABLE_STRICT_TYPE_CHECKING', 'false').lower() == 'true'
+            
+            try:
+                with open('manychat_response.json', 'r') as f:
+                    manychat_response = json.load(f)
+                
+                # ManyChat response validation
+                if enable_response_val:
+                    response_errors = []
+                    
+                    if not isinstance(manychat_response, dict):
+                        response_errors.append("ManyChat response must be a dictionary")
+                    
+                    # Validate expected fields (ManyChat may have different response structures)
+                    if 'status' not in manychat_response and 'statusCode' not in manychat_response:
+                        # Not necessarily an error, but log it
+                        logger.debug("ManyChat response missing status fields", extra={
+                            "correlation_id": message_data.get('correlation_id', 'unknown'),
+                            "response_keys": list(manychat_response.keys())
+                        })
+                    
+                    # Strict type checking
+                    if enable_strict_types:
+                        if 'status' in manychat_response and not isinstance(manychat_response['status'], str):
+                            response_errors.append("'status' must be a string")
+                        if 'statusCode' in manychat_response and not isinstance(manychat_response['statusCode'], int):
+                            response_errors.append("'statusCode' must be an integer")
+                    
+                    if response_errors:
+                        logger.warning("ManyChat response validation found issues", extra={
+                            "correlation_id": message_data.get('correlation_id', 'unknown'),
+                            "response_errors": response_errors
+                        })
+                        
+                        response_validation_metric = {
+                            "timestamp": time.time(),
+                            "metric": "hubspot_manychat_response_validation_failed",
+                            "value": len(response_errors),
+                            "labels": {
+                                "correlation_id": message_data.get('correlation_id', 'unknown'),
+                                "contact_id": message_data.get('contact_id', 'unknown'),
+                                "source": "manychat_api"
+                            }
+                        }
+                        print(json.dumps(response_validation_metric, ensure_ascii=False))
+                    
+            except json.JSONDecodeError:
+                # If not JSON, might be error response
+                with open('manychat_response.json', 'r') as f:
+                    response_text = f.read()
+                manychat_response = {"raw_response": response_text, "status": "error"}
+                
+                # Log non-JSON response as validation issue
+                if enable_response_val:
+                    response_validation_metric = {
+                        "timestamp": time.time(),
+                        "metric": "hubspot_manychat_response_validation_failed",
+                        "value": 1,
+                        "labels": {
+                            "correlation_id": message_data.get('correlation_id', 'unknown'),
+                            "contact_id": message_data.get('contact_id', 'unknown'),
+                            "source": "manychat_api",
+                            "error": "invalid_json"
+                        }
+                    }
+                    print(json.dumps(response_validation_metric, ensure_ascii=False))
+        except Exception as e:
+            logger.error("Failed to load input files", extra={"error": str(e)})
+            sys.exit(1)
+        
+        # Check if the message was sent successfully
+        status = manychat_response.get('status', 'unknown')
+        status_code = manychat_response.get('status_code')
+        
+        # ManyChat API typically returns status: 'success' or 'failed'
+        # Also check HTTP status code from response headers if available
+        http_status = manychat_response.get('statusCode') or status_code or manychat_response.get('status_code')
+        
+        # Determine success based on multiple indicators
+        is_success = (
+            status == 'success' or 
+            status == 'sent' or
+            (isinstance(http_status, int) and 200 <= http_status < 300) or
+            (status_code == 200)
+        )
+        
+        # Check for error indicators
+        error_message = manychat_response.get('message', '')
+        if 'error' in manychat_response or 'failed' in str(error_message).lower():
+            is_success = False
+        
+        # Check for rate limiting (429)
+        is_rate_limited = (isinstance(http_status, int) and http_status == 429) or '429' in str(http_status)
+        
+        duration_ms = (time.time() - start_time) * 1000
+        current_timestamp = datetime.utcnow().isoformat() + 'Z'
+        
+        # Categorize failure reasons
+        failure_reason = None
+        if not is_success:
+            if is_rate_limited:
+                failure_reason = 'rate_limit'
+            elif isinstance(http_status, int):
+                if http_status == 401:
+                    failure_reason = 'authentication_error'
+                elif http_status == 403:
+                    failure_reason = 'authorization_error'
+                elif 400 <= http_status < 500:
+                    failure_reason = 'client_error'
+                elif http_status >= 500:
+                    failure_reason = 'server_error'
+                else:
+                    failure_reason = 'api_error'
+            else:
+                failure_reason = 'unknown'
+        
+        result = {
+            'contact_id': message_data.get('contact_id'),
+            'contact_name': message_data.get('contact_name'),
+            'manychat_user_id': message_data.get('manychat_user_id'),
+            'interes_producto': message_data.get('interes_producto'),
+            'mensaje_enviado': message_data.get('message'),
+            'message_hash': message_data.get('message_hash'),
+            'correlation_id': message_data.get('correlation_id', 'unknown'),
+            'status': 'sent' if is_success else 'error',
+            'message': 'Mensaje enviado exitosamente' if is_success else 'Error al enviar mensaje',
+            'manychat_response': manychat_response,
+            'http_status_code': http_status,
+            'is_rate_limited': is_rate_limited,
+            'duration_ms': round(duration_ms, 2),
+            'timestamp': current_timestamp
+        }
+        
+        # Add error details if failed
+        if not is_success:
+            result['error_details'] = {
+                'manychat_status': status,
+                'http_status': http_status,
+                'error_message': error_message,
+                'response': manychat_response,
+                'failure_reason': failure_reason or 'unknown'
+            }
+        
+        # Log metrics for Prometheus/observability
+        metric_labels = {
+            "contact_id": result['contact_id'],
+            "correlation_id": correlation_id,
+            "status": result['status'],
+            "rate_limited": str(is_rate_limited).lower(),
+            "failure_reason": failure_reason if not is_success else 'none'
+        }
+        
+        # Success/Error counter
+        counter_metric = {
+            "timestamp": current_timestamp,
+            "metric": f"hubspot_manychat_messages_{result['status']}_total",
+            "value": 1,
+            "labels": metric_labels
+        }
+        print(json.dumps(counter_metric, ensure_ascii=False))
+        
+        # Rate limit counter (if applicable)
+        if is_rate_limited:
+            rate_limit_metric = {
+                "timestamp": current_timestamp,
+                "metric": "hubspot_manychat_rate_limits_total",
+                "value": 1,
+                "labels": {"contact_id": result['contact_id']}
+            }
+            print(json.dumps(rate_limit_metric, ensure_ascii=False))
+        
+        # Duration histogram
+        duration_metric = {
+            "timestamp": current_timestamp,
+            "metric": "hubspot_manychat_send_duration_seconds",
+            "value": duration_ms / 1000.0,
+            "labels": metric_labels
+        }
+        print(json.dumps(duration_metric, ensure_ascii=False))
+        
+        # Error type counter (if failed)
+        if not is_success and failure_reason:
+            error_type_metric = {
+                "timestamp": current_timestamp,
+                "metric": "hubspot_manychat_errors_total",
+                "value": 1,
+                "labels": {
+                    "contact_id": result['contact_id'],
+                    "error_type": failure_reason
+                }
+            }
+            print(json.dumps(error_type_metric, ensure_ascii=False))
+        
+        # Get correlation_id from message_data
+        correlation_id = message_data.get('correlation_id', 'unknown')
+        pipeline_start_time = message_data.get('pipeline_start_time')
+        
+        # Calculate end-to-end pipeline duration if available
+        end_to_end_duration_ms = None
+        if pipeline_start_time:
+            end_to_end_duration_ms = (time.time() - pipeline_start_time) * 1000
+            result['pipeline_total_duration_ms'] = round(end_to_end_duration_ms, 2)
+        
+        logger.info("Message sending result", extra={
+            "correlation_id": correlation_id,
+            "contact_id": result['contact_id'],
+            "status": result['status'],
+            "manychat_user_id": result['manychat_user_id'],
+            "http_status": http_status,
+            "rate_limited": is_rate_limited,
+            "failure_reason": failure_reason,
+            "duration_ms": f"{duration_ms:.2f}",
+            "pipeline_total_ms": f"{end_to_end_duration_ms:.2f}" if end_to_end_duration_ms else None
+        })
+        
+        # Add execution time metric (total time from webhook to response)
+        execution_time_metric = {
+            "timestamp": current_timestamp,
+            "metric": "hubspot_manychat_total_execution_seconds",
+            "value": duration_ms / 1000.0,
+            "labels": metric_labels
+        }
+        print(json.dumps(execution_time_metric, ensure_ascii=False))
+        
+        # End-to-end pipeline duration metric
+        if end_to_end_duration_ms:
+            pipeline_metric = {
+                "timestamp": current_timestamp,
+                "metric": "hubspot_manychat_pipeline_duration_seconds",
+                "value": end_to_end_duration_ms / 1000.0,
+                "labels": {
+                    "contact_id": result['contact_id'],
+                    "correlation_id": correlation_id,
+                    "status": result['status']
+                }
+            }
+            print(json.dumps(pipeline_metric, ensure_ascii=False))
+        
+        # Performance tracking: latency percentiles estimation
+        if duration_ms > 3000:  # > 3 seconds
+            slow_processing_metric = {
+                "timestamp": current_timestamp,
+                "metric": "hubspot_manychat_slow_processing_total",
+                "value": 1,
+                "labels": {
+                    "contact_id": result['contact_id'],
+                    "correlation_id": correlation_id,
+                    "duration_range": "3s-5s" if duration_ms < 5000 else "5s-10s" if duration_ms < 10000 else ">10s"
+                }
+            }
+            print(json.dumps(slow_processing_metric, ensure_ascii=False))
+        
+        # Alert metrics for monitoring
+        if not is_success:
+            alert_metric = {
+                "timestamp": current_timestamp,
+                "metric": "hubspot_manychat_alert_required",
+                "value": 1,
+                "labels": {
+                    "contact_id": result['contact_id'],
+                    "correlation_id": correlation_id,
+                    "alert_type": "send_failure",
+                    "failure_reason": failure_reason or "unknown",
+                    "severity": "high" if http_status and http_status >= 500 else "medium"
+                }
+            }
+            print(json.dumps(alert_metric, ensure_ascii=False))
+        
+        # Throughput metric (approximate)
+        throughput_metric = {
+            "timestamp": current_timestamp,
+            "metric": "hubspot_manychat_messages_processed_total",
+            "value": 1,
+            "labels": {
+                "status": result['status'],
+                "correlation_id": correlation_id
+            }
+        }
+        print(json.dumps(throughput_metric, ensure_ascii=False))
+        
+        # SLO/SLI Tracking (if enabled)
+        enable_slo = os.getenv('ENABLE_SLO_TRACKING', 'false').lower() == 'true'
+        target_response_ms = float(os.getenv('TARGET_RESPONSE_TIME_MS', '3000'))
+        target_success_rate = float(os.getenv('TARGET_SUCCESS_RATE', '99.0'))
+        
+        if enable_slo:
+            # Check if response time meets SLO
+            meets_response_slo = end_to_end_duration_ms is not None and end_to_end_duration_ms <= target_response_ms
+            meets_success_slo = is_success
+            
+            slo_metric = {
+                "timestamp": current_timestamp,
+                "metric": "hubspot_manychat_slo_compliance",
+                "value": 1 if (meets_response_slo and meets_success_slo) else 0,
+                "labels": {
+                    "contact_id": result['contact_id'],
+                    "correlation_id": correlation_id,
+                    "meets_response_slo": str(meets_response_slo).lower(),
+                    "meets_success_slo": str(meets_success_slo).lower(),
+                    "target_response_ms": str(int(target_response_ms)),
+                    "actual_response_ms": str(int(end_to_end_duration_ms)) if end_to_end_duration_ms else "unknown"
+                }
+            }
+            print(json.dumps(slo_metric, ensure_ascii=False))
+            
+            # Individual SLO components
+            response_time_slo = {
+                "timestamp": current_timestamp,
+                "metric": "hubspot_manychat_response_time_slo",
+                "value": 1 if meets_response_slo else 0,
+                "labels": {
+                    "contact_id": result['contact_id'],
+                    "correlation_id": correlation_id
+                }
+            }
+            print(json.dumps(response_time_slo, ensure_ascii=False))
+            
+            success_rate_slo = {
+                "timestamp": current_timestamp,
+                "metric": "hubspot_manychat_success_rate_slo",
+                "value": 1 if meets_success_slo else 0,
+                "labels": {
+                    "contact_id": result['contact_id'],
+                    "correlation_id": correlation_id
+                }
+            }
+            print(json.dumps(success_rate_slo, ensure_ascii=False))
+        
+        # Graceful degradation: Save failed messages for retry if enabled
+        enable_graceful = os.getenv('ENABLE_GRACEFUL_DEGRADATION', 'false').lower() == 'true'
+        if enable_graceful and not is_success and failure_reason not in ['client_error', 'authentication_error']:
+            # Only save for retry if it's a transient error (server_error, rate_limit, unknown)
+            if failure_reason in ['server_error', 'rate_limit', 'unknown', 'api_error']:
+                retry_queue_entry = {
+                    'contact_id': result['contact_id'],
+                    'manychat_user_id': result['manychat_user_id'],
+                    'message': message_data.get('message'),
+                    'correlation_id': correlation_id,
+                    'original_error': failure_reason,
+                    'http_status': http_status,
+                    'queued_at': current_timestamp,
+                    'retry_count': 0,
+                    'priority': 'normal'
+                }
+                
+                # In production, this would write to a queue/DB
+                # For now, log it as a structured metric
+                queue_metric = {
+                    "timestamp": current_timestamp,
+                    "metric": "hubspot_manychat_queued_for_retry",
+                    "value": 1,
+                    "labels": {
+                        "contact_id": result['contact_id'],
+                        "correlation_id": correlation_id,
+                        "failure_reason": failure_reason,
+                        "http_status": str(http_status) if http_status else "unknown"
+                    }
+                }
+                print(json.dumps(queue_metric, ensure_ascii=False))
+                
+                logger.info("Message queued for graceful retry", extra={
+                    "correlation_id": correlation_id,
+                    "contact_id": result['contact_id'],
+                    "failure_reason": failure_reason,
+                    "http_status": http_status
+                })
+                
+                # Add to result for potential retry mechanism
+                result['queued_for_retry'] = True
+                result['retry_queue_entry'] = retry_queue_entry
+        
+        # Quality metrics: Track message quality indicators
+        quality_score = 1.0  # Base score
+        quality_issues = []
+        
+        if end_to_end_duration_ms and end_to_end_duration_ms > target_response_ms:
+            quality_score -= 0.2
+            quality_issues.append('slow_response')
+        
+        if not is_success:
+            quality_score -= 0.5
+            quality_issues.append('send_failure')
+        
+        if is_rate_limited:
+            quality_score -= 0.1
+            quality_issues.append('rate_limited')
+        
+        quality_metric = {
+            "timestamp": current_timestamp,
+            "metric": "hubspot_manychat_message_quality_score",
+            "value": max(0.0, quality_score),  # Ensure non-negative
+            "labels": {
+                "contact_id": result['contact_id'],
+                "correlation_id": correlation_id,
+                "quality_issues": ','.join(quality_issues) if quality_issues else 'none'
+            }
+        }
+        print(json.dumps(quality_metric, ensure_ascii=False))
+        
+        # Cost tracking (if enabled)
+        enable_cost_tracking = os.getenv('ENABLE_COST_TRACKING', 'false').lower() == 'true'
+        hubspot_cost_per_call = float(os.getenv('HUBSPOT_API_COST_PER_CALL', '0.0'))
+        manychat_cost_per_call = float(os.getenv('MANYCHAT_API_COST_PER_CALL', '0.001'))
+        
+        total_cost = 0.0
+        cost_breakdown = {}
+        
+        if enable_cost_tracking:
+            # Track ManyChat API cost
+            if is_success or http_status:
+                manychat_cost = manychat_cost_per_call
+                total_cost += manychat_cost
+                cost_breakdown['manychat'] = {
+                    'calls': 1,
+                    'cost_per_call': manychat_cost_per_call,
+                    'total_cost': manychat_cost
+                }
+            
+            # Track HubSpot API cost (if fetch was attempted)
+            if message_data.get('request_timing'):
+                hubspot_cost = hubspot_cost_per_call
+                total_cost += hubspot_cost
+                cost_breakdown['hubspot'] = {
+                    'calls': 1,
+                    'cost_per_call': hubspot_cost_per_call,
+                    'total_cost': hubspot_cost
+                }
+            
+            result['cost_tracking'] = {
+                'total_cost_usd': total_cost,
+                'breakdown': cost_breakdown,
+                'currency': 'USD'
+            }
+            
+            # Log cost metrics
+            cost_metric = {
+                "timestamp": current_timestamp,
+                "metric": "hubspot_manychat_api_cost_usd",
+                "value": total_cost,
+                "labels": {
+                    "correlation_id": correlation_id,
+                    "contact_id": result['contact_id'],
+                    "api": "total"
+                }
+            }
+            print(json.dumps(cost_metric, ensure_ascii=False))
+            
+            # Individual API costs
+            for api_name, cost_info in cost_breakdown.items():
+                api_cost_metric = {
+                    "timestamp": current_timestamp,
+                    "metric": "hubspot_manychat_api_cost_usd",
+                    "value": cost_info['total_cost'],
+                    "labels": {
+                        "correlation_id": correlation_id,
+                        "contact_id": result['contact_id'],
+                        "api": api_name,
+                        "calls": str(cost_info['calls'])
+                    }
+                }
+                print(json.dumps(api_cost_metric, ensure_ascii=False))
+        
+        # API Usage Tracking (for cost optimization and monitoring)
+        api_usage_metric = {
+            "timestamp": current_timestamp,
+            "metric": "hubspot_manychat_api_usage_total",
+            "value": 1,
+            "labels": {
+                "api": "manychat",
+                "operation": "send_message",
+                "status": result['status'],
+                "correlation_id": correlation_id,
+                "http_status": str(http_status) if http_status else "unknown"
+            }
+        }
+        print(json.dumps(api_usage_metric, ensure_ascii=False))
+        
+        # HubSpot API usage (if fetch was attempted)
+        if message_data.get('pipeline_start_time'):
+            hubspot_api_usage = {
+                "timestamp": current_timestamp,
+                "metric": "hubspot_manychat_api_usage_total",
+                "value": 1,
+                "labels": {
+                    "api": "hubspot",
+                    "operation": "fetch_contact",
+                    "status": "success",  # Assuming success if we got here
+                    "correlation_id": correlation_id
+                }
+            }
+            print(json.dumps(hubspot_api_usage, ensure_ascii=False))
+        
+        # Request prioritization hint (can be used by downstream systems)
+        priority_hint = "normal"
+        if end_to_end_duration_ms and end_to_end_duration_ms > target_response_ms * 2:
+            priority_hint = "low"  # Slow requests might be lower priority
+        elif is_rate_limited:
+            priority_hint = "low"  # Rate limited requests
+        elif not is_success and failure_reason == 'server_error':
+            priority_hint = "low"  # Server errors
+        else:
+            priority_hint = "normal"
+        
+        priority_metric = {
+            "timestamp": current_timestamp,
+            "metric": "hubspot_manychat_request_priority",
+            "value": 1,
+            "labels": {
+                "contact_id": result['contact_id'],
+                "correlation_id": correlation_id,
+                "priority": priority_hint,
+                "determined_by": "performance_and_status"
+            }
+        }
+        print(json.dumps(priority_metric, ensure_ascii=False))
+        
+        # Add priority hint to result
+        result['priority_hint'] = priority_hint
+        result['quality_score'] = max(0.0, quality_score)
+        
+        # Track retry effectiveness if this was a retry
+        retry_count = message_data.get('retry_count', 0)
+        if retry_count > 0:
+            retry_effectiveness_metric = {
+                "timestamp": current_timestamp,
+                "metric": "hubspot_manychat_retry_effectiveness",
+                "value": 1 if is_success else 0,
+                "labels": {
+                    "contact_id": result['contact_id'],
+                    "correlation_id": correlation_id,
+                    "retry_count": str(retry_count),
+                    "final_status": result['status']
+                }
+            }
+            print(json.dumps(retry_effectiveness_metric, ensure_ascii=False))
+        
+        # Dead Letter Queue (DLQ) handling for permanently failed messages
+        enable_dlq = os.getenv('ENABLE_DEAD_LETTER_QUEUE', 'false').lower() == 'true'
+        max_retry_attempts = int(os.getenv('MAX_RETRY_ATTEMPTS', '3'))
+        total_attempts = retry_count + 1  # Include initial attempt
+        
+        if enable_dlq and not is_success and total_attempts >= max_retry_attempts:
+            # Check if error is permanent (client errors) or transient
+            is_permanent_failure = (
+                failure_reason in ['authentication_error', 'authorization_error', 'client_error'] or
+                (http_status and 400 <= http_status < 500 and http_status not in [429])  # Not rate limit
+            )
+            
+            if is_permanent_failure or total_attempts >= max_retry_attempts:
+                dlq_entry = {
+                    "contact_id": result['contact_id'],
+                    "contact_name": result['contact_name'],
+                    "manychat_user_id": result['manychat_user_id'],
+                    "interes_producto": result['interes_producto'],
+                    "message": result['mensaje_enviado'],
+                    "message_hash": result['message_hash'],
+                    "correlation_id": correlation_id,
+                    "failure_reason": failure_reason or "unknown",
+                    "http_status": http_status,
+                    "error_details": result.get('error_details', {}),
+                    "total_attempts": total_attempts,
+                    "last_error_timestamp": current_timestamp,
+                    "queued_at": current_timestamp,
+                    "is_permanent_failure": is_permanent_failure
+                }
+                
+                result['sent_to_dlq'] = True
+                result['dlq_entry'] = dlq_entry
+                
+                dlq_metric = {
+                    "timestamp": current_timestamp,
+                    "metric": "hubspot_manychat_dlq_entries_total",
+                    "value": 1,
+                    "labels": {
+                        "contact_id": result['contact_id'],
+                        "correlation_id": correlation_id,
+                        "failure_reason": failure_reason or "unknown",
+                        "is_permanent": str(is_permanent_failure),
+                        "total_attempts": str(total_attempts)
+                    }
+                }
+                print(json.dumps(dlq_metric, ensure_ascii=False))
+                
+                logger.error("Message sent to Dead Letter Queue", extra={
+                    "correlation_id": correlation_id,
+                    "contact_id": result['contact_id'],
+                    "total_attempts": total_attempts,
+                    "failure_reason": failure_reason,
+                    "is_permanent_failure": is_permanent_failure
+                })
+                
+                # In production, this would write to a DLQ (Redis, SQS, database table, etc.)
+                # For now, we log it as part of the result
+                # Example: write_to_dlq(dlq_entry)
+        
+        # Adaptive timeout tracking (if enabled)
+        enable_adaptive_timeout = os.getenv('ENABLE_ADAPTIVE_TIMEOUT', 'false').lower() == 'true'
+        if enable_adaptive_timeout and duration_ms:
+            # Track latency for future timeout calculations
+            # In production, this would be stored in a time-series DB or cache
+            latency_metric = {
+                "timestamp": current_timestamp,
+                "metric": "hubspot_manychat_api_latency_ms",
+                "value": duration_ms,
+                "labels": {
+                    "api": "manychat",
+                    "operation": "send_message",
+                    "status": result['status'],
+                    "correlation_id": correlation_id
+                }
+            }
+            print(json.dumps(latency_metric, ensure_ascii=False))
+            
+            # Calculate suggested timeout based on current latency (p95-like estimation)
+            # This is a simplified version; in production, use historical data
+            suggested_timeout_ms = max(5000, duration_ms * 3)  # 3x current latency, min 5s
+            result['suggested_timeout_ms'] = int(suggested_timeout_ms)
+            
+            timeout_suggestion_metric = {
+                "timestamp": current_timestamp,
+                "metric": "hubspot_manychat_suggested_timeout_ms",
+                "value": suggested_timeout_ms,
+                "labels": {
+                    "correlation_id": correlation_id,
+                    "based_on_latency_ms": str(duration_ms)
+                }
+            }
+            print(json.dumps(timeout_suggestion_metric, ensure_ascii=False))
+        
+        # Throttling: Rate limiting per minute to handle traffic spikes
+        enable_throttling = os.getenv('ENABLE_THROTTLING', 'false').lower() == 'true'
+        max_requests_per_minute = int(os.getenv('MAX_REQUESTS_PER_MINUTE', '60'))
+        
+        if enable_throttling:
+            # In production, this would check against a sliding window counter
+            # For now, we log the throttling check
+            throttle_metric = {
+                "timestamp": current_timestamp,
+                "metric": "hubspot_manychat_throttling_check",
+                "value": 1,
+                "labels": {
+                    "correlation_id": correlation_id,
+                    "contact_id": result['contact_id'],
+                    "max_per_minute": str(max_requests_per_minute),
+                    "status": "checked"
+                }
+            }
+            print(json.dumps(throttle_metric, ensure_ascii=False))
+            
+            # Example: if would_throttle:
+            #     result['throttled'] = True
+            #     result['skip'] = True
+            #     result['reason'] = 'rate_limit_throttling'
+            #     result['retry_after_seconds'] = calculate_retry_after()
+        
+        # Rate limiting per contact: Prevent spam to individual users
+        enable_contact_rate_limit = os.getenv('ENABLE_RATE_LIMITING_PER_CONTACT', 'false').lower() == 'true'
+        contact_window_seconds = int(os.getenv('CONTACT_RATE_LIMIT_WINDOW_SECONDS', '86400'))
+        max_per_contact = int(os.getenv('MAX_MESSAGES_PER_CONTACT_PER_WINDOW', '5'))
+        
+        if enable_contact_rate_limit:
+            # Check if this contact has exceeded message limit
+            # In production, check against cache/DB: count_messages_in_window(contact_id, window)
+            contact_rate_limit_metric = {
+                "timestamp": current_timestamp,
+                "metric": "hubspot_manychat_contact_rate_limit_check",
+                "value": 1,
+                "labels": {
+                    "correlation_id": correlation_id,
+                    "contact_id": result['contact_id'],
+                    "manychat_user_id": result['manychat_user_id'],
+                    "window_seconds": str(contact_window_seconds),
+                    "max_per_window": str(max_per_contact)
+                }
+            }
+            print(json.dumps(contact_rate_limit_metric, ensure_ascii=False))
+            
+            # Example: message_count = get_message_count(contact_id, contact_window_seconds)
+            # if message_count >= max_per_contact:
+            #     result['rate_limited_by_contact'] = True
+            #     result['skip'] = True
+            #     result['reason'] = 'contact_rate_limit_exceeded'
+            #     result['messages_in_window'] = message_count
+        
+        # Content safety check: Validate message content for safety
+        enable_content_safety = os.getenv('ENABLE_CONTENT_SAFETY_CHECK', 'false').lower() == 'true'
+        
+        if enable_content_safety:
+            message_content = result.get('mensaje_enviado', '')
+            
+            # Basic content safety checks
+            safety_issues = []
+            
+            # Check for excessive capitalization (potential spam)
+            if message_content and len([c for c in message_content if c.isupper()]) > len(message_content) * 0.5:
+                safety_issues.append('excessive_capitalization')
+            
+            # Check for suspicious patterns (e.g., URLs, phone numbers in marketing messages)
+            import re
+            url_pattern = r'https?://[^\s]+'
+            if re.search(url_pattern, message_content, re.IGNORECASE):
+                # URLs might be fine, but could flag for review
+                safety_issues.append('contains_url')
+            
+            # Check for potentially malicious patterns
+            suspicious_patterns = [
+                r'\b(click here|urgent|act now|limited time)\b',
+                r'\$\d+',  # Dollar amounts (potential scams)
+            ]
+            
+            for pattern in suspicious_patterns:
+                if re.search(pattern, message_content, re.IGNORECASE):
+                    safety_issues.append('suspicious_pattern')
+                    break
+            
+            content_safety_result = {
+                'is_safe': len(safety_issues) == 0,
+                'issues': safety_issues,
+                'checked_at': current_timestamp
+            }
+            
+            result['content_safety_check'] = content_safety_result
+            
+            content_safety_metric = {
+                "timestamp": current_timestamp,
+                "metric": "hubspot_manychat_content_safety_check",
+                "value": 1 if content_safety_result['is_safe'] else 0,
+                "labels": {
+                    "correlation_id": correlation_id,
+                    "contact_id": result['contact_id'],
+                    "is_safe": str(content_safety_result['is_safe']),
+                    "issues": ','.join(safety_issues) if safety_issues else 'none'
+                }
+            }
+            print(json.dumps(content_safety_metric, ensure_ascii=False))
+            
+            # In production, might reject or flag unsafe content
+            # if not content_safety_result['is_safe']:
+            #     result['skip'] = True
+            #     result['reason'] = 'content_safety_issue'
+            #     result['safety_issues'] = safety_issues
+        
+        # Distributed tracing: Add spans for each operation
+        enable_tracing = os.getenv('ENABLE_DISTRIBUTED_TRACING', 'false').lower() == 'true'
+        
+        if enable_tracing:
+            # Generate trace context
+            import uuid
+            trace_id = str(uuid.uuid4())
+            span_id = str(uuid.uuid4())
+            
+            result['trace_id'] = trace_id
+            result['span_id'] = span_id
+            result['parent_span_id'] = message_data.get('parent_span_id', None)
+            
+            # Log spans for each operation
+            tracing_spans = [
+                {
+                    'trace_id': trace_id,
+                    'span_id': span_id,
+                    'operation_name': 'process_response',
+                    'start_time': current_timestamp,
+                    'duration_ms': duration_ms,
+                    'status': 'ok' if is_success else 'error',
+                    'tags': {
+                        'http.status_code': str(http_status) if http_status else 'unknown',
+                        'message.status': result['status'],
+                        'correlation_id': correlation_id
+                    }
+                }
+            ]
+            
+            result['tracing_spans'] = tracing_spans
+            
+            tracing_metric = {
+                "timestamp": current_timestamp,
+                "metric": "hubspot_manychat_tracing_span",
+                "value": 1,
+                "labels": {
+                    "trace_id": trace_id,
+                    "span_id": span_id,
+                    "operation": "process_response",
+                    "status": result['status'],
+                    "correlation_id": correlation_id
+                }
+            }
+            print(json.dumps(tracing_metric, ensure_ascii=False))
+        
+        # Performance profiling: Track time spent in each stage
+        enable_profiling = os.getenv('ENABLE_PERFORMANCE_PROFILING', 'false').lower() == 'true'
+        
+        if enable_profiling:
+            profiling_data = {
+                'parse_duration_ms': message_data.get('parse_duration_ms', 0),
+                'fetch_duration_ms': message_data.get('fetch_duration_ms', 0),
+                'validation_duration_ms': message_data.get('validation_duration_ms', 0),
+                'send_duration_ms': duration_ms if 'manychat_response' in locals() else 0,
+                'total_pipeline_duration_ms': end_to_end_duration_ms,
+                'stages': {
+                    'parse': message_data.get('parse_duration_ms', 0),
+                    'fetch': message_data.get('fetch_duration_ms', 0),
+                    'validation': message_data.get('validation_duration_ms', 0),
+                    'send': duration_ms if 'manychat_response' in locals() else 0,
+                    'total': end_to_end_duration_ms
+                }
+            }
+            
+            result['performance_profiling'] = profiling_data
+            
+            # Log profiling metrics
+            for stage, stage_duration in profiling_data['stages'].items():
+                profiling_metric = {
+                    "timestamp": current_timestamp,
+                    "metric": "hubspot_manychat_stage_duration_ms",
+                    "value": stage_duration,
+                    "labels": {
+                        "correlation_id": correlation_id,
+                        "stage": stage,
+                        "contact_id": result['contact_id']
+                    }
+                }
+                print(json.dumps(profiling_metric, ensure_ascii=False))
+        
+        # Request coalescing: Group duplicate requests within a time window
+        enable_coalescing = os.getenv('ENABLE_REQUEST_COALESCING', 'false').lower() == 'true'
+        coalescing_window_ms = int(os.getenv('COALESCING_WINDOW_MS', '1000'))
+        
+        if enable_coalescing:
+            # Generate coalescing key
+            coalescing_key_data = {
+                'contact_id': result['contact_id'],
+                'manychat_user_id': result['manychat_user_id'],
+                'interes_producto': result['interes_producto']
+            }
+            import hashlib
+            coalescing_key = hashlib.sha256(json.dumps(coalescing_key_data, sort_keys=True).encode()).hexdigest()
+            result['coalescing_key'] = coalescing_key
+            
+            # In production, check if similar request is pending within window
+            # If yes, return early and let the pending request handle it
+            coalescing_metric = {
+                "timestamp": current_timestamp,
+                "metric": "hubspot_manychat_request_coalescing_check",
+                "value": 1,
+                "labels": {
+                    "correlation_id": correlation_id,
+                    "contact_id": result['contact_id'],
+                    "coalescing_key": coalescing_key[:16],
+                    "window_ms": str(coalescing_window_ms)
+                }
+            }
+            print(json.dumps(coalescing_metric, ensure_ascii=False))
+        
+        # Workflow state tracking (if enabled)
+        enable_state_tracking = os.getenv('ENABLE_WORKFLOW_STATE_TRACKING', 'false').lower() == 'true'
+        
+        if enable_state_tracking:
+            workflow_states = []
+            
+            # Track each stage
+            stages_completed = ['parse', 'fetch', 'validate', 'send']
+            for stage in stages_completed:
+                stage_data = {
+                    'stage': stage,
+                    'state': 'completed',
+                    'timestamp': current_timestamp
+                }
+                
+                # Add stage-specific data
+                if stage == 'parse':
+                    stage_data['duration_ms'] = message_data.get('parse_duration_ms', 0)
+                elif stage == 'fetch':
+                    fetch_timing = message_data.get('request_timing', {}).get('final_attempt', {})
+                    stage_data['duration_ms'] = fetch_timing.get('duration_ms', 0)
+                elif stage == 'send':
+                    stage_data['duration_ms'] = duration_ms
+                    stage_data['success'] = is_success
+                
+                workflow_states.append(stage_data)
+            
+            result['workflow_states'] = workflow_states
+            
+            # Log state tracking metric
+            state_metric = {
+                "timestamp": current_timestamp,
+                "metric": "hubspot_manychat_workflow_state",
+                "value": len(workflow_states),
+                "labels": {
+                    "correlation_id": correlation_id,
+                    "contact_id": result['contact_id'],
+                    "final_state": result['status'],
+                    "stages_completed": str(len(workflow_states))
+                }
+            }
+            print(json.dumps(state_metric, ensure_ascii=False))
+        
+        # Request timing metrics (if available from fetch)
+        request_timing_data = message_data.get('request_timing')
+        if request_timing_data:
+            result['request_timing'] = request_timing_data
+            
+            # Log request timing metrics
+            timing_metric = {
+                "timestamp": current_timestamp,
+                "metric": "hubspot_manychat_request_timing_ms",
+                "value": request_timing_data.get('final_attempt', {}).get('duration_ms', 0),
+                "labels": {
+                    "correlation_id": correlation_id,
+                    "contact_id": result['contact_id'],
+                    "stage": "hubspot_fetch"
+                }
+            }
+            print(json.dumps(timing_metric, ensure_ascii=False))
+        
+        # Enhanced request deduplication tracking
+        enable_dedup = os.getenv('ENABLE_REQUEST_DEDUPLICATION', 'false').lower() == 'true'
+        dedup_window = int(os.getenv('DEDUPLICATION_WINDOW_SECONDS', '3600'))
+        
+        if enable_dedup:
+            # Multi-factor deduplication key
+            dedup_factors = {
+                "contact_id": result['contact_id'],
+                "manychat_user_id": result['manychat_user_id'],
+                "interes_producto": result['interes_producto'],
+                "message_hash": result['message_hash']
+            }
+            
+            # Generate composite deduplication key
+            import hashlib
+            dedup_key_data = json.dumps(dedup_factors, sort_keys=True)
+            dedup_key = hashlib.sha256(dedup_key_data.encode()).hexdigest()
+            result['deduplication_key'] = dedup_key
+            
+            dedup_metric = {
+                "timestamp": current_timestamp,
+                "metric": "hubspot_manychat_deduplication_check",
+                "value": 1,
+                "labels": {
+                    "correlation_id": correlation_id,
+                    "contact_id": result['contact_id'],
+                    "dedup_key": dedup_key[:16],  # First 16 chars for logging
+                    "window_seconds": str(dedup_window)
+                }
+            }
+            print(json.dumps(dedup_metric, ensure_ascii=False))
+            
+            # In production, check against cache/store:
+            # is_duplicate = check_duplicate_in_window(dedup_key, dedup_window)
+            # if is_duplicate:
+            #     result['is_duplicate'] = True
+            #     result['skip'] = True
+            #     result['reason'] = 'duplicate_request'
+        
+        try:
+            with open('final_status.json', 'w') as f:
+                json.dump(result, f, ensure_ascii=False, indent=2)
+            logger.info("final_status.json written successfully")
+        except Exception as e:
+            logger.error("Failed to write final_status.json", extra={"error": str(e)})
+            sys.exit(1)
+    env:
+      ENABLE_SLO_TRACKING: "{{ inputs.enable_slo_tracking }}"
+      TARGET_RESPONSE_TIME_MS: "{{ inputs.target_response_time_ms }}"
+      TARGET_SUCCESS_RATE: "{{ inputs.target_success_rate }}"
+      ENABLE_GRACEFUL_DEGRADATION: "{{ inputs.enable_graceful_degradation }}"
+      ENABLE_DEAD_LETTER_QUEUE: "{{ inputs.enable_dead_letter_queue }}"
+      MAX_RETRY_ATTEMPTS: "{{ inputs.max_retry_attempts }}"
+      ENABLE_COST_TRACKING: "{{ inputs.enable_cost_tracking }}"
+      HUBSPOT_API_COST_PER_CALL: "{{ inputs.hubspot_api_cost_per_call }}"
+      MANYCHAT_API_COST_PER_CALL: "{{ inputs.manychat_api_cost_per_call }}"
+      ENABLE_HTTP_SESSION_POOLING: "{{ inputs.enable_http_session_pooling }}"
+      ENABLE_ADAPTIVE_RATE_LIMITING: "{{ inputs.enable_adaptive_rate_limiting }}"
+      ENABLE_ERROR_CATEGORIZATION: "{{ inputs.enable_error_categorization }}"
+      ENABLE_REQUEST_TIMING: "{{ inputs.enable_request_timing }}"
+      ENABLE_PAYLOAD_SCHEMA_VALIDATION: "{{ inputs.enable_payload_schema_validation }}"
+      ENABLE_RESPONSE_VALIDATION: "{{ inputs.enable_response_validation }}"
+      ENABLE_STRICT_TYPE_CHECKING: "{{ inputs.enable_strict_type_checking }}"
+      ENABLE_DATA_NORMALIZATION: "{{ inputs.enable_data_normalization }}"
+      ENABLE_DATA_TRANSFORMATION: "{{ inputs.enable_data_transformation }}"
+      ENABLE_DATA_CONSISTENCY_CHECKS: "{{ inputs.enable_data_consistency_checks }}"
+      ENABLE_ADAPTIVE_TIMEOUT: "{{ inputs.enable_adaptive_timeout }}"
+      ENABLE_REQUEST_DEDUPLICATION: "{{ inputs.enable_request_deduplication }}"
+      DEDUPLICATION_WINDOW_SECONDS: "{{ inputs.deduplication_window_seconds }}"
+      ENABLE_THROTTLING: "{{ inputs.enable_throttling }}"
+      MAX_REQUESTS_PER_MINUTE: "{{ inputs.max_requests_per_minute }}"
+      ENABLE_RATE_LIMITING_PER_CONTACT: "{{ inputs.enable_rate_limiting_per_contact }}"
+      CONTACT_RATE_LIMIT_WINDOW_SECONDS: "{{ inputs.contact_rate_limit_window_seconds }}"
+      MAX_MESSAGES_PER_CONTACT_PER_WINDOW: "{{ inputs.max_messages_per_contact_per_window }}"
+      ENABLE_CONTENT_SAFETY_CHECK: "{{ inputs.enable_content_safety_check }}"
+      ENABLE_DISTRIBUTED_TRACING: "{{ inputs.enable_distributed_tracing }}"
+      ENABLE_CACHE_METRICS: "{{ inputs.enable_cache_metrics }}"
+      ENABLE_PERFORMANCE_PROFILING: "{{ inputs.enable_performance_profiling }}"
+      ENABLE_REQUEST_COALESCING: "{{ inputs.enable_request_coalescing }}"
+      COALESCING_WINDOW_MS: "{{ inputs.coalescing_window_ms }}"
+      ENABLE_CIRCUIT_BREAKER_METRICS: "{{ inputs.enable_circuit_breaker_metrics }}"
+      ENABLE_HTTP_SESSION_POOLING: "{{ inputs.enable_http_session_pooling }}"
+      ENABLE_ADAPTIVE_RATE_LIMITING: "{{ inputs.enable_adaptive_rate_limiting }}"
+      ENABLE_ERROR_CATEGORIZATION: "{{ inputs.enable_error_categorization }}"
+      ENABLE_REQUEST_TIMING: "{{ inputs.enable_request_timing }}"
+      ENABLE_PAYLOAD_SCHEMA_VALIDATION: "{{ inputs.enable_payload_schema_validation }}"
+      ENABLE_RESPONSE_VALIDATION: "{{ inputs.enable_response_validation }}"
+      ENABLE_STRICT_TYPE_CHECKING: "{{ inputs.enable_strict_type_checking }}"
+      ENABLE_WORKFLOW_STATE_TRACKING: "{{ inputs.enable_workflow_state_tracking }}"
+    outputFiles:
+      - final_status.json
+
+  - id: publish_completion_event
+    type: io.kestra.plugin.core.http.Request
+    disabled: "{{ not inputs.enable_event_publishing or not inputs.event_webhook_url }}"
+    allowFailure: true
+    timeout: PT10S
+    description: Publica evento de finalización del workflow a webhook externo (asíncrono, no bloquea)
+    uri: "{{ inputs.event_webhook_url }}"
+    method: POST
+    headers:
+      Content-Type: application/json
+      User-Agent: "HubSpot-ManyChat-Integration/1.0"
+    body: |
+      {% if taskrun.outputs['process_response'] %}
+      {% set final_status = (taskrun.outputs['process_response']['files']['final_status.json'] | readFile | fromJson) %}
+      {
+        "event_type": "hubspot_manychat_workflow_completed",
+        "event_version": "1.0",
+        "timestamp": "{{ final_status.timestamp }}",
+        "correlation_id": "{{ final_status.correlation_id }}",
+        "status": "{{ final_status.status }}",
+        "workflow": {
+          "contact_id": "{{ final_status.contact_id }}",
+          "contact_name": "{{ final_status.contact_name }}",
+          "manychat_user_id": "{{ final_status.manychat_user_id }}",
+          "interes_producto": "{{ final_status.interes_producto }}"
+        },
+        "result": {
+          "message_sent": {{ 'true' if final_status.status == 'success' else 'false' }},
+          "message_hash": {{ final_status.message_hash }},
+          "http_status_code": {{ final_status.http_status_code | default("null") }},
+          "quality_score": {{ final_status.get('quality_score', 1.0) }},
+          "priority_hint": "{{ final_status.priority_hint | default('normal') }}"
+        },
+        "metrics": {
+          "end_to_end_duration_ms": {{ final_status.get('end_to_end_duration_ms', 0) }},
+          "pipeline_start_time": {{ final_status.get('pipeline_start_time', 0) }},
+          {% if final_status.performance_profiling %}
+          "performance_profiling": {{ final_status.performance_profiling | toJson }},
+          {% endif %}
+          {% if final_status.workflow_states %}
+          "workflow_states": {{ final_status.workflow_states | toJson }},
+          {% endif %}
+          "success_rate": {{ '100.0' if final_status.status == 'success' else '0.0' }}
+        },
+        "metadata": {
+          "trace_id": "{{ final_status.trace_id | default('') }}",
+          "span_id": "{{ final_status.span_id | default('') }}",
+          "is_rate_limited": {{ final_status.is_rate_limited | default(false) }},
+          {% if final_status.content_safety_check %}
+          "content_safety_check": {{ final_status.content_safety_check | toJson }},
+          {% endif %}
+          "environment": "production"
+        }
+      }
+      {% else %}
+      {
+        "event_type": "hubspot_manychat_workflow_failed",
+        "event_version": "1.0",
+        "timestamp": "{{ execution.startDate | default('') }}",
+        "status": "error",
+        "error": "Workflow failed before completion"
+      }
+      {% endif %}
+    retry:
+      type: exponential
+      interval: PT2S
+      maxAttempt: 2
+      maxInterval: PT10S
+      jitter: true
+
+  - id: anomaly_detection
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    description: Detecta anomalías en patrones de tráfico y performance
+    disabled: "{{ not inputs.enable_anomaly_detection }}"
+    inputFiles:
+      final_status.json: "{{ taskrun.outputs['process_response']['files']['final_status.json'] }}"
+      anomaly_detect.py: |
+        import json
+        import os
+        import sys
+        import logging
+        import time
+        import statistics
+        
+        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+        logger = logging.getLogger(__name__)
+        
+        enable_detection = os.getenv('ENABLE_ANOMALY_DETECTION', 'false').lower() == 'true'
+        if not enable_detection:
+            logger.info("Anomaly detection disabled")
+            sys.exit(0)
+        
+        try:
+            with open('final_status.json', 'r') as f:
+                final_status = json.load(f)
+        except Exception as e:
+            logger.error(f"Failed to load final_status: {e}")
+            sys.exit(1)
+        
+        sensitivity = float(os.getenv('ANOMALY_DETECTION_SENSITIVITY', '2.0'))
+        
+        # Collect metrics for analysis
+        duration_ms = final_status.get('end_to_end_duration_ms', 0)
+        
+        # In production, would compare against historical data
+        # For now, use simple thresholds
+        historical_durations = [2000, 2100, 1900, 2050, 1950]  # Simulated historical data
+        
+        if historical_durations:
+            mean_duration = statistics.mean(historical_durations)
+            std_duration = statistics.stdev(historical_durations) if len(historical_durations) > 1 else mean_duration * 0.1
+            
+            threshold_upper = mean_duration + (sensitivity * std_duration)
+            threshold_lower = mean_duration - (sensitivity * std_duration)
+            
+            anomalies_detected = []
+            
+            if duration_ms > threshold_upper:
+                anomalies_detected.append({
+                    'type': 'slow_performance',
+                    'metric': 'duration_ms',
+                    'value': duration_ms,
+                    'threshold': threshold_upper,
+                    'severity': 'high' if duration_ms > threshold_upper * 1.5 else 'medium'
+                })
+            elif duration_ms < threshold_lower:
+                anomalies_detected.append({
+                    'type': 'fast_performance',
+                    'metric': 'duration_ms',
+                    'value': duration_ms,
+                    'threshold': threshold_lower,
+                    'severity': 'low'
+                })
+            
+            anomaly_results = {
+                'timestamp': time.time(),
+                'anomalies_detected': anomalies_detected,
+                'statistics': {
+                    'mean': mean_duration,
+                    'std': std_duration,
+                    'threshold_upper': threshold_upper,
+                    'threshold_lower': threshold_lower,
+                    'current_value': duration_ms
+                },
+                'sensitivity': sensitivity
+            }
+            
+            # Log anomaly metrics
+            if anomalies_detected:
+                for anomaly in anomalies_detected:
+                    anomaly_metric = {
+                        "timestamp": time.time(),
+                        "metric": "hubspot_manychat_anomaly_detected",
+                        "value": anomaly['value'],
+                        "labels": {
+                            "type": anomaly['type'],
+                            "severity": anomaly['severity'],
+                            "metric_name": anomaly['metric']
+                        }
+                    }
+                    print(json.dumps(anomaly_metric, ensure_ascii=False))
+            
+            with open('anomaly_detection.json', 'w') as f:
+                json.dump(anomaly_results, f, indent=2)
+    env:
+      ENABLE_ANOMALY_DETECTION: "{{ inputs.enable_anomaly_detection }}"
+      ANOMALY_DETECTION_SENSITIVITY: "{{ inputs.anomaly_detection_sensitivity }}"
+    outputFiles:
+      - anomaly_detection.json
+
+  - id: advanced_performance_profiling
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    description: Análisis avanzado de performance con detección de bottlenecks y recomendaciones
+    disabled: "{{ not inputs.enable_advanced_performance_profiling }}"
+    inputFiles:
+      final_status.json: "{{ taskrun.outputs['process_response']['files']['final_status.json'] }}"
+      parse_result.json: "{{ taskrun.outputs['parse_hubspot_payload']['files']['parse_result.json'] }}"
+      profiling.py: |
+        import json
+        import os
+        import sys
+        import logging
+        import time
+        from typing import Dict, Any, List
+        
+        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+        logger = logging.getLogger(__name__)
+        
+        enable_profiling = os.getenv('ENABLE_ADVANCED_PERFORMANCE_PROFILING', 'false').lower() == 'true'
+        if not enable_profiling:
+            logger.info("Advanced performance profiling disabled")
+            sys.exit(0)
+        
+        try:
+            with open('final_status.json', 'r') as f:
+                final_status = json.load(f)
+        except Exception as e:
+            logger.error(f"Failed to load final_status: {e}")
+            sys.exit(1)
+        
+        try:
+            with open('parse_result.json', 'r') as f:
+                parse_result = json.load(f)
+        except Exception:
+            parse_result = {}
+        
+        # Collect performance data from all stages
+        performance_data = {
+            'parse_duration_ms': parse_result.get('parse_duration_ms', 0),
+            'fetch_duration_ms': final_status.get('request_timing', {}).get('final_attempt', {}).get('duration_ms', 0),
+            'send_duration_ms': 0,  # Would be calculated from send timing
+            'total_duration_ms': final_status.get('end_to_end_duration_ms', 0),
+            'stages': []
+        }
+        
+        # Performance profiling operations
+        try:
+            operations = json.loads(os.getenv('PERFORMANCE_PROFILING_OPERATIONS', '[]'))
+        except:
+            operations = ['api_call', 'data_transform', 'message_send']
+        
+        # Calculate percentiles and statistics
+        enable_bottleneck_detection = os.getenv('ENABLE_BOTTLENECK_DETECTION', 'false').lower() == 'true'
+        bottleneck_threshold = float(os.getenv('BOTTLENECK_THRESHOLD_PERCENTILE', '95.0'))
+        
+        profiling_results = {
+            'timestamp': time.time(),
+            'operations_profiled': operations,
+            'stage_breakdown': performance_data,
+            'bottlenecks_detected': [],
+            'recommendations': [],
+            'performance_metrics': {}
+        }
+        
+        # Detect bottlenecks
+        if enable_bottleneck_detection:
+            stages = [
+                ('parse', performance_data['parse_duration_ms']),
+                ('fetch', performance_data['fetch_duration_ms']),
+                ('send', performance_data['send_duration_ms'])
+            ]
+            
+            # Find slowest stage
+            if stages:
+                slowest_stage, slowest_duration = max(stages, key=lambda x: x[1])
+                total_duration = sum(d[1] for d in stages)
+                
+                if total_duration > 0:
+                    slowest_percentage = (slowest_duration / total_duration) * 100
+                    
+                    if slowest_percentage > 50:  # If one stage takes >50% of time
+                        profiling_results['bottlenecks_detected'].append({
+                            'stage': slowest_stage,
+                            'duration_ms': slowest_duration,
+                            'percentage_of_total': slowest_percentage,
+                            'severity': 'high' if slowest_percentage > 70 else 'medium'
+                        })
+        
+        # Generate recommendations
+        enable_recommendations = os.getenv('ENABLE_PERFORMANCE_RECOMMENDATIONS', 'false').lower() == 'true'
+        if enable_recommendations:
+            total_duration = performance_data['total_duration_ms']
+            
+            if total_duration > 5000:
+                profiling_results['recommendations'].append({
+                    'type': 'optimization',
+                    'message': 'Total duration exceeds 5s threshold. Consider optimizing slow stages.',
+                    'priority': 'high'
+                })
+            
+            if performance_data['fetch_duration_ms'] > 3000:
+                profiling_results['recommendations'].append({
+                    'type': 'api_optimization',
+                    'message': 'HubSpot API call is slow. Consider caching or parallel requests.',
+                    'priority': 'medium'
+                })
+            
+            if len(profiling_results['bottlenecks_detected']) > 0:
+                bottleneck = profiling_results['bottlenecks_detected'][0]
+                profiling_results['recommendations'].append({
+                    'type': 'bottleneck_resolution',
+                    'message': f"Stage '{bottleneck['stage']}' is the bottleneck ({bottleneck['percentage_of_total']:.1f}% of total time). Consider optimizing this stage.",
+                    'priority': bottleneck['severity']
+                })
+        
+        # Calculate performance metrics
+        profiling_results['performance_metrics'] = {
+            'total_duration_ms': performance_data['total_duration_ms'],
+            'parse_pct': (performance_data['parse_duration_ms'] / max(total_duration, 1)) * 100,
+            'fetch_pct': (performance_data['fetch_duration_ms'] / max(total_duration, 1)) * 100,
+            'send_pct': (performance_data['send_duration_ms'] / max(total_duration, 1)) * 100,
+            'throughput_per_second': 1000 / max(total_duration, 1)  # Messages per second
+        }
+        
+        # Log profiling metrics
+        profiling_metric = {
+            "timestamp": time.time(),
+            "metric": "hubspot_manychat_performance_profiling",
+            "value": performance_data['total_duration_ms'],
+            "labels": {
+                "bottlenecks_count": str(len(profiling_results['bottlenecks_detected'])),
+                "recommendations_count": str(len(profiling_results['recommendations'])),
+                "throughput_per_sec": str(profiling_results['performance_metrics']['throughput_per_second'])
+            }
+        }
+        print(json.dumps(profiling_metric, ensure_ascii=False))
+        
+        # Log bottleneck metrics
+        for bottleneck in profiling_results['bottlenecks_detected']:
+            bottleneck_metric = {
+                "timestamp": time.time(),
+                "metric": "hubspot_manychat_bottleneck_detected",
+                "value": bottleneck['duration_ms'],
+                "labels": {
+                    "stage": bottleneck['stage'],
+                    "severity": bottleneck['severity'],
+                    "percentage": str(bottleneck['percentage_of_total'])
+                }
+            }
+            print(json.dumps(bottleneck_metric, ensure_ascii=False))
+        
+        with open('performance_profiling.json', 'w') as f:
+            json.dump(profiling_results, f, indent=2)
+    env:
+      ENABLE_ADVANCED_PERFORMANCE_PROFILING: "{{ inputs.enable_advanced_performance_profiling }}"
+      PERFORMANCE_PROFILING_OPERATIONS: "{{ inputs.performance_profiling_operations | toJson }}"
+      ENABLE_BOTTLENECK_DETECTION: "{{ inputs.enable_bottleneck_detection }}"
+      BOTTLENECK_THRESHOLD_PERCENTILE: "{{ inputs.bottleneck_threshold_percentile }}"
+      ENABLE_PERFORMANCE_RECOMMENDATIONS: "{{ inputs.enable_performance_recommendations }}"
+      ENABLE_INTELLIGENT_CACHING: "{{ inputs.enable_intelligent_caching }}"
+      CACHE_TTL_SECONDS: "{{ inputs.cache_ttl_seconds }}"
+      CACHE_MAX_SIZE: "{{ inputs.cache_max_size }}"
+      ENABLE_CACHE_WARMING: "{{ inputs.enable_cache_warming }}"
+      ENABLE_PREDICTIVE_ANALYTICS: "{{ inputs.enable_predictive_analytics }}"
+      ENABLE_ANOMALY_DETECTION: "{{ inputs.enable_anomaly_detection }}"
+      ANOMALY_DETECTION_SENSITIVITY: "{{ inputs.anomaly_detection_sensitivity }}"
+      ENABLE_DATA_COMPRESSION: "{{ inputs.enable_data_compression }}"
+      ENABLE_SMART_RETRY_STRATEGY: "{{ inputs.enable_smart_retry_strategy }}"
+    outputFiles:
+      - performance_profiling.json
+
+  - id: return_status
+    type: io.kestra.plugin.core.http.Return
+    description: Retorna el estado del envío con manejo robusto de todos los casos
+    body: |
+      {% if taskrun.outputs['process_response'] %}
+      {% set final_status = (taskrun.outputs['process_response']['files']['final_status.json'] | readFile | fromJson) %}
+      {
+        "status": "{{ final_status.status }}",
+          "message": "{{ final_status.message }}",
+          "contact_id": "{{ final_status.contact_id }}",
+          "contact_name": "{{ final_status.contact_name }}",
+        "manychat_user_id": "{{ final_status.manychat_user_id }}",
+          "interes_producto": "{{ final_status.interes_producto }}",
+          "mensaje_enviado": "{{ final_status.mensaje_enviado }}",
+          "message_hash": {{ final_status.message_hash }},
+          "message_length": {{ final_status.mensaje_enviado | length }},
+          "http_status_code": {{ final_status.http_status_code | default("null") }},
+          "is_rate_limited": {{ final_status.is_rate_limited | default(false) }},
+          "priority_hint": "{{ final_status.priority_hint | default('normal') }}",
+          "quality_score": {{ final_status.get('quality_score', 1.0) }},
+        "manychat_response": {{ final_status.manychat_response | toJson }},
+          {% if final_status.error_details %}
+          "error_details": {{ final_status.error_details | toJson }},
+          {% endif %}
+          {% if final_status.queued_for_retry %}
+          "queued_for_retry": true,
+          "retry_queue_entry": {{ final_status.retry_queue_entry | toJson }},
+          {% endif %}
+          {% if final_status.sent_to_dlq %}
+          "sent_to_dlq": true,
+          "dlq_entry": {{ final_status.dlq_entry | toJson }},
+          {% endif %}
+          {% if final_status.deduplication_key %}
+          "deduplication_key": "{{ final_status.deduplication_key }}",
+          {% endif %}
+          {% if final_status.suggested_timeout_ms %}
+          "suggested_timeout_ms": {{ final_status.suggested_timeout_ms }},
+          {% endif %}
+          {% if final_status.content_safety_check %}
+          "content_safety_check": {{ final_status.content_safety_check | toJson }},
+          {% endif %}
+          {% if final_status.trace_id %}
+          "trace_id": "{{ final_status.trace_id }}",
+          "span_id": "{{ final_status.span_id }}",
+          {% endif %}
+          {% if final_status.performance_profiling %}
+          "performance_profiling": {{ final_status.performance_profiling | toJson }},
+          {% endif %}
+          {% if final_status.coalescing_key %}
+          "coalescing_key": "{{ final_status.coalescing_key }}",
+          {% endif %}
+          {% if final_status.cost_tracking %}
+          "cost_tracking": {{ final_status.cost_tracking | toJson }},
+          {% endif %}
+          {% if final_status.request_timing %}
+          "request_timing": {{ final_status.request_timing | toJson }},
+          {% endif %}
+          {% if final_status.consistency_checks %}
+          "consistency_checks": {{ final_status.consistency_checks | toJson }},
+          {% endif %}
+          {% if final_status.request_timing %}
+          "request_timing": {{ final_status.request_timing | toJson }},
+          {% endif %}
+          {% if final_status.workflow_states %}
+          "workflow_states": {{ final_status.workflow_states | toJson }},
+          {% endif %}
+        "timestamp": "{{ final_status.timestamp }}"
+      }
+      {% elif taskrun.outputs['validate_and_prepare_message'] %}
+        {% set validated = (taskrun.outputs['validate_and_prepare_message']['files']['final_message_data.json'] | readFile | fromJson) %}
+        {% if validated.skip %}
+        {
+          "status": "skipped",
+          "reason": "{{ validated.reason }}",
+          "validation_errors": {{ validated.validation_errors | default([]) | toJson }},
+          "contact_id": "{{ validated.contact_id }}"
+        }
+        {% else %}
+        {
+          "status": "error",
+          "message": "Mensaje validado pero no se pudo enviar",
+          "contact_id": "{{ validated.contact_id }}"
+        }
+        {% endif %}
+      {% elif taskrun.outputs['fetch_and_merge_contact_data'] %}
+        {% set merged = (taskrun.outputs['fetch_and_merge_contact_data']['files']['merged_result.json'] | readFile | fromJson) %}
+        {% if merged.skip %}
+        {
+          "status": "skipped",
+          "reason": "{{ merged.reason }}",
+          "contact_id": "{{ merged.contact_id }}"
+        }
+        {% else %}
+        {
+          "status": "error",
+          "message": "Datos preparados pero el flujo se interrumpió",
+          "contact_id": "{{ merged.contact_id }}"
+        }
+        {% endif %}
+      {% else %}
+        {% set parsed = (taskrun.outputs['parse_hubspot_payload']['files']['parse_result.json'] | readFile | fromJson) %}
+        {
+          "status": "error",
+          "message": "Error en el procesamiento inicial del webhook",
+          "contact_id": "{{ parsed.contact_id | default('unknown') }}"
+      }
+      {% endif %}

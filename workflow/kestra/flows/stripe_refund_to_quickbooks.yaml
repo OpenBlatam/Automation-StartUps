@@ -1,0 +1,411 @@
+id: stripe_refund_to_quickbooks
+namespace: workflows
+
+labels:
+  app: payments
+  source: stripe
+  integration: quickbooks
+
+description: |
+  🔄 Procesa reembolsos de Stripe y crea automáticamente notas de crédito en QuickBooks.
+  
+  FLUJO:
+  1. Recibe webhook de reembolso de Stripe
+  2. Valida firma y parsea datos
+  3. Busca cliente y recibo original en BD
+  4. Trigger DAG de Airflow para crear nota de crédito en QuickBooks
+  5. Registra resultado en BD
+
+inputs:
+  - name: airflow_base_url
+    type: STRING
+    required: true
+  - name: airflow_token
+    type: STRING
+    required: false
+  - name: jdbc_url
+    type: STRING
+    required: true
+  - name: jdbc_user
+    type: STRING
+    required: true
+  - name: jdbc_password
+    type: STRING
+    required: true
+  - name: stripe_signing_secret
+    type: STRING
+    required: false
+
+triggers:
+  - id: stripe_refund_webhook
+    type: io.kestra.plugin.core.trigger.Webhook
+    key: stripe-refund
+    headers:
+      - key: Content-Type
+        value: application/json
+
+tasks:
+  - id: verify_signature
+    type: io.kestra.plugin.scripts.python.Script
+    inputFiles:
+      payload.raw: "{{ trigger.rawBody }}"
+      headers.json: "{{ trigger.headers | toJson }}"
+      verify.py: |
+        import os, hmac, hashlib, json, sys
+        secret = os.getenv('STRIPE_SIGNING_SECRET')
+        if not secret:
+            # allow if not provided (para desarrollo)
+            print('WARNING: STRIPE_SIGNING_SECRET not configured, skipping signature verification')
+            sys.exit(0)
+        headers = json.load(open('headers.json'))
+        sig = headers.get('Stripe-Signature') or headers.get('stripe-signature')
+        if not sig:
+            print('ERROR: missing signature header')
+            sys.exit(1)
+        # Stripe signature header: t=timestamp,v1=signature
+        parts = dict([p.split('=',1) for p in sig.split(',') if '=' in p])
+        ts = parts.get('t'); v1 = parts.get('v1')
+        if not ts or not v1:
+            print('ERROR: invalid signature format')
+            sys.exit(1)
+        payload = open('payload.raw','rb').read()
+        signed_payload = f"{ts}.".encode('utf-8') + payload
+        digest = hmac.new(secret.encode('utf-8'), signed_payload, hashlib.sha256).hexdigest()
+        if not hmac.compare_digest(digest, v1):
+            print('ERROR: invalid signature')
+            sys.exit(1)
+        print('INFO: Signature verified successfully')
+    env:
+      STRIPE_SIGNING_SECRET: "{{ inputs.stripe_signing_secret }}"
+    allowFailure: false
+
+  - id: parse_refund
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    inputFiles:
+      payload.json: "{{ trigger.body }}"
+      parse.py: |
+        import json, datetime, sys
+        
+        try:
+            event = json.load(open('payload.json'))
+        except Exception as e:
+            print(f'ERROR: Failed to parse Stripe payload JSON: {e}', file=sys.stderr)
+            sys.exit(1)
+        
+        # Validar que sea un evento de reembolso
+        event_type = event.get('type', '')
+        if not event_type.startswith('charge.refund'):
+            print(f'INFO: Ignoring non-refund event: {event_type}')
+            sys.exit(0)  # No error, solo ignorar
+        
+        obj = event.get('data', {}).get('object', {})
+        if not obj:
+            print('ERROR: Missing data.object in Stripe payload', file=sys.stderr)
+            sys.exit(1)
+        
+        # Extraer datos del reembolso
+        refund_id = obj.get('id', '')
+        amount = obj.get('amount', 0)
+        currency = obj.get('currency', 'usd')
+        charge_id = obj.get('charge', '')
+        reason = obj.get('reason', '')
+        status = obj.get('status', '')
+        
+        # Obtener email del cliente desde el charge original
+        customer_email = ''
+        customer_id = obj.get('customer')
+        
+        # Parse timestamp
+        created = obj.get('created') or event.get('created')
+        try:
+            if isinstance(created, (int, float)):
+                created_at = datetime.datetime.utcfromtimestamp(created).isoformat() + 'Z'
+            else:
+                created_at = str(created)
+        except Exception:
+            created_at = datetime.datetime.utcnow().isoformat() + 'Z'
+        
+        if not refund_id:
+            print('ERROR: Missing refund ID in Stripe payload', file=sys.stderr)
+            sys.exit(1)
+        
+        parsed = {
+            'stripe_refund_id': refund_id,
+            'stripe_charge_id': charge_id,
+            'amount': float(amount) / 100.0,  # Convertir de centavos a dólares
+            'currency': str(currency).upper()[:3],
+            'customer_id': str(customer_id) if customer_id else '',
+            'customer_email': customer_email,  # Se buscará desde la BD
+            'reason': str(reason),
+            'status': str(status),
+            'created_at': created_at,
+            'event_type': event_type
+        }
+        
+        try:
+            with open('parsed.json', 'w', encoding='utf-8') as f:
+                json.dump(parsed, f, indent=2, ensure_ascii=False)
+            print(f'INFO: Stripe refund parsed - refund_id={parsed["stripe_refund_id"]}, amount={parsed["amount"]}, currency={parsed["currency"]}')
+        except Exception as e:
+            print(f'ERROR: Failed to write parsed data: {e}', file=sys.stderr)
+            sys.exit(1)
+    outputFiles:
+      - parsed.json
+    allowFailure: false
+
+  - id: lookup_customer_and_receipt
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    inputFiles:
+      parsed.json: "{{ taskrun.outputs['parse_refund']['files']['parsed.json'] }}"
+      lookup.py: |
+        import json, os, sys
+        import psycopg2
+        
+        try:
+            parsed = json.load(open('parsed.json'))
+        except Exception as e:
+            print(f'ERROR: Failed to load parsed data: {e}', file=sys.stderr)
+            sys.exit(1)
+        
+        charge_id = parsed.get('stripe_charge_id', '')
+        customer_id = parsed.get('customer_id', '')
+        
+        if not charge_id:
+            print('ERROR: Missing charge_id to lookup receipt', file=sys.stderr)
+            sys.exit(1)
+        
+        # Conectar a BD
+        jdbc_url = os.getenv('JDBC_URL')
+        if not jdbc_url:
+            print('ERROR: JDBC_URL not set', file=sys.stderr)
+            sys.exit(1)
+        
+        # Parse JDBC URL
+        if jdbc_url.startswith('jdbc:postgresql://'):
+            jdbc_url = jdbc_url.replace('jdbc:postgresql://', 'postgresql://')
+        
+        if '@' not in jdbc_url:
+            jdbc_user = os.getenv('JDBC_USER')
+            jdbc_password = os.getenv('JDBC_PASSWORD')
+            if jdbc_user and jdbc_password:
+                jdbc_url = jdbc_url.replace('postgresql://', f'postgresql://{jdbc_user}:{jdbc_password}@')
+        
+        try:
+            conn = psycopg2.connect(jdbc_url)
+            cur = conn.cursor()
+            
+            # Buscar el pago original y obtener email del cliente y recibo de QuickBooks
+            cur.execute("""
+                SELECT 
+                    p.customer as customer_email,
+                    p.metadata->>'qb_receipt_id' as qb_receipt_id,
+                    p.metadata->>'qb_customer_id' as qb_customer_id
+                FROM payments p
+                WHERE p.payment_id = %s
+                LIMIT 1
+            """, (charge_id,))
+            
+            result = cur.fetchone()
+            
+            if not result:
+                print(f'WARNING: Payment {charge_id} not found in database', file=sys.stderr)
+                # Intentar buscar por customer_id de Stripe
+                if customer_id:
+                    cur.execute("""
+                        SELECT 
+                            p.customer as customer_email,
+                            p.metadata->>'qb_receipt_id' as qb_receipt_id,
+                            p.metadata->>'qb_customer_id' as qb_customer_id
+                        FROM payments p
+                        WHERE p.metadata->>'stripe_customer_id' = %s
+                        ORDER BY p.created_at DESC
+                        LIMIT 1
+                    """, (customer_id,))
+                    result = cur.fetchone()
+            
+            if result:
+                customer_email, qb_receipt_id, qb_customer_id = result
+                
+                lookup_result = {
+                    'customer_email': customer_email or parsed.get('customer_email', ''),
+                    'qb_receipt_id': qb_receipt_id or '',
+                    'qb_customer_id': qb_customer_id or ''
+                }
+                
+                # Actualizar parsed con email si no estaba
+                if not parsed.get('customer_email') and lookup_result['customer_email']:
+                    parsed['customer_email'] = lookup_result['customer_email']
+            else:
+                print(f'ERROR: Could not find customer/receipt info for charge {charge_id}', file=sys.stderr)
+                lookup_result = {
+                    'customer_email': parsed.get('customer_email', ''),
+                    'qb_receipt_id': '',
+                    'qb_customer_id': ''
+                }
+            
+            cur.close()
+            conn.close()
+            
+            # Guardar resultado combinado
+            parsed.update(lookup_result)
+            
+            with open('lookup_result.json', 'w', encoding='utf-8') as f:
+                json.dump(lookup_result, f, indent=2, ensure_ascii=False)
+            
+            with open('parsed_with_lookup.json', 'w', encoding='utf-8') as f:
+                json.dump(parsed, f, indent=2, ensure_ascii=False)
+            
+            print(f'INFO: Lookup completed - email={lookup_result.get("customer_email")}, qb_receipt_id={lookup_result.get("qb_receipt_id")}')
+            
+        except Exception as e:
+            print(f'ERROR: Database lookup failed: {e}', file=sys.stderr)
+            sys.exit(1)
+    outputFiles:
+      - lookup_result.json
+      - parsed_with_lookup.json
+    env:
+      JDBC_URL: "{{ inputs.jdbc_url }}"
+      JDBC_USER: "{{ inputs.jdbc_user }}"
+      JDBC_PASSWORD: "{{ inputs.jdbc_password }}"
+    allowFailure: false
+
+  - id: validate_refund_data
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT10S
+    inputFiles:
+      parsed.json: "{{ taskrun.outputs['parse_refund']['files']['parsed.json'] }}"
+      lookup.json: "{{ taskrun.outputs['lookup_customer_and_receipt']['files']['lookup_result.json'] }}"
+      validate.py: |
+        import json, sys
+        
+        try:
+            parsed = json.load(open('parsed.json'))
+            lookup = json.load(open('lookup.json'))
+        except Exception as e:
+            print(f'ERROR: Failed to load data: {e}', file=sys.stderr)
+            sys.exit(1)
+        
+        # Validar datos requeridos
+        errors = []
+        
+        if not parsed.get('stripe_refund_id'):
+            errors.append('Missing stripe_refund_id')
+        
+        if not parsed.get('amount') or parsed.get('amount') <= 0:
+            errors.append('Invalid or missing amount')
+        
+        customer_email = lookup.get('customer_email') or parsed.get('customer_email')
+        if not customer_email:
+            errors.append('Missing customer_email')
+        
+        qb_receipt_id = lookup.get('qb_receipt_id')
+        if not qb_receipt_id:
+            errors.append('Missing qb_receipt_id (original receipt ID in QuickBooks)')
+        
+        if errors:
+            print(f'ERROR: Validation failed: {", ".join(errors)}', file=sys.stderr)
+            sys.exit(1)
+        
+        # Preparar datos finales para Airflow
+        final_data = {
+            'stripe_refund_id': parsed['stripe_refund_id'],
+            'monto_reembolso': parsed['amount'],
+            'correo_cliente': customer_email,
+            'qb_receipt_id': qb_receipt_id,
+            'currency': parsed.get('currency', 'USD'),
+            'reason': parsed.get('reason', ''),
+            'metadata': {
+                'stripe_charge_id': parsed.get('stripe_charge_id'),
+                'stripe_event_type': parsed.get('event_type'),
+                'refund_status': parsed.get('status')
+            }
+        }
+        
+        with open('validated_data.json', 'w', encoding='utf-8') as f:
+            json.dump(final_data, f, indent=2, ensure_ascii=False)
+        
+        print(f'INFO: Validation passed - refund_id={final_data["stripe_refund_id"]}, amount={final_data["monto_reembolso"]}, customer={final_data["correo_cliente"]}')
+    outputFiles:
+      - validated_data.json
+    allowFailure: false
+
+  - id: trigger_airflow_dag
+    type: io.kestra.plugin.core.http.Request
+    uri: "{{ inputs.airflow_base_url }}/api/v1/dags/stripe_refund_to_quickbooks/dagRuns"
+    method: POST
+    timeout: PT30S
+    headers:
+      Content-Type: application/json
+      {% if inputs.airflow_token %}
+      Authorization: "Bearer {{ inputs.airflow_token }}"
+      {% endif %}
+    body: |
+      {% set data = (taskrun.outputs['validate_refund_data']['files']['validated_data.json'] | readFile | fromJson) %}
+      {
+        "conf": {
+          "stripe_refund_id": "{{ data.stripe_refund_id }}",
+          "monto_reembolso": {{ data.monto_reembolso }},
+          "correo_cliente": "{{ data.correo_cliente }}",
+          "qb_receipt_id": "{{ data.qb_receipt_id }}",
+          "currency": "{{ data.currency }}",
+          "reason": "{{ data.reason }}",
+          "metadata": {{ data.metadata | toJson }}
+        }
+      }
+    retry:
+      type: exponential
+      interval: PT5S
+      maxAttempt: 3
+      multiplier: 2.0
+    allowFailure: false
+
+  - id: save_refund_record
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    sql: |
+      {% set data = (taskrun.outputs['validate_refund_data']['files']['validated_data.json'] | readFile | fromJson) %}
+      CREATE TABLE IF NOT EXISTS stripe_refunds (
+        id SERIAL PRIMARY KEY,
+        stripe_refund_id TEXT NOT NULL UNIQUE,
+        stripe_charge_id TEXT,
+        amount NUMERIC(12,2) NOT NULL,
+        currency VARCHAR(8) NOT NULL,
+        customer_email TEXT NOT NULL,
+        qb_receipt_id TEXT NOT NULL,
+        qb_credit_id TEXT,
+        status TEXT NOT NULL DEFAULT 'pending',
+        reason TEXT,
+        metadata JSONB,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        processed_at TIMESTAMPTZ,
+        error_message TEXT
+      );
+      
+      INSERT INTO stripe_refunds (
+        stripe_refund_id, stripe_charge_id, amount, currency,
+        customer_email, qb_receipt_id, reason, metadata, status
+      ) VALUES (
+        $1, $2, $3, $4, $5, $6, $7, $8, 'triggered'
+      )
+      ON CONFLICT (stripe_refund_id) DO UPDATE SET
+        status = CASE 
+          WHEN stripe_refunds.status = 'completed' THEN stripe_refunds.status
+          ELSE 'triggered'
+        END,
+        updated_at = NOW();
+    args:
+      - "{{ (taskrun.outputs['validate_refund_data']['files']['validated_data.json'] | readFile | fromJson).stripe_refund_id }}"
+      - "{{ (taskrun.outputs['validate_refund_data']['files']['validated_data.json'] | readFile | fromJson).metadata.stripe_charge_id }}"
+      - "{{ (taskrun.outputs['validate_refund_data']['files']['validated_data.json'] | readFile | fromJson).monto_reembolso }}"
+      - "{{ (taskrun.outputs['validate_refund_data']['files']['validated_data.json'] | readFile | fromJson).currency }}"
+      - "{{ (taskrun.outputs['validate_refund_data']['files']['validated_data.json'] | readFile | fromJson).correo_cliente }}"
+      - "{{ (taskrun.outputs['validate_refund_data']['files']['validated_data.json'] | readFile | fromJson).qb_receipt_id }}"
+      - "{{ (taskrun.outputs['validate_refund_data']['files']['validated_data.json'] | readFile | fromJson).reason }}"
+      - "{{ (taskrun.outputs['validate_refund_data']['files']['validated_data.json'] | readFile | toJson) }}"
+    timeout: PT30S
+    allowFailure: false
+

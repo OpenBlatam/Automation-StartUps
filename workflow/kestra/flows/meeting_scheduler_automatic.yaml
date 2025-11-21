@@ -1,0 +1,1045 @@
+id: meeting_scheduler_automatic
+namespace: workflows
+
+labels:
+  app: productivity
+  feature: meeting_scheduling
+  version: "2.0"
+
+description: Programa reuniones automáticamente eliminando el "ping-pong" de correos. Recibe solicitudes de reunión, verifica disponibilidad, propone horarios y confirma automáticamente. Incluye validación de webhook, detección de conflictos, generación de iCal y soporte multi-calendario.
+
+inputs:
+  - name: calendar_api_url
+    type: STRING
+    required: true
+    description: URL de la API de calendario (Google Calendar, Outlook, etc.)
+  - name: calendar_api_token
+    type: STRING
+    required: true
+  - name: calendar_provider
+    type: STRING
+    required: false
+    default: "google"
+    description: Proveedor de calendario (google, outlook, caldav)
+  - name: email_api_url
+    type: STRING
+    required: true
+    description: URL del webhook/servicio de email para enviar invitaciones
+  - name: email_api_key
+    type: STRING
+    required: false
+  - name: database_url
+    type: STRING
+    required: false
+    description: URL de base de datos para persistir reuniones programadas
+  - name: slack_webhook_url
+    type: STRING
+    required: false
+    description: Webhook de Slack para notificaciones opcionales
+  - name: webhook_secret
+    type: STRING
+    required: false
+    description: Secret para verificar firma HMAC del webhook (opcional pero recomendado)
+  - name: enable_reminders
+    type: BOOLEAN
+    required: false
+    default: true
+    description: Habilitar recordatorios automáticos antes de la reunión
+  - name: reminder_minutes_before
+    type: INT
+    required: false
+    default: 15
+    description: Minutos antes de la reunión para enviar recordatorio
+  - name: enable_buffer_time
+    type: BOOLEAN
+    required: false
+    default: false
+    description: Agregar tiempo de buffer entre reuniones
+  - name: buffer_minutes
+    type: INT
+    required: false
+    default: 5
+    description: Minutos de buffer antes/después de la reunión
+
+triggers:
+  - id: meeting_request_webhook
+    type: io.kestra.plugin.core.trigger.Webhook
+    key: meeting_scheduler
+
+variables:
+  default_meeting_duration_minutes: 30
+  business_hours_start: "09:00"
+  business_hours_end: "18:00"
+  default_timezone: "America/Mexico_City"
+  max_attendees: 50
+  min_duration_minutes: 15
+  max_duration_minutes: 480
+  availability_days_ahead: 14
+
+tasks:
+  - id: verify_webhook_signature
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    disabled: "{{ inputs.webhook_secret is not defined }}"
+    inputFiles:
+      raw.bin: "{{ trigger.rawBody }}"
+      headers.json: "{{ trigger.headers | toJson }}"
+      verify.py: |
+        import os, hmac, hashlib, json, sys
+        
+        secret = os.getenv('WEBHOOK_SECRET')
+        if not secret:
+            print('INFO: Webhook secret not configured; skipping signature verification')
+            sys.exit(0)
+        
+        try:
+            with open('headers.json', 'r') as f:
+                headers = json.load(f)
+        except Exception as e:
+            print(f'ERROR: Failed to load headers: {e}')
+            sys.exit(1)
+        
+        sig = headers.get('X-Hub-Signature-256') or headers.get('x-hub-signature-256') or headers.get('X-Signature')
+        if not sig:
+            print('ERROR: Missing signature header')
+            sys.exit(1)
+        
+        # Handle different signature formats
+        if sig.startswith('sha256='):
+            provided = sig.split('=')[1]
+        elif sig.startswith('sha256:'):
+            provided = sig.split(':')[1]
+        else:
+            provided = sig
+        
+        try:
+            with open('raw.bin', 'rb') as f:
+                body = f.read()
+            calc = hmac.new(secret.encode('utf-8'), body, hashlib.sha256).hexdigest()
+            if not hmac.compare_digest(calc, provided):
+                print('ERROR: HMAC signature mismatch - request may be tampered')
+                sys.exit(1)
+            print('INFO: Signature verification successful')
+        except Exception as e:
+            print(f'ERROR: Signature verification failed: {e}')
+            sys.exit(1)
+    env:
+      WEBHOOK_SECRET: "{{ inputs.webhook_secret }}"
+
+  - id: parse_meeting_request
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT1M
+    inputFiles:
+      payload.json: "{{ trigger.body | toJson }}"
+      parse.py: |
+        import json
+        import sys
+        import re
+        import os
+        from datetime import datetime
+        
+        try:
+            p = json.load(open('payload.json'))
+        except Exception as e:
+            print(f'ERROR: Failed to parse payload JSON: {e}')
+            sys.exit(1)
+        
+        if not isinstance(p, dict):
+            print(f'ERROR: Expected dict payload, got {type(p).__name__}')
+            sys.exit(1)
+        
+        # Extract meeting request details
+        organizer_email = p.get('organizer_email', '').strip().lower()
+        attendees = p.get('attendees', []) or []
+        if isinstance(attendees, str):
+            attendees = [a.strip() for a in attendees.split(',')]
+        
+        # Preferred time slots (flexible format)
+        preferred_times = p.get('preferred_times', []) or []
+        preferred_date = p.get('preferred_date', '')
+        preferred_date_range = p.get('preferred_date_range', {})
+        
+        # Meeting details
+        duration_minutes = int(p.get('duration_minutes', os.getenv('DEFAULT_DURATION', '30')))
+        subject = p.get('subject', p.get('title', 'Reunión')).strip()
+        description = p.get('description', '').strip()
+        location = p.get('location', '').strip()
+        timezone = p.get('timezone', os.getenv('DEFAULT_TIMEZONE', 'America/Mexico_City'))
+        
+        # Auto-confirm settings
+        auto_confirm = p.get('auto_confirm', True)
+        require_confirmation = p.get('require_confirmation', False)
+        send_multiple_options = p.get('send_multiple_options', False)
+        
+        # Validation
+        errors = []
+        warnings = []
+        
+        # Email validation
+        email_pattern = re.compile(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+        if not organizer_email or not email_pattern.match(organizer_email):
+            errors.append('invalid_organizer_email')
+        if not attendees:
+            errors.append('no_attendees')
+        elif len(attendees) > int(os.getenv('MAX_ATTENDEES', '50')):
+            errors.append(f'too_many_attendees_max_{os.getenv("MAX_ATTENDEES", "50")}')
+        
+        # Duration validation
+        min_duration = int(os.getenv('MIN_DURATION', '15'))
+        max_duration = int(os.getenv('MAX_DURATION', '480'))
+        if duration_minutes < min_duration or duration_minutes > max_duration:
+            errors.append(f'invalid_duration_must_be_between_{min_duration}_and_{max_duration}_minutes')
+        
+        if not subject:
+            errors.append('missing_subject')
+        elif len(subject) > 200:
+            warnings.append('subject_too_long_truncated')
+            subject = subject[:200]
+        
+        if errors:
+            error_output = {
+                'errors': errors,
+                'warnings': warnings,
+                'timestamp': datetime.now().isoformat()
+            }
+            with open('validation_errors.json', 'w') as f:
+                json.dump(error_output, f, indent=2)
+            print(f'ERROR: Validation failed: {", ".join(errors)}')
+            sys.exit(1)
+        
+        # Normalize attendees (remove duplicates, validate emails)
+        unique_attendees = []
+        invalid_emails = []
+        for att in attendees:
+            att_email = att.strip().lower()
+            if email_pattern.match(att_email):
+                if att_email != organizer_email and att_email not in unique_attendees:
+                    unique_attendees.append(att_email)
+                elif att_email == organizer_email:
+                    warnings.append('organizer_in_attendees_list_removed')
+            else:
+                invalid_emails.append(att_email)
+        
+        if invalid_emails:
+            warnings.append(f'invalid_emails_removed_{len(invalid_emails)}')
+        
+        if not unique_attendees:
+            errors.append('no_valid_attendees_after_validation')
+            error_output = {
+                'errors': errors,
+                'warnings': warnings,
+                'timestamp': datetime.now().isoformat()
+            }
+            with open('validation_errors.json', 'w') as f:
+                json.dump(error_output, f, indent=2)
+            print('ERROR: No valid attendees after validation')
+            sys.exit(1)
+        
+        output = {
+            'organizer_email': organizer_email,
+            'attendees': unique_attendees,
+            'subject': subject,
+            'description': description,
+            'location': location,
+            'duration_minutes': duration_minutes,
+            'timezone': timezone,
+            'preferred_times': preferred_times,
+            'preferred_date': preferred_date,
+            'preferred_date_range': preferred_date_range,
+            'auto_confirm': auto_confirm,
+            'require_confirmation': require_confirmation,
+            'send_multiple_options': send_multiple_options,
+            'total_attendees': len(unique_attendees),
+            'warnings': warnings,
+            'parsed_at': datetime.now().isoformat(),
+            'execution_id': os.getenv('EXECUTION_ID', '')
+        }
+        
+        try:
+            with open('meeting_request.json', 'w', encoding='utf-8') as f:
+                json.dump(output, f, ensure_ascii=False, indent=2)
+            print(f'INFO: Parsed meeting request - organizer: {organizer_email}, attendees: {len(unique_attendees)}, duration: {duration_minutes}m, warnings: {len(warnings)}')
+        except Exception as e:
+            print(f'ERROR: Failed to write parsed data: {e}')
+            sys.exit(1)
+    env:
+      DEFAULT_DURATION: "{{ vars.default_meeting_duration_minutes }}"
+      DEFAULT_TIMEZONE: "{{ vars.default_timezone }}"
+      MAX_ATTENDEES: "{{ vars.max_attendees }}"
+      MIN_DURATION: "{{ vars.min_duration_minutes }}"
+      MAX_DURATION: "{{ vars.max_duration_minutes }}"
+      EXECUTION_ID: "{{ execution.id }}"
+    outputFiles:
+      - meeting_request.json
+
+  - id: check_duplicate_meeting
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    disabled: "{{ inputs.database_url is not defined }}"
+    inputFiles:
+      request.json: "{{ taskrun.outputs['parse_meeting_request']['files']['meeting_request.json'] }}"
+      check_duplicate.py: |
+        import json
+        import sys
+        import os
+        import psycopg2
+        from datetime import timedelta
+        
+        db_url = os.getenv('DATABASE_URL')
+        if not db_url:
+            print('INFO: Database URL not configured, skipping duplicate check')
+            with open('duplicate_check.json', 'w') as f:
+                json.dump({'is_duplicate': False, 'reason': 'no_database'}, f)
+            sys.exit(0)
+        
+        try:
+            req = json.load(open('request.json'))
+        except Exception as e:
+            print(f'ERROR: Failed to load request: {e}')
+            sys.exit(1)
+        
+        try:
+            conn = psycopg2.connect(db_url)
+            cur = conn.cursor()
+            
+            # Check for similar meetings in the next 7 days
+            cur.execute("""
+                SELECT id, subject, start_time, end_time, organizer_email
+                FROM scheduled_meetings
+                WHERE organizer_email = %s
+                  AND subject = %s
+                  AND start_time >= NOW()
+                  AND start_time <= NOW() + INTERVAL '7 days'
+                  AND status != 'cancelled'
+                ORDER BY start_time ASC
+                LIMIT 1
+            """, (req['organizer_email'], req['subject']))
+            
+            duplicate = cur.fetchone()
+            cur.close()
+            conn.close()
+            
+            is_dup = duplicate is not None
+            result = {
+                'is_duplicate': is_dup,
+                'reason': 'similar_meeting_found' if is_dup else 'no_duplicate'
+            }
+            
+            if is_dup:
+                result['existing_meeting'] = {
+                    'id': duplicate[0],
+                    'subject': duplicate[1],
+                    'start_time': duplicate[2].isoformat() if duplicate[2] else None,
+                    'end_time': duplicate[3].isoformat() if duplicate[3] else None
+                }
+                print(f'WARNING: Potential duplicate meeting found: {duplicate[1]} at {duplicate[2]}')
+            
+            with open('duplicate_check.json', 'w') as f:
+                json.dump(result, f, indent=2, default=str)
+        except Exception as e:
+            print(f'WARNING: Duplicate check failed: {e}, proceeding anyway')
+            with open('duplicate_check.json', 'w') as f:
+                json.dump({'is_duplicate': False, 'reason': 'check_failed', 'error': str(e)}, f)
+    env:
+      DATABASE_URL: "{{ inputs.database_url }}"
+    outputFiles:
+      - duplicate_check.json
+
+  - id: check_availability
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT3M
+    inputFiles:
+      request.json: "{{ taskrun.outputs['parse_meeting_request']['files']['meeting_request.json'] }}"
+      check_avail.py: |
+        import json
+        import sys
+        import requests
+        from datetime import datetime, timedelta
+        import os
+        
+        try:
+            req = json.load(open('request.json'))
+        except Exception as e:
+            print(f'ERROR: Failed to load request: {e}')
+            sys.exit(1)
+        
+        def generate_default_slots(request, days_ahead=14):
+            """Generate default time slots when calendar API is unavailable"""
+            slots = []
+            now = datetime.now()
+            duration = request['duration_minutes']
+            business_start = int(os.getenv('BUSINESS_START', '9'))
+            business_end = int(os.getenv('BUSINESS_END', '18'))
+            buffer_minutes = int(os.getenv('BUFFER_MINUTES', '0'))
+            enable_buffer = os.getenv('ENABLE_BUFFER', 'false').lower() == 'true'
+            
+            # Calculate total duration including buffer
+            total_duration = duration
+            if enable_buffer and buffer_minutes > 0:
+                total_duration = duration + (buffer_minutes * 2)  # buffer before and after
+            
+            # Generate slots for next N business days
+            for day_offset in range(1, days_ahead + 1):
+                check_date = now + timedelta(days=day_offset)
+                # Skip weekends
+                if check_date.weekday() >= 5:
+                    continue
+                
+                date_str = check_date.strftime('%Y-%m-%d')
+                # Generate slots every 2 hours during business hours
+                slot_interval = 2 if total_duration < 60 else 3  # Larger interval for longer meetings
+                
+                for hour in range(business_start, business_end, slot_interval):
+                    if hour + (total_duration // 60) > business_end:
+                        continue
+                    
+                    # Adjust start time if buffer is enabled
+                    if enable_buffer and buffer_minutes > 0:
+                        slot_time = check_date.replace(hour=hour, minute=buffer_minutes, second=0, microsecond=0)
+                        end_time = slot_time + timedelta(minutes=duration)
+                    else:
+                        slot_time = check_date.replace(hour=hour, minute=0, second=0, microsecond=0)
+                        end_time = slot_time + timedelta(minutes=duration)
+                    
+                    slots.append({
+                        'start': slot_time.isoformat(),
+                        'end': end_time.isoformat(),
+                        'date': date_str,
+                        'time': f'{hour:02d}:00',
+                        'confidence': 'low',
+                        'has_buffer': enable_buffer,
+                        'buffer_minutes': buffer_minutes if enable_buffer else 0
+                    })
+            
+            return slots
+        
+        calendar_api_url = os.getenv('CALENDAR_API_URL')
+        calendar_token = os.getenv('CALENDAR_API_TOKEN')
+        days_ahead = int(os.getenv('DAYS_AHEAD', '14'))
+        
+        if not calendar_api_url:
+            print('WARNING: Calendar API URL not configured, using default slots')
+            slots = generate_default_slots(req, days_ahead)
+            with open('availability.json', 'w') as f:
+                json.dump({
+                    'slots': slots[:10],
+                    'method': 'default',
+                    'total_slots': len(slots),
+                    'has_conflicts': False
+                }, f, indent=2)
+            sys.exit(0)
+        
+        # Build availability check request
+        all_emails = [req['organizer_email']] + req['attendees']
+        duration = req['duration_minutes']
+        timezone = req.get('timezone', os.getenv('DEFAULT_TIMEZONE', 'America/Mexico_City'))
+        
+        # Check availability
+        check_payload = {
+            'emails': all_emails,
+            'duration_minutes': duration,
+            'timezone': timezone,
+            'days_ahead': days_ahead,
+            'business_hours_only': True,
+            'start_time': os.getenv('BUSINESS_START', '09:00'),
+            'end_time': os.getenv('BUSINESS_END', '18:00')
+        }
+        
+        slots = []
+        conflicts = []
+        method = 'api'
+        
+        try:
+            headers = {'Authorization': f'Bearer {calendar_token}', 'Content-Type': 'application/json'}
+            response = requests.post(
+                f'{calendar_api_url}/availability',
+                json=check_payload,
+                timeout=45
+            )
+            
+            if response.status_code == 200:
+                avail_data = response.json()
+                slots = avail_data.get('available_slots', [])
+                conflicts = avail_data.get('conflicts', [])
+                print(f'INFO: Found {len(slots)} available slots via calendar API')
+                if conflicts:
+                    print(f'WARNING: Found {len(conflicts)} potential conflicts')
+            elif response.status_code == 404:
+                print('WARNING: Calendar API endpoint not found, using default slots')
+                slots = generate_default_slots(req, days_ahead)
+                method = 'default_fallback'
+            else:
+                print(f'WARNING: Calendar API returned {response.status_code}, using default slots')
+                slots = generate_default_slots(req, days_ahead)
+                method = 'default_fallback'
+        except requests.exceptions.Timeout:
+            print('WARNING: Calendar API timeout, using default slots')
+            slots = generate_default_slots(req, days_ahead)
+            method = 'default_fallback'
+        except Exception as e:
+            print(f'WARNING: Calendar API check failed: {e}, using default slots')
+            slots = generate_default_slots(req, days_ahead)
+            method = 'default_fallback'
+        
+        if not slots:
+            print('ERROR: No available slots found')
+            with open('availability.json', 'w') as f:
+                json.dump({
+                    'slots': [],
+                    'method': method,
+                    'has_conflicts': len(conflicts) > 0,
+                    'conflicts': conflicts,
+                    'error': 'no_slots_available'
+                }, f, indent=2)
+            sys.exit(1)
+        
+        # Sort slots by preference (earlier preferred dates/times first)
+        slots_sorted = sorted(slots, key=lambda x: x.get('start', ''))
+        
+        output = {
+            'slots': slots_sorted[:10],
+            'total_slots_found': len(slots),
+            'method': method,
+            'has_conflicts': len(conflicts) > 0,
+            'conflicts': conflicts[:5],
+            'checked_at': datetime.now().isoformat()
+        }
+        
+        try:
+            with open('availability.json', 'w') as f:
+                json.dump(output, f, indent=2)
+            print(f'INFO: Availability check completed - {len(slots)} slots found, method: {method}')
+        except Exception as e:
+            print(f'ERROR: Failed to write availability: {e}')
+            sys.exit(1)
+    env:
+      CALENDAR_API_URL: "{{ inputs.calendar_api_url }}"
+      CALENDAR_API_TOKEN: "{{ inputs.calendar_api_token }}"
+      DAYS_AHEAD: "{{ vars.availability_days_ahead }}"
+      BUSINESS_START: "{{ vars.business_hours_start }}"
+      BUSINESS_END: "{{ vars.business_hours_end }}"
+      DEFAULT_TIMEZONE: "{{ vars.default_timezone }}"
+      ENABLE_BUFFER: "{{ inputs.enable_buffer_time }}"
+      BUFFER_MINUTES: "{{ inputs.buffer_minutes }}"
+    outputFiles:
+      - availability.json
+
+  - id: select_best_slot
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    inputFiles:
+      request.json: "{{ taskrun.outputs['parse_meeting_request']['files']['meeting_request.json'] }}"
+      availability.json: "{{ taskrun.outputs['check_availability']['files']['availability.json'] }}"
+      select.py: |
+        import json
+        import sys
+        from datetime import datetime
+        
+        try:
+            req = json.load(open('request.json'))
+            avail = json.load(open('availability.json'))
+        except Exception as e:
+            print(f'ERROR: Failed to load data: {e}')
+            sys.exit(1)
+        
+        slots = avail.get('slots', [])
+        if not slots:
+            print('ERROR: No available slots found')
+            sys.exit(1)
+        
+        # If preferred times/date specified, prioritize them
+        preferred_date = req.get('preferred_date', '')
+        preferred_times = req.get('preferred_times', [])
+        send_multiple = req.get('send_multiple_options', False)
+        
+        selected_slot = None
+        selected_slots = []
+        selection_reason = 'first_available'
+        
+        # Try to match preferred slots
+        if preferred_date or preferred_times:
+            matched_slots = []
+            for slot in slots:
+                slot_date = slot.get('date', '')
+                slot_time = slot.get('time', '')
+                slot_start = slot.get('start', '')
+                
+                match_score = 0
+                
+                # Date match
+                if preferred_date and slot_date == preferred_date:
+                    match_score += 10
+                
+                # Time match
+                if preferred_times:
+                    for pt in preferred_times:
+                        if pt in slot_time:
+                            match_score += 5
+                            break
+                
+                if match_score > 0:
+                    slot['match_score'] = match_score
+                    matched_slots.append(slot)
+            
+            if matched_slots:
+                # Sort by match score, then by start time
+                matched_slots.sort(key=lambda x: (-x.get('match_score', 0), x.get('start', '')))
+                selected_slot = matched_slots[0]
+                selection_reason = 'preferred_match'
+                
+                # If multiple options requested, include top 3 matches
+                if send_multiple and len(matched_slots) >= 3:
+                    selected_slots = matched_slots[:3]
+                elif send_multiple and len(matched_slots) > 1:
+                    selected_slots = matched_slots
+            elif send_multiple and len(slots) >= 3:
+                # If no preferred match but multiple options requested, send top 3
+                selected_slot = slots[0]
+                selected_slots = slots[:3]
+                selection_reason = 'multiple_options_no_preference'
+        
+        # If no match, use first available slot
+        if not selected_slot:
+            selected_slot = slots[0]
+        
+        # Ensure selected_slots includes at least the selected slot
+        if not selected_slots:
+            selected_slots = [selected_slot]
+        elif selected_slot not in selected_slots:
+            selected_slots.insert(0, selected_slot)
+        
+        output = {
+            'selected_slot': selected_slot,
+            'alternative_slots': selected_slots[1:6] if len(selected_slots) > 1 else [],
+            'all_available_slots': slots,
+            'selection_reason': selection_reason,
+            'total_options_provided': len(selected_slots)
+        }
+        
+        try:
+            with open('selected_slot.json', 'w') as f:
+                json.dump(output, f, indent=2)
+            print(f'INFO: Selected slot - {selected_slot.get("date")} {selected_slot.get("time")}, reason: {selection_reason}')
+            if selected_slots:
+                print(f'INFO: Providing {len(selected_slots)} slot option(s)')
+        except Exception as e:
+            print(f'ERROR: Failed to write selection: {e}')
+            sys.exit(1)
+    outputFiles:
+      - selected_slot.json
+
+  - id: generate_ical
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    inputFiles:
+      request.json: "{{ taskrun.outputs['parse_meeting_request']['files']['meeting_request.json'] }}"
+      slot.json: "{{ taskrun.outputs['select_best_slot']['files']['selected_slot.json'] }}"
+      generate_ical.py: |
+        import json
+        import sys
+        from datetime import datetime
+        
+        try:
+            req = json.load(open('request.json'))
+            slot_data = json.load(open('slot.json'))
+        except Exception as e:
+            print(f'ERROR: Failed to load data: {e}')
+            sys.exit(1)
+        
+        slot = slot_data['selected_slot']
+        
+        # Generate iCal file content
+        def format_ical_datetime(dt_str):
+            """Format ISO datetime to iCal format"""
+            try:
+                dt = datetime.fromisoformat(dt_str.replace('Z', '+00:00'))
+                return dt.strftime('%Y%m%dT%H%M%S')
+            except:
+                return dt_str.replace('-', '').replace(':', '').replace('T', '').split('.')[0]
+        
+        start_dt = format_ical_datetime(slot['start'])
+        end_dt = format_ical_datetime(slot['end'])
+        
+        # Escape special characters in text fields
+        def escape_ical(text):
+            if not text:
+                return ''
+            return str(text).replace('\\', '\\\\').replace(',', '\\,').replace(';', '\\;').replace('\n', '\\n')
+        
+        summary = escape_ical(req['subject'])
+        description = escape_ical(req.get('description', ''))
+        location_escaped = escape_ical(req.get('location', ''))
+        organizer = req['organizer_email']
+        
+        # Build iCal content
+        ical_content = f"""BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Meeting Scheduler//Automated Meeting//EN
+METHOD:REQUEST
+BEGIN:VEVENT
+UID:{req['execution_id']}@meeting-scheduler
+DTSTAMP:{format_ical_datetime(datetime.now().isoformat())}
+DTSTART:{start_dt}
+DTEND:{end_dt}
+SUMMARY:{summary}
+DESCRIPTION:{description}
+LOCATION:{location_escaped}
+ORGANIZER;CN={organizer}:MAILTO:{organizer}
+"""
+        
+        # Add attendees
+        for att in req['attendees']:
+            ical_content += f"ATTENDEE;RSVP=TRUE:MAILTO:{att}\n"
+        
+        ical_content += f"""STATUS:CONFIRMED
+SEQUENCE:0
+END:VEVENT
+END:VCALENDAR
+"""
+        
+        try:
+            with open('meeting.ics', 'w', encoding='utf-8') as f:
+                f.write(ical_content)
+            print('INFO: iCal file generated successfully')
+        except Exception as e:
+            print(f'ERROR: Failed to generate iCal file: {e}')
+            sys.exit(1)
+    outputFiles:
+      - meeting.ics
+
+  - id: create_calendar_event
+    type: io.kestra.plugin.core.http.Request
+    uri: "{{ inputs.calendar_api_url }}/events"
+    method: POST
+    timeout: PT60S
+    headers:
+      Authorization: "Bearer {{ inputs.calendar_api_token }}"
+      Content-Type: application/json
+    body: |
+      {% set req = (taskrun.outputs['parse_meeting_request']['files']['meeting_request.json'] | readFile | fromJson) %}
+      {% set slot = (taskrun.outputs['select_best_slot']['files']['selected_slot.json'] | readFile | fromJson).selected_slot %}
+      {% set provider = inputs.calendar_provider | default('google') %}
+      {% if provider == 'google' %}
+      {
+        "summary": "{{ req.subject }}",
+        "description": "{{ req.description | default('Reunión programada automáticamente') }}",
+        "start": {
+          "dateTime": "{{ slot.start }}",
+          "timeZone": "{{ req.timezone }}"
+        },
+        "end": {
+          "dateTime": "{{ slot.end }}",
+          "timeZone": "{{ req.timezone }}"
+        },
+        "attendees": [
+          {% for att in req.attendees %}
+          {"email": "{{ att }}"}{% if not loop.last %},{% endif %}
+          {% endfor %}
+        ],
+        "conferenceData": {
+          "createRequest": {
+            "requestId": "{{ execution.id }}-{{ task.id }}",
+            "conferenceSolutionKey": {
+              "type": "hangoutsMeet"
+            }
+          }
+        }
+      }
+      {% elif provider == 'outlook' %}
+      {
+        "subject": "{{ req.subject }}",
+        "body": {
+          "contentType": "HTML",
+          "content": "{{ req.description | default('Reunión programada automáticamente') | replace('\n', '<br>') }}"
+        },
+        "start": {
+          "dateTime": "{{ slot.start }}",
+          "timeZone": "{{ req.timezone }}"
+        },
+        "end": {
+          "dateTime": "{{ slot.end }}",
+          "timeZone": "{{ req.timezone }}"
+        },
+        "attendees": [
+          {% for att in req.attendees %}
+          {"emailAddress": {"address": "{{ att }}"}, "type": "required"}{% if not loop.last %},{% endif %}
+          {% endfor %}
+        ],
+        "isOnlineMeeting": true,
+        "onlineMeetingProvider": "teamsForBusiness"
+      }
+      {% else %}
+      {
+        "summary": "{{ req.subject }}",
+        "description": "{{ req.description | default('Reunión programada automáticamente') }}",
+        "start": {
+          "dateTime": "{{ slot.start }}",
+          "timeZone": "{{ req.timezone }}"
+        },
+        "end": {
+          "dateTime": "{{ slot.end }}",
+          "timeZone": "{{ req.timezone }}"
+        },
+        "attendees": [
+          {% for att in req.attendees %}
+          {"email": "{{ att }}"}{% if not loop.last %},{% endif %}
+          {% endfor %}
+        ]
+      }
+      {% endif %}
+    retry:
+      type: exponential
+      interval: PT5S
+      maxAttempt: 3
+      maxInterval: PT30S
+    outputFiles:
+      - calendar_event_response.json
+
+  - id: send_invitations
+    type: io.kestra.plugin.core.http.Request
+    uri: "{{ inputs.email_api_url }}"
+    method: POST
+    timeout: PT60S
+    headers:
+      Content-Type: application/json
+      {% if inputs.email_api_key %}
+      Authorization: "Bearer {{ inputs.email_api_key }}"
+      {% endif %}
+    body: |
+      {% set req = (taskrun.outputs['parse_meeting_request']['files']['meeting_request.json'] | readFile | fromJson) %}
+      {% set slot = (taskrun.outputs['select_best_slot']['files']['selected_slot.json'] | readFile | fromJson).selected_slot %}
+      {% set event = (taskrun.outputs['create_calendar_event']['body'] | fromJson) %}
+      {% set ical_content = (taskrun.outputs['generate_ical']['files']['meeting.ics'] | readFile) %}
+      {
+        "to": [
+          "{{ req.organizer_email }}",
+          {% for att in req.attendees %}
+          "{{ att }}"{% if not loop.last %},{% endif %}
+          {% endfor %}
+        ],
+        "subject": "Reunión confirmada: {{ req.subject }}",
+        "body_html": "<html><body><h2>Reunión confirmada automáticamente</h2><p><strong>Título:</strong> {{ req.subject }}</p><p><strong>Fecha y hora:</strong> {{ slot.date }} {{ slot.time }}</p><p><strong>Duración:</strong> {{ req.duration_minutes }} minutos</p>{% if req.location %}<p><strong>Ubicación:</strong> {{ req.location }}</p>{% endif %}{% if event.htmlLink %}<p><a href=\"{{ event.htmlLink }}\">Ver en calendario</a></p>{% endif %}<p>{{ req.description | default('') | replace('\n', '<br>') }}</p><hr><p><em>Esta reunión fue programada automáticamente para evitar el intercambio de correos.</em></p></body></html>",
+        "body_text": "Reunión confirmada automáticamente\n\nTítulo: {{ req.subject }}\nFecha y hora: {{ slot.date }} {{ slot.time }}\nDuración: {{ req.duration_minutes }} minutos\n{% if req.location %}Ubicación: {{ req.location }}\n{% endif %}{{ req.description | default('') }}\n\nEsta reunión fue programada automáticamente para evitar el intercambio de correos.",
+        "attachments": [
+          {
+            "filename": "meeting.ics",
+            "content": "{{ ical_content | toJson }}",
+            "content_type": "text/calendar",
+            "disposition": "attachment"
+          }
+        ]
+      }
+    retry:
+      type: exponential
+      interval: PT5S
+      maxAttempt: 2
+      maxInterval: PT20S
+
+  - id: persist_meeting
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    disabled: "{{ inputs.database_url is not defined }}"
+    inputFiles:
+      request.json: "{{ taskrun.outputs['parse_meeting_request']['files']['meeting_request.json'] }}"
+      slot.json: "{{ taskrun.outputs['select_best_slot']['files']['selected_slot.json'] }}"
+      event.json: "{{ taskrun.outputs['create_calendar_event']['body'] }}"
+      persist.py: |
+        import json
+        import sys
+        import os
+        import psycopg2
+        from datetime import datetime
+        
+        db_url = os.getenv('DATABASE_URL')
+        if not db_url:
+            print('INFO: Database URL not configured, skipping persistence')
+            sys.exit(0)
+        
+        try:
+            req = json.load(open('request.json'))
+            slot = json.load(open('slot.json'))
+            event = json.load(open('event.json'))
+        except Exception as e:
+            print(f'ERROR: Failed to load data: {e}')
+            sys.exit(1)
+        
+        selected = slot['selected_slot']
+        event_data = json.loads(event) if isinstance(event, str) else event
+        
+        try:
+            conn = psycopg2.connect(db_url)
+            cur = conn.cursor()
+            
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS scheduled_meetings (
+                    id SERIAL PRIMARY KEY,
+                    execution_id VARCHAR(255) UNIQUE,
+                    organizer_email VARCHAR(255),
+                    attendees TEXT[],
+                    subject TEXT,
+                    start_time TIMESTAMP,
+                    end_time TIMESTAMP,
+                    duration_minutes INTEGER,
+                    calendar_event_id VARCHAR(255),
+                    calendar_provider VARCHAR(50),
+                    status VARCHAR(50) DEFAULT 'confirmed',
+                    ical_attachment BOOLEAN DEFAULT true,
+                    created_at TIMESTAMP DEFAULT NOW(),
+                    updated_at TIMESTAMP DEFAULT NOW()
+                )
+            """)
+            
+            cur.execute("""
+                INSERT INTO scheduled_meetings 
+                (execution_id, organizer_email, attendees, subject, start_time, end_time, duration_minutes, calendar_event_id, calendar_provider)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+                ON CONFLICT (execution_id) DO UPDATE SET
+                    updated_at = NOW(),
+                    status = CASE WHEN scheduled_meetings.status = 'cancelled' THEN 'cancelled' ELSE 'confirmed' END
+            """, (
+                os.getenv('EXECUTION_ID', ''),
+                req['organizer_email'],
+                req['attendees'],
+                req['subject'],
+                selected['start'],
+                selected['end'],
+                req['duration_minutes'],
+                event_data.get('id', ''),
+                os.getenv('CALENDAR_PROVIDER', 'google')
+            ))
+            
+            conn.commit()
+            cur.close()
+            conn.close()
+            print('INFO: Meeting persisted to database successfully')
+        except Exception as e:
+            print(f'WARNING: Failed to persist meeting: {e}')
+            # Don't fail the workflow if persistence fails
+    env:
+      DATABASE_URL: "{{ inputs.database_url }}"
+      EXECUTION_ID: "{{ execution.id }}"
+      CALENDAR_PROVIDER: "{{ inputs.calendar_provider | default('google') }}"
+    outputFiles:
+      - persistence_result.json
+
+  - id: notify_slack
+    type: io.kestra.plugin.core.http.Request
+    disabled: "{{ inputs.slack_webhook_url is not defined }}"
+    uri: "{{ inputs.slack_webhook_url }}"
+    method: POST
+    timeout: PT30S
+    headers:
+      Content-Type: application/json
+    body: |
+      {% set req = (taskrun.outputs['parse_meeting_request']['files']['meeting_request.json'] | readFile | fromJson) %}
+      {% set slot = (taskrun.outputs['select_best_slot']['files']['selected_slot.json'] | readFile | fromJson).selected_slot %}
+      {% set event = (taskrun.outputs['create_calendar_event']['body'] | fromJson) %}
+      {
+        "text": "✅ Reunión programada automáticamente",
+        "blocks": [
+          {
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": "*Reunión:* {{ req.subject }}\n*Organizador:* {{ req.organizer_email }}\n*Asistentes:* {{ req.attendees | join(', ') }}\n*Fecha y hora:* {{ slot.date }} {{ slot.time }}\n*Duración:* {{ req.duration_minutes }} minutos{% if event.htmlLink %}\n*Enlace:* {{ event.htmlLink }}{% endif %}"
+            }
+          },
+          {
+            "type": "context",
+            "elements": [
+              {
+                "type": "mrkdwn",
+                "text": "Programada automáticamente - Elimina el ping-pong de correos 📅"
+              }
+            ]
+          }
+        ]
+      }
+    retry:
+      type: exponential
+      interval: PT5S
+      maxAttempt: 2
+      maxInterval: PT15S
+
+  - id: calculate_reminder_time
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    disabled: "{{ not inputs.enable_reminders }}"
+    inputFiles:
+      slot.json: "{{ taskrun.outputs['select_best_slot']['files']['selected_slot.json'] }}"
+      calc_reminder.py: |
+        import json
+        import sys
+        import os
+        from datetime import datetime, timedelta
+        
+        reminder_minutes = int(os.getenv('REMINDER_MINUTES', '15'))
+        
+        try:
+            slot_data = json.load(open('slot.json'))
+        except Exception as e:
+            print(f'ERROR: Failed to load slot data: {e}')
+            sys.exit(1)
+        
+        slot = slot_data['selected_slot']
+        start_time = datetime.fromisoformat(slot['start'].replace('Z', '+00:00'))
+        reminder_time = start_time - timedelta(minutes=reminder_minutes)
+        
+        # Don't schedule reminder in the past
+        now = datetime.now(start_time.tzinfo)
+        if reminder_time < now:
+            reminder_time = now + timedelta(minutes=5)  # Schedule 5 minutes from now
+        
+        output = {
+            'reminder_time': reminder_time.isoformat(),
+            'reminder_time_formatted': reminder_time.strftime('%Y-%m-%d %H:%M:%S'),
+            'reminder_minutes_before': reminder_minutes,
+            'meeting_start': slot['start'],
+            'meeting_time_formatted': start_time.strftime('%Y-%m-%d %H:%M:%S')
+        }
+        
+        try:
+            with open('reminder_info.json', 'w') as f:
+                json.dump(output, f, indent=2)
+            print(f'INFO: Reminder scheduled for {reminder_time.strftime("%Y-%m-%d %H:%M:%S")}')
+        except Exception as e:
+            print(f'ERROR: Failed to write reminder info: {e}')
+            sys.exit(1)
+    env:
+      REMINDER_MINUTES: "{{ inputs.reminder_minutes_before }}"
+    outputFiles:
+      - reminder_info.json
+
+  - id: schedule_reminder
+    type: io.kestra.plugin.core.http.Request
+    disabled: "{{ not inputs.enable_reminders }}"
+    uri: "{{ inputs.email_api_url }}"
+    method: POST
+    timeout: PT30S
+    headers:
+      Content-Type: application/json
+      {% if inputs.email_api_key %}
+      Authorization: "Bearer {{ inputs.email_api_key }}"
+      {% endif %}
+    body: |
+      {% set req = (taskrun.outputs['parse_meeting_request']['files']['meeting_request.json'] | readFile | fromJson) %}
+      {% set slot = (taskrun.outputs['select_best_slot']['files']['selected_slot.json'] | readFile | fromJson).selected_slot %}
+      {% set reminder = (taskrun.outputs['calculate_reminder_time']['files']['reminder_info.json'] | readFile | fromJson) %}
+      {
+        "to": [
+          "{{ req.organizer_email }}",
+          {% for att in req.attendees %}
+          "{{ att }}"{% if not loop.last %},{% endif %}
+          {% endfor %}
+        ],
+        "subject": "Recordatorio: {{ req.subject }}",
+        "body_html": "<html><body><h2>Recordatorio de Reunión</h2><p><strong>Título:</strong> {{ req.subject }}</p><p><strong>Fecha y hora:</strong> {{ reminder.meeting_time_formatted }}</p><p><strong>Duración:</strong> {{ req.duration_minutes }} minutos</p>{% if req.location %}<p><strong>Ubicación:</strong> {{ req.location }}</p>{% endif %}<p><em>Esta es una notificación automática. Por favor, no responda a este correo.</em></p></body></html>",
+        "body_text": "Recordatorio de Reunión\n\nTítulo: {{ req.subject }}\nFecha y hora: {{ reminder.meeting_time_formatted }}\nDuración: {{ req.duration_minutes }} minutos\n{% if req.location %}Ubicación: {{ req.location }}\n{% endif %}\nEsta es una notificación automática.",
+        "send_at": "{{ reminder.reminder_time_formatted }}"
+      }
+    retry:
+      type: exponential
+      interval: PT5S
+      maxAttempt: 2
+    timeout: PT30S
+

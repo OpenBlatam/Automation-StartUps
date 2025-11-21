@@ -1,0 +1,96 @@
+groups:
+  - name: onboarding_alerts
+    interval: 30s
+    rules:
+      # Alerta: Tasa de fallos alta
+      - alert: OnboardingFailureRateHigh
+        expr: |
+          (
+            sum(rate(onboarding_completed_total{status="failed"}[1h])) /
+            sum(rate(onboarding_completed_total[1h]))
+          ) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+          component: onboarding
+        annotations:
+          summary: "Tasa de fallos de onboarding > 10%"
+          description: "{{ $value | humanizePercentage }} de los onboarding están fallando en la última hora"
+
+      # Alerta: Fallo en creación de cuenta IdP
+      - alert: OnboardingIdPAccountCreationFailed
+        expr: |
+          sum(rate(onboarding_actions_completed{action_type="idp_account_creation"}[5m])) == 0
+          and
+          sum(rate(onboarding_actions_total{action_type="idp_account_creation"}[5m])) > 0
+        for: 5m
+        labels:
+          severity: critical
+          component: onboarding
+        annotations:
+          summary: "Falló creación de cuenta IdP"
+          description: "No se están creando cuentas IdP. Revisar integración con IdP."
+
+      # Alerta: Tiempo de onboarding muy largo
+      - alert: OnboardingDurationTooLong
+        expr: |
+          avg(onboarding_duration_seconds) > 1800
+        for: 10m
+        labels:
+          severity: warning
+          component: onboarding
+        annotations:
+          summary: "Tiempo promedio de onboarding > 30 minutos"
+          description: "El tiempo promedio de onboarding es {{ $value | humanizeDuration }}"
+
+      # Alerta: Sin onboarding en las últimas 24h (si esperamos regularidad)
+      - alert: NoOnboardingsLast24h
+        expr: |
+          sum(increase(onboarding_completed_total[24h])) == 0
+        for: 25h
+        labels:
+          severity: info
+          component: onboarding
+        annotations:
+          summary: "No hay onboarding en las últimas 24 horas"
+          description: "Puede indicar problema con webhook HR o falta de nuevos empleados"
+
+      # Alerta: Tareas de seguimiento vencidas
+      - alert: OnboardingFollowUpTasksOverdue
+        expr: |
+          onboarding_follow_up_tasks_overdue > 5
+        for: 5m
+        labels:
+          severity: warning
+          component: onboarding
+        annotations:
+          summary: "{{ $value }} tareas de seguimiento vencidas"
+          description: "Hay {{ $value }} tareas de seguimiento post-onboarding que están vencidas"
+
+      # Alerta: Tasa de éxito baja
+      - alert: OnboardingSuccessRateLow
+        expr: |
+          (
+            sum(rate(onboarding_completed_total{status="completed"}[1h])) /
+            sum(rate(onboarding_completed_total[1h]))
+          ) < 0.85
+        for: 15m
+        labels:
+          severity: warning
+          component: onboarding
+        annotations:
+          summary: "Tasa de éxito de onboarding < 85%"
+          description: "La tasa de éxito es {{ $value | humanizePercentage }}. Revisar logs para identificar problemas."
+
+      # Alerta: Integración HRIS fallando
+      - alert: OnboardingHRISIntegrationFailing
+        expr: |
+          sum(rate(onboarding_actions_completed{action_type="hris_lookup",action_status="failed"}[5m])) > 0.5
+        for: 10m
+        labels:
+          severity: warning
+          component: onboarding
+        annotations:
+          summary: "Integración HRIS fallando frecuentemente"
+          description: "Más de 0.5 fallos por minuto en búsqueda HRIS. Revisar conectividad y credenciales."
+

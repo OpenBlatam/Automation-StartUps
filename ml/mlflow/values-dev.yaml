@@ -1,0 +1,33 @@
+# MLflow Values - Desarrollo (Minimal Configuration)
+# Uso: helm install mlflow mlflow/mlflow -f ml/mlflow/values-dev.yaml
+
+# Override de values.yaml para desarrollo
+# Configuración mínima para testing local
+
+mlflow:
+  workers: 1
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: 2000m
+      memory: 4Gi
+
+autoscaling:
+  enabled: false
+
+ingress:
+  enabled: false  # Usar port-forward en desarrollo
+
+backendStore:
+  postgres:
+    persistence:
+      enabled: false  # No necesitamos persistencia en dev
+
+monitoring:
+  enabled: false  # Sin monitoring en dev local
+
+security:
+  networkPolicy:
+    enabled: false

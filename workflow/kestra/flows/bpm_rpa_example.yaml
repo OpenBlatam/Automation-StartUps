@@ -1,0 +1,41 @@
+id: bpm_rpa_example
+namespace: workflows
+
+labels:
+  app: orchestration
+  type: bpm-rpa
+
+inputs:
+  - name: flowable_base_url
+    type: STRING
+    required: true
+  - name: flowable_token
+    type: STRING
+    required: true
+  - name: openrpa_webhook_url
+    type: STRING
+    required: true
+  - name: payload
+    type: JSON
+    required: true
+
+tasks:
+  - id: start_flowable
+    type: io.kestra.plugin.core.flow.Subflow
+    namespace: workflows
+    flowId: subflow_flowable_start
+    inputs:
+      flowable_base_url: "{{ inputs.flowable_base_url }}"
+      flowable_token: "{{ inputs.flowable_token }}"
+      processDefinitionKey: "businessApproval"
+      businessKey: "{{ uuid() }}"
+      variables: [{"name":"request","value": {{ inputs.payload | toJson }} }]
+
+  - id: trigger_rpa
+    type: io.kestra.plugin.core.flow.Subflow
+    namespace: workflows
+    flowId: subflow_openrpa_trigger
+    inputs:
+      openrpa_webhook_url: "{{ inputs.openrpa_webhook_url }}"
+      bot: "process-order"
+      context: {{ inputs.payload | toJson }}

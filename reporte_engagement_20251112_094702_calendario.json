@@ -1,0 +1,835 @@
+{
+  "semanas": 4,
+  "calendario": [
+    {
+      "semana": 1,
+      "fecha_inicio": "2025-11-12",
+      "publicaciones": [
+        {
+          "fecha": "2025-11-13",
+          "dia": "Martes",
+          "hora": "09:00",
+          "tipo_contenido": "X",
+          "plataforma": "Instagram",
+          "titulo_sugerido": "Tutoriales/Educativos - Semana 1",
+          "hashtags_sugeridos": [
+            {
+              "hashtag": "#tips",
+              "veces_usado": 11,
+              "engagement_score_promedio": 705,
+              "engagement_rate_promedio": 16.733424669875387
+            },
+            {
+              "hashtag": "#tutorial",
+              "veces_usado": 11,
+              "engagement_score_promedio": 702.7272727272727,
+              "engagement_rate_promedio": 16.3332821772496
+            },
+            {
+              "hashtag": "#educacion",
+              "veces_usado": 12,
+              "engagement_score_promedio": 700.1666666666666,
+              "engagement_rate_promedio": 16.12120039878335
+            },
+            {
+              "hashtag": "#aprende",
+              "veces_usado": 11,
+              "engagement_score_promedio": 665.7272727272727,
+              "engagement_rate_promedio": 16.30576325203912
+            },
+            {
+              "hashtag": "#trending",
+              "veces_usado": 9,
+              "engagement_score_promedio": 381.22222222222223,
+              "engagement_rate_promedio": 9.191094322654592
+            }
+          ],
+          "engagement_predicho": {
+            "engagement_score_predicho": 177.7588405304318,
+            "engagement_rate_predicho": 3.760111876894144,
+            "confianza": 30.0,
+            "muestra": 3,
+            "factores": {
+              "horario": 1.0,
+              "dia": 0.25119007140428423
+            }
+          }
+        },
+        {
+          "fecha": "2025-11-13",
+          "dia": "Martes",
+          "hora": "11:00",
+          "tipo_contenido": "X",
+          "plataforma": "Instagram",
+          "titulo_sugerido": "Tutoriales/Educativos - Semana 1",
+          "hashtags_sugeridos": [
+            {
+              "hashtag": "#tips",
+              "veces_usado": 11,
+              "engagement_score_promedio": 705,
+              "engagement_rate_promedio": 16.733424669875387
+            },
+            {
+              "hashtag": "#tutorial",
+              "veces_usado": 11,
+              "engagement_score_promedio": 702.7272727272727,
+              "engagement_rate_promedio": 16.3332821772496
+            },
+            {
+              "hashtag": "#educacion",
+              "veces_usado": 12,
+              "engagement_score_promedio": 700.1666666666666,
+              "engagement_rate_promedio": 16.12120039878335
+            },
+            {
+              "hashtag": "#aprende",
+              "veces_usado": 11,
+              "engagement_score_promedio": 665.7272727272727,
+              "engagement_rate_promedio": 16.30576325203912
+            },
+            {
+              "hashtag": "#trending",
+              "veces_usado": 9,
+              "engagement_score_promedio": 381.22222222222223,
+              "engagement_rate_promedio": 9.191094322654592
+            }
+          ],
+          "engagement_predicho": {
+            "engagement_score_predicho": 177.7588405304318,
+            "engagement_rate_predicho": 3.760111876894144,
+            "confianza": 30.0,
+            "muestra": 3,
+            "factores": {
+              "horario": 1.0,
+              "dia": 0.25119007140428423
+            }
+          }
+        },
+        {
+          "fecha": "2025-11-14",
+          "dia": "Miércoles",
+          "hora": "09:00",
+          "tipo_contenido": "X",
+          "plataforma": "Instagram",
+          "titulo_sugerido": "Tutoriales/Educativos - Semana 1",
+          "hashtags_sugeridos": [
+            {
+              "hashtag": "#tips",
+              "veces_usado": 11,
+              "engagement_score_promedio": 705,
+              "engagement_rate_promedio": 16.733424669875387
+            },
+            {
+              "hashtag": "#tutorial",
+              "veces_usado": 11,
+              "engagement_score_promedio": 702.7272727272727,
+              "engagement_rate_promedio": 16.3332821772496
+            },
+            {
+              "hashtag": "#educacion",
+              "veces_usado": 12,
+              "engagement_score_promedio": 700.1666666666666,
+              "engagement_rate_promedio": 16.12120039878335
+            },
+            {
+              "hashtag": "#aprende",
+              "veces_usado": 11,
+              "engagement_score_promedio": 665.7272727272727,
+              "engagement_rate_promedio": 16.30576325203912
+            },
+            {
+              "hashtag": "#trending",
+              "veces_usado": 9,
+              "engagement_score_promedio": 381.22222222222223,
+              "engagement_rate_promedio": 9.191094322654592
+            }
+          ],
+          "engagement_predicho": {
+            "engagement_score_predicho": 625.7867424426416,
+            "engagement_rate_predicho": 13.237193467509382,
+            "confianza": 30.0,
+            "muestra": 3,
+            "factores": {
+              "horario": 1.0,
+              "dia": 0.8842959148977508
+            }
+          }
+        },
+        {
+          "fecha": "2025-11-16",
+          "dia": "Viernes",
+          "hora": "09:00",
+          "tipo_contenido": "X",
+          "plataforma": "Instagram",
+          "titulo_sugerido": "Tutoriales/Educativos - Semana 1",
+          "hashtags_sugeridos": [
+            {
+              "hashtag": "#tips",
+              "veces_usado": 11,
+              "engagement_score_promedio": 705,
+              "engagement_rate_promedio": 16.733424669875387
+            },
+            {
+              "hashtag": "#tutorial",
+              "veces_usado": 11,
+              "engagement_score_promedio": 702.7272727272727,
+              "engagement_rate_promedio": 16.3332821772496
+            },
+            {
+              "hashtag": "#educacion",
+              "veces_usado": 12,
+              "engagement_score_promedio": 700.1666666666666,
+              "engagement_rate_promedio": 16.12120039878335
+            },
+            {
+              "hashtag": "#aprende",
+              "veces_usado": 11,
+              "engagement_score_promedio": 665.7272727272727,
+              "engagement_rate_promedio": 16.30576325203912
+            },
+            {
+              "hashtag": "#trending",
+              "veces_usado": 9,
+              "engagement_score_promedio": 381.22222222222223,
+              "engagement_rate_promedio": 9.191094322654592
+            }
+          ],
+          "engagement_predicho": {
+            "engagement_score_predicho": 382.07193860203034,
+            "engagement_rate_predicho": 8.081922844897928,
+            "confianza": 30.0,
+            "muestra": 3,
+            "factores": {
+              "horario": 1.0,
+              "dia": 0.5399038228007965
+            }
+          }
+        }
+      ]
+    },
+    {
+      "semana": 2,
+      "fecha_inicio": "2025-11-19",
+      "publicaciones": [
+        {
+          "fecha": "2025-11-20",
+          "dia": "Martes",
+          "hora": "09:00",
+          "tipo_contenido": "X",
+          "plataforma": "Instagram",
+          "titulo_sugerido": "Tutoriales/Educativos - Semana 2",
+          "hashtags_sugeridos": [
+            {
+              "hashtag": "#tips",
+              "veces_usado": 11,
+              "engagement_score_promedio": 705,
+              "engagement_rate_promedio": 16.733424669875387
+            },
+            {
+              "hashtag": "#tutorial",
+              "veces_usado": 11,
+              "engagement_score_promedio": 702.7272727272727,
+              "engagement_rate_promedio": 16.3332821772496
+            },
+            {
+              "hashtag": "#educacion",
+              "veces_usado": 12,
+              "engagement_score_promedio": 700.1666666666666,
+              "engagement_rate_promedio": 16.12120039878335
+            },
+            {
+              "hashtag": "#aprende",
+              "veces_usado": 11,
+              "engagement_score_promedio": 665.7272727272727,
+              "engagement_rate_promedio": 16.30576325203912
+            },
+            {
+              "hashtag": "#trending",
+              "veces_usado": 9,
+              "engagement_score_promedio": 381.22222222222223,
+              "engagement_rate_promedio": 9.191094322654592
+            }
+          ],
+          "engagement_predicho": {
+            "engagement_score_predicho": 177.7588405304318,
+            "engagement_rate_predicho": 3.760111876894144,
+            "confianza": 30.0,
+            "muestra": 3,
+            "factores": {
+              "horario": 1.0,
+              "dia": 0.25119007140428423
+            }
+          }
+        },
+        {
+          "fecha": "2025-11-20",
+          "dia": "Martes",
+          "hora": "11:00",
+          "tipo_contenido": "X",
+          "plataforma": "Instagram",
+          "titulo_sugerido": "Tutoriales/Educativos - Semana 2",
+          "hashtags_sugeridos": [
+            {
+              "hashtag": "#tips",
+              "veces_usado": 11,
+              "engagement_score_promedio": 705,
+              "engagement_rate_promedio": 16.733424669875387
+            },
+            {
+              "hashtag": "#tutorial",
+              "veces_usado": 11,
+              "engagement_score_promedio": 702.7272727272727,
+              "engagement_rate_promedio": 16.3332821772496
+            },
+            {
+              "hashtag": "#educacion",
+              "veces_usado": 12,
+              "engagement_score_promedio": 700.1666666666666,
+              "engagement_rate_promedio": 16.12120039878335
+            },
+            {
+              "hashtag": "#aprende",
+              "veces_usado": 11,
+              "engagement_score_promedio": 665.7272727272727,
+              "engagement_rate_promedio": 16.30576325203912
+            },
+            {
+              "hashtag": "#trending",
+              "veces_usado": 9,
+              "engagement_score_promedio": 381.22222222222223,
+              "engagement_rate_promedio": 9.191094322654592
+            }
+          ],
+          "engagement_predicho": {
+            "engagement_score_predicho": 177.7588405304318,
+            "engagement_rate_predicho": 3.760111876894144,
+            "confianza": 30.0,
+            "muestra": 3,
+            "factores": {
+              "horario": 1.0,
+              "dia": 0.25119007140428423
+            }
+          }
+        },
+        {
+          "fecha": "2025-11-21",
+          "dia": "Miércoles",
+          "hora": "09:00",
+          "tipo_contenido": "X",
+          "plataforma": "Instagram",
+          "titulo_sugerido": "Tutoriales/Educativos - Semana 2",
+          "hashtags_sugeridos": [
+            {
+              "hashtag": "#tips",
+              "veces_usado": 11,
+              "engagement_score_promedio": 705,
+              "engagement_rate_promedio": 16.733424669875387
+            },
+            {
+              "hashtag": "#tutorial",
+              "veces_usado": 11,
+              "engagement_score_promedio": 702.7272727272727,
+              "engagement_rate_promedio": 16.3332821772496
+            },
+            {
+              "hashtag": "#educacion",
+              "veces_usado": 12,
+              "engagement_score_promedio": 700.1666666666666,
+              "engagement_rate_promedio": 16.12120039878335
+            },
+            {
+              "hashtag": "#aprende",
+              "veces_usado": 11,
+              "engagement_score_promedio": 665.7272727272727,
+              "engagement_rate_promedio": 16.30576325203912
+            },
+            {
+              "hashtag": "#trending",
+              "veces_usado": 9,
+              "engagement_score_promedio": 381.22222222222223,
+              "engagement_rate_promedio": 9.191094322654592
+            }
+          ],
+          "engagement_predicho": {
+            "engagement_score_predicho": 625.7867424426416,
+            "engagement_rate_predicho": 13.237193467509382,
+            "confianza": 30.0,
+            "muestra": 3,
+            "factores": {
+              "horario": 1.0,
+              "dia": 0.8842959148977508
+            }
+          }
+        },
+        {
+          "fecha": "2025-11-23",
+          "dia": "Viernes",
+          "hora": "09:00",
+          "tipo_contenido": "X",
+          "plataforma": "Instagram",
+          "titulo_sugerido": "Tutoriales/Educativos - Semana 2",
+          "hashtags_sugeridos": [
+            {
+              "hashtag": "#tips",
+              "veces_usado": 11,
+              "engagement_score_promedio": 705,
+              "engagement_rate_promedio": 16.733424669875387
+            },
+            {
+              "hashtag": "#tutorial",
+              "veces_usado": 11,
+              "engagement_score_promedio": 702.7272727272727,
+              "engagement_rate_promedio": 16.3332821772496
+            },
+            {
+              "hashtag": "#educacion",
+              "veces_usado": 12,
+              "engagement_score_promedio": 700.1666666666666,
+              "engagement_rate_promedio": 16.12120039878335
+            },
+            {
+              "hashtag": "#aprende",
+              "veces_usado": 11,
+              "engagement_score_promedio": 665.7272727272727,
+              "engagement_rate_promedio": 16.30576325203912
+            },
+            {
+              "hashtag": "#trending",
+              "veces_usado": 9,
+              "engagement_score_promedio": 381.22222222222223,
+              "engagement_rate_promedio": 9.191094322654592
+            }
+          ],
+          "engagement_predicho": {
+            "engagement_score_predicho": 382.07193860203034,
+            "engagement_rate_predicho": 8.081922844897928,
+            "confianza": 30.0,
+            "muestra": 3,
+            "factores": {
+              "horario": 1.0,
+              "dia": 0.5399038228007965
+            }
+          }
+        }
+      ]
+    },
+    {
+      "semana": 3,
+      "fecha_inicio": "2025-11-26",
+      "publicaciones": [
+        {
+          "fecha": "2025-11-27",
+          "dia": "Martes",
+          "hora": "09:00",
+          "tipo_contenido": "X",
+          "plataforma": "Instagram",
+          "titulo_sugerido": "Tutoriales/Educativos - Semana 3",
+          "hashtags_sugeridos": [
+            {
+              "hashtag": "#tips",
+              "veces_usado": 11,
+              "engagement_score_promedio": 705,
+              "engagement_rate_promedio": 16.733424669875387
+            },
+            {
+              "hashtag": "#tutorial",
+              "veces_usado": 11,
+              "engagement_score_promedio": 702.7272727272727,
+              "engagement_rate_promedio": 16.3332821772496
+            },
+            {
+              "hashtag": "#educacion",
+              "veces_usado": 12,
+              "engagement_score_promedio": 700.1666666666666,
+              "engagement_rate_promedio": 16.12120039878335
+            },
+            {
+              "hashtag": "#aprende",
+              "veces_usado": 11,
+              "engagement_score_promedio": 665.7272727272727,
+              "engagement_rate_promedio": 16.30576325203912
+            },
+            {
+              "hashtag": "#trending",
+              "veces_usado": 9,
+              "engagement_score_promedio": 381.22222222222223,
+              "engagement_rate_promedio": 9.191094322654592
+            }
+          ],
+          "engagement_predicho": {
+            "engagement_score_predicho": 177.7588405304318,
+            "engagement_rate_predicho": 3.760111876894144,
+            "confianza": 30.0,
+            "muestra": 3,
+            "factores": {
+              "horario": 1.0,
+              "dia": 0.25119007140428423
+            }
+          }
+        },
+        {
+          "fecha": "2025-11-27",
+          "dia": "Martes",
+          "hora": "11:00",
+          "tipo_contenido": "X",
+          "plataforma": "Instagram",
+          "titulo_sugerido": "Tutoriales/Educativos - Semana 3",
+          "hashtags_sugeridos": [
+            {
+              "hashtag": "#tips",
+              "veces_usado": 11,
+              "engagement_score_promedio": 705,
+              "engagement_rate_promedio": 16.733424669875387
+            },
+            {
+              "hashtag": "#tutorial",
+              "veces_usado": 11,
+              "engagement_score_promedio": 702.7272727272727,
+              "engagement_rate_promedio": 16.3332821772496
+            },
+            {
+              "hashtag": "#educacion",
+              "veces_usado": 12,
+              "engagement_score_promedio": 700.1666666666666,
+              "engagement_rate_promedio": 16.12120039878335
+            },
+            {
+              "hashtag": "#aprende",
+              "veces_usado": 11,
+              "engagement_score_promedio": 665.7272727272727,
+              "engagement_rate_promedio": 16.30576325203912
+            },
+            {
+              "hashtag": "#trending",
+              "veces_usado": 9,
+              "engagement_score_promedio": 381.22222222222223,
+              "engagement_rate_promedio": 9.191094322654592
+            }
+          ],
+          "engagement_predicho": {
+            "engagement_score_predicho": 177.7588405304318,
+            "engagement_rate_predicho": 3.760111876894144,
+            "confianza": 30.0,
+            "muestra": 3,
+            "factores": {
+              "horario": 1.0,
+              "dia": 0.25119007140428423
+            }
+          }
+        },
+        {
+          "fecha": "2025-11-28",
+          "dia": "Miércoles",
+          "hora": "09:00",
+          "tipo_contenido": "X",
+          "plataforma": "Instagram",
+          "titulo_sugerido": "Tutoriales/Educativos - Semana 3",
+          "hashtags_sugeridos": [
+            {
+              "hashtag": "#tips",
+              "veces_usado": 11,
+              "engagement_score_promedio": 705,
+              "engagement_rate_promedio": 16.733424669875387
+            },
+            {
+              "hashtag": "#tutorial",
+              "veces_usado": 11,
+              "engagement_score_promedio": 702.7272727272727,
+              "engagement_rate_promedio": 16.3332821772496
+            },
+            {
+              "hashtag": "#educacion",
+              "veces_usado": 12,
+              "engagement_score_promedio": 700.1666666666666,
+              "engagement_rate_promedio": 16.12120039878335
+            },
+            {
+              "hashtag": "#aprende",
+              "veces_usado": 11,
+              "engagement_score_promedio": 665.7272727272727,
+              "engagement_rate_promedio": 16.30576325203912
+            },
+            {
+              "hashtag": "#trending",
+              "veces_usado": 9,
+              "engagement_score_promedio": 381.22222222222223,
+              "engagement_rate_promedio": 9.191094322654592
+            }
+          ],
+          "engagement_predicho": {
+            "engagement_score_predicho": 625.7867424426416,
+            "engagement_rate_predicho": 13.237193467509382,
+            "confianza": 30.0,
+            "muestra": 3,
+            "factores": {
+              "horario": 1.0,
+              "dia": 0.8842959148977508
+            }
+          }
+        },
+        {
+          "fecha": "2025-11-30",
+          "dia": "Viernes",
+          "hora": "09:00",
+          "tipo_contenido": "X",
+          "plataforma": "Instagram",
+          "titulo_sugerido": "Tutoriales/Educativos - Semana 3",
+          "hashtags_sugeridos": [
+            {
+              "hashtag": "#tips",
+              "veces_usado": 11,
+              "engagement_score_promedio": 705,
+              "engagement_rate_promedio": 16.733424669875387
+            },
+            {
+              "hashtag": "#tutorial",
+              "veces_usado": 11,
+              "engagement_score_promedio": 702.7272727272727,
+              "engagement_rate_promedio": 16.3332821772496
+            },
+            {
+              "hashtag": "#educacion",
+              "veces_usado": 12,
+              "engagement_score_promedio": 700.1666666666666,
+              "engagement_rate_promedio": 16.12120039878335
+            },
+            {
+              "hashtag": "#aprende",
+              "veces_usado": 11,
+              "engagement_score_promedio": 665.7272727272727,
+              "engagement_rate_promedio": 16.30576325203912
+            },
+            {
+              "hashtag": "#trending",
+              "veces_usado": 9,
+              "engagement_score_promedio": 381.22222222222223,
+              "engagement_rate_promedio": 9.191094322654592
+            }
+          ],
+          "engagement_predicho": {
+            "engagement_score_predicho": 382.07193860203034,
+            "engagement_rate_predicho": 8.081922844897928,
+            "confianza": 30.0,
+            "muestra": 3,
+            "factores": {
+              "horario": 1.0,
+              "dia": 0.5399038228007965
+            }
+          }
+        }
+      ]
+    },
+    {
+      "semana": 4,
+      "fecha_inicio": "2025-12-03",
+      "publicaciones": [
+        {
+          "fecha": "2025-12-04",
+          "dia": "Martes",
+          "hora": "09:00",
+          "tipo_contenido": "X",
+          "plataforma": "Instagram",
+          "titulo_sugerido": "Tutoriales/Educativos - Semana 4",
+          "hashtags_sugeridos": [
+            {
+              "hashtag": "#tips",
+              "veces_usado": 11,
+              "engagement_score_promedio": 705,
+              "engagement_rate_promedio": 16.733424669875387
+            },
+            {
+              "hashtag": "#tutorial",
+              "veces_usado": 11,
+              "engagement_score_promedio": 702.7272727272727,
+              "engagement_rate_promedio": 16.3332821772496
+            },
+            {
+              "hashtag": "#educacion",
+              "veces_usado": 12,
+              "engagement_score_promedio": 700.1666666666666,
+              "engagement_rate_promedio": 16.12120039878335
+            },
+            {
+              "hashtag": "#aprende",
+              "veces_usado": 11,
+              "engagement_score_promedio": 665.7272727272727,
+              "engagement_rate_promedio": 16.30576325203912
+            },
+            {
+              "hashtag": "#trending",
+              "veces_usado": 9,
+              "engagement_score_promedio": 381.22222222222223,
+              "engagement_rate_promedio": 9.191094322654592
+            }
+          ],
+          "engagement_predicho": {
+            "engagement_score_predicho": 177.7588405304318,
+            "engagement_rate_predicho": 3.760111876894144,
+            "confianza": 30.0,
+            "muestra": 3,
+            "factores": {
+              "horario": 1.0,
+              "dia": 0.25119007140428423
+            }
+          }
+        },
+        {
+          "fecha": "2025-12-04",
+          "dia": "Martes",
+          "hora": "11:00",
+          "tipo_contenido": "X",
+          "plataforma": "Instagram",
+          "titulo_sugerido": "Tutoriales/Educativos - Semana 4",
+          "hashtags_sugeridos": [
+            {
+              "hashtag": "#tips",
+              "veces_usado": 11,
+              "engagement_score_promedio": 705,
+              "engagement_rate_promedio": 16.733424669875387
+            },
+            {
+              "hashtag": "#tutorial",
+              "veces_usado": 11,
+              "engagement_score_promedio": 702.7272727272727,
+              "engagement_rate_promedio": 16.3332821772496
+            },
+            {
+              "hashtag": "#educacion",
+              "veces_usado": 12,
+              "engagement_score_promedio": 700.1666666666666,
+              "engagement_rate_promedio": 16.12120039878335
+            },
+            {
+              "hashtag": "#aprende",
+              "veces_usado": 11,
+              "engagement_score_promedio": 665.7272727272727,
+              "engagement_rate_promedio": 16.30576325203912
+            },
+            {
+              "hashtag": "#trending",
+              "veces_usado": 9,
+              "engagement_score_promedio": 381.22222222222223,
+              "engagement_rate_promedio": 9.191094322654592
+            }
+          ],
+          "engagement_predicho": {
+            "engagement_score_predicho": 177.7588405304318,
+            "engagement_rate_predicho": 3.760111876894144,
+            "confianza": 30.0,
+            "muestra": 3,
+            "factores": {
+              "horario": 1.0,
+              "dia": 0.25119007140428423
+            }
+          }
+        },
+        {
+          "fecha": "2025-12-05",
+          "dia": "Miércoles",
+          "hora": "09:00",
+          "tipo_contenido": "X",
+          "plataforma": "Instagram",
+          "titulo_sugerido": "Tutoriales/Educativos - Semana 4",
+          "hashtags_sugeridos": [
+            {
+              "hashtag": "#tips",
+              "veces_usado": 11,
+              "engagement_score_promedio": 705,
+              "engagement_rate_promedio": 16.733424669875387
+            },
+            {
+              "hashtag": "#tutorial",
+              "veces_usado": 11,
+              "engagement_score_promedio": 702.7272727272727,
+              "engagement_rate_promedio": 16.3332821772496
+            },
+            {
+              "hashtag": "#educacion",
+              "veces_usado": 12,
+              "engagement_score_promedio": 700.1666666666666,
+              "engagement_rate_promedio": 16.12120039878335
+            },
+            {
+              "hashtag": "#aprende",
+              "veces_usado": 11,
+              "engagement_score_promedio": 665.7272727272727,
+              "engagement_rate_promedio": 16.30576325203912
+            },
+            {
+              "hashtag": "#trending",
+              "veces_usado": 9,
+              "engagement_score_promedio": 381.22222222222223,
+              "engagement_rate_promedio": 9.191094322654592
+            }
+          ],
+          "engagement_predicho": {
+            "engagement_score_predicho": 625.7867424426416,
+            "engagement_rate_predicho": 13.237193467509382,
+            "confianza": 30.0,
+            "muestra": 3,
+            "factores": {
+              "horario": 1.0,
+              "dia": 0.8842959148977508
+            }
+          }
+        },
+        {
+          "fecha": "2025-12-07",
+          "dia": "Viernes",
+          "hora": "09:00",
+          "tipo_contenido": "X",
+          "plataforma": "Instagram",
+          "titulo_sugerido": "Tutoriales/Educativos - Semana 4",
+          "hashtags_sugeridos": [
+            {
+              "hashtag": "#tips",
+              "veces_usado": 11,
+              "engagement_score_promedio": 705,
+              "engagement_rate_promedio": 16.733424669875387
+            },
+            {
+              "hashtag": "#tutorial",
+              "veces_usado": 11,
+              "engagement_score_promedio": 702.7272727272727,
+              "engagement_rate_promedio": 16.3332821772496
+            },
+            {
+              "hashtag": "#educacion",
+              "veces_usado": 12,
+              "engagement_score_promedio": 700.1666666666666,
+              "engagement_rate_promedio": 16.12120039878335
+            },
+            {
+              "hashtag": "#aprende",
+              "veces_usado": 11,
+              "engagement_score_promedio": 665.7272727272727,
+              "engagement_rate_promedio": 16.30576325203912
+            },
+            {
+              "hashtag": "#trending",
+              "veces_usado": 9,
+              "engagement_score_promedio": 381.22222222222223,
+              "engagement_rate_promedio": 9.191094322654592
+            }
+          ],
+          "engagement_predicho": {
+            "engagement_score_predicho": 382.07193860203034,
+            "engagement_rate_predicho": 8.081922844897928,
+            "confianza": 30.0,
+            "muestra": 3,
+            "factores": {
+              "horario": 1.0,
+              "dia": 0.5399038228007965
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "recomendaciones": {
+    "mejor_horario": "09:00-12:00 (Mañana)",
+    "mejor_dia": "Martes",
+    "mejor_plataforma": "Instagram",
+    "tipo_recomendado": "X"
+  }
+}

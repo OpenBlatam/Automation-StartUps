@@ -1,0 +1,416 @@
+id: approval_slack_bot_integration
+namespace: workflows
+
+labels:
+  app: approvals
+  type: slack-integration
+  category: automation
+
+description: |
+  🤖 Integración con Slack Bot para Aprobaciones
+  
+  Permite aprobar/rechazar solicitudes directamente desde Slack usando comandos.
+
+triggers:
+  - id: slack_webhook
+    type: io.kestra.core.models.triggers.types.Webhook
+    path: /approvals/slack/command
+
+inputs:
+  - name: command
+    type: STRING
+    required: true
+    description: Comando de Slack (approve, reject, list, status)
+  - name: request_id
+    type: STRING
+    required: false
+    description: ID de la solicitud (requerido para approve/reject)
+  - name: approver_email
+    type: STRING
+    required: true
+    description: Email del aprobador
+  - name: comments
+    type: STRING
+    required: false
+    description: Comentarios opcionales
+  - name: jdbc_url
+    type: STRING
+    required: true
+    description: URL JDBC de PostgreSQL
+  - name: jdbc_user
+    type: STRING
+    required: true
+    description: Usuario de PostgreSQL
+  - name: jdbc_password
+    type: SECRET
+    required: true
+    description: Contraseña de PostgreSQL
+  - name: flowable_base_url
+    type: STRING
+    required: false
+    description: URL base de Flowable REST API
+  - name: flowable_token
+    type: SECRET
+    required: false
+    description: Token de autenticación de Flowable
+
+tasks:
+  - id: validate_command
+    type: io.kestra.plugin.scripts.javascript.Script
+    script: |
+      const validCommands = ['approve', 'reject', 'list', 'status', 'help'];
+      
+      if (!validCommands.includes(inputs.command)) {
+        throw new Error(`Invalid command: ${inputs.command}. Valid commands: ${validCommands.join(', ')}`);
+      }
+      
+      if ((inputs.command === 'approve' || inputs.command === 'reject') && !inputs.request_id) {
+        throw new Error("request_id is required for approve/reject commands");
+      }
+      
+      return { valid: true };
+
+  - id: handle_help
+    type: io.kestra.plugin.scripts.javascript.Script
+    disabled: "{{ inputs.command != 'help' }}"
+    script: |
+      return {
+        response: {
+          response_type: "ephemeral",
+          text: "🤖 Comandos de Aprobaciones Disponibles:",
+          blocks: [
+            {
+              type: "section",
+              text: {
+                type: "mrkdwn",
+                text: "*Comandos disponibles:*\n\n" +
+                      "`/approvals approve <request_id> [comentarios]` - Aprobar solicitud\n" +
+                      "`/approvals reject <request_id> [comentarios]` - Rechazar solicitud\n" +
+                      "`/approvals list` - Listar aprobaciones pendientes\n" +
+                      "`/approvals status <request_id>` - Ver estado de solicitud\n" +
+                      "`/approvals help` - Mostrar esta ayuda"
+              }
+            }
+          ]
+        }
+      };
+
+  - id: get_pending_approvals
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    disabled: "{{ inputs.command != 'list' }}"
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    sql: |
+      SELECT * FROM v_pending_approvals
+      WHERE approver_email = '{{ inputs.approver_email }}'
+      ORDER BY request_created_at DESC
+      LIMIT 10
+    fetch: true
+
+  - id: format_pending_list
+    type: io.kestra.plugin.scripts.javascript.Script
+    disabled: "{{ inputs.command != 'list' }}"
+    script: |
+      const pending = taskrun.outputs['get_pending_approvals'] || [];
+      
+      if (pending.length === 0) {
+        return {
+          response: {
+            response_type: "ephemeral",
+            text: "✅ No tienes aprobaciones pendientes"
+          }
+        };
+      }
+      
+      let text = `*📋 Tienes ${pending.length} aprobación(es) pendiente(s):*\n\n`;
+      
+      pending.forEach((item, index) => {
+        const daysLeft = item.days_until_timeout;
+        const urgency = daysLeft < 0 ? '🚨' : daysLeft <= 1 ? '⚠️' : daysLeft <= 2 ? '⏳' : '✓';
+        
+        text += `${index + 1}. ${urgency} *${item.title}*\n`;
+        text += `   Tipo: ${item.request_type} | Solicita: ${item.requester_name}\n`;
+        text += `   ID: \`${item.request_id}\` | Vence: ${item.timeout_date || 'N/A'}\n`;
+        text += `   Usa: \`/approvals approve ${item.request_id}\` o \`/approvals reject ${item.request_id}\`\n\n`;
+      });
+      
+      return {
+        response: {
+          response_type: "ephemeral",
+          text: text
+        }
+      };
+
+  - id: get_request_status
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    disabled: "{{ inputs.command != 'status' }}"
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    sql: |
+      SELECT 
+        ar.*,
+        au.user_name AS requester_name
+      FROM approval_requests ar
+      JOIN approval_users au ON ar.requester_email = au.user_email
+      WHERE ar.id = '{{ inputs.request_id }}'::uuid
+    fetchOne: true
+
+  - id: format_status_response
+    type: io.kestra.plugin.scripts.javascript.Script
+    disabled: "{{ inputs.command != 'status' }}"
+    script: |
+      const request = taskrun.outputs['get_request_status'];
+      
+      if (!request) {
+        return {
+          response: {
+            response_type: "ephemeral",
+            text: `❌ Solicitud ${inputs.request_id} no encontrada`
+          }
+        };
+      }
+      
+      const statusEmoji = {
+        'draft': '📝',
+        'pending': '⏳',
+        'auto_approved': '✅',
+        'approved': '✅',
+        'rejected': '❌',
+        'cancelled': '🚫'
+      };
+      
+      let text = `${statusEmoji[request.status] || '📋'} *${request.title}*\n\n`;
+      text += `*Estado:* ${request.status}\n`;
+      text += `*Tipo:* ${request.request_type}\n`;
+      text += `*Solicitante:* ${request.requester_name} (${request.requester_email})\n`;
+      text += `*Auto-aprobada:* ${request.auto_approved ? 'Sí' : 'No'}\n`;
+      text += `*Creada:* ${request.created_at}\n`;
+      if (request.submitted_at) {
+        text += `*Enviada:* ${request.submitted_at}\n`;
+      }
+      if (request.completed_at) {
+        text += `*Completada:* ${request.completed_at}\n`;
+      }
+      
+      return {
+        response: {
+          response_type: "ephemeral",
+          text: text
+        }
+      };
+
+  - id: validate_approval_permission
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    disabled: "{{ inputs.command != 'approve' and inputs.command != 'reject' }}"
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    sql: |
+      SELECT 
+        ac.*,
+        ar.status AS request_status
+      FROM approval_chains ac
+      JOIN approval_requests ar ON ac.request_id = ar.id
+      WHERE ac.request_id = '{{ inputs.request_id }}'::uuid
+        AND ac.approver_email = '{{ inputs.approver_email }}'
+        AND ac.status = 'pending'
+        AND ar.status = 'pending'
+    fetchOne: true
+
+  - id: process_approval
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    disabled: "{{ inputs.command != 'approve' or not taskrun.outputs['validate_approval_permission'] }}"
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    sql: |
+      BEGIN;
+      
+      -- Actualizar cadena de aprobación
+      UPDATE approval_chains
+      SET 
+        status = 'approved'::approval_status,
+        approved_at = NOW(),
+        comments = {{ inputs.comments ? "'" + inputs.comments.replace(/'/g, "''") + "'" : "NULL" }},
+        updated_at = NOW()
+      WHERE id = '{{ taskrun.outputs['validate_approval_permission'].id }}'::uuid;
+      
+      -- Crear historial
+      INSERT INTO approval_history (
+        request_id,
+        chain_id,
+        action,
+        actor_email,
+        actor_role,
+        previous_status,
+        new_status,
+        comments
+      ) VALUES (
+        '{{ inputs.request_id }}'::uuid,
+        '{{ taskrun.outputs['validate_approval_permission'].id }}'::uuid,
+        'approved',
+        '{{ inputs.approver_email }}',
+        'approver',
+        'pending'::approval_request_status,
+        'pending'::approval_request_status,
+        {{ inputs.comments ? "'" + inputs.comments.replace(/'/g, "''") + "'" : "NULL" }}
+      );
+      
+      -- Verificar si hay más aprobaciones pendientes
+      DO $$
+      DECLARE
+        pending_count INTEGER;
+        next_chain_id UUID;
+      BEGIN
+        SELECT COUNT(*) INTO pending_count
+        FROM approval_chains
+        WHERE request_id = '{{ inputs.request_id }}'::uuid
+          AND status = 'pending'
+          AND required = true;
+        
+        -- Si no hay más aprobaciones pendientes, marcar solicitud como aprobada
+        IF pending_count = 0 THEN
+          UPDATE approval_requests
+          SET 
+            status = 'approved'::approval_request_status,
+            completed_at = NOW(),
+            updated_at = NOW()
+          WHERE id = '{{ inputs.request_id }}'::uuid;
+          
+          INSERT INTO approval_history (
+            request_id,
+            action,
+            actor_email,
+            actor_role,
+            previous_status,
+            new_status,
+            comments
+          ) VALUES (
+            '{{ inputs.request_id }}'::uuid,
+            'approved',
+            'system',
+            'system',
+            'pending'::approval_request_status,
+            'approved'::approval_request_status,
+            'All approval levels completed'
+          );
+        END IF;
+      END $$;
+      
+      COMMIT;
+      
+      SELECT 'approved' AS result;
+
+  - id: process_rejection
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    disabled: "{{ inputs.command != 'reject' or not taskrun.outputs['validate_approval_permission'] }}"
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    sql: |
+      BEGIN;
+      
+      -- Actualizar cadena de aprobación
+      UPDATE approval_chains
+      SET 
+        status = 'rejected'::approval_status,
+        rejected_at = NOW(),
+        comments = {{ inputs.comments ? "'" + inputs.comments.replace(/'/g, "''") + "'" : "NULL" }},
+        updated_at = NOW()
+      WHERE id = '{{ taskrun.outputs['validate_approval_permission'].id }}'::uuid;
+      
+      -- Rechazar toda la solicitud
+      UPDATE approval_requests
+      SET 
+        status = 'rejected'::approval_request_status,
+        completed_at = NOW(),
+        updated_at = NOW()
+      WHERE id = '{{ inputs.request_id }}'::uuid;
+      
+      -- Rechazar todas las cadenas pendientes
+      UPDATE approval_chains
+      SET 
+        status = 'rejected'::approval_status,
+        updated_at = NOW()
+      WHERE request_id = '{{ inputs.request_id }}'::uuid
+        AND status = 'pending';
+      
+      -- Crear historial
+      INSERT INTO approval_history (
+        request_id,
+        chain_id,
+        action,
+        actor_email,
+        actor_role,
+        previous_status,
+        new_status,
+        comments
+      ) VALUES (
+        '{{ inputs.request_id }}'::uuid,
+        '{{ taskrun.outputs['validate_approval_permission'].id }}'::uuid,
+        'rejected',
+        '{{ inputs.approver_email }}',
+        'approver',
+        'pending'::approval_request_status,
+        'rejected'::approval_request_status,
+        {{ inputs.comments ? "'" + inputs.comments.replace(/'/g, "''") + "'" : "NULL" }}
+      );
+      
+      COMMIT;
+      
+      SELECT 'rejected' AS result;
+
+  - id: format_approval_response
+    type: io.kestra.plugin.scripts.javascript.Script
+    disabled: "{{ inputs.command != 'approve' and inputs.command != 'reject' }}"
+    script: |
+      const result = taskrun.outputs[inputs.command === 'approve' ? 'process_approval' : 'process_rejection'];
+      
+      if (!result) {
+        return {
+          response: {
+            response_type: "ephemeral",
+            text: `❌ No tienes permiso para ${inputs.command} esta solicitud o la solicitud no está pendiente`
+          }
+        };
+      }
+      
+      const emoji = inputs.command === 'approve' ? '✅' : '❌';
+      const action = inputs.command === 'approve' ? 'aprobada' : 'rechazada';
+      
+      return {
+        response: {
+          response_type: "in_channel",
+          text: `${emoji} Solicitud ${inputs.request_id} ${action} por ${inputs.approver_email}${inputs.comments ? '\nComentarios: ' + inputs.comments : ''}`
+        }
+      };
+
+  - id: return_response
+    type: io.kestra.plugin.scripts.javascript.Script
+    script: |
+      let response;
+      
+      if (inputs.command === 'help') {
+        response = taskrun.outputs['handle_help'].response;
+      } else if (inputs.command === 'list') {
+        response = taskrun.outputs['format_pending_list'].response;
+      } else if (inputs.command === 'status') {
+        response = taskrun.outputs['format_status_response'].response;
+      } else if (inputs.command === 'approve' || inputs.command === 'reject') {
+        response = taskrun.outputs['format_approval_response'].response;
+      } else {
+        response = {
+          response_type: "ephemeral",
+          text: "Comando no reconocido. Usa `/approvals help` para ver comandos disponibles."
+        };
+      }
+      
+      return response;
+
+outputs:
+  response:
+    type: JSON
+    value: "{{ taskrun.outputs['return_response'] }}"
+

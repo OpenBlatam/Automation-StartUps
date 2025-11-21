@@ -1,0 +1,37 @@
+# Requisitos para el Sistema de Chatbot Avanzado
+# Versión: 2.0.0
+
+# Framework web para API y Dashboard
+flask>=2.3.0
+flask-cors>=4.0.0
+
+# Requests para integraciones HTTP
+requests>=2.31.0
+
+# Utilidades
+python-dateutil>=2.8.2
+
+# Opcional: Para mejor detección de idioma
+# langdetect>=1.0.9
+
+# Opcional: Para análisis de sentimientos avanzado
+# textblob>=0.17.1
+# vaderSentiment>=3.3.2
+
+# Opcional: Para base de datos
+# sqlalchemy>=2.0.0
+# psycopg2-binary>=2.9.0  # PostgreSQL
+# pymongo>=4.5.0  # MongoDB
+
+# Opcional: Para cache
+# redis>=5.0.0
+
+# Desarrollo y testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+
+
+
+
+
+

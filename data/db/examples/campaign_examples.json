@@ -1,0 +1,121 @@
+{
+  "campaigns": [
+    {
+      "name": "email_sequence_qualified",
+      "description": "Secuencia de emails para leads calificados",
+      "type": "email_sequence",
+      "trigger": {
+        "stage": "qualified",
+        "score_min": 50,
+        "priority": "high"
+      },
+      "steps": [
+        {
+          "step": 1,
+          "type": "email",
+          "delay_hours": 0,
+          "subject_template": "Hola {{first_name}}, bienvenido a nuestra plataforma",
+          "body_template": "Hola {{first_name}},\n\nGracias por tu interés. Te enviamos información sobre nuestros productos y servicios.\n\n¿Te gustaría programar una llamada para conocerte mejor?\n\nSaludos,\nEquipo de Ventas"
+        },
+        {
+          "step": 2,
+          "type": "email",
+          "delay_hours": 48,
+          "subject_template": "{{first_name}}, ¿cómo podemos ayudarte?",
+          "body_template": "Hola {{first_name}},\n\nQueríamos hacer seguimiento. ¿Tienes alguna pregunta sobre nuestros productos?\n\nEstamos aquí para ayudarte.\n\nSaludos"
+        },
+        {
+          "step": 3,
+          "type": "email",
+          "delay_hours": 96,
+          "subject_template": "{{first_name}}, caso de éxito relevante",
+          "body_template": "Hola {{first_name}},\n\nCompartimos un caso de éxito similar a tu situación.\n\n¿Te interesa revisarlo?\n\nSaludos"
+        }
+      ]
+    },
+    {
+      "name": "call_sequence_proposal",
+      "description": "Secuencia de llamadas después de enviar propuesta",
+      "type": "call_campaign",
+      "trigger": {
+        "stage": "proposal_sent",
+        "score_min": 50
+      },
+      "steps": [
+        {
+          "step": 1,
+          "type": "call",
+          "delay_hours": 48,
+          "subject_template": "Seguimiento de propuesta",
+          "body_template": "Llamar para responder preguntas sobre la propuesta enviada"
+        },
+        {
+          "step": 2,
+          "type": "email",
+          "delay_hours": 72,
+          "subject_template": "{{first_name}}, actualización de propuesta",
+          "body_template": "Hola {{first_name}},\n\nQueríamos hacer seguimiento sobre la propuesta.\n\n¿Hay algo que podamos ajustar?\n\nSaludos"
+        }
+      ]
+    },
+    {
+      "name": "high_value_nurturing",
+      "description": "Nutrición para leads de alto valor",
+      "type": "nurturing",
+      "trigger": {
+        "estimated_value_min": 10000,
+        "stage": "qualified"
+      },
+      "steps": [
+        {
+          "step": 1,
+          "type": "email",
+          "delay_hours": 0,
+          "subject_template": "{{first_name}}, acceso VIP",
+          "body_template": "Hola {{first_name}},\n\nComo lead de alto valor, te ofrecemos atención personalizada.\n\nProgramemos una llamada para entender tus necesidades específicas.\n\nSaludos"
+        },
+        {
+          "step": 2,
+          "type": "call",
+          "delay_hours": 24,
+          "subject_template": "Llamada VIP",
+          "body_template": "Llamada personalizada para lead de alto valor"
+        },
+        {
+          "step": 3,
+          "type": "email",
+          "delay_hours": 48,
+          "subject_template": "{{first_name}}, materiales exclusivos",
+          "body_template": "Hola {{first_name}},\n\nTe enviamos materiales exclusivos para clientes VIP.\n\nSaludos"
+        }
+      ]
+    },
+    {
+      "name": "re_engagement_stale",
+      "description": "Re-enganche de leads estancados",
+      "type": "email_sequence",
+      "trigger": {
+        "days_since_contact_min": 14,
+        "stage": "contacted"
+      },
+      "steps": [
+        {
+          "step": 1,
+          "type": "email",
+          "delay_hours": 0,
+          "subject_template": "{{first_name}}, nos desconectamos?",
+          "body_template": "Hola {{first_name}},\n\nNotamos que no hemos hablado recientemente. ¿Hay algo nuevo en lo que podamos ayudarte?\n\nSaludos"
+        },
+        {
+          "step": 2,
+          "type": "email",
+          "delay_hours": 72,
+          "subject_template": "{{first_name}}, última oportunidad",
+          "body_template": "Hola {{first_name}},\n\nEsta es nuestra última comunicación antes de archivar tu caso.\n\nSi estás interesado, responde este email.\n\nSaludos"
+        }
+      ]
+    }
+  ]
+}
+
+

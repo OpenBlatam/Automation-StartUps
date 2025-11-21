@@ -1,0 +1,38 @@
+# Librerías para Reporting de Ads (Facebook, TikTok, Google)
+
+# Facebook Marketing API - SDK oficial
+facebook-business>=19.0.0
+
+# Google Ads API - SDK oficial
+google-ads>=24.0.0
+
+# TikTok Marketing API - SDK oficial (si existe)
+# Nota: TikTok no tiene SDK Python oficial, se usa requests
+
+# Utilidades adicionales
+pandas>=2.0.0
+requests>=2.31.0
+pendulum>=3.0.0
+urllib3>=2.0.0
+
+# Para PostgreSQL
+psycopg2-binary>=2.9.0
+
+# Para manejo de datos
+python-dateutil>=2.8.0
+
+# Para retry logic y resiliencia
+tenacity>=8.2.0
+
+# Para circuit breakers
+circuitbreaker>=1.4.0
+
+# Para caché inteligente
+cachetools>=5.3.0
+
+# Para async support (opcional, futuro)
+# aiohttp>=3.9.0
+
+# Para exportación a Excel (opcional)
+# openpyxl>=3.1.0
+

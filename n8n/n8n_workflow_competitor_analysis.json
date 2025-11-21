@@ -1,0 +1,140 @@
+{
+  "name": "Competitor Analysis Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "cronExpression": "0 5 * * 1",
+        "timezone": "UTC",
+        "options": {}
+      },
+      "id": "schedule-weekly",
+      "name": "Weekly Schedule (Monday 5 AM)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [150, 300],
+      "notes": "Ejecuta semanalmente para análisis de competencia"
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL }}/competitors/list",
+        "method": "GET",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "={{ $env.API_KEY }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "fetch-competitors",
+      "name": "Fetch Competitors",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [350, 300],
+      "notes": "Obtiene lista de competidores a analizar",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "functionCode": "// Análisis de competencia y generación de insights\nconst competitors = $input.all();\n\nconst analysis = {\n  timestamp: new Date().toISOString(),\n  competitors: [],\n  insights: [],\n  opportunities: [],\n  threats: []\n};\n\nfor (const competitor of competitors) {\n  const data = competitor.json;\n  \n  // Análisis de precios\n  const priceComparison = {\n    competitor: data.name,\n    averagePrice: data.averagePrice || 0,\n    ourAveragePrice: data.ourAveragePrice || 0,\n    priceDifference: (data.averagePrice || 0) - (data.ourAveragePrice || 0),\n    pricePosition: data.averagePrice > data.ourAveragePrice ? 'higher' : 'lower'\n  };\n  \n  // Análisis de productos\n  const productComparison = {\n    competitor: data.name,\n    productCount: data.productCount || 0,\n    ourProductCount: data.ourProductCount || 0,\n    uniqueProducts: data.uniqueProducts || [],\n    missingProducts: data.missingProducts || []\n  };\n  \n  // Análisis de marketing\n  const marketingComparison = {\n    competitor: data.name,\n    socialFollowers: data.socialFollowers || 0,\n    ourSocialFollowers: data.ourSocialFollowers || 0,\n    emailFrequency: data.emailFrequency || 0,\n    ourEmailFrequency: data.ourEmailFrequency || 0,\n    discountFrequency: data.discountFrequency || 0,\n    ourDiscountFrequency: data.ourDiscountFrequency || 0\n  };\n  \n  // Calcular score competitivo (0-100)\n  let competitiveScore = 50;\n  \n  // Precio (peso: 30%)\n  if (priceComparison.pricePosition === 'lower') {\n    competitiveScore += 15; // Competidor más barato\n  } else if (priceComparison.priceDifference < -10) {\n    competitiveScore -= 10; // Somos mucho más caros\n  }\n  \n  // Productos (peso: 25%)\n  if (productComparison.productCount > productComparison.ourProductCount * 1.2) {\n    competitiveScore -= 12; // Competidor tiene más productos\n  } else if (productComparison.productCount < productComparison.ourProductCount * 0.8) {\n    competitiveScore += 12; // Tenemos más productos\n  }\n  \n  // Marketing (peso: 25%)\n  if (marketingComparison.socialFollowers > marketingComparison.ourSocialFollowers * 1.5) {\n    competitiveScore -= 12; // Competidor tiene más seguidores\n  }\n  \n  if (marketingComparison.discountFrequency > marketingComparison.ourDiscountFrequency) {\n    competitiveScore -= 8; // Competidor ofrece más descuentos\n  }\n  \n  // Calidad/Reviews (peso: 20%)\n  const avgRating = data.averageRating || 0;\n  const ourAvgRating = data.ourAverageRating || 0;\n  if (avgRating > ourAvgRating + 0.5) {\n    competitiveScore -= 10; // Competidor tiene mejor rating\n  } else if (avgRating < ourAvgRating - 0.5) {\n    competitiveScore += 10; // Tenemos mejor rating\n  }\n  \n  competitiveScore = Math.max(0, Math.min(100, competitiveScore));\n  \n  // Generar insights\n  if (priceComparison.pricePosition === 'lower' && priceComparison.priceDifference < -20) {\n    analysis.insights.push({\n      type: 'threat',\n      competitor: data.name,\n      message: `${data.name} tiene precios significativamente más bajos`,\n      recommendation: 'Revisar estrategia de precios'\n    });\n  }\n  \n  if (productComparison.missingProducts.length > 0) {\n    analysis.opportunities.push({\n      type: 'product_gap',\n      competitor: data.name,\n      message: `Oportunidad: ${productComparison.missingProducts.length} productos que ${data.name} no tiene`,\n      products: productComparison.missingProducts\n    });\n  }\n  \n  if (marketingComparison.discountFrequency > marketingComparison.ourDiscountFrequency * 1.5) {\n    analysis.insights.push({\n      type: 'warning',\n      competitor: data.name,\n      message: `${data.name} ofrece descuentos más frecuentes`,\n      recommendation: 'Considerar aumentar frecuencia de ofertas'\n    });\n  }\n  \n  analysis.competitors.push({\n    name: data.name,\n    competitiveScore: competitiveScore,\n    priceComparison: priceComparison,\n    productComparison: productComparison,\n    marketingComparison: marketingComparison,\n    averageRating: avgRating\n  });\n}\n\n// Ordenar por score competitivo\nanalysis.competitors.sort((a, b) => b.competitiveScore - a.competitiveScore);\n\nreturn [{\n  json: analysis\n}];"
+      },
+      "id": "analyze-competitors",
+      "name": "Analyze Competitors",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [550, 300],
+      "notes": "Analiza competencia y genera insights"
+    },
+    {
+      "parameters": {
+        "resource": "email",
+        "operation": "send",
+        "fromEmail": "={{ $env.FROM_EMAIL }}",
+        "toEmail": "={{ $env.REPORT_RECIPIENTS || 'team@yourdomain.com' }}",
+        "subject": "Reporte Semanal de Análisis de Competencia",
+        "html": "=<h2>Reporte de Análisis de Competencia</h2><h3>Resumen:</h3><p>Total Competidores Analizados: {{ $json.competitors.length }}</p><h3>Score Competitivo:</h3><ul>{{ $json.competitors.map(c => `<li><strong>${c.name}</strong>: ${c.competitiveScore.toFixed(1)}/100</li>`).join('') }}</ul><h3>Insights:</h3><ul>{{ $json.insights.map(i => `<li><strong>${i.type.toUpperCase()}</strong> - ${i.competitor}: ${i.message}<br><em>Recomendación: ${i.recommendation}</em></li>`).join('') }}</ul><h3>Oportunidades:</h3><ul>{{ $json.opportunities.map(o => `<li><strong>${o.type}</strong> - ${o.competitor}: ${o.message}</li>`).join('') }}</ul>",
+        "text": "Reporte de Competencia\\n\\nCompetidores: {{ $json.competitors.length }}\\nInsights: {{ $json.insights.length }}\\nOportunidades: {{ $json.opportunities.length }}",
+        "options": {}
+      },
+      "id": "send-competitor-report",
+      "name": "Send Competitor Report",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [750, 300],
+      "credentials": {
+        "smtp": {
+          "id": "smtp-credentials",
+          "name": "SMTP Credentials"
+        }
+      },
+      "notes": "Envía reporte de análisis de competencia",
+      "continueOnFail": true
+    }
+  ],
+  "connections": {
+    "Weekly Schedule (Monday 5 AM)": {
+      "main": [
+        [
+          {
+            "node": "Fetch Competitors",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Competitors": {
+      "main": [
+        [
+          {
+            "node": "Analyze Competitors",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Competitors": {
+      "main": [
+        [
+          {
+            "node": "Send Competitor Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "competitor-analysis",
+      "name": "Competitor Analysis"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1.0"
+}
+
+
+
+
+
+
+
+
+
+

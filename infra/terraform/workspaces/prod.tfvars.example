@@ -1,0 +1,71 @@
+# Production Environment Configuration
+# Copy this file to prod.tfvars and customize as needed
+# IMPORTANT: Review all settings carefully before applying to production
+
+project_name = "biz-automation"
+environment  = "prod"
+
+# AWS Configuration
+aws_region   = "us-east-1"
+cluster_name = "biz-automation-prod"
+
+# Networking
+vpc_cidr = "10.22.0.0/16"
+private_subnets = ["10.22.1.0/24", "10.22.2.0/24", "10.22.3.0/24"]
+public_subnets  = ["10.22.11.0/24", "10.22.12.0/24", "10.22.13.0/24"]
+
+# NAT Gateway (use dedicated NAT per AZ for high availability)
+enable_nat_gateway = true
+single_nat_gateway = false
+
+# Data Lake
+datalake_bucket = "biz-datalake-prod"
+
+# EKS Configuration
+kubernetes_version = "1.29"
+
+eks_node_groups = {
+  system = {
+    min_size      = 3
+    max_size      = 10
+    desired_size  = 5
+    instance_types = ["m5.xlarge", "m5.2xlarge"]
+    disk_size     = 100
+    capacity_type = "ON_DEMAND"
+    labels = {
+      workload-type = "system"
+    }
+    taints = []
+  }
+  compute = {
+    min_size      = 2
+    max_size      = 20
+    desired_size  = 5
+    instance_types = ["m5.2xlarge", "m5.4xlarge"]
+    disk_size     = 200
+    capacity_type = "SPOT" # Use SPOT for cost optimization where appropriate
+    labels = {
+      workload-type = "compute"
+    }
+    taints = []
+  }
+}
+
+# Features (all enabled for production)
+enable_vpc_flow_logs = true
+enable_encryption    = true
+
+# KMS Key (uncomment and set if using customer-managed KMS key)
+# kms_key_id = "arn:aws:kms:us-east-1:ACCOUNT:key/KEY_ID"
+
+# Additional Tags
+additional_tags = {
+  Team        = "platform"
+  CostCenter  = "production"
+  Backup      = "hourly"
+  Compliance  = "required"
+  Criticality = "high"
+}
+
+
+

@@ -1,0 +1,232 @@
+{
+  "name": "Social Media Integration Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "social-engagement",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-social",
+      "name": "Social Engagement Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [150, 300],
+      "webhookId": "social-engagement-trigger",
+      "notes": "Trigger para engagement en redes sociales"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Analizar engagement en redes sociales y convertir a leads\nconst event = $input.item.json;\n\nconst socialPlatform = event.platform || 'unknown'; // instagram, facebook, twitter, tiktok, linkedin\nconst engagementType = event.engagementType || 'unknown'; // like, comment, share, follow, dm\nconst postId = event.postId || '';\nconst userId = event.userId || event.username || '';\nconst content = event.content || '';\n\n// Calcular score de interés (0-100)\nlet interestScore = 30; // Base\n\n// Por tipo de engagement\nif (engagementType === 'comment') interestScore += 40; // Comentarios = alto interés\nelse if (engagementType === 'dm') interestScore += 50; // DM = muy alto interés\nelse if (engagementType === 'share') interestScore += 35;\nelse if (engagementType === 'follow') interestScore += 25;\nelse if (engagementType === 'like') interestScore += 10;\n\n// Por plataforma (algunas más valiosas)\nif (socialPlatform === 'linkedin') interestScore += 15; // LinkedIn = profesionales\nelse if (socialPlatform === 'instagram') interestScore += 10;\nelse if (socialPlatform === 'facebook') interestScore += 5;\n\n// Análisis de sentimiento básico del contenido\nif (content) {\n  const positiveWords = ['love', 'great', 'amazing', 'excellent', 'perfect', 'me encanta', 'genial', 'excelente'];\n  const negativeWords = ['hate', 'bad', 'terrible', 'awful', 'odio', 'malo', 'terrible'];\n  const contentLower = content.toLowerCase();\n  \n  const hasPositive = positiveWords.some(word => contentLower.includes(word));\n  const hasNegative = negativeWords.some(word => contentLower.includes(word));\n  \n  if (hasPositive) interestScore += 15;\n  if (hasNegative) interestScore -= 20;\n}\n\ninterestScore = Math.max(0, Math.min(100, interestScore));\n\n// Determinar si es lead calificado\nconst isQualifiedLead = interestScore > 60;\n\n// Extraer información del usuario\nlet email = event.email || null;\nlet phone = event.phone || null;\nlet name = event.name || event.username || 'Usuario Social';\n\n// Intentar extraer email/phone del contenido si no está disponible\nif (!email && content) {\n  const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}/g;\n  const emails = content.match(emailRegex);\n  if (emails && emails.length > 0) email = emails[0];\n}\n\nif (!phone && content) {\n  const phoneRegex = /[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}/g;\n  const phones = content.match(phoneRegex);\n  if (phones && phones.length > 0) phone = phones[0];\n}\n\n// Determinar acción recomendada\nlet recommendedAction = 'monitor';\nif (isQualifiedLead && engagementType === 'dm') {\n  recommendedAction = 'immediate_contact';\n} else if (isQualifiedLead && engagementType === 'comment') {\n  recommendedAction = 'follow_up';\n} else if (interestScore > 40) {\n  recommendedAction = 'nurture';\n}\n\nreturn [{\n  json: {\n    ...event,\n    interestScore: interestScore,\n    isQualifiedLead: isQualifiedLead,\n    extractedEmail: email,\n    extractedPhone: phone,\n    extractedName: name,\n    recommendedAction: recommendedAction,\n    timestamp: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "analyze-social-engagement",
+      "name": "Analyze Social Engagement",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [350, 300],
+      "notes": "Analiza engagement en redes sociales y extrae leads"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-001",
+              "leftValue": "={{ $json.isQualifiedLead }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "filter-qualified-leads",
+      "name": "Filter Qualified Leads",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [550, 300],
+      "notes": "Filtra leads calificados"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generar mensaje personalizado según plataforma y engagement\nconst data = $input.item.json;\nconst platform = data.platform;\nconst engagementType = data.engagementType;\nconst userName = data.extractedName || 'Usuario';\nconst language = data.language || 'es';\n\nlet subject, body, channel, ctaText, ctaUrl;\n\nif (platform === 'instagram' && engagementType === 'comment') {\n  subject = language === 'es' ? `¡Gracias por tu comentario, ${userName}!` : `Thanks for your comment, ${userName}!`;\n  body = language === 'es' ?\n    `Hola ${userName},\n\n¡Gracias por tu comentario en Instagram! Nos encanta saber tu opinión.\n\n¿Te gustaría conocer más sobre nuestros productos?\n\n[Ver Catálogo]` :\n    `Hi ${userName},\n\nThanks for your comment on Instagram! We love hearing your thoughts.\n\nWould you like to learn more about our products?\n\n[View Catalog]`;\n  channel = 'email';\n} else if (platform === 'linkedin' && engagementType === 'comment') {\n  subject = language === 'es' ? `Conectemos en LinkedIn, ${userName}` : `Let's connect on LinkedIn, ${userName}`;\n  body = language === 'es' ?\n    `Hola ${userName},\n\nVimos tu comentario en LinkedIn. Nos encantaría conectar contigo y explorar cómo podemos ayudarte.\n\n[Agendar Reunión]` :\n    `Hi ${userName},\n\nWe saw your comment on LinkedIn. We'd love to connect and explore how we can help you.\n\n[Schedule Meeting]`;\n  channel = 'email';\n} else if (engagementType === 'dm') {\n  subject = language === 'es' ? `Respondiendo tu mensaje` : `Responding to your message`;\n  body = language === 'es' ?\n    `Hola ${userName},\n\nGracias por contactarnos. Estamos aquí para ayudarte.\n\n¿En qué podemos asistirte?` :\n    `Hi ${userName},\n\nThanks for reaching out. We're here to help.\n\nHow can we assist you?`;\n  channel = platform; // Responder en misma plataforma\n} else {\n  subject = language === 'es' ? `¡Gracias por tu interés!` : `Thanks for your interest!`;\n  body = language === 'es' ?\n    `Hola ${userName},\n\nGracias por interactuar con nosotros en ${platform}.\n\n¿Te gustaría saber más?\n\n[Conocer Más]` :\n    `Hi ${userName},\n\nThanks for engaging with us on ${platform}.\n\nWould you like to learn more?\n\n[Learn More]`;\n  channel = 'email';\n}\n\nctaText = language === 'es' ? 'Conocer Más' : 'Learn More';\nctaUrl = `${data.baseUrl || 'https://yourdomain.com'}/social-lead/${data.userId}`;\n\nreturn [{\n  json: {\n    ...data,\n    messageSubject: subject,\n    messageBody: body,\n    channel: channel,\n    ctaText: ctaText,\n    ctaUrl: ctaUrl,\n    messageType: 'social_engagement'\n  }\n}];"
+      },
+      "id": "generate-social-message",
+      "name": "Generate Social Message",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [750, 300],
+      "notes": "Genera mensaje personalizado según plataforma"
+    },
+    {
+      "parameters": {
+        "resource": "email",
+        "operation": "send",
+        "fromEmail": "={{ $env.FROM_EMAIL }}",
+        "toEmail": "={{ $json.extractedEmail }}",
+        "subject": "={{ $json.messageSubject }}",
+        "html": "={{ $json.messageBody.replace(/\\n/g, '<br>') + '<br><br><a href=\"' + $json.ctaUrl + '\">' + $json.ctaText + '</a>' }}",
+        "text": "={{ $json.messageBody }}",
+        "options": {}
+      },
+      "id": "send-social-email",
+      "name": "Send Social Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [950, 200],
+      "credentials": {
+        "smtp": {
+          "id": "smtp-credentials",
+          "name": "SMTP Credentials"
+        }
+      },
+      "notes": "Envía email a lead de redes sociales",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL }}/crm/leads",
+        "method": "POST",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"source\": \"social_media\",\n  \"platform\": \"{{ $json.platform }}\",\n  \"userId\": \"{{ $json.userId }}\",\n  \"name\": \"{{ $json.extractedName }}\",\n  \"email\": \"{{ $json.extractedEmail }}\",\n  \"phone\": \"{{ $json.extractedPhone }}\",\n  \"interestScore\": {{ $json.interestScore }},\n  \"engagementType\": \"{{ $json.engagementType }}\",\n  \"recommendedAction\": \"{{ $json.recommendedAction }}\",\n  \"timestamp\": \"{{ $now }}\"\n}",
+        "options": {}
+      },
+      "id": "create-crm-lead",
+      "name": "Create CRM Lead",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [950, 400],
+      "notes": "Crea lead en CRM",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.API_BASE_URL }}/analytics/track",
+        "method": "POST",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"event\": \"social_lead_captured\",\n  \"platform\": \"{{ $json.platform }}\",\n  \"engagementType\": \"{{ $json.engagementType }}\",\n  \"interestScore\": {{ $json.interestScore }},\n  \"isQualifiedLead\": {{ $json.isQualifiedLead }},\n  \"timestamp\": \"{{ $now }}\"\n}",
+        "options": {}
+      },
+      "id": "track-social-lead",
+      "name": "Track Social Lead",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1150, 300],
+      "notes": "Registra lead de redes sociales",
+      "continueOnFail": true
+    }
+  ],
+  "connections": {
+    "Social Engagement Webhook": {
+      "main": [
+        [
+          {
+            "node": "Analyze Social Engagement",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Social Engagement": {
+      "main": [
+        [
+          {
+            "node": "Filter Qualified Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Qualified Leads": {
+      "main": [
+        [
+          {
+            "node": "Generate Social Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Social Message": {
+      "main": [
+        [
+          {
+            "node": "Send Social Email",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Create CRM Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Social Email": {
+      "main": [
+        [
+          {
+            "node": "Track Social Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create CRM Lead": {
+      "main": [
+        [
+          {
+            "node": "Track Social Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "social-integration",
+      "name": "Social Integration"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+      "versionId": "1.0"
+}
+
+
+
+
+
+
+
+
+
+

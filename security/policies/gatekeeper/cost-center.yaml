@@ -1,0 +1,55 @@
+apiVersion: templates.gatekeeper.sh/v1beta1
+kind: ConstraintTemplate
+metadata:
+  name: k8srequiredlabelscost
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sRequiredLabelsCost
+      validation:
+        openAPIV3Schema:
+          properties:
+            labels:
+              type: array
+              items:
+                type: string
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package k8srequiredlabelscost
+        violation[{
+          "msg": msg,
+        }] {
+          required := {l | l := input.parameters.labels[_]}
+          provided := {k | v := input.review.object.metadata.labels[k]}
+          missing := required - provided
+          count(missing) > 0
+          msg := sprintf("missing required labels: %v", [missing])
+        }
+---
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sRequiredLabelsCost
+metadata:
+  name: require-cost-center-pods
+spec:
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Pod"]
+  parameters:
+    labels: ["cost-center"]
+---
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sRequiredLabelsCost
+metadata:
+  name: require-cost-center-namespaces
+spec:
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Namespace"]
+  parameters:
+    labels: ["cost-center"]
+
+

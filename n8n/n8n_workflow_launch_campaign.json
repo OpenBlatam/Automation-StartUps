@@ -1,0 +1,540 @@
+{
+  "name": "Launch Campaign Automation - 3 Day Campaign",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "launch-campaign",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-launch",
+      "name": "Webhook Launch Campaign",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [150, 200],
+      "webhookId": "launch-campaign-webhook",
+      "notes": "Webhook para trigger manual/programático desde Python"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 9 * * 1"
+            }
+          ]
+        }
+      },
+      "id": "schedule-day1",
+      "name": "Schedule Day 1 (Monday 9 AM)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [150, 300],
+      "notes": "Trigger para Día 1: Teaser"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 9 * * 3"
+            }
+          ]
+        }
+      },
+      "id": "schedule-day2",
+      "name": "Schedule Day 2 (Wednesday 9 AM)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [150, 500],
+      "notes": "Trigger para Día 2: Demo"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 9 * * 5"
+            }
+          ]
+        }
+      },
+      "id": "schedule-day3",
+      "name": "Schedule Day 3 (Friday 9 AM)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [150, 700],
+      "notes": "Trigger para Día 3: Oferta"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Determinar día de campaña y preparar contenido\nconst input = $input.item.json;\n\n// Detectar si viene de webhook o schedule\nconst isWebhook = input.campaignDay !== undefined || input.campaignType !== undefined;\nconst triggerSource = isWebhook ? 'webhook' : ($workflow.id || 'schedule');\n\n// Determinar día y tipo de campaña\nlet campaignDay, campaignType;\n\nif (isWebhook) {\n  // Datos desde webhook (Python script)\n  campaignDay = input.campaignDay || 1;\n  campaignType = input.campaignType || 'teaser';\n} else {\n  // Detectar desde schedule trigger\n  const nodeName = $('Webhook Launch Campaign').item?.json ? 'webhook' : \n                   ($('Schedule Day 1 (Monday 9 AM)').item?.json ? 'day1' :\n                   ($('Schedule Day 2 (Wednesday 9 AM)').item?.json ? 'day2' : 'day3'));\n  \n  if (nodeName === 'day1') {\n    campaignDay = 1;\n    campaignType = 'teaser';\n  } else if (nodeName === 'day2') {\n    campaignDay = 2;\n    campaignType = 'demo';\n  } else if (nodeName === 'day3') {\n    campaignDay = 3;\n    campaignType = 'offer';\n  } else {\n    campaignDay = 1;\n    campaignType = 'teaser';\n  }\n}\n\n// Obtener configuración de campaña (prioridad: webhook > env vars)\nconst campaignConfig = {\n  productName: input.productName || process.env.PRODUCT_NAME || '[NOMBRE PRODUCTO]',\n  productBenefits: input.productBenefits || JSON.parse(process.env.PRODUCT_BENEFITS || '[]'),\n  discountPercentage: input.discountPercentage || parseInt(process.env.DISCOUNT_PERCENTAGE || '20'),\n  platforms: input.platforms || JSON.parse(process.env.PLATFORMS || '[\"instagram\", \"facebook\", \"linkedin\"]'),\n  hashtags: input.hashtags || JSON.parse(process.env.HASHTAGS || '[]'),\n  ctaLink: input.ctaLink || process.env.CTA_LINK || 'https://yoursite.com/launch',\n  problem: input.problem || '[PROBLEMA ESPECÍFICO]',\n  pain: input.pain || '[DOLOR ESPECÍFICO]',\n  result: input.result || '[RESULTADO DESEADO]',\n  area: input.area || '[ÁREA]',\n  normalPrice: input.normalPrice || 0,\n  specialPrice: input.specialPrice || 0,\n  bonuses: input.bonuses || [],\n  unitsAvailable: input.unitsAvailable || 100\n};\n\n// Generar contenido según día\nconst content = generateCampaignContent(campaignDay, campaignType, campaignConfig);\n\nfunction generateCampaignContent(day, type, config) {\n  const contents = {\n    1: {\n      type: 'teaser',\n      caption: generateTeaserCaption(config),\n      hashtags: config.hashtags.concat(['#Próximamente', '#Lanzamiento', '#NuevoProducto']),\n      visualType: 'video',\n      urgency: 'medium'\n    },\n    2: {\n      type: 'demo',\n      caption: generateDemoCaption(config),\n      hashtags: config.hashtags.concat(['#Demo', '#ProductoNuevo', '#Lanzamiento']),\n      visualType: 'video',\n      urgency: 'high'\n    },\n    3: {\n      type: 'offer',\n      caption: generateOfferCaption(config),\n      hashtags: config.hashtags.concat(['#Oferta', '#Descuento', '#Lanzamiento']),\n      visualType: 'image',\n      urgency: 'critical'\n    }\n  };\n  \n  return contents[day] || contents[1];\n}\n\nfunction generateTeaserCaption(config) {\n  return `🔮 Algo revolucionario está por llegar...\n\n¿Te has preguntado alguna vez por qué ${config.problem} sigue siendo tan complicado?\n\nDespués de meses trabajando en esto, finalmente encontramos la solución.\n\nEn 48 horas te mostraremos cómo puedes:\n✨ Eliminar ${config.pain} de tu vida\n🚀 Lograr ${config.result} en tiempo récord\n💡 Unirte a los que ya están transformando su ${config.area}\n\n¿Estás listo para el cambio? 👇\nComenta \"SÍ\" si quieres ser de los primeros en saberlo 🔔\n\nP.D.: Los primeros 100 en comentar recibirán acceso exclusivo 🎁`;\n}\n\nfunction generateDemoCaption(config) {\n  const benefitsText = Array.isArray(config.productBenefits) && config.productBenefits.length > 0\n    ? config.productBenefits.map((b, i) => `✨ ${b}`).join('\\n')\n    : '✨ Beneficios exclusivos del producto';\n  \n  return `🎉 ¡Ya está aquí! Te presentamos ${config.productName}\n\nDespués de meses de desarrollo, finalmente puedes:\n\n${benefitsText}\n\n👉 Mira cómo funciona en el video 👆\n\n🔗 ${config.ctaLink} para ver más detalles\n\n💬 ¿Preguntas sobre el producto? Comenta abajo 👇`;\n}\n\nfunction generateOfferCaption(config) {\n  const bonusesText = Array.isArray(config.bonuses) && config.bonuses.length > 0\n    ? config.bonuses.map(b => `• ${b}`).join('\\n')\n    : '• Bonus exclusivo\\n• Acceso anticipado';\n  \n  return `⚡ OFERTA DE PRE-LANZAMIENTO ⚡\n\n💰 Precio especial: ${config.discountPercentage}% de descuento\n\n✨ Incluye:\n• ${config.productName}\n${bonusesText}\n\n⏰ Solo por 48 horas\n⏰ Solo ${config.unitsAvailable} unidades disponibles\n\n🔗 ${config.ctaLink} para aprovechar ahora\n\n💬 ¿Tienes dudas? Escríbenos por DM`;\n}\n\nreturn [{\n  json: {\n    campaignDay,\n    campaignType,\n    content,\n    config: campaignConfig,\n    triggerSource,\n    timestamp: new Date().toISOString(),\n    scheduledFor: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "prepare-content",
+      "name": "Prepare Campaign Content",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [350, 500],
+      "notes": "Prepara contenido según día de campaña"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Dividir por plataforma para publicar en cada una\nconst platforms = $json.config.platforms || [];\nconst content = $json.content;\nconst campaignDay = $json.campaignDay;\nconst campaignType = $json.campaignType;\n\nconst items = platforms.map(platform => ({\n  json: {\n    platform: platform,\n    content: content,\n    campaignDay: campaignDay,\n    campaignType: campaignType,\n    config: $json.config,\n    triggerSource: $json.triggerSource,\n    timestamp: $json.timestamp\n  }\n}));\n\nreturn items;"
+      },
+      "id": "split-platforms",
+      "name": "Split by Platform",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [550, 500],
+      "notes": "Divide contenido por plataforma para publicar en cada una"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "type": "string"
+          },
+          "conditions": [
+            {
+              "id": "check-instagram",
+              "leftValue": "={{ $json.platform }}",
+              "rightValue": "instagram",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-instagram",
+      "name": "Check Instagram",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [750, 400],
+      "notes": "Verifica si es Instagram"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "type": "string"
+          },
+          "conditions": [
+            {
+              "id": "check-facebook",
+              "leftValue": "={{ $json.platform }}",
+              "rightValue": "facebook",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-facebook",
+      "name": "Check Facebook",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [750, 500],
+      "notes": "Verifica si es Facebook"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "type": "string"
+          },
+          "conditions": [
+            {
+              "id": "check-linkedin",
+              "leftValue": "={{ $json.platform }}",
+              "rightValue": "linkedin",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-linkedin",
+      "name": "Check LinkedIn",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [750, 600],
+      "notes": "Verifica si es LinkedIn"
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.INSTAGRAM_API_URL || 'https://graph.instagram.com' }}/me/media",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "method": "POST",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "caption",
+              "value": "={{ $json.content.caption + ' ' + $json.content.hashtags.join(' ') }}"
+            },
+            {
+              "name": "image_url",
+              "value": "={{ $json.config.imageUrl || '' }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "post-instagram",
+      "name": "Post to Instagram",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [950, 300],
+      "notes": "Publica en Instagram",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.FACEBOOK_API_URL || 'https://graph.facebook.com' }}/v18.0/me/feed",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "method": "POST",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "message",
+              "value": "={{ $json.content.caption + ' ' + $json.content.hashtags.join(' ') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "post-facebook",
+      "name": "Post to Facebook",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [950, 400],
+      "notes": "Publica en Facebook",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.LINKEDIN_API_URL || 'https://api.linkedin.com' }}/v2/ugcPosts",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "method": "POST",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "X-Restli-Protocol-Version",
+              "value": "2.0.0"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "author",
+              "value": "={{ $env.LINKEDIN_PERSON_URN }}"
+            },
+            {
+              "name": "lifecycleState",
+              "value": "PUBLISHED"
+            },
+            {
+              "name": "specificContent",
+              "value": "={{ JSON.stringify({ 'com.linkedin.ugc.ShareContent': { shareCommentary: { text: $json.content.caption + ' ' + $json.content.hashtags.join(' ') }, shareMediaCategory: 'NONE' } }) }}"
+            },
+            {
+              "name": "visibility",
+              "value": "={{ JSON.stringify({ 'com.linkedin.ugc.MemberNetworkVisibility': 'PUBLIC' }) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "post-linkedin",
+      "name": "Post to LinkedIn",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [950, 500],
+      "notes": "Publica en LinkedIn",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "functionCode": "// Consolidar resultados de todas las plataformas\nconst input = $input.all();\nconst results = [];\n\nfor (const item of input) {\n  if (item.json.id || item.json.postId) {\n    results.push({\n      platform: item.json.platform,\n      postId: item.json.id || item.json.postId,\n      success: true,\n      campaignDay: item.json.campaignDay,\n      campaignType: item.json.campaignType\n    });\n  } else if (item.json.error) {\n    results.push({\n      platform: item.json.platform,\n      success: false,\n      error: item.json.error,\n      campaignDay: item.json.campaignDay\n    });\n  }\n}\n\nreturn [{\n  json: {\n    results: results,\n    totalPlatforms: results.length,\n    successful: results.filter(r => r.success).length,\n    failed: results.filter(r => !r.success).length,\n    timestamp: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "consolidate-results",
+      "name": "Consolidate Results",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1150, 450],
+      "notes": "Consolida resultados de todas las plataformas"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Preparar eventos de tracking para cada plataforma exitosa\nconst consolidated = $('Consolidate Results').item.json;\nconst campaignDay = $('Prepare Campaign Content').item.json.campaignDay;\nconst campaignType = $('Prepare Campaign Content').item.json.campaignType;\n\nconst trackingEvents = consolidated.results\n  .filter(r => r.success && r.postId)\n  .map(r => ({\n    json: {\n      platform: r.platform,\n      postId: r.postId,\n      campaignDay: campaignDay,\n      campaignType: campaignType,\n      timestamp: new Date().toISOString()\n    }\n  }));\n\nreturn trackingEvents.length > 0 ? trackingEvents : [{\n  json: {\n    message: 'No posts to track',\n    consolidated: consolidated\n  }\n}];"
+      },
+      "id": "prepare-tracking",
+      "name": "Prepare Tracking Events",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1350, 450],
+      "notes": "Prepara eventos de tracking para cada post exitoso"
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.N8N_BASE_URL || 'http://localhost:5678' }}/webhook/social-engagement",
+        "method": "POST",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "platform",
+              "value": "={{ $json.platform }}"
+            },
+            {
+              "name": "postId",
+              "value": "={{ $json.postId }}"
+            },
+            {
+              "name": "campaignDay",
+              "value": "={{ $json.campaignDay }}"
+            },
+            {
+              "name": "campaignType",
+              "value": "={{ $json.campaignType }}"
+            },
+            {
+              "name": "engagementType",
+              "value": "post_created"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "track-engagement",
+      "name": "Track Engagement",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1550, 450],
+      "notes": "Inicia tracking de engagement",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.N8N_BASE_URL || 'http://localhost:5678' }}/webhook/journey-event",
+        "method": "POST",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "eventType",
+              "value": "campaign_post"
+            },
+            {
+              "name": "campaignDay",
+              "value": "={{ $('Prepare Campaign Content').item.json.campaignDay }}"
+            },
+            {
+              "name": "campaignType",
+              "value": "={{ $('Prepare Campaign Content').item.json.campaignType }}"
+            },
+            {
+              "name": "pageCategory",
+              "value": "campaign_launch"
+            },
+            {
+              "name": "pageUrl",
+              "value": "={{ $('Prepare Campaign Content').item.json.config.ctaLink }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "track-journey",
+      "name": "Track Journey Event",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1750, 450],
+      "notes": "Registra evento en journey mapping",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ success: true, message: 'Campaign posts published successfully', results: $('Consolidate Results').item.json, timestamp: new Date().toISOString() }) }}",
+        "options": {}
+      },
+      "id": "webhook-response",
+      "name": "Webhook Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1950, 450],
+      "notes": "Responde al webhook con resultados"
+    }
+  ],
+  "connections": {
+    "Webhook Launch Campaign": {
+      "main": [[
+        { "node": "Prepare Campaign Content", "type": "main", "index": 0 }
+      ]]
+    },
+    "Schedule Day 1 (Monday 9 AM)": {
+      "main": [[
+        { "node": "Prepare Campaign Content", "type": "main", "index": 0 }
+      ]]
+    },
+    "Schedule Day 2 (Wednesday 9 AM)": {
+      "main": [[
+        { "node": "Prepare Campaign Content", "type": "main", "index": 0 }
+      ]]
+    },
+    "Schedule Day 3 (Friday 9 AM)": {
+      "main": [[
+        { "node": "Prepare Campaign Content", "type": "main", "index": 0 }
+      ]]
+    },
+    "Prepare Campaign Content": {
+      "main": [[
+        { "node": "Split by Platform", "type": "main", "index": 0 }
+      ]]
+    },
+    "Split by Platform": {
+      "main": [[
+        { "node": "Check Instagram", "type": "main", "index": 0 },
+        { "node": "Check Facebook", "type": "main", "index": 0 },
+        { "node": "Check LinkedIn", "type": "main", "index": 0 }
+      ]]
+    },
+    "Check Instagram": {
+      "main": [[
+        { "node": "Post to Instagram", "type": "main", "index": 0 }
+      ], [
+        { "node": "Consolidate Results", "type": "main", "index": 0 }
+      ]]
+    },
+    "Check Facebook": {
+      "main": [[
+        { "node": "Post to Facebook", "type": "main", "index": 0 }
+      ], [
+        { "node": "Consolidate Results", "type": "main", "index": 0 }
+      ]]
+    },
+    "Check LinkedIn": {
+      "main": [[
+        { "node": "Post to LinkedIn", "type": "main", "index": 0 }
+      ], [
+        { "node": "Consolidate Results", "type": "main", "index": 0 }
+      ]]
+    },
+    "Post to Instagram": {
+      "main": [[
+        { "node": "Consolidate Results", "type": "main", "index": 0 }
+      ]]
+    },
+    "Post to Facebook": {
+      "main": [[
+        { "node": "Consolidate Results", "type": "main", "index": 0 }
+      ]]
+    },
+    "Post to LinkedIn": {
+      "main": [[
+        { "node": "Consolidate Results", "type": "main", "index": 0 }
+      ]]
+    },
+    "Consolidate Results": {
+      "main": [[
+        { "node": "Prepare Tracking Events", "type": "main", "index": 0 }
+      ]]
+    },
+    "Prepare Tracking Events": {
+      "main": [[
+        { "node": "Track Engagement", "type": "main", "index": 0 }
+      ]]
+    },
+    "Track Engagement": {
+      "main": [[
+        { "node": "Track Journey Event", "type": "main", "index": 0 }
+      ]]
+    },
+    "Track Journey Event": {
+      "main": [[
+        { "node": "Webhook Response", "type": "main", "index": 0 }
+      ]]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 3,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1"
+}
+
+

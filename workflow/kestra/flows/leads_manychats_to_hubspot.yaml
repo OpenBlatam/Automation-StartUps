@@ -1,0 +1,337 @@
+id: leads_manychats_to_hubspot
+namespace: workflows
+
+labels:
+  app: leads
+  source: manychat
+
+inputs:
+  - name: hubspot_token
+    type: STRING
+    required: true
+  - name: jdbc_url
+    type: STRING
+    required: true
+  - name: jdbc_user
+    type: STRING
+    required: true
+  - name: jdbc_password
+    type: STRING
+    required: true
+
+triggers:
+  - id: manychat_webhook
+    type: io.kestra.plugin.core.trigger.Webhook
+    key: manychat
+    conditions:
+      - type: io.kestra.plugin.core.condition.types.DayWeekCondition
+        dayOfWeeks: [MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY]
+    
+variables:
+  hubspot_base: "https://api.hubapi.com"
+
+tasks:
+  - id: parse_payload
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT1M
+    inputFiles:
+      payload.json: "{{ trigger.body | toJson }}"
+      score.py: |
+        import json
+        import re
+        import sys
+        import logging
+        
+        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+        logger = logging.getLogger(__name__)
+        
+        try:
+            p = json.load(open('payload.json'))
+            logger.info("parsing payload", extra={"payload_keys": list(p.keys())})
+        except Exception as e:
+            logger.error("failed to parse payload", extra={"error": str(e)})
+            sys.exit(1)
+        
+        # Extract basic fields with safe defaults
+        try:
+            lead = {
+                'id': str(p.get('id') or p.get('user', {}).get('id') or ''),
+                'first_name': (p.get('first_name') or p.get('user', {}).get('first_name') or '').strip(),
+                'last_name': (p.get('last_name') or p.get('user', {}).get('last_name') or '').strip(),
+                'email': (p.get('email') or (p.get('user', {}).get('custom_fields', {}) or {}).get('email') or '').strip().lower(),
+                'phone': ((p.get('user', {}).get('custom_fields', {}) or {}).get('phone') or '').strip(),
+                'source': 'manychat',
+                'tags': p.get('tags') or [],
+                'events': p.get('events') or [],
+                'utm_source': (p.get('utm') or {}).get('source') or '',
+                'utm_campaign': (p.get('utm') or {}).get('campaign') or ''
+            }
+            logger.info("extracted lead fields", extra={"lead_id": lead['id'], "has_email": bool(lead['email']), "has_phone": bool(lead['phone'])})
+        except Exception as e:
+            logger.error("failed to extract lead fields", extra={"error": str(e)})
+            sys.exit(1)
+        
+        # Validate email format
+        email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        is_valid_email = bool(re.match(email_pattern, lead['email'])) if lead['email'] else False
+        
+        # Enhanced behavior-based scoring rules
+        clicks = sum(1 for e in lead['events'] if (e or {}).get('type') == 'click')
+        replies = sum(1 for e in lead['events'] if (e or {}).get('type') == 'reply')
+        opens = sum(1 for e in lead['events'] if (e or {}).get('type') == 'open')
+        
+        # Scoring factors
+        base_score = 20
+        has_email = 10 if is_valid_email else 0
+        has_phone = 5 if lead['phone'] else 0
+        has_name = 3 if lead['first_name'] or lead['last_name'] else 0
+        clicks_score = min(clicks * 2, 10)  # Cap at 10
+        replies_score = min(replies * 3, 15)  # Cap at 15
+        opens_score = min(opens * 1, 5)  # Cap at 5
+        tag_score = 5 if any('hot' in str(t).lower() for t in lead['tags']) else 0
+        utm_score = 2 if lead['utm_source'] or lead['utm_campaign'] else 0
+        
+        score = base_score + has_email + has_phone + has_name + clicks_score + replies_score + opens_score + tag_score + utm_score
+        priority = 'high' if score >= 50 else ('medium' if score >= 35 else 'low')
+        
+        out = {
+            'lead': lead,
+            'score': int(score),
+            'priority': priority,
+            'is_valid_email': is_valid_email,
+            'validation_errors': []
+        }
+        
+        # Validation warnings
+        if not is_valid_email and lead['email']:
+            out['validation_errors'].append('invalid_email_format')
+        if not lead['email'] and not lead['phone']:
+            out['validation_errors'].append('missing_contact_info')
+        
+        logger.info("lead scoring completed", extra={
+            "lead_id": lead['id'],
+            "score": score,
+            "priority": priority,
+            "has_email": bool(lead['email']),
+            "has_phone": bool(lead['phone']),
+            "validation_errors": out['validation_errors']
+        })
+        
+        try:
+            with open('parsed.json', 'w') as f:
+                json.dump(out, f)
+            logger.info("parsed.json written successfully")
+        except Exception as e:
+            logger.error("failed to write parsed.json", extra={"error": str(e)})
+            sys.exit(1)
+    outputFiles:
+      - parsed.json
+
+  - id: validate_lead
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    inputFiles:
+      parsed.json: "{{ taskrun.outputs['parse_payload']['files']['parsed.json'] }}"
+      validate.py: |
+        import json
+        import sys
+        import logging
+        
+        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+        logger = logging.getLogger(__name__)
+        
+        try:
+            p = json.load(open('parsed.json'))
+        except Exception as e:
+            logger.error("failed to load parsed.json", extra={"error": str(e)})
+            sys.exit(1)
+        
+        # Skip if no valid contact info
+        has_valid_email = p.get('is_valid_email', False)
+        has_phone = bool(p.get('lead', {}).get('phone'))
+        
+        logger.info("validating lead", extra={
+            "lead_id": p.get('lead', {}).get('id'),
+            "has_valid_email": has_valid_email,
+            "has_phone": has_phone
+        })
+        
+        if not has_valid_email and not has_phone:
+            logger.warning("skipping lead - no valid contact info", extra={
+                "lead_id": p.get('lead', {}).get('id'),
+                "reason": "no_valid_contact_info"
+            })
+            with open('validation_result.json', 'w') as f:
+                json.dump({'skip': True, 'reason': 'no_valid_contact_info'}, f)
+            sys.exit(0)
+        
+        logger.info("lead validation passed")
+        with open('validation_result.json', 'w') as f:
+            json.dump({'skip': False}, f)
+    outputFiles:
+      - validation_result.json
+
+  - id: hubspot_upsert
+    type: io.kestra.plugin.core.http.Request
+    timeout: PT1M
+    conditions:
+      - type: io.kestra.plugin.core.condition.ExpressionCondition
+        expression: "{{ (taskrun.outputs['validate_lead']['files']['validation_result.json'] | readFile | fromJson).skip == false }}"
+    uri: "{{ vars.hubspot_base }}/crm/v3/objects/contacts"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ inputs.hubspot_token }}"
+      Content-Type: application/json
+    body: |
+      {% set p = (taskrun.outputs['parse_payload']['files']['parsed.json'] | readFile | fromJson) %}
+      {% set validation = (taskrun.outputs['validate_lead']['files']['validation_result.json'] | readFile | fromJson) %}
+      {% if validation.skip %}
+      {}
+      {% else %}
+      {
+        "properties": {
+          "email": "{{ p.lead.email | default('') }}",
+          "firstname": "{{ p.lead.first_name | default('') }}",
+          "lastname": "{{ p.lead.last_name | default('') }}",
+          "phone": "{{ p.lead.phone | default('') }}",
+          "hs_lead_status": "{{ p.lead.source }}",
+          "lead_source": "{{ p.lead.source }}",
+          "lead_score__c": "{{ p.score }}",
+          "lead_priority": "{{ p.priority }}",
+          "utm_source": "{{ p.lead.utm_source | default('') }}",
+          "utm_campaign": "{{ p.lead.utm_campaign | default('') }}",
+          "notes": "ManyChat lead ID: {{ p.lead.id }}"
+        }
+      }
+      {% endif %}
+    retry:
+      type: exponential
+      interval: PT5S
+      maxAttempt: 3
+      maxInterval: PT30S
+
+  - id: db_upsert
+    type: io.kestra.plugin.jdbc.postgresql.Query
+    timeout: PT30S
+    conditions:
+      - type: io.kestra.plugin.core.condition.ExpressionCondition
+        expression: "{{ (taskrun.outputs['validate_lead']['files']['validation_result.json'] | readFile | fromJson).skip == false }}"
+    url: "{{ inputs.jdbc_url }}"
+    username: "{{ inputs.jdbc_user }}"
+    password: "{{ inputs.jdbc_password }}"
+    sql: |
+      {% set p = (taskrun.outputs['parse_payload']['files']['parsed.json'] | readFile | fromJson) %}
+      INSERT INTO leads (
+        ext_id, source, first_name, last_name, email, phone, score, priority, utm_source, utm_campaign, validation_errors, created_at
+      ) VALUES (
+        $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, NOW()
+      )
+      ON CONFLICT (ext_id) DO UPDATE SET
+        first_name = EXCLUDED.first_name,
+        last_name = EXCLUDED.last_name,
+        email = EXCLUDED.email,
+        phone = EXCLUDED.phone,
+        score = EXCLUDED.score,
+        priority = EXCLUDED.priority,
+        utm_source = EXCLUDED.utm_source,
+        utm_campaign = EXCLUDED.utm_campaign,
+        validation_errors = EXCLUDED.validation_errors,
+        updated_at = NOW();
+    args:
+      - "{{ p.lead.id }}"
+      - "{{ p.lead.source }}"
+      - "{{ p.lead.first_name }}"
+      - "{{ p.lead.last_name }}"
+      - "{{ p.lead.email }}"
+      - "{{ p.lead.phone }}"
+      - "{{ p.score }}"
+      - "{{ p.priority }}"
+      - "{{ p.lead.utm_source }}"
+      - "{{ p.lead.utm_campaign }}"
+      - "{{ p.validation_errors | join(',') }}"
+
+  - id: mark_qualified
+    type: io.kestra.plugin.scripts.python.Script
+    timeout: PT30S
+    conditions:
+      - type: io.kestra.plugin.core.condition.ExpressionCondition
+        expression: "{{ (taskrun.outputs['validate_lead']['files']['validation_result.json'] | readFile | fromJson).skip == false }}"
+    inputFiles:
+      parsed.json: "{{ taskrun.outputs['parse_payload']['files']['parsed.json'] }}"
+      hubspot_response.json: "{{ taskrun.outputs['hubspot_upsert']['body'] }}"
+      update_lifecycle.py: |
+        import json
+        import sys
+        import logging
+        
+        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+        logger = logging.getLogger(__name__)
+        
+        try:
+            p = json.load(open('parsed.json'))
+            hs_response = json.load(open('hubspot_response.json'))
+        except Exception as e:
+            logger.error("failed to load input files", extra={"error": str(e)})
+            sys.exit(1)
+        
+        # Get contact ID from HubSpot response
+        contact_id = hs_response.get('id')
+        if not contact_id and 'results' in hs_response:
+            contact_id = hs_response['results'][0].get('id') if hs_response['results'] else None
+        
+        logger.info("evaluating lifecycle update", extra={
+            "contact_id": contact_id,
+            "priority": p.get('priority'),
+            "score": p.get('score')
+        })
+        
+        if contact_id:
+            should_update = p['priority'] == 'high'
+            lifecycle_stage = 'opportunity' if should_update else 'lead'
+            logger.info("determined lifecycle stage", extra={
+                "contact_id": contact_id,
+                "lifecycle_stage": lifecycle_stage,
+                "should_update": should_update
+            })
+            try:
+                with open('contact_update.json', 'w') as f:
+                    json.dump({
+                        'contact_id': contact_id,
+                        'priority': p['priority'],
+                        'lifecycle_stage': lifecycle_stage,
+                        'should_update': should_update
+                    }, f)
+            except Exception as e:
+                logger.error("failed to write contact_update.json", extra={"error": str(e)})
+                sys.exit(1)
+        else:
+            logger.warning("no contact ID found in HubSpot response", extra={"hs_response_keys": list(hs_response.keys())})
+            with open('contact_update.json', 'w') as f:
+                json.dump({'should_update': False, 'reason': 'no_contact_id'}, f)
+    outputFiles:
+      - contact_update.json
+
+  - id: update_lifecycle
+    type: io.kestra.plugin.core.http.Request
+    timeout: PT30S
+    conditions:
+      - type: io.kestra.plugin.core.condition.ExpressionCondition
+        expression: "{{ (taskrun.outputs['mark_qualified']['files']['contact_update.json'] | readFile | fromJson).should_update == true }}"
+    uri: "{{ vars.hubspot_base }}/crm/v3/objects/contacts/{{ (taskrun.outputs['mark_qualified']['files']['contact_update.json'] | readFile | fromJson).contact_id }}"
+    method: PATCH
+    headers:
+      Authorization: "Bearer {{ inputs.hubspot_token }}"
+      Content-Type: application/json
+    body: |
+      {% set update_info = (taskrun.outputs['mark_qualified']['files']['contact_update.json'] | readFile | fromJson) %}
+      {
+        "properties": {
+          "lifecycle_stage": "{{ update_info.lifecycle_stage }}"
+        }
+      }
+    retry:
+      type: exponential
+      interval: PT5S
+      maxAttempt: 3
+      maxInterval: PT30S
+

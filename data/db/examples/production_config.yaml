@@ -1,0 +1,258 @@
+# Configuración de Producción - Sistema de Ventas
+# Ejemplo de configuración para entorno de producción
+
+# ============================================================================
+# Configuración de Base de Datos
+# ============================================================================
+database:
+  host: "production-db.example.com"
+  port: 5432
+  database: "sales_db"
+  user: "sales_user"
+  # Password en secrets manager
+  connection_pool_size: 20
+  max_overflow: 10
+
+# ============================================================================
+# Configuración de Airflow DAGs
+# ============================================================================
+airflow:
+  # Lead Scoring Automation
+  lead_scoring:
+    schedule: "0 */6 * * *"  # Cada 6 horas
+    max_leads_per_run: 1000
+    min_score_to_qualify: 50
+    enable_ml_scoring: true
+    ml_model_endpoint: "https://ml-api.example.com/predict"
+    include_engagement_data: true
+    auto_qualify_for_sales: true
+  
+  # Sales Follow-up Automation
+  followup:
+    schedule: "0 */2 * * *"  # Cada 2 horas
+    email_webhook_url: "https://email-service.example.com/webhook"
+    call_api_url: "https://call-service.example.com/api"
+    auto_assign_enabled: true
+    enable_auto_tasks: true
+    enable_campaigns: true
+    default_followup_days: 3
+  
+  # Intelligent Routing
+  routing:
+    schedule: "0 */3 * * *"  # Cada 3 horas
+    max_active_leads_per_rep: 50
+    min_active_leads_per_rep: 5
+    enable_load_balancing: true
+    enable_specialization: true
+    reassign_stale_days: 7
+  
+  # Intelligent Alerts
+  alerts:
+    schedule: "0 */2 * * *"  # Cada 2 horas
+    slack_webhook_url: "https://hooks.slack.com/services/..."
+    enable_high_value_alerts: true
+    high_value_threshold: 10000
+    enable_stale_lead_alerts: true
+    stale_lead_days: 7
+    enable_overdue_task_alerts: true
+    enable_conversion_drop_alerts: true
+    conversion_drop_threshold: 10
+  
+  # ML Predictions
+  ml_predictions:
+    schedule: "0 */6 * * *"  # Cada 6 horas
+    ml_model_endpoint: "https://ml-api.example.com/predict"
+    enable_ml_predictions: true
+    update_probability_auto: true
+    min_probability_threshold: 20
+    max_leads_per_run: 500
+  
+  # Timing Optimizer
+  timing_optimizer:
+    schedule: "0 0 * * 1"  # Lunes 00:00
+    analysis_days: 90
+    enable_auto_optimization: true
+    min_data_points: 10
+  
+  # Analytics Reports
+  analytics:
+    schedule: "0 9 * * 1"  # Lunes 09:00
+    report_type: "weekly"
+    export_to_s3: true
+    s3_bucket: "sales-reports-bucket"
+    s3_path: "sales_reports"
+    slack_webhook_url: "https://hooks.slack.com/services/..."
+    email_recipients: "sales-team@example.com"
+  
+  # CRM Sync
+  crm_sync:
+    schedule: "0 */4 * * *"  # Cada 4 horas
+    crm_type: "hubspot"  # o "salesforce"
+    crm_api_url: "https://api.hubapi.com"
+    # crm_api_key en secrets manager
+    sync_direction: "export"
+    max_leads_per_run: 200
+
+# ============================================================================
+# Configuración de Vendedores
+# ============================================================================
+sales_team:
+  members:
+    - email: "sales1@example.com"
+      name: "John Doe"
+      max_leads: 50
+      specialization: ["enterprise", "saas"]
+    - email: "sales2@example.com"
+      name: "Jane Smith"
+      max_leads: 45
+      specialization: ["smb", "retail"]
+    - email: "sales3@example.com"
+      name: "Bob Johnson"
+      max_leads: 60
+      specialization: ["enterprise"]
+
+# ============================================================================
+# Configuración de Scoring
+# ============================================================================
+scoring:
+  # Factores de scoring (puntos)
+  factors:
+    has_email: 10
+    has_phone: 5
+    has_name: 5
+    reply_1: 15
+    reply_2plus: 25
+    click_1: 8
+    click_2plus: 12
+    open_2: 5
+    open_3: 10
+    open_4plus: 15
+    demo_requested: 10
+    pricing_page_viewed: 5
+    website_visited: 3
+    company_domain_edu_gov: 5
+    company_domain_short: 3
+  
+  # Thresholds
+  min_score_to_qualify: 50
+  high_priority_threshold: 50
+  medium_priority_threshold: 35
+
+# ============================================================================
+# Configuración de Alertas
+# ============================================================================
+alerts:
+  # Thresholds
+  high_value_threshold: 10000
+  stale_lead_days: 7
+  conversion_drop_threshold: 10
+  
+  # Canales
+  slack:
+    enabled: true
+    webhook_url: "https://hooks.slack.com/services/..."
+    channel: "#sales-alerts"
+  
+  email:
+    enabled: true
+    recipients:
+      - "sales-manager@example.com"
+      - "vp-sales@example.com"
+  
+  # Frecuencia
+  critical_alerts: "immediate"  # Cada 2 horas
+  warning_alerts: "daily"
+  info_alerts: "weekly"
+
+# ============================================================================
+# Configuración de Campañas Default
+# ============================================================================
+default_campaigns:
+  - name: "email_sequence_qualified"
+    enabled: true
+    trigger:
+      stage: "qualified"
+      score_min: 50
+    steps:
+      - delay_hours: 0
+        type: "email"
+      - delay_hours: 48
+        type: "email"
+      - delay_hours: 96
+        type: "call"
+  
+  - name: "high_value_vip"
+    enabled: true
+    trigger:
+      estimated_value_min: 10000
+      priority: "high"
+    steps:
+      - delay_hours: 0
+        type: "email"
+      - delay_hours: 24
+        type: "call"
+
+# ============================================================================
+# Configuración de Monitoreo
+# ============================================================================
+monitoring:
+  health_check:
+    enabled: true
+    interval_seconds: 300  # 5 minutos
+    alert_on_critical: true
+  
+  validation:
+    enabled: true
+    schedule: "0 0 * * 0"  # Domingos 00:00
+    check_data_integrity: true
+    check_performance: true
+  
+  metrics:
+    export_to_s3: true
+    s3_bucket: "sales-metrics-bucket"
+    retention_days: 90
+
+# ============================================================================
+# Configuración de Backup
+# ============================================================================
+backup:
+  enabled: true
+  schedule: "0 2 * * *"  # Diario 02:00
+  retention:
+    daily: 30
+    weekly: 12
+    monthly: 12
+  
+  tables:
+    - sales_pipeline
+    - sales_followup_tasks
+    - lead_score_history
+    - sales_campaign_executions
+
+# ============================================================================
+# Secrets (usar secrets manager en producción)
+# ============================================================================
+secrets:
+  # No incluir en este archivo
+  # Usar: AWS Secrets Manager, HashiCorp Vault, etc.
+  database_password: "${DB_PASSWORD}"
+  crm_api_key: "${CRM_API_KEY}"
+  slack_webhook: "${SLACK_WEBHOOK}"
+  email_service_key: "${EMAIL_SERVICE_KEY}"
+
+# ============================================================================
+# Notas de Producción
+# ============================================================================
+production_notes: |
+  - Usar connection pooling para base de datos
+  - Configurar retries apropiados en DAGs
+  - Habilitar alertas críticas
+  - Monitorear performance regularmente
+  - Backup diario de datos críticos
+  - Revisar logs semanalmente
+  - Validar sistema después de cambios
+  - Usar secrets manager para credenciales
+  - Configurar rate limiting en APIs externas
+  - Implementar circuit breakers para servicios externos
+
+

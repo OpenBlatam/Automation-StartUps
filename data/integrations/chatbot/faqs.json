@@ -1,0 +1,138 @@
+{
+  "es": [
+    {
+      "id": "faq_001",
+      "question": "¿Cómo exportar reportes?",
+      "keywords": ["exportar", "reporte", "descargar", "pdf", "excel", "csv"],
+      "synonyms": ["generar reporte", "obtener reporte", "descargar datos"],
+      "answer": "¡Hola! Te explico cómo exportar reportes 📊\n\n1. Ve a la sección 'Reportes' en el menú principal\n2. Selecciona el tipo de reporte que necesitas\n3. Configura los filtros y fechas\n4. Haz clic en 'Exportar' y elige el formato (PDF, Excel o CSV)\n5. El archivo se descargará automáticamente\n\n💡 Tip: Puedes programar reportes automáticos en la configuración.\n\n¿Necesitas ayuda con algún paso específico?",
+      "confidence": 0.95,
+      "additional_info": "Los reportes se guardan en tu historial durante 90 días. Puedes acceder a ellos desde 'Mis Reportes'.",
+      "suggested_actions": ["Ver tutorial en video", "Configurar reporte automático", "Contactar soporte"],
+      "category": "funcionalidad"
+    },
+    {
+      "id": "faq_002",
+      "question": "¿Cuál es el costo del plan Pro?",
+      "keywords": ["precio", "costo", "plan pro", "tarifa", "precio pro", "cuánto cuesta"],
+      "synonyms": ["precio del plan", "tarifa pro", "coste"],
+      "answer": "El Plan Pro tiene un costo de $99 USD/mes 💰\n\nIncluye:\n✅ Usuarios ilimitados\n✅ Reportes avanzados\n✅ Integraciones API\n✅ Soporte prioritario 24/7\n✅ Almacenamiento de 500GB\n\n🎁 Promoción actual: Primer mes gratis al contratar anual\n\n¿Te gustaría que te muestre una comparación con otros planes?",
+      "confidence": 0.98,
+      "additional_info": "Todos los planes incluyen período de prueba de 14 días sin tarjeta de crédito.",
+      "suggested_actions": ["Ver todos los planes", "Solicitar demo", "Iniciar prueba gratuita"],
+      "category": "precios"
+    },
+    {
+      "id": "faq_003",
+      "question": "¿Cómo restablecer mi contraseña?",
+      "keywords": ["contraseña", "password", "olvidé", "reset", "recuperar"],
+      "synonyms": ["cambiar contraseña", "nueva contraseña", "resetear"],
+      "answer": "Para restablecer tu contraseña 🔐:\n\n1. Ve a la página de inicio de sesión\n2. Haz clic en '¿Olvidaste tu contraseña?'\n3. Ingresa tu email registrado\n4. Revisa tu correo y sigue el enlace\n5. Crea una nueva contraseña segura\n\n⏱️ El enlace expira en 1 hora por seguridad.\n\n¿No recibiste el email? Revisa tu carpeta de spam o contáctanos.",
+      "confidence": 0.92,
+      "additional_info": "Si tienes problemas, puedes contactar a soporte con tu número de usuario.",
+      "suggested_actions": ["Contactar soporte", "Ver guía de seguridad", "Verificar email"],
+      "category": "cuenta"
+    },
+    {
+      "id": "faq_004",
+      "question": "¿Cómo agregar usuarios al sistema?",
+      "keywords": ["agregar", "usuario", "invitar", "nuevo usuario", "añadir"],
+      "synonyms": ["crear usuario", "añadir miembro", "invitar colaborador"],
+      "answer": "Para agregar usuarios 👥:\n\n1. Ve a 'Configuración' > 'Usuarios'\n2. Haz clic en 'Invitar Usuario'\n3. Ingresa el email del nuevo usuario\n4. Selecciona el rol y permisos\n5. Envía la invitación\n\nEl usuario recibirá un email con instrucciones para activar su cuenta.\n\n💡 Tip: Puedes importar múltiples usuarios desde un archivo CSV.",
+      "confidence": 0.90,
+      "additional_info": "El número máximo de usuarios depende de tu plan. Plan Pro: ilimitado.",
+      "suggested_actions": ["Ver gestión de permisos", "Importar usuarios CSV", "Ver tutorial"],
+      "category": "administración"
+    },
+    {
+      "id": "faq_005",
+      "question": "¿Cómo configurar integraciones?",
+      "keywords": ["integración", "api", "conectar", "sincronizar", "webhook"],
+      "synonyms": ["conectar sistema", "api key", "configurar api"],
+      "answer": "Para configurar integraciones 🔌:\n\n1. Ve a 'Configuración' > 'Integraciones'\n2. Selecciona el servicio que quieres conectar\n3. Ingresa las credenciales (API key, tokens, etc.)\n4. Configura los parámetros de sincronización\n5. Prueba la conexión\n6. Activa la integración\n\n📚 Tenemos integraciones pre-configuradas para:\n- Salesforce\n- Zapier\n- Slack\n- Google Workspace\n\n¿Necesitas ayuda con alguna integración específica?",
+      "confidence": 0.88,
+      "additional_info": "Las integraciones están disponibles en planes Pro y Enterprise.",
+      "suggested_actions": ["Ver documentación API", "Contactar integraciones", "Ver integraciones disponibles"],
+      "category": "integración"
+    },
+    {
+      "id": "faq_006",
+      "question": "¿Dónde puedo ver mis facturas?",
+      "keywords": ["factura", "invoice", "recibo", "pago", "billing"],
+      "synonyms": ["ver facturas", "historial de pagos", "comprobante"],
+      "answer": "Para ver tus facturas 💳:\n\n1. Ve a 'Configuración' > 'Facturación'\n2. Haz clic en 'Historial de Facturas'\n3. Selecciona el período que deseas ver\n4. Descarga o imprime la factura\n\nTambién recibes todas las facturas por email automáticamente.\n\n📧 ¿No encuentras una factura? Revisa tu email o contáctanos.",
+      "confidence": 0.93,
+      "additional_info": "Las facturas están disponibles en formato PDF y puedes descargarlas en cualquier momento.",
+      "suggested_actions": ["Descargar factura", "Actualizar método de pago", "Ver resumen de facturación"],
+      "category": "facturación"
+    },
+    {
+      "id": "faq_007",
+      "question": "¿Cómo cancelar mi suscripción?",
+      "keywords": ["cancelar", "suscripción", "dar de baja", "desactivar"],
+      "synonyms": ["cancelar plan", "terminar suscripción", "baja"],
+      "answer": "Para cancelar tu suscripción 🚪:\n\n1. Ve a 'Configuración' > 'Facturación'\n2. Haz clic en 'Gestionar Suscripción'\n3. Selecciona 'Cancelar Suscripción'\n4. Confirma la cancelación\n\n⚠️ Importante: Tu acceso continuará hasta el final del período pagado.\n\n💬 ¿Hay algo que podamos mejorar? Nos encantaría escuchar tu feedback antes de que te vayas.",
+      "confidence": 0.91,
+      "additional_info": "Puedes reactivar tu cuenta en cualquier momento. Tus datos se conservan por 90 días.",
+      "suggested_actions": ["Pausar suscripción", "Cambiar de plan", "Hablar con retención"],
+      "category": "cuenta"
+    },
+    {
+      "id": "faq_008",
+      "question": "¿Qué métodos de pago aceptan?",
+      "keywords": ["pago", "tarjeta", "método de pago", "paypal", "transferencia"],
+      "synonyms": ["formas de pago", "cómo pagar", "aceptan tarjeta"],
+      "answer": "Aceptamos múltiples métodos de pago 💳:\n\n✅ Tarjetas de crédito/débito (Visa, Mastercard, Amex)\n✅ PayPal\n✅ Transferencia bancaria\n✅ Pago con criptomonedas (Bitcoin, Ethereum)\n\n🔒 Todos los pagos son seguros y procesados con encriptación SSL.\n\n¿Necesitas ayuda para configurar tu método de pago?",
+      "confidence": 0.94,
+      "additional_info": "Los pagos recurrentes se procesan automáticamente. Puedes actualizar tu método de pago en cualquier momento.",
+      "suggested_actions": ["Agregar método de pago", "Ver seguridad de pagos", "Contactar facturación"],
+      "category": "facturación"
+    },
+    {
+      "id": "faq_009",
+      "question": "¿Cómo contactar soporte técnico?",
+      "keywords": ["soporte", "ayuda", "contactar", "técnico", "asistencia"],
+      "synonyms": ["hablar con alguien", "soporte humano", "ayuda técnica"],
+      "answer": "Puedes contactar soporte técnico de varias formas 🛟:\n\n📞 Teléfono: +1-800-XXX-XXXX (24/7)\n📧 Email: soporte@empresa.com\n💬 Chat en vivo: Disponible en el sitio web\n📱 WhatsApp: +1-XXX-XXX-XXXX\n\n⏱️ Tiempos de respuesta:\n- Chat: Inmediato\n- Email: < 2 horas\n- Teléfono: Inmediato\n\n¿Prefieres que te conecte con un agente ahora?",
+      "confidence": 0.96,
+      "additional_info": "Los usuarios Pro tienen acceso prioritario con respuesta garantizada en menos de 30 minutos.",
+      "suggested_actions": ["Iniciar chat en vivo", "Crear ticket", "Ver horarios de soporte"],
+      "category": "soporte"
+    },
+    {
+      "id": "faq_010",
+      "question": "¿Cómo hacer una copia de seguridad?",
+      "keywords": ["backup", "respaldo", "copia de seguridad", "exportar datos"],
+      "synonyms": ["guardar datos", "respaldo automático", "backup automático"],
+      "answer": "Para hacer una copia de seguridad 💾:\n\n1. Ve a 'Configuración' > 'Seguridad'\n2. Selecciona 'Copias de Seguridad'\n3. Elige 'Crear Backup Manual'\n4. Selecciona qué datos incluir\n5. Descarga el archivo\n\n🔄 También puedes programar backups automáticos diarios, semanales o mensuales.\n\n💡 Tip: Los backups se guardan encriptados por 30 días.",
+      "confidence": 0.89,
+      "additional_info": "Los backups automáticos están incluidos en todos los planes. Plan Pro: backups ilimitados.",
+      "suggested_actions": ["Programar backup automático", "Restaurar desde backup", "Ver historial de backups"],
+      "category": "seguridad"
+    }
+  ],
+  "en": [
+    {
+      "id": "faq_001_en",
+      "question": "How do I export reports?",
+      "keywords": ["export", "report", "download", "pdf", "excel", "csv"],
+      "synonyms": ["generate report", "get report", "download data"],
+      "answer": "Hello! Here's how to export reports 📊\n\n1. Go to the 'Reports' section in the main menu\n2. Select the type of report you need\n3. Configure filters and dates\n4. Click 'Export' and choose the format (PDF, Excel or CSV)\n5. The file will download automatically\n\n💡 Tip: You can schedule automatic reports in settings.\n\nDo you need help with any specific step?",
+      "confidence": 0.95,
+      "additional_info": "Reports are saved in your history for 90 days. You can access them from 'My Reports'.",
+      "suggested_actions": ["Watch video tutorial", "Set up automatic report", "Contact support"],
+      "category": "functionality"
+    },
+    {
+      "id": "faq_002_en",
+      "question": "What is the cost of the Pro plan?",
+      "keywords": ["price", "cost", "pro plan", "rate", "pro price", "how much"],
+      "synonyms": ["plan price", "pro rate", "cost"],
+      "answer": "The Pro Plan costs $99 USD/month 💰\n\nIncludes:\n✅ Unlimited users\n✅ Advanced reports\n✅ API integrations\n✅ Priority 24/7 support\n✅ 500GB storage\n\n🎁 Current promotion: First month free when subscribing annually\n\nWould you like to see a comparison with other plans?",
+      "confidence": 0.98,
+      "additional_info": "All plans include a 14-day free trial without credit card.",
+      "suggested_actions": ["View all plans", "Request demo", "Start free trial"],
+      "category": "pricing"
+    }
+  ]
+}

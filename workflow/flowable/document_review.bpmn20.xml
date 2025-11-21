@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL"
+                   xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+                   xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+                   xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+                   xmlns:flowable="http://flowable.org/bpmn"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   id="Definitions_DocumentReview"
+                   targetNamespace="http://flowable.org/bpmn">
+  
+  <bpmn2:process id="documentReview" name="Document Review and Approval" isExecutable="true">
+    
+    <!-- Variables del proceso -->
+    <bpmn2:property id="requestId" name="requestId"/>
+    <bpmn2:property id="requesterEmail" name="requesterEmail"/>
+    <bpmn2:property id="documentUrl" name="documentUrl"/>
+    <bpmn2:property id="documentCategory" name="documentCategory"/>
+    <bpmn2:property id="documentVersion" name="documentVersion"/>
+    <bpmn2:property id="requiresReview" name="requiresReview"/>
+    <bpmn2:property id="autoApproved" name="autoApproved"/>
+    <bpmn2:property id="approved" name="approved"/>
+    <bpmn2:property id="rejectionReason" name="rejectionReason"/>
+    <bpmn2:property id="reviewerEmail" name="reviewerEmail"/>
+    
+    <!-- Inicio del proceso -->
+    <bpmn2:startEvent id="StartEvent_DocumentReview" name="Document Submitted">
+      <bpmn2:outgoing>Flow_Start_Validate</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    
+    <!-- Validación del documento -->
+    <bpmn2:serviceTask id="Task_ValidateDocument" name="Validate Document">
+      <bpmn2:incoming>Flow_Start_Validate</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_Validate_EvaluateRules</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    
+    <bpmn2:sequenceFlow id="Flow_Start_Validate" sourceRef="StartEvent_DocumentReview" targetRef="Task_ValidateDocument"/>
+    
+    <!-- Evaluación automática de reglas -->
+    <bpmn2:serviceTask id="Task_EvaluateAutoRules" name="Evaluate Auto-Approval Rules">
+      <bpmn2:incoming>Flow_Validate_EvaluateRules</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_Evaluate_Gateway</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    
+    <bpmn2:sequenceFlow id="Flow_Validate_EvaluateRules" sourceRef="Task_ValidateDocument" targetRef="Task_EvaluateAutoRules"/>
+    
+    <!-- Gateway: ¿Requiere revisión? -->
+    <bpmn2:exclusiveGateway id="Gateway_RequiresReview" name="Requires Review?">
+      <bpmn2:incoming>Flow_Evaluate_Gateway</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_AutoApproved_Notify</bpmn2:outgoing>
+      <bpmn2:outgoing>Flow_NeedsReview_CheckCategory</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    
+    <bpmn2:sequenceFlow id="Flow_Evaluate_Gateway" sourceRef="Task_EvaluateAutoRules" targetRef="Gateway_RequiresReview"/>
+    
+    <bpmn2:sequenceFlow id="Flow_AutoApproved_Notify" name="No" sourceRef="Gateway_RequiresReview" targetRef="Task_AutoApprovedNotify">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${autoApproved == true || requiresReview == false}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <bpmn2:sequenceFlow id="Flow_NeedsReview_CheckCategory" name="Yes" sourceRef="Gateway_RequiresReview" targetRef="Gateway_CategoryCheck">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${requiresReview == true &amp;&amp; autoApproved == false}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <!-- Gateway: ¿Categoría requiere aprobación especial? -->
+    <bpmn2:exclusiveGateway id="Gateway_CategoryCheck" name="Category Check">
+      <bpmn2:incoming>Flow_NeedsReview_CheckCategory</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_StandardReview</bpmn2:outgoing>
+      <bpmn2:outgoing>Flow_LegalReview</bpmn2:outgoing>
+      <bpmn2:outgoing>Flow_FinanceReview</bpmn2:outgoing>
+      <bpmn2:outgoing>Flow_ExecutiveReview</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    
+    <bpmn2:sequenceFlow id="Flow_StandardReview" name="Standard" sourceRef="Gateway_CategoryCheck" targetRef="Task_StandardReview">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${documentCategory == "report" || documentCategory == "other"}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <bpmn2:sequenceFlow id="Flow_LegalReview" name="Contract/Policy" sourceRef="Gateway_CategoryCheck" targetRef="Task_LegalReview">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${documentCategory == "contract" || documentCategory == "policy"}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <bpmn2:sequenceFlow id="Flow_FinanceReview" name="Invoice" sourceRef="Gateway_CategoryCheck" targetRef="Task_FinanceReview">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${documentCategory == "invoice"}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <bpmn2:sequenceFlow id="Flow_ExecutiveReview" name="Proposal" sourceRef="Gateway_CategoryCheck" targetRef="Task_ExecutiveReview">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${documentCategory == "proposal"}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <!-- Auto-aprobado: Notificar y finalizar -->
+    <bpmn2:serviceTask id="Task_AutoApprovedNotify" name="Notify Auto-Approval">
+      <bpmn2:incoming>Flow_AutoApproved_Notify</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_AutoApproved_End</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    
+    <bpmn2:sequenceFlow id="Flow_AutoApproved_End" sourceRef="Task_AutoApprovedNotify" targetRef="EndEvent_AutoApproved"/>
+    
+    <bpmn2:endEvent id="EndEvent_AutoApproved" name="Auto-Approved"/>
+    
+    <!-- Revisión estándar -->
+    <bpmn2:userTask id="Task_StandardReview" name="Standard Review" flowable:candidateGroups="manager">
+      <bpmn2:incoming>Flow_StandardReview</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_Standard_Gateway</bpmn2:outgoing>
+    </bpmn2:userTask>
+    
+    <bpmn2:boundaryEvent id="BoundaryEvent_StandardTimeout" name="Standard Timeout" attachedToRef="Task_StandardReview">
+      <bpmn2:outgoing>Flow_StandardTimeout_AutoApprove</bpmn2:outgoing>
+      <bpmn2:timerEventDefinition>
+        <bpmn2:timeDuration>PT48H</bpmn2:timeDuration>
+      </bpmn2:timerEventDefinition>
+    </bpmn2:boundaryEvent>
+    
+    <bpmn2:sequenceFlow id="Flow_Standard_Gateway" sourceRef="Task_StandardReview" targetRef="Gateway_StandardDecision"/>
+    
+    <!-- Revisión legal -->
+    <bpmn2:userTask id="Task_LegalReview" name="Legal Review" flowable:candidateGroups="legal">
+      <bpmn2:incoming>Flow_LegalReview</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_Legal_Gateway</bpmn2:outgoing>
+    </bpmn2:userTask>
+    
+    <bpmn2:boundaryEvent id="BoundaryEvent_LegalTimeout" name="Legal Timeout" attachedToRef="Task_LegalReview">
+      <bpmn2:outgoing>Flow_LegalTimeout_Escalate</bpmn2:outgoing>
+      <bpmn2:timerEventDefinition>
+        <bpmn2:timeDuration>PT120H</bpmn2:timeDuration>
+      </bpmn2:timerEventDefinition>
+    </bpmn2:boundaryEvent>
+    
+    <bpmn2:sequenceFlow id="Flow_Legal_Gateway" sourceRef="Task_LegalReview" targetRef="Gateway_LegalDecision"/>
+    
+    <!-- Revisión de finanzas -->
+    <bpmn2:userTask id="Task_FinanceReview" name="Finance Review" flowable:candidateGroups="finance_manager">
+      <bpmn2:incoming>Flow_FinanceReview</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_Finance_Gateway</bpmn2:outgoing>
+    </bpmn2:userTask>
+    
+    <bpmn2:boundaryEvent id="BoundaryEvent_FinanceTimeout" name="Finance Timeout" attachedToRef="Task_FinanceReview">
+      <bpmn2:outgoing>Flow_FinanceTimeout_Escalate</bpmn2:outgoing>
+      <bpmn2:timerEventDefinition>
+        <bpmn2:timeDuration>PT72H</bpmn2:timeDuration>
+      </bpmn2:timerEventDefinition>
+    </bpmn2:boundaryEvent>
+    
+    <bpmn2:sequenceFlow id="Flow_Finance_Gateway" sourceRef="Task_FinanceReview" targetRef="Gateway_FinanceDecision"/>
+    
+    <!-- Revisión ejecutiva -->
+    <bpmn2:userTask id="Task_ExecutiveReview" name="Executive Review" flowable:candidateGroups="director,ceo">
+      <bpmn2:incoming>Flow_ExecutiveReview</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_Executive_Gateway</bpmn2:outgoing>
+    </bpmn2:userTask>
+    
+    <bpmn2:boundaryEvent id="BoundaryEvent_ExecutiveTimeout" name="Executive Timeout" attachedToRef="Task_ExecutiveReview">
+      <bpmn2:outgoing>Flow_ExecutiveTimeout_Escalate</bpmn2:outgoing>
+      <bpmn2:timerEventDefinition>
+        <bpmn2:timeDuration>PT168H</bpmn2:timeDuration>
+      </bpmn2:timerEventDefinition>
+    </bpmn2:boundaryEvent>
+    
+    <bpmn2:sequenceFlow id="Flow_Executive_Gateway" sourceRef="Task_ExecutiveReview" targetRef="Gateway_ExecutiveDecision"/>
+    
+    <!-- Gateways de decisión -->
+    <bpmn2:exclusiveGateway id="Gateway_StandardDecision" name="Standard Approved?">
+      <bpmn2:incoming>Flow_Standard_Gateway</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_StandardApproved_Finalize</bpmn2:outgoing>
+      <bpmn2:outgoing>Flow_StandardRejected_Notify</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    
+    <bpmn2:exclusiveGateway id="Gateway_LegalDecision" name="Legal Approved?">
+      <bpmn2:incoming>Flow_Legal_Gateway</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_LegalApproved_Finalize</bpmn2:outgoing>
+      <bpmn2:outgoing>Flow_LegalRejected_Notify</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    
+    <bpmn2:exclusiveGateway id="Gateway_FinanceDecision" name="Finance Approved?">
+      <bpmn2:incoming>Flow_Finance_Gateway</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_FinanceApproved_Finalize</bpmn2:outgoing>
+      <bpmn2:outgoing>Flow_FinanceRejected_Notify</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    
+    <bpmn2:exclusiveGateway id="Gateway_ExecutiveDecision" name="Executive Approved?">
+      <bpmn2:incoming>Flow_Executive_Gateway</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_ExecutiveApproved_Finalize</bpmn2:outgoing>
+      <bpmn2:outgoing>Flow_ExecutiveRejected_Notify</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    
+    <!-- Flujos de aprobación -->
+    <bpmn2:sequenceFlow id="Flow_StandardApproved_Finalize" name="Yes" sourceRef="Gateway_StandardDecision" targetRef="Task_FinalizeApproval">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${approved == true}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <bpmn2:sequenceFlow id="Flow_LegalApproved_Finalize" name="Yes" sourceRef="Gateway_LegalDecision" targetRef="Task_FinalizeApproval">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${approved == true}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <bpmn2:sequenceFlow id="Flow_FinanceApproved_Finalize" name="Yes" sourceRef="Gateway_FinanceDecision" targetRef="Task_FinalizeApproval">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${approved == true}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <bpmn2:sequenceFlow id="Flow_ExecutiveApproved_Finalize" name="Yes" sourceRef="Gateway_ExecutiveDecision" targetRef="Task_FinalizeApproval">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${approved == true}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <!-- Flujos de timeout (auto-aprobar después de timeout para documentos estándar) -->
+    <bpmn2:sequenceFlow id="Flow_StandardTimeout_AutoApprove" sourceRef="BoundaryEvent_StandardTimeout" targetRef="Task_FinalizeApproval"/>
+    <bpmn2:sequenceFlow id="Flow_LegalTimeout_Escalate" sourceRef="BoundaryEvent_LegalTimeout" targetRef="Task_EscalateToExecutive"/>
+    <bpmn2:sequenceFlow id="Flow_FinanceTimeout_Escalate" sourceRef="BoundaryEvent_FinanceTimeout" targetRef="Task_EscalateToExecutive"/>
+    <bpmn2:sequenceFlow id="Flow_ExecutiveTimeout_Escalate" sourceRef="BoundaryEvent_ExecutiveTimeout" targetRef="Task_EscalateToExecutive"/>
+    
+    <!-- Escalación -->
+    <bpmn2:serviceTask id="Task_EscalateToExecutive" name="Escalate to Executive">
+      <bpmn2:incoming>Flow_LegalTimeout_Escalate</bpmn2:incoming>
+      <bpmn2:incoming>Flow_FinanceTimeout_Escalate</bpmn2:incoming>
+      <bpmn2:incoming>Flow_ExecutiveTimeout_Escalate</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_Escalate_Executive</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    
+    <bpmn2:sequenceFlow id="Flow_Escalate_Executive" sourceRef="Task_EscalateToExecutive" targetRef="Task_ExecutiveReview"/>
+    
+    <!-- Flujos de rechazo -->
+    <bpmn2:sequenceFlow id="Flow_StandardRejected_Notify" name="No" sourceRef="Gateway_StandardDecision" targetRef="Task_NotifyRejection">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${approved == false}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <bpmn2:sequenceFlow id="Flow_LegalRejected_Notify" name="No" sourceRef="Gateway_LegalDecision" targetRef="Task_NotifyRejection">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${approved == false}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <bpmn2:sequenceFlow id="Flow_FinanceRejected_Notify" name="No" sourceRef="Gateway_FinanceDecision" targetRef="Task_NotifyRejection">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${approved == false}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <bpmn2:sequenceFlow id="Flow_ExecutiveRejected_Notify" name="No" sourceRef="Gateway_ExecutiveDecision" targetRef="Task_NotifyRejection">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${approved == false}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    
+    <!-- Finalizar aprobación -->
+    <bpmn2:serviceTask id="Task_FinalizeApproval" name="Finalize Approval">
+      <bpmn2:incoming>Flow_StandardApproved_Finalize</bpmn2:incoming>
+      <bpmn2:incoming>Flow_LegalApproved_Finalize</bpmn2:incoming>
+      <bpmn2:incoming>Flow_FinanceApproved_Finalize</bpmn2:incoming>
+      <bpmn2:incoming>Flow_ExecutiveApproved_Finalize</bpmn2:incoming>
+      <bpmn2:incoming>Flow_StandardTimeout_AutoApprove</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_Finalize_Notify</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    
+    <bpmn2:sequenceFlow id="Flow_Finalize_Notify" sourceRef="Task_FinalizeApproval" targetRef="Task_NotifyApproval"/>
+    
+    <!-- Notificar aprobación -->
+    <bpmn2:serviceTask id="Task_NotifyApproval" name="Notify Approval">
+      <bpmn2:incoming>Flow_Finalize_Notify</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_Notify_End</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    
+    <!-- Notificar rechazo -->
+    <bpmn2:serviceTask id="Task_NotifyRejection" name="Notify Rejection">
+      <bpmn2:incoming>Flow_StandardRejected_Notify</bpmn2:incoming>
+      <bpmn2:incoming>Flow_LegalRejected_Notify</bpmn2:incoming>
+      <bpmn2:incoming>Flow_FinanceRejected_Notify</bpmn2:incoming>
+      <bpmn2:incoming>Flow_ExecutiveRejected_Notify</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_Reject_End</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    
+    <bpmn2:sequenceFlow id="Flow_Notify_End" sourceRef="Task_NotifyApproval" targetRef="EndEvent_Approved"/>
+    <bpmn2:sequenceFlow id="Flow_Reject_End" sourceRef="Task_NotifyRejection" targetRef="EndEvent_Rejected"/>
+    
+    <bpmn2:endEvent id="EndEvent_Approved" name="Approved"/>
+    <bpmn2:endEvent id="EndEvent_Rejected" name="Rejected"/>
+    
+  </bpmn2:process>
+  
+  <bpmndi:BPMNDiagram id="BPMNDiagram_DocumentReview">
+    <bpmndi:BPMNPlane id="BPMNPlane_DocumentReview" bpmnElement="documentReview">
+      <!-- Shapes y edges para visualización en el modeler -->
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+  
+</bpmn2:definitions>
+
+
+
+
+

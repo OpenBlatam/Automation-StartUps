@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Factura {{ serie }}</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { 
+        font-family: 'Segoe UI', Arial, sans-serif; 
+        color: #333; 
+        background: #f5f5f5;
+        padding: 20px;
+        font-size: 14px;
+      }
+      .invoice-container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        padding: 40px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid #e0e0e0;
+      }
+      .header-left {
+        flex: 1;
+      }
+      .header-right {
+        text-align: right;
+      }
+      .invoice-title {
+        font-size: 32px;
+        font-weight: bold;
+        color: #2c3e50;
+        margin-bottom: 5px;
+      }
+      .invoice-number {
+        font-size: 16px;
+        color: #7f8c8d;
+      }
+      .company-info {
+        font-size: 12px;
+        color: #555;
+        margin-top: 10px;
+      }
+      .invoice-date {
+        font-size: 14px;
+        color: #555;
+        margin-bottom: 5px;
+      }
+      .section {
+        margin-top: 30px;
+      }
+      .section-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: #2c3e50;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+      th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #e0e0e0;
+      }
+      th {
+        background: #f8f9fa;
+        font-weight: 600;
+        color: #2c3e50;
+        text-transform: uppercase;
+        font-size: 12px;
+      }
+      .right {
+        text-align: right;
+      }
+      tbody tr:hover {
+        background: #f8f9fa;
+      }
+      .totals {
+        margin-top: 20px;
+        text-align: right;
+      }
+      .total-row {
+        padding: 8px 0;
+        font-size: 14px;
+      }
+      .total-row.total-final {
+        font-size: 18px;
+        font-weight: bold;
+        color: #2c3e50;
+        border-top: 2px solid #2c3e50;
+        padding-top: 10px;
+        margin-top: 10px;
+      }
+      .footer {
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid #e0e0e0;
+        font-size: 12px;
+        color: #7f8c8d;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="invoice-container">
+      <div class="header">
+        <div class="header-left">
+          <div class="invoice-title">FACTURA</div>
+          <div class="invoice-number">Número: {{ serie }}</div>
+          <div class="company-info">
+            {% if company_tax_id %}
+            RFC/NIF: {{ company_tax_id }}<br/>
+            {% endif %}
+            Fecha: {{ invoice_date or 'N/A' }}<br/>
+            Moneda: {{ currency or 'USD' }}
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="invoice-date"></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Detalle de Facturación</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Descripción</th>
+              <th class="right">Cantidad</th>
+              <th class="right">Precio Unit.</th>
+              <th class="right">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for item in items or [] %}
+          <tr>
+            <td>{{ item.description }}</td>
+            <td class="right">{{ "%.2f"|format(item.quantity) }}</td>
+            <td class="right">{{ currency_symbol or "$" }}{{ "%.2f"|format(item.unit_price) }}</td>
+            <td class="right">{{ currency_symbol or "$" }}{{ "%.2f"|format(item.total) }}</td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section">
+        <div class="totals">
+          <div class="total-row">
+            Subtotal: {{ currency_symbol or "$" }}{{ "%.2f"|format(subtotal) }}
+          </div>
+          <div class="total-row">
+            Impuestos ({{ "%.1f"|format(tax_rate * 100) }}%): {{ currency_symbol or "$" }}{{ "%.2f"|format(taxes) }}
+          </div>
+          <div class="total-row total-final">
+            TOTAL: {{ currency_symbol or "$" }}{{ "%.2f"|format(total) }}
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <p>Gracias por su preferencia</p>
+        <p>Esta factura fue generada automáticamente</p>
+      </div>
+    </div>
+  </body>
+  </html>
+
+
+

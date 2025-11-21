@@ -1,0 +1,107 @@
+{
+  "original_post": "La automatización puede ahorrarte hasta 10 horas semanales. ¿Qué proceso de tu negocio te gustaría automatizar primero? #Productividad #IA #Automatizacion",
+  "timestamp": "2025-11-12 09:37:21",
+  "elements_extracted": {
+    "hashtags": [
+      "#Productividad",
+      "#IA",
+      "#Automatizacion"
+    ],
+    "mentions": [],
+    "urls": [],
+    "clean_text": "La automatización puede ahorrarte hasta 10 horas semanales. ¿Qué proceso de tu negocio te gustaría automatizar primero?",
+    "word_count": 17,
+    "has_question": true,
+    "has_emoji": true
+  },
+  "versions": {
+    "static_post": {
+      "type": "Post Estático",
+      "platform": "Instagram Feed / LinkedIn",
+      "caption": "✨ **Recordando esto porque sigue siendo relevante**\n\nLa automatización puede ahorrarte hasta 10 horas semanales. ¿Qué proceso de tu negocio te gustaría automatizar primero?\n\n💭 Reflexión: ¿Cómo aplicas esto hoy en día?\n\nComparte tu opinión ⬇️\n\n#ContenidoEterno #Sabiduria",
+      "hashtags": "#ThrowbackThursday #ContenidoDeValor #Sabiduria #Reflexion #Motivacion #Aprendizaje #ContenidoEterno #Inspiracion #Productividad #IA",
+      "visual_suggestions": [
+        "📸 Screenshot de la publicación original con overlay moderno",
+        "🎨 Diseño tipo quote con tipografía moderna y fondo degradado",
+        "📊 Infografía con estadísticas actualizadas del tema",
+        "🖼️ Imagen relacionada con el tema + texto superpuesto",
+        "✨ Collage de imágenes relacionadas con el contenido"
+      ],
+      "best_practices": [
+        "Usa una imagen de alta calidad (1080x1080px para Instagram)",
+        "Incluye texto legible en la imagen para mejor engagement",
+        "Publica entre 9am-11am o 7pm-9pm para máximo alcance",
+        "Responde a los primeros comentarios rápidamente"
+      ]
+    },
+    "short_video": {
+      "type": "Video Corto",
+      "platform": "Instagram Reels / TikTok / YouTube Shorts",
+      "duration": "15-60 segundos",
+      "script": "Te cuento algo que aprendí...\n\nLa automatización puede ahorrarte hasta 10 horas semanales. ¿Qué proceso de tu negocio te gustaría automatizar primero?\n\n¿Has vivido algo similar? Cuéntame ⬇️",
+      "caption": "🎬 Te cuento algo que aprendí...\n\nLa automatización puede ahorrarte hasta 10 horas semanales. ¿Qué proceso de tu negocio te gustaría automatizar primero?\n\n¿Has vivido algo similar? Cuéntame ⬇️\n\n#VideoCorto #Contenido #Educacion #Aprendizaje",
+      "hashtags": "#VideoCorto #Contenido #Educacion #Aprendizaje #Tips #Consejos #Motivacion #Inspiracion #Viral #Trending",
+      "visual_suggestions": [
+        "🎥 Video tipo talking head con el texto como subtítulos",
+        "📱 Screen recording mostrando la publicación original + narración",
+        "✂️ Video con transiciones rápidas y texto animado",
+        "🎬 B-roll relacionado con el tema + voz en off",
+        "📊 Video con gráficos animados y texto superpuesto"
+      ],
+      "best_practices": [
+        "Mantén el hook en los primeros 3 segundos",
+        "Usa subtítulos grandes y legibles",
+        "Añade música trending pero que no compita con el audio",
+        "Incluye CTA visual (texto animado) además del caption",
+        "Publica entre 6am-10am o 7pm-10pm para máximo alcance"
+      ]
+    },
+    "story": {
+      "type": "Historia",
+      "platform": "Instagram Stories / Facebook Stories",
+      "slides": [
+        {
+          "number": 1,
+          "type": "Hook",
+          "content": "🔄 Recordando esto...",
+          "visual": "Emoji grande + texto llamativo"
+        },
+        {
+          "number": 2,
+          "type": "Content",
+          "content": "La automatización puede ahorrarte hasta 10 horas semanales",
+          "visual": "Texto sobre fondo degradado o imagen relacionada"
+        },
+        {
+          "number": 3,
+          "type": "Content",
+          "content": "¿Qué proceso de tu negocio te gustaría automatizar primero?",
+          "visual": "Texto sobre fondo degradado o imagen relacionada"
+        },
+        {
+          "number": 4,
+          "type": "CTA",
+          "content": "¿Qué opinas? 👇 Desliza para responder",
+          "visual": "Botón de interacción o pregunta destacada"
+        }
+      ],
+      "story_text": "Slide 1: 🔄 Recordando esto...\nSlide 2: La automatización puede ahorrarte hasta 10 horas semanales\nSlide 3: ¿Qué proceso de tu negocio te gustaría automatizar primero?\nSlide 4: ¿Qué opinas? 👇 Desliza para responder",
+      "hashtags": "#Stories #Contenido #Tips #Sabiduria #Motivacion #Inspiracion #Aprendizaje #Productividad",
+      "visual_suggestions": [
+        "📱 Slide 1: Fondo sólido vibrante + texto grande y bold",
+        "🎨 Slides 2-4: Fondo degradado o imagen relacionada + texto legible",
+        "✨ Slide final: Fondo llamativo + CTA destacado con emoji",
+        "🎭 Usa stickers interactivos (encuestas, preguntas, quizzes)",
+        "📊 Considera añadir GIFs relacionados con el tema"
+      ],
+      "best_practices": [
+        "Mantén cada slide visible por 3-5 segundos",
+        "Usa máximo 5-7 slides para no perder engagement",
+        "Añade stickers interactivos (encuestas, preguntas) en slides intermedios",
+        "Usa la función de highlights para guardar historias importantes",
+        "Publica entre 8am-12pm o 6pm-10pm para máximo alcance",
+        "Considera usar la función de 'En vivo' para engagement en tiempo real"
+      ]
+    }
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "dashboard": {
+    "title": "Employee Onboarding - Dashboard Completo",
+    "description": "Dashboard completo para monitoreo de onboarding de empleados",
+    "tags": ["onboarding", "hr", "automation"],
+    "timezone": "browser",
+    "schemaVersion": 27,
+    "version": 1,
+    "refresh": "30s",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Onboarding Completados (Últimas 24h)",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "sum(increase(onboarding_completed_total{status=\"completed\"}[24h]))",
+            "legendFormat": "Completados"
+          }
+        ],
+        "gridPos": {"h": 4, "w": 6, "x": 0, "y": 0}
+      },
+      {
+        "id": 2,
+        "title": "Tasa de Éxito (%)",
+        "type": "gauge",
+        "targets": [
+          {
+            "expr": "sum(rate(onboarding_completed_total{status=\"completed\"}[1h])) / sum(rate(onboarding_completed_total[1h])) * 100",
+            "legendFormat": "Tasa de éxito"
+          }
+        ],
+        "gridPos": {"h": 4, "w": 6, "x": 6, "y": 0},
+        "options": {
+          "min": 0,
+          "max": 100,
+          "thresholds": {
+            "steps": [
+              {"value": 0, "color": "red"},
+              {"value": 80, "color": "yellow"},
+              {"value": 95, "color": "green"}
+            ]
+          }
+        }
+      },
+      {
+        "id": 3,
+        "title": "Onboarding por Estado",
+        "type": "piechart",
+        "targets": [
+          {
+            "expr": "sum by (status) (onboarding_completed_total)",
+            "legendFormat": "{{status}}"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 6, "x": 12, "y": 0}
+      },
+      {
+        "id": 4,
+        "title": "Onboarding por Departamento",
+        "type": "barchart",
+        "targets": [
+          {
+            "expr": "sum by (department) (onboarding_completed_total)",
+            "legendFormat": "{{department}}"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 6, "x": 18, "y": 0}
+      },
+      {
+        "id": 5,
+        "title": "Tendencia de Onboarding (Últimos 30 días)",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "sum(rate(onboarding_completed_total[1h]))",
+            "legendFormat": "Onboarding/hora"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 4}
+      },
+      {
+        "id": 6,
+        "title": "Acciones Completadas vs Totales",
+        "type": "bargauge",
+        "targets": [
+          {
+            "expr": "onboarding_actions_completed",
+            "legendFormat": "{{employee}} - Completadas"
+          },
+          {
+            "expr": "onboarding_actions_total",
+            "legendFormat": "{{employee}} - Totales"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 4}
+      },
+      {
+        "id": 7,
+        "title": "Tiempo Promedio de Onboarding",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "avg(onboarding_duration_seconds) / 60",
+            "legendFormat": "Minutos"
+          }
+        ],
+        "gridPos": {"h": 4, "w": 6, "x": 0, "y": 12},
+        "fieldConfig": {
+          "defaults": {
+            "unit": "m",
+            "decimals": 1
+          }
+        }
+      },
+      {
+        "id": 8,
+        "title": "Cuentas Creadas por Tipo",
+        "type": "table",
+        "targets": [
+          {
+            "expr": "sum by (account_type) (onboarding_accounts_created)",
+            "legendFormat": "{{account_type}}"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 18, "x": 6, "y": 12}
+      }
+    ],
+    "time": {
+      "from": "now-7d",
+      "to": "now"
+    }
+  }
+}
+

@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    container_name: tiktok-api
+    ports:
+      - "5000:5000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - TIKTOK_SCRIPTS_DIR=/app
+    volumes:
+      - ./:/app
+      - tiktok_data:/data
+      - tiktok_cache:/root/.tiktok_cache
+    command: python3 tiktok_api_server.py -p 5000 -h 0.0.0.0
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import requests; requests.get('http://localhost:5000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  webhook:
+    build: .
+    container_name: tiktok-webhook
+    ports:
+      - "5001:5001"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - WEBHOOK_SECRET=${WEBHOOK_SECRET}
+      - TIKTOK_SCRIPTS_DIR=/app
+    volumes:
+      - ./:/app
+      - tiktok_data:/data
+    command: python3 tiktok_webhook_handler.py -p 5001 -h 0.0.0.0
+    restart: unless-stopped
+    depends_on:
+      - api
+
+  dashboard:
+    build: .
+    container_name: tiktok-dashboard
+    ports:
+      - "5002:5002"
+    environment:
+      - TIKTOK_SCRIPTS_DIR=/app
+    volumes:
+      - ./:/app
+      - tiktok_data:/data
+    command: python3 tiktok_dashboard.py -p 5002 -h 0.0.0.0
+    restart: unless-stopped
+    depends_on:
+      - api
+
+  queue:
+    build: .
+    container_name: tiktok-queue
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - TIKTOK_SCRIPTS_DIR=/app
+    volumes:
+      - ./:/app
+      - tiktok_data:/data
+      - tiktok_cache:/root/.tiktok_cache
+    command: python3 tiktok_queue_manager.py start -w 3
+    restart: unless-stopped
+    depends_on:
+      - api
+
+volumes:
+  tiktok_data:
+    driver: local
+  tiktok_cache:
+    driver: local
+
+networks:
+  default:
+    name: tiktok-network
+
