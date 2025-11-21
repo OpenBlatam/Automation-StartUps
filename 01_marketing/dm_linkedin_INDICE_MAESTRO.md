@@ -14,18 +14,20 @@
 - [Arquitectura del Sistema](#arquitectura-del-sistema)
 - [Núcleo Operativo](#núcleo-operativo)
 - [Documentación y Reportes](#documentación-y-reportes)
-- [Datos y Fuentes](#datos-y-fuentes)
+- [Datos y Fuentes Esperadas](#datos-y-fuentes-esperadas)
 - [Ejecución Rápida](#ejecución-rápida)
 - [Estructura de Datos](#estructura-de-datos)
 - [Configuración](#configuración)
 - [Flujos de Trabajo](#flujos-de-trabajo)
-- [Seguridad y Compliance](#seguridad-y-compliance)
 - [Troubleshooting](#troubleshooting)
 - [Mejores Prácticas](#mejores-prácticas)
-- [Escalabilidad y Optimización](#escalabilidad-y-optimización)
-- [Casos de Uso Avanzados](#casos-de-uso-avanzados)
-- [FAQ](#faq)
 - [Referencias](#referencias)
+- [Resumen de Recursos](#-resumen-de-recursos)
+- [FAQ - Preguntas Frecuentes](#faq---preguntas-frecuentes)
+- [Ejemplos de Configuración Avanzada](#ejemplos-de-configuración-avanzada)
+- [Guías de Optimización de Performance](#guías-de-optimización-de-performance)
+- [Checklists Detallados](#checklists-detallados)
+- [Seguridad y Compliance](#seguridad-y-compliance)
 
 ---
 
@@ -486,21 +488,64 @@ npm run dm:export:crm # Exportar datos a formato CRM
 
 ## Estructura de Datos
 
-#### Encabezados mínimos esperados (CSVs)
+Formatos esperados para archivos CSV y estructura de datos del sistema.
 
-**Logs/dm_send_log.csv**
-```
+### Encabezados Mínimos Esperados (CSVs)
+
+#### Logs/dm_send_log.csv
+```csv
 timestamp,recipient,variant,campaign,link
+2025-01-07T10:00:00Z,https://linkedin.com/in/user123,DM1-A1,curso_ia,https://tudominio.com/webinar-ia?utm_source=li&utm_campaign=curso_ia
 ```
 
-**Logs/dm_responses.csv**
-```
+**Campos:**
+- `timestamp` - ISO 8601 format (UTC)
+- `recipient` - URL completa del perfil de LinkedIn
+- `variant` - ID de la variante usada (ej: DM1-A1)
+- `campaign` - Nombre de la campaña
+- `link` - URL con UTM parameters
+
+#### Logs/dm_responses.csv
+```csv
 timestamp,recipient,responded,sentiment,variant,campaign
+2025-01-08T11:00:00Z,https://linkedin.com/in/user123,true,positive,DM1-A1,curso_ia
 ```
 
-**Send_Queue.csv**
-```
+**Campos:**
+- `timestamp` - ISO 8601 format (UTC)
+- `recipient` - URL completa del perfil de LinkedIn
+- `responded` - boolean (true/false)
+- `sentiment` - positive/negative/neutral
+- `variant` - ID de la variante usada
+- `campaign` - Nombre de la campaña
+
+#### Send_Queue.csv
+```csv
 recipient,variant,campaign,send_at
+https://linkedin.com/in/user123,DM1-A1,curso_ia,2025-01-09T09:00:00Z
+```
+
+**Campos:**
+- `recipient` - URL completa del perfil de LinkedIn
+- `variant` - ID de la variante a usar
+- `campaign` - Nombre de la campaña
+- `send_at` - ISO 8601 format (UTC) - opcional, para scheduling
+
+### Validación de Estructura
+
+Para validar que tus CSVs tienen la estructura correcta:
+
+```bash
+# Verificar encabezados
+head -1 Logs/dm_send_log.csv
+head -1 Logs/dm_responses.csv
+
+# Contar registros
+wc -l Logs/dm_send_log.csv
+wc -l Logs/dm_responses.csv
+
+# Health check completo
+npm run dm:health
 ```
 
 ---
